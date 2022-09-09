@@ -11,6 +11,7 @@ import {
   CHAIN_ID_FANTOM,
   CHAIN_ID_KARURA,
   CHAIN_ID_KLAYTN,
+  CHAIN_ID_NEAR,
   CHAIN_ID_NEON,
   CHAIN_ID_OASIS,
   CHAIN_ID_POLYGON,
@@ -41,6 +42,7 @@ import polygonIcon from "../icons/polygon.svg";
 import solanaIcon from "../icons/solana.svg";
 import terraIcon from "../icons/terra.svg";
 import terra2Icon from "../icons/terra2.svg";
+import nearIcon from "../icons/near.svg";
 
 export type Cluster = "devnet" | "testnet" | "mainnet";
 export const CLUSTER: Cluster =
@@ -132,6 +134,11 @@ export const CHAINS: ChainInfo[] =
           name: "Terra",
           logo: terra2Icon,
         },
+        {
+          id: CHAIN_ID_NEAR,
+          name: "Near",
+          logo: nearIcon,
+        },
       ]
     : CLUSTER === "testnet"
     ? [
@@ -220,6 +227,11 @@ export const CHAINS: ChainInfo[] =
           name: "Terra",
           logo: terra2Icon,
         },
+        {
+          id: CHAIN_ID_NEAR,
+          name: "Near",
+          logo: nearIcon,
+        },
       ]
     : [
         {
@@ -251,6 +263,11 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_TERRA2,
           name: "Terra",
           logo: terra2Icon,
+        },
+        {
+          id: CHAIN_ID_NEAR,
+          name: "Near",
+          logo: nearIcon,
         },
       ];
 export const BETA_CHAINS: ChainId[] =
@@ -845,6 +862,13 @@ export const ALGORAND_TOKEN_BRIDGE_ID = BigInt(
 );
 export const ALGORAND_WAIT_FOR_CONFIRMATIONS =
   CLUSTER === "mainnet" ? 4 : CLUSTER === "testnet" ? 4 : 1;
+
+export const NEAR_TOKEN_BRIDGE_ID =
+  CLUSTER === "mainnet"
+    ? CONTRACTS.MAINNET.near.token_bridge
+    : CLUSTER === "testnet"
+    ? CONTRACTS.TESTNET.near.token_bridge
+    : CONTRACTS.DEVNET.near.token_bridge;
 
 export const getBridgeAddressForChain = (chainId: ChainId) =>
   chainId === CHAIN_ID_SOLANA

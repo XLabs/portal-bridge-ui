@@ -1,6 +1,7 @@
 import {
   ChainId,
   CHAIN_ID_ALGORAND,
+  CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   isEVMChain,
   isTerraChain,
@@ -13,6 +14,7 @@ import {
   ConnectType,
   useEthereumProvider,
 } from "../contexts/EthereumProviderContext";
+import { useNearContext } from "../contexts/NearWalletContext";
 import { useSolanaWallet } from "../contexts/SolanaWalletContext";
 import { CLUSTER, getEvmChainId } from "../utils/consts";
 import {
@@ -58,6 +60,7 @@ function useIsWalletReady(
   const hasCorrectEvmNetwork = evmChainId === correctEvmNetwork;
   const { accounts: algorandAccounts } = useAlgorandContext();
   const algoPK = algorandAccounts[0]?.address;
+  const { accountId: nearPK } = useNearContext();
 
   const forceNetworkSwitch = useCallback(async () => {
     if (provider && correctEvmNetwork) {
@@ -118,6 +121,9 @@ function useIsWalletReady(
     if (chainId === CHAIN_ID_ALGORAND && algoPK) {
       return createWalletStatus(true, undefined, forceNetworkSwitch, algoPK);
     }
+    if (chainId === CHAIN_ID_NEAR && nearPK) {
+      return createWalletStatus(true, undefined, forceNetworkSwitch, nearPK);
+    }
     if (isEVMChain(chainId) && hasEthInfo && signerAddress) {
       if (hasCorrectEvmNetwork) {
         return createWalletStatus(
@@ -158,6 +164,7 @@ function useIsWalletReady(
     signerAddress,
     terraWallet,
     algoPK,
+    nearPK,
   ]);
 }
 
