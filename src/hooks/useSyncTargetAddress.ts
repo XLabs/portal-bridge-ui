@@ -31,7 +31,7 @@ import {
 import { setTargetAddressHex as setTransferTargetAddressHex } from "../store/transferSlice";
 import { decodeAddress } from "algosdk";
 import { useNearContext } from "../contexts/NearWalletContext";
-import { makeNearAccount } from "../utils/near";
+import { makeNearAccount, signAndSendTransactions } from "../utils/near";
 import { NEAR_TOKEN_BRIDGE_ACCOUNT } from "../utils/consts";
 import { getTransactionLastResult } from "near-api-js/lib/providers";
 import BN from "bn.js";
@@ -53,7 +53,7 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
   const targetTokenAccountPublicKey = targetParsedTokenAccount?.publicKey;
   const terraWallet = useConnectedWallet();
   const { accounts: algoAccounts } = useAlgorandContext();
-  const { accountId: nearAccountId } = useNearContext();
+  const { accountId: nearAccountId, wallet } = useNearContext();
   const setTargetAddressHex = nft
     ? setNFTTargetAddressHex
     : setTransferTargetAddressHex;
@@ -123,7 +123,7 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
             uint8ArrayToHex(decodeAddress(algoAccounts[0].address).publicKey)
           )
         );
-      } else if (targetChain === CHAIN_ID_NEAR && nearAccountId) {
+      } else if (targetChain === CHAIN_ID_NEAR && nearAccountId && wallet) {
         (async () => {
           try {
             const account = await makeNearAccount(nearAccountId);
@@ -140,19 +140,21 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
             );
             if (!cancelled) {
               let myAddress = account_hash[1];
-              console.log(account_hash);
+              console.log("account hash for", nearAccountId, account_hash);
 
               if (!account_hash[0]) {
                 console.log("Registering the receiving account");
 
                 let myAddress2 = getTransactionLastResult(
-                  await account.functionCall({
-                    contractId: NEAR_TOKEN_BRIDGE_ACCOUNT,
-                    methodName: "register_account",
-                    args: { account: nearAccountId },
-                    gas: new BN("100000000000000"),
-                    attachedDeposit: new BN("2000000000000000000000"), // 0.002 NEAR
-                  })
+                  await signAndSendTransactions(account, wallet, [
+                    {
+                      contractId: NEAR_TOKEN_BRIDGE_ACCOUNT,
+                      methodName: "register_account",
+                      args: { account: nearAccountId },
+                      gas: new BN("100000000000000"),
+                      attachedDeposit: new BN("2000000000000000000000"), // 0.002 NEAR
+                    },
+                  ])
                 );
 
                 console.log("account hash returned: " + myAddress2);
@@ -190,6 +192,7 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
     setTargetAddressHex,
     algoAccounts,
     nearAccountId,
+    wallet,
   ]);
 }
 

@@ -326,7 +326,7 @@ function useGetTargetParsedTokenAccounts() {
                         dispatch(
                           setTargetParsedTokenAccount(
                             createParsedTokenAccount(
-                              algoAccounts[0].address,
+                              nearAccountId,
                               targetAsset,
                               balance.toString(),
                               decimals,

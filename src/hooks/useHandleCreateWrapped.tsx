@@ -18,6 +18,7 @@ import {
   updateWrappedOnTerra,
 } from "@certusone/wormhole-sdk";
 import { Alert } from "@material-ui/lab";
+import { Wallet } from "@near-wallet-selector/core";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import { Connection } from "@solana/web3.js";
 import {
@@ -54,7 +55,11 @@ import {
   SOL_TOKEN_BRIDGE_ADDRESS,
 } from "../utils/consts";
 import { getKaruraGasParams } from "../utils/karura";
-import { createWrappedOnNear, makeNearAccount } from "../utils/near";
+import {
+  createWrappedOnNear,
+  makeNearAccount,
+  signAndSendTransactions,
+} from "../utils/near";
 import parseError from "../utils/parseError";
 import { postVaaWithRetry } from "../utils/postVaa";
 import { signSendAndConfirm } from "../utils/solana";
@@ -150,16 +155,18 @@ async function near(
   dispatch: any,
   enqueueSnackbar: any,
   senderAddr: string,
-  signedVAA: Uint8Array
+  signedVAA: Uint8Array,
+  wallet: Wallet
 ) {
   dispatch(setIsCreating(true));
   try {
     const account = await makeNearAccount(senderAddr);
-    const receipt = await createWrappedOnNear(
+    const msgs = await createWrappedOnNear(
       account,
       NEAR_TOKEN_BRIDGE_ACCOUNT,
       signedVAA
     );
+    const receipt = await signAndSendTransactions(account, wallet, msgs);
     dispatch(
       setCreateTx({
         id: receipt.transaction_outcome.id,
@@ -284,7 +291,7 @@ export function useHandleCreateWrapped(shouldUpdate: boolean) {
   const terraWallet = useConnectedWallet();
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
   const { accounts: algoAccounts } = useAlgorandContext();
-  const { accountId: nearAccountId } = useNearContext();
+  const { accountId: nearAccountId, wallet } = useNearContext();
   const handleCreateClick = useCallback(() => {
     if (isEVMChain(targetChain) && !!signer && !!signedVAA) {
       evm(
@@ -325,8 +332,13 @@ export function useHandleCreateWrapped(shouldUpdate: boolean) {
       !!signedVAA
     ) {
       algo(dispatch, enqueueSnackbar, algoAccounts[0]?.address, signedVAA);
-    } else if (targetChain === CHAIN_ID_NEAR && nearAccountId && !!signedVAA) {
-      near(dispatch, enqueueSnackbar, nearAccountId, signedVAA);
+    } else if (
+      targetChain === CHAIN_ID_NEAR &&
+      nearAccountId &&
+      wallet &&
+      !!signedVAA
+    ) {
+      near(dispatch, enqueueSnackbar, nearAccountId, signedVAA, wallet);
     } else {
       // enqueueSnackbar(
       //   "Creating wrapped tokens on this chain is not yet supported",
@@ -348,6 +360,7 @@ export function useHandleCreateWrapped(shouldUpdate: boolean) {
     terraFeeDenom,
     algoAccounts,
     nearAccountId,
+    wallet,
   ]);
   return useMemo(
     () => ({

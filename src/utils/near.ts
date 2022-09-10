@@ -8,17 +8,55 @@ import {
   WormholeWrappedInfo,
 } from "@certusone/wormhole-sdk";
 import { _parseVAAAlgorand } from "@certusone/wormhole-sdk/lib/esm/algorand";
+import { Wallet } from "@near-wallet-selector/core/lib/wallet";
 import BN from "bn.js";
 import { arrayify, sha256, zeroPad } from "ethers/lib/utils";
 import { Account, connect } from "near-api-js";
-import {
-  FinalExecutionOutcome,
-  getTransactionLastResult,
-} from "near-api-js/lib/providers";
+import { FunctionCallOptions } from "near-api-js/lib/account";
+import { FinalExecutionOutcome } from "near-api-js/lib/providers";
 import { getNearConnectionConfig } from "./consts";
 
 export const makeNearAccount = async (senderAddr: string) =>
   await (await connect(getNearConnectionConfig())).account(senderAddr);
+
+export const signAndSendTransactions = async (
+  account: Account,
+  wallet: Wallet,
+  messages: FunctionCallOptions[]
+): Promise<FinalExecutionOutcome> => {
+  // the browser wallet's signAndSendTransactions call navigates away from the page which is incompatible with the current app design
+  if (wallet.type === "browser" && account) {
+    let lastReceipt: FinalExecutionOutcome | null = null;
+    for (const message of messages) {
+      lastReceipt = await account.functionCall(message);
+    }
+    if (!lastReceipt) {
+      throw new Error("An error occurred while fetching the transaction info");
+    }
+    return lastReceipt;
+  }
+  const receipts = await wallet.signAndSendTransactions({
+    transactions: messages.map((options) => ({
+      signerId: wallet.id,
+      receiverId: options.contractId,
+      actions: [
+        {
+          type: "FunctionCall",
+          params: {
+            methodName: options.methodName,
+            args: options.args,
+            gas: options.gas?.toString() || "0",
+            deposit: options.attachedDeposit?.toString() || "0",
+          },
+        },
+      ],
+    })),
+  });
+  if (!receipts || receipts.length === 0) {
+    throw new Error("An error occurred while fetching the transaction info");
+  }
+  return receipts[receipts.length - 1];
+};
 
 export function getIsWrappedAssetNear(
   tokenBridge: string,
@@ -31,7 +69,7 @@ export async function lookupHash(
   account: Account,
   tokenBridge: string,
   hash: string
-) {
+): Promise<[boolean, string]> {
   return await account.viewFunction(tokenBridge, "hash_lookup", {
     hash,
   });
@@ -127,43 +165,44 @@ export async function transferTokenFromNear(
   chain: ChainId | ChainName,
   fee: bigint,
   payload: string = ""
-): Promise<FinalExecutionOutcome> {
+): Promise<FunctionCallOptions[]> {
   let isWrapped = getIsWrappedAssetNear(tokenBridge, assetId);
 
   let message_fee = await client.viewFunction(coreBridge, "message_fee", {});
 
   if (isWrapped) {
-    return await client.functionCall({
-      contractId: tokenBridge,
-      methodName: "send_transfer_wormhole_token",
-      args: {
-        token: assetId,
-        amount: qty.toString(10),
-        receiver: uint8ArrayToHex(receiver),
-        chain: chain,
-        fee: fee.toString(10),
-        payload: payload,
-        message_fee: message_fee,
+    return [
+      {
+        contractId: tokenBridge,
+        methodName: "send_transfer_wormhole_token",
+        args: {
+          token: assetId,
+          amount: qty.toString(10),
+          receiver: uint8ArrayToHex(receiver),
+          chain: chain,
+          fee: fee.toString(10),
+          payload: payload,
+          message_fee: message_fee,
+        },
+        attachedDeposit: new BN(message_fee + 1),
+        gas: new BN("100000000000000"),
       },
-      attachedDeposit: new BN(message_fee + 1),
-      gas: new BN("100000000000000"),
-    });
+    ];
   } else {
+    const msgs = [];
     let bal = await client.viewFunction(assetId, "storage_balance_of", {
       account_id: tokenBridge,
     });
     if (bal === null) {
       // Looks like we have to stake some storage for this asset
       // for the token bridge...
-      getTransactionLastResult(
-        await client.functionCall({
-          contractId: assetId,
-          methodName: "storage_deposit",
-          args: { account_id: tokenBridge, registration_only: true },
-          gas: new BN("100000000000000"),
-          attachedDeposit: new BN("2000000000000000000000"), // 0.002 NEAR
-        })
-      );
+      msgs.push({
+        contractId: assetId,
+        methodName: "storage_deposit",
+        args: { account_id: tokenBridge, registration_only: true },
+        gas: new BN("100000000000000"),
+        attachedDeposit: new BN("2000000000000000000000"), // 0.002 NEAR
+      });
     }
 
     if (message_fee > 0) {
@@ -172,7 +211,7 @@ export async function transferTokenFromNear(
       });
 
       if (!bank[0]) {
-        await client.functionCall({
+        msgs.push({
           contractId: tokenBridge,
           methodName: "register_bank",
           args: {},
@@ -182,7 +221,7 @@ export async function transferTokenFromNear(
       }
 
       if (bank[1] < message_fee) {
-        await client.functionCall({
+        msgs.push({
           contractId: tokenBridge,
           methodName: "fill_bank",
           args: {},
@@ -192,7 +231,7 @@ export async function transferTokenFromNear(
       }
     }
 
-    return await client.functionCall({
+    msgs.push({
       contractId: assetId,
       methodName: "ft_transfer_call",
       args: {
@@ -209,6 +248,7 @@ export async function transferTokenFromNear(
       attachedDeposit: new BN(1),
       gas: new BN("100000000000000"),
     });
+    return msgs;
   }
 }
 
@@ -221,29 +261,32 @@ export async function transferNearFromNear(
   chain: ChainId | ChainName,
   fee: bigint,
   payload: string = ""
-): Promise<FinalExecutionOutcome> {
+): Promise<FunctionCallOptions[]> {
   let message_fee = await client.viewFunction(coreBridge, "message_fee", {});
 
-  return await client.functionCall({
-    contractId: tokenBridge,
-    methodName: "send_transfer_near",
-    args: {
-      receiver: uint8ArrayToHex(receiver),
-      chain: chain,
-      fee: fee.toString(10),
-      payload: payload,
-      message_fee: message_fee,
+  return [
+    {
+      contractId: tokenBridge,
+      methodName: "send_transfer_near",
+      args: {
+        receiver: uint8ArrayToHex(receiver),
+        chain: chain,
+        fee: fee.toString(10),
+        payload: payload,
+        message_fee: message_fee,
+      },
+      attachedDeposit: new BN(qty.toString(10)).add(new BN(message_fee)),
+      gas: new BN("100000000000000"),
     },
-    attachedDeposit: new BN(qty.toString(10)).add(new BN(message_fee)),
-    gas: new BN("100000000000000"),
-  });
+  ];
 }
 
 export async function redeemOnNear(
   client: Account,
   tokenBridge: string,
   vaa: Uint8Array
-): Promise<FinalExecutionOutcome> {
+): Promise<FunctionCallOptions[]> {
+  const msgs = [];
   let p = _parseVAAAlgorand(vaa);
 
   if (p.ToChain !== CHAIN_ID_NEAR) {
@@ -283,15 +326,13 @@ export async function redeemOnNear(
 
     if (bal === null) {
       console.log("Registering ", user, " for ", token);
-      bal = getTransactionLastResult(
-        await client.functionCall({
-          contractId: token as string,
-          methodName: "storage_deposit",
-          args: { account_id: user, registration_only: true },
-          gas: new BN("100000000000000"),
-          attachedDeposit: new BN("2000000000000000000000"), // 0.002 NEAR
-        })
-      );
+      msgs.push({
+        contractId: token as string,
+        methodName: "storage_deposit",
+        args: { account_id: user, registration_only: true },
+        gas: new BN("100000000000000"),
+        attachedDeposit: new BN("2000000000000000000000"), // 0.002 NEAR
+      });
     }
 
     if (
@@ -314,20 +355,18 @@ export async function redeemOnNear(
 
       if (bal === null) {
         console.log("Registering ", client.accountId, " for ", token);
-        bal = getTransactionLastResult(
-          await client.functionCall({
-            contractId: token as string,
-            methodName: "storage_deposit",
-            args: { account_id: client.accountId, registration_only: true },
-            gas: new BN("100000000000000"),
-            attachedDeposit: new BN("2000000000000000000000"), // 0.002 NEAR
-          })
-        );
+        msgs.push({
+          contractId: token as string,
+          methodName: "storage_deposit",
+          args: { account_id: client.accountId, registration_only: true },
+          gas: new BN("100000000000000"),
+          attachedDeposit: new BN("2000000000000000000000"), // 0.002 NEAR
+        });
       }
     }
   }
 
-  await client.functionCall({
+  msgs.push({
     contractId: tokenBridge,
     methodName: "submit_vaa",
     args: {
@@ -337,7 +376,7 @@ export async function redeemOnNear(
     gas: new BN("150000000000000"),
   });
 
-  return await client.functionCall({
+  msgs.push({
     contractId: tokenBridge,
     methodName: "submit_vaa",
     args: {
@@ -346,18 +385,20 @@ export async function redeemOnNear(
     attachedDeposit: new BN("100000000000000000000000"),
     gas: new BN("150000000000000"),
   });
+  return msgs;
 }
 
 export async function createWrappedOnNear(
   client: Account,
   tokenBridge: string,
   attestVAA: Uint8Array
-): Promise<FinalExecutionOutcome> {
+): Promise<FunctionCallOptions[]> {
+  const msgs = [];
   let vaa = Buffer.from(attestVAA).toString("hex");
 
   let res = await client.viewFunction(tokenBridge, "deposit_estimates", {});
 
-  await client.functionCall({
+  msgs.push({
     contractId: tokenBridge,
     methodName: "submit_vaa",
     args: { vaa: vaa },
@@ -365,13 +406,14 @@ export async function createWrappedOnNear(
     gas: new BN("150000000000000"),
   });
 
-  return await client.functionCall({
+  msgs.push({
     contractId: tokenBridge,
     methodName: "submit_vaa",
     args: { vaa: vaa },
     attachedDeposit: new BN(res[1]),
     gas: new BN("150000000000000"),
   });
+  return msgs;
 }
 
 export async function attestTokenFromNear(
@@ -379,7 +421,8 @@ export async function attestTokenFromNear(
   coreBridge: string,
   tokenBridge: string,
   asset: string
-): Promise<FinalExecutionOutcome> {
+): Promise<FunctionCallOptions[]> {
+  const msgs = [];
   let message_fee = await client.viewFunction(coreBridge, "message_fee", {});
   // Non-signing event
   if (!getIsWrappedAssetNear(tokenBridge, asset)) {
@@ -393,7 +436,7 @@ export async function attestTokenFromNear(
     // is gonna have to pay for the space
     if (!res[0]) {
       // Signing event
-      await client.functionCall({
+      msgs.push({
         contractId: tokenBridge,
         methodName: "register_account",
         args: { account: asset },
@@ -403,28 +446,31 @@ export async function attestTokenFromNear(
     }
   }
 
-  return await client.functionCall({
+  msgs.push({
     contractId: tokenBridge,
     methodName: "attest_token",
     args: { token: asset, message_fee: message_fee },
     attachedDeposit: new BN("3000000000000000000000").add(new BN(message_fee)), // 0.003 NEAR
     gas: new BN("100000000000000"),
   });
+  return msgs;
 }
 
 export async function attestNearFromNear(
   client: Account,
   coreBridge: string,
   tokenBridge: string
-): Promise<FinalExecutionOutcome> {
+): Promise<FunctionCallOptions[]> {
   let message_fee =
     (await client.viewFunction(coreBridge, "message_fee", {})) + 1;
 
-  return await client.functionCall({
-    contractId: tokenBridge,
-    methodName: "attest_near",
-    args: { message_fee: message_fee },
-    attachedDeposit: new BN(message_fee),
-    gas: new BN("100000000000000"),
-  });
+  return [
+    {
+      contractId: tokenBridge,
+      methodName: "attest_near",
+      args: { message_fee: message_fee },
+      attachedDeposit: new BN(message_fee),
+      gas: new BN("100000000000000"),
+    },
+  ];
 }

@@ -25,6 +25,7 @@ import {
 } from "@certusone/wormhole-sdk";
 import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk/lib/esm";
 import { Alert } from "@material-ui/lab";
+import { Wallet } from "@near-wallet-selector/core";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import { Connection } from "@solana/web3.js";
 import {
@@ -80,6 +81,7 @@ import {
   getEmitterAddressNear,
   makeNearAccount,
   parseSequenceFromLogNear,
+  signAndSendTransactions,
   transferNearFromNear,
   transferTokenFromNear,
 } from "../utils/near";
@@ -264,6 +266,7 @@ async function evm(
 async function near(
   dispatch: any,
   enqueueSnackbar: any,
+  wallet: Wallet,
   senderAddr: string,
   tokenAddress: string,
   decimals: number,
@@ -279,7 +282,7 @@ async function near(
     const feeParsed = parseUnits(relayerFee || "0", decimals);
     const transferAmountParsed = baseAmountParsed.add(feeParsed);
     const account = await makeNearAccount(senderAddr);
-    const receipt =
+    const msgs =
       tokenAddress === NATIVE_NEAR_PLACEHOLDER
         ? await transferNearFromNear(
             account,
@@ -300,6 +303,7 @@ async function near(
             recipientChain,
             feeParsed.toBigInt()
           );
+    const receipt = await signAndSendTransactions(account, wallet, msgs);
     const sequence = parseSequenceFromLogNear(receipt);
     dispatch(
       setTransferTx({
@@ -478,7 +482,7 @@ export function useHandleTransfer() {
   const terraWallet = useConnectedWallet();
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
   const { accounts: algoAccounts } = useAlgorandContext();
-  const { accountId: nearAccountId } = useNearContext();
+  const { accountId: nearAccountId, wallet } = useNearContext();
   const sourceParsedTokenAccount = useSelector(
     selectTransferSourceParsedTokenAccount
   );
@@ -579,6 +583,7 @@ export function useHandleTransfer() {
     } else if (
       sourceChain === CHAIN_ID_NEAR &&
       nearAccountId &&
+      wallet &&
       !!sourceAsset &&
       decimals !== undefined &&
       !!targetAddress
@@ -586,6 +591,7 @@ export function useHandleTransfer() {
       near(
         dispatch,
         enqueueSnackbar,
+        wallet,
         nearAccountId,
         sourceAsset,
         decimals,
@@ -618,6 +624,7 @@ export function useHandleTransfer() {
     terraFeeDenom,
     algoAccounts,
     nearAccountId,
+    wallet,
   ]);
   return useMemo(
     () => ({

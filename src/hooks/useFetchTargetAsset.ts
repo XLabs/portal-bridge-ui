@@ -167,7 +167,7 @@ function useFetchTargetAsset(nft?: boolean) {
                 setTargetAsset(
                   receiveDataWrapper({
                     doesExist: true,
-                    address: tokenAccount || null,
+                    address: tokenAccount[1] || null,
                   })
                 )
               );

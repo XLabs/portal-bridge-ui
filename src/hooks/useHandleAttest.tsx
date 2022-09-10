@@ -23,6 +23,7 @@ import {
   uint8ArrayToHex,
 } from "@certusone/wormhole-sdk";
 import { Alert } from "@material-ui/lab";
+import { Wallet } from "@near-wallet-selector/core";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import { Connection, PublicKey } from "@solana/web3.js";
 import {
@@ -69,9 +70,11 @@ import {
 import {
   attestNearFromNear,
   attestTokenFromNear,
+  // attestTokenFromNear,
   getEmitterAddressNear,
   makeNearAccount,
   parseSequenceFromLogNear,
+  signAndSendTransactions,
 } from "../utils/near";
 import parseError from "../utils/parseError";
 import { signSendAndConfirm } from "../utils/solana";
@@ -191,12 +194,13 @@ async function near(
   dispatch: any,
   enqueueSnackbar: any,
   senderAddr: string,
-  sourceAsset: string
+  sourceAsset: string,
+  wallet: Wallet
 ) {
   dispatch(setIsSending(true));
   try {
     const account = await makeNearAccount(senderAddr);
-    const receipt =
+    const msgs =
       sourceAsset === NATIVE_NEAR_PLACEHOLDER
         ? await attestNearFromNear(
             account,
@@ -209,6 +213,7 @@ async function near(
             NEAR_TOKEN_BRIDGE_ACCOUNT,
             sourceAsset
           );
+    const receipt = await signAndSendTransactions(account, wallet, msgs);
     const sequence = parseSequenceFromLogNear(receipt);
     dispatch(
       setAttestTx({
@@ -364,7 +369,7 @@ export function useHandleAttest() {
   const terraWallet = useConnectedWallet();
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
   const { accounts: algoAccounts } = useAlgorandContext();
-  const { accountId: nearAccountId } = useNearContext();
+  const { accountId: nearAccountId, wallet } = useNearContext();
   const disabled = !isTargetComplete || isSending || isSendComplete;
   const handleAttestClick = useCallback(() => {
     if (isEVMChain(sourceChain) && !!signer) {
@@ -382,8 +387,8 @@ export function useHandleAttest() {
       );
     } else if (sourceChain === CHAIN_ID_ALGORAND && algoAccounts[0]) {
       algo(dispatch, enqueueSnackbar, algoAccounts[0].address, sourceAsset);
-    } else if (sourceChain === CHAIN_ID_NEAR && nearAccountId) {
-      near(dispatch, enqueueSnackbar, nearAccountId, sourceAsset);
+    } else if (sourceChain === CHAIN_ID_NEAR && nearAccountId && wallet) {
+      near(dispatch, enqueueSnackbar, nearAccountId, sourceAsset, wallet);
     } else {
     }
   }, [
@@ -398,6 +403,7 @@ export function useHandleAttest() {
     terraFeeDenom,
     algoAccounts,
     nearAccountId,
+    wallet,
   ]);
   return useMemo(
     () => ({

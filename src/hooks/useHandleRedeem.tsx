@@ -16,6 +16,7 @@ import {
   uint8ArrayToHex,
 } from "@certusone/wormhole-sdk";
 import { Alert } from "@material-ui/lab";
+import { Wallet } from "@near-wallet-selector/core";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import { Connection } from "@solana/web3.js";
 import {
@@ -51,7 +52,11 @@ import {
   SOL_BRIDGE_ADDRESS,
   SOL_TOKEN_BRIDGE_ADDRESS,
 } from "../utils/consts";
-import { makeNearAccount, redeemOnNear } from "../utils/near";
+import {
+  makeNearAccount,
+  redeemOnNear,
+  signAndSendTransactions,
+} from "../utils/near";
 import parseError from "../utils/parseError";
 import { postVaaWithRetry } from "../utils/postVaa";
 import { signSendAndConfirm } from "../utils/solana";
@@ -143,16 +148,18 @@ async function near(
   dispatch: any,
   enqueueSnackbar: any,
   senderAddr: string,
-  signedVAA: Uint8Array
+  signedVAA: Uint8Array,
+  wallet: Wallet
 ) {
   dispatch(setIsRedeeming(true));
   try {
     const account = await makeNearAccount(senderAddr);
-    const receipt = await redeemOnNear(
+    const msgs = await redeemOnNear(
       account,
       NEAR_TOKEN_BRIDGE_ACCOUNT,
       signedVAA
     );
+    const receipt = await signAndSendTransactions(account, wallet, msgs);
     dispatch(
       setRedeemTx({
         id: receipt.transaction_outcome.id,
@@ -268,7 +275,7 @@ export function useHandleRedeem() {
   const terraWallet = useConnectedWallet();
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
   const { accounts: algoAccounts } = useAlgorandContext();
-  const { accountId: nearAccountId } = useNearContext();
+  const { accountId: nearAccountId, wallet } = useNearContext();
   const signedVAA = useTransferSignedVAA();
   const isRedeeming = useSelector(selectTransferIsRedeeming);
   const handleRedeemClick = useCallback(() => {
@@ -303,8 +310,13 @@ export function useHandleRedeem() {
       !!signedVAA
     ) {
       algo(dispatch, enqueueSnackbar, algoAccounts[0]?.address, signedVAA);
-    } else if (targetChain === CHAIN_ID_NEAR && nearAccountId && !!signedVAA) {
-      near(dispatch, enqueueSnackbar, nearAccountId, signedVAA);
+    } else if (
+      targetChain === CHAIN_ID_NEAR &&
+      nearAccountId &&
+      wallet &&
+      !!signedVAA
+    ) {
+      near(dispatch, enqueueSnackbar, nearAccountId, signedVAA, wallet);
     } else {
     }
   }, [
@@ -319,6 +331,7 @@ export function useHandleRedeem() {
     terraFeeDenom,
     algoAccounts,
     nearAccountId,
+    wallet,
   ]);
 
   const handleRedeemNativeClick = useCallback(() => {
