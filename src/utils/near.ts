@@ -102,6 +102,21 @@ export async function getForeignAssetNear(
   else return ret;
 }
 
+export async function getIsTransferCompletedNear(
+  client: Account,
+  tokenAccount: string,
+  signedVAA: Uint8Array
+): Promise<boolean> {
+  // Could we just pass in the vaa already as hex?
+  let vaa = Buffer.from(signedVAA).toString("hex");
+
+  return (
+    await client.viewFunction(tokenAccount, "is_transfer_completed", {
+      vaa: vaa,
+    })
+  )[1];
+}
+
 export async function transferTokenFromNear(
   client: Account,
   coreBridge: string,
@@ -356,5 +371,60 @@ export async function createWrappedOnNear(
     args: { vaa: vaa },
     attachedDeposit: new BN(res[1]),
     gas: new BN("150000000000000"),
+  });
+}
+
+export async function attestTokenFromNear(
+  client: Account,
+  coreBridge: string,
+  tokenBridge: string,
+  asset: string
+): Promise<FinalExecutionOutcome> {
+  let message_fee = await client.viewFunction(coreBridge, "message_fee", {});
+  // Non-signing event
+  if (!getIsWrappedAssetNear(tokenBridge, asset)) {
+    // Non-signing event that hits the RPC
+    let res = await client.viewFunction(tokenBridge, "hash_account", {
+      account: asset,
+    });
+
+    // if res[0] == false, the account has not been
+    // registered... The first user to attest a non-wormhole token
+    // is gonna have to pay for the space
+    if (!res[0]) {
+      // Signing event
+      await client.functionCall({
+        contractId: tokenBridge,
+        methodName: "register_account",
+        args: { account: asset },
+        gas: new BN("100000000000000"),
+        attachedDeposit: new BN("2000000000000000000000"), // 0.002 NEAR
+      });
+    }
+  }
+
+  return await client.functionCall({
+    contractId: tokenBridge,
+    methodName: "attest_token",
+    args: { token: asset, message_fee: message_fee },
+    attachedDeposit: new BN("3000000000000000000000").add(new BN(message_fee)), // 0.003 NEAR
+    gas: new BN("100000000000000"),
+  });
+}
+
+export async function attestNearFromNear(
+  client: Account,
+  coreBridge: string,
+  tokenBridge: string
+): Promise<FinalExecutionOutcome> {
+  let message_fee =
+    (await client.viewFunction(coreBridge, "message_fee", {})) + 1;
+
+  return await client.functionCall({
+    contractId: tokenBridge,
+    methodName: "attest_near",
+    args: { message_fee: message_fee },
+    attachedDeposit: new BN(message_fee),
+    gas: new BN("100000000000000"),
   });
 }

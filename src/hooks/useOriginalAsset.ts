@@ -37,13 +37,19 @@ import {
   getNFTBridgeAddressForChain,
   getTerraConfig,
   getTokenBridgeAddressForChain,
+  NATIVE_NEAR_PLACEHOLDER,
+  NATIVE_NEAR_WH_ADDRESS,
   NEAR_TOKEN_BRIDGE_ACCOUNT,
   SOLANA_HOST,
   SOLANA_SYSTEM_PROGRAM_ADDRESS,
   SOL_NFT_BRIDGE_ADDRESS,
   SOL_TOKEN_BRIDGE_ADDRESS,
 } from "../utils/consts";
-import { getOriginalAssetNear, makeNearAccount } from "../utils/near";
+import {
+  getOriginalAssetNear,
+  lookupHash,
+  makeNearAccount,
+} from "../utils/near";
 import { queryExternalId } from "../utils/terra";
 import useIsWalletReady from "./useIsWalletReady";
 
@@ -237,6 +243,15 @@ function useOriginalAsset(
     if (argumentError) {
       return;
     }
+    // short circuit for near native
+    if (
+      foreignChain === CHAIN_ID_NEAR &&
+      foreignAddress === NATIVE_NEAR_PLACEHOLDER
+    ) {
+      setOriginChain(CHAIN_ID_NEAR);
+      setOriginAddress(NATIVE_NEAR_PLACEHOLDER);
+      return;
+    }
     let cancelled = false;
     setIsLoading(true);
 
@@ -257,7 +272,23 @@ function useOriginalAsset(
               (tokenId) => setOriginAddress(tokenId || null)
             );
           } else if (result.chainId === CHAIN_ID_NEAR) {
-            // TODO: query for the real asset address
+            if (
+              uint8ArrayToHex(result.assetAddress) === NATIVE_NEAR_WH_ADDRESS
+            ) {
+              setOriginAddress(NATIVE_NEAR_PLACEHOLDER);
+            } else if (nearAccountId) {
+              makeNearAccount(nearAccountId).then((account) => {
+                lookupHash(
+                  account,
+                  NEAR_TOKEN_BRIDGE_ACCOUNT,
+                  uint8ArrayToHex(result.assetAddress)
+                ).then((tokenAccount) => {
+                  if (!cancelled) {
+                    setOriginAddress(tokenAccount[1] || null);
+                  }
+                });
+              });
+            }
           } else {
             setOriginAddress(
               hexToNativeAssetString(

@@ -3,6 +3,7 @@ import {
   CHAIN_ID_ACALA,
   CHAIN_ID_ALGORAND,
   CHAIN_ID_KARURA,
+  CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   CHAIN_ID_TERRA2,
   getEmitterAddressAlgorand,
@@ -45,11 +46,13 @@ import { LCDClient } from "@terra-money/terra.js";
 import algosdk from "algosdk";
 import axios from "axios";
 import { ethers } from "ethers";
+import { base58 } from "ethers/lib/utils";
 import { useSnackbar } from "notistack";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router";
 import { useEthereumProvider } from "../contexts/EthereumProviderContext";
+import { useNearContext } from "../contexts/NearWalletContext";
 import { useAcalaRelayerInfo } from "../hooks/useAcalaRelayerInfo";
 import useIsWalletReady from "../hooks/useIsWalletReady";
 import useRelayersAvailable, { Relayer } from "../hooks/useRelayersAvailable";
@@ -71,8 +74,14 @@ import {
   SOL_TOKEN_BRIDGE_ADDRESS,
   getTerraConfig,
   WORMHOLE_RPC_HOSTS,
+  NEAR_TOKEN_BRIDGE_ACCOUNT,
 } from "../utils/consts";
 import { getSignedVAAWithRetry } from "../utils/getSignedVAAWithRetry";
+import {
+  getEmitterAddressNear,
+  makeNearAccount,
+  parseSequenceFromLogNear,
+} from "../utils/near";
 import parseError from "../utils/parseError";
 import { queryExternalId } from "../utils/terra";
 import ButtonWithLoader from "./ButtonWithLoader";
@@ -178,6 +187,24 @@ async function evm(
         : getTokenBridgeAddressForChain(chainId)
     );
     return await fetchSignedVAA(chainId, emitterAddress, sequence);
+  } catch (e) {
+    return handleError(e, enqueueSnackbar);
+  }
+}
+
+async function near(tx: string, enqueueSnackbar: any, nearAccountId: string) {
+  try {
+    const account = await makeNearAccount(nearAccountId);
+    const receipt = await account.connection.provider.txStatusReceipts(
+      base58.decode(tx),
+      nearAccountId
+    );
+    const sequence = parseSequenceFromLogNear(receipt);
+    if (!sequence) {
+      throw new Error("Sequence not found");
+    }
+    const emitterAddress = getEmitterAddressNear(NEAR_TOKEN_BRIDGE_ACCOUNT);
+    return await fetchSignedVAA(CHAIN_ID_NEAR, emitterAddress, sequence);
   } catch (e) {
     return handleError(e, enqueueSnackbar);
   }
@@ -369,6 +396,7 @@ export default function Recovery() {
   const [recoveryParsedVAA, setRecoveryParsedVAA] = useState<any>(null);
   const [isVAAPending, setIsVAAPending] = useState(false);
   const [terra2TokenId, setTerra2TokenId] = useState("");
+  const { accountId: nearAccountId } = useNearContext();
   const { isReady, statusMessage } = useIsWalletReady(recoverySourceChain);
   const walletConnectError =
     isEVMChain(recoverySourceChain) && !isReady ? statusMessage : "";
@@ -515,6 +543,26 @@ export default function Recovery() {
             setIsVAAPending(isPending);
           }
         })();
+      } else if (recoverySourceChain === CHAIN_ID_NEAR && nearAccountId) {
+        setRecoverySourceTxError("");
+        setRecoverySourceTxIsLoading(true);
+        (async () => {
+          const { vaa, isPending, error } = await near(
+            recoverySourceTx,
+            enqueueSnackbar,
+            nearAccountId
+          );
+          if (!cancelled) {
+            setRecoverySourceTxIsLoading(false);
+            if (vaa) {
+              setRecoverySignedVAA(vaa);
+            }
+            if (error) {
+              setRecoverySourceTxError(error);
+            }
+            setIsVAAPending(isPending);
+          }
+        })();
       }
       return () => {
         cancelled = true;
@@ -527,6 +575,7 @@ export default function Recovery() {
     enqueueSnackbar,
     isNFT,
     isReady,
+    nearAccountId,
   ]);
   const handleTypeChange = useCallback((event) => {
     setRecoverySourceChain((prevChain) =>

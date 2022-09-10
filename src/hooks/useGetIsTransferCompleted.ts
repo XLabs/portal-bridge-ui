@@ -1,5 +1,6 @@
 import {
   CHAIN_ID_ALGORAND,
+  CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   getIsTransferCompletedAlgorand,
   getIsTransferCompletedEth,
@@ -14,6 +15,7 @@ import algosdk from "algosdk";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useEthereumProvider } from "../contexts/EthereumProviderContext";
+import { useNearContext } from "../contexts/NearWalletContext";
 import {
   selectTransferIsRecovery,
   selectTransferTargetAddressHex,
@@ -27,7 +29,9 @@ import {
   SOLANA_HOST,
   getTerraGasPricesUrl,
   getTerraConfig,
+  NEAR_TOKEN_BRIDGE_ACCOUNT,
 } from "../utils/consts";
+import { getIsTransferCompletedNear, makeNearAccount } from "../utils/near";
 import useIsWalletReady from "./useIsWalletReady";
 import useTransferSignedVAA from "./useTransferSignedVAA";
 
@@ -50,6 +54,7 @@ export default function useGetIsTransferCompleted(
 
   const { isReady } = useIsWalletReady(targetChain, false);
   const { provider, chainId: evmChainId } = useEthereumProvider();
+  const { accountId: nearAccountId } = useNearContext();
   const signedVAA = useTransferSignedVAA();
 
   const hasCorrectEvmNetwork = evmChainId === getEvmChainId(targetChain);
@@ -160,6 +165,24 @@ export default function useGetIsTransferCompleted(
             setIsLoading(false);
           }
         })();
+      } else if (targetChain === CHAIN_ID_NEAR && nearAccountId) {
+        setIsLoading(true);
+        (async () => {
+          try {
+            const account = await makeNearAccount(nearAccountId);
+            transferCompleted = await getIsTransferCompletedNear(
+              account,
+              NEAR_TOKEN_BRIDGE_ACCOUNT,
+              signedVAA
+            );
+          } catch (error) {
+            console.error(error);
+          }
+          if (!cancelled) {
+            setIsTransferCompleted(transferCompleted);
+            setIsLoading(false);
+          }
+        })();
       }
     }
     return () => {
@@ -174,6 +197,7 @@ export default function useGetIsTransferCompleted(
     isReady,
     provider,
     pollState,
+    nearAccountId,
   ]);
 
   return { isTransferCompletedLoading: isLoading, isTransferCompleted };

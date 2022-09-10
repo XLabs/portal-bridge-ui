@@ -6,6 +6,7 @@ import {
   ChainId,
   CHAIN_ID_ALGORAND,
   CHAIN_ID_KLAYTN,
+  CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   getEmitterAddressAlgorand,
   getEmitterAddressEth,
@@ -35,6 +36,7 @@ import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlgorandContext } from "../contexts/AlgorandWalletContext";
 import { useEthereumProvider } from "../contexts/EthereumProviderContext";
+import { useNearContext } from "../contexts/NearWalletContext";
 import { useSolanaWallet } from "../contexts/SolanaWalletContext";
 import {
   setAttestTx,
@@ -56,11 +58,20 @@ import {
   ALGORAND_TOKEN_BRIDGE_ID,
   getBridgeAddressForChain,
   getTokenBridgeAddressForChain,
+  NATIVE_NEAR_PLACEHOLDER,
+  NEAR_CORE_BRIDGE_ACCOUNT,
+  NEAR_TOKEN_BRIDGE_ACCOUNT,
   SOLANA_HOST,
   SOL_BRIDGE_ADDRESS,
   SOL_TOKEN_BRIDGE_ADDRESS,
   WORMHOLE_RPC_HOSTS,
 } from "../utils/consts";
+import {
+  attestNearFromNear,
+  attestTokenFromNear,
+  makeNearAccount,
+  parseSequenceFromLogNear,
+} from "../utils/near";
 import parseError from "../utils/parseError";
 import { signSendAndConfirm } from "../utils/solana";
 import { postWithFees, waitForTerraExecution } from "../utils/terra";
@@ -159,6 +170,61 @@ async function evm(
     const { vaaBytes } = await getSignedVAAWithRetry(
       WORMHOLE_RPC_HOSTS,
       chainId,
+      emitterAddress,
+      sequence
+    );
+    dispatch(setSignedVAAHex(uint8ArrayToHex(vaaBytes)));
+    enqueueSnackbar(null, {
+      content: <Alert severity="success">Fetched Signed VAA</Alert>,
+    });
+  } catch (e) {
+    console.error(e);
+    enqueueSnackbar(null, {
+      content: <Alert severity="error">{parseError(e)}</Alert>,
+    });
+    dispatch(setIsSending(false));
+  }
+}
+
+async function near(
+  dispatch: any,
+  enqueueSnackbar: any,
+  senderAddr: string,
+  sourceAsset: string
+) {
+  dispatch(setIsSending(true));
+  try {
+    const account = await makeNearAccount(senderAddr);
+    const receipt =
+      sourceAsset === NATIVE_NEAR_PLACEHOLDER
+        ? await attestNearFromNear(
+            account,
+            NEAR_CORE_BRIDGE_ACCOUNT,
+            NEAR_TOKEN_BRIDGE_ACCOUNT
+          )
+        : await attestTokenFromNear(
+            account,
+            NEAR_CORE_BRIDGE_ACCOUNT,
+            NEAR_TOKEN_BRIDGE_ACCOUNT,
+            sourceAsset
+          );
+    const sequence = parseSequenceFromLogNear(receipt);
+    dispatch(
+      setAttestTx({
+        id: receipt.transaction_outcome.id,
+        block: 0,
+      })
+    );
+    enqueueSnackbar(null, {
+      content: <Alert severity="success">Transaction confirmed</Alert>,
+    });
+    const emitterAddress = getEmitterAddressAlgorand(ALGORAND_TOKEN_BRIDGE_ID);
+    enqueueSnackbar(null, {
+      content: <Alert severity="info">Fetching VAA</Alert>,
+    });
+    const { vaaBytes } = await getSignedVAAWithRetry(
+      WORMHOLE_RPC_HOSTS,
+      CHAIN_ID_ALGORAND,
       emitterAddress,
       sequence
     );
@@ -297,6 +363,7 @@ export function useHandleAttest() {
   const terraWallet = useConnectedWallet();
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
   const { accounts: algoAccounts } = useAlgorandContext();
+  const { accountId: nearAccountId } = useNearContext();
   const disabled = !isTargetComplete || isSending || isSendComplete;
   const handleAttestClick = useCallback(() => {
     if (isEVMChain(sourceChain) && !!signer) {
@@ -314,6 +381,8 @@ export function useHandleAttest() {
       );
     } else if (sourceChain === CHAIN_ID_ALGORAND && algoAccounts[0]) {
       algo(dispatch, enqueueSnackbar, algoAccounts[0].address, sourceAsset);
+    } else if (sourceChain === CHAIN_ID_NEAR && nearAccountId) {
+      near(dispatch, enqueueSnackbar, nearAccountId, sourceAsset);
     } else {
     }
   }, [
@@ -327,6 +396,7 @@ export function useHandleAttest() {
     sourceAsset,
     terraFeeDenom,
     algoAccounts,
+    nearAccountId,
   ]);
   return useMemo(
     () => ({
