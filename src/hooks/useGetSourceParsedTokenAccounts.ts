@@ -34,7 +34,6 @@ import { Algodv2 } from "algosdk";
 import axios from "axios";
 import { ethers } from "ethers";
 import { formatUnits } from "ethers/lib/utils";
-import { connect } from "near-api-js";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlgorandContext } from "../contexts/AlgorandWalletContext";
@@ -93,7 +92,6 @@ import {
   CELO_DECIMALS,
   COVALENT_GET_TOKENS_URL,
   getDefaultNativeCurrencyAddressEvm,
-  getNearConnectionConfig,
   KAR_ADDRESS,
   KAR_DECIMALS,
   logoOverrides,
@@ -121,6 +119,7 @@ import {
   WROSE_ADDRESS,
   WROSE_DECIMALS,
 } from "../utils/consts";
+import { makeNearAccount } from "../utils/near";
 import {
   ExtractedMintInfo,
   extractMintInfo,
@@ -830,8 +829,7 @@ const getNearParsedTokenAccounts = async (
       dispatch(receiveSourceParsedTokenAccountsNFT([]));
       return;
     }
-    const nearConnection = await connect(getNearConnectionConfig());
-    const account = await nearConnection.account(walletAddress);
+    const account = await makeNearAccount(walletAddress);
     const balance = await account.getAccountBalance();
     const nativeNear = createParsedTokenAccount(
       walletAddress, //publicKey

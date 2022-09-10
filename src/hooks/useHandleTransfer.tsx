@@ -34,7 +34,6 @@ import {
 import algosdk from "algosdk";
 import { Signer } from "ethers";
 import { parseUnits, zeroPad } from "ethers/lib/utils";
-import { connect } from "near-api-js";
 import { useSnackbar } from "notistack";
 import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -57,8 +56,8 @@ import {
   selectTransferTargetChain,
 } from "../store/selectors";
 import {
-  setIsVAAPending,
   setIsSending,
+  setIsVAAPending,
   setSignedVAAHex,
   setTransferTx,
 } from "../store/transferSlice";
@@ -68,7 +67,6 @@ import {
   ALGORAND_HOST,
   ALGORAND_TOKEN_BRIDGE_ID,
   getBridgeAddressForChain,
-  getNearConnectionConfig,
   getTokenBridgeAddressForChain,
   NATIVE_NEAR_PLACEHOLDER,
   NEAR_CORE_BRIDGE_ACCOUNT,
@@ -80,6 +78,7 @@ import {
 import { getSignedVAAWithRetry } from "../utils/getSignedVAAWithRetry";
 import {
   getEmitterAddressNear,
+  makeNearAccount,
   parseSequenceFromLogNear,
   transferNearFromNear,
   transferTokenFromNear,
@@ -279,8 +278,7 @@ async function near(
     const baseAmountParsed = parseUnits(amount, decimals);
     const feeParsed = parseUnits(relayerFee || "0", decimals);
     const transferAmountParsed = baseAmountParsed.add(feeParsed);
-    const nearConnection = await connect(getNearConnectionConfig());
-    const account = await nearConnection.account(senderAddr);
+    const account = await makeNearAccount(senderAddr);
     const receipt =
       tokenAddress === NATIVE_NEAR_PLACEHOLDER
         ? await transferNearFromNear(

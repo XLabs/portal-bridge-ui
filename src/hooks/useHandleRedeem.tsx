@@ -2,6 +2,7 @@ import {
   ChainId,
   CHAIN_ID_ALGORAND,
   CHAIN_ID_KLAYTN,
+  CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   isEVMChain,
   isTerraChain,
@@ -29,6 +30,7 @@ import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlgorandContext } from "../contexts/AlgorandWalletContext";
 import { useEthereumProvider } from "../contexts/EthereumProviderContext";
+import { useNearContext } from "../contexts/NearWalletContext";
 import { useSolanaWallet } from "../contexts/SolanaWalletContext";
 import {
   selectTerraFeeDenom,
@@ -44,10 +46,12 @@ import {
   ALGORAND_TOKEN_BRIDGE_ID,
   getTokenBridgeAddressForChain,
   MAX_VAA_UPLOAD_RETRIES_SOLANA,
+  NEAR_TOKEN_BRIDGE_ACCOUNT,
   SOLANA_HOST,
   SOL_BRIDGE_ADDRESS,
   SOL_TOKEN_BRIDGE_ADDRESS,
 } from "../utils/consts";
+import { makeNearAccount, redeemOnNear } from "../utils/near";
 import parseError from "../utils/parseError";
 import { postVaaWithRetry } from "../utils/postVaa";
 import { signSendAndConfirm } from "../utils/solana";
@@ -123,6 +127,37 @@ async function evm(
         );
     dispatch(
       setRedeemTx({ id: receipt.transactionHash, block: receipt.blockNumber })
+    );
+    enqueueSnackbar(null, {
+      content: <Alert severity="success">Transaction confirmed</Alert>,
+    });
+  } catch (e) {
+    enqueueSnackbar(null, {
+      content: <Alert severity="error">{parseError(e)}</Alert>,
+    });
+    dispatch(setIsRedeeming(false));
+  }
+}
+
+async function near(
+  dispatch: any,
+  enqueueSnackbar: any,
+  senderAddr: string,
+  signedVAA: Uint8Array
+) {
+  dispatch(setIsRedeeming(true));
+  try {
+    const account = await makeNearAccount(senderAddr);
+    const receipt = await redeemOnNear(
+      account,
+      NEAR_TOKEN_BRIDGE_ACCOUNT,
+      signedVAA
+    );
+    dispatch(
+      setRedeemTx({
+        id: receipt.transaction_outcome.id,
+        block: 0,
+      })
     );
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
@@ -233,6 +268,7 @@ export function useHandleRedeem() {
   const terraWallet = useConnectedWallet();
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
   const { accounts: algoAccounts } = useAlgorandContext();
+  const { accountId: nearAccountId } = useNearContext();
   const signedVAA = useTransferSignedVAA();
   const isRedeeming = useSelector(selectTransferIsRedeeming);
   const handleRedeemClick = useCallback(() => {
@@ -267,6 +303,8 @@ export function useHandleRedeem() {
       !!signedVAA
     ) {
       algo(dispatch, enqueueSnackbar, algoAccounts[0]?.address, signedVAA);
+    } else if (targetChain === CHAIN_ID_NEAR && nearAccountId && !!signedVAA) {
+      near(dispatch, enqueueSnackbar, nearAccountId, signedVAA);
     } else {
     }
   }, [
@@ -280,6 +318,7 @@ export function useHandleRedeem() {
     terraWallet,
     terraFeeDenom,
     algoAccounts,
+    nearAccountId,
   ]);
 
   const handleRedeemNativeClick = useCallback(() => {

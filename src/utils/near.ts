@@ -2,35 +2,23 @@ import {
   ChainId,
   ChainName,
   CHAIN_ID_NEAR,
+  coalesceChainId,
   hexToUint8Array,
   uint8ArrayToHex,
   WormholeWrappedInfo,
 } from "@certusone/wormhole-sdk";
+import { _parseVAAAlgorand } from "@certusone/wormhole-sdk/lib/esm/algorand";
 import BN from "bn.js";
 import { arrayify, sha256, zeroPad } from "ethers/lib/utils";
-import { Account, KeyPair } from "near-api-js";
+import { Account, connect } from "near-api-js";
 import {
   FinalExecutionOutcome,
   getTransactionLastResult,
 } from "near-api-js/lib/providers";
-import { AlgoMetadata } from "../hooks/useAlgoMetadata";
-import {
-  getNearConnectionConfig,
-  nearKeyStore,
-  NEAR_TOKEN_BRIDGE_ACCOUNT,
-} from "./consts";
+import { getNearConnectionConfig } from "./consts";
 
-export const fetchSingleMetadata = async (
-  address: string,
-  account: Account
-): Promise<AlgoMetadata> => {
-  const assetInfo = await account.viewFunction(address, "ft_metadata");
-  return {
-    tokenName: assetInfo.name,
-    symbol: assetInfo.symbol,
-    decimals: assetInfo.decimals,
-  };
-};
+export const makeNearAccount = async (senderAddr: string) =>
+  await (await connect(getNearConnectionConfig())).account(senderAddr);
 
 // export async function createFullAccessKey(account: Account) {
 //   console.log(await account.getAccessKeys());
@@ -54,6 +42,16 @@ export function getIsWrappedAssetNear(
   asset: string
 ): boolean {
   return asset.endsWith("." + tokenBridge);
+}
+
+export async function lookupHash(
+  account: Account,
+  tokenBridge: string,
+  hash: string
+) {
+  return await account.viewFunction(tokenBridge, "hash_lookup", {
+    hash,
+  });
 }
 
 export async function getOriginalAssetNear(
@@ -103,6 +101,22 @@ export function parseSequenceFromLogNear(
     }
   }
   return sequence;
+}
+
+export async function getForeignAssetNear(
+  client: Account,
+  tokenAccount: string,
+  chain: ChainId | ChainName,
+  contract: string
+): Promise<string | null> {
+  const chainId = coalesceChainId(chain);
+
+  let ret = await client.viewFunction(tokenAccount, "get_foreign_asset", {
+    chain: chainId,
+    address: contract,
+  });
+  if (ret === "") return null;
+  else return ret;
 }
 
 export async function transferTokenFromNear(
@@ -225,5 +239,114 @@ export async function transferNearFromNear(
     },
     attachedDeposit: new BN(qty.toString(10)).add(new BN(message_fee)),
     gas: new BN("100000000000000"),
+  });
+}
+
+export async function redeemOnNear(
+  client: Account,
+  tokenBridge: string,
+  vaa: Uint8Array
+): Promise<FinalExecutionOutcome> {
+  let p = _parseVAAAlgorand(vaa);
+
+  if (p.ToChain !== CHAIN_ID_NEAR) {
+    throw new Error("Not destined for NEAR");
+  }
+
+  let user = await client.viewFunction(tokenBridge, "hash_lookup", {
+    hash: uint8ArrayToHex(p.ToAddress as Uint8Array),
+  });
+
+  if (!user[0]) {
+    throw new Error(
+      "Unregistered receiver (receiving account is not registered)"
+    );
+  }
+
+  user = user[1];
+
+  let token = await getForeignAssetNear(
+    client,
+    tokenBridge,
+    p.FromChain as ChainId,
+    p.Contract as string
+  );
+
+  if (token === "") {
+    throw new Error("Unregistered token (this been attested yet?)");
+  }
+
+  if (
+    (p.Contract as string) !==
+    "0000000000000000000000000000000000000000000000000000000000000000"
+  ) {
+    let bal = await client.viewFunction(token as string, "storage_balance_of", {
+      account_id: user,
+    });
+
+    if (bal === null) {
+      console.log("Registering ", user, " for ", token);
+      bal = getTransactionLastResult(
+        await client.functionCall({
+          contractId: token as string,
+          methodName: "storage_deposit",
+          args: { account_id: user, registration_only: true },
+          gas: new BN("100000000000000"),
+          attachedDeposit: new BN("2000000000000000000000"), // 0.002 NEAR
+        })
+      );
+    }
+
+    if (
+      p.Fee !== undefined &&
+      Buffer.compare(
+        p.Fee,
+        Buffer.from(
+          "0000000000000000000000000000000000000000000000000000000000000000",
+          "hex"
+        )
+      ) !== 0
+    ) {
+      let bal = await client.viewFunction(
+        token as string,
+        "storage_balance_of",
+        {
+          account_id: client.accountId,
+        }
+      );
+
+      if (bal === null) {
+        console.log("Registering ", client.accountId, " for ", token);
+        bal = getTransactionLastResult(
+          await client.functionCall({
+            contractId: token as string,
+            methodName: "storage_deposit",
+            args: { account_id: client.accountId, registration_only: true },
+            gas: new BN("100000000000000"),
+            attachedDeposit: new BN("2000000000000000000000"), // 0.002 NEAR
+          })
+        );
+      }
+    }
+  }
+
+  await client.functionCall({
+    contractId: tokenBridge,
+    methodName: "submit_vaa",
+    args: {
+      vaa: uint8ArrayToHex(vaa),
+    },
+    attachedDeposit: new BN("100000000000000000000000"),
+    gas: new BN("150000000000000"),
+  });
+
+  return await client.functionCall({
+    contractId: tokenBridge,
+    methodName: "submit_vaa",
+    args: {
+      vaa: uint8ArrayToHex(vaa),
+    },
+    attachedDeposit: new BN("100000000000000000000000"),
+    gas: new BN("150000000000000"),
   });
 }

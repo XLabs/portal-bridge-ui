@@ -1,14 +1,13 @@
 import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk";
 import { formatUnits } from "ethers/lib/utils";
-import { connect } from "near-api-js";
 import { useCallback } from "react";
 import { createParsedTokenAccount } from "../../hooks/useGetSourceParsedTokenAccounts";
 import useIsWalletReady from "../../hooks/useIsWalletReady";
+import { fetchSingleMetadata } from "../../hooks/useNearMetadata";
 import { DataWrapper } from "../../store/helpers";
 import { NFTParsedTokenAccount } from "../../store/nftSlice";
 import { ParsedTokenAccount } from "../../store/transferSlice";
-import { getNearConnectionConfig } from "../../utils/consts";
-import { fetchSingleMetadata } from "../../utils/near";
+import { makeNearAccount } from "../../utils/near";
 import TokenPicker, { BasicAccountRender } from "./TokenPicker";
 
 type NearTokenPickerProps = {
@@ -47,32 +46,27 @@ export default function NearTokenPicker(props: NearTokenPickerProps) {
       if (!walletAddress) {
         return Promise.reject("Wallet not connected");
       }
-      return connect(getNearConnectionConfig())
-        .then((nearConnection) => {
-          return nearConnection
-            .account(walletAddress)
-            .then((account) => {
-              return fetchSingleMetadata(lookupAsset, account)
-                .then((metadata) => {
-                  return account
-                    .viewFunction(lookupAsset, "ft_balance_of", {
-                      account_id: walletAddress,
-                    })
-                    .then((amount) => {
-                      return createParsedTokenAccount(
-                        walletAddress,
-                        lookupAsset,
-                        amount,
-                        metadata.decimals,
-                        parseFloat(formatUnits(amount, metadata.decimals)),
-                        formatUnits(amount, metadata.decimals).toString(),
-                        metadata.symbol,
-                        metadata.tokenName,
-                        undefined,
-                        false
-                      );
-                    })
-                    .catch(() => Promise.reject());
+      return makeNearAccount(walletAddress)
+        .then((account) => {
+          return fetchSingleMetadata(lookupAsset, account)
+            .then((metadata) => {
+              return account
+                .viewFunction(lookupAsset, "ft_balance_of", {
+                  account_id: walletAddress,
+                })
+                .then((amount) => {
+                  return createParsedTokenAccount(
+                    walletAddress,
+                    lookupAsset,
+                    amount,
+                    metadata.decimals,
+                    parseFloat(formatUnits(amount, metadata.decimals)),
+                    formatUnits(amount, metadata.decimals).toString(),
+                    metadata.symbol,
+                    metadata.tokenName,
+                    undefined,
+                    false
+                  );
                 })
                 .catch(() => Promise.reject());
             })

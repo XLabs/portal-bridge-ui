@@ -19,7 +19,6 @@ import {
 import { Connection } from "@solana/web3.js";
 import { LCDClient } from "@terra-money/terra.js";
 import { Algodv2 } from "algosdk";
-import { connect } from "near-api-js";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEthereumProvider } from "../contexts/EthereumProviderContext";
@@ -38,7 +37,6 @@ import { setSourceWormholeWrappedInfo as setTransferSourceWormholeWrappedInfo } 
 import {
   ALGORAND_HOST,
   ALGORAND_TOKEN_BRIDGE_ID,
-  getNearConnectionConfig,
   getNFTBridgeAddressForChain,
   getTerraConfig,
   getTokenBridgeAddressForChain,
@@ -48,7 +46,7 @@ import {
   SOL_NFT_BRIDGE_ADDRESS,
   SOL_TOKEN_BRIDGE_ADDRESS,
 } from "../utils/consts";
-import { getOriginalAssetNear } from "../utils/near";
+import { getOriginalAssetNear, makeNearAccount } from "../utils/near";
 
 export interface StateSafeWormholeWrappedInfo {
   isWrapped: boolean;
@@ -172,8 +170,7 @@ function useCheckIfWormholeWrapped(nft?: boolean) {
         sourceAsset !== undefined
       ) {
         try {
-          const nearConnection = await connect(getNearConnectionConfig());
-          const account = await nearConnection.account(nearAccountId);
+          const account = await makeNearAccount(nearAccountId);
           const wrappedInfo = makeStateSafe(
             await getOriginalAssetNear(
               account,

@@ -1,6 +1,7 @@
 import {
   ChainId,
   CHAIN_ID_ALGORAND,
+  CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   getForeignAssetAlgorand,
   getForeignAssetEth,
@@ -25,9 +26,12 @@ import {
   SOLANA_HOST,
   SOL_TOKEN_BRIDGE_ADDRESS,
   getTerraConfig,
+  NEAR_TOKEN_BRIDGE_ACCOUNT,
 } from "../utils/consts";
 import useIsWalletReady from "./useIsWalletReady";
 import { Algodv2 } from "algosdk";
+import { getForeignAssetNear, makeNearAccount } from "../utils/near";
+import { useNearContext } from "../contexts/NearWalletContext";
 
 export type ForeignAssetInfo = {
   doesExist: boolean;
@@ -43,6 +47,7 @@ function useFetchForeignAsset(
   const { isReady } = useIsWalletReady(foreignChain, false);
   const correctEvmNetwork = getEvmChainId(foreignChain);
   const hasCorrectEvmNetwork = evmChainId === correctEvmNetwork;
+  const { accountId: nearAccountId } = useNearContext();
 
   const [assetAddress, setAssetAddress] = useState<string | null>(null);
   const [doesExist, setDoesExist] = useState<boolean | null>(null);
@@ -148,6 +153,19 @@ function useFetchForeignAsset(
               originAssetHex
             );
           }
+        : foreignChain === CHAIN_ID_NEAR && nearAccountId
+        ? () => {
+            return makeNearAccount(nearAccountId)
+              .then((account) =>
+                getForeignAssetNear(
+                  account,
+                  NEAR_TOKEN_BRIDGE_ACCOUNT,
+                  originChain,
+                  originAssetHex
+                )
+              )
+              .catch(() => Promise.reject("Failed to make Near account"));
+          }
         : () => Promise.resolve(null);
 
       getterFunc()
@@ -193,6 +211,7 @@ function useFetchForeignAsset(
     provider,
     setArgs,
     argsEqual,
+    nearAccountId,
   ]);
 
   const compoundError = useMemo(() => {

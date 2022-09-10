@@ -3,9 +3,11 @@ import {
   hexToNativeString,
   isEVMChain,
 } from "@certusone/wormhole-sdk";
+import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk/lib/esm";
 import { makeStyles, Typography } from "@material-ui/core";
 import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNearContext } from "../../contexts/NearWalletContext";
 import useGetTargetParsedTokenAccounts from "../../hooks/useGetTargetParsedTokenAccounts";
 import useIsWalletReady from "../../hooks/useIsWalletReady";
 import useSyncTargetAddress from "../../hooks/useSyncTargetAddress";
@@ -24,6 +26,7 @@ import {
 } from "../../store/selectors";
 import { incrementStep, setTargetChain } from "../../store/transferSlice";
 import { CHAINS, CLUSTER } from "../../utils/consts";
+import { getEmitterAddressNear } from "../../utils/near";
 import ButtonWithLoader from "../ButtonWithLoader";
 import ChainSelect from "../ChainSelect";
 import FeeMethodSelector from "../FeeMethodSelector";
@@ -48,6 +51,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const useTargetInfo = () => {
+  const { accountId: nearAccountId } = useNearContext();
+
   const targetChain = useSelector(selectTransferTargetChain);
   const targetAddressHex = useSelector(selectTransferTargetAddressHex);
   const targetAsset = useSelector(selectTransferTargetAsset);
@@ -58,7 +63,14 @@ export const useTargetInfo = () => {
   const symbol = targetParsedTokenAccount?.symbol;
   const logo = targetParsedTokenAccount?.logo;
   const readableTargetAddress =
-    hexToNativeString(targetAddressHex, targetChain) || "";
+    targetChain === CHAIN_ID_NEAR
+      ? // Near uses a hashed address, which isn't very readable - check that the hash matches and show them their account id
+        nearAccountId &&
+        // this just happens to be the same hashing mechanism as emitters
+        getEmitterAddressNear(nearAccountId) === targetAddressHex
+        ? nearAccountId
+        : targetAddressHex || ""
+      : hexToNativeString(targetAddressHex, targetChain) || "";
   return useMemo(
     () => ({
       targetChain,
@@ -92,6 +104,14 @@ function Target() {
     logo,
     readableTargetAddress,
   } = useTargetInfo();
+  console.log(
+    targetChain,
+    targetAsset,
+    tokenName,
+    symbol,
+    logo,
+    readableTargetAddress
+  );
   const uiAmountString = useSelector(selectTransferTargetBalanceString);
   const transferAmount = useSelector(selectTransferAmount);
   const error = useSelector(selectTransferTargetError);
