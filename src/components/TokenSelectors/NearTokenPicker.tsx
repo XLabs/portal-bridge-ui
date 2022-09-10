@@ -1,4 +1,4 @@
-import { CHAIN_ID_ALGORAND, CHAIN_ID_NEAR } from "@certusone/wormhole-sdk";
+import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk";
 import { formatUnits } from "ethers/lib/utils";
 import { connect } from "near-api-js";
 import { useCallback } from "react";
@@ -108,7 +108,7 @@ export default function NearTokenPicker(props: NearTokenPickerProps) {
       error={""}
       showLoader={isLoading}
       nft={false}
-      chainId={CHAIN_ID_ALGORAND}
+      chainId={CHAIN_ID_NEAR}
     />
   );
 }

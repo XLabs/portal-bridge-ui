@@ -21,7 +21,7 @@ import React, {
   useMemo,
   ReactChildren,
 } from "react";
-import { CLUSTER, NEAR_TOKEN_BRIDGE_ID } from "../utils/consts";
+import { CLUSTER, NEAR_TOKEN_BRIDGE_ACCOUNT } from "../utils/consts";
 import { map, distinctUntilChanged, Subscription } from "rxjs";
 
 declare global {
@@ -82,7 +82,7 @@ export const NearContextProvider = ({
         debug: true,
       });
       const modal = setupModal(selector, {
-        contractId: NEAR_TOKEN_BRIDGE_ID || "",
+        contractId: NEAR_TOKEN_BRIDGE_ACCOUNT || "",
       });
       const accounts = selector.store.getState().accounts;
       subscription = selector.store.observable

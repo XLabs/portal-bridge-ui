@@ -864,7 +864,14 @@ export const ALGORAND_TOKEN_BRIDGE_ID = BigInt(
 export const ALGORAND_WAIT_FOR_CONFIRMATIONS =
   CLUSTER === "mainnet" ? 4 : CLUSTER === "testnet" ? 4 : 1;
 
-export const NEAR_TOKEN_BRIDGE_ID =
+export const NEAR_CORE_BRIDGE_ACCOUNT =
+  CLUSTER === "mainnet"
+    ? "contract.wormhole_crypto.near"
+    : CLUSTER === "testnet"
+    ? "wormhole.wormhole.testnet"
+    : "wormhole.test.near";
+
+export const NEAR_TOKEN_BRIDGE_ACCOUNT =
   CLUSTER === "mainnet"
     ? "contract.portalbridge.near"
     : CLUSTER === "testnet"
@@ -1429,7 +1436,7 @@ export const getTerraFCDBaseUrl = (chainId: TerraChainId) =>
 export const getTerraGasPricesUrl = (chainId: TerraChainId) =>
   `${getTerraFCDBaseUrl(chainId)}/v1/txs/gas_prices`;
 
-const nearKeyStore = new keyStores.BrowserLocalStorageKeyStore();
+export const nearKeyStore = new keyStores.BrowserLocalStorageKeyStore();
 
 export const getNearConnectionConfig = (): ConnectConfig =>
   CLUSTER === "mainnet"
@@ -1459,6 +1466,9 @@ export const getNearConnectionConfig = (): ConnectConfig =>
       };
 
 export const NATIVE_NEAR_DECIMALS = 24;
+export const NATIVE_NEAR_PLACEHOLDER = "near";
+export const NATIVE_NEAR_WH_ADDRESS =
+  "0000000000000000000000000000000000000000000000000000000000000000";
 
 export const TOTAL_TRANSACTIONS_WORMHOLE = `https://europe-west3-wormhole-315720.cloudfunctions.net/mainnet-totals?groupBy=address`;
 

@@ -98,6 +98,7 @@ import {
   KAR_DECIMALS,
   logoOverrides,
   NATIVE_NEAR_DECIMALS,
+  NATIVE_NEAR_PLACEHOLDER,
   ROPSTEN_WETH_ADDRESS,
   ROPSTEN_WETH_DECIMALS,
   SOLANA_HOST,
@@ -834,7 +835,7 @@ const getNearParsedTokenAccounts = async (
     const balance = await account.getAccountBalance();
     const nativeNear = createParsedTokenAccount(
       walletAddress, //publicKey
-      "",
+      NATIVE_NEAR_PLACEHOLDER, //the app doesn't like when this isn't truthy
       balance.available, //amount
       NATIVE_NEAR_DECIMALS,
       parseFloat(formatUnits(balance.available, NATIVE_NEAR_DECIMALS)),
