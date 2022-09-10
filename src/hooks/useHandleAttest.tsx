@@ -69,6 +69,7 @@ import {
 import {
   attestNearFromNear,
   attestTokenFromNear,
+  getEmitterAddressNear,
   makeNearAccount,
   parseSequenceFromLogNear,
 } from "../utils/near";
@@ -218,13 +219,13 @@ async function near(
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
     });
-    const emitterAddress = getEmitterAddressAlgorand(ALGORAND_TOKEN_BRIDGE_ID);
+    const emitterAddress = getEmitterAddressNear(NEAR_TOKEN_BRIDGE_ACCOUNT);
     enqueueSnackbar(null, {
       content: <Alert severity="info">Fetching VAA</Alert>,
     });
     const { vaaBytes } = await getSignedVAAWithRetry(
       WORMHOLE_RPC_HOSTS,
-      CHAIN_ID_ALGORAND,
+      CHAIN_ID_NEAR,
       emitterAddress,
       sequence
     );
