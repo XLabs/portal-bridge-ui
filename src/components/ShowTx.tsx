@@ -18,6 +18,7 @@ import {
   isTerraChain,
   CHAIN_ID_TERRA2,
 } from "@certusone/wormhole-sdk";
+import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk/lib/esm";
 import { Button, makeStyles, Typography } from "@material-ui/core";
 import { Transaction } from "../store/transferSlice";
 import { CLUSTER, getExplorerName } from "../utils/consts";
@@ -124,6 +125,10 @@ export default function ShowTx({
       ? `https://${CLUSTER === "testnet" ? "testnet." : ""}algoexplorer.io/tx/${
           tx?.id
         }`
+      : chainId === CHAIN_ID_NEAR
+      ? `https://explorer.${
+          CLUSTER === "testnet" ? "testnet." : ""
+        }near.org/transactions/${tx?.id}`
       : undefined;
   const explorerName = getExplorerName(chainId);
 

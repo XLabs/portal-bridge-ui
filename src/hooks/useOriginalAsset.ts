@@ -1,6 +1,7 @@
 import {
   ChainId,
   CHAIN_ID_ALGORAND,
+  CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   CHAIN_ID_TERRA2,
   getOriginalAssetAlgorand,
@@ -28,6 +29,7 @@ import {
   Provider,
   useEthereumProvider,
 } from "../contexts/EthereumProviderContext";
+import { useNearContext } from "../contexts/NearWalletContext";
 import { DataWrapper } from "../store/helpers";
 import {
   ALGORAND_HOST,
@@ -35,11 +37,19 @@ import {
   getNFTBridgeAddressForChain,
   getTerraConfig,
   getTokenBridgeAddressForChain,
+  NATIVE_NEAR_PLACEHOLDER,
+  NATIVE_NEAR_WH_ADDRESS,
+  NEAR_TOKEN_BRIDGE_ACCOUNT,
   SOLANA_HOST,
   SOLANA_SYSTEM_PROGRAM_ADDRESS,
   SOL_NFT_BRIDGE_ADDRESS,
   SOL_TOKEN_BRIDGE_ADDRESS,
 } from "../utils/consts";
+import {
+  getOriginalAssetNear,
+  lookupHash,
+  makeNearAccount,
+} from "../utils/near";
 import { queryExternalId } from "../utils/terra";
 import useIsWalletReady from "./useIsWalletReady";
 
@@ -52,7 +62,8 @@ export type OriginalAssetInfo = {
 export async function getOriginalAssetToken(
   foreignChain: ChainId,
   foreignNativeStringAddress: string,
-  provider?: Web3Provider
+  provider?: Web3Provider,
+  nearAccountId?: string | null
 ) {
   let promise = null;
   try {
@@ -87,6 +98,13 @@ export async function getOriginalAssetToken(
         algodClient,
         ALGORAND_TOKEN_BRIDGE_ID,
         BigInt(foreignNativeStringAddress)
+      );
+    } else if (foreignChain === CHAIN_ID_NEAR && nearAccountId) {
+      const account = await makeNearAccount(nearAccountId);
+      promise = await getOriginalAssetNear(
+        account,
+        NEAR_TOKEN_BRIDGE_ACCOUNT,
+        foreignNativeStringAddress
       );
     }
   } catch (e) {
@@ -137,7 +155,8 @@ export async function getOriginalAsset(
   foreignNativeStringAddress: string,
   nft: boolean,
   tokenId?: string,
-  provider?: Provider
+  provider?: Provider,
+  nearAccountId?: string | null
 ): Promise<WormholeWrappedNFTInfo> {
   const result = nft
     ? await getOriginalAssetNFT(
@@ -149,7 +168,8 @@ export async function getOriginalAsset(
     : await getOriginalAssetToken(
         foreignChain,
         foreignNativeStringAddress,
-        provider
+        provider,
+        nearAccountId
       );
 
   if (
@@ -178,6 +198,7 @@ function useOriginalAsset(
   tokenId?: string
 ): DataWrapper<OriginalAssetInfo> {
   const { provider } = useEthereumProvider();
+  const { accountId: nearAccountId } = useNearContext();
   const { isReady } = useIsWalletReady(foreignChain, false);
   const [originAddress, setOriginAddress] = useState<string | null>(null);
   const [originTokenId, setOriginTokenId] = useState<string | null>(null);
@@ -222,10 +243,26 @@ function useOriginalAsset(
     if (argumentError) {
       return;
     }
+    // short circuit for near native
+    if (
+      foreignChain === CHAIN_ID_NEAR &&
+      foreignAddress === NATIVE_NEAR_PLACEHOLDER
+    ) {
+      setOriginChain(CHAIN_ID_NEAR);
+      setOriginAddress(NATIVE_NEAR_PLACEHOLDER);
+      return;
+    }
     let cancelled = false;
     setIsLoading(true);
 
-    getOriginalAsset(foreignChain, foreignAddress, nft, tokenId, provider)
+    getOriginalAsset(
+      foreignChain,
+      foreignAddress,
+      nft,
+      tokenId,
+      provider,
+      nearAccountId
+    )
       .then((result) => {
         if (!cancelled) {
           setIsLoading(false);
@@ -234,6 +271,24 @@ function useOriginalAsset(
             queryExternalId(uint8ArrayToHex(result.assetAddress)).then(
               (tokenId) => setOriginAddress(tokenId || null)
             );
+          } else if (result.chainId === CHAIN_ID_NEAR) {
+            if (
+              uint8ArrayToHex(result.assetAddress) === NATIVE_NEAR_WH_ADDRESS
+            ) {
+              setOriginAddress(NATIVE_NEAR_PLACEHOLDER);
+            } else if (nearAccountId) {
+              makeNearAccount(nearAccountId).then((account) => {
+                lookupHash(
+                  account,
+                  NEAR_TOKEN_BRIDGE_ACCOUNT,
+                  uint8ArrayToHex(result.assetAddress)
+                ).then((tokenAccount) => {
+                  if (!cancelled) {
+                    setOriginAddress(tokenAccount[1] || null);
+                  }
+                });
+              });
+            }
           } else {
             setOriginAddress(
               hexToNativeAssetString(
@@ -261,6 +316,7 @@ function useOriginalAsset(
     argumentError,
     tokenId,
     argsEqual,
+    nearAccountId,
   ]);
 
   const output: DataWrapper<OriginalAssetInfo> = useMemo(

@@ -1,7 +1,9 @@
 import {
   ChainId,
   CHAIN_ID_ALGORAND,
+  CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
+  CHAIN_ID_TERRA2,
   getForeignAssetAlgorand,
   getForeignAssetEth,
   getForeignAssetSolana,
@@ -25,9 +27,19 @@ import {
   SOLANA_HOST,
   SOL_TOKEN_BRIDGE_ADDRESS,
   getTerraConfig,
+  NEAR_TOKEN_BRIDGE_ACCOUNT,
+  NATIVE_NEAR_PLACEHOLDER,
+  NATIVE_NEAR_WH_ADDRESS,
 } from "../utils/consts";
 import useIsWalletReady from "./useIsWalletReady";
 import { Algodv2 } from "algosdk";
+import {
+  getEmitterAddressNear,
+  getForeignAssetNear,
+  makeNearAccount,
+} from "../utils/near";
+import { useNearContext } from "../contexts/NearWalletContext";
+import { buildTokenId } from "@certusone/wormhole-sdk/lib/esm/cosmwasm/address";
 
 export type ForeignAssetInfo = {
   doesExist: boolean;
@@ -43,6 +55,7 @@ function useFetchForeignAsset(
   const { isReady } = useIsWalletReady(foreignChain, false);
   const correctEvmNetwork = getEvmChainId(foreignChain);
   const hasCorrectEvmNetwork = evmChainId === correctEvmNetwork;
+  const { accountId: nearAccountId } = useNearContext();
 
   const [assetAddress, setAssetAddress] = useState<string | null>(null);
   const [doesExist, setDoesExist] = useState<boolean | null>(null);
@@ -50,6 +63,15 @@ function useFetchForeignAsset(
   const [isLoading, setIsLoading] = useState(false);
   const originAssetHex = useMemo(() => {
     try {
+      if (originChain === CHAIN_ID_TERRA2) {
+        return buildTokenId(originAsset);
+      }
+      if (originChain === CHAIN_ID_NEAR) {
+        if (originAsset === NATIVE_NEAR_PLACEHOLDER) {
+          return NATIVE_NEAR_WH_ADDRESS;
+        }
+        return getEmitterAddressNear(originAsset);
+      }
       return nativeToHexString(originAsset, originChain);
     } catch (e) {
       return null;
@@ -148,6 +170,19 @@ function useFetchForeignAsset(
               originAssetHex
             );
           }
+        : foreignChain === CHAIN_ID_NEAR && nearAccountId
+        ? () => {
+            return makeNearAccount(nearAccountId)
+              .then((account) =>
+                getForeignAssetNear(
+                  account,
+                  NEAR_TOKEN_BRIDGE_ACCOUNT,
+                  originChain,
+                  originAssetHex
+                )
+              )
+              .catch(() => Promise.reject("Failed to make Near account"));
+          }
         : () => Promise.resolve(null);
 
       getterFunc()
@@ -193,6 +228,7 @@ function useFetchForeignAsset(
     provider,
     setArgs,
     argsEqual,
+    nearAccountId,
   ]);
 
   const compoundError = useMemo(() => {

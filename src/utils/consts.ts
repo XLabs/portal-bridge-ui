@@ -11,6 +11,7 @@ import {
   CHAIN_ID_FANTOM,
   CHAIN_ID_KARURA,
   CHAIN_ID_KLAYTN,
+  CHAIN_ID_NEAR,
   CHAIN_ID_NEON,
   CHAIN_ID_OASIS,
   CHAIN_ID_POLYGON,
@@ -41,6 +42,8 @@ import polygonIcon from "../icons/polygon.svg";
 import solanaIcon from "../icons/solana.svg";
 import terraIcon from "../icons/terra.svg";
 import terra2Icon from "../icons/terra2.svg";
+import nearIcon from "../icons/near.svg";
+import { ConnectConfig, keyStores } from "near-api-js";
 
 export type Cluster = "devnet" | "testnet" | "mainnet";
 export const CLUSTER: Cluster =
@@ -106,6 +109,11 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_KLAYTN,
           name: "Klaytn",
           logo: klaytnIcon,
+        },
+        {
+          id: CHAIN_ID_NEAR,
+          name: "Near",
+          logo: nearIcon,
         },
         {
           id: CHAIN_ID_OASIS,
@@ -191,6 +199,11 @@ export const CHAINS: ChainInfo[] =
           logo: klaytnIcon,
         },
         {
+          id: CHAIN_ID_NEAR,
+          name: "Near",
+          logo: nearIcon,
+        },
+        {
           id: CHAIN_ID_NEON,
           name: "Neon",
           logo: neonIcon,
@@ -236,6 +249,11 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_ETH,
           name: "Ethereum",
           logo: ethIcon,
+        },
+        {
+          id: CHAIN_ID_NEAR,
+          name: "Near",
+          logo: nearIcon,
         },
         {
           id: CHAIN_ID_SOLANA,
@@ -846,6 +864,20 @@ export const ALGORAND_TOKEN_BRIDGE_ID = BigInt(
 export const ALGORAND_WAIT_FOR_CONFIRMATIONS =
   CLUSTER === "mainnet" ? 4 : CLUSTER === "testnet" ? 4 : 1;
 
+export const NEAR_CORE_BRIDGE_ACCOUNT =
+  CLUSTER === "mainnet"
+    ? "contract.wormhole_crypto.near"
+    : CLUSTER === "testnet"
+    ? "wormhole.wormhole.testnet"
+    : "wormhole.test.near";
+
+export const NEAR_TOKEN_BRIDGE_ACCOUNT =
+  CLUSTER === "mainnet"
+    ? "contract.portalbridge.near"
+    : CLUSTER === "testnet"
+    ? "token.wormhole.testnet"
+    : "token.test.near";
+
 export const getBridgeAddressForChain = (chainId: ChainId) =>
   chainId === CHAIN_ID_SOLANA
     ? SOL_BRIDGE_ADDRESS
@@ -1408,6 +1440,40 @@ export const getTerraFCDBaseUrl = (chainId: TerraChainId) =>
     : "http://localhost:3060";
 export const getTerraGasPricesUrl = (chainId: TerraChainId) =>
   `${getTerraFCDBaseUrl(chainId)}/v1/txs/gas_prices`;
+
+export const nearKeyStore = new keyStores.BrowserLocalStorageKeyStore();
+
+export const getNearConnectionConfig = (): ConnectConfig =>
+  CLUSTER === "mainnet"
+    ? {
+        networkId: "mainnet",
+        keyStore: nearKeyStore,
+        nodeUrl: "https://rpc.mainnet.near.org",
+        walletUrl: "https://wallet.mainnet.near.org",
+        helperUrl: "https://helper.mainnet.near.org",
+        headers: {},
+      }
+    : CLUSTER === "testnet"
+    ? {
+        networkId: "testnet",
+        keyStore: nearKeyStore,
+        nodeUrl: "https://rpc.testnet.near.org",
+        walletUrl: "https://wallet.testnet.near.org",
+        helperUrl: "https://helper.testnet.near.org",
+        headers: {},
+      }
+    : {
+        networkId: "sandbox",
+        keyStore: nearKeyStore,
+        nodeUrl: "http://localhost:3030",
+        helperUrl: "",
+        headers: {},
+      };
+
+export const NATIVE_NEAR_DECIMALS = 24;
+export const NATIVE_NEAR_PLACEHOLDER = "near";
+export const NATIVE_NEAR_WH_ADDRESS =
+  "0000000000000000000000000000000000000000000000000000000000000000";
 
 export const TOTAL_TRANSACTIONS_WORMHOLE = `https://europe-west3-wormhole-315720.cloudfunctions.net/mainnet-totals?groupBy=address`;
 

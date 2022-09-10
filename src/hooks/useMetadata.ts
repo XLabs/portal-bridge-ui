@@ -1,6 +1,7 @@
 import {
   ChainId,
   CHAIN_ID_ALGORAND,
+  CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   CHAIN_ID_TERRA2,
   isEVMChain,
@@ -15,6 +16,7 @@ import { Metadata } from "../utils/metaplex";
 import useAlgoMetadata, { AlgoMetadata } from "./useAlgoMetadata";
 import useEvmMetadata, { EvmMetadata } from "./useEvmMetadata";
 import useMetaplexData from "./useMetaplexData";
+import useNearMetadata from "./useNearMetadata";
 import useSolanaTokenMap from "./useSolanaTokenMap";
 import useTerraMetadata, { TerraMetadata } from "./useTerraMetadata";
 import useTerraTokenMap, { TerraTokenMap } from "./useTerraTokenMap";
@@ -165,6 +167,9 @@ export default function useMetadata(
   const algoAddresses = useMemo(() => {
     return chainId === CHAIN_ID_ALGORAND ? addresses : [];
   }, [chainId, addresses]);
+  const nearAddresses = useMemo(() => {
+    return chainId === CHAIN_ID_NEAR ? addresses : [];
+  }, [chainId, addresses]);
 
   const metaplexData = useMetaplexData(solanaAddresses);
   const terraMetadata = useTerraMetadata(
@@ -173,6 +178,7 @@ export default function useMetadata(
   );
   const ethMetadata = useEvmMetadata(ethereumAddresses, chainId);
   const algoMetadata = useAlgoMetadata(algoAddresses);
+  const nearMetadata = useNearMetadata(nearAddresses);
 
   const output: DataWrapper<Map<string, GenericMetadata>> = useMemo(
     () =>
@@ -189,6 +195,8 @@ export default function useMetadata(
           )
         : chainId === CHAIN_ID_ALGORAND
         ? constructAlgoMetadata(algoAddresses, algoMetadata)
+        : chainId === CHAIN_ID_NEAR
+        ? constructAlgoMetadata(nearAddresses, nearMetadata)
         : getEmptyDataWrapper(),
     [
       chainId,
@@ -202,6 +210,8 @@ export default function useMetadata(
       terraTokenMap,
       algoAddresses,
       algoMetadata,
+      nearAddresses,
+      nearMetadata,
     ]
   );
 

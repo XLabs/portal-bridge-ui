@@ -23,7 +23,9 @@ import {
   transferNativeSol,
   uint8ArrayToHex,
 } from "@certusone/wormhole-sdk";
+import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk/lib/esm";
 import { Alert } from "@material-ui/lab";
+import { Wallet } from "@near-wallet-selector/core";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import { Connection } from "@solana/web3.js";
 import {
@@ -38,6 +40,7 @@ import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlgorandContext } from "../contexts/AlgorandWalletContext";
 import { useEthereumProvider } from "../contexts/EthereumProviderContext";
+import { useNearContext } from "../contexts/NearWalletContext";
 import { useSolanaWallet } from "../contexts/SolanaWalletContext";
 import {
   selectTerraFeeDenom,
@@ -54,8 +57,8 @@ import {
   selectTransferTargetChain,
 } from "../store/selectors";
 import {
-  setIsVAAPending,
   setIsSending,
+  setIsVAAPending,
   setSignedVAAHex,
   setTransferTx,
 } from "../store/transferSlice";
@@ -66,11 +69,22 @@ import {
   ALGORAND_TOKEN_BRIDGE_ID,
   getBridgeAddressForChain,
   getTokenBridgeAddressForChain,
+  NATIVE_NEAR_PLACEHOLDER,
+  NEAR_CORE_BRIDGE_ACCOUNT,
+  NEAR_TOKEN_BRIDGE_ACCOUNT,
   SOLANA_HOST,
   SOL_BRIDGE_ADDRESS,
   SOL_TOKEN_BRIDGE_ADDRESS,
 } from "../utils/consts";
 import { getSignedVAAWithRetry } from "../utils/getSignedVAAWithRetry";
+import {
+  getEmitterAddressNear,
+  makeNearAccount,
+  parseSequenceFromLogNear,
+  signAndSendTransactions,
+  transferNearFromNear,
+  transferTokenFromNear,
+} from "../utils/near";
 import parseError from "../utils/parseError";
 import { signSendAndConfirm } from "../utils/solana";
 import { postWithFees, waitForTerraExecution } from "../utils/terra";
@@ -249,6 +263,70 @@ async function evm(
   }
 }
 
+async function near(
+  dispatch: any,
+  enqueueSnackbar: any,
+  wallet: Wallet,
+  senderAddr: string,
+  tokenAddress: string,
+  decimals: number,
+  amount: string,
+  recipientChain: ChainId,
+  recipientAddress: Uint8Array,
+  chainId: ChainId,
+  relayerFee?: string
+) {
+  dispatch(setIsSending(true));
+  try {
+    const baseAmountParsed = parseUnits(amount, decimals);
+    const feeParsed = parseUnits(relayerFee || "0", decimals);
+    const transferAmountParsed = baseAmountParsed.add(feeParsed);
+    const account = await makeNearAccount(senderAddr);
+    const msgs =
+      tokenAddress === NATIVE_NEAR_PLACEHOLDER
+        ? await transferNearFromNear(
+            account,
+            NEAR_CORE_BRIDGE_ACCOUNT,
+            NEAR_TOKEN_BRIDGE_ACCOUNT,
+            transferAmountParsed.toBigInt(),
+            recipientAddress,
+            recipientChain,
+            feeParsed.toBigInt()
+          )
+        : await transferTokenFromNear(
+            account,
+            NEAR_CORE_BRIDGE_ACCOUNT,
+            NEAR_TOKEN_BRIDGE_ACCOUNT,
+            tokenAddress,
+            transferAmountParsed.toBigInt(),
+            recipientAddress,
+            recipientChain,
+            feeParsed.toBigInt()
+          );
+    const receipt = await signAndSendTransactions(account, wallet, msgs);
+    const sequence = parseSequenceFromLogNear(receipt);
+    dispatch(
+      setTransferTx({
+        id: receipt.transaction_outcome.id,
+        block: 0,
+      })
+    );
+    enqueueSnackbar(null, {
+      content: <Alert severity="success">Transaction confirmed</Alert>,
+    });
+    const emitterAddress = getEmitterAddressNear(NEAR_TOKEN_BRIDGE_ACCOUNT);
+    await fetchSignedVAA(
+      chainId,
+      emitterAddress,
+      sequence,
+      enqueueSnackbar,
+      dispatch
+    );
+  } catch (e) {
+    handleError(e, enqueueSnackbar, dispatch);
+  }
+}
+
 async function solana(
   dispatch: any,
   enqueueSnackbar: any,
@@ -404,6 +482,7 @@ export function useHandleTransfer() {
   const terraWallet = useConnectedWallet();
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
   const { accounts: algoAccounts } = useAlgorandContext();
+  const { accountId: nearAccountId, wallet } = useNearContext();
   const sourceParsedTokenAccount = useSelector(
     selectTransferSourceParsedTokenAccount
   );
@@ -501,6 +580,27 @@ export function useHandleTransfer() {
         sourceChain,
         relayerFee
       );
+    } else if (
+      sourceChain === CHAIN_ID_NEAR &&
+      nearAccountId &&
+      wallet &&
+      !!sourceAsset &&
+      decimals !== undefined &&
+      !!targetAddress
+    ) {
+      near(
+        dispatch,
+        enqueueSnackbar,
+        wallet,
+        nearAccountId,
+        sourceAsset,
+        decimals,
+        amount,
+        targetChain,
+        targetAddress,
+        sourceChain,
+        relayerFee
+      );
     } else {
     }
   }, [
@@ -523,6 +623,8 @@ export function useHandleTransfer() {
     isNative,
     terraFeeDenom,
     algoAccounts,
+    nearAccountId,
+    wallet,
   ]);
   return useMemo(
     () => ({

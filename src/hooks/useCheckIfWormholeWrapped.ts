@@ -1,6 +1,7 @@
 import {
   ChainId,
   CHAIN_ID_ALGORAND,
+  CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   getOriginalAssetAlgorand,
   getOriginalAssetCosmWasm,
@@ -21,6 +22,7 @@ import { Algodv2 } from "algosdk";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEthereumProvider } from "../contexts/EthereumProviderContext";
+import { useNearContext } from "../contexts/NearWalletContext";
 import { setSourceWormholeWrappedInfo as setNFTSourceWormholeWrappedInfo } from "../store/nftSlice";
 import {
   selectNFTIsRecovery,
@@ -38,10 +40,13 @@ import {
   getNFTBridgeAddressForChain,
   getTerraConfig,
   getTokenBridgeAddressForChain,
+  NATIVE_NEAR_PLACEHOLDER,
+  NEAR_TOKEN_BRIDGE_ACCOUNT,
   SOLANA_HOST,
   SOL_NFT_BRIDGE_ADDRESS,
   SOL_TOKEN_BRIDGE_ADDRESS,
 } from "../utils/consts";
+import { getOriginalAssetNear, makeNearAccount } from "../utils/near";
 
 export interface StateSafeWormholeWrappedInfo {
   isWrapped: boolean;
@@ -76,6 +81,7 @@ function useCheckIfWormholeWrapped(nft?: boolean) {
     ? setNFTSourceWormholeWrappedInfo
     : setTransferSourceWormholeWrappedInfo;
   const { provider } = useEthereumProvider();
+  const { accountId: nearAccountId } = useNearContext();
   const isRecovery = useSelector(
     nft ? selectNFTIsRecovery : selectTransferIsRecovery
   );
@@ -158,6 +164,25 @@ function useCheckIfWormholeWrapped(nft?: boolean) {
           }
         } catch (e) {}
       }
+      if (
+        sourceChain === CHAIN_ID_NEAR &&
+        nearAccountId &&
+        sourceAsset !== undefined
+      ) {
+        try {
+          const account = await makeNearAccount(nearAccountId);
+          const wrappedInfo = makeStateSafe(
+            await getOriginalAssetNear(
+              account,
+              NEAR_TOKEN_BRIDGE_ACCOUNT,
+              sourceAsset === NATIVE_NEAR_PLACEHOLDER ? "" : sourceAsset
+            )
+          );
+          if (!cancelled) {
+            dispatch(setSourceWormholeWrappedInfo(wrappedInfo));
+          }
+        } catch (e) {}
+      }
     })();
     return () => {
       cancelled = true;
@@ -171,6 +196,7 @@ function useCheckIfWormholeWrapped(nft?: boolean) {
     nft,
     setSourceWormholeWrappedInfo,
     tokenId,
+    nearAccountId,
   ]);
 }
 
