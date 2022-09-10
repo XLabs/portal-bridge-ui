@@ -11,6 +11,7 @@ import {
   CHAIN_ID_FANTOM,
   CHAIN_ID_KARURA,
   CHAIN_ID_KLAYTN,
+  CHAIN_ID_NEAR,
   CHAIN_ID_NEON,
   CHAIN_ID_OASIS,
   CHAIN_ID_POLYGON,
@@ -33,6 +34,7 @@ import { Algodv2 } from "algosdk";
 import axios from "axios";
 import { ethers } from "ethers";
 import { formatUnits } from "ethers/lib/utils";
+import { connect } from "near-api-js";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlgorandContext } from "../contexts/AlgorandWalletContext";
@@ -40,6 +42,7 @@ import {
   Provider,
   useEthereumProvider,
 } from "../contexts/EthereumProviderContext";
+import { useNearContext } from "../contexts/NearWalletContext";
 import { useSolanaWallet } from "../contexts/SolanaWalletContext";
 import acalaIcon from "../icons/acala.svg";
 import auroraIcon from "../icons/aurora.svg";
@@ -85,11 +88,16 @@ import {
   ACA_DECIMALS,
   ALGORAND_HOST,
   ALGO_DECIMALS,
-  COVALENT_GET_TOKENS_URL,
   BLOCKSCOUT_GET_TOKENS_URL,
+  CELO_ADDRESS,
+  CELO_DECIMALS,
+  COVALENT_GET_TOKENS_URL,
+  getDefaultNativeCurrencyAddressEvm,
+  getNearConnectionConfig,
   KAR_ADDRESS,
   KAR_DECIMALS,
   logoOverrides,
+  NATIVE_NEAR_DECIMALS,
   ROPSTEN_WETH_ADDRESS,
   ROPSTEN_WETH_DECIMALS,
   SOLANA_HOST,
@@ -97,8 +105,6 @@ import {
   WAVAX_DECIMALS,
   WBNB_ADDRESS,
   WBNB_DECIMALS,
-  CELO_ADDRESS,
-  CELO_DECIMALS,
   WETH_ADDRESS,
   WETH_AURORA_ADDRESS,
   WETH_AURORA_DECIMALS,
@@ -110,10 +116,9 @@ import {
   WMATIC_ADDRESS,
   WMATIC_DECIMALS,
   WNEON_ADDRESS,
-  WNEON_DECIMALS,  
+  WNEON_DECIMALS,
   WROSE_ADDRESS,
   WROSE_DECIMALS,
-  getDefaultNativeCurrencyAddressEvm,
 } from "../utils/consts";
 import {
   ExtractedMintInfo,
@@ -811,6 +816,45 @@ const getAlgorandParsedTokenAccounts = async (
   }
 };
 
+const getNearParsedTokenAccounts = async (
+  walletAddress: string,
+  dispatch: Dispatch,
+  nft: boolean
+) => {
+  dispatch(
+    nft ? fetchSourceParsedTokenAccountsNFT() : fetchSourceParsedTokenAccounts()
+  );
+  try {
+    if (nft) {
+      dispatch(receiveSourceParsedTokenAccountsNFT([]));
+      return;
+    }
+    const nearConnection = await connect(getNearConnectionConfig());
+    const account = await nearConnection.account(walletAddress);
+    const balance = await account.getAccountBalance();
+    const nativeNear = createParsedTokenAccount(
+      walletAddress, //publicKey
+      "",
+      balance.available, //amount
+      NATIVE_NEAR_DECIMALS,
+      parseFloat(formatUnits(balance.available, NATIVE_NEAR_DECIMALS)),
+      formatUnits(balance.available, NATIVE_NEAR_DECIMALS).toString(),
+      "NEAR",
+      "Near",
+      undefined, //TODO logo
+      true
+    );
+    dispatch(receiveSourceParsedTokenAccounts([nativeNear]));
+  } catch (e) {
+    console.error(e);
+    dispatch(
+      nft
+        ? errorSourceParsedTokenAccountsNFT("Failed to load NFT metadata")
+        : errorSourceParsedTokenAccounts("Failed to load token metadata.")
+    );
+  }
+};
+
 /**
  * Fetches the balance of an asset for the connected wallet
  * This should handle every type of chain in the future, but only reads the Transfer state.
@@ -831,6 +875,7 @@ function useGetAvailableTokens(nft: boolean = false) {
   const solPK = solanaWallet?.publicKey;
   const { provider, signerAddress } = useEthereumProvider();
   const { accounts: algoAccounts } = useAlgorandContext();
+  const { accountId: nearAccountId } = useNearContext();
 
   const [covalent, setCovalent] = useState<any>(undefined);
   const [covalentLoading, setCovalentLoading] = useState(false);
@@ -862,6 +907,8 @@ function useGetAvailableTokens(nft: boolean = false) {
     ? solPK?.toString()
     : lookupChain === CHAIN_ID_ALGORAND
     ? algoAccounts[0]?.address
+    : lookupChain === CHAIN_ID_NEAR
+    ? nearAccountId || undefined
     : undefined;
 
   const resetSourceAccounts = useCallback(() => {
@@ -1376,7 +1423,7 @@ function useGetAvailableTokens(nft: boolean = false) {
       cancelled = true;
     };
   }, [lookupChain, provider, signerAddress, nft, ethNativeAccount]);
-  
+
   useEffect(() => {
     let cancelled = false;
     if (
@@ -1513,6 +1560,18 @@ function useGetAvailableTokens(nft: boolean = false) {
 
     return () => {};
   }, [dispatch, lookupChain, currentSourceWalletAddress, tokenAccounts, nft]);
+  //Near accounts load
+  useEffect(() => {
+    if (lookupChain === CHAIN_ID_NEAR && currentSourceWalletAddress) {
+      if (
+        !(tokenAccounts.data || tokenAccounts.isFetching || tokenAccounts.error)
+      ) {
+        getNearParsedTokenAccounts(currentSourceWalletAddress, dispatch, nft);
+      }
+    }
+
+    return () => {};
+  }, [dispatch, lookupChain, currentSourceWalletAddress, tokenAccounts, nft]);
 
   const ethAccounts = useMemo(() => {
     const output = { ...tokenAccounts };
@@ -1555,6 +1614,11 @@ function useGetAvailableTokens(nft: boolean = false) {
         resetAccounts: resetSourceAccounts,
       }
     : lookupChain === CHAIN_ID_ALGORAND
+    ? {
+        tokenAccounts,
+        resetAccounts: resetSourceAccounts,
+      }
+    : lookupChain === CHAIN_ID_NEAR
     ? {
         tokenAccounts,
         resetAccounts: resetSourceAccounts,
