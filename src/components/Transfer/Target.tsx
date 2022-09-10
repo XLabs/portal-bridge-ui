@@ -104,14 +104,6 @@ function Target() {
     logo,
     readableTargetAddress,
   } = useTargetInfo();
-  console.log(
-    targetChain,
-    targetAsset,
-    tokenName,
-    symbol,
-    logo,
-    readableTargetAddress
-  );
   const uiAmountString = useSelector(selectTransferTargetBalanceString);
   const transferAmount = useSelector(selectTransferAmount);
   const error = useSelector(selectTransferTargetError);

@@ -178,13 +178,10 @@ function useCheckIfWormholeWrapped(nft?: boolean) {
               sourceAsset === NATIVE_NEAR_PLACEHOLDER ? "" : sourceAsset
             )
           );
-          console.log(wrappedInfo);
           if (!cancelled) {
             dispatch(setSourceWormholeWrappedInfo(wrappedInfo));
           }
-        } catch (e) {
-          console.log(e);
-        }
+        } catch (e) {}
       }
     })();
     return () => {

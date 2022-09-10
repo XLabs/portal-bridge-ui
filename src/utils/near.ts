@@ -20,23 +20,6 @@ import { getNearConnectionConfig } from "./consts";
 export const makeNearAccount = async (senderAddr: string) =>
   await (await connect(getNearConnectionConfig())).account(senderAddr);
 
-// export async function createFullAccessKey(account: Account) {
-//   console.log(await account.getAccessKeys());
-//   let foundKey;
-//   do {
-//     foundKey = await account.findAccessKey(NEAR_TOKEN_BRIDGE_ACCOUNT, []);
-//     if (foundKey?.publicKey) {
-//       console.log("deleting key", foundKey);
-//       await account.deleteKey(foundKey.publicKey);
-//     }
-//   } while (foundKey);
-//   const keyPair = KeyPair.fromRandom("ed25519");
-//   const publicKey = keyPair.getPublicKey().toString();
-//   const config = getNearConnectionConfig();
-//   await nearKeyStore.setKey(config.networkId, publicKey, keyPair);
-//   await account.addKey(publicKey, NEAR_TOKEN_BRIDGE_ACCOUNT);
-// }
-
 export function getIsWrappedAssetNear(
   tokenBridge: string,
   asset: string
@@ -225,7 +208,6 @@ export async function transferNearFromNear(
   payload: string = ""
 ): Promise<FinalExecutionOutcome> {
   let message_fee = await client.viewFunction(coreBridge, "message_fee", {});
-  console.log("message_fee", message_fee);
 
   return await client.functionCall({
     contractId: tokenBridge,
@@ -347,6 +329,32 @@ export async function redeemOnNear(
       vaa: uint8ArrayToHex(vaa),
     },
     attachedDeposit: new BN("100000000000000000000000"),
+    gas: new BN("150000000000000"),
+  });
+}
+
+export async function createWrappedOnNear(
+  client: Account,
+  tokenBridge: string,
+  attestVAA: Uint8Array
+): Promise<FinalExecutionOutcome> {
+  let vaa = Buffer.from(attestVAA).toString("hex");
+
+  let res = await client.viewFunction(tokenBridge, "deposit_estimates", {});
+
+  await client.functionCall({
+    contractId: tokenBridge,
+    methodName: "submit_vaa",
+    args: { vaa: vaa },
+    attachedDeposit: new BN(res[1]),
+    gas: new BN("150000000000000"),
+  });
+
+  return await client.functionCall({
+    contractId: tokenBridge,
+    methodName: "submit_vaa",
+    args: { vaa: vaa },
+    attachedDeposit: new BN(res[1]),
     gas: new BN("150000000000000"),
   });
 }

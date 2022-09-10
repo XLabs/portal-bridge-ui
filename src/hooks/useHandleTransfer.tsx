@@ -300,9 +300,7 @@ async function near(
             recipientChain,
             feeParsed.toBigInt()
           );
-    console.log(receipt);
     const sequence = parseSequenceFromLogNear(receipt);
-    console.log(sequence);
     dispatch(
       setTransferTx({
         id: receipt.transaction_outcome.id,
@@ -313,7 +311,6 @@ async function near(
       content: <Alert severity="success">Transaction confirmed</Alert>,
     });
     const emitterAddress = getEmitterAddressNear(NEAR_TOKEN_BRIDGE_ACCOUNT);
-    console.log(emitterAddress);
     await fetchSignedVAA(
       chainId,
       emitterAddress,

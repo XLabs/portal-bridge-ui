@@ -19,6 +19,7 @@ import {
   isTerraChain,
   CHAIN_ID_TERRA2,
   TerraChainId,
+  CHAIN_ID_NEAR,
 } from "@certusone/wormhole-sdk";
 import { Button, makeStyles, Tooltip, Typography } from "@material-ui/core";
 import { FileCopy, OpenInNew } from "@material-ui/icons";
@@ -188,6 +189,10 @@ export default function SmartAddress({
     ? `https://${CLUSTER === "testnet" ? "testnet." : ""}algoexplorer.io/${
         isAsset ? "asset" : "address"
       }/${useableAddress}`
+    : chainId === CHAIN_ID_NEAR
+    ? `https://explorer.${
+        CLUSTER === "testnet" ? "testnet." : ""
+      }near.org/accounts/${useableAddress}`
     : undefined;
   const explorerName = getExplorerName(chainId);
 
