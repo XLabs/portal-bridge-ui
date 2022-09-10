@@ -224,7 +224,7 @@ function Send() {
       />
       {isVAAPending ? (
         <>
-          <PendingVAAWarning />
+          <PendingVAAWarning sourceChain={sourceChain}/>
           <ButtonWithLoader onClick={handleResetClick}>
             Transfer More Tokens!
           </ButtonWithLoader>
