@@ -1,6 +1,8 @@
 import {
   ChainId,
   CHAIN_ID_ETH,
+  CHAIN_ID_NEAR,
+  CHAIN_ID_TERRA2,
   hexToNativeAssetString,
 } from "@certusone/wormhole-sdk";
 import axios from "axios";
@@ -139,7 +141,11 @@ function useRelayerInfo(
 
   const originAssetNative =
     originAsset && originChain
-      ? hexToNativeAssetString(originAsset, originChain)
+      ? sourceParsedTokenAccount &&
+        (originChain === CHAIN_ID_TERRA2 || originChain === CHAIN_ID_NEAR)
+        ? // use preimage address
+          sourceParsedTokenAccount?.mintKey
+        : hexToNativeAssetString(originAsset, originChain)
       : null;
 
   useEffect(() => {

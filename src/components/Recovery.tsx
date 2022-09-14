@@ -399,7 +399,11 @@ export default function Recovery() {
   const { accountId: nearAccountId } = useNearContext();
   const { isReady, statusMessage } = useIsWalletReady(recoverySourceChain);
   const walletConnectError =
-    isEVMChain(recoverySourceChain) && !isReady ? statusMessage : "";
+    (isEVMChain(recoverySourceChain) ||
+      recoverySourceChain === CHAIN_ID_NEAR) &&
+    !isReady
+      ? statusMessage
+      : "";
   const parsedPayload = useMemo(() => {
     try {
       return recoveryParsedVAA?.payload
@@ -709,7 +713,8 @@ export default function Recovery() {
           margin="normal"
           chains={isNFT ? CHAINS_WITH_NFT_SUPPORT : CHAINS}
         />
-        {isEVMChain(recoverySourceChain) ? (
+        {isEVMChain(recoverySourceChain) ||
+        recoverySourceChain === CHAIN_ID_NEAR ? (
           <KeyAndBalance chainId={recoverySourceChain} />
         ) : null}
         <TextField

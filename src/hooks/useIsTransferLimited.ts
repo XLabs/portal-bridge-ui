@@ -25,6 +25,7 @@ interface AvailableNotionalByChainEntry {
   chainId: number;
   remainingAvailableNotional: number;
   notionalLimit: number;
+  bigTransactionSize: number;
 }
 
 interface AvailableNotionalByChain {
@@ -35,12 +36,16 @@ export interface ChainLimits {
   chainId: ChainId;
   chainNotionalLimit: number;
   chainRemainingAvailableNotional: number;
+  chainBigTransactionSize: number;
   tokenPrice: number;
 }
 
 export interface IsTransferLimitedResult {
   isLimited: boolean;
-  reason?: "EXCEEDS_REMAINING_NOTIONAL" | "EXCEEDS_MAX_NOTIONAL";
+  reason?:
+    | "EXCEEDS_REMAINING_NOTIONAL"
+    | "EXCEEDS_MAX_NOTIONAL"
+    | "EXCEEDS_LARGE_TRANSFER_LIMIT";
   limits?: ChainLimits;
 }
 
@@ -117,6 +122,8 @@ const useIsTransferLimited = (): IsTransferLimitedResult => {
           const isLimitedReason =
             transferNotional > chain.notionalLimit
               ? "EXCEEDS_MAX_NOTIONAL"
+              : transferNotional > chain.bigTransactionSize
+              ? "EXCEEDS_LARGE_TRANSFER_LIMIT"
               : transferNotional >
                 chain.remainingAvailableNotional * REMAINING_NOTIONAL_TOLERANCE
               ? "EXCEEDS_REMAINING_NOTIONAL"
@@ -128,6 +135,7 @@ const useIsTransferLimited = (): IsTransferLimitedResult => {
               chainId: sourceChain,
               chainNotionalLimit: chain.notionalLimit,
               chainRemainingAvailableNotional: chain.remainingAvailableNotional,
+              chainBigTransactionSize: chain.bigTransactionSize,
               tokenPrice: token.price,
             },
           };
