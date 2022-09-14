@@ -4,6 +4,7 @@ import {
   CHAIN_ID_ETH,
   CHAIN_ID_FANTOM,
   CHAIN_ID_KLAYTN,
+  CHAIN_ID_MOONBEAM,
   CHAIN_ID_NEON,
   CHAIN_ID_OASIS,
   CHAIN_ID_POLYGON,
@@ -28,6 +29,7 @@ import bnbIcon from "../icons/bnb.svg";
 import ethIcon from "../icons/eth.svg";
 import fantomIcon from "../icons/fantom.svg";
 import klaytnIcon from "../icons/klaytn.svg";
+import moonbeamIcon from "../icons/moonbeam.svg";
 import neonIcon from "../icons/neon.svg";
 import oasisIcon from "../icons/oasis-network-rose-logo.svg";
 import polygonIcon from "../icons/polygon.svg";
@@ -48,6 +50,8 @@ import {
   WETH_DECIMALS,
   WFTM_ADDRESS,
   WFTM_DECIMALS,
+  WGLMR_ADDRESS,
+  WGLMR_DECIMALS,
   WKLAY_ADDRESS,
   WKLAY_DECIMALS,
   WMATIC_ADDRESS,
@@ -143,6 +147,12 @@ const supportedTokens = {
     icon: neonIcon,
     address: WNEON_ADDRESS,
     decimals: WNEON_DECIMALS,
+  },
+  [CHAIN_ID_MOONBEAM]: {
+    symbol: "WGLMR",
+    icon: moonbeamIcon,
+    address: WGLMR_ADDRESS,
+    decimals: WGLMR_DECIMALS,
   },
 } as const;
 

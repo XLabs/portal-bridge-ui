@@ -192,6 +192,13 @@ export const METAMASK_CHAIN_PARAMETERS: {
     rpcUrls: ["https://testnet.aurora.dev"],
     blockExplorerUrls: ["https://testnet.aurorascan.dev"],
   },
+  1284: {
+    chainId: "0x504",
+    chainName: "Moonbeam",
+    nativeCurrency: { name: "Glimmer", symbol: "GLMR", decimals: 18 },
+    rpcUrls: ["https://rpc.ankr.com/moonbeam"],
+    blockExplorerUrls: ["https://moonscan.io"],
+  },
 };
 
 export interface EvmRpcMap {
