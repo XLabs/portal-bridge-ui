@@ -20,6 +20,7 @@ import {
   CHAIN_ID_TERRA2,
   TerraChainId,
   CHAIN_ID_NEAR,
+  CHAIN_ID_MOONBEAM,
 } from "@certusone/wormhole-sdk";
 import { Button, makeStyles, Tooltip, Typography } from "@material-ui/core";
 import { FileCopy, OpenInNew } from "@material-ui/icons";
@@ -193,6 +194,10 @@ export default function SmartAddress({
     ? `https://explorer.${
         CLUSTER === "testnet" ? "testnet." : ""
       }near.org/accounts/${useableAddress}`
+    : chainId === CHAIN_ID_MOONBEAM
+    ? `https://${CLUSTER === "testnet" ? "moonbase." : ""}moonscan.io/${
+        isAsset ? "token" : "address"
+      }/${useableAddress}`
     : undefined;
   const explorerName = getExplorerName(chainId);
 

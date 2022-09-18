@@ -11,6 +11,7 @@ import {
   CHAIN_ID_FANTOM,
   CHAIN_ID_KARURA,
   CHAIN_ID_KLAYTN,
+  CHAIN_ID_MOONBEAM,
   CHAIN_ID_NEAR,
   CHAIN_ID_NEON,
   CHAIN_ID_OASIS,
@@ -36,6 +37,7 @@ import ethIcon from "../icons/eth.svg";
 import fantomIcon from "../icons/fantom.svg";
 import karuraIcon from "../icons/karura.svg";
 import klaytnIcon from "../icons/klaytn.svg";
+import moonbeamIcon from "../icons/moonbeam.svg";
 import neonIcon from "../icons/neon.svg";
 import oasisIcon from "../icons/oasis-network-rose-logo.svg";
 import polygonIcon from "../icons/polygon.svg";
@@ -109,6 +111,11 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_KLAYTN,
           name: "Klaytn",
           logo: klaytnIcon,
+        },
+        {
+          id: CHAIN_ID_MOONBEAM,
+          name: "Moonbeam",
+          logo: moonbeamIcon,
         },
         {
           id: CHAIN_ID_NEAR,
@@ -288,7 +295,8 @@ export const CHAINS_WITH_NFT_SUPPORT = CHAINS.filter(
     id === CHAIN_ID_ACALA ||
     id === CHAIN_ID_KLAYTN ||
     id === CHAIN_ID_CELO ||
-    id === CHAIN_ID_NEON
+    id === CHAIN_ID_NEON ||
+    id === CHAIN_ID_MOONBEAM
 );
 export type ChainsById = { [key in ChainId]: ChainInfo };
 export const CHAINS_BY_ID: ChainsById = CHAINS.reduce((obj, chain) => {
@@ -330,6 +338,8 @@ export const getDefaultNativeCurrencySymbol = (chainId: ChainId) =>
     ? "CELO"
     : chainId === CHAIN_ID_NEON
     ? "NEON"
+    : chainId === CHAIN_ID_MOONBEAM
+    ? "GLMR"
     : "";
 
 export const getDefaultNativeCurrencyAddressEvm = (chainId: ChainId) => {
@@ -359,6 +369,8 @@ export const getDefaultNativeCurrencyAddressEvm = (chainId: ChainId) => {
     ? CELO_ADDRESS
     : chainId === CHAIN_ID_NEON
     ? WNEON_ADDRESS
+    : chainId === CHAIN_ID_MOONBEAM
+    ? WGLMR_ADDRESS
     : "";
 };
 
@@ -381,6 +393,8 @@ export const getExplorerName = (chainId: ChainId) =>
     ? "Klaytnscope"
     : chainId === CHAIN_ID_SOLANA
     ? "Solscan"
+    : chainId === CHAIN_ID_MOONBEAM
+    ? "Moonscan"
     : "Explorer";
 export const WORMHOLE_RPC_HOSTS =
   CLUSTER === "mainnet"
@@ -425,6 +439,8 @@ export const CELO_NETWORK_CHAIN_ID =
   CLUSTER === "mainnet" ? 42220 : CLUSTER === "testnet" ? 44787 : 1381;
 export const NEON_NETWORK_CHAIN_ID =
   CLUSTER === "mainnet" ? 245022934 : CLUSTER === "testnet" ? 245022926 : 1381;
+export const MOONBEAM_NETWORK_CHAIN_ID =
+  CLUSTER === "mainnet" ? 1284 : CLUSTER === "testnet" ? 1287 : 1381;
 export const getEvmChainId = (chainId: ChainId) =>
   chainId === CHAIN_ID_ETH
     ? ETH_NETWORK_CHAIN_ID
@@ -452,6 +468,8 @@ export const getEvmChainId = (chainId: ChainId) =>
     ? CELO_NETWORK_CHAIN_ID
     : chainId === CHAIN_ID_NEON
     ? NEON_NETWORK_CHAIN_ID
+    : chainId === CHAIN_ID_MOONBEAM
+    ? MOONBEAM_NETWORK_CHAIN_ID
     : undefined;
 export const SOLANA_HOST = process.env.REACT_APP_SOLANA_API_URL
   ? process.env.REACT_APP_SOLANA_API_URL
@@ -777,6 +795,27 @@ export const NEON_TOKEN_BRIDGE_ADDRESS = getAddress(
     ? CONTRACTS.TESTNET.neon.token_bridge
     : "0x0290FB167208Af455bB137780163b7B7a9a10C16"
 );
+export const MOONBEAM_BRIDGE_ADDRESS = getAddress(
+  CLUSTER === "mainnet"
+    ? CONTRACTS.MAINNET.moonbeam.core
+    : CLUSTER === "testnet"
+    ? CONTRACTS.TESTNET.moonbeam.core
+    : "0xC89Ce4735882C9F0f0FE26686c53074E09B0D550"
+);
+export const MOONBEAM_NFT_BRIDGE_ADDRESS = getAddress(
+  CLUSTER === "mainnet"
+    ? "0x453cfBe096C0f8D763E8C5F24B441097d577bdE2"
+    : CLUSTER === "testnet"
+    ? CONTRACTS.TESTNET.moonbeam.nft_bridge
+    : "0x26b4afb60d6c903165150c6f0aa14f8016be4aec"
+);
+export const MOONBEAM_TOKEN_BRIDGE_ADDRESS = getAddress(
+  CLUSTER === "mainnet"
+    ? "0xB1731c586ca89a23809861c6103F0b96B3F57D92"
+    : CLUSTER === "testnet"
+    ? CONTRACTS.TESTNET.moonbeam.token_bridge
+    : "0x0290FB167208Af455bB137780163b7B7a9a10C16"
+);
 export const SOL_BRIDGE_ADDRESS =
   CLUSTER === "mainnet"
     ? "worm2ZoG2kUd4vFXhvjh93UUH596ayRfgQ2MgjNMTth"
@@ -911,6 +950,8 @@ export const getBridgeAddressForChain = (chainId: ChainId) =>
     ? CELO_BRIDGE_ADDRESS
     : chainId === CHAIN_ID_NEON
     ? NEON_BRIDGE_ADDRESS
+    : chainId === CHAIN_ID_MOONBEAM
+    ? MOONBEAM_BRIDGE_ADDRESS
     : "";
 export const getNFTBridgeAddressForChain = (chainId: ChainId) =>
   chainId === CHAIN_ID_SOLANA
@@ -941,6 +982,8 @@ export const getNFTBridgeAddressForChain = (chainId: ChainId) =>
     ? CELO_NFT_BRIDGE_ADDRESS
     : chainId === CHAIN_ID_NEON
     ? NEON_NFT_BRIDGE_ADDRESS
+    : chainId === CHAIN_ID_MOONBEAM
+    ? MOONBEAM_NFT_BRIDGE_ADDRESS
     : "";
 export const getTokenBridgeAddressForChain = (chainId: ChainId) =>
   chainId === CHAIN_ID_SOLANA
@@ -973,8 +1016,8 @@ export const getTokenBridgeAddressForChain = (chainId: ChainId) =>
     ? KLAYTN_TOKEN_BRIDGE_ADDRESS
     : chainId === CHAIN_ID_CELO
     ? CELO_TOKEN_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_NEON
-    ? NEON_TOKEN_BRIDGE_ADDRESS
+    : chainId === CHAIN_ID_MOONBEAM
+    ? MOONBEAM_TOKEN_BRIDGE_ADDRESS
     : "";
 
 export const COVALENT_API_KEY = process.env.REACT_APP_COVALENT_API_KEY
@@ -992,6 +1035,8 @@ export const COVALENT_KLAYTN =
   CLUSTER === "mainnet" ? KLAYTN_NETWORK_CHAIN_ID : null; // Covalent only support mainnet
 export const COVALENT_CELO = CLUSTER === "devnet" ? null : null;
 export const COVALENT_NEON = CLUSTER === "devnet" ? null : null;
+export const COVALENT_MOONBEAM =
+  CLUSTER === "devnet" ? null : MOONBEAM_NETWORK_CHAIN_ID; // Covalent only supports mainnet
 export const COVALENT_GET_TOKENS_URL = (
   chainId: ChainId,
   walletAddress: string,
@@ -1015,6 +1060,8 @@ export const COVALENT_GET_TOKENS_URL = (
       ? COVALENT_CELO
       : chainId === CHAIN_ID_NEON
       ? COVALENT_NEON
+      : chainId === CHAIN_ID_MOONBEAM
+      ? COVALENT_MOONBEAM
       : "";
   // https://www.covalenthq.com/docs/api/#get-/v1/{chain_id}/address/{address}/balances_v2/
   return chainNum
@@ -1175,6 +1222,14 @@ export const WNEON_ADDRESS =
     ? "0xf8aD328E98f85fccbf09E43B16dcbbda7E84BEAB"
     : "0xDDb64fE46a91D46ee29420539FC25FD07c5FEa3E";
 export const WNEON_DECIMALS = 18;
+
+export const WGLMR_ADDRESS =
+  CLUSTER === "mainnet"
+    ? "0xAcc15dC74880C9944775448304B263D191c6077F"
+    : CLUSTER === "testnet"
+    ? "0xD909178CC99d318e4D46e7E66a972955859670E1"
+    : "0xDDb64fE46a91D46ee29420539FC25FD07c5FEa3E";
+export const WGLMR_DECIMALS = 18;
 
 export const ALGO_DECIMALS = 6;
 
