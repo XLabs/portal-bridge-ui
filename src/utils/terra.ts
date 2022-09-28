@@ -6,12 +6,12 @@ import {
   TerraChainId,
 } from "@certusone/wormhole-sdk";
 import { formatUnits } from "@ethersproject/units";
-import { LCDClient, isTxError } from "@terra-money/terra.js";
+import { Coin, Coins, Fee, isTxError, LCDClient } from "@terra-money/terra.js";
 import { ConnectedWallet, TxResult } from "@terra-money/wallet-provider";
 import axios from "axios";
 import {
-  getTerraGasPricesUrl,
   getTerraConfig,
+  getTerraGasPricesUrl,
   getTokenBridgeAddressForChain,
 } from "./consts";
 
@@ -115,12 +115,24 @@ export async function postWithFees(
     }
   );
 
+  // handle 1.2% "stability fee"
+  let stabilityFee = new Coins();
+  msgs.forEach((msg) => {
+    // coins doesn't support forEach or reduce
+    msg?.coins?.map((coin: Coin) => {
+      stabilityFee = stabilityFee.add(coin);
+      return undefined;
+    });
+  });
+  // this leaves the amount as a Dec - no bueno - convert that to Int, otherwise we'll get math/big: cannot unmarshal
+  stabilityFee = stabilityFee.mul(0.012).toIntCeilCoins();
+
   const result = await wallet.post({
     msgs: [...msgs],
     memo,
     feeDenoms,
     gasPrices,
-    fee: feeEstimate,
+    fee: new Fee(feeEstimate.gas_limit, feeEstimate.amount.add(stabilityFee)),
     // @ts-ignore, https://github.com/terra-money/terra.js/pull/295 (adding isClassic property)
     isClassic: lcd.config.isClassic,
   });
