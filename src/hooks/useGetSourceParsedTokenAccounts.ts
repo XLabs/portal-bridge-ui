@@ -794,23 +794,27 @@ const getAlgorandParsedTokenAccounts = async (
     for (const asset of accountInfo.assets) {
       const assetId = asset["asset-id"];
       const amount = asset.amount;
-      const metadata = await fetchSingleMetadata(assetId, algodClient);
-      const isNFT: boolean = amount === 1 && metadata.decimals === 0;
-      if (((nft && isNFT) || (!nft && !isNFT)) && amount > 0) {
-        parsedTokenAccounts.push(
-          createParsedTokenAccount(
-            walletAddress,
-            assetId.toString(),
-            amount,
-            metadata.decimals,
-            parseFloat(formatUnits(amount, metadata.decimals)),
-            formatUnits(amount, metadata.decimals).toString(),
-            metadata.symbol,
-            metadata.tokenName,
-            undefined,
-            false
-          )
-        );
+      try {
+        const metadata = await fetchSingleMetadata(assetId, algodClient);
+        const isNFT: boolean = amount === 1 && metadata.decimals === 0;
+        if (((nft && isNFT) || (!nft && !isNFT)) && amount > 0) {
+          parsedTokenAccounts.push(
+            createParsedTokenAccount(
+              walletAddress,
+              assetId.toString(),
+              amount,
+              metadata.decimals,
+              parseFloat(formatUnits(amount, metadata.decimals)),
+              formatUnits(amount, metadata.decimals).toString(),
+              metadata.symbol,
+              metadata.tokenName,
+              undefined,
+              false
+            )
+          );
+        }
+      } catch (e) {
+        console.error(`Failed to fetch metadata for Algorand asset ${assetId}`);
       }
     }
     if (nft) {

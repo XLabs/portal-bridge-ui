@@ -278,8 +278,7 @@ export const CHAINS: ChainInfo[] =
           logo: terra2Icon,
         },
       ];
-export const BETA_CHAINS: ChainId[] =
-  CLUSTER === "mainnet" ? [CHAIN_ID_ALGORAND] : [];
+export const BETA_CHAINS: ChainId[] = CLUSTER === "mainnet" ? [] : [];
 export const CHAINS_WITH_NFT_SUPPORT = CHAINS.filter(
   ({ id }) =>
     id === CHAIN_ID_AVAX ||
