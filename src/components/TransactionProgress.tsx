@@ -3,6 +3,7 @@ import {
   CHAIN_ID_ACALA,
   CHAIN_ID_AURORA,
   CHAIN_ID_CELO,
+  CHAIN_ID_ETH,
   CHAIN_ID_FANTOM,
   CHAIN_ID_KARURA,
   CHAIN_ID_KLAYTN,
@@ -49,7 +50,10 @@ export default function TransactionProgress({
         while (!cancelled) {
           await new Promise((resolve) => setTimeout(resolve, 500));
           try {
-            const newBlock = await provider.getBlockNumber();
+            const newBlock =
+              chainId === CHAIN_ID_ETH
+                ? (await provider.getBlock("finalized")).number
+                : await provider.getBlockNumber();
             if (!cancelled) {
               setCurrentBlock(newBlock);
             }
@@ -76,47 +80,63 @@ export default function TransactionProgress({
       };
     }
   }, [isSendComplete, chainId, provider, tx]);
-  const blockDiff =
-    tx && tx.block && currentBlock ? currentBlock - tx.block : undefined;
-  const expectedBlocks = // minimum confirmations enforced by guardians or specified by the contract
-    chainId === CHAIN_ID_POLYGON
-      ? CLUSTER === "testnet"
-        ? 64
-        : 512
-      : chainId === CHAIN_ID_OASIS ||
-        chainId === CHAIN_ID_AURORA ||
-        chainId === CHAIN_ID_FANTOM ||
-        chainId === CHAIN_ID_KARURA ||
-        chainId === CHAIN_ID_ACALA ||
-        chainId === CHAIN_ID_KLAYTN ||
-        chainId === CHAIN_ID_CELO ||
-        chainId === CHAIN_ID_MOONBEAM
-      ? 1 // these chains only require 1 conf
-      : chainId === CHAIN_ID_SOLANA
-      ? 32
-      : isEVMChain(chainId)
-      ? 15
-      : 1;
-  if (
-    !isSendComplete &&
-    (chainId === CHAIN_ID_SOLANA || isEVMChain(chainId)) &&
-    blockDiff !== undefined
-  ) {
-    return (
-      <div className={classes.root}>
-        <LinearProgress
-          value={
-            blockDiff < expectedBlocks ? (blockDiff / expectedBlocks) * 75 : 75
-          }
-          variant="determinate"
-        />
-        <Typography variant="body2" className={classes.message}>
-          {blockDiff < expectedBlocks
-            ? `Waiting for ${blockDiff} / ${expectedBlocks} confirmations on ${CHAINS_BY_ID[chainId].name}...`
-            : `Waiting for Wormhole Network consensus...`}
-        </Typography>
-      </div>
-    );
+  if (chainId === CHAIN_ID_ETH) {
+    if (!isSendComplete && tx && tx.block && currentBlock) {
+      return (
+        <div className={classes.root}>
+          <Typography variant="body2" className={classes.message}>
+            {currentBlock < tx.block
+              ? `Waiting for finality on ${CHAINS_BY_ID[chainId].name}...`
+              : `Waiting for Wormhole Network consensus...`}
+          </Typography>
+        </div>
+      );
+    }
+  } else {
+    const blockDiff =
+      tx && tx.block && currentBlock ? currentBlock - tx.block : undefined;
+    const expectedBlocks = // minimum confirmations enforced by guardians or specified by the contract
+      chainId === CHAIN_ID_POLYGON
+        ? CLUSTER === "testnet"
+          ? 64
+          : 512
+        : chainId === CHAIN_ID_OASIS ||
+          chainId === CHAIN_ID_AURORA ||
+          chainId === CHAIN_ID_FANTOM ||
+          chainId === CHAIN_ID_KARURA ||
+          chainId === CHAIN_ID_ACALA ||
+          chainId === CHAIN_ID_KLAYTN ||
+          chainId === CHAIN_ID_CELO ||
+          chainId === CHAIN_ID_MOONBEAM
+        ? 1 // these chains only require 1 conf
+        : chainId === CHAIN_ID_SOLANA
+        ? 32
+        : isEVMChain(chainId)
+        ? 15
+        : 1;
+    if (
+      !isSendComplete &&
+      (chainId === CHAIN_ID_SOLANA || isEVMChain(chainId)) &&
+      blockDiff !== undefined
+    ) {
+      return (
+        <div className={classes.root}>
+          <LinearProgress
+            value={
+              blockDiff < expectedBlocks
+                ? (blockDiff / expectedBlocks) * 75
+                : 75
+            }
+            variant="determinate"
+          />
+          <Typography variant="body2" className={classes.message}>
+            {blockDiff < expectedBlocks
+              ? `Waiting for ${blockDiff} / ${expectedBlocks} confirmations on ${CHAINS_BY_ID[chainId].name}...`
+              : `Waiting for Wormhole Network consensus...`}
+          </Typography>
+        </div>
+      );
+    }
   }
   return null;
 }
