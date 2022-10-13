@@ -18,6 +18,7 @@ import {
   isTerraChain,
   CHAIN_ID_TERRA2,
   CHAIN_ID_MOONBEAM,
+  CHAIN_ID_XPLA,
 } from "@certusone/wormhole-sdk";
 import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk/lib/esm";
 import { Button, makeStyles, Typography } from "@material-ui/core";
@@ -134,6 +135,10 @@ export default function ShowTx({
       ? `https://${CLUSTER === "testnet" ? "moonbase." : ""}moonscan.io/tx/${
           tx?.id
         }`
+      : chainId === CHAIN_ID_XPLA
+      ? `https://explorer.xpla.io/${
+          CLUSTER === "testnet" ? "testnet" : "mainnet"
+        }/tx/${tx?.id}`
       : undefined;
   const explorerName = getExplorerName(chainId);
 
