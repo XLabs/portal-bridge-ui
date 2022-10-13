@@ -6,10 +6,12 @@ import {
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   CHAIN_ID_TERRA2,
+  CHAIN_ID_XPLA,
   getEmitterAddressAlgorand,
   getEmitterAddressEth,
   getEmitterAddressSolana,
   getEmitterAddressTerra,
+  getEmitterAddressXpla,
   hexToNativeAssetString,
   hexToNativeString,
   hexToUint8Array,
@@ -21,7 +23,9 @@ import {
   parseSequenceFromLogEth,
   parseSequenceFromLogSolana,
   parseSequenceFromLogTerra,
+  parseSequenceFromLogXpla,
   parseTransferPayload,
+  queryExternalId,
   TerraChainId,
   uint8ArrayToHex,
 } from "@certusone/wormhole-sdk";
@@ -75,6 +79,7 @@ import {
   getTerraConfig,
   WORMHOLE_RPC_HOSTS,
   NEAR_TOKEN_BRIDGE_ACCOUNT,
+  XPLA_LCD_CLIENT_CONFIG,
 } from "../utils/consts";
 import { getSignedVAAWithRetry } from "../utils/getSignedVAAWithRetry";
 import {
@@ -83,12 +88,12 @@ import {
   parseSequenceFromLogNear,
 } from "../utils/near";
 import parseError from "../utils/parseError";
-import { queryExternalId } from "../utils/terra";
 import ButtonWithLoader from "./ButtonWithLoader";
 import ChainSelect from "./ChainSelect";
 import KeyAndBalance from "./KeyAndBalance";
 import RelaySelector from "./RelaySelector";
 import PendingVAAWarning from "./Transfer/PendingVAAWarning";
+import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
 
 const useStyles = makeStyles((theme) => ({
   mainCard: {
@@ -239,6 +244,23 @@ async function terra(tx: string, enqueueSnackbar: any, chainId: TerraChainId) {
       getTokenBridgeAddressForChain(chainId)
     );
     return await fetchSignedVAA(chainId, emitterAddress, sequence);
+  } catch (e) {
+    return handleError(e, enqueueSnackbar);
+  }
+}
+
+async function xpla(tx: string, enqueueSnackbar: any) {
+  try {
+    const lcd = new XplaLCDClient(XPLA_LCD_CLIENT_CONFIG);
+    const info = await lcd.tx.txInfo(tx);
+    const sequence = parseSequenceFromLogXpla(info);
+    if (!sequence) {
+      throw new Error("Sequence not found");
+    }
+    const emitterAddress = await getEmitterAddressXpla(
+      getTokenBridgeAddressForChain(CHAIN_ID_XPLA)
+    );
+    return await fetchSignedVAA(CHAIN_ID_XPLA, emitterAddress, sequence);
   } catch (e) {
     return handleError(e, enqueueSnackbar);
   }
@@ -395,7 +417,7 @@ export default function Recovery() {
   const [recoverySignedVAA, setRecoverySignedVAA] = useState("");
   const [recoveryParsedVAA, setRecoveryParsedVAA] = useState<any>(null);
   const [isVAAPending, setIsVAAPending] = useState(false);
-  const [terra2TokenId, setTerra2TokenId] = useState("");
+  const [tokenId, setTokenId] = useState("");
   const { accountId: nearAccountId } = useNearContext();
   const { isReady, statusMessage } = useIsWalletReady(recoverySourceChain);
   const walletConnectError =
@@ -423,11 +445,26 @@ export default function Recovery() {
 
   useEffect(() => {
     let cancelled = false;
-    if (parsedPayload && parsedPayload.targetChain === CHAIN_ID_TERRA2) {
+    if (
+      parsedPayload &&
+      (parsedPayload.targetChain === CHAIN_ID_TERRA2 ||
+        parsedPayload.targetChain === CHAIN_ID_XPLA)
+    ) {
       (async () => {
-        const tokenId = await queryExternalId(parsedPayload.originAddress);
+        const lcd =
+          parsedPayload.targetChain === CHAIN_ID_TERRA2
+            ? new LCDClient(getTerraConfig(CHAIN_ID_TERRA2))
+            : new XplaLCDClient(XPLA_LCD_CLIENT_CONFIG);
+        const tokenBridgeAddress = getTokenBridgeAddressForChain(
+          parsedPayload.targetChain
+        );
+        const tokenId = await queryExternalId(
+          lcd,
+          tokenBridgeAddress,
+          parsedPayload.originAddress
+        );
         if (!cancelled) {
-          setTerra2TokenId(tokenId || "");
+          setTokenId(tokenId || "");
         }
       })();
     }
@@ -510,7 +547,7 @@ export default function Recovery() {
       } else if (isTerraChain(recoverySourceChain)) {
         setRecoverySourceTxError("");
         setRecoverySourceTxIsLoading(true);
-        setTerra2TokenId("");
+        setTokenId("");
         (async () => {
           const { vaa, isPending, error } = await terra(
             recoverySourceTx,
@@ -555,6 +592,26 @@ export default function Recovery() {
             recoverySourceTx,
             enqueueSnackbar,
             nearAccountId
+          );
+          if (!cancelled) {
+            setRecoverySourceTxIsLoading(false);
+            if (vaa) {
+              setRecoverySignedVAA(vaa);
+            }
+            if (error) {
+              setRecoverySourceTxError(error);
+            }
+            setIsVAAPending(isPending);
+          }
+        })();
+      } else if (recoverySourceChain === CHAIN_ID_XPLA) {
+        setRecoverySourceTxError("");
+        setRecoverySourceTxIsLoading(true);
+        setTokenId("");
+        (async () => {
+          const { vaa, isPending, error } = await xpla(
+            recoverySourceTx,
+            enqueueSnackbar
           );
           if (!cancelled) {
             setRecoverySourceTxIsLoading(false);
@@ -861,8 +918,9 @@ export default function Recovery() {
                   disabled
                   value={
                     parsedPayload
-                      ? parsedPayload.targetChain === CHAIN_ID_TERRA2
-                        ? terra2TokenId
+                      ? parsedPayload.targetChain === CHAIN_ID_TERRA2 ||
+                        parsedPayload.targetChain === CHAIN_ID_XPLA
+                        ? tokenId
                         : hexToNativeAssetString(
                             parsedPayload.originAddress,
                             parsedPayload.originChain

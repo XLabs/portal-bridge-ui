@@ -18,11 +18,13 @@ import {
   CHAIN_ID_POLYGON,
   CHAIN_ID_SOLANA,
   CHAIN_ID_TERRA,
+  CHAIN_ID_XPLA,
   CHAIN_ID_TERRA2,
   CONTRACTS,
   isEVMChain,
   isTerraChain,
   TerraChainId,
+  coalesceChainName,
 } from "@certusone/wormhole-sdk";
 import { clusterApiUrl } from "@solana/web3.js";
 import { getAddress } from "ethers/lib/utils";
@@ -45,6 +47,7 @@ import solanaIcon from "../icons/solana.svg";
 import terraIcon from "../icons/terra.svg";
 import terra2Icon from "../icons/terra2.svg";
 import nearIcon from "../icons/near.svg";
+import xplaIcon from "../icons/xpla.svg";
 import { ConnectConfig, keyStores } from "near-api-js";
 
 export type Cluster = "devnet" | "testnet" | "mainnet";
@@ -147,6 +150,11 @@ export const CHAINS: ChainInfo[] =
           name: "Terra",
           logo: terra2Icon,
         },
+        {
+          id: CHAIN_ID_XPLA,
+          name: "XPLA",
+          logo: xplaIcon,
+        },
       ]
     : CLUSTER === "testnet"
     ? [
@@ -239,6 +247,11 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_TERRA2,
           name: "Terra",
           logo: terra2Icon,
+        },
+        {
+          id: CHAIN_ID_XPLA,
+          name: "XPLA",
+          logo: xplaIcon,
         },
       ]
     : [
@@ -335,6 +348,8 @@ export const getDefaultNativeCurrencySymbol = (chainId: ChainId) =>
     ? "KLAY"
     : chainId === CHAIN_ID_CELO
     ? "CELO"
+    : chainId === CHAIN_ID_XPLA
+    ? "XPLA"
     : chainId === CHAIN_ID_NEON
     ? "NEON"
     : chainId === CHAIN_ID_MOONBEAM
@@ -394,6 +409,8 @@ export const getExplorerName = (chainId: ChainId) =>
     ? "Solscan"
     : chainId === CHAIN_ID_MOONBEAM
     ? "Moonscan"
+    : chainId === CHAIN_ID_XPLA
+    ? "XPLA Explorer"
     : "Explorer";
 export const WORMHOLE_RPC_HOSTS =
   CLUSTER === "mainnet"
@@ -510,6 +527,16 @@ export const getTerraConfig = (chainId: TerraChainId) => {
         isClassic,
       };
 };
+
+export const XPLA_LCD_CLIENT_CONFIG =
+  CLUSTER === "mainnet"
+    ? { URL: "https://dimension-lcd.xpla.dev", chainID: "dimension_37-1" }
+    : { URL: "https://cube-lcd.xpla.dev", chainID: "cube_47-5" };
+
+export const XPLA_GAS_PRICES_URL =
+  CLUSTER === "mainnet"
+    ? "https://dimension-fcd.xpla.dev/v1/txs/gas_prices"
+    : "https://cube-fcd.xpla.dev/v1/txs/gas_prices";
 
 export const ALGORAND_HOST =
   CLUSTER === "mainnet"
@@ -917,107 +944,29 @@ export const NEAR_TOKEN_BRIDGE_ACCOUNT =
     : "token.test.near";
 
 export const getBridgeAddressForChain = (chainId: ChainId) =>
-  chainId === CHAIN_ID_SOLANA
-    ? SOL_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_ETH
-    ? ETH_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_BSC
-    ? BSC_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_TERRA
-    ? TERRA_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_TERRA2
-    ? TERRA2_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_POLYGON
-    ? POLYGON_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_ETHEREUM_ROPSTEN
-    ? ROPSTEN_ETH_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_AVAX
-    ? AVAX_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_OASIS
-    ? OASIS_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_AURORA
-    ? AURORA_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_FANTOM
-    ? FANTOM_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_KARURA
-    ? KARURA_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_ACALA
-    ? ACALA_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_KLAYTN
-    ? KLAYTN_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_CELO
-    ? CELO_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_NEON
-    ? NEON_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_MOONBEAM
-    ? MOONBEAM_BRIDGE_ADDRESS
-    : "";
+  CONTRACTS[
+    CLUSTER === "mainnet"
+      ? "MAINNET"
+      : CLUSTER === "testnet"
+      ? "TESTNET"
+      : "DEVNET"
+  ][coalesceChainName(chainId)].core || "";
 export const getNFTBridgeAddressForChain = (chainId: ChainId) =>
-  chainId === CHAIN_ID_SOLANA
-    ? SOL_NFT_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_ETH
-    ? ETH_NFT_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_BSC
-    ? BSC_NFT_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_POLYGON
-    ? POLYGON_NFT_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_ETHEREUM_ROPSTEN
-    ? ROPSTEN_ETH_NFT_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_AVAX
-    ? AVAX_NFT_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_OASIS
-    ? OASIS_NFT_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_AURORA
-    ? AURORA_NFT_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_FANTOM
-    ? FANTOM_NFT_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_KARURA
-    ? KARURA_NFT_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_ACALA
-    ? ACALA_NFT_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_KLAYTN
-    ? KLAYTN_NFT_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_CELO
-    ? CELO_NFT_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_NEON
-    ? NEON_NFT_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_MOONBEAM
-    ? MOONBEAM_NFT_BRIDGE_ADDRESS
-    : "";
+  CONTRACTS[
+    CLUSTER === "mainnet"
+      ? "MAINNET"
+      : CLUSTER === "testnet"
+      ? "TESTNET"
+      : "DEVNET"
+  ][coalesceChainName(chainId)].nft_bridge || "";
 export const getTokenBridgeAddressForChain = (chainId: ChainId) =>
-  chainId === CHAIN_ID_SOLANA
-    ? SOL_TOKEN_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_ETH
-    ? ETH_TOKEN_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_BSC
-    ? BSC_TOKEN_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_TERRA
-    ? TERRA_TOKEN_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_TERRA2
-    ? TERRA2_TOKEN_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_POLYGON
-    ? POLYGON_TOKEN_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_ETHEREUM_ROPSTEN
-    ? ROPSTEN_ETH_TOKEN_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_AVAX
-    ? AVAX_TOKEN_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_OASIS
-    ? OASIS_TOKEN_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_AURORA
-    ? AURORA_TOKEN_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_FANTOM
-    ? FANTOM_TOKEN_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_KARURA
-    ? KARURA_TOKEN_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_ACALA
-    ? ACALA_TOKEN_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_KLAYTN
-    ? KLAYTN_TOKEN_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_CELO
-    ? CELO_TOKEN_BRIDGE_ADDRESS
-    : chainId === CHAIN_ID_MOONBEAM
-    ? MOONBEAM_TOKEN_BRIDGE_ADDRESS
-    : "";
+  CONTRACTS[
+    CLUSTER === "mainnet"
+      ? "MAINNET"
+      : CLUSTER === "testnet"
+      ? "TESTNET"
+      : "DEVNET"
+  ][coalesceChainName(chainId)].token_bridge || "";
 
 export const COVALENT_API_KEY = process.env.REACT_APP_COVALENT_API_KEY
   ? process.env.REACT_APP_COVALENT_API_KEY
@@ -1479,6 +1428,8 @@ export const getMigrationAssetMap = (chainId: ChainId) => {
 
 export const SUPPORTED_TERRA_TOKENS = ["uluna", "uusd"];
 export const TERRA_DEFAULT_FEE_DENOM = SUPPORTED_TERRA_TOKENS[0];
+
+export const XPLA_NATIVE_DENOM = "axpla";
 
 export const getTerraFCDBaseUrl = (chainId: TerraChainId) =>
   CLUSTER === "mainnet"

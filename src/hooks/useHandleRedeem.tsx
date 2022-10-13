@@ -4,6 +4,7 @@ import {
   CHAIN_ID_KLAYTN,
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
+  CHAIN_ID_XPLA,
   isEVMChain,
   isTerraChain,
   redeemAndUnwrapOnSolana,
@@ -12,6 +13,7 @@ import {
   redeemOnEthNative,
   redeemOnSolana,
   redeemOnTerra,
+  redeemOnXpla,
   TerraChainId,
   uint8ArrayToHex,
 } from "@certusone/wormhole-sdk";
@@ -62,6 +64,11 @@ import { postVaaWithRetry } from "../utils/postVaa";
 import { signSendAndConfirm } from "../utils/solana";
 import { postWithFees } from "../utils/terra";
 import useTransferSignedVAA from "./useTransferSignedVAA";
+import {
+  useConnectedWallet as useXplaConnectedWallet,
+  ConnectedWallet as XplaConnectedWallet,
+} from "@xpla/wallet-provider";
+import { postWithFeesXpla } from "../utils/xpla";
 
 async function algo(
   dispatch: any,
@@ -177,6 +184,38 @@ async function near(
   }
 }
 
+async function xpla(
+  dispatch: any,
+  enqueueSnackbar: any,
+  wallet: XplaConnectedWallet,
+  signedVAA: Uint8Array
+) {
+  dispatch(setIsRedeeming(true));
+  try {
+    const msg = await redeemOnXpla(
+      getTokenBridgeAddressForChain(CHAIN_ID_XPLA),
+      wallet.xplaAddress,
+      signedVAA
+    );
+    const result = await postWithFeesXpla(
+      wallet,
+      [msg],
+      "Wormhole - Complete Transfer"
+    );
+    dispatch(
+      setRedeemTx({ id: result.result.txhash, block: result.result.height })
+    );
+    enqueueSnackbar(null, {
+      content: <Alert severity="success">Transaction confirmed</Alert>,
+    });
+  } catch (e) {
+    enqueueSnackbar(null, {
+      content: <Alert severity="error">{parseError(e)}</Alert>,
+    });
+    dispatch(setIsRedeeming(false));
+  }
+}
+
 async function solana(
   dispatch: any,
   enqueueSnackbar: any,
@@ -274,6 +313,7 @@ export function useHandleRedeem() {
   const { signer } = useEthereumProvider();
   const terraWallet = useConnectedWallet();
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
+  const xplaWallet = useXplaConnectedWallet();
   const { accounts: algoAccounts } = useAlgorandContext();
   const { accountId: nearAccountId, wallet } = useNearContext();
   const signedVAA = useTransferSignedVAA();
@@ -304,6 +344,8 @@ export function useHandleRedeem() {
         terraFeeDenom,
         targetChain
       );
+    } else if (targetChain === CHAIN_ID_XPLA && !!xplaWallet && signedVAA) {
+      xpla(dispatch, enqueueSnackbar, xplaWallet, signedVAA);
     } else if (
       targetChain === CHAIN_ID_ALGORAND &&
       algoAccounts[0] &&
@@ -332,6 +374,7 @@ export function useHandleRedeem() {
     algoAccounts,
     nearAccountId,
     wallet,
+    xplaWallet,
   ]);
 
   const handleRedeemNativeClick = useCallback(() => {

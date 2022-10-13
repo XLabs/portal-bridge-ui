@@ -1,13 +1,16 @@
 import {
+  buildTokenId,
   ChainId,
   CHAIN_ID_ALGORAND,
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   CHAIN_ID_TERRA2,
+  CHAIN_ID_XPLA,
   getForeignAssetAlgorand,
   getForeignAssetEth,
   getForeignAssetSolana,
   getForeignAssetTerra,
+  getForeignAssetXpla,
   hexToUint8Array,
   isEVMChain,
   isTerraChain,
@@ -30,6 +33,7 @@ import {
   NEAR_TOKEN_BRIDGE_ACCOUNT,
   NATIVE_NEAR_PLACEHOLDER,
   NATIVE_NEAR_WH_ADDRESS,
+  XPLA_LCD_CLIENT_CONFIG,
 } from "../utils/consts";
 import useIsWalletReady from "./useIsWalletReady";
 import { Algodv2 } from "algosdk";
@@ -39,7 +43,7 @@ import {
   makeNearAccount,
 } from "../utils/near";
 import { useNearContext } from "../contexts/NearWalletContext";
-import { buildTokenId } from "@certusone/wormhole-sdk/lib/esm/cosmwasm/address";
+import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
 
 export type ForeignAssetInfo = {
   doesExist: boolean;
@@ -64,7 +68,7 @@ function useFetchForeignAsset(
   const originAssetHex = useMemo(() => {
     try {
       if (originChain === CHAIN_ID_TERRA2) {
-        return buildTokenId(originAsset);
+        return buildTokenId(CHAIN_ID_TERRA2, originAsset);
       }
       if (originChain === CHAIN_ID_NEAR) {
         if (originAsset === NATIVE_NEAR_PLACEHOLDER) {
@@ -140,6 +144,16 @@ function useFetchForeignAsset(
         ? () => {
             const lcd = new LCDClient(getTerraConfig(foreignChain));
             return getForeignAssetTerra(
+              getTokenBridgeAddressForChain(foreignChain),
+              lcd,
+              originChain,
+              hexToUint8Array(originAssetHex)
+            );
+          }
+        : foreignChain === CHAIN_ID_XPLA
+        ? () => {
+            const lcd = new XplaLCDClient(XPLA_LCD_CLIENT_CONFIG);
+            return getForeignAssetXpla(
               getTokenBridgeAddressForChain(foreignChain),
               lcd,
               originChain,

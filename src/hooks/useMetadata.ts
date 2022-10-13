@@ -4,6 +4,7 @@ import {
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   CHAIN_ID_TERRA2,
+  CHAIN_ID_XPLA,
   isEVMChain,
   isTerraChain,
   TerraChainId,
@@ -20,6 +21,7 @@ import useNearMetadata from "./useNearMetadata";
 import useSolanaTokenMap from "./useSolanaTokenMap";
 import useTerraMetadata, { TerraMetadata } from "./useTerraMetadata";
 import useTerraTokenMap, { TerraTokenMap } from "./useTerraTokenMap";
+import useXplaMetadata, { XplaMetadata } from "./useXplaMetadata";
 
 export type GenericMetadata = {
   symbol?: string;
@@ -82,6 +84,33 @@ const constructTerraMetadata = (
       logo: tokenInfo?.icon || metadata?.logo || undefined,
       tokenName: tokenInfo?.name || metadata?.tokenName || undefined,
       decimals: metadata?.decimals || undefined,
+    };
+    data.set(address, obj);
+  });
+
+  return {
+    isFetching,
+    error,
+    receivedAt,
+    data,
+  };
+};
+
+const constructXplaMetadata = (
+  addresses: string[],
+  metadataMap: DataWrapper<Map<string, XplaMetadata>>
+) => {
+  const isFetching = metadataMap.isFetching;
+  const error = metadataMap.error;
+  const receivedAt = metadataMap.receivedAt;
+  const data = new Map<string, GenericMetadata>();
+  addresses.forEach((address) => {
+    const meta = metadataMap.data?.get(address);
+    const obj = {
+      symbol: meta?.symbol || undefined,
+      logo: undefined,
+      tokenName: meta?.tokenName || undefined,
+      decimals: meta?.decimals,
     };
     data.set(address, obj);
   });
@@ -161,6 +190,9 @@ export default function useMetadata(
   const terraAddresses = useMemo(() => {
     return isTerraChain(chainId) ? addresses : [];
   }, [chainId, addresses]);
+  const xplaAddresses = useMemo(() => {
+    return chainId === CHAIN_ID_XPLA ? addresses : [];
+  }, [chainId, addresses]);
   const ethereumAddresses = useMemo(() => {
     return isEVMChain(chainId) ? addresses : [];
   }, [chainId, addresses]);
@@ -179,6 +211,7 @@ export default function useMetadata(
   const ethMetadata = useEvmMetadata(ethereumAddresses, chainId);
   const algoMetadata = useAlgoMetadata(algoAddresses);
   const nearMetadata = useNearMetadata(nearAddresses);
+  const xplaMetadata = useXplaMetadata(xplaAddresses);
 
   const output: DataWrapper<Map<string, GenericMetadata>> = useMemo(
     () =>
@@ -197,6 +230,8 @@ export default function useMetadata(
         ? constructAlgoMetadata(algoAddresses, algoMetadata)
         : chainId === CHAIN_ID_NEAR
         ? constructAlgoMetadata(nearAddresses, nearMetadata)
+        : chainId === CHAIN_ID_XPLA
+        ? constructXplaMetadata(xplaAddresses, xplaMetadata)
         : getEmptyDataWrapper(),
     [
       chainId,
@@ -212,6 +247,8 @@ export default function useMetadata(
       algoMetadata,
       nearAddresses,
       nearMetadata,
+      xplaAddresses,
+      xplaMetadata,
     ]
   );
 

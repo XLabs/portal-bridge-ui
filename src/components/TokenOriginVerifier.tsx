@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function PrimaryAssetInfomation({
+function PrimaryAssetInformation({
   lookupChain,
   lookupAsset,
   originChain,
@@ -316,7 +316,7 @@ export default function TokenOriginVerifier() {
         {originInfo.isFetching ? (
           <CircularProgress />
         ) : originInfo.data?.originChain && originInfo.data.originAddress ? (
-          <PrimaryAssetInfomation
+          <PrimaryAssetInformation
             lookupAsset={primaryLookupAsset}
             lookupChain={primaryLookupChain}
             originChain={originInfo.data.originChain}

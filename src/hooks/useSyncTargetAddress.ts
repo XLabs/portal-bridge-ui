@@ -3,6 +3,7 @@ import {
   CHAIN_ID_ALGORAND,
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
+  CHAIN_ID_XPLA,
   isEVMChain,
   isTerraChain,
   uint8ArrayToHex,
@@ -35,6 +36,7 @@ import { makeNearAccount, signAndSendTransactions } from "../utils/near";
 import { NEAR_TOKEN_BRIDGE_ACCOUNT } from "../utils/consts";
 import { getTransactionLastResult } from "near-api-js/lib/providers";
 import BN from "bn.js";
+import { useConnectedWallet as useXplaConnectedWallet } from "@xpla/wallet-provider";
 
 function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
   const dispatch = useDispatch();
@@ -52,6 +54,7 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
   );
   const targetTokenAccountPublicKey = targetParsedTokenAccount?.publicKey;
   const terraWallet = useConnectedWallet();
+  const xplaWallet = useXplaConnectedWallet();
   const { accounts: algoAccounts } = useAlgorandContext();
   const { accountId: nearAccountId, wallet } = useNearContext();
   const setTargetAddressHex = nft
@@ -114,6 +117,18 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
           setTargetAddressHex(
             uint8ArrayToHex(
               zeroPad(canonicalAddress(terraWallet.walletAddress), 32)
+            )
+          )
+        );
+      } else if (
+        targetChain === CHAIN_ID_XPLA &&
+        xplaWallet &&
+        xplaWallet.walletAddress
+      ) {
+        dispatch(
+          setTargetAddressHex(
+            uint8ArrayToHex(
+              zeroPad(canonicalAddress(xplaWallet.walletAddress), 32)
             )
           )
         );
@@ -193,6 +208,7 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
     algoAccounts,
     nearAccountId,
     wallet,
+    xplaWallet,
   ]);
 }
 

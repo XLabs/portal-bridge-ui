@@ -2,10 +2,12 @@ import {
   CHAIN_ID_ALGORAND,
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
+  CHAIN_ID_XPLA,
   getIsTransferCompletedAlgorand,
   getIsTransferCompletedEth,
   getIsTransferCompletedSolana,
   getIsTransferCompletedTerra,
+  getIsTransferCompletedXpla,
   isEVMChain,
   isTerraChain,
 } from "@certusone/wormhole-sdk";
@@ -30,10 +32,12 @@ import {
   getTerraGasPricesUrl,
   getTerraConfig,
   NEAR_TOKEN_BRIDGE_ACCOUNT,
+  XPLA_LCD_CLIENT_CONFIG,
 } from "../utils/consts";
 import { getIsTransferCompletedNear, makeNearAccount } from "../utils/near";
 import useIsWalletReady from "./useIsWalletReady";
 import useTransferSignedVAA from "./useTransferSignedVAA";
+import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
 
 /**
  * @param recoveryOnly Only fire when in recovery mode
@@ -134,6 +138,24 @@ export default function useGetIsTransferCompleted(
               signedVAA,
               lcdClient,
               getTerraGasPricesUrl(targetChain)
+            );
+          } catch (error) {
+            console.error(error);
+          }
+          if (!cancelled) {
+            setIsTransferCompleted(transferCompleted);
+            setIsLoading(false);
+          }
+        })();
+      } else if (targetChain === CHAIN_ID_XPLA) {
+        setIsLoading(true);
+        (async () => {
+          try {
+            const lcdClient = new XplaLCDClient(XPLA_LCD_CLIENT_CONFIG);
+            transferCompleted = await getIsTransferCompletedXpla(
+              getTokenBridgeAddressForChain(targetChain),
+              signedVAA,
+              lcdClient
             );
           } catch (error) {
             console.error(error);
