@@ -1,6 +1,7 @@
 import {
   canonicalAddress,
   CHAIN_ID_ALGORAND,
+  CHAIN_ID_APTOS,
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   CHAIN_ID_XPLA,
@@ -37,6 +38,7 @@ import { NEAR_TOKEN_BRIDGE_ACCOUNT } from "../utils/consts";
 import { getTransactionLastResult } from "near-api-js/lib/providers";
 import BN from "bn.js";
 import { useConnectedWallet as useXplaConnectedWallet } from "@xpla/wallet-provider";
+import { useAptosContext } from "../contexts/AptosWalletContext";
 
 function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
   const dispatch = useDispatch();
@@ -56,6 +58,7 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
   const terraWallet = useConnectedWallet();
   const xplaWallet = useXplaConnectedWallet();
   const { accounts: algoAccounts } = useAlgorandContext();
+  const { address: aptosAddress } = useAptosContext();
   const { accountId: nearAccountId, wallet } = useNearContext();
   const setTargetAddressHex = nft
     ? setNFTTargetAddressHex
@@ -131,6 +134,10 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
               zeroPad(canonicalAddress(xplaWallet.walletAddress), 32)
             )
           )
+        );
+      } else if (targetChain === CHAIN_ID_APTOS && aptosAddress) {
+        dispatch(
+          setTargetAddressHex(uint8ArrayToHex(zeroPad(aptosAddress, 32)))
         );
       } else if (targetChain === CHAIN_ID_ALGORAND && algoAccounts[0]) {
         dispatch(
@@ -209,6 +216,7 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
     nearAccountId,
     wallet,
     xplaWallet,
+    aptosAddress,
   ]);
 }
 

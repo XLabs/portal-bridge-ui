@@ -1,9 +1,11 @@
 import {
   ChainId,
   CHAIN_ID_ALGORAND,
+  CHAIN_ID_APTOS,
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   CHAIN_ID_XPLA,
+  getOriginalAssetAptos,
   getOriginalAssetAlgorand,
   getOriginalAssetCosmWasm,
   getOriginalAssetEth,
@@ -50,6 +52,7 @@ import {
 } from "../utils/consts";
 import { getOriginalAssetNear, makeNearAccount } from "../utils/near";
 import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
+import { getAptosClient } from "../utils/aptos";
 
 export interface StateSafeWormholeWrappedInfo {
   isWrapped: boolean;
@@ -158,6 +161,22 @@ function useCheckIfWormholeWrapped(nft?: boolean) {
             dispatch(setSourceWormholeWrappedInfo(wrappedInfo));
           }
         } catch (e) {}
+      }
+      if (sourceChain === CHAIN_ID_APTOS && sourceAsset) {
+        try {
+          const wrappedInfo = makeStateSafe(
+            await getOriginalAssetAptos(
+              getAptosClient(),
+              getTokenBridgeAddressForChain(CHAIN_ID_APTOS),
+              sourceAsset
+            )
+          );
+          if (!cancelled) {
+            dispatch(setSourceWormholeWrappedInfo(wrappedInfo));
+          }
+        } catch (e) {
+          console.error(e);
+        }
       }
       if (sourceChain === CHAIN_ID_ALGORAND && sourceAsset) {
         try {

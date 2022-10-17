@@ -2,6 +2,7 @@ import {
   ChainId,
   CHAIN_ID_ACALA,
   CHAIN_ID_ALGORAND,
+  CHAIN_ID_APTOS,
   CHAIN_ID_KARURA,
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
@@ -94,6 +95,11 @@ import KeyAndBalance from "./KeyAndBalance";
 import RelaySelector from "./RelaySelector";
 import PendingVAAWarning from "./Transfer/PendingVAAWarning";
 import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
+import {
+  getAptosClient,
+  getEmitterAddressAndSequenceFromResult,
+} from "../utils/aptos";
+import { Types } from "aptos";
 
 const useStyles = makeStyles((theme) => ({
   mainCard: {
@@ -168,6 +174,25 @@ async function algo(tx: string, enqueueSnackbar: any) {
     }
     const emitterAddress = getEmitterAddressAlgorand(ALGORAND_TOKEN_BRIDGE_ID);
     return await fetchSignedVAA(CHAIN_ID_ALGORAND, emitterAddress, sequence);
+  } catch (e) {
+    return handleError(e, enqueueSnackbar);
+  }
+}
+
+async function aptos(tx: string, enqueueSnackbar: any) {
+  try {
+    const result = (await getAptosClient().waitForTransactionWithResult(
+      tx
+    )) as Types.UserTransaction;
+    if (!result) {
+      throw new Error("Transaction not found");
+    }
+    const { emitterAddress, sequence } =
+      getEmitterAddressAndSequenceFromResult(result);
+    if (!sequence) {
+      throw new Error("Sequence not found");
+    }
+    return await fetchSignedVAA(CHAIN_ID_APTOS, emitterAddress, sequence);
   } catch (e) {
     return handleError(e, enqueueSnackbar);
   }
@@ -610,6 +635,25 @@ export default function Recovery() {
         setTokenId("");
         (async () => {
           const { vaa, isPending, error } = await xpla(
+            recoverySourceTx,
+            enqueueSnackbar
+          );
+          if (!cancelled) {
+            setRecoverySourceTxIsLoading(false);
+            if (vaa) {
+              setRecoverySignedVAA(vaa);
+            }
+            if (error) {
+              setRecoverySourceTxError(error);
+            }
+            setIsVAAPending(isPending);
+          }
+        })();
+      } else if (recoverySourceChain === CHAIN_ID_APTOS) {
+        setRecoverySourceTxError("");
+        setRecoverySourceTxIsLoading(true);
+        (async () => {
+          const { vaa, isPending, error } = await aptos(
             recoverySourceTx,
             enqueueSnackbar
           );

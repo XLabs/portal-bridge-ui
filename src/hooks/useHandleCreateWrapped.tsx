@@ -2,16 +2,19 @@ import {
   ChainId,
   CHAIN_ID_ACALA,
   CHAIN_ID_ALGORAND,
+  CHAIN_ID_APTOS,
   CHAIN_ID_KARURA,
   CHAIN_ID_KLAYTN,
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   CHAIN_ID_XPLA,
   createWrappedOnAlgorand,
+  createWrappedOnAptos,
   createWrappedOnEth,
   createWrappedOnSolana,
   createWrappedOnTerra,
   createWrappedOnXpla,
+  createWrappedTypeOnAptos,
   isEVMChain,
   isTerraChain,
   TerraChainId,
@@ -34,6 +37,7 @@ import { useSnackbar } from "notistack";
 import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlgorandContext } from "../contexts/AlgorandWalletContext";
+import { useAptosContext } from "../contexts/AptosWalletContext";
 import { useEthereumProvider } from "../contexts/EthereumProviderContext";
 import { useNearContext } from "../contexts/NearWalletContext";
 import { useSolanaWallet } from "../contexts/SolanaWalletContext";
@@ -44,6 +48,7 @@ import {
   selectTerraFeeDenom,
 } from "../store/selectors";
 import { signSendAndConfirmAlgorand } from "../utils/algorand";
+import { waitForSignAndSubmitTransaction } from "../utils/aptos";
 import {
   ACALA_HOST,
   ALGORAND_BRIDGE_ID,
@@ -101,6 +106,46 @@ async function algo(
         block: result["confirmed-round"],
       })
     );
+    enqueueSnackbar(null, {
+      content: <Alert severity="success">Transaction confirmed</Alert>,
+    });
+  } catch (e) {
+    enqueueSnackbar(null, {
+      content: <Alert severity="error">{parseError(e)}</Alert>,
+    });
+    dispatch(setIsCreating(false));
+  }
+}
+
+async function aptos(
+  dispatch: any,
+  enqueueSnackbar: any,
+  senderAddr: string,
+  signedVAA: Uint8Array,
+  shouldUpdate: boolean
+) {
+  dispatch(setIsCreating(true));
+  const tokenBridgeAddress = getTokenBridgeAddressForChain(CHAIN_ID_APTOS);
+  // const client = getAptosClient();
+  try {
+    // create coin type (it's possible this was already done)
+    // TODO: can this be detected? otherwise the user has to click cancel twice
+    try {
+      const createWrappedCoinTypePayload = createWrappedTypeOnAptos(
+        tokenBridgeAddress,
+        signedVAA
+      );
+      await waitForSignAndSubmitTransaction(createWrappedCoinTypePayload);
+    } catch (e) {}
+    // create coin
+    const createWrappedCoinPayload = createWrappedOnAptos(
+      tokenBridgeAddress,
+      signedVAA
+    );
+    const result = await waitForSignAndSubmitTransaction(
+      createWrappedCoinPayload
+    );
+    dispatch(setCreateTx({ id: result, block: 1 }));
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
     });
@@ -340,6 +385,7 @@ export function useHandleCreateWrapped(shouldUpdate: boolean) {
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
   const xplaWallet = useXplaConnectedWallet();
   const { accounts: algoAccounts } = useAlgorandContext();
+  const { address: aptosAddress } = useAptosContext();
   const { accountId: nearAccountId, wallet } = useNearContext();
   const handleCreateClick = useCallback(() => {
     if (isEVMChain(targetChain) && !!signer && !!signedVAA) {
@@ -378,6 +424,12 @@ export function useHandleCreateWrapped(shouldUpdate: boolean) {
     } else if (targetChain === CHAIN_ID_XPLA && !!xplaWallet && !!signedVAA) {
       xpla(dispatch, enqueueSnackbar, xplaWallet, signedVAA, shouldUpdate);
     } else if (
+      targetChain === CHAIN_ID_APTOS &&
+      !!aptosAddress &&
+      !!signedVAA
+    ) {
+      aptos(dispatch, enqueueSnackbar, aptosAddress, signedVAA, shouldUpdate);
+    } else if (
       targetChain === CHAIN_ID_ALGORAND &&
       algoAccounts[0] &&
       !!signedVAA
@@ -413,6 +465,7 @@ export function useHandleCreateWrapped(shouldUpdate: boolean) {
     nearAccountId,
     wallet,
     xplaWallet,
+    aptosAddress,
   ]);
   return useMemo(
     () => ({

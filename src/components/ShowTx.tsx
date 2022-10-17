@@ -19,6 +19,7 @@ import {
   CHAIN_ID_TERRA2,
   CHAIN_ID_MOONBEAM,
   CHAIN_ID_XPLA,
+  CHAIN_ID_APTOS,
 } from "@certusone/wormhole-sdk";
 import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk/lib/esm";
 import { Button, makeStyles, Typography } from "@material-ui/core";
@@ -87,9 +88,7 @@ export default function ShowTx({
         }`
       : chainId === CHAIN_ID_CELO
       ? `https://${
-          CLUSTER === "testnet"
-            ? "alfajores-blockscout.celo-testnet.org"
-            : "explorer.celo.org"
+          CLUSTER === "testnet" ? "alfajores-celoscan.io" : "explorer.celo.org"
         }/tx/${tx?.id}`
       : chainId === CHAIN_ID_KARURA
       ? `https://${
@@ -139,6 +138,14 @@ export default function ShowTx({
       ? `https://explorer.xpla.io/${
           CLUSTER === "testnet" ? "testnet" : "mainnet"
         }/tx/${tx?.id}`
+      : chainId === CHAIN_ID_APTOS
+      ? `https://explorer.aptoslabs.com/txn/${tx?.id}${
+          CLUSTER === "testnet"
+            ? "?network=testnet"
+            : CLUSTER === "devnet"
+            ? "?network=local"
+            : ""
+        }`
       : undefined;
   const explorerName = getExplorerName(chainId);
 

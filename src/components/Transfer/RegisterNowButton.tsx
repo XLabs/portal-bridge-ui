@@ -17,6 +17,7 @@ import {
 } from "../../store/selectors";
 import {
   ChainId,
+  CHAIN_ID_APTOS,
   CHAIN_ID_NEAR,
   CHAIN_ID_TERRA2,
   CHAIN_ID_XPLA,
@@ -44,7 +45,8 @@ export function RegisterNowButtonCore({
     const nativeAsset = originChain
       ? originChain === CHAIN_ID_TERRA2 ||
         originChain === CHAIN_ID_NEAR ||
-        originChain === CHAIN_ID_XPLA
+        originChain === CHAIN_ID_XPLA ||
+        originChain === CHAIN_ID_APTOS
         ? sourceAsset || forceAsset
         : hexToNativeAssetString(originAsset, originChain)
       : undefined;
