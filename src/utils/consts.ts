@@ -560,7 +560,7 @@ export const XPLA_GAS_PRICES_URL =
 
 export const APTOS_URL =
   CLUSTER === "mainnet"
-    ? "https://fullnode.mainnet.aptoslabs.com "
+    ? "https://fullnode.mainnet.aptoslabs.com"
     : CLUSTER === "testnet"
     ? "https://testnet.aptoslabs.com"
     : "http://localhost:8080";

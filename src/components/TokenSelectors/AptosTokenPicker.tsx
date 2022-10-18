@@ -1,19 +1,13 @@
 import { CHAIN_ID_APTOS, isValidAptosType } from "@certusone/wormhole-sdk";
 import { formatUnits } from "@ethersproject/units";
-import { useCallback, useMemo, useRef } from "react";
+import { useCallback, useRef } from "react";
 import { AptosCoinResourceReturn } from "../../hooks/useAptosMetadata";
-import useAptosNativeBalance from "../../hooks/useAptosNativeBalance";
 import { createParsedTokenAccount } from "../../hooks/useGetSourceParsedTokenAccounts";
 import useIsWalletReady from "../../hooks/useIsWalletReady";
-import aptosIcon from "../../icons/aptos.svg";
 import { DataWrapper } from "../../store/helpers";
 import { NFTParsedTokenAccount } from "../../store/nftSlice";
 import { ParsedTokenAccount } from "../../store/transferSlice";
 import { getAptosClient } from "../../utils/aptos";
-import {
-  APTOS_NATIVE_DECIMALS,
-  APTOS_NATIVE_TOKEN_KEY,
-} from "../../utils/consts";
 import TokenPicker, { BasicAccountRender } from "./TokenPicker";
 
 type AptosTokenPickerProps = {
@@ -27,20 +21,16 @@ type AptosTokenPickerProps = {
 const returnsFalse = () => false;
 
 export default function AptosTokenPicker(props: AptosTokenPickerProps) {
-  const { value, onChange, disabled } = props;
+  const { value, onChange, tokenAccounts, disabled } = props;
   const { walletAddress } = useIsWalletReady(CHAIN_ID_APTOS);
   const nativeRefresh = useRef<() => void>(() => {});
-  const { balance, isLoading: nativeIsLoading } = useAptosNativeBalance(
-    walletAddress,
-    nativeRefresh
-  );
 
   const resetAccountWrapper = useCallback(() => {
     //we can currently skip calling this as we don't read from sourceParsedTokenAccounts
     //resetAccounts && resetAccounts();
     nativeRefresh.current();
   }, []);
-  const isLoading = nativeIsLoading; // || (tokenMap?.isFetching || false);
+  const isLoading = tokenAccounts?.isFetching; //nativeIsLoading; // || (tokenMap?.isFetching || false);
 
   const onChangeWrapper = useCallback(
     async (account: NFTParsedTokenAccount | null) => {
@@ -53,27 +43,6 @@ export default function AptosTokenPicker(props: AptosTokenPickerProps) {
     },
     [onChange]
   );
-
-  const aptosTokenArray = useMemo(() => {
-    const balancesItems =
-      balance !== undefined && walletAddress
-        ? [
-            createParsedTokenAccount(
-              walletAddress,
-              APTOS_NATIVE_TOKEN_KEY,
-              balance.toString(), //amount
-              APTOS_NATIVE_DECIMALS,
-              0, //uiAmount is unused
-              formatUnits(balance, APTOS_NATIVE_DECIMALS), //uiAmountString
-              "APT", // symbol
-              "Aptos Coin", //name
-              aptosIcon,
-              true //is native asset
-            ),
-          ]
-        : [];
-    return balancesItems;
-  }, [walletAddress, balance]);
 
   //TODO this only supports non-native assets. Native assets come from the hook.
   //TODO correlate against token list to get metadata
@@ -134,7 +103,7 @@ export default function AptosTokenPicker(props: AptosTokenPickerProps) {
   return (
     <TokenPicker
       value={value}
-      options={aptosTokenArray || []}
+      options={tokenAccounts?.data || []}
       RenderOption={RenderComp}
       onChange={onChangeWrapper}
       isValidAddress={isSearchableAddress}
