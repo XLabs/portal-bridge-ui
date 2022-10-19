@@ -7,6 +7,7 @@ import { HashRouter } from "react-router-dom";
 import App from "./App";
 import BackgroundImage from "./components/BackgroundImage";
 import { AlgorandContextProvider } from "./contexts/AlgorandWalletContext";
+import AptosWalletProvider from "./contexts/AptosWalletContext";
 import { BetaContextProvider } from "./contexts/BetaContext";
 import { EthereumProviderProvider } from "./contexts/EthereumProviderContext";
 import { NearContextProvider } from "./contexts/NearWalletContext";
@@ -31,10 +32,12 @@ ReactDOM.render(
                     <AlgorandContextProvider>
                       <NearContextProvider>
                         <XplaWalletProvider>
-                          <HashRouter>
-                            <BackgroundImage />
-                            <App />
-                          </HashRouter>
+                          <AptosWalletProvider>
+                            <HashRouter>
+                              <BackgroundImage />
+                              <App />
+                            </HashRouter>
+                          </AptosWalletProvider>
                         </XplaWalletProvider>
                       </NearContextProvider>
                     </AlgorandContextProvider>

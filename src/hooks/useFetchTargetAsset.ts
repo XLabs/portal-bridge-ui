@@ -1,15 +1,19 @@
 import {
   ChainId,
   CHAIN_ID_ALGORAND,
+  CHAIN_ID_APTOS,
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   CHAIN_ID_TERRA2,
   CHAIN_ID_XPLA,
+  ensureHexPrefix,
   getForeignAssetAlgorand,
+  getForeignAssetAptos,
   getForeignAssetEth,
   getForeignAssetSolana,
   getForeignAssetTerra,
   getForeignAssetXpla,
+  getTypeFromExternalAddress,
   hexToNativeAssetString,
   hexToUint8Array,
   isEVMChain,
@@ -69,6 +73,7 @@ import {
   makeNearAccount,
 } from "../utils/near";
 import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
+import { getAptosClient } from "../utils/aptos";
 
 function useFetchTargetAsset(nft?: boolean) {
   const dispatch = useDispatch();
@@ -163,6 +168,22 @@ function useFetchTargetAsset(nft?: boolean) {
           const tokenId = await queryExternalId(
             lcd,
             tokenBridgeAddress,
+            originAsset || ""
+          );
+          if (!cancelled) {
+            dispatch(
+              setTargetAsset(
+                receiveDataWrapper({
+                  doesExist: true,
+                  address: tokenId || null,
+                })
+              )
+            );
+          }
+        } else if (originChain === CHAIN_ID_APTOS) {
+          const tokenId = await getTypeFromExternalAddress(
+            getAptosClient(),
+            getTokenBridgeAddressForChain(CHAIN_ID_APTOS),
             originAsset || ""
           );
           if (!cancelled) {
@@ -352,6 +373,39 @@ function useFetchTargetAsset(nft?: boolean) {
             setArgs();
           }
         } catch (e) {
+          if (!cancelled) {
+            dispatch(
+              setTargetAsset(
+                errorDataWrapper(
+                  "Unable to determine existence of wrapped asset"
+                )
+              )
+            );
+          }
+        }
+      }
+      if (targetChain === CHAIN_ID_APTOS && originChain && originAsset) {
+        dispatch(setTargetAsset(fetchDataWrapper()));
+        try {
+          const asset = await getForeignAssetAptos(
+            getAptosClient(),
+            getTokenBridgeAddressForChain(targetChain),
+            originChain,
+            originAsset
+          );
+          if (!cancelled) {
+            dispatch(
+              setTargetAsset(
+                receiveDataWrapper({
+                  doesExist: !!asset,
+                  address: asset ? `${ensureHexPrefix(asset)}::coin::T` : null,
+                })
+              )
+            );
+            setArgs();
+          }
+        } catch (e) {
+          console.error(e);
           if (!cancelled) {
             dispatch(
               setTargetAsset(

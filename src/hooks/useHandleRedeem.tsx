@@ -1,6 +1,7 @@
 import {
   ChainId,
   CHAIN_ID_ALGORAND,
+  CHAIN_ID_APTOS,
   CHAIN_ID_KLAYTN,
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
@@ -17,6 +18,7 @@ import {
   TerraChainId,
   uint8ArrayToHex,
 } from "@certusone/wormhole-sdk";
+import { completeTransferAndRegister } from "@certusone/wormhole-sdk/lib/esm/aptos/api/tokenBridge";
 import { Alert } from "@material-ui/lab";
 import { Wallet } from "@near-wallet-selector/core";
 import { WalletContextState } from "@solana/wallet-adapter-react";
@@ -32,6 +34,7 @@ import { useSnackbar } from "notistack";
 import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlgorandContext } from "../contexts/AlgorandWalletContext";
+import { useAptosContext } from "../contexts/AptosWalletContext";
 import { useEthereumProvider } from "../contexts/EthereumProviderContext";
 import { useNearContext } from "../contexts/NearWalletContext";
 import { useSolanaWallet } from "../contexts/SolanaWalletContext";
@@ -42,6 +45,10 @@ import {
 } from "../store/selectors";
 import { setIsRedeeming, setRedeemTx } from "../store/transferSlice";
 import { signSendAndConfirmAlgorand } from "../utils/algorand";
+import {
+  getAptosClient,
+  waitForSignAndSubmitTransaction,
+} from "../utils/aptos";
 import {
   ACALA_RELAY_URL,
   ALGORAND_BRIDGE_ID,
@@ -98,6 +105,33 @@ async function algo(
         block: result["confirmed-round"],
       })
     );
+    enqueueSnackbar(null, {
+      content: <Alert severity="success">Transaction confirmed</Alert>,
+    });
+  } catch (e) {
+    enqueueSnackbar(null, {
+      content: <Alert severity="error">{parseError(e)}</Alert>,
+    });
+    dispatch(setIsRedeeming(false));
+  }
+}
+
+async function aptos(
+  dispatch: any,
+  enqueueSnackbar: any,
+  signedVAA: Uint8Array
+) {
+  dispatch(setIsRedeeming(true));
+  const tokenBridgeAddress = getTokenBridgeAddressForChain(CHAIN_ID_APTOS);
+  try {
+    const msg = await completeTransferAndRegister(
+      getAptosClient(),
+      tokenBridgeAddress,
+      signedVAA
+    );
+    msg.arguments[0] = Array.from(msg.arguments[0]);
+    const result = await waitForSignAndSubmitTransaction(msg);
+    dispatch(setRedeemTx({ id: result, block: 1 }));
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
     });
@@ -316,6 +350,7 @@ export function useHandleRedeem() {
   const xplaWallet = useXplaConnectedWallet();
   const { accounts: algoAccounts } = useAlgorandContext();
   const { accountId: nearAccountId, wallet } = useNearContext();
+  const { address: aptosAddress } = useAptosContext();
   const signedVAA = useTransferSignedVAA();
   const isRedeeming = useSelector(selectTransferIsRedeeming);
   const handleRedeemClick = useCallback(() => {
@@ -346,6 +381,8 @@ export function useHandleRedeem() {
       );
     } else if (targetChain === CHAIN_ID_XPLA && !!xplaWallet && signedVAA) {
       xpla(dispatch, enqueueSnackbar, xplaWallet, signedVAA);
+    } else if (targetChain === CHAIN_ID_APTOS && !!aptosAddress && signedVAA) {
+      aptos(dispatch, enqueueSnackbar, signedVAA);
     } else if (
       targetChain === CHAIN_ID_ALGORAND &&
       algoAccounts[0] &&
@@ -375,6 +412,7 @@ export function useHandleRedeem() {
     nearAccountId,
     wallet,
     xplaWallet,
+    aptosAddress,
   ]);
 
   const handleRedeemNativeClick = useCallback(() => {

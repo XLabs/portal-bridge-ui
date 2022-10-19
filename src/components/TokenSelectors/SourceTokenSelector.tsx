@@ -1,6 +1,7 @@
 //import Autocomplete from '@material-ui/lab/Autocomplete';
 import {
   CHAIN_ID_ALGORAND,
+  CHAIN_ID_APTOS,
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   CHAIN_ID_XPLA,
@@ -28,6 +29,7 @@ import {
   setSourceWalletAddress as setTransferSourceWalletAddress,
 } from "../../store/transferSlice";
 import AlgoTokenPicker from "./AlgoTokenPicker";
+import AptosTokenPicker from "./AptosTokenPicker";
 import EvmTokenPicker from "./EvmTokenPicker";
 import NearTokenPicker from "./NearTokenPicker";
 import RefreshButtonWrapper from "./RefreshButtonWrapper";
@@ -139,6 +141,14 @@ export const TokenSelector = (props: TokenSelectorProps) => {
     />
   ) : lookupChain === CHAIN_ID_XPLA ? (
     <XplaTokenPicker
+      value={sourceParsedTokenAccount || null}
+      disabled={disabled}
+      onChange={handleOnChange}
+      resetAccounts={maps?.resetAccounts}
+      tokenAccounts={maps?.tokenAccounts}
+    />
+  ) : lookupChain === CHAIN_ID_APTOS ? (
+    <AptosTokenPicker
       value={sourceParsedTokenAccount || null}
       disabled={disabled}
       onChange={handleOnChange}

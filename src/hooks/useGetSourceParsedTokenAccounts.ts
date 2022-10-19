@@ -2,6 +2,7 @@ import {
   ChainId,
   CHAIN_ID_ACALA,
   CHAIN_ID_ALGORAND,
+  CHAIN_ID_APTOS,
   CHAIN_ID_AURORA,
   CHAIN_ID_AVAX,
   CHAIN_ID_BSC,
@@ -39,6 +40,7 @@ import { formatUnits } from "ethers/lib/utils";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlgorandContext } from "../contexts/AlgorandWalletContext";
+import { useAptosContext } from "../contexts/AptosWalletContext";
 import {
   Provider,
   useEthereumProvider,
@@ -58,6 +60,7 @@ import moonbeamIcon from "../icons/moonbeam.svg";
 import neonIcon from "../icons/neon.svg";
 import oasisIcon from "../icons/oasis-network-rose-logo.svg";
 import polygonIcon from "../icons/polygon.svg";
+import aptosIcon from "../icons/aptos.svg";
 import {
   errorSourceParsedTokenAccounts as errorSourceParsedTokenAccountsNFT,
   fetchSourceParsedTokenAccounts as fetchSourceParsedTokenAccountsNFT,
@@ -85,11 +88,13 @@ import {
   setSourceParsedTokenAccounts,
   setSourceWalletAddress,
 } from "../store/transferSlice";
+import { getAptosClient } from "../utils/aptos";
 import {
   ACA_ADDRESS,
   ACA_DECIMALS,
   ALGORAND_HOST,
   ALGO_DECIMALS,
+  APTOS_NATIVE_TOKEN_KEY,
   BLOCKSCOUT_GET_TOKENS_URL,
   CELO_ADDRESS,
   CELO_DECIMALS,
@@ -130,7 +135,8 @@ import {
   extractMintInfo,
   getMultipleAccountsRPC,
 } from "../utils/solana";
-import { fetchSingleMetadata } from "./useAlgoMetadata";
+import { fetchSingleMetadata as fetchSingleMetadataAlgo } from "./useAlgoMetadata";
+import { AptosCoinResourceReturn } from "./useAptosMetadata";
 
 export function createParsedTokenAccount(
   publicKey: string,
@@ -796,7 +802,7 @@ const getAlgorandParsedTokenAccounts = async (
       const assetId = asset["asset-id"];
       const amount = asset.amount;
       try {
-        const metadata = await fetchSingleMetadata(assetId, algodClient);
+        const metadata = await fetchSingleMetadataAlgo(assetId, algodClient);
         const isNFT: boolean = amount === 1 && metadata.decimals === 0;
         if (((nft && isNFT) || (!nft && !isNFT)) && amount > 0) {
           parsedTokenAccounts.push(
@@ -886,6 +892,74 @@ const getNearParsedTokenAccounts = async (
   }
 };
 
+const getAptosParsedTokenAccounts = async (
+  walletAddress: string,
+  dispatch: Dispatch,
+  nft: boolean
+) => {
+  dispatch(
+    nft ? fetchSourceParsedTokenAccountsNFT() : fetchSourceParsedTokenAccounts()
+  );
+  try {
+    if (nft) {
+      dispatch(receiveSourceParsedTokenAccountsNFT([]));
+      return;
+    }
+    const client = getAptosClient();
+    const resources = await client.getAccountResources(walletAddress);
+    const coinResources = resources.filter((r) =>
+      r.type.startsWith("0x1::coin::CoinStore<")
+    );
+    const parsedTokenAccounts: ParsedTokenAccount[] = [];
+    for (const cr of coinResources) {
+      try {
+        const address = cr.type.substring(
+          cr.type.indexOf("<") + 1,
+          cr.type.length - 1
+        );
+        const coinType = `0x1::coin::CoinInfo<${address}>`;
+        const coinStore = `0x1::coin::CoinStore<${address}>`;
+        const value = (
+          (await client.getAccountResource(walletAddress, coinStore))
+            .data as any
+        ).coin.value;
+        const assetInfo = (
+          await client.getAccountResource(address.split("::")[0], coinType)
+        ).data as AptosCoinResourceReturn;
+        if (value && value !== "0" && assetInfo) {
+          const parsedTokenAccount = createParsedTokenAccount(
+            walletAddress,
+            address,
+            value,
+            assetInfo.decimals,
+            Number(formatUnits(value, assetInfo.decimals)),
+            formatUnits(value, assetInfo.decimals),
+            assetInfo.symbol,
+            assetInfo.name
+          );
+          if (address === APTOS_NATIVE_TOKEN_KEY) {
+            parsedTokenAccount.logo = aptosIcon;
+            parsedTokenAccount.isNativeAsset = true;
+            parsedTokenAccounts.unshift(parsedTokenAccount);
+          } else {
+            parsedTokenAccounts.push(parsedTokenAccount);
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    dispatch(receiveSourceParsedTokenAccounts(parsedTokenAccounts));
+  } catch (e) {
+    console.error(e);
+    dispatch(
+      nft
+        ? errorSourceParsedTokenAccountsNFT("Failed to load NFT metadata")
+        : errorSourceParsedTokenAccounts("Failed to load token metadata.")
+    );
+  }
+};
+
 /**
  * Fetches the balance of an asset for the connected wallet
  * This should handle every type of chain in the future, but only reads the Transfer state.
@@ -907,6 +981,7 @@ function useGetAvailableTokens(nft: boolean = false) {
   const { provider, signerAddress } = useEthereumProvider();
   const { accounts: algoAccounts } = useAlgorandContext();
   const { accountId: nearAccountId } = useNearContext();
+  const { address: aptosAddress } = useAptosContext();
 
   const [covalent, setCovalent] = useState<any>(undefined);
   const [covalentLoading, setCovalentLoading] = useState(false);
@@ -940,6 +1015,8 @@ function useGetAvailableTokens(nft: boolean = false) {
     ? algoAccounts[0]?.address
     : lookupChain === CHAIN_ID_NEAR
     ? nearAccountId || undefined
+    : lookupChain === CHAIN_ID_APTOS
+    ? aptosAddress || undefined
     : undefined;
 
   const resetSourceAccounts = useCallback(() => {
@@ -1610,6 +1687,7 @@ function useGetAvailableTokens(nft: boolean = false) {
   //Terra accounts load
   //At present, we don't have any mechanism for doing this.
   useEffect(() => {}, []);
+
   //Algorand accounts load
   useEffect(() => {
     if (lookupChain === CHAIN_ID_ALGORAND && currentSourceWalletAddress) {
@@ -1626,6 +1704,7 @@ function useGetAvailableTokens(nft: boolean = false) {
 
     return () => {};
   }, [dispatch, lookupChain, currentSourceWalletAddress, tokenAccounts, nft]);
+
   //Near accounts load
   useEffect(() => {
     if (lookupChain === CHAIN_ID_NEAR && currentSourceWalletAddress) {
@@ -1633,6 +1712,19 @@ function useGetAvailableTokens(nft: boolean = false) {
         !(tokenAccounts.data || tokenAccounts.isFetching || tokenAccounts.error)
       ) {
         getNearParsedTokenAccounts(currentSourceWalletAddress, dispatch, nft);
+      }
+    }
+
+    return () => {};
+  }, [dispatch, lookupChain, currentSourceWalletAddress, tokenAccounts, nft]);
+
+  //Aptos accounts load
+  useEffect(() => {
+    if (lookupChain === CHAIN_ID_APTOS && currentSourceWalletAddress) {
+      if (
+        !(tokenAccounts.data || tokenAccounts.isFetching || tokenAccounts.error)
+      ) {
+        getAptosParsedTokenAccounts(currentSourceWalletAddress, dispatch, nft);
       }
     }
 
@@ -1691,6 +1783,11 @@ function useGetAvailableTokens(nft: boolean = false) {
       }
     : lookupChain === CHAIN_ID_XPLA
     ? {
+        resetAccounts: resetSourceAccounts,
+      }
+    : lookupChain === CHAIN_ID_APTOS
+    ? {
+        tokenAccounts,
         resetAccounts: resetSourceAccounts,
       }
     : undefined;

@@ -22,6 +22,8 @@ import {
   CHAIN_ID_NEAR,
   CHAIN_ID_MOONBEAM,
   CHAIN_ID_XPLA,
+  CHAIN_ID_APTOS,
+  isValidAptosType,
 } from "@certusone/wormhole-sdk";
 import { Button, makeStyles, Tooltip, Typography } from "@material-ui/core";
 import { FileCopy, OpenInNew } from "@material-ui/icons";
@@ -151,9 +153,7 @@ export default function SmartAddress({
       }/${useableAddress}`
     : chainId === CHAIN_ID_CELO
     ? `https://${
-        CLUSTER === "testnet"
-          ? "alfajores-blockscout.celo-testnet.org"
-          : "explorer.celo.org"
+        CLUSTER === "testnet" ? "alfajores.celoscan.io" : "explorer.celo.org"
       }/address/${useableAddress}`
     : chainId === CHAIN_ID_KARURA
     ? `https://${
@@ -203,6 +203,18 @@ export default function SmartAddress({
     ? `https://explorer.xpla.io/${
         CLUSTER === "testnet" ? "testnet" : "mainnet"
       }/address/${useableAddress}`
+    : chainId === CHAIN_ID_APTOS
+    ? `https://explorer.aptoslabs.com/account/${
+        isValidAptosType(useableAddress)
+          ? useableAddress.split("::")[0]
+          : useableAddress
+      }${
+        CLUSTER === "testnet"
+          ? "?network=testnet"
+          : CLUSTER === "devnet"
+          ? "?network=local"
+          : ""
+      }`
     : undefined;
   const explorerName = getExplorerName(chainId);
 

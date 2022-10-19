@@ -1,6 +1,7 @@
 import {
   ChainId,
   CHAIN_ID_ALGORAND,
+  CHAIN_ID_APTOS,
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   CHAIN_ID_TERRA2,
@@ -15,6 +16,7 @@ import { DataWrapper, getEmptyDataWrapper } from "../store/helpers";
 import { logoOverrides } from "../utils/consts";
 import { Metadata } from "../utils/metaplex";
 import useAlgoMetadata, { AlgoMetadata } from "./useAlgoMetadata";
+import useAptosMetadata, { AptosMetadata } from "./useAptosMetadata";
 import useEvmMetadata, { EvmMetadata } from "./useEvmMetadata";
 import useMetaplexData from "./useMetaplexData";
 import useNearMetadata from "./useNearMetadata";
@@ -177,6 +179,33 @@ const constructAlgoMetadata = (
   };
 };
 
+const constructAptosMetadata = (
+  addresses: string[],
+  metadataMap: DataWrapper<Map<string, AptosMetadata> | null>
+) => {
+  const isFetching = metadataMap.isFetching;
+  const error = metadataMap.error;
+  const receivedAt = metadataMap.receivedAt;
+  const data = new Map<string, GenericMetadata>();
+  addresses.forEach((address) => {
+    const meta = metadataMap.data?.get(address);
+    const obj = {
+      symbol: meta?.symbol || undefined,
+      logo: undefined,
+      tokenName: meta?.tokenName || undefined,
+      decimals: meta?.decimals,
+    };
+    data.set(address, obj);
+  });
+
+  return {
+    isFetching,
+    error,
+    receivedAt,
+    data,
+  };
+};
+
 export default function useMetadata(
   chainId: ChainId,
   addresses: string[]
@@ -202,6 +231,9 @@ export default function useMetadata(
   const nearAddresses = useMemo(() => {
     return chainId === CHAIN_ID_NEAR ? addresses : [];
   }, [chainId, addresses]);
+  const aptosAddresses = useMemo(() => {
+    return chainId === CHAIN_ID_APTOS ? addresses : [];
+  }, [chainId, addresses]);
 
   const metaplexData = useMetaplexData(solanaAddresses);
   const terraMetadata = useTerraMetadata(
@@ -212,6 +244,7 @@ export default function useMetadata(
   const algoMetadata = useAlgoMetadata(algoAddresses);
   const nearMetadata = useNearMetadata(nearAddresses);
   const xplaMetadata = useXplaMetadata(xplaAddresses);
+  const aptosMetadata = useAptosMetadata(aptosAddresses);
 
   const output: DataWrapper<Map<string, GenericMetadata>> = useMemo(
     () =>
@@ -232,6 +265,8 @@ export default function useMetadata(
         ? constructAlgoMetadata(nearAddresses, nearMetadata)
         : chainId === CHAIN_ID_XPLA
         ? constructXplaMetadata(xplaAddresses, xplaMetadata)
+        : chainId === CHAIN_ID_APTOS
+        ? constructAptosMetadata(aptosAddresses, aptosMetadata)
         : getEmptyDataWrapper(),
     [
       chainId,
@@ -249,6 +284,8 @@ export default function useMetadata(
       nearMetadata,
       xplaAddresses,
       xplaMetadata,
+      aptosAddresses,
+      aptosMetadata,
     ]
   );
 

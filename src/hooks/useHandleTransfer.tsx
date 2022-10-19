@@ -1,9 +1,11 @@
 import {
   ChainId,
   CHAIN_ID_ALGORAND,
+  CHAIN_ID_APTOS,
   CHAIN_ID_KLAYTN,
   CHAIN_ID_SOLANA,
   CHAIN_ID_XPLA,
+  createNonce,
   getEmitterAddressAlgorand,
   getEmitterAddressEth,
   getEmitterAddressSolana,
@@ -27,6 +29,7 @@ import {
   transferNativeSol,
   uint8ArrayToHex,
 } from "@certusone/wormhole-sdk";
+import { transferTokens } from "@certusone/wormhole-sdk/lib/esm/aptos/api/tokenBridge";
 import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk/lib/esm";
 import { Alert } from "@material-ui/lab";
 import { Wallet } from "@near-wallet-selector/core";
@@ -37,12 +40,14 @@ import {
   useConnectedWallet,
 } from "@terra-money/wallet-provider";
 import algosdk from "algosdk";
+import { Types } from "aptos";
 import { Signer } from "ethers";
 import { parseUnits, zeroPad } from "ethers/lib/utils";
 import { useSnackbar } from "notistack";
 import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlgorandContext } from "../contexts/AlgorandWalletContext";
+import { useAptosContext } from "../contexts/AptosWalletContext";
 import { useEthereumProvider } from "../contexts/EthereumProviderContext";
 import { useNearContext } from "../contexts/NearWalletContext";
 import { useSolanaWallet } from "../contexts/SolanaWalletContext";
@@ -67,6 +72,11 @@ import {
   setTransferTx,
 } from "../store/transferSlice";
 import { signSendAndConfirmAlgorand } from "../utils/algorand";
+import {
+  getAptosClient,
+  getEmitterAddressAndSequenceFromResult,
+  waitForSignAndSubmitTransaction,
+} from "../utils/aptos";
 import {
   ALGORAND_BRIDGE_ID,
   ALGORAND_HOST,
@@ -196,6 +206,57 @@ async function algo(
   }
 }
 
+async function aptos(
+  dispatch: any,
+  enqueueSnackbar: any,
+  tokenAddress: string,
+  decimals: number,
+  amount: string,
+  recipientChain: ChainId,
+  recipientAddress: Uint8Array,
+  chainId: ChainId,
+  relayerFee?: string
+) {
+  dispatch(setIsSending(true));
+  const tokenBridgeAddress = getTokenBridgeAddressForChain(CHAIN_ID_APTOS);
+  try {
+    const baseAmountParsed = parseUnits(amount, decimals);
+    const feeParsed = parseUnits(relayerFee || "0", decimals);
+    const transferAmountParsed = baseAmountParsed.add(feeParsed);
+    const transferPayload = transferTokens(
+      tokenBridgeAddress,
+      tokenAddress,
+      transferAmountParsed.toString(),
+      recipientChain,
+      recipientAddress,
+      feeParsed.toString(),
+      createNonce().readUInt32LE(0)
+    );
+    const hash = await waitForSignAndSubmitTransaction(transferPayload);
+    dispatch(setTransferTx({ id: hash, block: 1 }));
+    enqueueSnackbar(null, {
+      content: <Alert severity="success">Transaction confirmed</Alert>,
+    });
+    const result = (await getAptosClient().waitForTransactionWithResult(
+      hash
+    )) as Types.UserTransaction;
+    const { emitterAddress, sequence } =
+      getEmitterAddressAndSequenceFromResult(result);
+    await fetchSignedVAA(
+      chainId,
+      emitterAddress,
+      sequence,
+      enqueueSnackbar,
+      dispatch
+    );
+  } catch (e) {
+    enqueueSnackbar(null, {
+      content: <Alert severity="error">{parseError(e)}</Alert>,
+    });
+    dispatch(setIsSending(false));
+  }
+}
+
 async function evm(
   dispatch: any,
   enqueueSnackbar: any,
@@ -214,14 +275,6 @@ async function evm(
     const baseAmountParsed = parseUnits(amount, decimals);
     const feeParsed = parseUnits(relayerFee || "0", decimals);
     const transferAmountParsed = baseAmountParsed.add(feeParsed);
-    console.log(
-      "base",
-      baseAmountParsed,
-      "fee",
-      feeParsed,
-      "total",
-      transferAmountParsed
-    );
     // Klaytn requires specifying gasPrice
     const overrides =
       chainId === CHAIN_ID_KLAYTN
@@ -548,11 +601,11 @@ export function useHandleTransfer() {
   const xplaWallet = useXplaConnectedWallet();
   const { accounts: algoAccounts } = useAlgorandContext();
   const { accountId: nearAccountId, wallet } = useNearContext();
+  const { address: aptosAddress } = useAptosContext();
   const sourceParsedTokenAccount = useSelector(
     selectTransferSourceParsedTokenAccount
   );
   const relayerFee = useSelector(selectTransferRelayerFee);
-  console.log("relayerFee", relayerFee);
 
   const sourceTokenPublicKey = sourceParsedTokenAccount?.publicKey;
   const decimals = sourceParsedTokenAccount?.decimals;
@@ -684,6 +737,24 @@ export function useHandleTransfer() {
         sourceChain,
         relayerFee
       );
+    } else if (
+      sourceChain === CHAIN_ID_APTOS &&
+      aptosAddress &&
+      !!sourceAsset &&
+      decimals !== undefined &&
+      !!targetAddress
+    ) {
+      aptos(
+        dispatch,
+        enqueueSnackbar,
+        sourceAsset,
+        decimals,
+        amount,
+        targetChain,
+        targetAddress,
+        sourceChain,
+        relayerFee
+      );
     } else {
     }
   }, [
@@ -709,6 +780,7 @@ export function useHandleTransfer() {
     nearAccountId,
     wallet,
     xplaWallet,
+    aptosAddress,
   ]);
   return useMemo(
     () => ({

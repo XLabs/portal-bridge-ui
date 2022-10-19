@@ -1,8 +1,10 @@
 import {
   CHAIN_ID_ALGORAND,
+  CHAIN_ID_APTOS,
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   CHAIN_ID_XPLA,
+  ensureHexPrefix,
   isEVMChain,
   isNativeDenom,
   isNativeDenomXpla,
@@ -42,6 +44,8 @@ import { fetchSingleMetadata } from "./useNearMetadata";
 import { useConnectedWallet as useXplaConnectedWallet } from "@xpla/wallet-provider";
 import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
 import { NATIVE_XPLA_DECIMALS } from "../utils/xpla";
+import { useAptosContext } from "../contexts/AptosWalletContext";
+import { getAptosClient } from "../utils/aptos";
 
 function useGetTargetParsedTokenAccounts() {
   const dispatch = useDispatch();
@@ -72,6 +76,7 @@ function useGetTargetParsedTokenAccounts() {
   const xplaWallet = useXplaConnectedWallet();
   const { accounts: algoAccounts } = useAlgorandContext();
   const { accountId: nearAccountId } = useNearContext();
+  const { address: aptosAddress } = useAptosContext();
   const hasResolvedMetadata = metadata.data || metadata.error;
   useEffect(() => {
     // targetParsedTokenAccount is cleared on setTargetAsset, but we need to clear it on wallet changes too
@@ -218,6 +223,50 @@ function useGetTargetParsedTokenAccounts() {
             }
           });
       }
+    }
+    if (
+      targetChain === CHAIN_ID_APTOS &&
+      aptosAddress &&
+      decimals !== undefined
+    ) {
+      (async () => {
+        try {
+          const client = getAptosClient();
+          let value = BigInt(0);
+          try {
+            // This throws if the user never registered for the token
+            const coinStore = `0x1::coin::CoinStore<${ensureHexPrefix(
+              targetAsset
+            )}>`;
+            value = (
+              (await client.getAccountResource(aptosAddress, coinStore))
+                .data as any
+            ).coin.value;
+          } catch (e) {}
+          if (!cancelled) {
+            dispatch(
+              setTargetParsedTokenAccount(
+                createParsedTokenAccount(
+                  "",
+                  "",
+                  value.toString(),
+                  decimals,
+                  Number(formatUnits(value, decimals)),
+                  formatUnits(value, decimals),
+                  symbol,
+                  tokenName,
+                  logo
+                )
+              )
+            );
+          }
+        } catch (e) {
+          if (!cancelled) {
+            console.error(e);
+            // TODO: error state
+          }
+        }
+      })();
     }
     if (targetChain === CHAIN_ID_SOLANA && solPK) {
       let mint;
@@ -461,6 +510,7 @@ function useGetTargetParsedTokenAccounts() {
     decimals,
     nearAccountId,
     xplaWallet,
+    aptosAddress,
   ]);
 }
 

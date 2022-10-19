@@ -2,6 +2,7 @@ import {
   ChainId,
   CHAIN_ID_ACALA,
   CHAIN_ID_ALGORAND,
+  CHAIN_ID_APTOS,
   CHAIN_ID_AURORA,
   CHAIN_ID_AVAX,
   CHAIN_ID_BSC,
@@ -29,6 +30,7 @@ import {
 import { clusterApiUrl } from "@solana/web3.js";
 import { getAddress } from "ethers/lib/utils";
 import { CHAIN_CONFIG_MAP } from "../config";
+import aptosIcon from "../icons/aptos.svg";
 import acalaIcon from "../icons/acala.svg";
 import algorandIcon from "../icons/algorand.svg";
 import auroraIcon from "../icons/aurora.svg";
@@ -49,6 +51,7 @@ import terra2Icon from "../icons/terra2.svg";
 import nearIcon from "../icons/near.svg";
 import xplaIcon from "../icons/xpla.svg";
 import { ConnectConfig, keyStores } from "near-api-js";
+import { AptosNetwork } from "./aptos";
 
 export type Cluster = "devnet" | "testnet" | "mainnet";
 export const CLUSTER: Cluster =
@@ -74,6 +77,11 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_ALGORAND,
           name: "Algorand",
           logo: algorandIcon,
+        },
+        {
+          id: CHAIN_ID_APTOS,
+          name: "Aptos",
+          logo: aptosIcon,
         },
         {
           id: CHAIN_ID_AURORA,
@@ -169,6 +177,11 @@ export const CHAINS: ChainInfo[] =
           logo: algorandIcon,
         },
         {
+          id: CHAIN_ID_APTOS,
+          name: "Aptos",
+          logo: aptosIcon,
+        },
+        {
           id: CHAIN_ID_AURORA,
           name: "Aurora",
           logo: auroraIcon,
@@ -259,6 +272,11 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_ALGORAND,
           name: "Algorand",
           logo: algorandIcon,
+        },
+        {
+          id: CHAIN_ID_APTOS,
+          name: "Aptos",
+          logo: aptosIcon,
         },
         {
           id: CHAIN_ID_BSC,
@@ -354,6 +372,8 @@ export const getDefaultNativeCurrencySymbol = (chainId: ChainId) =>
     ? "NEON"
     : chainId === CHAIN_ID_MOONBEAM
     ? "GLMR"
+    : chainId === CHAIN_ID_APTOS
+    ? "APTOS"
     : "";
 
 export const getDefaultNativeCurrencyAddressEvm = (chainId: ChainId) => {
@@ -537,6 +557,23 @@ export const XPLA_GAS_PRICES_URL =
   CLUSTER === "mainnet"
     ? "https://dimension-fcd.xpla.dev/v1/txs/gas_prices"
     : "https://cube-fcd.xpla.dev/v1/txs/gas_prices";
+
+export const APTOS_URL =
+  CLUSTER === "mainnet"
+    ? "https://fullnode.mainnet.aptoslabs.com"
+    : CLUSTER === "testnet"
+    ? "https://testnet.aptoslabs.com"
+    : "http://localhost:8080";
+
+export const APTOS_NETWORK =
+  CLUSTER === "mainnet"
+    ? AptosNetwork.Mainnet
+    : CLUSTER === "testnet"
+    ? AptosNetwork.Testnet
+    : AptosNetwork.Localhost;
+
+export const APTOS_NATIVE_DECIMALS = 8;
+export const APTOS_NATIVE_TOKEN_KEY = "0x1::aptos_coin::AptosCoin";
 
 export const ALGORAND_HOST =
   CLUSTER === "mainnet"

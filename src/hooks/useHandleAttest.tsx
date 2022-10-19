@@ -1,11 +1,13 @@
 import {
   attestFromAlgorand,
+  attestFromAptos,
   attestFromEth,
   attestFromSolana,
   attestFromTerra,
   attestFromXpla,
   ChainId,
   CHAIN_ID_ALGORAND,
+  CHAIN_ID_APTOS,
   CHAIN_ID_KLAYTN,
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
@@ -35,11 +37,13 @@ import {
   useConnectedWallet,
 } from "@terra-money/wallet-provider";
 import algosdk from "algosdk";
+import { Types } from "aptos";
 import { Signer } from "ethers";
 import { useSnackbar } from "notistack";
 import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlgorandContext } from "../contexts/AlgorandWalletContext";
+import { useAptosContext } from "../contexts/AptosWalletContext";
 import { useEthereumProvider } from "../contexts/EthereumProviderContext";
 import { useNearContext } from "../contexts/NearWalletContext";
 import { useSolanaWallet } from "../contexts/SolanaWalletContext";
@@ -57,6 +61,11 @@ import {
   selectTerraFeeDenom,
 } from "../store/selectors";
 import { signSendAndConfirmAlgorand } from "../utils/algorand";
+import {
+  getAptosClient,
+  getEmitterAddressAndSequenceFromResult,
+  waitForSignAndSubmitTransaction,
+} from "../utils/aptos";
 import {
   ALGORAND_BRIDGE_ID,
   ALGORAND_HOST,
@@ -137,6 +146,46 @@ async function algo(
     });
   } catch (e) {
     console.error(e);
+    enqueueSnackbar(null, {
+      content: <Alert severity="error">{parseError(e)}</Alert>,
+    });
+    dispatch(setIsSending(false));
+  }
+}
+
+async function aptos(dispatch: any, enqueueSnackbar: any, sourceAsset: string) {
+  dispatch(setIsSending(true));
+  const tokenBridgeAddress = getTokenBridgeAddressForChain(CHAIN_ID_APTOS);
+  try {
+    const attestPayload = attestFromAptos(
+      tokenBridgeAddress,
+      CHAIN_ID_APTOS,
+      sourceAsset
+    );
+    const hash = await waitForSignAndSubmitTransaction(attestPayload);
+    dispatch(setAttestTx({ id: hash, block: 1 }));
+    enqueueSnackbar(null, {
+      content: <Alert severity="success">Transaction confirmed</Alert>,
+    });
+    const result = (await getAptosClient().waitForTransactionWithResult(
+      hash
+    )) as Types.UserTransaction;
+    const { emitterAddress, sequence } =
+      getEmitterAddressAndSequenceFromResult(result);
+    enqueueSnackbar(null, {
+      content: <Alert severity="info">Fetching VAA</Alert>,
+    });
+    const { vaaBytes } = await getSignedVAAWithRetry(
+      WORMHOLE_RPC_HOSTS,
+      CHAIN_ID_APTOS,
+      emitterAddress,
+      sequence
+    );
+    dispatch(setSignedVAAHex(uint8ArrayToHex(vaaBytes)));
+    enqueueSnackbar(null, {
+      content: <Alert severity="success">Fetched Signed VAA</Alert>,
+    });
+  } catch (e) {
     enqueueSnackbar(null, {
       content: <Alert severity="error">{parseError(e)}</Alert>,
     });
@@ -422,6 +471,7 @@ export function useHandleAttest() {
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
   const xplaWallet = useXplaConnectedWallet();
   const { accounts: algoAccounts } = useAlgorandContext();
+  const { address: aptosAddress } = useAptosContext();
   const { accountId: nearAccountId, wallet } = useNearContext();
   const disabled = !isTargetComplete || isSending || isSendComplete;
   const handleAttestClick = useCallback(() => {
@@ -442,6 +492,8 @@ export function useHandleAttest() {
       xpla(dispatch, enqueueSnackbar, xplaWallet, sourceAsset);
     } else if (sourceChain === CHAIN_ID_ALGORAND && algoAccounts[0]) {
       algo(dispatch, enqueueSnackbar, algoAccounts[0].address, sourceAsset);
+    } else if (sourceChain === CHAIN_ID_APTOS && aptosAddress) {
+      aptos(dispatch, enqueueSnackbar, sourceAsset);
     } else if (sourceChain === CHAIN_ID_NEAR && nearAccountId && wallet) {
       near(dispatch, enqueueSnackbar, nearAccountId, sourceAsset, wallet);
     } else {
@@ -460,6 +512,7 @@ export function useHandleAttest() {
     nearAccountId,
     wallet,
     xplaWallet,
+    aptosAddress,
   ]);
   return useMemo(
     () => ({
