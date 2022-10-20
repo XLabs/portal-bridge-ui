@@ -167,7 +167,8 @@ export default function TokenWarning({
 
   const showMultiChainWarning =
     isMultiChain && isWormholeWrapped && targetChain !== CHAIN_ID_APTOS;
-  const showWrappedWarning = !isMultiChain && isWormholeWrapped; //Multichain warning is more important
+  const showWrappedWarning =
+    !isMultiChain && isWormholeWrapped && targetChain !== CHAIN_ID_APTOS; //Multichain warning is more important
   const showRewardsWarning = isRewardsToken;
   const showLiquidityWarning = shouldShowLiquidityWarning(
     sourceChain,
