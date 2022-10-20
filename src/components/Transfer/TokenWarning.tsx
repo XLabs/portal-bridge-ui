@@ -1,5 +1,6 @@
 import {
   ChainId,
+  CHAIN_ID_APTOS,
   CHAIN_ID_BSC,
   CHAIN_ID_ETH,
   CHAIN_ID_SOLANA,
@@ -164,8 +165,10 @@ export default function TokenWarning({
     searchableAddress === "0xae7ab96520de3a18e5e111b5eaab095312d7fe84" &&
     sourceChain === CHAIN_ID_ETH;
 
-  const showMultiChainWarning = isMultiChain && isWormholeWrapped;
-  const showWrappedWarning = !isMultiChain && isWormholeWrapped; //Multichain warning is more important
+  const showMultiChainWarning =
+    isMultiChain && isWormholeWrapped && targetChain !== CHAIN_ID_APTOS;
+  const showWrappedWarning =
+    !isMultiChain && isWormholeWrapped && targetChain !== CHAIN_ID_APTOS; //Multichain warning is more important
   const showRewardsWarning = isRewardsToken;
   const showLiquidityWarning = shouldShowLiquidityWarning(
     sourceChain,

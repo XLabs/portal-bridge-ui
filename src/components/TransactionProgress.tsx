@@ -19,6 +19,7 @@ import { useEffect, useState } from "react";
 import { useEthereumProvider } from "../contexts/EthereumProviderContext";
 import { Transaction } from "../store/transferSlice";
 import { CHAINS_BY_ID, CLUSTER, SOLANA_HOST } from "../utils/consts";
+import SmartBlock from "./SmartBlock";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -82,13 +83,22 @@ export default function TransactionProgress({
   }, [isSendComplete, chainId, provider, tx]);
   if (chainId === CHAIN_ID_ETH) {
     if (!isSendComplete && tx && tx.block && currentBlock) {
+      const isFinalized = currentBlock >= tx.block;
       return (
         <div className={classes.root}>
           <Typography variant="body2" className={classes.message}>
-            {currentBlock < tx.block
-              ? `Waiting for finality on ${CHAINS_BY_ID[chainId].name}...`
+            {!isFinalized
+              ? `Waiting for finality on ${CHAINS_BY_ID[chainId].name} which may take up to 15 minutes.`
               : `Waiting for Wormhole Network consensus...`}
           </Typography>
+          {!isFinalized ? (
+            <>
+              <span>Last finalized block number</span>
+              <SmartBlock chainId={chainId} blockNumber={currentBlock} />
+              <span>This transaction's block number</span>
+              <SmartBlock chainId={chainId} blockNumber={tx.block} />
+            </>
+          ) : null}
         </div>
       );
     }
