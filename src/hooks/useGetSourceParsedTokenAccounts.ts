@@ -981,7 +981,8 @@ function useGetAvailableTokens(nft: boolean = false) {
   const { provider, signerAddress } = useEthereumProvider();
   const { accounts: algoAccounts } = useAlgorandContext();
   const { accountId: nearAccountId } = useNearContext();
-  const { address: aptosAddress } = useAptosContext();
+  const { account: aptosAccount } = useAptosContext();
+  const aptosAddress = aptosAccount?.address?.toString();
 
   const [covalent, setCovalent] = useState<any>(undefined);
   const [covalentLoading, setCovalentLoading] = useState(false);

@@ -153,7 +153,17 @@ async function algo(
   }
 }
 
-async function aptos(dispatch: any, enqueueSnackbar: any, sourceAsset: string) {
+async function aptos(
+  dispatch: any,
+  enqueueSnackbar: any,
+  sourceAsset: string,
+  signAndSubmitTransaction: (
+    transaction: Types.TransactionPayload,
+    options?: any
+  ) => Promise<{
+    hash: string;
+  }>
+) {
   dispatch(setIsSending(true));
   const tokenBridgeAddress = getTokenBridgeAddressForChain(CHAIN_ID_APTOS);
   try {
@@ -162,7 +172,10 @@ async function aptos(dispatch: any, enqueueSnackbar: any, sourceAsset: string) {
       CHAIN_ID_APTOS,
       sourceAsset
     );
-    const hash = await waitForSignAndSubmitTransaction(attestPayload);
+    const hash = await waitForSignAndSubmitTransaction(
+      attestPayload,
+      signAndSubmitTransaction
+    );
     dispatch(setAttestTx({ id: hash, block: 1 }));
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
@@ -471,7 +484,8 @@ export function useHandleAttest() {
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
   const xplaWallet = useXplaConnectedWallet();
   const { accounts: algoAccounts } = useAlgorandContext();
-  const { address: aptosAddress } = useAptosContext();
+  const { account: aptosAccount, signAndSubmitTransaction } = useAptosContext();
+  const aptosAddress = aptosAccount?.address?.toString();
   const { accountId: nearAccountId, wallet } = useNearContext();
   const disabled = !isTargetComplete || isSending || isSendComplete;
   const handleAttestClick = useCallback(() => {
@@ -493,7 +507,7 @@ export function useHandleAttest() {
     } else if (sourceChain === CHAIN_ID_ALGORAND && algoAccounts[0]) {
       algo(dispatch, enqueueSnackbar, algoAccounts[0].address, sourceAsset);
     } else if (sourceChain === CHAIN_ID_APTOS && aptosAddress) {
-      aptos(dispatch, enqueueSnackbar, sourceAsset);
+      aptos(dispatch, enqueueSnackbar, sourceAsset, signAndSubmitTransaction);
     } else if (sourceChain === CHAIN_ID_NEAR && nearAccountId && wallet) {
       near(dispatch, enqueueSnackbar, nearAccountId, sourceAsset, wallet);
     } else {
@@ -513,6 +527,7 @@ export function useHandleAttest() {
     wallet,
     xplaWallet,
     aptosAddress,
+    signAndSubmitTransaction,
   ]);
   return useMemo(
     () => ({
