@@ -78,6 +78,7 @@ import {
   useConnectedWallet as useXplaConnectedWallet,
   ConnectedWallet as XplaConnectedWallet,
 } from "@xpla/wallet-provider";
+import { Types } from "aptos";
 
 async function algo(
   dispatch: any,
@@ -122,7 +123,13 @@ async function aptos(
   enqueueSnackbar: any,
   senderAddr: string,
   signedVAA: Uint8Array,
-  shouldUpdate: boolean
+  shouldUpdate: boolean,
+  signAndSubmitTransaction: (
+    transaction: Types.TransactionPayload,
+    options?: any
+  ) => Promise<{
+    hash: string;
+  }>
 ) {
   dispatch(setIsCreating(true));
   const tokenBridgeAddress = getTokenBridgeAddressForChain(CHAIN_ID_APTOS);
@@ -135,7 +142,10 @@ async function aptos(
         tokenBridgeAddress,
         signedVAA
       );
-      await waitForSignAndSubmitTransaction(createWrappedCoinTypePayload);
+      await waitForSignAndSubmitTransaction(
+        createWrappedCoinTypePayload,
+        signAndSubmitTransaction
+      );
     } catch (e) {}
     // create coin
     const createWrappedCoinPayload = createWrappedOnAptos(
@@ -143,7 +153,8 @@ async function aptos(
       signedVAA
     );
     const result = await waitForSignAndSubmitTransaction(
-      createWrappedCoinPayload
+      createWrappedCoinPayload,
+      signAndSubmitTransaction
     );
     dispatch(setCreateTx({ id: result, block: 1 }));
     enqueueSnackbar(null, {
@@ -385,7 +396,8 @@ export function useHandleCreateWrapped(shouldUpdate: boolean) {
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
   const xplaWallet = useXplaConnectedWallet();
   const { accounts: algoAccounts } = useAlgorandContext();
-  const { address: aptosAddress } = useAptosContext();
+  const { account: aptosAccount, signAndSubmitTransaction } = useAptosContext();
+  const aptosAddress = aptosAccount?.address?.toString();
   const { accountId: nearAccountId, wallet } = useNearContext();
   const handleCreateClick = useCallback(() => {
     if (isEVMChain(targetChain) && !!signer && !!signedVAA) {
@@ -428,7 +440,14 @@ export function useHandleCreateWrapped(shouldUpdate: boolean) {
       !!aptosAddress &&
       !!signedVAA
     ) {
-      aptos(dispatch, enqueueSnackbar, aptosAddress, signedVAA, shouldUpdate);
+      aptos(
+        dispatch,
+        enqueueSnackbar,
+        aptosAddress,
+        signedVAA,
+        shouldUpdate,
+        signAndSubmitTransaction
+      );
     } else if (
       targetChain === CHAIN_ID_ALGORAND &&
       algoAccounts[0] &&
@@ -466,6 +485,7 @@ export function useHandleCreateWrapped(shouldUpdate: boolean) {
     wallet,
     xplaWallet,
     aptosAddress,
+    signAndSubmitTransaction,
   ]);
   return useMemo(
     () => ({
