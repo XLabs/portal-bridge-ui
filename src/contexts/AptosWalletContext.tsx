@@ -12,9 +12,11 @@ import {
   SpikaWalletAdapter,
   TokenPocketWalletAdapter,
   useWallet,
+  WalletAdapterNetwork,
   WalletProvider,
 } from "@manahippo/aptos-wallet-adapter";
 import { ReactChildren, useMemo } from "react";
+import { CLUSTER } from "../utils/consts";
 
 export const useAptosContext = useWallet;
 
@@ -23,8 +25,14 @@ export const AptosWalletProvider = ({
 }: {
   children: ReactChildren;
 }) => {
-  const wallets = useMemo(
-    () => [
+  const wallets = useMemo(() => {
+    const network =
+      CLUSTER === "mainnet"
+        ? WalletAdapterNetwork.Mainnet
+        : CLUSTER === "testnet"
+        ? WalletAdapterNetwork.Testnet
+        : WalletAdapterNetwork.Devnet;
+    return [
       new AptosWalletAdapter(),
       new MartianWalletAdapter(),
       new RiseWalletAdapter(),
@@ -33,13 +41,18 @@ export const AptosWalletProvider = ({
       new FletchWalletAdapter(),
       new FewchaWalletAdapter(),
       new SpikaWalletAdapter(),
-      new AptosSnapAdapter(),
+      new AptosSnapAdapter({ network }),
       new BitkeepWalletAdapter(),
       new TokenPocketWalletAdapter(),
-      new BloctoWalletAdapter(),
-    ],
-    []
-  );
+      new BloctoWalletAdapter(
+        network !== WalletAdapterNetwork.Devnet
+          ? {
+              network,
+            }
+          : undefined
+      ),
+    ];
+  }, []);
   return (
     <WalletProvider
       wallets={wallets}
