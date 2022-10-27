@@ -10,7 +10,7 @@ import {
 import { WORMHOLE_RPC_HOSTS } from "../utils/consts";
 import { ChainId } from "@certusone/wormhole-sdk";
 
-const REMAINING_NOTIONAL_TOLERANCE = 0.95;
+const REMAINING_NOTIONAL_TOLERANCE = 0.98;
 interface TokenListEntry {
   originAddress: string;
   originChainId: number;
@@ -122,7 +122,8 @@ const useIsTransferLimited = (): IsTransferLimitedResult => {
           const isLimitedReason =
             transferNotional > chain.notionalLimit
               ? "EXCEEDS_MAX_NOTIONAL"
-              : transferNotional > chain.bigTransactionSize
+              : transferNotional >
+                chain.bigTransactionSize * REMAINING_NOTIONAL_TOLERANCE
               ? "EXCEEDS_LARGE_TRANSFER_LIMIT"
               : transferNotional >
                 chain.remainingAvailableNotional * REMAINING_NOTIONAL_TOLERANCE
