@@ -11,6 +11,7 @@ import { selectTransferTargetChain } from "../../store/selectors";
 import { ParsedTokenAccount } from "../../store/transferSlice";
 import {
   MIGRATION_ASSET_MAP,
+  SOLLET_MINT_AUTHORITY,
   WORMHOLE_V1_MINT_AUTHORITY,
 } from "../../utils/consts";
 import { ExtractedMintInfo } from "../../utils/solana";
@@ -147,7 +148,7 @@ export default function SolanaSourceTokenSelector(
   const isLoading =
     accounts?.isFetching || metaplex.isFetching || tokenMap.isFetching;
 
-  const isWormholev1 = useCallback(
+  const isWormholev1orSollet = useCallback(
     (address: string) => {
       //This is a v1 wormhole token on testnet
       //address = "4QixXecTZ4zdZGa39KH8gVND5NZ2xcaB12wiBhE4S7rn";
@@ -176,6 +177,10 @@ export default function SolanaSourceTokenSelector(
         return true; //This means the mint was created by the wormhole v1 contract, and we want to disallow its transfer.
       }
 
+      if (mintAuthority === SOLLET_MINT_AUTHORITY) {
+        return true; //This means the mint was created by the sollet contract, and we want to disallow its transfer.
+      }
+
       return false;
     },
     [props.mintAccounts, markets.data, nft, targetChain]
@@ -189,21 +194,21 @@ export default function SolanaSourceTokenSelector(
         return Promise.resolve();
       }
       try {
-        v1 = isWormholev1(newValue.mintKey);
+        v1 = isWormholev1orSollet(newValue.mintKey);
       } catch (e) {
         //swallow for now
       }
 
       if (v1 && !isMigrationEligible(newValue.mintKey)) {
         throw Error(
-          "Wormhole v1 assets should not be transferred with this bridge."
+          "Wormhole v1 and Sollet assets should not be transferred with this bridge."
         );
       }
 
       onChange(newValue);
       return Promise.resolve();
     },
-    [isWormholev1, onChange]
+    [isWormholev1orSollet, onChange]
   );
 
   const RenderComp = useCallback(

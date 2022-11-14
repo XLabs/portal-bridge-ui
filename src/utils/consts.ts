@@ -1241,6 +1241,9 @@ export const WORMHOLE_V1_MINT_AUTHORITY =
     ? "BJa7dq3bRP216zaTdw4cdcV71WkPc1HXvmnGeFVDi5DC"
     : "";
 
+export const SOLLET_MINT_AUTHORITY =
+  CLUSTER === "mainnet" ? "6krMGWgeqD4CySfMr94WcfcVbf2TrMzfshAk5DcZ7mbu" : "";
+
 // hardcoded addresses for warnings
 export const SOLANA_TOKENS_THAT_EXIST_ELSEWHERE = [
   "SRMuApVNdxXokk5GT7XD5cUUgXMBCoAz2LHeuAoKWRt", //  SRM
@@ -1287,86 +1290,76 @@ export const MIGRATION_PROGRAM_ADDRESS =
 export const MIGRATION_ASSET_MAP = new Map<string, string>(
   CLUSTER === "mainnet"
     ? [
-        [
-          // HUSD
-          "BybpSTBoZHsmKnfxYG47GDhVPKrnEKX31CScShbrzUhX",
-          "7VQo3HFLNH5QqGtM8eC3XQbPkJUu7nS9LeGWjerRh5Sw",
-        ],
-        [
-          // BUSD
-          "AJ1W9A9N9dEMdVyoDiam2rV44gnBm2csrPDP7xqcapgX",
-          "33fsBLA8djQm82RpHmE3SuVrPGtZBWNYExsEUeKX1HXX",
-        ],
-        [
-          // HBTC
-          "8pBc4v9GAwCBNWPB5XKA93APexMGAS4qMr37vNke9Ref",
-          "7dVH61ChzgmN9BwG4PkzwRP8PbYwPJ7ZPNF2vamKT2H8",
-        ],
-        [
-          // DAI
-          "FYpdBuyAHSbdaAyD1sKkxyLWbAP8uUW9h6uvdhK74ij1",
-          "EjmyN6qEC1Tf1JxiG1ae7UTJhUxSwk1TCWNWqxWV4J6o",
-        ],
-        [
-          // FRAX
-          "8L8pDf3jutdpdr4m3np68CL9ZroLActrqwxi6s9Ah5xU",
-          "FR87nWEUxVgerFGhZM8Y4AggKGLnaXswr1Pd8wZ4kZcp",
-        ],
-        [
-          // USDK
-          "2kycGCD8tJbrjJJqWN2Qz5ysN9iB4Bth3Uic4mSB7uak",
-          "43m2ewFV5nDepieFjT9EmAQnc1HRtAF247RBpLGFem5F",
-        ],
         // [
-        //   // UST
+        //   // HUSD (Wormhole v1)
+        //   "BybpSTBoZHsmKnfxYG47GDhVPKrnEKX31CScShbrzUhX",
+        //   "7VQo3HFLNH5QqGtM8eC3XQbPkJUu7nS9LeGWjerRh5Sw",
+        // ],
+        // [
+        //   // BUSD (Wormhole v1)
+        //   "AJ1W9A9N9dEMdVyoDiam2rV44gnBm2csrPDP7xqcapgX",
+        //   "33fsBLA8djQm82RpHmE3SuVrPGtZBWNYExsEUeKX1HXX",
+        // ],
+        // [
+        //   // HBTC (Wormhole v1)
+        //   "8pBc4v9GAwCBNWPB5XKA93APexMGAS4qMr37vNke9Ref",
+        //   "7dVH61ChzgmN9BwG4PkzwRP8PbYwPJ7ZPNF2vamKT2H8",
+        // ],
+        // [
+        //   // DAI (Wormhole v1)
+        //   "FYpdBuyAHSbdaAyD1sKkxyLWbAP8uUW9h6uvdhK74ij1",
+        //   "EjmyN6qEC1Tf1JxiG1ae7UTJhUxSwk1TCWNWqxWV4J6o",
+        // ],
+        // [
+        //   // FRAX (Wormhole v1)
+        //   "8L8pDf3jutdpdr4m3np68CL9ZroLActrqwxi6s9Ah5xU",
+        //   "FR87nWEUxVgerFGhZM8Y4AggKGLnaXswr1Pd8wZ4kZcp",
+        // ],
+        // [
+        //   // USDK (Wormhole v1)
+        //   "2kycGCD8tJbrjJJqWN2Qz5ysN9iB4Bth3Uic4mSB7uak",
+        //   "43m2ewFV5nDepieFjT9EmAQnc1HRtAF247RBpLGFem5F",
+        // ],
+        // [
+        //   // UST (Wormhole v1)
         //   "CXLBjMMcwkc17GfJtBos6rQCo1ypeH6eDbB82Kby4MRm",
-        //   "5Un6AdG9GBjxVhTSvvt2x6X6vtN1zrDxkkDpDcShnHfF",
+        //   "9vMJfxuKxXBoEa7rM12mYLMwTacLMLDJqHozw96WQL8i",
         // ],
-        [
-          // UST
-          "CXLBjMMcwkc17GfJtBos6rQCo1ypeH6eDbB82Kby4MRm",
-          "9vMJfxuKxXBoEa7rM12mYLMwTacLMLDJqHozw96WQL8i",
-        ],
         // [
-        //   // Wrapped LUNA
+        //   // Wrapped LUNA (Wormhole v1)
         //   "2Xf2yAXJfg82sWwdLUo2x9mZXy6JCdszdMZkcF1Hf4KV",
-        //   "EQTV1LW23Mgtjb5LXSg9NGw1J32oqTV4HCPmHCVSGmqD",
+        //   "F6v4wfAdJB8D8p77bMXZgYt8TDKsYxLYxH5AFhUkYx9W",
         // ],
         [
-          // Wrapped LUNA
-          "2Xf2yAXJfg82sWwdLUo2x9mZXy6JCdszdMZkcF1Hf4KV",
-          "F6v4wfAdJB8D8p77bMXZgYt8TDKsYxLYxH5AFhUkYx9W",
-        ],
-        [
-          // FTT
+          // FTT (Wormhole v1)
           "GbBWwtYTMPis4VHb8MrBbdibPhn28TSrLB53KvUmb7Gi",
           "EzfgjvkSwthhgHaceR3LnKXUoRkP6NUhfghdaHAj1tUv",
         ],
         [
-          // SRM
+          // SRM (Wormhole v1)
           "2jXy799YnEcRXneFo2GEAB6SDRsAa767HpWmktRr1DaP",
           "xnorPhAzWXUczCP3KjU5yDxmKKZi5cSbxytQ1LgE3kG",
         ],
-        [
-          // FTT (Sollet)
-          "AGFEad2et2ZJif9jaGpdMixQqvW5i81aBdvKe7PHNfz3",
-          "EzfgjvkSwthhgHaceR3LnKXUoRkP6NUhfghdaHAj1tUv",
-        ],
-        [
-          // WETH (Sollet)
-          "2FPyTwcZLUg1MDrwsyoP4D6s1tM7hAkHYRjkNb5w6Pxk",
-          "7vfCXTUXx5WJV5JADk17DUJ4ksgau7utNKj4b963voxs",
-        ],
+        // [
+        //   // FTT (Sollet)
+        //   "AGFEad2et2ZJif9jaGpdMixQqvW5i81aBdvKe7PHNfz3",
+        //   "EzfgjvkSwthhgHaceR3LnKXUoRkP6NUhfghdaHAj1tUv",
+        // ],
+        // [
+        //   // WETH (Sollet)
+        //   "2FPyTwcZLUg1MDrwsyoP4D6s1tM7hAkHYRjkNb5w6Pxk",
+        //   "7vfCXTUXx5WJV5JADk17DUJ4ksgau7utNKj4b963voxs",
+        // ],
         [
           // UNI (Sollet)
           "DEhAasscXF4kEGxFgJ3bq4PpVGp5wyUxMRvn6TzGVHaw",
           "8FU95xFJhUUkyyCLU13HSzDLs7oC4QZdXQHL6SCeab36",
         ],
-        [
-          // HXRO (Sollet)
-          "DJafV9qemGp7mLMEn5wrfqaFwxsbLgUsGVS16zKRk9kc",
-          "HxhWkVpk5NS4Ltg5nij2G671CKXFRKPK8vy271Ub4uEK",
-        ],
+        // [
+        //   // HXRO (Sollet)
+        //   "DJafV9qemGp7mLMEn5wrfqaFwxsbLgUsGVS16zKRk9kc",
+        //   "HxhWkVpk5NS4Ltg5nij2G671CKXFRKPK8vy271Ub4uEK",
+        // ],
         [
           // ALEPH (Sollet)
           "CsZ5LZkDS7h9TDKjrbL7VAwQZ9nsRu8vJLhRYfmGaN8K",
