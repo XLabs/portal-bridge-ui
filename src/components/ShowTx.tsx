@@ -20,6 +20,7 @@ import {
   CHAIN_ID_MOONBEAM,
   CHAIN_ID_XPLA,
   CHAIN_ID_APTOS,
+  CHAIN_ID_ARBITRUM,
 } from "@certusone/wormhole-sdk";
 import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk/lib/esm";
 import { Button, makeStyles, Typography } from "@material-ui/core";
@@ -145,6 +146,10 @@ export default function ShowTx({
             : CLUSTER === "devnet"
             ? "?network=local"
             : ""
+        }`
+      : chainId === CHAIN_ID_ARBITRUM
+      ? `https://${CLUSTER === "testnet" ? "goerli." : ""}arbiscan.io/tx/${
+          tx?.id
         }`
       : undefined;
   const explorerName = getExplorerName(chainId);

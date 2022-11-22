@@ -171,6 +171,20 @@ export const METAMASK_CHAIN_PARAMETERS: {
     rpcUrls: ["https://rpc-mumbai.maticvigil.com"],
     blockExplorerUrls: ["https://mumbai.polygonscan.com"],
   },
+  42161: {
+    chainId: "0xA4B1",
+    chainName: "Arbitrum One",
+    nativeCurrency: { name: "ETH", symbol: "ETH", decimals: 18 },
+    rpcUrls: ["https://arb1.arbitrum.io/rpc"],
+    blockExplorerUrls: ["https://arbiscan.io"],
+  },
+  421613: {
+    chainId: "0x66EED",
+    chainName: "Arbitrum Görli",
+    nativeCurrency: { name: "AGOR", symbol: "AGOR", decimals: 18 },
+    rpcUrls: ["https://goerli-rollup.arbitrum.io/rpc"],
+    blockExplorerUrls: ["https://goerli.arbiscan.io"],
+  },
   245022926: {
     chainId: "0xE9AC0CE",
     chainName: "remote proxy — solana devnet",
