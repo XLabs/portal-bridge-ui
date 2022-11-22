@@ -24,6 +24,7 @@ import {
   CHAIN_ID_XPLA,
   CHAIN_ID_APTOS,
   isValidAptosType,
+  CHAIN_ID_ARBITRUM,
 } from "@certusone/wormhole-sdk";
 import { Button, makeStyles, Tooltip, Typography } from "@material-ui/core";
 import { FileCopy, OpenInNew } from "@material-ui/icons";
@@ -215,6 +216,10 @@ export default function SmartAddress({
           ? "?network=local"
           : ""
       }`
+    : chainId === CHAIN_ID_ARBITRUM
+    ? `https://${CLUSTER === "testnet" ? "goerli." : ""}arbiscan.io/${
+        isAsset ? "token" : "address"
+      }/${useableAddress}`
     : undefined;
   const explorerName = getExplorerName(chainId);
 
