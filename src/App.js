@@ -216,7 +216,7 @@ function App() {
                 Bridge
               </Link>
               <Link
-                href="https://docs.wormholenetwork.com/wormhole/faqs"
+                href="https://docs.wormhole.com/wormhole/faqs"
                 target="_blank"
                 rel="noopener noreferrer"
                 color="inherit"
@@ -225,7 +225,7 @@ function App() {
                 FAQ
               </Link>
               <Link
-                href="https://wormholenetwork.com/"
+                href="https://wormhole.com/"
                 target="_blank"
                 rel="noopener noreferrer"
                 color="inherit"
@@ -238,7 +238,7 @@ function App() {
           <Hidden implementation="css" smUp>
             <Tooltip title="View the FAQ">
               <IconButton
-                href="https://docs.wormholenetwork.com/wormhole/faqs"
+                href="https://docs.wormhole.com/wormhole/faqs"
                 target="_blank"
                 rel="noopener noreferrer"
                 size="small"

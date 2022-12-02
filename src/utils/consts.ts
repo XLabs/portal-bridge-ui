@@ -1564,7 +1564,7 @@ export const VAA_EMITTER_ADDRESSES = [
   `${CHAIN_ID_KARURA}:000000000000000000000000b91e3638F82A1fACb28690b37e3aAE45d2c33808`, //Karura nft
 ];
 
-export const WORMHOLE_EXPLORER_BASE = "https://wormholenetwork.com/en/explorer";
+export const WORMHOLE_EXPLORER_BASE = "https://wormhole.com/explorer";
 
 export type MultiChainInfo = {
   [key in ChainId]?: { [address: string]: string };
@@ -1602,7 +1602,7 @@ export const MULTI_CHAIN_TOKENS: MultiChainInfo =
       } as MultiChainInfo);
 
 export const AVAILABLE_MARKETS_URL =
-  "https://docs.wormholenetwork.com/wormhole/overview-liquid-markets";
+  "https://docs.wormhole.com/wormhole/overview-liquid-markets";
 
 export const SOLANA_SYSTEM_PROGRAM_ADDRESS = "11111111111111111111111111111111";
 export const FEATURED_MARKETS_JSON_URL =
@@ -1617,9 +1617,9 @@ export const logoOverrides = new Map<string, string>([
 
 export const getHowToAddTokensToWalletUrl = (chainId: ChainId) => {
   if (isEVMChain(chainId)) {
-    return "https://docs.wormholenetwork.com/wormhole/video-tutorial-how-to-manually-add-tokens-to-your-wallet#1.-metamask-ethereum-polygon-and-bsc";
+    return "https://docs.wormhole.com/wormhole/video-tutorial-how-to-manually-add-tokens-to-your-wallet#metamask";
   } else if (isTerraChain(chainId)) {
-    return "https://docs.wormholenetwork.com/wormhole/video-tutorial-how-to-manually-add-tokens-to-your-wallet#2.-terra-station";
+    return "https://docs.wormhole.com/wormhole/video-tutorial-how-to-manually-add-tokens-to-your-wallet#terra-station";
   }
   return "";
 };
