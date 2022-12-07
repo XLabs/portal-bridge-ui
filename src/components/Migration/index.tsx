@@ -1,6 +1,7 @@
 import {
   ChainId,
   CHAIN_ID_BSC,
+  CHAIN_ID_CELO,
   CHAIN_ID_ETH,
   CHAIN_ID_SOLANA,
 } from "@certusone/wormhole-sdk";
@@ -110,7 +111,11 @@ const MigrationRoot: React.FC<Migration> = (props) => {
 
   if (props.chainId === CHAIN_ID_SOLANA) {
     content = <SolanaRoot {...props} />;
-  } else if (props.chainId === CHAIN_ID_ETH || props.chainId === CHAIN_ID_BSC) {
+  } else if (
+    props.chainId === CHAIN_ID_ETH ||
+    props.chainId === CHAIN_ID_BSC ||
+    props.chainId === CHAIN_ID_CELO
+  ) {
     content = <EthereumRoot {...props} />;
   }
 
