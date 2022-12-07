@@ -1469,6 +1469,17 @@ export const BSC_MIGRATION_ASSET_MAP = new Map<string, string>(
       ]
 );
 
+export const CELO_MIGRATION_ASSET_MAP = new Map<string, string>(
+  CLUSTER === "mainnet"
+    ? [
+        [
+          getAddress("0x122013fd7dF1C6F636a5bb8f03108E876548b455"), // WETH,
+          getAddress("0xCC76FfF95d772C798eaDc6c7E6fA7E0e8b561F64"),
+        ],
+      ]
+    : []
+);
+
 export const getMigrationAssetMap = (chainId: ChainId) => {
   if (chainId === CHAIN_ID_BSC) {
     return BSC_MIGRATION_ASSET_MAP;
@@ -1476,6 +1487,8 @@ export const getMigrationAssetMap = (chainId: ChainId) => {
     return ETH_MIGRATION_ASSET_MAP;
   } else if (chainId === CHAIN_ID_SOLANA) {
     return MIGRATION_ASSET_MAP;
+  } else if (chainId === CHAIN_ID_CELO) {
+    return CELO_MIGRATION_ASSET_MAP;
   } else {
     return new Map<string, string>();
   }

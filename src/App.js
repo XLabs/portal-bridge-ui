@@ -1,5 +1,6 @@
 import {
   CHAIN_ID_BSC,
+  CHAIN_ID_CELO,
   CHAIN_ID_ETH,
   CHAIN_ID_SOLANA,
 } from "@certusone/wormhole-sdk";
@@ -324,11 +325,17 @@ function App() {
         <Route exact path="/migrate/BinanceSmartChain/:legacyAsset/">
           <Migration chainId={CHAIN_ID_BSC} />
         </Route>
+        <Route exact path="/migrate/Celo/:legacyAsset/">
+          <Migration chainId={CHAIN_ID_CELO} />
+        </Route>
         <Route exact path="/migrate/Ethereum/">
           <EvmQuickMigrate chainId={CHAIN_ID_ETH} />
         </Route>
         <Route exact path="/migrate/BinanceSmartChain/">
           <EvmQuickMigrate chainId={CHAIN_ID_BSC} />
+        </Route>
+        <Route exact path="/migrate/Celo/">
+          <EvmQuickMigrate chainId={CHAIN_ID_CELO} />
         </Route>
         <Route exact path="/migrate/Solana/">
           <SolanaQuickMigrate />

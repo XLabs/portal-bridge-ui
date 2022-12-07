@@ -1,5 +1,6 @@
 import {
   CHAIN_ID_BSC,
+  CHAIN_ID_CELO,
   CHAIN_ID_ETH,
   CHAIN_ID_SOLANA,
 } from "@certusone/wormhole-sdk";
@@ -29,6 +30,7 @@ import {
 } from "../../store/transferSlice";
 import {
   BSC_MIGRATION_ASSET_MAP,
+  CELO_MIGRATION_ASSET_MAP,
   CHAINS,
   CLUSTER,
   ETH_MIGRATION_ASSET_MAP,
@@ -105,8 +107,15 @@ function Source() {
     sourceChain === CHAIN_ID_BSC &&
     !!parsedTokenAccount &&
     !!BSC_MIGRATION_ASSET_MAP.get(getAddress(parsedTokenAccount.mintKey));
+  const isCeloMigration =
+    sourceChain === CHAIN_ID_CELO &&
+    !!parsedTokenAccount &&
+    !!CELO_MIGRATION_ASSET_MAP.get(getAddress(parsedTokenAccount.mintKey));
   const isMigrationAsset =
-    isSolanaMigration || isEthereumMigration || isBscMigration;
+    isSolanaMigration ||
+    isEthereumMigration ||
+    isBscMigration ||
+    isCeloMigration;
   const uiAmountString = useSelector(selectTransferSourceBalanceString);
   const amount = useSelector(selectTransferAmount);
   const error = useSelector(selectTransferSourceError);
@@ -123,6 +132,8 @@ function Source() {
       history.push(`/migrate/Ethereum/${parsedTokenAccount?.mintKey}`);
     } else if (sourceChain === CHAIN_ID_BSC) {
       history.push(`/migrate/BinanceSmartChain/${parsedTokenAccount?.mintKey}`);
+    } else if (sourceChain === CHAIN_ID_CELO) {
+      history.push(`/migrate/Celo/${parsedTokenAccount?.mintKey}`);
     }
   }, [history, parsedTokenAccount, sourceChain]);
   const handleSourceChange = useCallback(
