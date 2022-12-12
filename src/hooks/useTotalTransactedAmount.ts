@@ -1,4 +1,5 @@
 import {
+  ChainId,
   hexToNativeString,
   parseTransferPayload,
 } from "@certusone/wormhole-sdk";
@@ -85,7 +86,10 @@ const useTotalTransactedAmount = (): DataWrapper<number> => {
       }
 
       const assetAddress =
-        hexToNativeString(payload.originAddress, payload.originChain) || "";
+        hexToNativeString(
+          payload.originAddress,
+          payload.originChain as ChainId
+        ) || "";
 
       const tvlItem = tvlArray.find((item) => {
         return (

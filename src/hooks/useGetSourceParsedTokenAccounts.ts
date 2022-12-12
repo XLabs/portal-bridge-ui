@@ -8,7 +8,6 @@ import {
   CHAIN_ID_BSC,
   CHAIN_ID_CELO,
   CHAIN_ID_ETH,
-  CHAIN_ID_ETHEREUM_ROPSTEN,
   CHAIN_ID_FANTOM,
   CHAIN_ID_KARURA,
   CHAIN_ID_KLAYTN,
@@ -21,9 +20,10 @@ import {
   CHAIN_ID_XPLA,
   isEVMChain,
   isTerraChain,
-  TokenImplementation__factory,
+  ethers_contracts,
   WSOL_ADDRESS,
   WSOL_DECIMALS,
+  CHAIN_ID_INJECTIVE,
 } from "@certusone/wormhole-sdk";
 import { Dispatch } from "@reduxjs/toolkit";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
@@ -105,8 +105,6 @@ import {
   logoOverrides,
   NATIVE_NEAR_DECIMALS,
   NATIVE_NEAR_PLACEHOLDER,
-  ROPSTEN_WETH_ADDRESS,
-  ROPSTEN_WETH_DECIMALS,
   SOLANA_HOST,
   WAVAX_ADDRESS,
   WAVAX_DECIMALS,
@@ -282,29 +280,6 @@ const createNativeEthParsedTokenAccount = (
       });
 };
 
-const createNativeEthRopstenParsedTokenAccount = (
-  provider: Provider,
-  signerAddress: string | undefined
-) => {
-  return !(provider && signerAddress)
-    ? Promise.reject()
-    : provider.getBalance(signerAddress).then((balanceInWei) => {
-        const balanceInEth = ethers.utils.formatEther(balanceInWei);
-        return createParsedTokenAccount(
-          signerAddress, //public key
-          ROPSTEN_WETH_ADDRESS, //Mint key, On the other side this will be WETH, so this is hopefully a white lie.
-          balanceInWei.toString(), //amount, in wei
-          ROPSTEN_WETH_DECIMALS, //Luckily both ETH and WETH have 18 decimals, so this should not be an issue.
-          parseFloat(balanceInEth), //This loses precision, but is a limitation of the current datamodel. This field is essentially deprecated
-          balanceInEth.toString(), //This is the actual display field, which has full precision.
-          "ETH", //A white lie for display purposes
-          "Ethereum", //A white lie for display purposes
-          ethIcon,
-          true //isNativeAsset
-        );
-      });
-};
-
 const createNativeBscParsedTokenAccount = (
   provider: Provider,
   signerAddress: string | undefined
@@ -449,7 +424,10 @@ const createNativeKaruraParsedTokenAccount = (
 ) => {
   return !(provider && signerAddress)
     ? Promise.reject()
-    : TokenImplementation__factory.connect(KAR_ADDRESS, provider)
+    : ethers_contracts.TokenImplementation__factory.connect(
+        KAR_ADDRESS,
+        provider
+      )
         .balanceOf(signerAddress)
         .then((balance) => {
           const balanceInEth = ethers.utils.formatUnits(balance, KAR_DECIMALS);
@@ -474,7 +452,10 @@ const createNativeAcalaParsedTokenAccount = (
 ) => {
   return !(provider && signerAddress)
     ? Promise.reject()
-    : TokenImplementation__factory.connect(ACA_ADDRESS, provider)
+    : ethers_contracts.TokenImplementation__factory.connect(
+        ACA_ADDRESS,
+        provider
+      )
         .balanceOf(signerAddress)
         .then((balance) => {
           const balanceInEth = ethers.utils.formatUnits(balance, ACA_DECIMALS);
@@ -524,7 +505,10 @@ const createNativeCeloParsedTokenAccount = (
   // https://docs.celo.org/developer-guide/celo-for-eth-devs
   return !(provider && signerAddress)
     ? Promise.reject()
-    : TokenImplementation__factory.connect(CELO_ADDRESS, provider)
+    : ethers_contracts.TokenImplementation__factory.connect(
+        CELO_ADDRESS,
+        provider
+      )
         .balanceOf(signerAddress)
         .then((balance) => {
           const balanceInEth = ethers.utils.formatUnits(balance, CELO_DECIMALS);
@@ -1165,40 +1149,6 @@ function useGetAvailableTokens(nft: boolean = false) {
     };
   }, [lookupChain, provider, signerAddress, nft, ethNativeAccount]);
 
-  //Ethereum (Ropsten) native asset load
-  useEffect(() => {
-    let cancelled = false;
-    if (
-      signerAddress &&
-      lookupChain === CHAIN_ID_ETHEREUM_ROPSTEN &&
-      !ethNativeAccount &&
-      !nft
-    ) {
-      setEthNativeAccountLoading(true);
-      createNativeEthRopstenParsedTokenAccount(provider, signerAddress).then(
-        (result) => {
-          console.log("create native account returned with value", result);
-          if (!cancelled) {
-            setEthNativeAccount(result);
-            setEthNativeAccountLoading(false);
-            setEthNativeAccountError("");
-          }
-        },
-        (error) => {
-          if (!cancelled) {
-            setEthNativeAccount(undefined);
-            setEthNativeAccountLoading(false);
-            setEthNativeAccountError("Unable to retrieve your ETH balance.");
-          }
-        }
-      );
-    }
-
-    return () => {
-      cancelled = true;
-    };
-  }, [lookupChain, provider, signerAddress, nft, ethNativeAccount]);
-
   //Binance Smart Chain native asset load
   useEffect(() => {
     let cancelled = false;
@@ -1789,6 +1739,10 @@ function useGetAvailableTokens(nft: boolean = false) {
     : lookupChain === CHAIN_ID_APTOS
     ? {
         tokenAccounts,
+        resetAccounts: resetSourceAccounts,
+      }
+    : lookupChain === CHAIN_ID_INJECTIVE
+    ? {
         resetAccounts: resetSourceAccounts,
       }
     : undefined;

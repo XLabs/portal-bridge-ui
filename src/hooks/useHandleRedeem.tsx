@@ -2,16 +2,19 @@ import {
   ChainId,
   CHAIN_ID_ALGORAND,
   CHAIN_ID_APTOS,
+  CHAIN_ID_INJECTIVE,
   CHAIN_ID_KLAYTN,
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   CHAIN_ID_XPLA,
   isEVMChain,
   isTerraChain,
+  postVaaSolanaWithRetry,
   redeemAndUnwrapOnSolana,
   redeemOnAlgorand,
   redeemOnEth,
   redeemOnEthNative,
+  redeemOnInjective,
   redeemOnSolana,
   redeemOnTerra,
   redeemOnXpla,
@@ -67,7 +70,6 @@ import {
   signAndSendTransactions,
 } from "../utils/near";
 import parseError from "../utils/parseError";
-import { postVaaWithRetry } from "../utils/postVaa";
 import { signSendAndConfirm } from "../utils/solana";
 import { postWithFees } from "../utils/terra";
 import useTransferSignedVAA from "./useTransferSignedVAA";
@@ -77,6 +79,9 @@ import {
 } from "@xpla/wallet-provider";
 import { postWithFeesXpla } from "../utils/xpla";
 import { Types } from "aptos";
+import { broadcastInjectiveTx } from "../utils/injective";
+import { WalletStrategy } from "@injectivelabs/wallet-ts";
+import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 
 async function algo(
   dispatch: any,
@@ -260,6 +265,38 @@ async function xpla(
   }
 }
 
+async function injective(
+  dispatch: any,
+  enqueueSnackbar: any,
+  wallet: WalletStrategy,
+  walletAddress: string,
+  signedVAA: Uint8Array
+) {
+  dispatch(setIsRedeeming(true));
+  try {
+    const msg = await redeemOnInjective(
+      getTokenBridgeAddressForChain(CHAIN_ID_INJECTIVE),
+      walletAddress,
+      signedVAA
+    );
+    const tx = await broadcastInjectiveTx(
+      wallet,
+      walletAddress,
+      msg,
+      "Wormhole - Complete Transfer"
+    );
+    dispatch(setRedeemTx({ id: tx.txhash, block: tx.height }));
+    enqueueSnackbar(null, {
+      content: <Alert severity="success">Transaction confirmed</Alert>,
+    });
+  } catch (e) {
+    enqueueSnackbar(null, {
+      content: <Alert severity="error">{parseError(e)}</Alert>,
+    });
+    dispatch(setIsRedeeming(false));
+  }
+}
+
 async function solana(
   dispatch: any,
   enqueueSnackbar: any,
@@ -274,7 +311,7 @@ async function solana(
       throw new Error("wallet.signTransaction is undefined");
     }
     const connection = new Connection(SOLANA_HOST, "confirmed");
-    await postVaaWithRetry(
+    await postVaaSolanaWithRetry(
       connection,
       wallet.signTransaction,
       SOL_BRIDGE_ADDRESS,
@@ -362,6 +399,7 @@ export function useHandleRedeem() {
   const { accountId: nearAccountId, wallet } = useNearContext();
   const { account: aptosAccount, signAndSubmitTransaction } = useAptosContext();
   const aptosAddress = aptosAccount?.address?.toString();
+  const { wallet: injWallet, address: injAddress } = useInjectiveContext();
   const signedVAA = useTransferSignedVAA();
   const isRedeeming = useSelector(selectTransferIsRedeeming);
   const handleRedeemClick = useCallback(() => {
@@ -407,7 +445,13 @@ export function useHandleRedeem() {
       !!signedVAA
     ) {
       near(dispatch, enqueueSnackbar, nearAccountId, signedVAA, wallet);
-    } else {
+    } else if (
+      targetChain === CHAIN_ID_INJECTIVE &&
+      injWallet &&
+      injAddress &&
+      signedVAA
+    ) {
+      injective(dispatch, enqueueSnackbar, injWallet, injAddress, signedVAA);
     }
   }, [
     dispatch,
@@ -425,6 +469,8 @@ export function useHandleRedeem() {
     xplaWallet,
     aptosAddress,
     signAndSubmitTransaction,
+    injWallet,
+    injAddress,
   ]);
 
   const handleRedeemNativeClick = useCallback(() => {
@@ -459,7 +505,13 @@ export function useHandleRedeem() {
       !!signedVAA
     ) {
       algo(dispatch, enqueueSnackbar, algoAccounts[0]?.address, signedVAA);
-    } else {
+    } else if (
+      targetChain === CHAIN_ID_INJECTIVE &&
+      injWallet &&
+      injAddress &&
+      signedVAA
+    ) {
+      injective(dispatch, enqueueSnackbar, injWallet, injAddress, signedVAA);
     }
   }, [
     dispatch,
@@ -472,6 +524,8 @@ export function useHandleRedeem() {
     terraWallet,
     terraFeeDenom,
     algoAccounts,
+    injWallet,
+    injAddress,
   ]);
 
   const handleAcalaRelayerRedeemClick = useCallback(async () => {

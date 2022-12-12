@@ -1,12 +1,14 @@
 import {
   CHAIN_ID_ALGORAND,
   CHAIN_ID_APTOS,
+  CHAIN_ID_INJECTIVE,
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   CHAIN_ID_XPLA,
   getIsTransferCompletedAlgorand,
   getIsTransferCompletedAptos,
   getIsTransferCompletedEth,
+  getIsTransferCompletedInjective,
   getIsTransferCompletedSolana,
   getIsTransferCompletedTerra,
   getIsTransferCompletedXpla,
@@ -41,6 +43,7 @@ import useIsWalletReady from "./useIsWalletReady";
 import useTransferSignedVAA from "./useTransferSignedVAA";
 import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
 import { getAptosClient } from "../utils/aptos";
+import { getInjectiveWasmClient } from "../utils/injective";
 
 /**
  * @param recoveryOnly Only fire when in recovery mode
@@ -67,12 +70,6 @@ export default function useGetIsTransferCompleted(
   const hasCorrectEvmNetwork = evmChainId === getEvmChainId(targetChain);
   const shouldFire = !recoveryOnly || isRecovery;
   const [pollState, setPollState] = useState(pollFrequency);
-
-  console.log(
-    "Executing get transfer completed",
-    isTransferCompleted,
-    pollState
-  );
 
   useEffect(() => {
     let cancelled = false;
@@ -216,6 +213,24 @@ export default function useGetIsTransferCompleted(
               account,
               NEAR_TOKEN_BRIDGE_ACCOUNT,
               signedVAA
+            );
+          } catch (error) {
+            console.error(error);
+          }
+          if (!cancelled) {
+            setIsTransferCompleted(transferCompleted);
+            setIsLoading(false);
+          }
+        })();
+      } else if (targetChain === CHAIN_ID_INJECTIVE) {
+        setIsLoading(true);
+        (async () => {
+          try {
+            const client = getInjectiveWasmClient();
+            transferCompleted = await getIsTransferCompletedInjective(
+              getTokenBridgeAddressForChain(targetChain),
+              signedVAA,
+              client
             );
           } catch (error) {
             console.error(error);

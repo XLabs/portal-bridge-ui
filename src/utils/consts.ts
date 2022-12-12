@@ -8,7 +8,6 @@ import {
   CHAIN_ID_BSC,
   CHAIN_ID_CELO,
   CHAIN_ID_ETH,
-  CHAIN_ID_ETHEREUM_ROPSTEN,
   CHAIN_ID_FANTOM,
   CHAIN_ID_KARURA,
   CHAIN_ID_KLAYTN,
@@ -27,6 +26,7 @@ import {
   TerraChainId,
   coalesceChainName,
   CHAIN_ID_ARBITRUM,
+  CHAIN_ID_INJECTIVE,
 } from "@certusone/wormhole-sdk";
 import { clusterApiUrl } from "@solana/web3.js";
 import { getAddress } from "ethers/lib/utils";
@@ -52,8 +52,11 @@ import terraIcon from "../icons/terra.svg";
 import terra2Icon from "../icons/terra2.svg";
 import nearIcon from "../icons/near.svg";
 import xplaIcon from "../icons/xpla.svg";
+import injectiveIcon from "../icons/injective.svg";
 import { ConnectConfig, keyStores } from "near-api-js";
 import { AptosNetwork } from "./aptos";
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { ChainId as InjectiveChainId } from "@injectivelabs/ts-types";
 
 export type Cluster = "devnet" | "testnet" | "mainnet";
 export const CLUSTER: Cluster =
@@ -119,6 +122,11 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_FANTOM,
           name: "Fantom",
           logo: fantomIcon,
+        },
+        {
+          id: CHAIN_ID_INJECTIVE,
+          name: "Injective",
+          logo: injectiveIcon,
         },
         {
           id: CHAIN_ID_KARURA,
@@ -219,14 +227,14 @@ export const CHAINS: ChainInfo[] =
           logo: ethIcon,
         },
         {
-          id: CHAIN_ID_ETHEREUM_ROPSTEN,
-          name: "Ethereum (Ropsten)",
-          logo: ethIcon,
-        },
-        {
           id: CHAIN_ID_FANTOM,
           name: "Fantom",
           logo: fantomIcon,
+        },
+        {
+          id: CHAIN_ID_INJECTIVE,
+          name: "Injective",
+          logo: injectiveIcon,
         },
         {
           id: CHAIN_ID_KARURA,
@@ -327,7 +335,6 @@ export const CHAINS_WITH_NFT_SUPPORT = CHAINS.filter(
     id === CHAIN_ID_AVAX ||
     id === CHAIN_ID_BSC ||
     id === CHAIN_ID_ETH ||
-    id === CHAIN_ID_ETHEREUM_ROPSTEN ||
     id === CHAIN_ID_POLYGON ||
     id === CHAIN_ID_OASIS ||
     id === CHAIN_ID_SOLANA ||
@@ -351,7 +358,7 @@ export const COMING_SOON_CHAINS: ChainInfo[] = [];
 export const getDefaultNativeCurrencySymbol = (chainId: ChainId) =>
   chainId === CHAIN_ID_SOLANA
     ? "SOL"
-    : chainId === CHAIN_ID_ETH || chainId === CHAIN_ID_ETHEREUM_ROPSTEN
+    : chainId === CHAIN_ID_ETH
     ? "ETH"
     : chainId === CHAIN_ID_BSC
     ? "BNB"
@@ -389,6 +396,8 @@ export const getDefaultNativeCurrencySymbol = (chainId: ChainId) =>
     ? "APTOS"
     : chainId === CHAIN_ID_ARBITRUM
     ? "ETH"
+    : chainId === CHAIN_ID_INJECTIVE
+    ? "INJ"
     : "";
 
 export const getDefaultNativeCurrencyAddressEvm = (chainId: ChainId) => {
@@ -398,8 +407,6 @@ export const getDefaultNativeCurrencyAddressEvm = (chainId: ChainId) => {
     ? WBNB_ADDRESS
     : chainId === CHAIN_ID_POLYGON
     ? WMATIC_ADDRESS
-    : chainId === CHAIN_ID_ETHEREUM_ROPSTEN
-    ? ROPSTEN_WETH_ADDRESS
     : chainId === CHAIN_ID_AVAX
     ? WAVAX_ADDRESS
     : chainId === CHAIN_ID_OASIS
@@ -424,7 +431,7 @@ export const getDefaultNativeCurrencyAddressEvm = (chainId: ChainId) => {
 };
 
 export const getExplorerName = (chainId: ChainId) =>
-  chainId === CHAIN_ID_ETH || chainId === CHAIN_ID_ETHEREUM_ROPSTEN
+  chainId === CHAIN_ID_ETH
     ? "Etherscan"
     : chainId === CHAIN_ID_BSC
     ? "BscScan"
@@ -499,8 +506,6 @@ export const ARBITRUM_NETWORK_CHAIN_ID =
 export const getEvmChainId = (chainId: ChainId) =>
   chainId === CHAIN_ID_ETH
     ? ETH_NETWORK_CHAIN_ID
-    : chainId === CHAIN_ID_ETHEREUM_ROPSTEN
-    ? ROPSTEN_ETH_NETWORK_CHAIN_ID
     : chainId === CHAIN_ID_BSC
     ? BSC_NETWORK_CHAIN_ID
     : chainId === CHAIN_ID_POLYGON
@@ -595,6 +600,23 @@ export const APTOS_NETWORK =
 
 export const APTOS_NATIVE_DECIMALS = 8;
 export const APTOS_NATIVE_TOKEN_KEY = "0x1::aptos_coin::AptosCoin";
+
+export const getInjectiveNetwork = () => {
+  if (CLUSTER === "mainnet") {
+    return getNetworkInfo(Network.MainnetK8s);
+  } else if (CLUSTER === "testnet") {
+    return getNetworkInfo(Network.TestnetK8s);
+  }
+  throw Error("Unsupported injective network");
+};
+export const getInjectiveNetworkChainId = () => {
+  if (CLUSTER === "mainnet") {
+    return InjectiveChainId.Mainnet;
+  } else if (CLUSTER === "testnet") {
+    return InjectiveChainId.Testnet;
+  }
+  throw Error("Unsupported injective network");
+};
 
 export const ALGORAND_HOST =
   CLUSTER === "mainnet"
@@ -1052,7 +1074,7 @@ export const COVALENT_GET_TOKENS_URL = (
   noNftMetadata?: boolean
 ) => {
   const chainNum =
-    chainId === CHAIN_ID_ETH || chainId === CHAIN_ID_ETHEREUM_ROPSTEN
+    chainId === CHAIN_ID_ETH
       ? COVALENT_ETHEREUM
       : chainId === CHAIN_ID_BSC
       ? COVALENT_BSC

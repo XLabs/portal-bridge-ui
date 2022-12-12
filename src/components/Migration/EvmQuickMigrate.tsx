@@ -1,4 +1,4 @@
-import { ChainId, TokenImplementation__factory } from "@certusone/wormhole-sdk";
+import { ChainId, ethers_contracts } from "@certusone/wormhole-sdk";
 import { Signer } from "@ethersproject/abstract-signer";
 import { getAddress } from "@ethersproject/address";
 import { BigNumber } from "@ethersproject/bignumber";
@@ -249,7 +249,10 @@ const getAddressBalances = async (
     const promises: Promise<any>[] = [];
     const output = new Map<string, BigNumber | null>();
     addresses.forEach((address) => {
-      const factory = TokenImplementation__factory.connect(address, signer);
+      const factory = ethers_contracts.TokenImplementation__factory.connect(
+        address,
+        signer
+      );
       promises.push(
         factory.balanceOf(signerAddress).then(
           (result) => {

@@ -2,12 +2,14 @@ import {
   ChainId,
   CHAIN_ID_ALGORAND,
   CHAIN_ID_APTOS,
+  CHAIN_ID_INJECTIVE,
   CHAIN_ID_KLAYTN,
   CHAIN_ID_SOLANA,
   CHAIN_ID_XPLA,
   createNonce,
   getEmitterAddressAlgorand,
   getEmitterAddressEth,
+  getEmitterAddressInjective,
   getEmitterAddressSolana,
   getEmitterAddressTerra,
   getEmitterAddressXpla,
@@ -16,6 +18,7 @@ import {
   isTerraChain,
   parseSequenceFromLogAlgorand,
   parseSequenceFromLogEth,
+  parseSequenceFromLogInjective,
   parseSequenceFromLogSolana,
   parseSequenceFromLogTerra,
   parseSequenceFromLogXpla,
@@ -23,6 +26,7 @@ import {
   transferFromAlgorand,
   transferFromEth,
   transferFromEthNative,
+  transferFromInjective,
   transferFromSolana,
   transferFromTerra,
   transferFromXpla,
@@ -108,6 +112,9 @@ import {
   ConnectedWallet as XplaConnectedWallet,
 } from "@xpla/wallet-provider";
 import { postWithFeesXpla, waitForXplaExecution } from "../utils/xpla";
+import { WalletStrategy } from "@injectivelabs/wallet-ts";
+import { broadcastInjectiveTx } from "../utils/injective";
+import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 
 async function fetchSignedVAA(
   chainId: ChainId,
@@ -589,6 +596,61 @@ async function terra(
   }
 }
 
+async function injective(
+  dispatch: any,
+  enqueueSnackbar: any,
+  wallet: WalletStrategy,
+  walletAddress: string,
+  asset: string,
+  amount: string,
+  decimals: number,
+  targetChain: ChainId,
+  targetAddress: Uint8Array,
+  relayerFee?: string
+) {
+  dispatch(setIsSending(true));
+  try {
+    const baseAmountParsed = parseUnits(amount, decimals);
+    const feeParsed = parseUnits(relayerFee || "0", decimals);
+    const transferAmountParsed = baseAmountParsed.add(feeParsed);
+    const tokenBridgeAddress =
+      getTokenBridgeAddressForChain(CHAIN_ID_INJECTIVE);
+    const msgs = await transferFromInjective(
+      walletAddress,
+      tokenBridgeAddress,
+      asset,
+      transferAmountParsed.toString(),
+      targetChain,
+      targetAddress,
+      feeParsed.toString()
+    );
+    const tx = await broadcastInjectiveTx(
+      wallet,
+      walletAddress,
+      msgs,
+      "Wormhole - Initiate Transfer"
+    );
+    dispatch(setTransferTx({ id: tx.txhash, block: tx.height }));
+    enqueueSnackbar(null, {
+      content: <Alert severity="success">Transaction confirmed</Alert>,
+    });
+    const sequence = parseSequenceFromLogInjective(tx);
+    if (!sequence) {
+      throw new Error("Sequence not found");
+    }
+    const emitterAddress = await getEmitterAddressInjective(tokenBridgeAddress);
+    await fetchSignedVAA(
+      CHAIN_ID_INJECTIVE,
+      emitterAddress,
+      sequence,
+      enqueueSnackbar,
+      dispatch
+    );
+  } catch (e) {
+    handleError(e, enqueueSnackbar, dispatch);
+  }
+}
+
 export function useHandleTransfer() {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
@@ -612,6 +674,7 @@ export function useHandleTransfer() {
   const { accountId: nearAccountId, wallet } = useNearContext();
   const { account: aptosAccount, signAndSubmitTransaction } = useAptosContext();
   const aptosAddress = aptosAccount?.address?.toString();
+  const { wallet: injWallet, address: injAddress } = useInjectiveContext();
   const sourceParsedTokenAccount = useSelector(
     selectTransferSourceParsedTokenAccount
   );
@@ -766,7 +829,26 @@ export function useHandleTransfer() {
         signAndSubmitTransaction,
         relayerFee
       );
-    } else {
+    } else if (
+      sourceChain === CHAIN_ID_INJECTIVE &&
+      injWallet &&
+      injAddress &&
+      !!sourceAsset &&
+      decimals !== undefined &&
+      !!targetAddress
+    ) {
+      injective(
+        dispatch,
+        enqueueSnackbar,
+        injWallet,
+        injAddress,
+        sourceAsset,
+        amount,
+        decimals,
+        targetChain,
+        targetAddress,
+        relayerFee
+      );
     }
   }, [
     dispatch,
@@ -793,6 +875,8 @@ export function useHandleTransfer() {
     xplaWallet,
     aptosAddress,
     signAndSubmitTransaction,
+    injWallet,
+    injAddress,
   ]);
   return useMemo(
     () => ({

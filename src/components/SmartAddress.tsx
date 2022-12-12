@@ -6,7 +6,6 @@ import {
   CHAIN_ID_BSC,
   CHAIN_ID_CELO,
   CHAIN_ID_ETH,
-  CHAIN_ID_ETHEREUM_ROPSTEN,
   CHAIN_ID_FANTOM,
   CHAIN_ID_KLAYTN,
   CHAIN_ID_KARURA,
@@ -14,7 +13,6 @@ import {
   CHAIN_ID_POLYGON,
   CHAIN_ID_SOLANA,
   CHAIN_ID_TERRA,
-  isNativeDenom,
   CHAIN_ID_ACALA,
   isTerraChain,
   CHAIN_ID_TERRA2,
@@ -25,6 +23,8 @@ import {
   CHAIN_ID_APTOS,
   isValidAptosType,
   CHAIN_ID_ARBITRUM,
+  CHAIN_ID_INJECTIVE,
+  terra,
 } from "@certusone/wormhole-sdk";
 import { Button, makeStyles, Tooltip, Typography } from "@material-ui/core";
 import { FileCopy, OpenInNew } from "@material-ui/icons";
@@ -96,7 +96,7 @@ export default function SmartAddress({
   isAsset?: boolean;
 }) {
   const classes = useStyles();
-  const isNativeTerra = isTerraChain(chainId) && isNativeDenom(address);
+  const isNativeTerra = isTerraChain(chainId) && terra.isNativeDenom(address);
   const useableAddress = parsedTokenAccount?.mintKey || address || "";
   const useableSymbol = isNativeTerra
     ? formatNativeDenom(address || "", chainId as TerraChainId)
@@ -116,10 +116,6 @@ export default function SmartAddress({
     ? null
     : chainId === CHAIN_ID_ETH
     ? `https://${CLUSTER === "testnet" ? "goerli." : ""}etherscan.io/${
-        isAsset ? "token" : "address"
-      }/${useableAddress}`
-    : chainId === CHAIN_ID_ETHEREUM_ROPSTEN
-    ? `https://${CLUSTER === "testnet" ? "ropsten." : ""}etherscan.io/${
         isAsset ? "token" : "address"
       }/${useableAddress}`
     : chainId === CHAIN_ID_BSC
@@ -220,6 +216,12 @@ export default function SmartAddress({
     ? `https://${CLUSTER === "testnet" ? "goerli." : ""}arbiscan.io/${
         isAsset ? "token" : "address"
       }/${useableAddress}`
+    : chainId === CHAIN_ID_INJECTIVE
+    ? `https://${
+        CLUSTER === "testnet" ? "testnet." : ""
+      }explorer.injective.network/${
+        isAsset ? "asset/?tokenIdentifier=" : "account/"
+      }${useableAddress}`
     : undefined;
   const explorerName = getExplorerName(chainId);
 

@@ -16,7 +16,6 @@ import {
   CHAIN_ID_AVAX,
   CHAIN_ID_BSC,
   CHAIN_ID_ETH,
-  CHAIN_ID_ETHEREUM_ROPSTEN,
   CHAIN_ID_POLYGON,
   CHAIN_ID_SOLANA,
   CHAIN_ID_OASIS,
@@ -56,7 +55,7 @@ const LogoIcon = ({ chainId }: { chainId: ChainId }) =>
       src={solanaIcon}
       alt="Solana"
     />
-  ) : chainId === CHAIN_ID_ETH || chainId === CHAIN_ID_ETHEREUM_ROPSTEN ? (
+  ) : chainId === CHAIN_ID_ETH ? (
     <Avatar
       style={{
         backgroundColor: "white",
@@ -427,7 +426,6 @@ export default function NFTViewer({
           className={clsx(classes.cardInset, {
             [classes.eth]:
               chainId === CHAIN_ID_ETH ||
-              chainId === CHAIN_ID_ETHEREUM_ROPSTEN ||
               chainId === CHAIN_ID_AVAX || //TODO: give avax it's own bg
               chainId === CHAIN_ID_OASIS || //TODO: give oasis it's own bg
               chainId === CHAIN_ID_FANTOM, //TODO: give fantom it's own bg
