@@ -220,7 +220,9 @@ export default function SmartAddress({
     ? `https://${
         CLUSTER === "testnet" ? "testnet." : ""
       }explorer.injective.network/${
-        isAsset ? "asset/?tokenIdentifier=" : "account/"
+        isAsset
+          ? `asset/?tokenType=${isNative ? "native" : "cw20"}&tokenIdentifier=`
+          : "account/"
       }${useableAddress}`
     : undefined;
   const explorerName = getExplorerName(chainId);

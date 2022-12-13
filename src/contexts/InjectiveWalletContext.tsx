@@ -7,8 +7,8 @@ import {
   useState,
 } from "react";
 import { Wallet, WalletStrategy } from "@injectivelabs/wallet-ts";
-import { ChainId } from "@injectivelabs/ts-types";
 import keplrIcon from "../icons/keplr.svg";
+import { getInjectiveNetworkChainId } from "../utils/consts";
 
 interface IInjectiveProviderContext {
   connect(wallet: Wallet): void;
@@ -58,7 +58,7 @@ export const InjectiveWalletProvider = ({
         // Keplr wallet doesn't support changing accounts, getting the network or chain id
         // MetaMask wallet can only sign injective TXs if the active chain is the same as the one passed to the WalletStrategy
         const wallet = new WalletStrategy({
-          chainId: ChainId.Testnet,
+          chainId: getInjectiveNetworkChainId(),
           // WalletStrategy throws when WalletConnect is enabled
           disabledWallets: [Wallet.WalletConnect],
         });
