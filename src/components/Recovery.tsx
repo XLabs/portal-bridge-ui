@@ -20,6 +20,7 @@ import {
   hexToUint8Array,
   isEVMChain,
   isTerraChain,
+  ParsedVaa,
   parseNFTPayload,
   parseSequenceFromLogAlgorand,
   parseSequenceFromLogEth,
@@ -468,7 +469,9 @@ export default function Recovery() {
     useState(false);
   const [recoverySourceTxError, setRecoverySourceTxError] = useState("");
   const [recoverySignedVAA, setRecoverySignedVAA] = useState("");
-  const [recoveryParsedVAA, setRecoveryParsedVAA] = useState<any>(null);
+  const [recoveryParsedVAA, setRecoveryParsedVAA] = useState<ParsedVaa | null>(
+    null
+  );
   const [isVAAPending, setIsVAAPending] = useState(false);
   const [tokenId, setTokenId] = useState("");
   const { accountId: nearAccountId } = useNearContext();
@@ -495,6 +498,7 @@ export default function Recovery() {
       return null;
     }
   }, [recoveryParsedVAA, isNFT]);
+  console.log("parsedPayload", parsedPayload);
 
   useEffect(() => {
     let cancelled = false;
@@ -765,25 +769,15 @@ export default function Recovery() {
     setRecoverySignedVAA(event.target.value.trim());
   }, []);
   useEffect(() => {
-    let cancelled = false;
     if (recoverySignedVAA) {
-      (async () => {
-        try {
-          const parsedVAA = parseVaa(hexToUint8Array(recoverySignedVAA));
-          if (!cancelled) {
-            setRecoveryParsedVAA(parsedVAA);
-          }
-        } catch (e) {
-          console.log(e);
-          if (!cancelled) {
-            setRecoveryParsedVAA(null);
-          }
-        }
-      })();
+      try {
+        const parsedVAA = parseVaa(hexToUint8Array(recoverySignedVAA));
+        setRecoveryParsedVAA(parsedVAA);
+      } catch (e) {
+        console.log(e);
+        setRecoveryParsedVAA(null);
+      }
     }
-    return () => {
-      cancelled = true;
-    };
   }, [recoverySignedVAA]);
   const parsedPayloadTargetChain = parsedPayload?.targetChain;
   const enableRecovery = recoverySignedVAA && parsedPayloadTargetChain;
@@ -958,7 +952,7 @@ export default function Recovery() {
                   variant="outlined"
                   label="Emitter Chain"
                   disabled
-                  value={recoveryParsedVAA?.emitter_chain || ""}
+                  value={recoveryParsedVAA?.emitterChain || ""}
                   fullWidth
                   margin="normal"
                 />
@@ -969,8 +963,8 @@ export default function Recovery() {
                   value={
                     (recoveryParsedVAA &&
                       hexToNativeString(
-                        recoveryParsedVAA.emitter_address,
-                        recoveryParsedVAA.emitter_chain
+                        recoveryParsedVAA.emitterAddress.toString("hex"),
+                        recoveryParsedVAA.emitterChain as ChainId
                       )) ||
                     ""
                   }
@@ -981,7 +975,7 @@ export default function Recovery() {
                   variant="outlined"
                   label="Sequence"
                   disabled
-                  value={recoveryParsedVAA?.sequence || ""}
+                  value={recoveryParsedVAA?.sequence?.toString() || ""}
                   fullWidth
                   margin="normal"
                 />
@@ -1003,7 +997,7 @@ export default function Recovery() {
                   variant="outlined"
                   label="Guardian Set"
                   disabled
-                  value={recoveryParsedVAA?.guardian_set_index || ""}
+                  value={recoveryParsedVAA?.guardianSetIndex?.toString() || ""}
                   fullWidth
                   margin="normal"
                 />

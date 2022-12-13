@@ -10,7 +10,6 @@ import { NFTParsedTokenAccount } from "../../store/nftSlice";
 import { selectTransferTargetChain } from "../../store/selectors";
 import { ParsedTokenAccount } from "../../store/transferSlice";
 import {
-  MIGRATION_ASSET_MAP,
   SOLLET_MINT_AUTHORITY,
   WORMHOLE_V1_MINT_AUTHORITY,
 } from "../../utils/consts";
@@ -31,7 +30,7 @@ type SolanaSourceTokenSelectorProps = {
 };
 
 const isMigrationEligible = (address: string) => {
-  return !!MIGRATION_ASSET_MAP.get(address);
+  return false;
 };
 
 export default function SolanaSourceTokenSelector(
