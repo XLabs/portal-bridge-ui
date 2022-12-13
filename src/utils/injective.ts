@@ -61,7 +61,7 @@ export const broadcastInjectiveTx = async (
     address: walletAddress,
     memo,
   });
-  const tx = await client.fetchTx(txHash);
+  const tx = await client.fetchTxPoll(txHash);
   if (!tx) {
     throw new Error("Unable to fetch transaction");
   }
