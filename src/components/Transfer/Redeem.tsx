@@ -4,7 +4,6 @@ import {
   CHAIN_ID_AVAX,
   CHAIN_ID_BSC,
   CHAIN_ID_ETH,
-  CHAIN_ID_ETHEREUM_ROPSTEN,
   CHAIN_ID_FANTOM,
   CHAIN_ID_KARURA,
   CHAIN_ID_KLAYTN,
@@ -44,7 +43,6 @@ import {
   CHAINS_BY_ID,
   CLUSTER,
   getHowToAddTokensToWalletUrl,
-  ROPSTEN_WETH_ADDRESS,
   WAVAX_ADDRESS,
   WBNB_ADDRESS,
   WETH_ADDRESS,
@@ -114,10 +112,6 @@ function Redeem() {
     targetChain === CHAIN_ID_ETH &&
     targetAsset &&
     targetAsset.toLowerCase() === WETH_ADDRESS.toLowerCase();
-  const isEthRopstenNative =
-    targetChain === CHAIN_ID_ETHEREUM_ROPSTEN &&
-    targetAsset &&
-    targetAsset.toLowerCase() === ROPSTEN_WETH_ADDRESS.toLowerCase();
   const isBscNative =
     targetChain === CHAIN_ID_BSC &&
     targetAsset &&
@@ -160,7 +154,6 @@ function Redeem() {
     targetAsset === WSOL_ADDRESS;
   const isNativeEligible =
     isEthNative ||
-    isEthRopstenNative ||
     isBscNative ||
     isPolygonNative ||
     isAvaxNative ||

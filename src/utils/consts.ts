@@ -8,7 +8,6 @@ import {
   CHAIN_ID_BSC,
   CHAIN_ID_CELO,
   CHAIN_ID_ETH,
-  CHAIN_ID_ETHEREUM_ROPSTEN,
   CHAIN_ID_FANTOM,
   CHAIN_ID_KARURA,
   CHAIN_ID_KLAYTN,
@@ -27,6 +26,7 @@ import {
   TerraChainId,
   coalesceChainName,
   CHAIN_ID_ARBITRUM,
+  CHAIN_ID_INJECTIVE,
 } from "@certusone/wormhole-sdk";
 import { clusterApiUrl } from "@solana/web3.js";
 import { getAddress } from "ethers/lib/utils";
@@ -52,8 +52,11 @@ import terraIcon from "../icons/terra.svg";
 import terra2Icon from "../icons/terra2.svg";
 import nearIcon from "../icons/near.svg";
 import xplaIcon from "../icons/xpla.svg";
+import injectiveIcon from "../icons/injective.svg";
 import { ConnectConfig, keyStores } from "near-api-js";
 import { AptosNetwork } from "./aptos";
+import { getNetworkInfo, Network } from "@injectivelabs/networks";
+import { ChainId as InjectiveChainId } from "@injectivelabs/ts-types";
 
 export type Cluster = "devnet" | "testnet" | "mainnet";
 export const CLUSTER: Cluster =
@@ -119,6 +122,11 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_FANTOM,
           name: "Fantom",
           logo: fantomIcon,
+        },
+        {
+          id: CHAIN_ID_INJECTIVE,
+          name: "Injective",
+          logo: injectiveIcon,
         },
         {
           id: CHAIN_ID_KARURA,
@@ -219,14 +227,14 @@ export const CHAINS: ChainInfo[] =
           logo: ethIcon,
         },
         {
-          id: CHAIN_ID_ETHEREUM_ROPSTEN,
-          name: "Ethereum (Ropsten)",
-          logo: ethIcon,
-        },
-        {
           id: CHAIN_ID_FANTOM,
           name: "Fantom",
           logo: fantomIcon,
+        },
+        {
+          id: CHAIN_ID_INJECTIVE,
+          name: "Injective",
+          logo: injectiveIcon,
         },
         {
           id: CHAIN_ID_KARURA,
@@ -327,7 +335,6 @@ export const CHAINS_WITH_NFT_SUPPORT = CHAINS.filter(
     id === CHAIN_ID_AVAX ||
     id === CHAIN_ID_BSC ||
     id === CHAIN_ID_ETH ||
-    id === CHAIN_ID_ETHEREUM_ROPSTEN ||
     id === CHAIN_ID_POLYGON ||
     id === CHAIN_ID_OASIS ||
     id === CHAIN_ID_SOLANA ||
@@ -351,7 +358,7 @@ export const COMING_SOON_CHAINS: ChainInfo[] = [];
 export const getDefaultNativeCurrencySymbol = (chainId: ChainId) =>
   chainId === CHAIN_ID_SOLANA
     ? "SOL"
-    : chainId === CHAIN_ID_ETH || chainId === CHAIN_ID_ETHEREUM_ROPSTEN
+    : chainId === CHAIN_ID_ETH
     ? "ETH"
     : chainId === CHAIN_ID_BSC
     ? "BNB"
@@ -389,6 +396,8 @@ export const getDefaultNativeCurrencySymbol = (chainId: ChainId) =>
     ? "APTOS"
     : chainId === CHAIN_ID_ARBITRUM
     ? "ETH"
+    : chainId === CHAIN_ID_INJECTIVE
+    ? "INJ"
     : "";
 
 export const getDefaultNativeCurrencyAddressEvm = (chainId: ChainId) => {
@@ -398,8 +407,6 @@ export const getDefaultNativeCurrencyAddressEvm = (chainId: ChainId) => {
     ? WBNB_ADDRESS
     : chainId === CHAIN_ID_POLYGON
     ? WMATIC_ADDRESS
-    : chainId === CHAIN_ID_ETHEREUM_ROPSTEN
-    ? ROPSTEN_WETH_ADDRESS
     : chainId === CHAIN_ID_AVAX
     ? WAVAX_ADDRESS
     : chainId === CHAIN_ID_OASIS
@@ -424,7 +431,7 @@ export const getDefaultNativeCurrencyAddressEvm = (chainId: ChainId) => {
 };
 
 export const getExplorerName = (chainId: ChainId) =>
-  chainId === CHAIN_ID_ETH || chainId === CHAIN_ID_ETHEREUM_ROPSTEN
+  chainId === CHAIN_ID_ETH
     ? "Etherscan"
     : chainId === CHAIN_ID_BSC
     ? "BscScan"
@@ -499,8 +506,6 @@ export const ARBITRUM_NETWORK_CHAIN_ID =
 export const getEvmChainId = (chainId: ChainId) =>
   chainId === CHAIN_ID_ETH
     ? ETH_NETWORK_CHAIN_ID
-    : chainId === CHAIN_ID_ETHEREUM_ROPSTEN
-    ? ROPSTEN_ETH_NETWORK_CHAIN_ID
     : chainId === CHAIN_ID_BSC
     ? BSC_NETWORK_CHAIN_ID
     : chainId === CHAIN_ID_POLYGON
@@ -595,6 +600,23 @@ export const APTOS_NETWORK =
 
 export const APTOS_NATIVE_DECIMALS = 8;
 export const APTOS_NATIVE_TOKEN_KEY = "0x1::aptos_coin::AptosCoin";
+
+export const getInjectiveNetwork = () => {
+  if (CLUSTER === "mainnet") {
+    return getNetworkInfo(Network.MainnetK8s);
+  } else if (CLUSTER === "testnet") {
+    return getNetworkInfo(Network.TestnetK8s);
+  }
+  throw Error("Unsupported injective network");
+};
+export const getInjectiveNetworkChainId = () => {
+  if (CLUSTER === "mainnet") {
+    return InjectiveChainId.Mainnet;
+  } else if (CLUSTER === "testnet") {
+    return InjectiveChainId.Testnet;
+  }
+  throw Error("Unsupported injective network");
+};
 
 export const ALGORAND_HOST =
   CLUSTER === "mainnet"
@@ -1052,7 +1074,7 @@ export const COVALENT_GET_TOKENS_URL = (
   noNftMetadata?: boolean
 ) => {
   const chainNum =
-    chainId === CHAIN_ID_ETH || chainId === CHAIN_ID_ETHEREUM_ROPSTEN
+    chainId === CHAIN_ID_ETH
       ? COVALENT_ETHEREUM
       : chainId === CHAIN_ID_BSC
       ? COVALENT_BSC
@@ -1312,105 +1334,6 @@ export const MIGRATION_PROGRAM_ADDRESS =
     ? ""
     : "Ex9bCdVMSfx7EzB3pgSi2R4UHwJAXvTw18rBQm5YQ8gK";
 
-export const MIGRATION_ASSET_MAP = new Map<string, string>(
-  CLUSTER === "mainnet"
-    ? [
-        // [
-        //   // HUSD (Wormhole v1)
-        //   "BybpSTBoZHsmKnfxYG47GDhVPKrnEKX31CScShbrzUhX",
-        //   "7VQo3HFLNH5QqGtM8eC3XQbPkJUu7nS9LeGWjerRh5Sw",
-        // ],
-        // [
-        //   // BUSD (Wormhole v1)
-        //   "AJ1W9A9N9dEMdVyoDiam2rV44gnBm2csrPDP7xqcapgX",
-        //   "33fsBLA8djQm82RpHmE3SuVrPGtZBWNYExsEUeKX1HXX",
-        // ],
-        // [
-        //   // HBTC (Wormhole v1)
-        //   "8pBc4v9GAwCBNWPB5XKA93APexMGAS4qMr37vNke9Ref",
-        //   "7dVH61ChzgmN9BwG4PkzwRP8PbYwPJ7ZPNF2vamKT2H8",
-        // ],
-        // [
-        //   // DAI (Wormhole v1)
-        //   "FYpdBuyAHSbdaAyD1sKkxyLWbAP8uUW9h6uvdhK74ij1",
-        //   "EjmyN6qEC1Tf1JxiG1ae7UTJhUxSwk1TCWNWqxWV4J6o",
-        // ],
-        // [
-        //   // FRAX (Wormhole v1)
-        //   "8L8pDf3jutdpdr4m3np68CL9ZroLActrqwxi6s9Ah5xU",
-        //   "FR87nWEUxVgerFGhZM8Y4AggKGLnaXswr1Pd8wZ4kZcp",
-        // ],
-        // [
-        //   // USDK (Wormhole v1)
-        //   "2kycGCD8tJbrjJJqWN2Qz5ysN9iB4Bth3Uic4mSB7uak",
-        //   "43m2ewFV5nDepieFjT9EmAQnc1HRtAF247RBpLGFem5F",
-        // ],
-        // [
-        //   // UST (Wormhole v1)
-        //   "CXLBjMMcwkc17GfJtBos6rQCo1ypeH6eDbB82Kby4MRm",
-        //   "9vMJfxuKxXBoEa7rM12mYLMwTacLMLDJqHozw96WQL8i",
-        // ],
-        // [
-        //   // Wrapped LUNA (Wormhole v1)
-        //   "2Xf2yAXJfg82sWwdLUo2x9mZXy6JCdszdMZkcF1Hf4KV",
-        //   "F6v4wfAdJB8D8p77bMXZgYt8TDKsYxLYxH5AFhUkYx9W",
-        // ],
-        [
-          // FTT (Wormhole v1)
-          "GbBWwtYTMPis4VHb8MrBbdibPhn28TSrLB53KvUmb7Gi",
-          "EzfgjvkSwthhgHaceR3LnKXUoRkP6NUhfghdaHAj1tUv",
-        ],
-        [
-          // SRM (Wormhole v1)
-          "2jXy799YnEcRXneFo2GEAB6SDRsAa767HpWmktRr1DaP",
-          "xnorPhAzWXUczCP3KjU5yDxmKKZi5cSbxytQ1LgE3kG",
-        ],
-        // [
-        //   // FTT (Sollet)
-        //   "AGFEad2et2ZJif9jaGpdMixQqvW5i81aBdvKe7PHNfz3",
-        //   "EzfgjvkSwthhgHaceR3LnKXUoRkP6NUhfghdaHAj1tUv",
-        // ],
-        // [
-        //   // WETH (Sollet)
-        //   "2FPyTwcZLUg1MDrwsyoP4D6s1tM7hAkHYRjkNb5w6Pxk",
-        //   "7vfCXTUXx5WJV5JADk17DUJ4ksgau7utNKj4b963voxs",
-        // ],
-        [
-          // UNI (Sollet)
-          "DEhAasscXF4kEGxFgJ3bq4PpVGp5wyUxMRvn6TzGVHaw",
-          "8FU95xFJhUUkyyCLU13HSzDLs7oC4QZdXQHL6SCeab36",
-        ],
-        // [
-        //   // HXRO (Sollet)
-        //   "DJafV9qemGp7mLMEn5wrfqaFwxsbLgUsGVS16zKRk9kc",
-        //   "HxhWkVpk5NS4Ltg5nij2G671CKXFRKPK8vy271Ub4uEK",
-        // ],
-        [
-          // ALEPH (Sollet)
-          "CsZ5LZkDS7h9TDKjrbL7VAwQZ9nsRu8vJLhRYfmGaN8K",
-          "3UCMiSnkcnkPE1pgQ5ggPCBv6dXgVUy16TmMUe1WpG9x",
-        ],
-        [
-          // TOMOE (Sollet)
-          "GXMvfY2jpQctDqZ9RoU3oWPhufKiCcFEfchvYumtX7jd",
-          "46AiRdka3HYGkhV6r9gyS6Teo9cojfGXfK8oniALYMZx",
-        ],
-      ]
-    : CLUSTER === "testnet"
-    ? [
-        [
-          "orcarKHSqC5CDDsGbho8GKvwExejWHxTqGzXgcewB9L", //This is not actually a v1 asset
-          "orcarKHSqC5CDDsGbho8GKvwExejWHxTqGzXgcewB9L",
-        ],
-      ]
-    : [
-        // [
-        //   "2WDq7wSs9zYrpx2kbHDA4RUTRch2CCTP6ZWaH4GNfnQQ",
-        //   "GcdupcwxkmVGM6s9F8bHSjNoznXAb3hRJTioABNYkn31",
-        // ],
-      ]
-);
-
 export const ETH_MIGRATION_ASSET_MAP = new Map<string, string>(
   CLUSTER === "mainnet"
     ? [
@@ -1485,8 +1408,6 @@ export const getMigrationAssetMap = (chainId: ChainId) => {
     return BSC_MIGRATION_ASSET_MAP;
   } else if (chainId === CHAIN_ID_ETH) {
     return ETH_MIGRATION_ASSET_MAP;
-  } else if (chainId === CHAIN_ID_SOLANA) {
-    return MIGRATION_ASSET_MAP;
   } else if (chainId === CHAIN_ID_CELO) {
     return CELO_MIGRATION_ASSET_MAP;
   } else {

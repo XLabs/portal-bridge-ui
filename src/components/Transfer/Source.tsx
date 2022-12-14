@@ -35,7 +35,6 @@ import {
   CLUSTER,
   ETH_MIGRATION_ASSET_MAP,
   getIsTransferDisabled,
-  MIGRATION_ASSET_MAP,
 } from "../../utils/consts";
 import ButtonWithLoader from "../ButtonWithLoader";
 import ChainSelect from "../ChainSelect";
@@ -95,10 +94,6 @@ function Source() {
     selectTransferSourceParsedTokenAccount
   );
   const hasParsedTokenAccount = !!parsedTokenAccount;
-  const isSolanaMigration =
-    sourceChain === CHAIN_ID_SOLANA &&
-    !!parsedTokenAccount &&
-    !!MIGRATION_ASSET_MAP.get(parsedTokenAccount.mintKey);
   const isEthereumMigration =
     sourceChain === CHAIN_ID_ETH &&
     !!parsedTokenAccount &&
@@ -112,10 +107,7 @@ function Source() {
     !!parsedTokenAccount &&
     !!CELO_MIGRATION_ASSET_MAP.get(getAddress(parsedTokenAccount.mintKey));
   const isMigrationAsset =
-    isSolanaMigration ||
-    isEthereumMigration ||
-    isBscMigration ||
-    isCeloMigration;
+    isEthereumMigration || isBscMigration || isCeloMigration;
   const uiAmountString = useSelector(selectTransferSourceBalanceString);
   const amount = useSelector(selectTransferAmount);
   const error = useSelector(selectTransferSourceError);
@@ -124,11 +116,7 @@ function Source() {
   const { isReady, statusMessage } = useIsWalletReady(sourceChain);
   const isTransferLimited = useIsTransferLimited();
   const handleMigrationClick = useCallback(() => {
-    if (sourceChain === CHAIN_ID_SOLANA) {
-      history.push(
-        `/migrate/Solana/${parsedTokenAccount?.mintKey}/${parsedTokenAccount?.publicKey}`
-      );
-    } else if (sourceChain === CHAIN_ID_ETH) {
+    if (sourceChain === CHAIN_ID_ETH) {
       history.push(`/migrate/Ethereum/${parsedTokenAccount?.mintKey}`);
     } else if (sourceChain === CHAIN_ID_BSC) {
       history.push(`/migrate/BinanceSmartChain/${parsedTokenAccount?.mintKey}`);

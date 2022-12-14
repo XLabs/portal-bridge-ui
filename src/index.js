@@ -17,6 +17,7 @@ import { TerraWalletProvider } from "./contexts/TerraWalletContext.tsx";
 import ErrorBoundary from "./ErrorBoundary";
 import { theme } from "./muiTheme";
 import { store } from "./store";
+import InjectiveWalletProvider from "./contexts/InjectiveWalletContext";
 
 ReactDOM.render(
   <ErrorBoundary>
@@ -33,10 +34,12 @@ ReactDOM.render(
                       <NearContextProvider>
                         <XplaWalletProvider>
                           <AptosWalletProvider>
-                            <HashRouter>
-                              <BackgroundImage />
-                              <App />
-                            </HashRouter>
+                            <InjectiveWalletProvider>
+                              <HashRouter>
+                                <BackgroundImage />
+                                <App />
+                              </HashRouter>
+                            </InjectiveWalletProvider>
                           </AptosWalletProvider>
                         </XplaWalletProvider>
                       </NearContextProvider>

@@ -1,8 +1,7 @@
 import {
   ChainId,
   CHAIN_ID_ETH,
-  NFTImplementation,
-  TokenImplementation,
+  ethers_contracts,
 } from "@certusone/wormhole-sdk";
 import { WormholeAbi__factory } from "@certusone/wormhole-sdk/lib/esm/ethers-contracts/abi";
 import { getAddress as getEthAddress } from "@ethersproject/address";
@@ -114,13 +113,13 @@ export default function EvmTokenPicker(
             return Promise.reject("Token ID is required.");
           } else if (nft && tokenId) {
             return ethNFTToNFTParsedTokenAccount(
-              tokenAccount as NFTImplementation,
+              tokenAccount as ethers_contracts.NFTImplementation,
               tokenId,
               signerAddress
             );
           } else {
             return ethTokenToParsedTokenAccount(
-              tokenAccount as TokenImplementation,
+              tokenAccount as ethers_contracts.TokenImplementation,
               signerAddress
             );
           }

@@ -3,6 +3,7 @@ import {
   ChainId,
   CHAIN_ID_ALGORAND,
   CHAIN_ID_APTOS,
+  CHAIN_ID_INJECTIVE,
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   CHAIN_ID_TERRA2,
@@ -10,6 +11,7 @@ import {
   getForeignAssetAlgorand,
   getForeignAssetAptos,
   getForeignAssetEth,
+  getForeignAssetInjective,
   getForeignAssetSolana,
   getForeignAssetTerra,
   getForeignAssetXpla,
@@ -47,6 +49,7 @@ import {
 import { useNearContext } from "../contexts/NearWalletContext";
 import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
 import { getAptosClient } from "../utils/aptos";
+import { getInjectiveWasmClient } from "../utils/injective";
 
 export type ForeignAssetInfo = {
   doesExist: boolean;
@@ -208,6 +211,16 @@ function useFetchForeignAsset(
                 )
               )
               .catch(() => Promise.reject("Failed to make Near account"));
+          }
+        : foreignChain === CHAIN_ID_INJECTIVE
+        ? () => {
+            const client = getInjectiveWasmClient();
+            return getForeignAssetInjective(
+              getTokenBridgeAddressForChain(foreignChain),
+              client,
+              originChain,
+              hexToUint8Array(originAssetHex)
+            );
           }
         : () => Promise.resolve(null);
 
