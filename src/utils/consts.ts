@@ -123,11 +123,11 @@ export const CHAINS: ChainInfo[] =
           name: "Fantom",
           logo: fantomIcon,
         },
-        {
-          id: CHAIN_ID_INJECTIVE,
-          name: "Injective",
-          logo: injectiveIcon,
-        },
+        //{
+        //  id: CHAIN_ID_INJECTIVE,
+        //  name: "Injective",
+        //  logo: injectiveIcon,
+        //},
         {
           id: CHAIN_ID_KARURA,
           name: "Karura",
