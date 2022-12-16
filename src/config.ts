@@ -2,6 +2,7 @@ import {
   ChainId,
   CHAIN_ID_INJECTIVE,
   CHAIN_ID_TERRA,
+  CHAIN_ID_ARBITRUM,
 } from "@certusone/wormhole-sdk";
 import { CHAIN_ID_AURORA } from "@certusone/wormhole-sdk";
 
@@ -41,6 +42,12 @@ export const CHAIN_CONFIG_MAP: ChainConfigMap = {
     disableTransfers: false,
     warningMessage: {
       text: "Using a Ledger device with the Keplr wallet extension to sign transactions on Injective is currently unsupported.",
+    },
+  },
+  [CHAIN_ID_ARBITRUM]: {
+    disableTransfers: true,
+    warningMessage: {
+      text: "Wormhole Network and Portal have paused Arbitrum support temporarily.",
     },
   },
 };
