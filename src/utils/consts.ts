@@ -1660,7 +1660,17 @@ export const DISABLED_TOKEN_TRANSFERS: {
   [CHAIN_ID_KARURA]: {
     "0x0000000000000000000100000000000000000081": [], // aUSD
   },
+  [CHAIN_ID_ETH]: {
+    "0xe28b3B32B6c345A34Ff64674606124Dd5Aceca30": [], // INJ
+  },
+  [CHAIN_ID_BSC]: {
+    "0xa2B726B1145A4773F68593CF171187d8EBe4d495": [], // INJ
+  },
+  [CHAIN_ID_INJECTIVE]: {
+    "inj": [], // INJ
+  }
 };
+
 export const getIsTokenTransferDisabled = (
   sourceChain: ChainId,
   targetChain: ChainId,
