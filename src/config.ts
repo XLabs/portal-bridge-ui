@@ -2,6 +2,7 @@ import {
   ChainId,
   CHAIN_ID_INJECTIVE,
   CHAIN_ID_ARBITRUM,
+  CHAIN_ID_KARURA,
 } from "@certusone/wormhole-sdk";
 import { CHAIN_ID_AURORA } from "@certusone/wormhole-sdk";
 
@@ -41,6 +42,12 @@ export const CHAIN_CONFIG_MAP: ChainConfigMap = {
     disableTransfers: true,
     warningMessage: {
       text: "Wormhole Network and Portal have paused Arbitrum support temporarily.",
+    },
+  },
+  [CHAIN_ID_KARURA]: {
+    disableTransfers: "from",
+    warningMessage: {
+      text: "Portal has paused transfers from Karura temporarily.",
     },
   },
 };
