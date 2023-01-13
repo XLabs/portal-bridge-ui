@@ -29,7 +29,9 @@ import { balancePretty } from "../../utils/balancePretty";
 import {
   AVAILABLE_MARKETS_URL,
   CHAINS_BY_ID,
+  DisabledTokenReasons,
   getIsTokenTransferDisabled,
+  getIsTokenTransferDisabledReasons,
 } from "../../utils/consts";
 import { shortenAddress } from "../../utils/solana";
 import NFTViewer from "./NFTViewer";
@@ -117,7 +119,10 @@ const useStyles = makeStyles((theme) =>
     grower: {
       flexGrow: 1,
     },
-  })
+    disabledTokenAlert: {
+      borderStyle: "none",
+    },
+  }),
 );
 
 const noClickThrough = (e: any) => {
@@ -128,7 +133,7 @@ export const BasicAccountRender = (
   account: MarketParsedTokenAccount,
   isMigrationEligible: (address: string) => boolean,
   nft: boolean,
-  displayBalance?: (account: NFTParsedTokenAccount) => boolean
+  displayBalance?: (account: NFTParsedTokenAccount) => boolean,
 ) => {
   const { data: marketsData } = useMarketsMap(false);
   const classes = useStyles();
@@ -174,7 +179,7 @@ export const BasicAccountRender = (
               >
                 {marketsData.markets[market].name}
               </Button>
-            ) : null
+            ) : null,
           )}
         </div>
       ) : null}
@@ -195,9 +200,7 @@ export const BasicAccountRender = (
         {shouldDisplayBalance ? (
           <>
             <Typography variant="body2">{"Balance"}</Typography>
-            <Typography variant="h6">
-              {balancePretty(account.uiAmountString)}
-            </Typography>
+            <Typography variant="h6">{balancePretty(account.uiAmountString)}</Typography>
           </>
         ) : (
           <div />
@@ -209,19 +212,13 @@ export const BasicAccountRender = (
   const migrationRender = (
     <div className={classes.migrationAlert}>
       <Alert severity="warning">
-        <Typography variant="body2">
-          This is a legacy asset eligible for migration.
-        </Typography>
+        <Typography variant="body2">This is a legacy asset eligible for migration.</Typography>
         <div>{tokenContent}</div>
       </Alert>
     </div>
   );
 
-  return nft
-    ? nftContent
-    : isMigrationEligible(account.mintKey)
-    ? migrationRender
-    : tokenContent;
+  return nft ? nftContent : isMigrationEligible(account.mintKey) ? migrationRender : tokenContent;
 };
 
 interface MarketParsedTokenAccount extends NFTParsedTokenAccount {
@@ -245,17 +242,10 @@ export default function TokenPicker({
 }: {
   value: NFTParsedTokenAccount | null;
   options: NFTParsedTokenAccount[];
-  RenderOption: ({
-    account,
-  }: {
-    account: NFTParsedTokenAccount;
-  }) => JSX.Element;
+  RenderOption: ({ account }: { account: NFTParsedTokenAccount }) => JSX.Element;
   onChange: (newValue: NFTParsedTokenAccount | null) => Promise<void>;
   isValidAddress?: (address: string, chainId: ChainId) => boolean;
-  getAddress?: (
-    address: string,
-    tokenId?: string
-  ) => Promise<NFTParsedTokenAccount>;
+  getAddress?: (address: string, tokenId?: string) => Promise<NFTParsedTokenAccount>;
   disabled: boolean;
   resetAccounts: (() => void) | undefined;
   nft: boolean;
@@ -310,12 +300,12 @@ export default function TokenPicker({
           setSelectionError(e.message);
         } else {
           setSelectionError(
-            "Unable to retrieve required information about this token. Ensure your wallet is connected, then refresh the list."
+            "Unable to retrieve required information about this token. Ensure your wallet is connected, then refresh the list.",
           );
         }
       }
     },
-    [getAddress, onChange, closeDialog]
+    [getAddress, onChange, closeDialog],
   );
 
   const resetAccountsWrapper = useCallback(() => {
@@ -342,7 +332,7 @@ export default function TokenPicker({
       const searchString = holderString.toLowerCase();
       return optionString.includes(searchString);
     },
-    [holderString]
+    [holderString],
   );
 
   const marketChainTokens = marketsData?.tokens?.[chainId];
@@ -352,23 +342,18 @@ export default function TokenPicker({
     // only tokens have featured markets
     if (!nft && featuredMarkets) {
       const ownedMarketTokens = options
-        .filter(
-          (option: NFTParsedTokenAccount) => featuredMarkets?.[option.mintKey]
-        )
+        .filter((option: NFTParsedTokenAccount) => featuredMarkets?.[option.mintKey])
         .map(
           (option) =>
             ({
               ...option,
               markets: featuredMarkets[option.mintKey].markets,
-            } as MarketParsedTokenAccount)
+            } as MarketParsedTokenAccount),
         );
       return [
         ...ownedMarketTokens,
         ...Object.keys(featuredMarkets)
-          .filter(
-            (mintKey) =>
-              !ownedMarketTokens.find((option) => option.mintKey === mintKey)
-          )
+          .filter((mintKey) => !ownedMarketTokens.find((option) => option.mintKey === mintKey))
           .map(
             (mintKey) =>
               ({
@@ -381,7 +366,7 @@ export default function TokenPicker({
                 uiAmountString: "0", // if we can't look up by address, we can select the market that isn't in the list of holdings, but can't proceed since the balance will be 0
                 symbol: marketChainTokens?.[mintKey]?.symbol,
                 logo: marketChainTokens?.[mintKey]?.logo,
-              } as MarketParsedTokenAccount)
+              } as MarketParsedTokenAccount),
           ),
       ].filter(searchFilter);
     }
@@ -393,19 +378,17 @@ export default function TokenPicker({
       (option: NFTParsedTokenAccount) =>
         searchFilter(option) &&
         // only tokens have featured markets
-        (nft || !featuredMarkets?.[option.mintKey])
+        (nft || !featuredMarkets?.[option.mintKey]),
     );
   }, [nft, options, featuredMarkets, searchFilter]);
 
   const localFind = useCallback(
     (address: string, tokenIdHolderString: string) => {
       return options.find(
-        (x) =>
-          x.mintKey === address &&
-          (!tokenIdHolderString || x.tokenId === tokenIdHolderString)
+        (x) => x.mintKey === address && (!tokenIdHolderString || x.tokenId === tokenIdHolderString),
       );
     },
-    [options]
+    [options],
   );
 
   //This is the effect which allows pasting an address in directly
@@ -428,10 +411,7 @@ export default function TokenPicker({
       }
       setLocalLoading(true);
       setLoadingError("");
-      getAddress(
-        holderString,
-        useTokenId ? tokenIdHolderString : undefined
-      ).then(
+      getAddress(holderString, useTokenId ? tokenIdHolderString : undefined).then(
         (result) => {
           if (!cancelled) {
             setLocalLoading(false);
@@ -445,7 +425,7 @@ export default function TokenPicker({
             setLocalLoading(false);
             setLoadingError("Could not find the specified address.");
           }
-        }
+        },
       );
     }
     return () => (cancelled = true);
@@ -481,6 +461,45 @@ export default function TokenPicker({
     </div>
   );
 
+  const TokenListItem = ({ option }: { option: NFTParsedTokenAccount }) => {
+    const isTokenDisabled: boolean = getIsTokenTransferDisabled(
+      chainId,
+      targetChain,
+      option.mintKey,
+    );
+
+    const disabledTokenReasons: DisabledTokenReasons | undefined =
+      getIsTokenTransferDisabledReasons(chainId, option.mintKey);
+    const { text: disabledReason, link } = disabledTokenReasons || {};
+    const { text: linkText, url } = link || {};
+
+    return (
+      <>
+        <ListItem
+          component="div"
+          button
+          onClick={() => handleSelectOption(option)}
+          disabled={isTokenDisabled}
+        >
+          <RenderOption account={option} />
+        </ListItem>
+        {isTokenDisabled && disabledReason && (
+          <Alert variant="outlined" severity="info" className={classes.disabledTokenAlert}>
+            {disabledReason}
+            {link && (
+              <>
+                {" "}
+                <Link href={url} target="_blank" rel="noreferrer">
+                  {linkText}
+                </Link>
+              </>
+            )}
+          </Alert>
+        )}
+      </>
+    );
+  };
+
   const dialog = (
     <Dialog
       onClose={closeDialog}
@@ -502,13 +521,8 @@ export default function TokenPicker({
       </DialogTitle>
       <DialogContent className={classes.dialogContent}>
         <Alert severity="info">
-          You should always check for markets and liquidity before sending
-          tokens.{" "}
-          <Link
-            href={AVAILABLE_MARKETS_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          You should always check for markets and liquidity before sending tokens.{" "}
+          <Link href={AVAILABLE_MARKETS_URL} target="_blank" rel="noopener noreferrer">
             Click here to see available markets for wrapped tokens.
           </Link>
         </Alert>
@@ -539,38 +553,24 @@ export default function TokenPicker({
             {featuredOptions.length ? (
               <>
                 <Typography variant="subtitle2" gutterBottom>
-                  Featured {CHAINS_BY_ID[chainId].name} &gt;{" "}
-                  {CHAINS_BY_ID[targetChain].name} markets{" "}
+                  Featured {CHAINS_BY_ID[chainId].name} &gt; {CHAINS_BY_ID[targetChain].name}{" "}
+                  markets{" "}
                   <Tooltip
                     title={`Markets for these ${CHAINS_BY_ID[chainId].name} tokens exist for the corresponding tokens on ${CHAINS_BY_ID[targetChain].name}`}
                   >
-                    <InfoOutlined
-                      fontSize="small"
-                      style={{ verticalAlign: "text-bottom" }}
-                    />
+                    <InfoOutlined fontSize="small" style={{ verticalAlign: "text-bottom" }} />
                   </Tooltip>
                 </Typography>
+
                 {featuredOptions.map((option) => {
                   return (
-                    <ListItem
-                      component="div"
-                      button
-                      onClick={() => handleSelectOption(option)}
-                      key={
-                        option.publicKey +
-                        option.mintKey +
-                        (option.tokenId || "")
-                      }
-                      disabled={getIsTokenTransferDisabled(
-                        chainId,
-                        targetChain,
-                        option.mintKey
-                      )}
-                    >
-                      <RenderOption account={option} />
-                    </ListItem>
+                    <TokenListItem
+                      key={option.publicKey + option.mintKey + (option.tokenId || "")}
+                      option={option}
+                    />
                   );
                 })}
+
                 {nonFeaturedOptions.length ? (
                   <>
                     <Divider style={{ marginTop: 8, marginBottom: 16 }} />
@@ -583,21 +583,10 @@ export default function TokenPicker({
             ) : null}
             {nonFeaturedOptions.map((option) => {
               return (
-                <ListItem
-                  component="div"
-                  button
-                  onClick={() => handleSelectOption(option)}
-                  key={
-                    option.publicKey + option.mintKey + (option.tokenId || "")
-                  }
-                  disabled={getIsTokenTransferDisabled(
-                    chainId,
-                    targetChain,
-                    option.mintKey
-                  )}
-                >
-                  <RenderOption account={option} />
-                </ListItem>
+                <TokenListItem
+                  key={option.publicKey + option.mintKey + (option.tokenId || "")}
+                  option={option}
+                />
               );
             })}
             {featuredOptions.length || nonFeaturedOptions.length ? null : (
