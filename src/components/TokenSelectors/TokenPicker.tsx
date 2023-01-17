@@ -29,7 +29,9 @@ import { balancePretty } from "../../utils/balancePretty";
 import {
   AVAILABLE_MARKETS_URL,
   CHAINS_BY_ID,
+  DisabledTokenReasons,
   getIsTokenTransferDisabled,
+  getIsTokenTransferDisabledReasons,
 } from "../../utils/consts";
 import { shortenAddress } from "../../utils/solana";
 import NFTViewer from "./NFTViewer";
@@ -116,6 +118,9 @@ const useStyles = makeStyles((theme) =>
     },
     grower: {
       flexGrow: 1,
+    },
+    disabledTokenAlert: {
+      borderStyle: "none",
     },
   })
 );
@@ -481,6 +486,49 @@ export default function TokenPicker({
     </div>
   );
 
+  const TokenListItem = ({ option }: { option: NFTParsedTokenAccount }) => {
+    const isTokenDisabled: boolean = getIsTokenTransferDisabled(
+      chainId,
+      targetChain,
+      option.mintKey
+    );
+
+    const disabledTokenReasons: DisabledTokenReasons | undefined =
+      getIsTokenTransferDisabledReasons(chainId, option.mintKey);
+    const { text: disabledReason, link } = disabledTokenReasons || {};
+    const { text: linkText, url } = link || {};
+
+    return (
+      <>
+        <ListItem
+          component="div"
+          button
+          onClick={() => handleSelectOption(option)}
+          disabled={isTokenDisabled}
+        >
+          <RenderOption account={option} />
+        </ListItem>
+        {isTokenDisabled && disabledReason && (
+          <Alert
+            variant="outlined"
+            severity="info"
+            className={classes.disabledTokenAlert}
+          >
+            {disabledReason}
+            {link && (
+              <>
+                {" "}
+                <Link href={url} target="_blank" rel="noreferrer">
+                  {linkText}
+                </Link>
+              </>
+            )}
+          </Alert>
+        )}
+      </>
+    );
+  };
+
   const dialog = (
     <Dialog
       onClose={closeDialog}
@@ -550,27 +598,20 @@ export default function TokenPicker({
                     />
                   </Tooltip>
                 </Typography>
+
                 {featuredOptions.map((option) => {
                   return (
-                    <ListItem
-                      component="div"
-                      button
-                      onClick={() => handleSelectOption(option)}
+                    <TokenListItem
                       key={
                         option.publicKey +
                         option.mintKey +
                         (option.tokenId || "")
                       }
-                      disabled={getIsTokenTransferDisabled(
-                        chainId,
-                        targetChain,
-                        option.mintKey
-                      )}
-                    >
-                      <RenderOption account={option} />
-                    </ListItem>
+                      option={option}
+                    />
                   );
                 })}
+
                 {nonFeaturedOptions.length ? (
                   <>
                     <Divider style={{ marginTop: 8, marginBottom: 16 }} />
@@ -583,21 +624,12 @@ export default function TokenPicker({
             ) : null}
             {nonFeaturedOptions.map((option) => {
               return (
-                <ListItem
-                  component="div"
-                  button
-                  onClick={() => handleSelectOption(option)}
+                <TokenListItem
                   key={
                     option.publicKey + option.mintKey + (option.tokenId || "")
                   }
-                  disabled={getIsTokenTransferDisabled(
-                    chainId,
-                    targetChain,
-                    option.mintKey
-                  )}
-                >
-                  <RenderOption account={option} />
-                </ListItem>
+                  option={option}
+                />
               );
             })}
             {featuredOptions.length || nonFeaturedOptions.length ? null : (

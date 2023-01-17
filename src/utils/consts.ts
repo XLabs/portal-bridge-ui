@@ -1683,6 +1683,52 @@ export const getIsTokenTransferDisabled = (
     : false;
 };
 
+export interface DisabledTokenReasons {
+  text:string, 
+  link?: {
+    text:string, url:string
+  }
+}
+
+export const DISABLED_TOKEN_REASONS: {
+  [key in ChainId]?: { [address: string]: DisabledTokenReasons };
+} = {
+  [CHAIN_ID_ETH]: {
+    "0xe28b3B32B6c345A34Ff64674606124Dd5Aceca30": {
+      text: "Transfers of INJ token can be made through the Injective Bridge.",
+      link: {
+        text: "Click here to go to Injective Bridge",
+        url: "https://hub.injective.network/bridge/"
+      }
+    }, // INJ
+  },
+  [CHAIN_ID_BSC]: {
+    "0xa2B726B1145A4773F68593CF171187d8EBe4d495": {
+      text: "Transfers of INJ token can be made through the Injective Bridge.",
+      link: {
+        text: "Click here to go to Injective Bridge",
+        url: "https://hub.injective.network/bridge/"
+      }
+    }, // INJ
+  },
+  [CHAIN_ID_INJECTIVE]: {
+    "inj": {
+      text: "Transfers of INJ token can be made through the Injective Bridge.",
+      link: {
+        text: "Click here to go to Injective Bridge",
+        url: "https://hub.injective.network/bridge/"
+      }
+    }, // INJ
+  }
+};
+
+export const getIsTokenTransferDisabledReasons = (
+  sourceChain: ChainId,
+  tokenAddress: string
+): DisabledTokenReasons | undefined => {
+  return DISABLED_TOKEN_REASONS[sourceChain]?.[tokenAddress];
+};
+
 export const USD_NUMBER_FORMATTER = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",
