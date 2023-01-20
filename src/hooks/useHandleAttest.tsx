@@ -46,7 +46,7 @@ import { Signer } from "ethers";
 import { useSnackbar } from "notistack";
 import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useAlgorandContext } from "../contexts/AlgorandWalletContext";
+import { useAlgorandWallet } from "../contexts/AlgorandWalletContext";
 import { useAptosContext } from "../contexts/AptosWalletContext";
 import { useEthereumProvider } from "../contexts/EthereumProviderContext";
 import { useNearContext } from "../contexts/NearWalletContext";
@@ -104,11 +104,12 @@ import { postWithFeesXpla, waitForXplaExecution } from "../utils/xpla";
 import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 import { broadcastInjectiveTx } from "../utils/injective";
 import { WalletStrategy } from "@injectivelabs/wallet-ts";
+import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
 
 async function algo(
   dispatch: any,
   enqueueSnackbar: any,
-  senderAddr: string,
+  wallet: AlgorandWallet,
   sourceAsset: string
 ) {
   dispatch(setIsSending(true));
@@ -122,10 +123,10 @@ async function algo(
       algodClient,
       ALGORAND_TOKEN_BRIDGE_ID,
       ALGORAND_BRIDGE_ID,
-      senderAddr,
+      wallet.getAddress()!,
       BigInt(sourceAsset)
     );
-    const result = await signSendAndConfirmAlgorand(algodClient, txs);
+    const result = await signSendAndConfirmAlgorand(wallet, algodClient, txs);
     const sequence = parseSequenceFromLogAlgorand(result);
     // TODO: fill these out correctly
     dispatch(
@@ -542,7 +543,7 @@ export function useHandleAttest() {
   const terraWallet = useConnectedWallet();
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
   const xplaWallet = useXplaConnectedWallet();
-  const { accounts: algoAccounts } = useAlgorandContext();
+  const { address: algoAccount, wallet: algoWallet } = useAlgorandWallet();
   const { account: aptosAccount, signAndSubmitTransaction } = useAptosContext();
   const aptosAddress = aptosAccount?.address?.toString();
   const { accountId: nearAccountId, wallet } = useNearContext();
@@ -564,8 +565,8 @@ export function useHandleAttest() {
       );
     } else if (sourceChain === CHAIN_ID_XPLA && !!xplaWallet) {
       xpla(dispatch, enqueueSnackbar, xplaWallet, sourceAsset);
-    } else if (sourceChain === CHAIN_ID_ALGORAND && algoAccounts[0]) {
-      algo(dispatch, enqueueSnackbar, algoAccounts[0].address, sourceAsset);
+    } else if (sourceChain === CHAIN_ID_ALGORAND && algoAccount) {
+      algo(dispatch, enqueueSnackbar, algoWallet, sourceAsset);
     } else if (sourceChain === CHAIN_ID_APTOS && aptosAddress) {
       aptos(dispatch, enqueueSnackbar, sourceAsset, signAndSubmitTransaction);
     } else if (sourceChain === CHAIN_ID_NEAR && nearAccountId && wallet) {
@@ -583,7 +584,8 @@ export function useHandleAttest() {
     terraWallet,
     sourceAsset,
     terraFeeDenom,
-    algoAccounts,
+    algoAccount,
+    algoWallet,
     nearAccountId,
     wallet,
     xplaWallet,

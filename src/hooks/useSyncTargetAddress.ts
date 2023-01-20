@@ -20,7 +20,7 @@ import { PublicKey } from "@solana/web3.js";
 import { useConnectedWallet } from "@terra-money/wallet-provider";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useAlgorandContext } from "../contexts/AlgorandWalletContext";
+import { useAlgorandWallet } from "../contexts/AlgorandWalletContext";
 import { useEthereumProvider } from "../contexts/EthereumProviderContext";
 import { useSolanaWallet } from "../contexts/SolanaWalletContext";
 import { setTargetAddressHex as setNFTTargetAddressHex } from "../store/nftSlice";
@@ -59,7 +59,7 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
   const targetTokenAccountPublicKey = targetParsedTokenAccount?.publicKey;
   const terraWallet = useConnectedWallet();
   const xplaWallet = useXplaConnectedWallet();
-  const { accounts: algoAccounts } = useAlgorandContext();
+  const { address: algoAccount } = useAlgorandWallet();
   const { account: aptosAccount } = useAptosContext();
   const aptosAddress = aptosAccount?.address?.toString();
   const { accountId: nearAccountId, wallet } = useNearContext();
@@ -143,10 +143,10 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
         dispatch(
           setTargetAddressHex(uint8ArrayToHex(zeroPad(aptosAddress, 32)))
         );
-      } else if (targetChain === CHAIN_ID_ALGORAND && algoAccounts[0]) {
+      } else if (targetChain === CHAIN_ID_ALGORAND && algoAccount) {
         dispatch(
           setTargetAddressHex(
-            uint8ArrayToHex(decodeAddress(algoAccounts[0].address).publicKey)
+            uint8ArrayToHex(decodeAddress(algoAccount).publicKey)
           )
         );
       } else if (targetChain === CHAIN_ID_INJECTIVE && injAddress) {
@@ -222,7 +222,7 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
     terraWallet,
     nft,
     setTargetAddressHex,
-    algoAccounts,
+    algoAccount,
     nearAccountId,
     wallet,
     xplaWallet,

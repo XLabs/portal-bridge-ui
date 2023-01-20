@@ -7,10 +7,10 @@ import {
   CHAIN_ID_SOLANA,
   CHAIN_ID_XPLA,
   isEVMChain,
-  isTerraChain,
+  isTerraChain
 } from "@certusone/wormhole-sdk";
-import AlgorandWalletKey from "./AlgorandWalletKey";
 import AptosWalletKey from "./AptosWalletKey";
+import ConnectWalletButton from "./ConnectWalletButton";
 import EthereumSignerKey from "./EthereumSignerKey";
 import InjectiveWalletKey from "./InjectiveWalletKey";
 import NearWalletKey from "./NearWalletKey";
@@ -29,7 +29,7 @@ function KeyAndBalance({ chainId }: { chainId: ChainId }) {
     return <TerraWalletKey />;
   }
   if (chainId === CHAIN_ID_ALGORAND) {
-    return <AlgorandWalletKey />;
+    return <ConnectWalletButton chainId={CHAIN_ID_ALGORAND} />;
   }
   if (chainId === CHAIN_ID_NEAR) {
     return <NearWalletKey />;

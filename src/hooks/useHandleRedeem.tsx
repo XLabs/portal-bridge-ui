@@ -36,7 +36,7 @@ import { Signer } from "ethers";
 import { useSnackbar } from "notistack";
 import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useAlgorandContext } from "../contexts/AlgorandWalletContext";
+import { useAlgorandWallet } from "../contexts/AlgorandWalletContext";
 import { useAptosContext } from "../contexts/AptosWalletContext";
 import { useEthereumProvider } from "../contexts/EthereumProviderContext";
 import { useNearContext } from "../contexts/NearWalletContext";
@@ -82,11 +82,12 @@ import { Types } from "aptos";
 import { broadcastInjectiveTx } from "../utils/injective";
 import { WalletStrategy } from "@injectivelabs/wallet-ts";
 import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
+import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
 
 async function algo(
   dispatch: any,
   enqueueSnackbar: any,
-  senderAddr: string,
+  wallet: AlgorandWallet,
   signedVAA: Uint8Array
 ) {
   dispatch(setIsRedeeming(true));
@@ -101,9 +102,9 @@ async function algo(
       ALGORAND_TOKEN_BRIDGE_ID,
       ALGORAND_BRIDGE_ID,
       signedVAA,
-      senderAddr
+      wallet.getAddress()!
     );
-    const result = await signSendAndConfirmAlgorand(algodClient, txs);
+    const result = await signSendAndConfirmAlgorand(wallet, algodClient, txs);
     // TODO: fill these out correctly
     dispatch(
       setRedeemTx({
@@ -395,7 +396,7 @@ export function useHandleRedeem() {
   const terraWallet = useConnectedWallet();
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
   const xplaWallet = useXplaConnectedWallet();
-  const { accounts: algoAccounts } = useAlgorandContext();
+  const { address: algoAccount, wallet: algoWallet } = useAlgorandWallet();
   const { accountId: nearAccountId, wallet } = useNearContext();
   const { account: aptosAccount, signAndSubmitTransaction } = useAptosContext();
   const aptosAddress = aptosAccount?.address?.toString();
@@ -434,10 +435,10 @@ export function useHandleRedeem() {
       aptos(dispatch, enqueueSnackbar, signedVAA, signAndSubmitTransaction);
     } else if (
       targetChain === CHAIN_ID_ALGORAND &&
-      algoAccounts[0] &&
+      algoAccount &&
       !!signedVAA
     ) {
-      algo(dispatch, enqueueSnackbar, algoAccounts[0]?.address, signedVAA);
+      algo(dispatch, enqueueSnackbar, algoWallet, signedVAA);
     } else if (
       targetChain === CHAIN_ID_NEAR &&
       nearAccountId &&
@@ -463,7 +464,8 @@ export function useHandleRedeem() {
     solPK,
     terraWallet,
     terraFeeDenom,
-    algoAccounts,
+    algoAccount,
+    algoWallet,
     nearAccountId,
     wallet,
     xplaWallet,
@@ -501,10 +503,10 @@ export function useHandleRedeem() {
       ); //TODO isNative = true
     } else if (
       targetChain === CHAIN_ID_ALGORAND &&
-      algoAccounts[0] &&
+      algoAccount &&
       !!signedVAA
     ) {
-      algo(dispatch, enqueueSnackbar, algoAccounts[0]?.address, signedVAA);
+      algo(dispatch, enqueueSnackbar, algoWallet, signedVAA);
     } else if (
       targetChain === CHAIN_ID_INJECTIVE &&
       injWallet &&
@@ -523,7 +525,8 @@ export function useHandleRedeem() {
     solPK,
     terraWallet,
     terraFeeDenom,
-    algoAccounts,
+    algoAccount,
+    algoWallet,
     injWallet,
     injAddress,
   ]);
