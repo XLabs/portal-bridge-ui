@@ -1,13 +1,13 @@
 import { TransactionSignerPair } from "@certusone/wormhole-sdk/lib/esm/algorand";
-import MyAlgoConnect from "@randlabs/myalgo-connect";
+import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
 import { Algodv2, assignGroupID, waitForConfirmation } from "algosdk";
 import { ALGORAND_WAIT_FOR_CONFIRMATIONS } from "./consts";
 
 export async function signSendAndConfirmAlgorand(
+  wallet: AlgorandWallet,
   algodClient: Algodv2,
   txs: TransactionSignerPair[]
 ) {
-  const myAlgoConnect = new MyAlgoConnect();
   assignGroupID(txs.map((tx) => tx.tx));
   const signedTxns: Uint8Array[] = [];
   const lsigSignedTxns: Uint8Array[] = [];
@@ -24,7 +24,7 @@ export async function signSendAndConfirmAlgorand(
       walletUnsignedTxns.push(walletTx.tx.toByte());
     }
   }
-  const walletSignedTxns = await myAlgoConnect.signTransaction(
+  const walletSignedTxns = await wallet.signTransaction(
     walletUnsignedTxns
   );
   let lsigIdx = 0;
@@ -33,7 +33,7 @@ export async function signSendAndConfirmAlgorand(
     if (originalTx.signer) {
       signedTxns.push(lsigSignedTxns[lsigIdx++]);
     } else {
-      signedTxns.push(walletSignedTxns[walletIdx++].blob);
+      signedTxns.push(walletSignedTxns[walletIdx++]);
     }
   }
   await algodClient.sendRawTransaction(signedTxns).do();

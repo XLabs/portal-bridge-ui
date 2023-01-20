@@ -39,7 +39,7 @@ import { ethers } from "ethers";
 import { formatUnits } from "ethers/lib/utils";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useAlgorandContext } from "../contexts/AlgorandWalletContext";
+import { useAlgorandWallet } from "../contexts/AlgorandWalletContext";
 import { useAptosContext } from "../contexts/AptosWalletContext";
 import {
   Provider,
@@ -963,7 +963,7 @@ function useGetAvailableTokens(nft: boolean = false) {
   const solanaWallet = useSolanaWallet();
   const solPK = solanaWallet?.publicKey;
   const { provider, signerAddress } = useEthereumProvider();
-  const { accounts: algoAccounts } = useAlgorandContext();
+  const { address: algoAccount } = useAlgorandWallet();
   const { accountId: nearAccountId } = useNearContext();
   const { account: aptosAccount } = useAptosContext();
   const aptosAddress = aptosAccount?.address?.toString();
@@ -997,7 +997,7 @@ function useGetAvailableTokens(nft: boolean = false) {
     : lookupChain === CHAIN_ID_SOLANA
     ? solPK?.toString()
     : lookupChain === CHAIN_ID_ALGORAND
-    ? algoAccounts[0]?.address
+    ? algoAccount
     : lookupChain === CHAIN_ID_NEAR
     ? nearAccountId || undefined
     : lookupChain === CHAIN_ID_APTOS
