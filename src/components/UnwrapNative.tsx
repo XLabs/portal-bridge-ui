@@ -63,7 +63,7 @@ import {
 } from "../utils/consts";
 import parseError from "../utils/parseError";
 import ButtonWithLoader from "./ButtonWithLoader";
-import EthereumSignerKey from "./EthereumSignerKey";
+import ConnectWalletButton from "./ConnectWalletButton";
 import HeaderText from "./HeaderText";
 
 const useStyles = makeStyles((theme) => ({
@@ -174,7 +174,7 @@ function UnwrapNative() {
   const [unwrapRequest, setUnwrapRequest] = useState<DataWrapper<boolean>>(
     getEmptyDataWrapper()
   );
-  const { signer } = useEthereumProvider();
+  const { signer } = useEthereumProvider(selectedChainId);
   const { isReady, statusMessage } = useIsWalletReady(selectedChainId);
   const handleSelect = useCallback((event) => {
     setSelectedChainId(parseInt(event.target.value) as SupportedChain);
@@ -248,7 +248,7 @@ function UnwrapNative() {
           Unwrap (withdraw) native tokens from their wrapped form (e.g. WETH
           &rarr; ETH)
         </Typography>
-        <EthereumSignerKey chainId={selectedChainId} />
+        <ConnectWalletButton chainId={selectedChainId} />
         <TextField
           select
           value={selectedChainId}

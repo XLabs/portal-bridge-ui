@@ -438,7 +438,7 @@ export function useHandleCreateWrapped(shouldUpdate: boolean) {
   const solPK = solanaWallet?.publicKey;
   const signedVAA = useAttestSignedVAA();
   const isCreating = useSelector(selectAttestIsCreating);
-  const { signer } = useEthereumProvider();
+  const { signer } = useEthereumProvider(targetChain);
   const terraWallet = useConnectedWallet();
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
   const xplaWallet = useXplaConnectedWallet();

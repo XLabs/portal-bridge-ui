@@ -63,7 +63,7 @@ export default function useGetIsTransferCompleted(
   const targetChain = useSelector(selectTransferTargetChain);
 
   const { isReady } = useIsWalletReady(targetChain, false);
-  const { provider, chainId: evmChainId } = useEthereumProvider();
+  const { provider, evmChainId } = useEthereumProvider(targetChain);
   const { accountId: nearAccountId } = useNearContext();
   const signedVAA = useTransferSignedVAA();
 

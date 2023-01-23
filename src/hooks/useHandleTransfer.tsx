@@ -665,7 +665,7 @@ export function useHandleTransfer() {
   const isTargetComplete = useSelector(selectTransferIsTargetComplete);
   const isSending = useSelector(selectTransferIsSending);
   const isSendComplete = useSelector(selectTransferIsSendComplete);
-  const { signer } = useEthereumProvider();
+  const { signer } = useEthereumProvider(sourceChain);
   const solanaWallet = useSolanaWallet();
   const solPK = solanaWallet?.publicKey;
   const terraWallet = useConnectedWallet();

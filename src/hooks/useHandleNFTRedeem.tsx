@@ -202,7 +202,7 @@ export function useHandleNFTRedeem() {
   const targetChain = useSelector(selectNFTTargetChain);
   const solanaWallet = useSolanaWallet();
   const solPK = solanaWallet?.publicKey;
-  const { signer } = useEthereumProvider();
+  const { signer } = useEthereumProvider(targetChain);
   const { account: aptosAccount, signAndSubmitTransaction } = useAptosContext();
   const aptosAddress = aptosAccount?.address?.toString();
   const signedVAA = useNFTSignedVAA();

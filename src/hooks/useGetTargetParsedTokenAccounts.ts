@@ -76,11 +76,8 @@ function useGetTargetParsedTokenAccounts() {
   const solanaWallet = useSolanaWallet();
   const solPK = solanaWallet?.publicKey;
   const terraWallet = useConnectedWallet();
-  const {
-    provider,
-    signerAddress,
-    chainId: evmChainId,
-  } = useEthereumProvider();
+  const { provider, signerAddress, evmChainId } =
+    useEthereumProvider(targetChain);
   const hasCorrectEvmNetwork = evmChainId === getEvmChainId(targetChain);
   const xplaWallet = useXplaConnectedWallet();
   const { address: algoAccount } = useAlgorandWallet();

@@ -245,17 +245,8 @@ export default function TokenOriginVerifier() {
     secondaryLookupChain
   );
 
-  const primaryWalletIsActive = !originInfo.data;
-  const secondaryWalletIsActive = !primaryWalletIsActive;
-
-  const primaryWallet = useIsWalletReady(
-    primaryLookupChain,
-    primaryWalletIsActive
-  );
-  const secondaryWallet = useIsWalletReady(
-    secondaryLookupChain,
-    secondaryWalletIsActive
-  );
+  const primaryWallet = useIsWalletReady(primaryLookupChain);
+  const secondaryWallet = useIsWalletReady(secondaryLookupChain);
 
   const primaryWalletError =
     isEVMChain(primaryLookupChain) &&
