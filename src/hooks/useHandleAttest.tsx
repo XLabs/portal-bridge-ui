@@ -537,7 +537,7 @@ export function useHandleAttest() {
   const isTargetComplete = useSelector(selectAttestIsTargetComplete);
   const isSending = useSelector(selectAttestIsSending);
   const isSendComplete = useSelector(selectAttestIsSendComplete);
-  const { signer } = useEthereumProvider();
+  const { signer } = useEthereumProvider(sourceChain);
   const solanaWallet = useSolanaWallet();
   const solPK = solanaWallet?.publicKey;
   const terraWallet = useConnectedWallet();

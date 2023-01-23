@@ -166,7 +166,7 @@ export function useHandleNFTRedeem() {
   const targetChain = useSelector(selectNFTTargetChain);
   const solanaWallet = useSolanaWallet();
   const solPK = solanaWallet?.publicKey;
-  const { signer } = useEthereumProvider();
+  const { signer } = useEthereumProvider(targetChain);
   const signedVAA = useNFTSignedVAA();
   const isRedeeming = useSelector(selectNFTIsRedeeming);
   const handleRedeemClick = useCallback(() => {

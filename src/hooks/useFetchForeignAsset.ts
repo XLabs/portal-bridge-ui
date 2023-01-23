@@ -61,7 +61,7 @@ function useFetchForeignAsset(
   originAsset: string,
   foreignChain: ChainId
 ): DataWrapper<ForeignAssetInfo> {
-  const { provider, chainId: evmChainId } = useEthereumProvider();
+  const { provider, evmChainId } = useEthereumProvider(originChain);
   const { isReady } = useIsWalletReady(foreignChain, false);
   const correctEvmNetwork = getEvmChainId(foreignChain);
   const hasCorrectEvmNetwork = evmChainId === correctEvmNetwork;

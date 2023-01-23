@@ -78,8 +78,8 @@ const useStyles = makeStyles((theme) => ({
 export default function NFTOriginVerifier() {
   const classes = useStyles();
   const isBeta = useBetaContext();
-  const { provider, signerAddress } = useEthereumProvider();
   const [lookupChain, setLookupChain] = useState<ChainId>(CHAIN_ID_ETH);
+  const { provider, signerAddress } = useEthereumProvider(lookupChain);
   const { isReady, statusMessage } = useIsWalletReady(lookupChain);
   const [lookupAsset, setLookupAsset] = useState("");
   const [lookupTokenId, setLookupTokenId] = useState("");

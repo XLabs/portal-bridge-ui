@@ -25,7 +25,9 @@ const ConnectWalletButton = ({ chainId }: { chainId: ChainId }) => {
     try {
       await w.connect();
       changeWallet(w);
+      setError(undefined);
     } catch (err: any) {
+      console.error(err);
       setError(err);
     }
   }, [ changeWallet ]);
@@ -35,7 +37,9 @@ const ConnectWalletButton = ({ chainId }: { chainId: ChainId }) => {
       if (!wallet) return;
       await wallet.disconnect();
       unsetWalletFromChain(chainId);
+      setError(undefined);
     } catch (err: any) {
+      console.error(err);
       setError(err);
     }
   }, [ unsetWalletFromChain, wallet, chainId ]);
@@ -70,7 +74,7 @@ const ConnectWalletButton = ({ chainId }: { chainId: ChainId }) => {
       />
       {error ? (
         <Typography variant="body2" color="error">
-          {error}
+          {error.message}
         </Typography>
       ) : null}
     </>

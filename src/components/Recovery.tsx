@@ -486,11 +486,11 @@ export default function Recovery() {
   const { push } = useHistory();
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
-  const { provider } = useEthereumProvider();
-  const [type, setType] = useState("Token");
-  const isNFT = type === "NFT";
   const [recoverySourceChain, setRecoverySourceChain] =
     useState<ChainId>(CHAIN_ID_SOLANA);
+  const { provider } = useEthereumProvider(recoverySourceChain);
+  const [type, setType] = useState("Token");
+  const isNFT = type === "NFT";
   const [recoverySourceTx, setRecoverySourceTx] = useState("");
   const [recoverySourceTxIsLoading, setRecoverySourceTxIsLoading] =
     useState(false);

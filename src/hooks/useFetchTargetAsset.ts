@@ -98,7 +98,7 @@ function useFetchTargetAsset(nft?: boolean) {
     nft ? selectNFTTargetChain : selectTransferTargetChain
   );
   const setTargetAsset = nft ? setNFTTargetAsset : setTransferTargetAsset;
-  const { provider, chainId: evmChainId } = useEthereumProvider();
+  const { provider, evmChainId } = useEthereumProvider(targetChain);
   const correctEvmNetwork = getEvmChainId(targetChain);
   const hasCorrectEvmNetwork = evmChainId === correctEvmNetwork;
   const { accountId: nearAccountId } = useNearContext();

@@ -245,16 +245,11 @@ export default function TokenOriginVerifier() {
     secondaryLookupChain
   );
 
-  const primaryWalletIsActive = !originInfo.data;
-  const secondaryWalletIsActive = !primaryWalletIsActive;
-
   const primaryWallet = useIsWalletReady(
-    primaryLookupChain,
-    primaryWalletIsActive
+    primaryLookupChain
   );
   const secondaryWallet = useIsWalletReady(
-    secondaryLookupChain,
-    secondaryWalletIsActive
+    secondaryLookupChain
   );
 
   const primaryWalletError =

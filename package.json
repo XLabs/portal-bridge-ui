@@ -35,6 +35,7 @@
     "@walletconnect/web3-provider": "^1.7.8",
     "@xlabs-libs/wallet-aggregator-algorand": "^0.0.1-alpha.4",
     "@xlabs-libs/wallet-aggregator-core": "^0.0.1-alpha.3",
+    "@xlabs-libs/wallet-aggregator-evm": "^0.0.1-alpha.5",
     "@xlabs-libs/wallet-aggregator-react": "^0.0.1-alpha.3",
     "@xpla/wallet-provider": "^0.3.4",
     "@xpla/xpla.js": "^0.2.1",

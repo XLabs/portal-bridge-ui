@@ -11,7 +11,6 @@ import {
 } from "@certusone/wormhole-sdk";
 import AptosWalletKey from "./AptosWalletKey";
 import ConnectWalletButton from "./ConnectWalletButton";
-import EthereumSignerKey from "./EthereumSignerKey";
 import InjectiveWalletKey from "./InjectiveWalletKey";
 import NearWalletKey from "./NearWalletKey";
 import SolanaWalletKey from "./SolanaWalletKey";
@@ -20,7 +19,7 @@ import XplaWalletKey from "./XplaWalletKey";
 
 function KeyAndBalance({ chainId }: { chainId: ChainId }) {
   if (isEVMChain(chainId)) {
-    return <EthereumSignerKey chainId={chainId} />;
+    return <ConnectWalletButton chainId={chainId} />;
   }
   if (chainId === CHAIN_ID_SOLANA) {
     return <SolanaWalletKey />;

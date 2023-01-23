@@ -8,7 +8,6 @@ import App from "./App";
 import BackgroundImage from "./components/BackgroundImage";
 import AptosWalletProvider from "./contexts/AptosWalletContext";
 import { BetaContextProvider } from "./contexts/BetaContext";
-import { EthereumProviderProvider } from "./contexts/EthereumProviderContext";
 import { NearContextProvider } from "./contexts/NearWalletContext";
 import XplaWalletProvider from "./contexts/XplaWalletContext";
 import { SolanaWalletProvider } from "./contexts/SolanaWalletContext.tsx";
@@ -20,9 +19,27 @@ import InjectiveWalletProvider from "./contexts/InjectiveWalletContext";
 import { WalletContextProvider } from "@xlabs-libs/wallet-aggregator-react";
 import { CHAIN_ID_ALGORAND } from "@xlabs-libs/wallet-aggregator-core";
 import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
+import { evmChainIdToChainId, EVMWalletConnectWallet, EVMWeb3Wallet, EVM_CHAINS, EVM_CHAINS_TESTNET } from "@xlabs-libs/wallet-aggregator-evm";
+
+const network = process.env.REACT_APP_CLUSTER === 'testnet' ? 'TESTNET' : 'MAINNET';
+const evmChains = network === 'MAINNET' ? EVM_CHAINS : EVM_CHAINS_TESTNET;
+
+const evmChainMap =
+  Object
+    .values(evmChains)
+    .map(evmChainId => ({
+      evmChainId,
+      chainId: evmChainIdToChainId(evmChainId, network)
+    }))
+    .reduce((map, { evmChainId, chainId }) => {
+      const params = { preferredChain: evmChainId }
+      map[chainId] = [ new EVMWeb3Wallet(params), new EVMWalletConnectWallet(params) ]
+      return map;
+    }, {});
 
 const AGGREGATOR_WALLETS = {
-  [CHAIN_ID_ALGORAND]: [ new AlgorandWallet() ]
+  [CHAIN_ID_ALGORAND]: [ new AlgorandWallet() ],
+  ...evmChainMap
 }
 
 ReactDOM.render(
@@ -35,22 +52,20 @@ ReactDOM.render(
             <WalletContextProvider availableWallets={AGGREGATOR_WALLETS}>
               <BetaContextProvider>
                 <SolanaWalletProvider>
-                  <EthereumProviderProvider>
-                    <TerraWalletProvider>
-                      <NearContextProvider>
-                        <XplaWalletProvider>
-                          <AptosWalletProvider>
-                            <InjectiveWalletProvider>
-                              <HashRouter>
-                                <BackgroundImage />
-                                <App />
-                              </HashRouter>
-                            </InjectiveWalletProvider>
-                          </AptosWalletProvider>
-                        </XplaWalletProvider>
-                      </NearContextProvider>
-                    </TerraWalletProvider>
-                  </EthereumProviderProvider>
+                  <TerraWalletProvider>
+                    <NearContextProvider>
+                      <XplaWalletProvider>
+                        <AptosWalletProvider>
+                          <InjectiveWalletProvider>
+                            <HashRouter>
+                              <BackgroundImage />
+                              <App />
+                            </HashRouter>
+                          </InjectiveWalletProvider>
+                        </AptosWalletProvider>
+                      </XplaWalletProvider>
+                    </NearContextProvider>
+                  </TerraWalletProvider>
                 </SolanaWalletProvider>
               </BetaContextProvider>
             </WalletContextProvider>

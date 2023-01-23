@@ -79,8 +79,8 @@ function useGetTargetParsedTokenAccounts() {
   const {
     provider,
     signerAddress,
-    chainId: evmChainId,
-  } = useEthereumProvider();
+    evmChainId,
+  } = useEthereumProvider(targetChain);
   const hasCorrectEvmNetwork = evmChainId === getEvmChainId(targetChain);
   const xplaWallet = useXplaConnectedWallet();
   const { address: algoAccount } = useAlgorandWallet();
