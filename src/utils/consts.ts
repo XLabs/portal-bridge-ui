@@ -603,12 +603,22 @@ export const APTOS_NATIVE_TOKEN_KEY = "0x1::aptos_coin::AptosCoin";
 
 export const getInjectiveNetwork = () => {
   if (CLUSTER === "mainnet") {
+    return Network.MainnetK8s;
+  } else if (CLUSTER === "testnet") {
+    return Network.TestnetK8s;
+  }
+  throw Error("Unsupported injective network");
+};
+
+export const getInjectiveNetworkInfo = () => {
+  if (CLUSTER === "mainnet") {
     return getNetworkInfo(Network.MainnetK8s);
   } else if (CLUSTER === "testnet") {
     return getNetworkInfo(Network.TestnetK8s);
   }
   throw Error("Unsupported injective network");
 };
+
 export const getInjectiveNetworkChainId = () => {
   if (CLUSTER === "mainnet") {
     return InjectiveChainId.Mainnet;
@@ -1667,8 +1677,8 @@ export const DISABLED_TOKEN_TRANSFERS: {
     "0xa2B726B1145A4773F68593CF171187d8EBe4d495": [], // INJ
   },
   [CHAIN_ID_INJECTIVE]: {
-    "inj": [], // INJ
-  }
+    inj: [], // INJ
+  },
 };
 
 export const getIsTokenTransferDisabled = (
@@ -1684,10 +1694,11 @@ export const getIsTokenTransferDisabled = (
 };
 
 export interface DisabledTokenReasons {
-  text:string, 
+  text: string;
   link?: {
-    text:string, url:string
-  }
+    text: string;
+    url: string;
+  };
 }
 
 export const DISABLED_TOKEN_REASONS: {
@@ -1698,8 +1709,8 @@ export const DISABLED_TOKEN_REASONS: {
       text: "Transfers of INJ token can be made through the Injective Bridge.",
       link: {
         text: "Click here to go to Injective Bridge",
-        url: "https://hub.injective.network/bridge/"
-      }
+        url: "https://hub.injective.network/bridge/",
+      },
     }, // INJ
   },
   [CHAIN_ID_BSC]: {
@@ -1707,19 +1718,19 @@ export const DISABLED_TOKEN_REASONS: {
       text: "Transfers of INJ token can be made through the Injective Bridge.",
       link: {
         text: "Click here to go to Injective Bridge",
-        url: "https://hub.injective.network/bridge/"
-      }
+        url: "https://hub.injective.network/bridge/",
+      },
     }, // INJ
   },
   [CHAIN_ID_INJECTIVE]: {
-    "inj": {
+    inj: {
       text: "Transfers of INJ token can be made through the Injective Bridge.",
       link: {
         text: "Click here to go to Injective Bridge",
-        url: "https://hub.injective.network/bridge/"
-      }
+        url: "https://hub.injective.network/bridge/",
+      },
     }, // INJ
-  }
+  },
 };
 
 export const getIsTokenTransferDisabledReasons = (
