@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@certusone/wormhole-sdk": "file:../wormhole/sdk/js",
-    "@injectivelabs/sdk-ts": "^1.0.354",
+    "@injectivelabs/sdk-ts": "^1.0.368",
     "@injectivelabs/ts-types": "^1.0.27",
     "@injectivelabs/wallet-ts": "^1.0.346",
     "@manahippo/aptos-wallet-adapter": "^1.0.2",

@@ -4,7 +4,8 @@ import {
   ChainGrpcWasmApi,
   Msgs,
   TxGrpcClient,
-} from "@injectivelabs/sdk-ts";
+  //} from "@injectivelabs/sdk-ts";
+} from "@certusone/wormhole-sdk/node_modules/@injectivelabs/sdk-ts";
 import { MsgBroadcaster, WalletStrategy } from "@injectivelabs/wallet-ts";
 import { getInjectiveNetwork, getInjectiveNetworkInfo } from "./consts";
 
@@ -52,6 +53,7 @@ export const broadcastInjectiveTx = async (
     simulateTx: true,
   });
   const txResponse = await broadcaster.broadcast({
+    //@ts-ignore
     msgs,
     address: walletAddress,
     memo,
