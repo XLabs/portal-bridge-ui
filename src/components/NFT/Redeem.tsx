@@ -1,7 +1,7 @@
 import {
   CHAIN_ID_SOLANA,
   isTerraChain,
-} from "@certusone/wormhole-sdk";
+} from "@certusone/wormhole-sdk/lib/esm/utils/consts";
 import { useSelector } from "react-redux";
 import { useHandleNFTRedeem } from "../../hooks/useHandleNFTRedeem";
 import useIsWalletReady from "../../hooks/useIsWalletReady";

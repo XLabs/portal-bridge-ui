@@ -5,8 +5,8 @@ import {
   CHAIN_ID_SOLANA,
   CHAIN_ID_TERRA2,
   isEVMChain,
-  nativeToHexString,
-} from "@certusone/wormhole-sdk";
+} from "@certusone/wormhole-sdk/lib/esm/utils/consts";
+import { nativeToHexString } from "@certusone/wormhole-sdk/lib/esm/utils/array";
 import {
   Card,
   CircularProgress,

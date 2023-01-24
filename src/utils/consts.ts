@@ -27,7 +27,7 @@ import {
   coalesceChainName,
   CHAIN_ID_ARBITRUM,
   CHAIN_ID_INJECTIVE,
-} from "@certusone/wormhole-sdk";
+} from "@certusone/wormhole-sdk/lib/esm/utils/consts";
 import { clusterApiUrl } from "@solana/web3.js";
 import { getAddress } from "ethers/lib/utils";
 import { CHAIN_CONFIG_MAP } from "../config";
@@ -55,8 +55,9 @@ import xplaIcon from "../icons/xpla.svg";
 import injectiveIcon from "../icons/injective.svg";
 import { ConnectConfig, keyStores } from "near-api-js";
 import { AptosNetwork } from "./aptos";
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { ChainId as InjectiveChainId } from "@injectivelabs/ts-types";
+import { getNetworkInfo } from "@injectivelabs/networks/dist/network";
+import { Network } from "@injectivelabs/networks/dist/types";
+import { ChainId as InjectiveChainId } from "@injectivelabs/ts-types/dist/enums";
 
 export type Cluster = "devnet" | "testnet" | "mainnet";
 export const CLUSTER: Cluster =

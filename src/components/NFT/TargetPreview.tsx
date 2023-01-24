@@ -4,7 +4,7 @@ import {
   selectNFTTargetAddressHex,
   selectNFTTargetChain,
 } from "../../store/selectors";
-import { hexToNativeString } from "@certusone/wormhole-sdk";
+import { hexToNativeString } from "@certusone/wormhole-sdk/lib/esm/utils/array";
 import { CHAINS_BY_ID } from "../../utils/consts";
 import SmartAddress from "../SmartAddress";
 

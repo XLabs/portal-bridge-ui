@@ -2,7 +2,7 @@ import {
   CHAIN_ID_BSC,
   CHAIN_ID_CELO,
   CHAIN_ID_ETH,
-} from "@certusone/wormhole-sdk";
+} from "@certusone/wormhole-sdk/lib/esm/utils/consts";
 import {
   AppBar,
   Container,
@@ -17,7 +17,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { HelpOutline } from "@material-ui/icons";
-import { useCallback } from "react";
+import { lazy, Suspense, useCallback } from "react";
 import { useHistory, useLocation } from "react-router";
 import {
   Link as RouterLink,
@@ -29,20 +29,29 @@ import {
 import Attest from "./components/Attest";
 import Footer from "./components/Footer";
 import HeaderText from "./components/HeaderText";
-import Migration from "./components/Migration";
-import EvmQuickMigrate from "./components/Migration/EvmQuickMigrate";
-import NFT from "./components/NFT";
-import NFTOriginVerifier from "./components/NFTOriginVerifier";
-import Recovery from "./components/Recovery";
-import Stats from "./components/Stats";
-import CustodyAddresses from "./components/Stats/CustodyAddresses";
-import TokenOriginVerifier from "./components/TokenOriginVerifier";
-import Transfer from "./components/Transfer";
-import UnwrapNative from "./components/UnwrapNative";
-import WithdrawTokensTerra from "./components/WithdrawTokensTerra";
 import { useBetaContext } from "./contexts/BetaContext";
 import Portal from "./icons/portal_logo_w.svg";
 import { CLUSTER } from "./utils/consts";
+
+const Migration = lazy(() => import("./components/Migration"));
+const EvmQuickMigrate = lazy(() =>
+  import("./components/Migration/EvmQuickMigrate")
+);
+const NFT = lazy(() => import("./components/NFT"));
+const NFTOriginVerifier = lazy(() => import("./components/NFTOriginVerifier"));
+const Recovery = lazy(() => import("./components/Recovery"));
+const Stats = lazy(() => import("./components/Stats"));
+const CustodyAddresses = lazy(() =>
+  import("./components/Stats/CustodyAddresses")
+);
+const TokenOriginVerifier = lazy(() =>
+  import("./components/TokenOriginVerifier")
+);
+const Transfer = lazy(() => import("./components/Transfer"));
+const UnwrapNative = lazy(() => import("./components/UnwrapNative"));
+const WithdrawTokensTerra = lazy(() =>
+  import("./components/WithdrawTokensTerra")
+);
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -297,52 +306,84 @@ function App() {
       ) : null}
       <Switch>
         <Route exact path="/transfer">
-          <Transfer />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Transfer />
+          </Suspense>
         </Route>
         <Route exact path="/nft">
-          <NFT />
+          <Suspense fallback={<div>Loading...</div>}>
+            <NFT />
+          </Suspense>
         </Route>
         <Route exact path="/redeem">
-          <Recovery />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Recovery />
+          </Suspense>
         </Route>
         <Route exact path="/nft-origin-verifier">
-          <NFTOriginVerifier />
+          <Suspense fallback={<div>Loading...</div>}>
+            <NFTOriginVerifier />
+          </Suspense>
         </Route>
         <Route exact path="/token-origin-verifier">
-          <TokenOriginVerifier />
+          <Suspense fallback={<div>Loading...</div>}>
+            <TokenOriginVerifier />
+          </Suspense>
         </Route>
         <Route exact path="/register">
-          <Attest />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Attest />
+          </Suspense>
         </Route>
         <Route exact path="/migrate/Ethereum/:legacyAsset/">
-          <Migration chainId={CHAIN_ID_ETH} />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Migration chainId={CHAIN_ID_ETH} />
+          </Suspense>
         </Route>
         <Route exact path="/migrate/BinanceSmartChain/:legacyAsset/">
-          <Migration chainId={CHAIN_ID_BSC} />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Migration chainId={CHAIN_ID_BSC} />
+          </Suspense>
         </Route>
         <Route exact path="/migrate/Celo/:legacyAsset/">
-          <Migration chainId={CHAIN_ID_CELO} />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Migration chainId={CHAIN_ID_CELO} />
+          </Suspense>
         </Route>
         <Route exact path="/migrate/Ethereum/">
-          <EvmQuickMigrate chainId={CHAIN_ID_ETH} />
+          <Suspense fallback={<div>Loading...</div>}>
+            <EvmQuickMigrate chainId={CHAIN_ID_ETH} />
+          </Suspense>
         </Route>
         <Route exact path="/migrate/BinanceSmartChain/">
-          <EvmQuickMigrate chainId={CHAIN_ID_BSC} />
+          <Suspense fallback={<div>Loading...</div>}>
+            <EvmQuickMigrate chainId={CHAIN_ID_BSC} />
+          </Suspense>
         </Route>
         <Route exact path="/migrate/Celo/">
-          <EvmQuickMigrate chainId={CHAIN_ID_CELO} />
+          <Suspense fallback={<div>Loading...</div>}>
+            <EvmQuickMigrate chainId={CHAIN_ID_CELO} />
+          </Suspense>
         </Route>
         <Route exact path="/stats">
-          <Stats />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Stats />
+          </Suspense>
         </Route>
         <Route exact path="/withdraw-tokens-terra">
-          <WithdrawTokensTerra />
+          <Suspense fallback={<div>Loading...</div>}>
+            <WithdrawTokensTerra />
+          </Suspense>
         </Route>
         <Route exact path="/unwrap-native">
-          <UnwrapNative />
+          <Suspense fallback={<div>Loading...</div>}>
+            <UnwrapNative />
+          </Suspense>
         </Route>
         <Route exact path="/custody-addresses">
-          <CustodyAddresses />
+          <Suspense fallback={<div>Loading...</div>}>
+            <CustodyAddresses />
+          </Suspense>
         </Route>
         <Route>
           <Redirect to="/transfer" />

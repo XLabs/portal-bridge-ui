@@ -6,7 +6,8 @@ import {
   useMemo,
   useState,
 } from "react";
-import { Wallet, WalletStrategy } from "@injectivelabs/wallet-ts";
+import { Wallet } from "@injectivelabs/wallet-ts/dist/types/enums";
+import WalletStrategy from "@injectivelabs/wallet-ts/dist/strategies/wallet/WalletStrategy";
 import keplrIcon from "../icons/keplr.svg";
 import { getInjectiveNetworkChainId } from "../utils/consts";
 

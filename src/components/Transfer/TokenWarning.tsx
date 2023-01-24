@@ -5,7 +5,7 @@ import {
   CHAIN_ID_ETH,
   CHAIN_ID_SOLANA,
   isEVMChain,
-} from "@certusone/wormhole-sdk";
+} from "@certusone/wormhole-sdk/lib/esm/utils/consts";
 import { Box, Link, makeStyles, Typography } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import {

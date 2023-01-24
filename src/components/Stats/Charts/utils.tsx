@@ -9,7 +9,7 @@ import {
   VAA_EMITTER_ADDRESSES,
 } from "../../../utils/consts";
 import { NotionalTVL } from "../../../hooks/useTVL";
-import { ChainId } from "@certusone/wormhole-sdk";
+import { ChainId } from "@certusone/wormhole-sdk/lib/esm/utils/consts";
 
 export const formatTVL = (tvl: number) => {
   const [divisor, unit, fractionDigits] =

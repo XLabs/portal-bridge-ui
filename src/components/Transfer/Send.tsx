@@ -2,7 +2,7 @@ import {
   CHAIN_ID_SOLANA,
   isEVMChain,
   isTerraChain,
-} from "@certusone/wormhole-sdk";
+} from "@certusone/wormhole-sdk/lib/esm/utils/consts";
 import { Checkbox, FormControlLabel } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import { ethers } from "ethers";
@@ -224,7 +224,7 @@ function Send() {
       />
       {isVAAPending ? (
         <>
-          <PendingVAAWarning sourceChain={sourceChain}/>
+          <PendingVAAWarning sourceChain={sourceChain} />
           <ButtonWithLoader onClick={handleResetClick}>
             Transfer More Tokens!
           </ButtonWithLoader>

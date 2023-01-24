@@ -1,4 +1,4 @@
-import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk";
+import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk/lib/esm/utils/consts";
 import { formatUnits } from "ethers/lib/utils";
 import { useCallback } from "react";
 import { createParsedTokenAccount } from "../../hooks/useGetSourceParsedTokenAccounts";

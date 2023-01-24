@@ -1,4 +1,4 @@
-import { ChainId } from "@certusone/wormhole-sdk";
+import { ChainId } from "@certusone/wormhole-sdk/lib/esm/utils/consts";
 import { CircularProgress, makeStyles, Typography } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import { parseUnits } from "ethers/lib/utils";

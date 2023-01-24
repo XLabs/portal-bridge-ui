@@ -1,4 +1,4 @@
-import { ChainId } from "@certusone/wormhole-sdk";
+import { ChainId } from "@certusone/wormhole-sdk/lib/esm/utils/consts";
 import {
   Button,
   CircularProgress,

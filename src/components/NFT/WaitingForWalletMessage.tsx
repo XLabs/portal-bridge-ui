@@ -1,4 +1,7 @@
-import { CHAIN_ID_SOLANA, isEVMChain } from "@certusone/wormhole-sdk";
+import {
+  CHAIN_ID_SOLANA,
+  isEVMChain,
+} from "@certusone/wormhole-sdk/lib/esm/utils/consts";
 import { makeStyles, Typography } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import {

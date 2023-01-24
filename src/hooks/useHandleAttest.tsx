@@ -103,7 +103,7 @@ import {
 import { postWithFeesXpla, waitForXplaExecution } from "../utils/xpla";
 import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 import { broadcastInjectiveTx } from "../utils/injective";
-import { WalletStrategy } from "@injectivelabs/wallet-ts";
+import WalletStrategy from "@injectivelabs/wallet-ts/dist/strategies/wallet/WalletStrategy";
 
 async function algo(
   dispatch: any,

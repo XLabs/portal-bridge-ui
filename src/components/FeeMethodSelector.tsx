@@ -1,11 +1,11 @@
+import { hexToNativeAssetString } from "@certusone/wormhole-sdk/lib/esm/utils/array";
 import {
   CHAIN_ID_ACALA,
   CHAIN_ID_KARURA,
   CHAIN_ID_TERRA,
-  hexToNativeAssetString,
   isEVMChain,
   isTerraChain,
-} from "@certusone/wormhole-sdk";
+} from "@certusone/wormhole-sdk/lib/esm/utils/consts";
 import {
   Card,
   Checkbox,

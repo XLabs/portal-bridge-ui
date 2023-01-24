@@ -1,4 +1,7 @@
-import { CHAIN_ID_SOLANA, isEVMChain } from "@certusone/wormhole-sdk";
+import {
+  CHAIN_ID_SOLANA,
+  isEVMChain,
+} from "@certusone/wormhole-sdk/lib/esm/utils/consts";
 import { Button, makeStyles } from "@material-ui/core";
 import { VerifiedUser } from "@material-ui/icons";
 import { Alert } from "@material-ui/lab";

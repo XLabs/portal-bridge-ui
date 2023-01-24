@@ -1,9 +1,11 @@
 import {
-  CHAIN_ID_SOLANA,
   hexToNativeString,
   hexToUint8Array,
+} from "@certusone/wormhole-sdk/lib/esm/utils/array";
+import {
+  CHAIN_ID_SOLANA,
   isEVMChain,
-} from "@certusone/wormhole-sdk";
+} from "@certusone/wormhole-sdk/lib/esm/utils/consts";
 import { makeStyles, TextField, Typography } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import { PublicKey } from "@solana/web3.js";

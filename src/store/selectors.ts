@@ -3,7 +3,7 @@ import {
   CHAIN_ID_KARURA,
   CHAIN_ID_SOLANA,
   isEVMChain,
-} from "@certusone/wormhole-sdk";
+} from "@certusone/wormhole-sdk/lib/esm/utils/consts";
 import { ethers } from "ethers";
 import { parseUnits } from "ethers/lib/utils";
 import { RootState } from ".";

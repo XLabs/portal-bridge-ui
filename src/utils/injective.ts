@@ -1,12 +1,14 @@
-import { cosmos, isNativeDenomInjective } from "@certusone/wormhole-sdk";
+import { isNativeDenomInjective } from "@certusone/wormhole-sdk/lib/esm/cosmwasm/address";
+import { canonicalAddress } from "@certusone/wormhole-sdk/lib/esm/cosmos/address";
 import {
   ChainGrpcBankApi,
   ChainGrpcWasmApi,
-  Msgs,
-  TxGrpcClient,
-} from "@injectivelabs/sdk-ts";
+} from "@injectivelabs/sdk-ts/dist/client/chain/grpc";
+import { Msgs } from "@injectivelabs/sdk-ts/dist/core/modules/msgs";
+import { TxGrpcClient } from "@injectivelabs/sdk-ts/dist/core/modules/tx/api";
 //} from "@certusone/wormhole-sdk/node_modules/@in
-import { MsgBroadcaster, WalletStrategy } from "@injectivelabs/wallet-ts";
+import { MsgBroadcaster } from "@injectivelabs/wallet-ts/dist/broadcaster/MsgBroadcaster";
+import WalletStrategy from "@injectivelabs/wallet-ts/dist/strategies/wallet/WalletStrategy";
 import { getInjectiveNetwork, getInjectiveNetworkInfo } from "./consts";
 
 export const NATIVE_INJECTIVE_DECIMALS = 18;
@@ -28,7 +30,7 @@ export const isValidInjectiveAddress = (address: string) => {
   }
   try {
     const startsWithInj = address && address.startsWith("inj");
-    const isParsable = cosmos.canonicalAddress(address);
+    const isParsable = canonicalAddress(address);
     const isLengthOk = isParsable.length === 20;
     return !!(startsWithInj && isParsable && isLengthOk);
   } catch (error) {

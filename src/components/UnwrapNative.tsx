@@ -1,3 +1,4 @@
+import { MockWETH9__factory } from "@certusone/wormhole-sdk/lib/esm/ethers-contracts";
 import {
   CHAIN_ID_AVAX,
   CHAIN_ID_BSC,
@@ -8,8 +9,7 @@ import {
   CHAIN_ID_NEON,
   CHAIN_ID_OASIS,
   CHAIN_ID_POLYGON,
-  ethers_contracts,
-} from "@certusone/wormhole-sdk";
+} from "@certusone/wormhole-sdk/lib/esm/utils/consts";
 import {
   Container,
   ListItemIcon,
@@ -191,7 +191,7 @@ function UnwrapNative() {
       try {
         const native = await signer.getBalance();
         if (cancelled) return;
-        const wrappedToken = await ethers_contracts.MockWETH9__factory.connect(
+        const wrappedToken = await MockWETH9__factory.connect(
           supportedTokens[selectedChainId].address,
           signer
         );
@@ -221,7 +221,7 @@ function UnwrapNative() {
     setUnwrapRequest(fetchDataWrapper());
     (async () => {
       try {
-        const wrappedToken = await ethers_contracts.MockWETH9__factory.connect(
+        const wrappedToken = await MockWETH9__factory.connect(
           supportedTokens[selectedChainId].address,
           signer
         );

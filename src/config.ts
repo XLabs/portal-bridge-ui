@@ -1,5 +1,5 @@
-import { ChainId } from "@certusone/wormhole-sdk";
-import { CHAIN_ID_AURORA } from "@certusone/wormhole-sdk";
+import { ChainId } from "@certusone/wormhole-sdk/lib/esm/utils/consts";
+import { CHAIN_ID_AURORA } from "@certusone/wormhole-sdk/lib/esm/utils/consts";
 
 export type DisableTransfers = boolean | "to" | "from";
 

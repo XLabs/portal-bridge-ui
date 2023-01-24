@@ -82,7 +82,7 @@ import {
   ConnectedWallet as XplaConnectedWallet,
 } from "@xpla/wallet-provider";
 import { Types } from "aptos";
-import { WalletStrategy } from "@injectivelabs/wallet-ts";
+import WalletStrategy from "@injectivelabs/wallet-ts/dist/strategies/wallet/WalletStrategy";
 import { broadcastInjectiveTx } from "../utils/injective";
 import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 

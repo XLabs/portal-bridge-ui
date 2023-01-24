@@ -1,4 +1,7 @@
-import { ChainId, CHAIN_ID_ETH } from "@certusone/wormhole-sdk";
+import {
+  ChainId,
+  CHAIN_ID_ETH,
+} from "@certusone/wormhole-sdk/lib/esm/utils/consts";
 import {
   Button,
   makeStyles,

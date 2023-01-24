@@ -3,7 +3,7 @@ import {
   CHAIN_ID_BSC,
   CHAIN_ID_CELO,
   CHAIN_ID_ETH,
-} from "@certusone/wormhole-sdk";
+} from "@certusone/wormhole-sdk/lib/esm/utils/consts";
 import { getAddress } from "@ethersproject/address";
 import { Container, makeStyles, Paper, Typography } from "@material-ui/core";
 import { withRouter } from "react-router";

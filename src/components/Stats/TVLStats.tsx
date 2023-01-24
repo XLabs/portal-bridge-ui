@@ -20,7 +20,7 @@ import useCumulativeTVL from "../../hooks/useCumulativeTVL";
 import { TIME_FRAMES } from "./Charts/TimeFrame";
 import TVLLineChart from "./Charts/TVLLineChart";
 import { ChainInfo, CHAINS_BY_ID } from "../../utils/consts";
-import { ChainId } from "@certusone/wormhole-sdk";
+import { ChainId } from "@certusone/wormhole-sdk/lib/esm/utils/consts";
 import { COLORS } from "../../muiTheme";
 import TVLBarChart from "./Charts/TVLBarChart";
 import TVLTable from "./Charts/TVLTable";

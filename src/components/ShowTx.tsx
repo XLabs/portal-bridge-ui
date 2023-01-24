@@ -21,8 +21,8 @@ import {
   CHAIN_ID_APTOS,
   CHAIN_ID_ARBITRUM,
   CHAIN_ID_INJECTIVE,
-} from "@certusone/wormhole-sdk";
-import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk/lib/esm";
+} from "@certusone/wormhole-sdk/lib/esm/utils/consts";
+import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk/lib/esm/utils/consts";
 import { Button, makeStyles, Typography } from "@material-ui/core";
 import { Transaction } from "../store/transferSlice";
 import { CLUSTER, getExplorerName } from "../utils/consts";

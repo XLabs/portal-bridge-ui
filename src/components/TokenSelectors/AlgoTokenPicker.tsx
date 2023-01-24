@@ -1,4 +1,7 @@
-import { ChainId, CHAIN_ID_ALGORAND } from "@certusone/wormhole-sdk";
+import {
+  ChainId,
+  CHAIN_ID_ALGORAND,
+} from "@certusone/wormhole-sdk/lib/esm/utils/consts";
 import { formatUnits } from "@ethersproject/units";
 import { Algodv2 } from "algosdk";
 import React, { useCallback } from "react";

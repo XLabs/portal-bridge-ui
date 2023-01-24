@@ -1,4 +1,8 @@
-import { ChainId, CHAIN_ID_POLYGON, isEVMChain } from "@certusone/wormhole-sdk";
+import {
+  ChainId,
+  CHAIN_ID_POLYGON,
+  isEVMChain,
+} from "@certusone/wormhole-sdk/lib/esm/utils/consts";
 import { makeStyles, Typography } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import { POLYGON_TERRA_WRAPPED_TOKENS } from "../../utils/consts";
@@ -20,8 +24,8 @@ function PolygonTerraWrappedWarning() {
     <Alert severity="warning" variant="outlined" className={classes.alert}>
       <Typography variant="body1">
         This is a Shuttle-wrapped asset from Polygon! Transferring it will
-        result in a double wrapped (Portal-wrapped Shuttle-wrapped) asset,
-        which has no liquid markets.
+        result in a double wrapped (Portal-wrapped Shuttle-wrapped) asset, which
+        has no liquid markets.
       </Typography>
     </Alert>
   );

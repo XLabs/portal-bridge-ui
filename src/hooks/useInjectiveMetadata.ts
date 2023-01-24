@@ -1,5 +1,5 @@
 import { parseSmartContractStateResponse } from "@certusone/wormhole-sdk";
-import { ChainGrpcWasmApi } from "@injectivelabs/sdk-ts";
+import { ChainGrpcWasmApi } from "@injectivelabs/sdk-ts/dist/client/chain/grpc/ChainGrpcWasmApi";
 import { useLayoutEffect, useMemo, useState } from "react";
 import { DataWrapper } from "../store/helpers";
 import { getInjectiveWasmClient } from "../utils/injective";

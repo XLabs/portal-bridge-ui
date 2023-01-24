@@ -1,7 +1,7 @@
 import {
   CHAIN_ID_SOLANA,
   isTerraChain,
-} from "@certusone/wormhole-sdk";
+} from "@certusone/wormhole-sdk/lib/esm/utils/consts";
 import { Alert } from "@material-ui/lab";
 import { useSelector } from "react-redux";
 import { useHandleNFTTransfer } from "../../hooks/useHandleNFTTransfer";

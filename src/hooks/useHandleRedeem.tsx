@@ -80,7 +80,7 @@ import {
 import { postWithFeesXpla } from "../utils/xpla";
 import { Types } from "aptos";
 import { broadcastInjectiveTx } from "../utils/injective";
-import { WalletStrategy } from "@injectivelabs/wallet-ts";
+import WalletStrategy from "@injectivelabs/wallet-ts/dist/strategies/wallet/WalletStrategy";
 import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 
 async function algo(

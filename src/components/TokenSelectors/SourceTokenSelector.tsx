@@ -8,7 +8,7 @@ import {
   CHAIN_ID_XPLA,
   isEVMChain,
   isTerraChain,
-} from "@certusone/wormhole-sdk";
+} from "@certusone/wormhole-sdk/lib/esm/utils/consts";
 import { TextField, Typography } from "@material-ui/core";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";

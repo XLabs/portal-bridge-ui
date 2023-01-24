@@ -8,7 +8,7 @@ import {
   CHAIN_ID_XPLA,
   isEVMChain,
   isTerraChain,
-} from "@certusone/wormhole-sdk";
+} from "@certusone/wormhole-sdk/lib/esm/utils/consts";
 import AlgorandWalletKey from "./AlgorandWalletKey";
 import AptosWalletKey from "./AptosWalletKey";
 import EthereumSignerKey from "./EthereumSignerKey";

@@ -1,9 +1,11 @@
 import {
   ChainId,
   ChainName,
+} from "@certusone/wormhole-sdk/lib/esm/utils/consts";
+import {
   getGovernorIsVAAEnqueued,
   getSignedVAA,
-} from "@certusone/wormhole-sdk";
+} from "@certusone/wormhole-sdk/lib/esm/rpc";
 import { WORMHOLE_RPC_HOSTS } from "./consts";
 
 export interface GetSignedVAAWithRetryResult {

@@ -1,4 +1,8 @@
 import {
+  hexToNativeAssetString,
+  uint8ArrayToHex,
+} from "@certusone/wormhole-sdk/lib/esm/utils/array";
+import {
   ChainId,
   CHAIN_ID_AURORA,
   CHAIN_ID_AVAX,
@@ -8,10 +12,8 @@ import {
   CHAIN_ID_OASIS,
   CHAIN_ID_POLYGON,
   CHAIN_ID_SOLANA,
-  hexToNativeAssetString,
   isEVMChain,
-  uint8ArrayToHex,
-} from "@certusone/wormhole-sdk";
+} from "@certusone/wormhole-sdk/lib/esm/utils/consts";
 import {
   getOriginalAssetEth,
   getOriginalAssetSol,

@@ -9,7 +9,7 @@ import {
   CHAIN_ID_SOLANA,
   CHAIN_ID_TERRA,
   CHAIN_ID_TERRA2,
-} from "@certusone/wormhole-sdk";
+} from "@certusone/wormhole-sdk/lib/esm/utils/consts";
 import { Container, makeStyles, Paper, Typography } from "@material-ui/core";
 import { useMemo } from "react";
 import { COLORS } from "../../muiTheme";

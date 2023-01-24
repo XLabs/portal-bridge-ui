@@ -29,7 +29,7 @@ import { selectTerraFeeDenom } from "../store/selectors";
 import TerraFeeDenomPicker from "./TerraFeeDenomPicker";
 import HeaderText from "./HeaderText";
 import { COLORS } from "../muiTheme";
-import { CHAIN_ID_TERRA } from "@certusone/wormhole-sdk";
+import { CHAIN_ID_TERRA } from "@certusone/wormhole-sdk/lib/esm/utils/consts";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {

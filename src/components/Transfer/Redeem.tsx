@@ -15,7 +15,7 @@ import {
   isEVMChain,
   isTerraChain,
   WSOL_ADDRESS,
-} from "@certusone/wormhole-sdk";
+} from "@certusone/wormhole-sdk/lib/esm/utils/consts";
 import {
   Button,
   Checkbox,

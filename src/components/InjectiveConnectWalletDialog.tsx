@@ -10,7 +10,7 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
-import { Wallet } from "@injectivelabs/wallet-ts";
+import { Wallet } from "@injectivelabs/wallet-ts/dist/types/enums";
 import { useCallback } from "react";
 import {
   InjectiveWalletInfo,
