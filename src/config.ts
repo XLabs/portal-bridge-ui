@@ -1,7 +1,4 @@
-import {
-  ChainId,
-  CHAIN_ID_INJECTIVE,
-} from "@certusone/wormhole-sdk";
+import { ChainId } from "@certusone/wormhole-sdk";
 import { CHAIN_ID_AURORA } from "@certusone/wormhole-sdk";
 
 export type DisableTransfers = boolean | "to" | "from";
@@ -30,10 +27,4 @@ export const CHAIN_CONFIG_MAP: ChainConfigMap = {
       text: "As a precautionary measure, Wormhole Network and Portal have paused Aurora support temporarily.",
     },
   } as ChainConfig,
-  [CHAIN_ID_INJECTIVE]: {
-    disableTransfers: false,
-    warningMessage: {
-      text: "Using a Ledger device with the Keplr wallet extension to sign transactions on Injective is currently unsupported.",
-    },
-  }
 };

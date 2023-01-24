@@ -6,20 +6,20 @@ import {
   TxGrpcClient,
 } from "@injectivelabs/sdk-ts";
 import { MsgBroadcaster, WalletStrategy } from "@injectivelabs/wallet-ts";
-import { getInjectiveNetwork, getInjectiveNetworkChainId } from "./consts";
+import { getInjectiveNetwork, getInjectiveNetworkInfo } from "./consts";
 
 export const NATIVE_INJECTIVE_DECIMALS = 18;
 
 export const INJECTIVE_NATIVE_DENOM = "inj";
 
 export const getInjectiveWasmClient = () =>
-  new ChainGrpcWasmApi(getInjectiveNetwork().sentryGrpcApi);
+  new ChainGrpcWasmApi(getInjectiveNetworkInfo().grpc);
 
 export const getInjectiveBankClient = () =>
-  new ChainGrpcBankApi(getInjectiveNetwork().sentryGrpcApi);
+  new ChainGrpcBankApi(getInjectiveNetworkInfo().grpc);
 
 export const getInjectiveTxClient = () =>
-  new TxGrpcClient(getInjectiveNetwork().sentryGrpcApi);
+  new TxGrpcClient(getInjectiveNetworkInfo().grpc);
 
 export const isValidInjectiveAddress = (address: string) => {
   if (isNativeDenomInjective(address)) {
@@ -47,21 +47,17 @@ export const broadcastInjectiveTx = async (
   const client = getInjectiveTxClient();
   const network = getInjectiveNetwork();
   const broadcaster = new MsgBroadcaster({
-    endpoints: {
-      indexerApi: network.indexerApi,
-      sentryGrpcApi: network.sentryGrpcApi,
-      sentryHttpApi: network.sentryHttpApi,
-    },
-    chainId: getInjectiveNetworkChainId(),
+    network,
     walletStrategy,
     simulateTx: true,
   });
-  const txHash = await broadcaster.broadcast({
+  const txResponse = await broadcaster.broadcast({
+    //@ts-ignore
     msgs,
     address: walletAddress,
     memo,
   });
-  const tx = await client.fetchTxPoll(txHash);
+  const tx = await client.fetchTxPoll(txResponse.txHash);
   if (!tx) {
     throw new Error("Unable to fetch transaction");
   }
