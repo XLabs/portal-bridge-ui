@@ -4,8 +4,8 @@ import {
   ChainGrpcWasmApi,
   Msgs,
   TxGrpcClient,
-  //} from "@injectivelabs/sdk-ts";
-} from "@certusone/wormhole-sdk/node_modules/@injectivelabs/sdk-ts";
+} from "@injectivelabs/sdk-ts";
+//} from "@certusone/wormhole-sdk/node_modules/@in
 import { MsgBroadcaster, WalletStrategy } from "@injectivelabs/wallet-ts";
 import { getInjectiveNetwork, getInjectiveNetworkInfo } from "./consts";
 
