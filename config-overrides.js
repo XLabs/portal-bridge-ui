@@ -14,7 +14,7 @@ module.exports = function override(config, env) {
           use: ["source-map-loader"],
           resolve: {
             fullySpecified: false,
-          }
+          },
         },
         {
           test: /\.wasm$/,
@@ -30,10 +30,11 @@ module.exports = function override(config, env) {
       }),
       new CopyPlugin({
         patterns: [
-        {
-          from: '_headers',
-        }
-      ] })
+          {
+            from: "_headers",
+          },
+        ],
+      }),
     ],
     resolve: {
       ...config.resolve,
@@ -73,5 +74,30 @@ module.exports = function override(config, env) {
       asyncWebAssembly: true,
     },
     ignoreWarnings: [/Failed to parse source map/],
+    optimization: {
+      ...config.optimization,
+      splitChunks: {
+        chunks: "all",
+        minSize: 1024 * 20,
+        maxSize: 1024 * 1024 * 20,
+        minRemainingSize: 0,
+        minChunks: 1,
+        // maxAsyncRequests: 30,
+        // maxInitialRequests: 30,
+        // enforceSizeThreshold: 50000,
+        cacheGroups: {
+          defaultVendors: {
+            test: /[\\/]node_modules[\\/]/,
+            priority: -10,
+            reuseExistingChunk: true,
+          },
+          default: {
+            // minChunks: 2,
+            priority: -20,
+            reuseExistingChunk: true,
+          },
+        },
+      },
+    },
   };
 };
