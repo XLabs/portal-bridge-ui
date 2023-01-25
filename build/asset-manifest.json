@@ -1,11 +1,21 @@
 {
   "files": {
-    "main.css": "/static/css/main.560fd330.css",
-    "main.js": "/static/js/main.2237677c.js",
-    "static/js/989.47f18dc3.chunk.js": "/static/js/989.47f18dc3.chunk.js",
-    "static/js/367.f8c37155.chunk.js": "/static/js/367.f8c37155.chunk.js",
-    "static/js/942.b2cd4d21.chunk.js": "/static/js/942.b2cd4d21.chunk.js",
+    "main.js": "/static/js/main.ee7ba34c.js",
+    "static/js/989.90216be2.chunk.js": "/static/js/989.90216be2.chunk.js",
+    "static/js/367.b1dde775.chunk.js": "/static/js/367.b1dde775.chunk.js",
+    "static/js/942.829a9bbf.chunk.js": "/static/js/942.829a9bbf.chunk.js",
     "static/js/940.c1656411.chunk.js": "/static/js/940.c1656411.chunk.js",
+    "static/js/550.1fc9a49d.js": "/static/js/550.1fc9a49d.js",
+    "static/js/8.e3a687ee.js": "/static/js/8.e3a687ee.js",
+    "static/js/896.ab88d9cf.js": "/static/js/896.ab88d9cf.js",
+    "static/js/687.dd54b5e5.js": "/static/js/687.dd54b5e5.js",
+    "static/js/916.75ea7ecb.js": "/static/js/916.75ea7ecb.js",
+    "static/js/19.2949942b.js": "/static/js/19.2949942b.js",
+    "static/js/73.f0b6978e.js": "/static/js/73.f0b6978e.js",
+    "static/js/973.727230a5.js": "/static/js/973.727230a5.js",
+    "static/css/318.560fd330.css": "/static/css/318.560fd330.css",
+    "static/js/318.84f7951b.js": "/static/js/318.84f7951b.js",
+    "static/js/837.19e2ec2d.js": "/static/js/837.19e2ec2d.js",
     "static/media/keplr.svg": "/static/media/keplr.5bd78b0b1b00da236168db2185418da3.svg",
     "static/media/SuisseBPIntlBold.woff2": "/static/media/SuisseBPIntlBold.19a3f46a5e2ccd6ff5ff.woff2",
     "static/media/portal_logo_w.svg": "/static/media/portal_logo_w.484271a5c853855c2a4436a34d082aed.svg",
@@ -16,8 +26,8 @@
     "static/media/metamask-fox.svg": "/static/media/metamask-fox.ff320abc80456aa6f689de97f5bc29b4.svg",
     "static/media/arbitrum.svg": "/static/media/arbitrum.c9ada05fe5facf49a5f1ef9ba1c1578c.svg",
     "static/media/injective.svg": "/static/media/injective.ac2f95a4532d20546ad21b59abc01d13.svg",
-    "static/media/terra.svg": "/static/media/terra.77cd51a6fb8dbae70872b3d3b813c2ab.svg",
     "index.html": "/index.html",
+    "static/media/terra.svg": "/static/media/terra.77cd51a6fb8dbae70872b3d3b813c2ab.svg",
     "static/media/acala.svg": "/static/media/acala.dad6d76736ec87722300c598c51c3d4f.svg",
     "static/media/klaytn.svg": "/static/media/klaytn.5c570c72fc1acba8b9c7bf49e4b838c0.svg",
     "static/media/celo.svg": "/static/media/celo.4c9aaaf49dc42d67179ebd8cbc6bf21a.svg",
@@ -40,7 +50,17 @@
     "_headers": "/_headers"
   },
   "entrypoints": [
-    "static/css/main.560fd330.css",
-    "static/js/main.2237677c.js"
+    "static/js/8.e3a687ee.js",
+    "static/js/896.ab88d9cf.js",
+    "static/js/687.dd54b5e5.js",
+    "static/js/916.75ea7ecb.js",
+    "static/js/19.2949942b.js",
+    "static/js/73.f0b6978e.js",
+    "static/js/973.727230a5.js",
+    "static/css/318.560fd330.css",
+    "static/js/318.84f7951b.js",
+    "static/js/837.19e2ec2d.js",
+    "static/js/550.1fc9a49d.js",
+    "static/js/main.ee7ba34c.js"
   ]
 }
