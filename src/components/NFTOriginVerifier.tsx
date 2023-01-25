@@ -8,13 +8,13 @@ import {
   CHAIN_ID_OASIS,
   CHAIN_ID_POLYGON,
   CHAIN_ID_SOLANA,
-  hexToNativeAssetString,
   isEVMChain,
-  uint8ArrayToHex,
+  CHAIN_ID_APTOS,
 } from "@certusone/wormhole-sdk";
 import {
   getOriginalAssetEth,
   getOriginalAssetSol,
+  getOriginalAssetAptos,
   WormholeWrappedNFTInfo,
 } from "@certusone/wormhole-sdk/lib/esm/nft_bridge";
 import {
@@ -44,6 +44,7 @@ import {
   getNFTBridgeAddressForChain,
   SOLANA_HOST,
   SOL_NFT_BRIDGE_ADDRESS,
+  getAssetAddressNative,
 } from "../utils/consts";
 import {
   ethNFTToNFTParsedTokenAccount,
@@ -54,6 +55,8 @@ import {
 import HeaderText from "./HeaderText";
 import KeyAndBalance from "./KeyAndBalance";
 import NFTViewer from "./TokenSelectors/NFTViewer";
+import { getAptosClient } from "../utils/aptos";
+import { TokenClient, TokenTypes } from "aptos";
 
 const useStyles = makeStyles((theme) => ({
   mainCard: {
@@ -83,6 +86,9 @@ export default function NFTOriginVerifier() {
   const { isReady, statusMessage } = useIsWalletReady(lookupChain);
   const [lookupAsset, setLookupAsset] = useState("");
   const [lookupTokenId, setLookupTokenId] = useState("");
+  const [lookupCreatorAddress, setLookupCreatorAddress] = useState("");
+  const [lookupCollectionName, setLookupCollectionName] = useState("");
+  const [lookupTokenName, setLookupTokenName] = useState("");
   const [lookupError, setLookupError] = useState("");
   const [parsedTokenAccount, setParsedTokenAccount] = useState<
     NFTParsedTokenAccount | undefined
@@ -100,11 +106,25 @@ export default function NFTOriginVerifier() {
   const handleTokenIdChange = useCallback((event) => {
     setLookupTokenId(event.target.value);
   }, []);
+  const handleCreatorAddressChange = useCallback((event) => {
+    setLookupCreatorAddress(event.target.value);
+  }, []);
+  const handleCollectionNameChange = useCallback((event) => {
+    setLookupCollectionName(event.target.value);
+  }, []);
+  const handleTokenNameChange = useCallback((event) => {
+    setLookupTokenName(event.target.value);
+  }, []);
   useEffect(() => {
     let cancelled = false;
     setLookupError("");
     setParsedTokenAccount(undefined);
     setOriginInfo(undefined);
+    const hasAptosLookupData =
+      lookupChain === CHAIN_ID_APTOS &&
+      lookupCreatorAddress &&
+      lookupCollectionName &&
+      lookupTokenName;
     if (
       isReady &&
       provider &&
@@ -195,6 +215,51 @@ export default function NFTOriginVerifier() {
           }
         }
       })();
+    } else if (hasAptosLookupData) {
+      (async () => {
+        try {
+          setIsLoading(true);
+          const tokenId: TokenTypes.TokenId = {
+            token_data_id: {
+              creator: lookupCreatorAddress,
+              collection: lookupCollectionName,
+              name: lookupTokenName,
+            },
+            property_version: "0",
+          };
+          const aptosClient = getAptosClient();
+          const tokenClient = new TokenClient(aptosClient);
+          const info = await getOriginalAssetAptos(
+            aptosClient,
+            getNFTBridgeAddressForChain(CHAIN_ID_APTOS),
+            tokenId
+          );
+          const { collection, name, uri } = await tokenClient.getTokenData(
+            lookupCreatorAddress,
+            lookupCollectionName,
+            lookupTokenName
+          );
+          if (!cancelled) {
+            setIsLoading(false);
+            setParsedTokenAccount({
+              amount: "0",
+              decimals: 0,
+              mintKey: `${collection} ${name}`,
+              publicKey: "",
+              uiAmount: 0,
+              uiAmountString: "0",
+              uri,
+            });
+            setOriginInfo(info);
+          }
+        } catch (e) {
+          console.error(e);
+          if (!cancelled) {
+            setIsLoading(false);
+            setLookupError("Invalid token");
+          }
+        }
+      })();
     }
     return () => {
       cancelled = true;
@@ -206,15 +271,13 @@ export default function NFTOriginVerifier() {
     lookupChain,
     lookupAsset,
     lookupTokenId,
+    lookupCreatorAddress,
+    lookupCollectionName,
+    lookupTokenName,
   ]);
-  const readableAddress =
-    originInfo &&
-    originInfo.chainId &&
-    originInfo.assetAddress &&
-    hexToNativeAssetString(
-      uint8ArrayToHex(originInfo.assetAddress),
-      originInfo.chainId
-    );
+  const readableAddress = originInfo
+    ? getAssetAddressNative(originInfo.assetAddress, originInfo.chainId)
+    : undefined;
   const displayError =
     (isEVMChain(lookupChain) && statusMessage) || lookupError;
   return (
@@ -245,27 +308,58 @@ export default function NFTOriginVerifier() {
               </MenuItem>
             ))}
           </TextField>
-          {isEVMChain(lookupChain) ? (
-            <KeyAndBalance chainId={lookupChain} />
-          ) : null}
-          <TextField
-            fullWidth
-            variant="outlined"
-            margin="normal"
-            label="Paste an address"
-            value={lookupAsset}
-            onChange={handleAssetChange}
-          />
-          {isEVMChain(lookupChain) ? (
-            <TextField
-              fullWidth
-              variant="outlined"
-              margin="normal"
-              label="Paste a tokenId"
-              value={lookupTokenId}
-              onChange={handleTokenIdChange}
-            />
-          ) : null}
+          {lookupChain === CHAIN_ID_APTOS ? (
+            <>
+              <TextField
+                fullWidth
+                variant="outlined"
+                margin="normal"
+                label="Paste creator address"
+                value={lookupCreatorAddress}
+                onChange={handleCreatorAddressChange}
+              />
+              <TextField
+                fullWidth
+                variant="outlined"
+                margin="normal"
+                label="Paste collection name"
+                value={lookupCollectionName}
+                onChange={handleCollectionNameChange}
+              />
+              <TextField
+                fullWidth
+                variant="outlined"
+                margin="normal"
+                label="Paste token name"
+                value={lookupTokenName}
+                onChange={handleTokenNameChange}
+              />
+            </>
+          ) : (
+            <>
+              {isEVMChain(lookupChain) && (
+                <KeyAndBalance chainId={lookupChain} />
+              )}
+              <TextField
+                fullWidth
+                variant="outlined"
+                margin="normal"
+                label="Paste an address"
+                value={lookupAsset}
+                onChange={handleAssetChange}
+              />
+              {isEVMChain(lookupChain) && (
+                <TextField
+                  fullWidth
+                  variant="outlined"
+                  margin="normal"
+                  label="Paste a tokenId"
+                  value={lookupTokenId}
+                  onChange={handleTokenIdChange}
+                />
+              )}
+            </>
+          )}
           {displayError ? (
             <Typography align="center" color="error">
               {displayError}

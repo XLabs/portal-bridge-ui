@@ -14,6 +14,7 @@ import {
   receiveDataWrapper,
 } from "./helpers";
 import { ParsedTokenAccount, Transaction } from "./transferSlice";
+import { TokenTypes } from "aptos";
 
 const LAST_STEP = 3;
 
@@ -29,6 +30,7 @@ export interface NFTParsedTokenAccount extends ParsedTokenAccount {
   image_256?: string;
   nftName?: string;
   description?: string;
+  aptosTokenId?: TokenTypes.TokenId;
 }
 
 export interface NFTState {

@@ -156,6 +156,7 @@ export const TokenSelector = (props: TokenSelectorProps) => {
       onChange={handleOnChange}
       resetAccounts={maps?.resetAccounts}
       tokenAccounts={maps?.tokenAccounts}
+      nft={nft}
     />
   ) : lookupChain === CHAIN_ID_INJECTIVE ? (
     <InjectiveTokenPicker

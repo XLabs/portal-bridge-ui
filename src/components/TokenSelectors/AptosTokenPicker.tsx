@@ -16,12 +16,13 @@ type AptosTokenPickerProps = {
   tokenAccounts: DataWrapper<ParsedTokenAccount[]> | undefined;
   disabled: boolean;
   resetAccounts: (() => void) | undefined;
+  nft?: boolean;
 };
 
 const returnsFalse = () => false;
 
 export default function AptosTokenPicker(props: AptosTokenPickerProps) {
-  const { value, onChange, tokenAccounts, disabled } = props;
+  const { value, onChange, tokenAccounts, disabled, nft = false } = props;
   const { walletAddress } = useIsWalletReady(CHAIN_ID_APTOS);
   const nativeRefresh = useRef<() => void>(() => {});
 
@@ -95,9 +96,9 @@ export default function AptosTokenPicker(props: AptosTokenPickerProps) {
 
   const RenderComp = useCallback(
     ({ account }: { account: NFTParsedTokenAccount }) => {
-      return BasicAccountRender(account, returnsFalse, false);
+      return BasicAccountRender(account, returnsFalse, nft);
     },
-    []
+    [nft]
   );
 
   return (
@@ -107,12 +108,12 @@ export default function AptosTokenPicker(props: AptosTokenPickerProps) {
       RenderOption={RenderComp}
       onChange={onChangeWrapper}
       isValidAddress={isSearchableAddress}
-      getAddress={lookupAptosAddress}
+      getAddress={nft ? undefined : lookupAptosAddress}
       disabled={disabled}
       resetAccounts={resetAccountWrapper}
       error={""}
       showLoader={isLoading}
-      nft={false}
+      nft
       chainId={CHAIN_ID_APTOS}
     />
   );

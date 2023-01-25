@@ -83,6 +83,7 @@ export default function SmartAddress({
   noUnderline,
   extraContent,
   isAsset,
+  propertyVersion,
 }: {
   chainId: ChainId;
   parsedTokenAccount?: ParsedTokenAccount;
@@ -95,6 +96,7 @@ export default function SmartAddress({
   noUnderline?: boolean;
   extraContent?: ReactChild;
   isAsset?: boolean;
+  propertyVersion?: string;
 }) {
   const classes = useStyles();
   const isNativeTerra = isTerraChain(chainId) && terra.isNativeDenom(address);
@@ -202,17 +204,25 @@ export default function SmartAddress({
         CLUSTER === "testnet" ? "testnet" : "mainnet"
       }/address/${useableAddress}`
     : chainId === CHAIN_ID_APTOS
-    ? `https://explorer.aptoslabs.com/account/${
-        isValidAptosType(useableAddress)
-          ? useableAddress.split("::")[0]
-          : useableAddress
-      }${
-        CLUSTER === "testnet"
-          ? "?network=testnet"
-          : CLUSTER === "devnet"
-          ? "?network=local"
-          : ""
-      }`
+    ? propertyVersion !== undefined // NFT
+      ? `https://explorer.aptoslabs.com/token/${useableAddress}/${propertyVersion}${
+          CLUSTER === "testnet"
+            ? "?network=testnet"
+            : CLUSTER === "devnet"
+            ? "?network=local"
+            : ""
+        }`
+      : `https://explorer.aptoslabs.com/account/${
+          isValidAptosType(useableAddress)
+            ? useableAddress.split("::")[0]
+            : useableAddress
+        }${
+          CLUSTER === "testnet"
+            ? "?network=testnet"
+            : CLUSTER === "devnet"
+            ? "?network=local"
+            : ""
+        }`
     : chainId === CHAIN_ID_ARBITRUM
     ? `https://${CLUSTER === "testnet" ? "goerli." : ""}arbiscan.io/${
         isAsset ? "token" : "address"
