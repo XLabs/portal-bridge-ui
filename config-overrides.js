@@ -1,6 +1,5 @@
 const CopyPlugin = require("copy-webpack-plugin");
 const { ProvidePlugin } = require("webpack");
-const CompressionPlugin = require("compression-webpack-plugin")
 
 module.exports = function override(config, env) {
   return {
@@ -31,15 +30,10 @@ module.exports = function override(config, env) {
       }),
       new CopyPlugin({
         patterns: [
-          {
-            from: '_headers',
-          }
-        ]
-      }),
-      new CompressionPlugin({
-        test: /\.js$/,
-        deleteOriginalAssets: true,
-      })
+        {
+          from: '_headers',
+        }
+      ] })
     ],
     resolve: {
       ...config.resolve,

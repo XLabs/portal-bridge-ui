@@ -1,12 +1,13 @@
 {
   "files": {
     "main.css": "/static/css/main.560fd330.css",
-    "static/js/main.2d93bdb6.js.gz": "/static/js/main.2d93bdb6.js.gz",
+    "main.js": "/static/js/main.2237677c.js",
+    "static/js/989.47f18dc3.chunk.js": "/static/js/989.47f18dc3.chunk.js",
+    "static/js/367.f8c37155.chunk.js": "/static/js/367.f8c37155.chunk.js",
+    "static/js/942.b2cd4d21.chunk.js": "/static/js/942.b2cd4d21.chunk.js",
+    "static/js/940.c1656411.chunk.js": "/static/js/940.c1656411.chunk.js",
     "static/media/keplr.svg": "/static/media/keplr.5bd78b0b1b00da236168db2185418da3.svg",
-    "static/js/940.c1656411.chunk.js.gz": "/static/js/940.c1656411.chunk.js.gz",
-    "static/js/942.b2cd4d21.chunk.js.gz": "/static/js/942.b2cd4d21.chunk.js.gz",
     "static/media/SuisseBPIntlBold.woff2": "/static/media/SuisseBPIntlBold.19a3f46a5e2ccd6ff5ff.woff2",
-    "static/js/989.47f18dc3.chunk.js.gz": "/static/js/989.47f18dc3.chunk.js.gz",
     "static/media/portal_logo_w.svg": "/static/media/portal_logo_w.484271a5c853855c2a4436a34d082aed.svg",
     "static/media/neon.svg": "/static/media/neon.c3f3c0c2eeecc7d724bfcce581d1b4bf.svg",
     "static/media/moonbeam.svg": "/static/media/moonbeam.d537e3282e2645ee2f1df9f7c3711f5a.svg",
@@ -15,7 +16,6 @@
     "static/media/metamask-fox.svg": "/static/media/metamask-fox.ff320abc80456aa6f689de97f5bc29b4.svg",
     "static/media/arbitrum.svg": "/static/media/arbitrum.c9ada05fe5facf49a5f1ef9ba1c1578c.svg",
     "static/media/injective.svg": "/static/media/injective.ac2f95a4532d20546ad21b59abc01d13.svg",
-    "static/js/367.f8c37155.chunk.js.gz": "/static/js/367.f8c37155.chunk.js.gz",
     "static/media/terra.svg": "/static/media/terra.77cd51a6fb8dbae70872b3d3b813c2ab.svg",
     "index.html": "/index.html",
     "static/media/acala.svg": "/static/media/acala.dad6d76736ec87722300c598c51c3d4f.svg",
@@ -40,6 +40,7 @@
     "_headers": "/_headers"
   },
   "entrypoints": [
-    "static/css/main.560fd330.css"
+    "static/css/main.560fd330.css",
+    "static/js/main.2237677c.js"
   ]
 }
