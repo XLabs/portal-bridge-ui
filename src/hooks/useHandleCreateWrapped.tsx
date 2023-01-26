@@ -87,6 +87,7 @@ import { broadcastInjectiveTx } from "../utils/injective";
 import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
 import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
+import { AptosWallet } from "@xlabs-libs/wallet-aggregator-aptos";
 
 async function algo(
   dispatch: any,
@@ -132,12 +133,7 @@ async function aptos(
   senderAddr: string,
   signedVAA: Uint8Array,
   shouldUpdate: boolean,
-  signAndSubmitTransaction: (
-    transaction: Types.TransactionPayload,
-    options?: any
-  ) => Promise<{
-    hash: string;
-  }>
+  wallet: AptosWallet
 ) {
   dispatch(setIsCreating(true));
   const tokenBridgeAddress = getTokenBridgeAddressForChain(CHAIN_ID_APTOS);
@@ -152,7 +148,7 @@ async function aptos(
       );
       await waitForSignAndSubmitTransaction(
         createWrappedCoinTypePayload,
-        signAndSubmitTransaction
+        wallet
       );
     } catch (e) {}
     // create coin
@@ -162,7 +158,7 @@ async function aptos(
     );
     const result = await waitForSignAndSubmitTransaction(
       createWrappedCoinPayload,
-      signAndSubmitTransaction
+      wallet
     );
     dispatch(setCreateTx({ id: result, block: 1 }));
     enqueueSnackbar(null, {
@@ -443,8 +439,7 @@ export function useHandleCreateWrapped(shouldUpdate: boolean) {
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
   const xplaWallet = useXplaConnectedWallet();
   const { address: algoAccount, wallet: algoWallet } = useAlgorandWallet();
-  const { account: aptosAccount, signAndSubmitTransaction } = useAptosContext();
-  const aptosAddress = aptosAccount?.address?.toString();
+  const { account: aptosAddress, wallet: aptosWallet } = useAptosContext();
   const { wallet: injWallet, address: injAddress } = useInjectiveContext();
   const { accountId: nearAccountId, wallet } = useNearContext();
   const handleCreateClick = useCallback(() => {
@@ -494,7 +489,7 @@ export function useHandleCreateWrapped(shouldUpdate: boolean) {
         aptosAddress,
         signedVAA,
         shouldUpdate,
-        signAndSubmitTransaction
+        aptosWallet!
       );
     } else if (
       targetChain === CHAIN_ID_ALGORAND &&
@@ -548,7 +543,7 @@ export function useHandleCreateWrapped(shouldUpdate: boolean) {
     wallet,
     xplaWallet,
     aptosAddress,
-    signAndSubmitTransaction,
+    aptosWallet,
     injWallet,
     injAddress,
   ]);

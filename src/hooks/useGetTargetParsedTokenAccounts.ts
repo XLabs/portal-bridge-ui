@@ -84,8 +84,7 @@ function useGetTargetParsedTokenAccounts() {
   const xplaWallet = useXplaConnectedWallet();
   const { address: algoAccount } = useAlgorandWallet();
   const { accountId: nearAccountId } = useNearContext();
-  const { account: aptosAccount } = useAptosContext();
-  const aptosAddress = aptosAccount?.address?.toString();
+  const { account: aptosAddress } = useAptosContext();
   const { address: injAddress } = useInjectiveContext();
   const hasResolvedMetadata = metadata.data || metadata.error;
   useEffect(() => {

@@ -57,8 +57,7 @@ function useIsWalletReady(
   const { accountId: nearPK } = useNearContext();
   const xplaWallet = useXplaConnectedWallet();
   const hasXplaWallet = !!xplaWallet;
-  const { account: aptosAccount, network: aptosNetwork } = useAptosContext();
-  const aptosAddress = aptosAccount?.address?.toString();
+  const { account: aptosAddress, network: aptosNetwork } = useAptosContext();
   const hasAptosWallet = !!aptosAddress;
   // The wallets do not all match on network names and the adapter doesn't seem to normalize this yet.
   // Petra = "Testnet"
