@@ -116,6 +116,7 @@ import { broadcastInjectiveTx } from "../utils/injective";
 import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
 import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
+import { AptosWallet } from "@xlabs-libs/wallet-aggregator-aptos";
 
 async function fetchSignedVAA(
   chainId: ChainId,
@@ -223,12 +224,7 @@ async function aptos(
   recipientChain: ChainId,
   recipientAddress: Uint8Array,
   chainId: ChainId,
-  signAndSubmitTransaction: (
-    transaction: Types.TransactionPayload,
-    options?: any
-  ) => Promise<{
-    hash: string;
-  }>,
+  wallet: AptosWallet,
   relayerFee?: string
 ) {
   dispatch(setIsSending(true));
@@ -246,10 +242,7 @@ async function aptos(
       feeParsed.toString(),
       createNonce().readUInt32LE(0)
     );
-    const hash = await waitForSignAndSubmitTransaction(
-      transferPayload,
-      signAndSubmitTransaction
-    );
+    const hash = await waitForSignAndSubmitTransaction(transferPayload, wallet);
     dispatch(setTransferTx({ id: hash, block: 1 }));
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
@@ -672,8 +665,7 @@ export function useHandleTransfer() {
   const xplaWallet = useXplaConnectedWallet();
   const { address: algoAccount, wallet: algoWallet } = useAlgorandWallet();
   const { accountId: nearAccountId, wallet } = useNearContext();
-  const { account: aptosAccount, signAndSubmitTransaction } = useAptosContext();
-  const aptosAddress = aptosAccount?.address?.toString();
+  const { account: aptosAddress, wallet: aptosWallet } = useAptosContext();
   const { wallet: injWallet, address: injAddress } = useInjectiveContext();
   const sourceParsedTokenAccount = useSelector(
     selectTransferSourceParsedTokenAccount
@@ -826,7 +818,7 @@ export function useHandleTransfer() {
         targetChain,
         targetAddress,
         sourceChain,
-        signAndSubmitTransaction,
+        aptosWallet!,
         relayerFee
       );
     } else if (
@@ -875,7 +867,7 @@ export function useHandleTransfer() {
     wallet,
     xplaWallet,
     aptosAddress,
-    signAndSubmitTransaction,
+    aptosWallet,
     injWallet,
     injAddress,
   ]);

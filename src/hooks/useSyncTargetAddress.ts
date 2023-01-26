@@ -59,8 +59,7 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
   const terraWallet = useConnectedWallet();
   const xplaWallet = useXplaConnectedWallet();
   const { address: algoAccount } = useAlgorandWallet();
-  const { account: aptosAccount } = useAptosContext();
-  const aptosAddress = aptosAccount?.address?.toString();
+  const { account: aptosAddress } = useAptosContext();
   const { accountId: nearAccountId, wallet } = useNearContext();
   const { address: injAddress } = useInjectiveContext();
   const setTargetAddressHex = nft

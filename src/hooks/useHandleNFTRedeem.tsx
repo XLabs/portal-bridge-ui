@@ -46,9 +46,9 @@ import { getMetadataAddress } from "../utils/metaplex";
 import parseError from "../utils/parseError";
 import { signSendAndConfirm } from "../utils/solana";
 import useNFTSignedVAA from "./useNFTSignedVAA";
-import { Types } from "aptos";
 import { waitForSignAndSubmitTransaction } from "../utils/aptos";
 import { useAptosContext } from "../contexts/AptosWalletContext";
+import { AptosWallet } from "@xlabs-libs/wallet-aggregator-aptos";
 
 async function evm(
   dispatch: any,
@@ -169,21 +169,13 @@ async function aptos(
   dispatch: any,
   enqueueSnackbar: any,
   signedVAA: Uint8Array,
-  signAndSubmitTransaction: (
-    transaction: Types.TransactionPayload,
-    options?: any
-  ) => Promise<{
-    hash: string;
-  }>
+  aptosWallet: AptosWallet
 ) {
   dispatch(setIsRedeeming(true));
   const nftBridgeAddress = getNFTBridgeAddressForChain(CHAIN_ID_APTOS);
   try {
     const msg = await redeemOnAptos(nftBridgeAddress, signedVAA);
-    const result = await waitForSignAndSubmitTransaction(
-      msg,
-      signAndSubmitTransaction
-    );
+    const result = await waitForSignAndSubmitTransaction(msg, aptosWallet);
     dispatch(setRedeemTx({ id: result, block: 1 }));
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
@@ -202,8 +194,7 @@ export function useHandleNFTRedeem() {
   const targetChain = useSelector(selectNFTTargetChain);
   const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
   const { signer } = useEthereumProvider(targetChain);
-  const { account: aptosAccount, signAndSubmitTransaction } = useAptosContext();
-  const aptosAddress = aptosAccount?.address?.toString();
+  const { account: aptosAccount, wallet: aptosWallet } = useAptosContext();
   const signedVAA = useNFTSignedVAA();
   const isRedeeming = useSelector(selectNFTIsRedeeming);
   const handleRedeemClick = useCallback(() => {
@@ -216,8 +207,13 @@ export function useHandleNFTRedeem() {
       signedVAA
     ) {
       solana(dispatch, enqueueSnackbar, solanaWallet, solPK, signedVAA);
-    } else if (targetChain === CHAIN_ID_APTOS && !!aptosAddress && signedVAA) {
-      aptos(dispatch, enqueueSnackbar, signedVAA, signAndSubmitTransaction);
+    } else if (
+      targetChain === CHAIN_ID_APTOS &&
+      !!aptosAccount &&
+      !!aptosWallet &&
+      signedVAA
+    ) {
+      aptos(dispatch, enqueueSnackbar, signedVAA, aptosWallet);
     }
   }, [
     dispatch,
@@ -227,8 +223,8 @@ export function useHandleNFTRedeem() {
     signedVAA,
     solanaWallet,
     solPK,
-    aptosAddress,
-    signAndSubmitTransaction,
+    aptosAccount,
+    aptosWallet,
   ]);
   return useMemo(
     () => ({
