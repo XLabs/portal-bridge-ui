@@ -38,8 +38,7 @@ function useIsWalletReady(
   statusMessage: string;
   walletAddress?: string;
 } {
-  const solanaWallet = useSolanaWallet();
-  const solPK = solanaWallet?.publicKey;
+  const { publicKey: solPK } = useSolanaWallet();
   const terraWallet = useConnectedWallet();
   const hasTerraWallet = !!terraWallet;
   const {
@@ -75,7 +74,7 @@ function useIsWalletReady(
       return createWalletStatus(true, undefined, terraWallet.walletAddress);
     }
     if (chainId === CHAIN_ID_SOLANA && solPK) {
-      return createWalletStatus(true, undefined, solPK.toString());
+      return createWalletStatus(true, undefined, solPK);
     }
     if (chainId === CHAIN_ID_ALGORAND && algoAccount) {
       return createWalletStatus(true, undefined, algoAccount);

@@ -22,8 +22,8 @@ import {
 } from "@certusone/wormhole-sdk/lib/esm/nft_bridge";
 import { arrayify } from "@ethersproject/bytes";
 import { Alert } from "@material-ui/lab";
-import { WalletContextState } from "@solana/wallet-adapter-react";
 import { Connection } from "@solana/web3.js";
+import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 import { Signer } from "ethers";
 import { useSnackbar } from "notistack";
 import { useCallback, useMemo } from "react";
@@ -92,7 +92,7 @@ async function evm(
 async function solana(
   dispatch: any,
   enqueueSnackbar: any,
-  wallet: WalletContextState,
+  wallet: SolanaWallet,
   payerAddress: string, //TODO: we may not need this since we have wallet
   signedVAA: Uint8Array
 ) {
@@ -111,7 +111,7 @@ async function solana(
     if (!claimInfo) {
       await postVaaSolanaWithRetry(
         connection,
-        wallet.signTransaction,
+        wallet.signTransaction.bind(wallet),
         SOL_BRIDGE_ADDRESS,
         payerAddress,
         Buffer.from(signedVAA),
@@ -125,7 +125,7 @@ async function solana(
         payerAddress,
         signedVAA
       );
-      txid = await signSendAndConfirm(wallet, connection, transaction);
+      txid = await signSendAndConfirm(wallet, transaction);
       // TODO: didn't want to make an info call we didn't need, can we get the block without it by modifying the above call?
     }
     const isNative = await isNFTVAASolanaNative(signedVAA);
@@ -150,7 +150,7 @@ async function solana(
           payerAddress,
           signedVAA
         );
-        txid = await signSendAndConfirm(wallet, connection, transaction);
+        txid = await signSendAndConfirm(wallet, transaction);
       }
     }
     dispatch(setRedeemTx({ id: txid || "", block: 1 }));
@@ -200,8 +200,7 @@ export function useHandleNFTRedeem() {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const targetChain = useSelector(selectNFTTargetChain);
-  const solanaWallet = useSolanaWallet();
-  const solPK = solanaWallet?.publicKey;
+  const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
   const { signer } = useEthereumProvider(targetChain);
   const { account: aptosAccount, signAndSubmitTransaction } = useAptosContext();
   const aptosAddress = aptosAccount?.address?.toString();
@@ -216,13 +215,7 @@ export function useHandleNFTRedeem() {
       !!solPK &&
       signedVAA
     ) {
-      solana(
-        dispatch,
-        enqueueSnackbar,
-        solanaWallet,
-        solPK.toString(),
-        signedVAA
-      );
+      solana(dispatch, enqueueSnackbar, solanaWallet, solPK, signedVAA);
     } else if (targetChain === CHAIN_ID_APTOS && !!aptosAddress && signedVAA) {
       aptos(dispatch, enqueueSnackbar, signedVAA, signAndSubmitTransaction);
     }

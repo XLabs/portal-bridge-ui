@@ -73,8 +73,7 @@ function useGetTargetParsedTokenAccounts() {
     (targetAsset && metadata.data?.get(targetAsset)?.logo) || undefined;
   const decimals =
     (targetAsset && metadata.data?.get(targetAsset)?.decimals) || undefined;
-  const solanaWallet = useSolanaWallet();
-  const solPK = solanaWallet?.publicKey;
+  const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
   const terraWallet = useConnectedWallet();
   const { provider, signerAddress, evmChainId } =
     useEthereumProvider(targetChain);
@@ -285,7 +284,7 @@ function useGetTargetParsedTokenAccounts() {
       }
       const connection = new Connection(SOLANA_HOST, "confirmed");
       connection
-        .getParsedTokenAccountsByOwner(solPK, { mint })
+        .getParsedTokenAccountsByOwner(new PublicKey(solPK), { mint })
         .then(({ value }) => {
           if (!cancelled) {
             if (value.length) {

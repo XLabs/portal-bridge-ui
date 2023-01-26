@@ -34,7 +34,6 @@ import {
 } from "@certusone/wormhole-sdk";
 import { Alert } from "@material-ui/lab";
 import { Wallet } from "@near-wallet-selector/core";
-import { WalletContextState } from "@solana/wallet-adapter-react";
 import { Connection, PublicKey } from "@solana/web3.js";
 import {
   ConnectedWallet,
@@ -105,6 +104,7 @@ import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 import { broadcastInjectiveTx } from "../utils/injective";
 import { WalletStrategy } from "@injectivelabs/wallet-ts";
 import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
+import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 
 async function algo(
   dispatch: any,
@@ -374,7 +374,7 @@ async function solana(
   enqueueSnackbar: any,
   solPK: PublicKey,
   sourceAsset: string,
-  wallet: WalletContextState
+  wallet: SolanaWallet
 ) {
   dispatch(setIsSending(true));
   try {
@@ -383,10 +383,10 @@ async function solana(
       connection,
       SOL_BRIDGE_ADDRESS,
       SOL_TOKEN_BRIDGE_ADDRESS,
-      solPK.toString(),
+      solPK,
       sourceAsset
     );
-    const txid = await signSendAndConfirm(wallet, connection, transaction);
+    const txid = await signSendAndConfirm(wallet, transaction);
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
     });
@@ -538,8 +538,7 @@ export function useHandleAttest() {
   const isSending = useSelector(selectAttestIsSending);
   const isSendComplete = useSelector(selectAttestIsSendComplete);
   const { signer } = useEthereumProvider(sourceChain);
-  const solanaWallet = useSolanaWallet();
-  const solPK = solanaWallet?.publicKey;
+  const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
   const terraWallet = useConnectedWallet();
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
   const xplaWallet = useXplaConnectedWallet();
@@ -553,7 +552,13 @@ export function useHandleAttest() {
     if (isEVMChain(sourceChain) && !!signer) {
       evm(dispatch, enqueueSnackbar, signer, sourceAsset, sourceChain);
     } else if (sourceChain === CHAIN_ID_SOLANA && !!solanaWallet && !!solPK) {
-      solana(dispatch, enqueueSnackbar, solPK, sourceAsset, solanaWallet);
+      solana(
+        dispatch,
+        enqueueSnackbar,
+        new PublicKey(solPK),
+        sourceAsset,
+        solanaWallet
+      );
     } else if (isTerraChain(sourceChain) && !!terraWallet) {
       terra(
         dispatch,
