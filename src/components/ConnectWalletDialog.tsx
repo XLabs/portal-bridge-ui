@@ -1,6 +1,7 @@
 import {
   Dialog,
   DialogTitle,
+  Divider,
   IconButton,
   List,
   ListItem,
@@ -8,8 +9,8 @@ import {
   ListItemText, makeStyles
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
-import { Wallet } from "@xlabs-libs/wallet-aggregator-core";
-import { useCallback } from "react";
+import { Wallet, WalletState } from "@xlabs-libs/wallet-aggregator-core";
+import { useCallback, useMemo } from "react";
 
 const useStyles = makeStyles((theme) => ({
   flexTitle: {
@@ -29,7 +30,29 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const WalletOptions = ({
+const WalletOptionContent = ({
+  text, icon
+}: {
+  text: string,
+  icon: string
+}) => {
+  const classes = useStyles();
+
+  return (
+    <>
+      <ListItemIcon>
+        <img
+          src={icon}
+          alt={text}
+          className={classes.icon}
+        />
+      </ListItemIcon>
+      <ListItemText>{text}</ListItemText>
+    </>
+  );
+}
+
+const WalletOption = ({
   wallet,
   onSelect,
   onClose,
@@ -38,22 +61,13 @@ const WalletOptions = ({
   onSelect: (w: Wallet) => Promise<void>;
   onClose: () => void;
 }) => {
-  const classes = useStyles();
-
   const handleClick = useCallback(() => {
     onSelect(wallet).then(onClose);
   }, [ wallet, onClose, onSelect ]);
 
   return (
     <ListItem button onClick={handleClick}>
-      <ListItemIcon>
-        <img
-          src={wallet.getIcon()}
-          alt={wallet.getName()}
-          className={classes.icon}
-        />
-      </ListItemIcon>
-      <ListItemText>{wallet.getName()}</ListItemText>
+      <WalletOptionContent icon={wallet.getIcon()} text={wallet.getName()} />
     </ListItem>
   );
 };
@@ -71,15 +85,21 @@ const ConnectWalletDialog = ({
 }) => {
   const classes = useStyles();
 
-  const options = wallets
-    .map((wallet) => (
-      <WalletOptions
-        wallet={wallet}
-        onSelect={onSelect}
-        onClose={onClose}
-        key={wallet.getName()}
-      />
-    ));
+  const [detected, undetected] = useMemo(() => {
+    const detected: Wallet[] = [];
+    const undetected: Wallet[] = [];
+    for (const wallet of wallets) {
+      if (
+        wallet.getWalletState() === WalletState.Installed ||
+        wallet.getWalletState() === WalletState.Loadable
+      ) {
+        detected.push(wallet);
+      } else if (wallet.getWalletState() === WalletState.NotDetected) {
+        undetected.push(wallet);
+      }
+    }
+    return [detected, undetected];
+  }, [wallets]);
 
   return (
     <Dialog open={isOpen} onClose={onClose}>
@@ -91,7 +111,33 @@ const ConnectWalletDialog = ({
           </IconButton>
         </div>
       </DialogTitle>
-      <List>{options}</List>
+      <List>
+        {detected.map((wallet) =>
+          <WalletOption
+            wallet={wallet}
+            onSelect={onSelect}
+            onClose={onClose}
+            key={wallet.getName()}
+          />
+        )}
+        {undetected.length ? <Divider variant="middle" /> : <></>}
+        {undetected.map((wallet) => (
+          <ListItem
+            button
+            onClick={onClose}
+            component="a"
+            key={wallet.getName()}
+            href={wallet.getUrl()}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <WalletOptionContent
+              icon={wallet.getIcon()}
+              text={"Install " + wallet.getName()}
+            />
+          </ListItem>
+        ))}
+      </List>
     </Dialog>
   );
 };

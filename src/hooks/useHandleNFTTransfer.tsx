@@ -18,6 +18,7 @@ import {
 import { Alert } from "@material-ui/lab";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import { Connection } from "@solana/web3.js";
+import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 import { BigNumber, Signer } from "ethers";
 import { arrayify, zeroPad } from "ethers/lib/utils";
 import { useSnackbar } from "notistack";
@@ -118,7 +119,7 @@ async function evm(
 async function solana(
   dispatch: any,
   enqueueSnackbar: any,
-  wallet: WalletContextState,
+  wallet: SolanaWallet,
   payerAddress: string, //TODO: we may not need this since we have wallet
   fromAddress: string,
   mintAddress: string,
@@ -147,7 +148,7 @@ async function solana(
       originChain,
       arrayify(BigNumber.from(originTokenId || "0"))
     );
-    const txid = await signSendAndConfirm(wallet, connection, transaction);
+    const txid = await signSendAndConfirm(wallet, transaction);
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
     });
@@ -201,8 +202,7 @@ export function useHandleNFTTransfer() {
   const isSending = useSelector(selectNFTIsSending);
   const isSendComplete = useSelector(selectNFTIsSendComplete);
   const { signer } = useEthereumProvider(sourceChain);
-  const solanaWallet = useSolanaWallet();
-  const solPK = solanaWallet?.publicKey;
+  const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
   const sourceParsedTokenAccount = useSelector(
     selectNFTSourceParsedTokenAccount
   );
@@ -239,7 +239,7 @@ export function useHandleNFTTransfer() {
         dispatch,
         enqueueSnackbar,
         solanaWallet,
-        solPK.toString(),
+        solPK,
         sourceTokenPublicKey,
         sourceAsset,
         targetChain,

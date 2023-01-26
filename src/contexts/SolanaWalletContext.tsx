@@ -1,9 +1,4 @@
-import { Adapter, WalletAdapterNetwork } from "@solana/wallet-adapter-base";
-import {
-  ConnectionProvider,
-  WalletProvider,
-  useWallet,
-} from "@solana/wallet-adapter-react";
+import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import {
   PhantomWalletAdapter,
   SolflareWalletAdapter,
@@ -19,44 +14,59 @@ import {
   NightlyWalletAdapter,
   BloctoWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
-import { FC, useMemo } from "react";
+import { Connection } from "@solana/web3.js";
+import { CHAIN_ID_SOLANA, Wallet } from "@xlabs-libs/wallet-aggregator-core";
+import { useWalletFromChain } from "@xlabs-libs/wallet-aggregator-react";
+import { SolanaAdapter, SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
+import { useMemo } from "react";
 import { CLUSTER, SOLANA_HOST } from "../utils/consts";
 
-export const SolanaWalletProvider: FC = (props) => {
-  const wallets = useMemo(() => {
-    const wallets: Adapter[] = [
-      new PhantomWalletAdapter(),
-      new SolflareWalletAdapter(),
-      new BackpackWalletAdapter(),
-      new NightlyWalletAdapter(),
-      new SolletWalletAdapter(),
-      new SolletExtensionWalletAdapter(),
-      new CloverWalletAdapter(),
-      new Coin98WalletAdapter(),
-      new SlopeWalletAdapter(),
-      new SolongWalletAdapter(),
-      new TorusWalletAdapter(),
-      new ExodusWalletAdapter(),
-    ];
-    const network =
-      CLUSTER === "mainnet"
-        ? WalletAdapterNetwork.Mainnet
-        : CLUSTER === "testnet"
-        ? WalletAdapterNetwork.Devnet
-        : undefined;
-    if (network) {
-      wallets.push(new BloctoWalletAdapter({ network }));
-    }
-    return wallets;
-  }, []);
+export const getWrappedWallets = (): Wallet[] => {
+  const wallets: SolanaAdapter[] = [
+    new PhantomWalletAdapter(),
+    new SolflareWalletAdapter(),
+    new BackpackWalletAdapter(),
+    new NightlyWalletAdapter(),
+    new SolletWalletAdapter(),
+    new SolletExtensionWalletAdapter(),
+    new CloverWalletAdapter(),
+    new Coin98WalletAdapter(),
+    new SlopeWalletAdapter(),
+    new SolongWalletAdapter(),
+    new TorusWalletAdapter(),
+    new ExodusWalletAdapter(),
+  ];
 
-  return (
-    <ConnectionProvider endpoint={SOLANA_HOST}>
-      <WalletProvider wallets={wallets} autoConnect>
-        {props.children}
-      </WalletProvider>
-    </ConnectionProvider>
-  );
-};
+  const network =
+    CLUSTER === "mainnet"
+      ? WalletAdapterNetwork.Mainnet
+      : CLUSTER === "testnet"
+      ? WalletAdapterNetwork.Devnet
+      : undefined;
 
-export const useSolanaWallet = useWallet;
+  if (network) {
+    wallets.push(new BloctoWalletAdapter({ network }));
+  }
+
+  return wallets.map((adapter: SolanaAdapter) =>
+    new SolanaWallet(adapter, new Connection(SOLANA_HOST)))
+}
+
+interface ISolanaContext {
+  publicKey?: string;
+  wallet?: SolanaWallet;
+}
+
+export const useSolanaWallet = (): ISolanaContext => {
+  const wallet = useWalletFromChain(CHAIN_ID_SOLANA) as SolanaWallet;
+
+  const publicKey = useMemo(() => wallet?.getAddress(), [ wallet ])
+
+  return useMemo(() => ({
+    publicKey,
+    wallet
+  }), [
+    publicKey,
+    wallet
+  ]);
+}

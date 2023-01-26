@@ -960,8 +960,7 @@ function useGetAvailableTokens(nft: boolean = false) {
   const lookupChain = useSelector(
     nft ? selectNFTSourceChain : selectTransferSourceChain
   );
-  const solanaWallet = useSolanaWallet();
-  const solPK = solanaWallet?.publicKey;
+  const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
   const { provider, signerAddress } = useEthereumProvider(lookupChain);
   const { address: algoAccount } = useAlgorandWallet();
   const { accountId: nearAccountId } = useNearContext();
@@ -1055,7 +1054,7 @@ function useGetAvailableTokens(nft: boolean = false) {
       if (
         !(tokenAccounts.data || tokenAccounts.isFetching || tokenAccounts.error)
       ) {
-        getSolanaParsedTokenAccounts(solPK.toString(), dispatch, nft);
+        getSolanaParsedTokenAccounts(solPK, dispatch, nft);
       }
     }
 

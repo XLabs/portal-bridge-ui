@@ -48,8 +48,7 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
     nft ? selectNFTTargetChain : selectTransferTargetChain
   );
   const { signerAddress } = useEthereumProvider(targetChain);
-  const solanaWallet = useSolanaWallet();
-  const solPK = solanaWallet?.publicKey;
+  const { publicKey: solPK } = useSolanaWallet();
   const targetAsset = useSelector(
     nft ? selectNFTTargetAsset : selectTransferTargetAsset
   );
@@ -100,7 +99,7 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
                 ASSOCIATED_TOKEN_PROGRAM_ID,
                 TOKEN_PROGRAM_ID,
                 new PublicKey(targetAsset), // this might error
-                solPK
+                new PublicKey(solPK)
               );
             if (!cancelled) {
               dispatch(

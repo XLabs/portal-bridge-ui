@@ -7,19 +7,17 @@ import {
   PublicKey,
   Transaction,
 } from "@solana/web3.js";
+import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 
 export async function signSendAndConfirm(
-  wallet: WalletContextState,
-  connection: Connection,
+  wallet: SolanaWallet,
   transaction: Transaction
 ) {
   if (!wallet.signTransaction) {
     throw new Error("wallet.signTransaction is undefined");
   }
-  const signed = await wallet.signTransaction(transaction);
-  const txid = await connection.sendRawTransaction(signed.serialize());
-  await connection.confirmTransaction(txid);
-  return txid;
+  const { id } = await wallet.signAndSendTransaction(transaction);
+  return id;
 }
 
 export interface ExtractedMintInfo {

@@ -22,6 +22,7 @@ import { arrayify } from "@ethersproject/bytes";
 import { Alert } from "@material-ui/lab";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import { Connection } from "@solana/web3.js";
+import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 import { Signer } from "ethers";
 import { useSnackbar } from "notistack";
 import { useCallback, useMemo } from "react";
@@ -87,7 +88,7 @@ async function evm(
 async function solana(
   dispatch: any,
   enqueueSnackbar: any,
-  wallet: WalletContextState,
+  wallet: SolanaWallet,
   payerAddress: string, //TODO: we may not need this since we have wallet
   signedVAA: Uint8Array
 ) {
@@ -120,7 +121,7 @@ async function solana(
         payerAddress,
         signedVAA
       );
-      txid = await signSendAndConfirm(wallet, connection, transaction);
+      txid = await signSendAndConfirm(wallet, transaction);
       // TODO: didn't want to make an info call we didn't need, can we get the block without it by modifying the above call?
     }
     const isNative = await isNFTVAASolanaNative(signedVAA);
@@ -145,7 +146,7 @@ async function solana(
           payerAddress,
           signedVAA
         );
-        txid = await signSendAndConfirm(wallet, connection, transaction);
+        txid = await signSendAndConfirm(wallet, transaction);
       }
     }
     dispatch(setRedeemTx({ id: txid || "", block: 1 }));
@@ -164,8 +165,7 @@ export function useHandleNFTRedeem() {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const targetChain = useSelector(selectNFTTargetChain);
-  const solanaWallet = useSolanaWallet();
-  const solPK = solanaWallet?.publicKey;
+  const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
   const { signer } = useEthereumProvider(targetChain);
   const signedVAA = useNFTSignedVAA();
   const isRedeeming = useSelector(selectNFTIsRedeeming);
@@ -182,7 +182,7 @@ export function useHandleNFTRedeem() {
         dispatch,
         enqueueSnackbar,
         solanaWallet,
-        solPK.toString(),
+        solPK,
         signedVAA
       );
     } else {

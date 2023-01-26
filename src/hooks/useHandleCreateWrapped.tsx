@@ -86,6 +86,7 @@ import { WalletStrategy } from "@injectivelabs/wallet-ts";
 import { broadcastInjectiveTx } from "../utils/injective";
 import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
+import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 
 async function algo(
   dispatch: any,
@@ -298,7 +299,7 @@ async function xpla(
 async function solana(
   dispatch: any,
   enqueueSnackbar: any,
-  wallet: WalletContextState,
+  wallet: SolanaWallet,
   payerAddress: string, // TODO: we may not need this since we have wallet
   signedVAA: Uint8Array,
   shouldUpdate: boolean
@@ -332,7 +333,7 @@ async function solana(
           payerAddress,
           signedVAA
         );
-    const txid = await signSendAndConfirm(wallet, connection, transaction);
+    const txid = await signSendAndConfirm(wallet, transaction);
     // TODO: didn't want to make an info call we didn't need, can we get the block without it by modifying the above call?
     dispatch(setCreateTx({ id: txid, block: 1 }));
     enqueueSnackbar(null, {
@@ -434,8 +435,7 @@ export function useHandleCreateWrapped(shouldUpdate: boolean) {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const targetChain = useSelector(selectAttestTargetChain);
-  const solanaWallet = useSolanaWallet();
-  const solPK = solanaWallet?.publicKey;
+  const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
   const signedVAA = useAttestSignedVAA();
   const isCreating = useSelector(selectAttestIsCreating);
   const { signer } = useEthereumProvider(targetChain);
@@ -467,7 +467,7 @@ export function useHandleCreateWrapped(shouldUpdate: boolean) {
         dispatch,
         enqueueSnackbar,
         solanaWallet,
-        solPK.toString(),
+        solPK,
         signedVAA,
         shouldUpdate
       );
