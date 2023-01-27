@@ -62,7 +62,7 @@
   },
   "scripts": {
     "start": "react-app-rewired start",
-    "build": "sed -i '/enableWorkerThreads/d' node_modules/terser-webpack-plugin/dist/index.js && react-app-rewired --max_old_space_size=4096 build",
+    "build": "sed -i '/enableWorkerThreads/d' node_modules/terser-webpack-plugin/dist/index.js && react-app-rewired --max_old_space_size=3072 build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
