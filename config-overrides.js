@@ -2,6 +2,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 const { ProvidePlugin } = require("webpack");
 
 module.exports = function override(config, env) {
+  console.log(env);
   return {
     ...config,
     module: {
