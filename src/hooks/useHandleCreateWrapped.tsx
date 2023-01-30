@@ -29,7 +29,6 @@ import {
 } from "@certusone/wormhole-sdk";
 import { Alert } from "@material-ui/lab";
 import { Wallet } from "@near-wallet-selector/core";
-import { WalletContextState } from "@solana/wallet-adapter-react";
 import { Connection } from "@solana/web3.js";
 import {
   ConnectedWallet,
@@ -81,13 +80,12 @@ import {
   useConnectedWallet as useXplaConnectedWallet,
   ConnectedWallet as XplaConnectedWallet,
 } from "@xpla/wallet-provider";
-import { Types } from "aptos";
-import { WalletStrategy } from "@injectivelabs/wallet-ts";
 import { broadcastInjectiveTx } from "../utils/injective";
 import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
 import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 import { AptosWallet } from "@xlabs-libs/wallet-aggregator-aptos";
+import { InjectiveWallet } from "@xlabs-libs/wallet-aggregator-injective";
 
 async function algo(
   dispatch: any,
@@ -390,7 +388,7 @@ async function terra(
 async function injective(
   dispatch: any,
   enqueueSnackbar: any,
-  wallet: WalletStrategy,
+  wallet: InjectiveWallet,
   walletAddress: string,
   signedVAA: Uint8Array,
   shouldUpdate: boolean

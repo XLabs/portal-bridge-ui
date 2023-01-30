@@ -1,6 +1,5 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { MintLayout } from "@solana/spl-token";
-import { WalletContextState } from "@solana/wallet-adapter-react";
 import {
   AccountInfo,
   Connection,

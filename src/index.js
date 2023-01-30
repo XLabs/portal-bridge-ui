@@ -9,15 +9,15 @@ import BackgroundImage from "./components/BackgroundImage";
 import { BetaContextProvider } from "./contexts/BetaContext";
 import { getWrappedWallets as getWrappedSolanaWallets } from "./contexts/SolanaWalletContext";
 import { getWrappedWallets as getWrappedAptosWallets } from "./contexts/AptosWalletContext";
+import { configureInjectiveWallets } from "./contexts/InjectiveWalletContext";
 import { NearContextProvider } from "./contexts/NearWalletContext";
 import XplaWalletProvider from "./contexts/XplaWalletContext";
 import { TerraWalletProvider } from "./contexts/TerraWalletContext.tsx";
 import ErrorBoundary from "./ErrorBoundary";
 import { theme } from "./muiTheme";
 import { store } from "./store";
-import InjectiveWalletProvider from "./contexts/InjectiveWalletContext";
 import { WalletContextProvider } from "@xlabs-libs/wallet-aggregator-react";
-import { CHAIN_ID_ALGORAND, CHAIN_ID_SOLANA, CHAIN_ID_APTOS } from "@xlabs-libs/wallet-aggregator-core";
+import { CHAIN_ID_ALGORAND, CHAIN_ID_SOLANA, CHAIN_ID_APTOS, CHAIN_ID_INJECTIVE } from "@xlabs-libs/wallet-aggregator-core";
 import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
 import { evmChainIdToChainId, EVMWalletConnectWallet, EVMWeb3Wallet, EVM_CHAINS, EVM_CHAINS_TESTNET } from "@xlabs-libs/wallet-aggregator-evm";
 
@@ -41,7 +41,8 @@ const AGGREGATOR_WALLETS = {
   [CHAIN_ID_ALGORAND]: [ new AlgorandWallet() ],
   ...evmChainMap,
   [CHAIN_ID_SOLANA]: getWrappedSolanaWallets(),
-  [CHAIN_ID_APTOS]: getWrappedAptosWallets()
+  [CHAIN_ID_APTOS]: getWrappedAptosWallets(),
+  [CHAIN_ID_INJECTIVE]: configureInjectiveWallets()
 }
 
 ReactDOM.render(
@@ -56,12 +57,10 @@ ReactDOM.render(
                 <TerraWalletProvider>
                   <NearContextProvider>
                     <XplaWalletProvider>
-                      <InjectiveWalletProvider>
-                        <HashRouter>
-                          <BackgroundImage />
-                          <App />
-                        </HashRouter>
-                      </InjectiveWalletProvider>
+                      <HashRouter>
+                        <BackgroundImage />
+                        <App />
+                      </HashRouter>
                     </XplaWalletProvider>
                   </NearContextProvider>
                 </TerraWalletProvider>

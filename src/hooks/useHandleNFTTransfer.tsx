@@ -16,7 +16,6 @@ import {
   transferFromSolana,
 } from "@certusone/wormhole-sdk/lib/esm/nft_bridge";
 import { Alert } from "@material-ui/lab";
-import { WalletContextState } from "@solana/wallet-adapter-react";
 import { Connection } from "@solana/web3.js";
 import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 import { BigNumber, Signer } from "ethers";

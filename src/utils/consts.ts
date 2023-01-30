@@ -601,6 +601,14 @@ export const APTOS_NETWORK =
 export const APTOS_NATIVE_DECIMALS = 8;
 export const APTOS_NATIVE_TOKEN_KEY = "0x1::aptos_coin::AptosCoin";
 
+export const getInjectiveNetworkName = () => {
+  if (CLUSTER === "mainnet") {
+    return Network.MainnetK8s;
+  } else if (CLUSTER === "testnet") {
+    return Network.TestnetK8s;
+  }
+  throw Error("Unsupported injective network");
+};
 export const getInjectiveNetwork = () => {
   if (CLUSTER === "mainnet") {
     return getNetworkInfo(Network.MainnetK8s);
