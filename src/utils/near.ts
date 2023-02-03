@@ -8,7 +8,7 @@ import {
   WormholeWrappedInfo,
 } from "@certusone/wormhole-sdk";
 import { _parseVAAAlgorand } from "@certusone/wormhole-sdk/lib/esm/algorand";
-import { Wallet } from "@near-wallet-selector/core/lib/wallet";
+import { NearWallet } from "@xlabs-libs/wallet-aggregator-near";
 import BN from "bn.js";
 import { arrayify, sha256, zeroPad } from "ethers/lib/utils";
 import { Account, connect } from "near-api-js";
@@ -21,11 +21,12 @@ export const makeNearAccount = async (senderAddr: string) =>
 
 export const signAndSendTransactions = async (
   account: Account,
-  wallet: Wallet,
+  wallet: NearWallet,
   messages: FunctionCallOptions[]
 ): Promise<FinalExecutionOutcome> => {
   // the browser wallet's signAndSendTransactions call navigates away from the page which is incompatible with the current app design
-  if (wallet.type === "browser" && account) {
+  const nearWallet = await wallet.getWallet();
+  if (nearWallet!.type === "browser" && account) {
     let lastReceipt: FinalExecutionOutcome | null = null;
     for (const message of messages) {
       lastReceipt = await account.functionCall(message);
@@ -35,9 +36,10 @@ export const signAndSendTransactions = async (
     }
     return lastReceipt;
   }
-  const receipts = await wallet.signAndSendTransactions({
+
+  const { data: receipts } = await wallet.sendTransaction({
     transactions: messages.map((options) => ({
-      signerId: wallet.id,
+      signerId: account.accountId,
       receiverId: options.contractId,
       actions: [
         {

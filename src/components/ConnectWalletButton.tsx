@@ -53,8 +53,10 @@ const ConnectWalletButton = ({ chainId }: { chainId: ChainId }) => {
   }, [setIsDialogOpen]);
 
   const handleConnect = useCallback(() => {
-    return openDialog();
-  }, [ openDialog ]);
+    return availableWallets.length > 1
+      ? openDialog()
+      : connect(availableWallets[0]);
+  }, [ openDialog, availableWallets, connect ]);
 
   return (
     <>
