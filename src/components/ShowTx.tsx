@@ -21,6 +21,7 @@ import {
   CHAIN_ID_APTOS,
   CHAIN_ID_ARBITRUM,
   CHAIN_ID_INJECTIVE,
+  CHAIN_ID_OPTIMISM,
 } from "@certusone/wormhole-sdk";
 import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk/lib/esm";
 import { Button, makeStyles, Typography } from "@material-ui/core";
@@ -151,6 +152,10 @@ export default function ShowTx({
       ? `https://${
           CLUSTER === "testnet" ? "testnet." : ""
         }explorer.injective.network/transaction/${tx.id}`
+      : chainId === CHAIN_ID_OPTIMISM
+      ? `https://${
+          CLUSTER === "testnet" ? "goerli-optimism." : "optimistic."
+        }etherscan.io/tx/${tx?.id}`
       : undefined;
   const explorerName = getExplorerName(chainId);
 

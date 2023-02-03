@@ -37,6 +37,20 @@ export const METAMASK_CHAIN_PARAMETERS: {
     rpcUrls: ["https://rpc.ankr.com/eth_goerli"],
     blockExplorerUrls: ["https://goerli.etherscan.io"],
   },
+  10: {
+    chainId: "0xA",
+    chainName: "Optimism",
+    nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
+    rpcUrls: ["https://rpc.ankr.com/optimism"],
+    blockExplorerUrls: ["https://optimistic.etherscan.io"],
+  },
+  420: {
+    chainId: "0x1A4",
+    chainName: "Optimism Goerli Testnet",
+    nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
+    rpcUrls: ["https://rpc.ankr.com/optimism_testnet"],
+    blockExplorerUrls: ["https://optimistic.etherscan.io"],
+  },
   56: {
     chainId: "0x38",
     chainName: "Binance Smart Chain Mainnet",

@@ -14,6 +14,7 @@ import {
   CHAIN_ID_SOLANA,
   isEVMChain,
 } from "@certusone/wormhole-sdk";
+import { CHAIN_ID_OPTIMISM } from "@certusone/wormhole-sdk/lib/esm";
 import { LinearProgress, makeStyles, Typography } from "@material-ui/core";
 import { Connection } from "@solana/web3.js";
 import { useEffect, useState } from "react";
@@ -118,7 +119,8 @@ export default function TransactionProgress({
           chainId === CHAIN_ID_ACALA ||
           chainId === CHAIN_ID_KLAYTN ||
           chainId === CHAIN_ID_CELO ||
-          chainId === CHAIN_ID_MOONBEAM
+          chainId === CHAIN_ID_MOONBEAM ||
+          chainId === CHAIN_ID_OPTIMISM
         ? 1 // these chains only require 1 conf
         : chainId === CHAIN_ID_SOLANA
         ? 32
