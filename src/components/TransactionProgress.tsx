@@ -147,6 +147,8 @@ export default function TransactionProgress({
           <Typography variant="body2" className={classes.message}>
             {chainId === CHAIN_ID_ARBITRUM
               ? `Waiting for Ethereum finality on Arbitrum block ${tx?.block}` //TODO: more advanced finality checking for Arbitrum
+              : chainId === CHAIN_ID_OPTIMISM
+              ? `Waiting for Ethereum finality on Optimism block ${tx?.block}`
               : blockDiff < expectedBlocks
               ? `Waiting for ${blockDiff} / ${expectedBlocks} confirmations on ${CHAINS_BY_ID[chainId].name}...`
               : `Waiting for Wormhole Network consensus...`}
