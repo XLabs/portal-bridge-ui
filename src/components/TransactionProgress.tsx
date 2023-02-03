@@ -12,9 +12,9 @@ import {
   CHAIN_ID_OASIS,
   CHAIN_ID_POLYGON,
   CHAIN_ID_SOLANA,
+  CHAIN_ID_OPTIMISM,
   isEVMChain,
 } from "@certusone/wormhole-sdk";
-import { CHAIN_ID_OPTIMISM } from "@certusone/wormhole-sdk/lib/esm";
 import { LinearProgress, makeStyles, Typography } from "@material-ui/core";
 import { Connection } from "@solana/web3.js";
 import { useEffect, useState } from "react";
