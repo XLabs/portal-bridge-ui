@@ -10,7 +10,7 @@ import { BetaContextProvider } from "./contexts/BetaContext";
 import { getWrappedWallets as getWrappedSolanaWallets } from "./contexts/SolanaWalletContext";
 import { getWrappedWallets as getWrappedAptosWallets } from "./contexts/AptosWalletContext";
 import { getInjectiveWallets } from "./contexts/InjectiveWalletContext";
-import { NearContextProvider } from "./contexts/NearWalletContext";
+import { getNearWallets } from "./contexts/NearWalletContext";
 import XplaWalletProvider from "./contexts/XplaWalletContext";
 import { TerraWalletProvider } from "./contexts/TerraWalletContext.tsx";
 import ErrorBoundary from "./ErrorBoundary";
@@ -23,6 +23,7 @@ import {
   CHAIN_ID_SOLANA,
   CHAIN_ID_APTOS,
   CHAIN_ID_INJECTIVE,
+  CHAIN_ID_NEAR,
 } from "@xlabs-libs/wallet-aggregator-core";
 import {
   MyAlgoWallet,
@@ -35,7 +36,7 @@ import {
   WalletConnectLegacyWallet,
 } from "@xlabs-libs/wallet-aggregator-evm";
 
-const AGGREGATOR_WALLETS = {
+const AGGREGATOR_WALLETS_BUILDER = async () => ({
   [CHAIN_ID_ALGORAND]: [
     new MyAlgoWallet(),
     new PeraWallet(),
@@ -46,7 +47,8 @@ const AGGREGATOR_WALLETS = {
   [CHAIN_ID_SOLANA]: getWrappedSolanaWallets(),
   [CHAIN_ID_APTOS]: getWrappedAptosWallets(),
   [CHAIN_ID_INJECTIVE]: getInjectiveWallets(),
-};
+  [CHAIN_ID_NEAR]: await getNearWallets()
+});
 
 ReactDOM.render(
   <ErrorBoundary>
@@ -55,17 +57,15 @@ ReactDOM.render(
         <CssBaseline />
         <ErrorBoundary>
           <SnackbarProvider maxSnack={3}>
-            <WalletContextProvider wallets={AGGREGATOR_WALLETS}>
+            <WalletContextProvider wallets={AGGREGATOR_WALLETS_BUILDER}>
               <BetaContextProvider>
                 <TerraWalletProvider>
-                  <NearContextProvider>
-                    <XplaWalletProvider>
-                      <HashRouter>
-                        <BackgroundImage />
-                        <App />
-                      </HashRouter>
-                    </XplaWalletProvider>
-                  </NearContextProvider>
+                  <XplaWalletProvider>
+                    <HashRouter>
+                      <BackgroundImage />
+                      <App />
+                    </HashRouter>
+                  </XplaWalletProvider>
                 </TerraWalletProvider>
               </BetaContextProvider>
             </WalletContextProvider>

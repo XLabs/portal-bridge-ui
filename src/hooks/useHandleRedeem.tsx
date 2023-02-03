@@ -23,7 +23,6 @@ import {
 } from "@certusone/wormhole-sdk";
 import { completeTransferAndRegister } from "@certusone/wormhole-sdk/lib/esm/aptos/api/tokenBridge";
 import { Alert } from "@material-ui/lab";
-import { Wallet } from "@near-wallet-selector/core";
 import { Connection } from "@solana/web3.js";
 import {
   ConnectedWallet,
@@ -83,6 +82,7 @@ import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
 import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 import { AptosWallet } from "@xlabs-libs/wallet-aggregator-aptos";
 import { InjectiveWallet } from "@xlabs-libs/wallet-aggregator-injective";
+import { NearWallet } from "@xlabs-libs/wallet-aggregator-near";
 
 async function algo(
   dispatch: any,
@@ -198,7 +198,7 @@ async function near(
   enqueueSnackbar: any,
   senderAddr: string,
   signedVAA: Uint8Array,
-  wallet: Wallet
+  wallet: NearWallet
 ) {
   dispatch(setIsRedeeming(true));
   try {
