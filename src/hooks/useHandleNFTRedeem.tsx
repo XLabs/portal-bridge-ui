@@ -106,7 +106,7 @@ async function solana(
     if (!claimInfo) {
       await postVaaSolanaWithRetry(
         connection,
-        wallet.signTransaction,
+        wallet.signTransaction.bind(wallet),
         SOL_BRIDGE_ADDRESS,
         payerAddress,
         Buffer.from(signedVAA),
