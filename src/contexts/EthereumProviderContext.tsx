@@ -4,7 +4,9 @@ import { EVMWallet } from "@xlabs-libs/wallet-aggregator-evm";
 import { useWalletFromChain } from "@xlabs-libs/wallet-aggregator-react";
 import { ethers } from "ethers";
 import {
-  useMemo
+  useEffect,
+  useMemo,
+  useState
 } from "react";
 
 export type Provider = ethers.providers.Web3Provider | undefined;
@@ -19,14 +21,30 @@ interface IEthereumContext {
 }
 
 export const useEthereumProvider = (chainId: ChainId): IEthereumContext => {
-  const wallet = useWalletFromChain(chainId) as EVMWallet;
+  const wallet = useWalletFromChain<EVMWallet>(chainId);
 
-  const isEVM = useMemo(() => isEVMChain(chainId), [ chainId ]);
+  const [ signerAddress, setSignerAddress ] = useState<string | undefined>();
+  const [ evmChainId, setEvmChainId ] = useState<number | undefined>();
+  const [ signer, setSigner ] = useState<ethers.Signer | undefined>();
+  const [ provider, setProvider ] = useState<ethers.providers.Web3Provider | undefined>();
 
-  const provider = useMemo(() => isEVM ? wallet?.getProvider() : undefined, [ isEVM, wallet ]);
-  const evmChainId = useMemo(() => isEVM ? wallet?.getEvmChainId() : undefined, [ isEVM, wallet ]);
-  const signer = useMemo(() => isEVM ? wallet?.getSigner() : undefined, [ isEVM, wallet ]);
-  const signerAddress = useMemo(() => isEVM ? wallet?.getAddress() : undefined, [ isEVM, wallet ]);
+  useEffect(() => {
+    if (!isEVMChain(chainId)) return () => {};
+
+    setSignerAddress(wallet?.getAddress());
+    setEvmChainId(wallet?.getNetworkInfo()?.chainId);
+    setSigner(wallet?.getSigner());
+    setProvider(wallet?.getProvider());
+
+    const handleNetworkChange = () => {
+      setEvmChainId(wallet?.getNetworkInfo()?.chainId);
+    };
+
+    wallet?.on('networkChanged', handleNetworkChange);
+    return () => {
+      wallet?.off('networkChanged', handleNetworkChange);
+    };
+  }, [ wallet, chainId ])
 
   return useMemo(
     () => ({
