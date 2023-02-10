@@ -18,8 +18,8 @@ import { theme } from "./muiTheme";
 import { store } from "./store";
 import { WalletContextProvider } from "@xlabs-libs/wallet-aggregator-react";
 import { CHAIN_ID_ALGORAND, CHAIN_ID_SOLANA, CHAIN_ID_APTOS, CHAIN_ID_INJECTIVE, CHAIN_ID_NEAR } from "@xlabs-libs/wallet-aggregator-core";
-import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
-import { evmChainIdToChainId, EVMWalletConnectWallet, EVMWeb3Wallet, EVM_CHAINS, EVM_CHAINS_TESTNET } from "@xlabs-libs/wallet-aggregator-evm";
+import { AlgorandWallet, MyAlgoWallet, PeraWallet } from "@xlabs-libs/wallet-aggregator-algorand";
+import { CoinbaseWallet, evmChainIdToChainId, EVMWalletConnectWallet, EVMWeb3Wallet, EVM_CHAINS, EVM_CHAINS_TESTNET, LedgerWallet } from "@xlabs-libs/wallet-aggregator-evm";
 
 const network = process.env.REACT_APP_CLUSTER === 'testnet' ? 'TESTNET' : 'MAINNET';
 const evmChains = network === 'MAINNET' ? EVM_CHAINS : EVM_CHAINS_TESTNET;
@@ -33,12 +33,23 @@ const evmChainMap =
     }))
     .reduce((map, { evmChainId, chainId }) => {
       const params = { preferredChain: evmChainId }
-      map[chainId] = [ new EVMWeb3Wallet(params), new EVMWalletConnectWallet(params) ]
+      map[chainId] = [
+        new EVMWeb3Wallet(params),
+        new EVMWalletConnectWallet(params),
+        new CoinbaseWallet({
+          ...params,
+          options: {
+            appName: 'Portal bridge',
+            reloadOnDisconnect: false
+          }
+        }),
+        new LedgerWallet()
+      ]
       return map;
     }, {});
 
 const AGGREGATOR_WALLETS_BUILDER = async () => ({
-  [CHAIN_ID_ALGORAND]: [ new AlgorandWallet() ],
+  [CHAIN_ID_ALGORAND]: [ new MyAlgoWallet(), new PeraWallet() ],
   ...evmChainMap,
   [CHAIN_ID_SOLANA]: getWrappedSolanaWallets(),
   [CHAIN_ID_APTOS]: getWrappedAptosWallets(),
