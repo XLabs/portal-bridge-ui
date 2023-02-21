@@ -25,6 +25,7 @@ import {
   CHAIN_ID_ARBITRUM,
   CHAIN_ID_INJECTIVE,
   terra,
+  CHAIN_ID_OPTIMISM,
 } from "@certusone/wormhole-sdk";
 import { Button, makeStyles, Tooltip, Typography } from "@material-ui/core";
 import { FileCopy, OpenInNew } from "@material-ui/icons";
@@ -224,6 +225,10 @@ export default function SmartAddress({
           ? `asset/?tokenType=${isNative ? "native" : "cw20"}&tokenIdentifier=`
           : "account/"
       }${useableAddress}`
+    : chainId === CHAIN_ID_OPTIMISM
+    ? `https://${
+        CLUSTER === "testnet" ? "goerli-optimism." : "optimistic."
+      }etherscan.io/${isAsset ? "token" : "address"}/${useableAddress}`
     : undefined;
   const explorerName = getExplorerName(chainId);
 

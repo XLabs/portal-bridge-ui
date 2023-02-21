@@ -12,6 +12,7 @@ import {
   CHAIN_ID_OASIS,
   CHAIN_ID_POLYGON,
   CHAIN_ID_SOLANA,
+  CHAIN_ID_OPTIMISM,
   isEVMChain,
 } from "@certusone/wormhole-sdk";
 import { LinearProgress, makeStyles, Typography } from "@material-ui/core";
@@ -118,7 +119,8 @@ export default function TransactionProgress({
           chainId === CHAIN_ID_ACALA ||
           chainId === CHAIN_ID_KLAYTN ||
           chainId === CHAIN_ID_CELO ||
-          chainId === CHAIN_ID_MOONBEAM
+          chainId === CHAIN_ID_MOONBEAM ||
+          chainId === CHAIN_ID_OPTIMISM
         ? 1 // these chains only require 1 conf
         : chainId === CHAIN_ID_SOLANA
         ? 32
@@ -145,6 +147,8 @@ export default function TransactionProgress({
           <Typography variant="body2" className={classes.message}>
             {chainId === CHAIN_ID_ARBITRUM
               ? `Waiting for Ethereum finality on Arbitrum block ${tx?.block}` //TODO: more advanced finality checking for Arbitrum
+              : chainId === CHAIN_ID_OPTIMISM
+              ? `Waiting for Ethereum finality on Optimism block ${tx?.block}`
               : blockDiff < expectedBlocks
               ? `Waiting for ${blockDiff} / ${expectedBlocks} confirmations on ${CHAINS_BY_ID[chainId].name}...`
               : `Waiting for Wormhole Network consensus...`}

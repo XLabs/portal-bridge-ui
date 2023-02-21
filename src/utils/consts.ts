@@ -27,6 +27,7 @@ import {
   coalesceChainName,
   CHAIN_ID_ARBITRUM,
   CHAIN_ID_INJECTIVE,
+  CHAIN_ID_OPTIMISM,
 } from "@certusone/wormhole-sdk";
 import { clusterApiUrl } from "@solana/web3.js";
 import { getAddress } from "ethers/lib/utils";
@@ -46,6 +47,7 @@ import klaytnIcon from "../icons/klaytn.svg";
 import moonbeamIcon from "../icons/moonbeam.svg";
 import neonIcon from "../icons/neon.svg";
 import oasisIcon from "../icons/oasis-network-rose-logo.svg";
+import optimismIcon from "../icons/optimism.svg";
 import polygonIcon from "../icons/polygon.svg";
 import solanaIcon from "../icons/solana.svg";
 import terraIcon from "../icons/terra.svg";
@@ -152,6 +154,11 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_OASIS,
           name: "Oasis",
           logo: oasisIcon,
+        },
+        {
+          id: CHAIN_ID_OPTIMISM,
+          name: "Optimism",
+          logo: optimismIcon,
         },
         {
           id: CHAIN_ID_POLYGON,
@@ -262,6 +269,11 @@ export const CHAINS: ChainInfo[] =
           logo: oasisIcon,
         },
         {
+          id: CHAIN_ID_OPTIMISM,
+          name: "Optimism",
+          logo: optimismIcon,
+        },
+        {
           id: CHAIN_ID_POLYGON,
           name: "Polygon",
           logo: polygonIcon,
@@ -346,7 +358,8 @@ export const CHAINS_WITH_NFT_SUPPORT = CHAINS.filter(
     id === CHAIN_ID_CELO ||
     id === CHAIN_ID_NEON ||
     id === CHAIN_ID_MOONBEAM ||
-    id === CHAIN_ID_ARBITRUM
+    id === CHAIN_ID_ARBITRUM ||
+    id === CHAIN_ID_OPTIMISM
 );
 export type ChainsById = { [key in ChainId]: ChainInfo };
 export const CHAINS_BY_ID: ChainsById = CHAINS.reduce((obj, chain) => {
@@ -372,6 +385,8 @@ export const getDefaultNativeCurrencySymbol = (chainId: ChainId) =>
     ? "AVAX"
     : chainId === CHAIN_ID_OASIS
     ? "ROSE"
+    : chainId === CHAIN_ID_OPTIMISM
+    ? "ETH"
     : chainId === CHAIN_ID_ALGORAND
     ? "ALGO"
     : chainId === CHAIN_ID_AURORA
@@ -455,6 +470,8 @@ export const getExplorerName = (chainId: ChainId) =>
     ? "XPLA Explorer"
     : chainId === CHAIN_ID_ARBITRUM
     ? "Arbiscan"
+    : chainId === CHAIN_ID_OPTIMISM
+    ? "Optimism Explorer"
     : "Explorer";
 export const WORMHOLE_RPC_HOSTS =
   CLUSTER === "mainnet"
@@ -503,6 +520,8 @@ export const MOONBEAM_NETWORK_CHAIN_ID =
   CLUSTER === "mainnet" ? 1284 : CLUSTER === "testnet" ? 1287 : 1381;
 export const ARBITRUM_NETWORK_CHAIN_ID =
   CLUSTER === "mainnet" ? 42161 : CLUSTER === "testnet" ? 421613 : 1381;
+export const OPTIMISM_NETWORK_CHAIN_ID =
+  CLUSTER === "mainnet" ? 10 : CLUSTER === "testnet" ? 420 : 1381;
 export const getEvmChainId = (chainId: ChainId) =>
   chainId === CHAIN_ID_ETH
     ? ETH_NETWORK_CHAIN_ID
@@ -532,6 +551,8 @@ export const getEvmChainId = (chainId: ChainId) =>
     ? MOONBEAM_NETWORK_CHAIN_ID
     : chainId === CHAIN_ID_ARBITRUM
     ? ARBITRUM_NETWORK_CHAIN_ID
+    : chainId === CHAIN_ID_OPTIMISM
+    ? OPTIMISM_NETWORK_CHAIN_ID
     : undefined;
 export const SOLANA_HOST = process.env.REACT_APP_SOLANA_API_URL
   ? process.env.REACT_APP_SOLANA_API_URL
@@ -611,12 +632,22 @@ export const getInjectiveNetworkName = () => {
 };
 export const getInjectiveNetwork = () => {
   if (CLUSTER === "mainnet") {
+    return Network.MainnetK8s;
+  } else if (CLUSTER === "testnet") {
+    return Network.TestnetK8s;
+  }
+  throw Error("Unsupported injective network");
+};
+
+export const getInjectiveNetworkInfo = () => {
+  if (CLUSTER === "mainnet") {
     return getNetworkInfo(Network.MainnetK8s);
   } else if (CLUSTER === "testnet") {
     return getNetworkInfo(Network.TestnetK8s);
   }
   throw Error("Unsupported injective network");
 };
+
 export const getInjectiveNetworkChainId = () => {
   if (CLUSTER === "mainnet") {
     return InjectiveChainId.Mainnet;
@@ -1075,6 +1106,8 @@ export const COVALENT_MOONBEAM =
   CLUSTER === "devnet" ? null : MOONBEAM_NETWORK_CHAIN_ID; // Covalent only supports mainnet
 export const COVALENT_ARBITRUM =
   CLUSTER === "devnet" ? null : ARBITRUM_NETWORK_CHAIN_ID; // Covalent only supports mainnet
+export const COVALENT_OPTIMISM =
+  CLUSTER === "devnet" ? null : OPTIMISM_NETWORK_CHAIN_ID; // Covalent only supports mainnet
 export const COVALENT_GET_TOKENS_URL = (
   chainId: ChainId,
   walletAddress: string,
@@ -1102,6 +1135,8 @@ export const COVALENT_GET_TOKENS_URL = (
       ? COVALENT_MOONBEAM
       : chainId === CHAIN_ID_ARBITRUM
       ? COVALENT_ARBITRUM
+      : chainId === CHAIN_ID_OPTIMISM
+      ? COVALENT_OPTIMISM
       : "";
   // https://www.covalenthq.com/docs/api/#get-/v1/{chain_id}/address/{address}/balances_v2/
   return chainNum
@@ -1675,8 +1710,8 @@ export const DISABLED_TOKEN_TRANSFERS: {
     "0xa2B726B1145A4773F68593CF171187d8EBe4d495": [], // INJ
   },
   [CHAIN_ID_INJECTIVE]: {
-    "inj": [], // INJ
-  }
+    inj: [], // INJ
+  },
 };
 
 export const getIsTokenTransferDisabled = (
@@ -1692,10 +1727,11 @@ export const getIsTokenTransferDisabled = (
 };
 
 export interface DisabledTokenReasons {
-  text:string, 
+  text: string;
   link?: {
-    text:string, url:string
-  }
+    text: string;
+    url: string;
+  };
 }
 
 export const DISABLED_TOKEN_REASONS: {
@@ -1706,8 +1742,8 @@ export const DISABLED_TOKEN_REASONS: {
       text: "Transfers of INJ token can be made through the Injective Bridge.",
       link: {
         text: "Click here to go to Injective Bridge",
-        url: "https://hub.injective.network/bridge/"
-      }
+        url: "https://hub.injective.network/bridge/",
+      },
     }, // INJ
   },
   [CHAIN_ID_BSC]: {
@@ -1715,19 +1751,19 @@ export const DISABLED_TOKEN_REASONS: {
       text: "Transfers of INJ token can be made through the Injective Bridge.",
       link: {
         text: "Click here to go to Injective Bridge",
-        url: "https://hub.injective.network/bridge/"
-      }
+        url: "https://hub.injective.network/bridge/",
+      },
     }, // INJ
   },
   [CHAIN_ID_INJECTIVE]: {
-    "inj": {
+    inj: {
       text: "Transfers of INJ token can be made through the Injective Bridge.",
       link: {
         text: "Click here to go to Injective Bridge",
-        url: "https://hub.injective.network/bridge/"
-      }
+        url: "https://hub.injective.network/bridge/",
+      },
     }, // INJ
-  }
+  },
 };
 
 export const getIsTokenTransferDisabledReasons = (

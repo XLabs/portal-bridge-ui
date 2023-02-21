@@ -6,20 +6,20 @@ import {
   TxGrpcClient,
 } from "@injectivelabs/sdk-ts";
 import { InjectiveWallet } from "@xlabs-libs/wallet-aggregator-injective";
-import { getInjectiveNetwork } from "./consts";
+import { getInjectiveNetworkInfo } from "./consts";
 
 export const NATIVE_INJECTIVE_DECIMALS = 18;
 
 export const INJECTIVE_NATIVE_DENOM = "inj";
 
 export const getInjectiveWasmClient = () =>
-  new ChainGrpcWasmApi(getInjectiveNetwork().sentryGrpcApi);
+  new ChainGrpcWasmApi(getInjectiveNetworkInfo().grpc);
 
 export const getInjectiveBankClient = () =>
-  new ChainGrpcBankApi(getInjectiveNetwork().sentryGrpcApi);
+  new ChainGrpcBankApi(getInjectiveNetworkInfo().grpc);
 
 export const getInjectiveTxClient = () =>
-  new TxGrpcClient(getInjectiveNetwork().sentryGrpcApi);
+  new TxGrpcClient(getInjectiveNetworkInfo().grpc);
 
 export const isValidInjectiveAddress = (address: string) => {
   if (isNativeDenomInjective(address)) {
