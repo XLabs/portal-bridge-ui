@@ -8,7 +8,7 @@ import { setupNightly } from "@near-wallet-selector/nightly";
 import { setupSender } from "@near-wallet-selector/sender";
 import { CHAIN_ID_NEAR } from "@xlabs-libs/wallet-aggregator-core";
 import { NearWallet } from "@xlabs-libs/wallet-aggregator-near";
-import { useWalletFromChain } from "@xlabs-libs/wallet-aggregator-react";
+import { useWallet } from "@xlabs-libs/wallet-aggregator-react";
 import { useMemo } from "react";
 import { getNearConnectionConfig, NEAR_TOKEN_BRIDGE_ACCOUNT } from "../utils/consts";
 
@@ -36,7 +36,7 @@ export const configureNearWallets = async () => {
 }
 
 export function useNearContext(): INearWalletContext {
-  const wallet = useWalletFromChain(CHAIN_ID_NEAR) as NearWallet;
+  const wallet = useWallet(CHAIN_ID_NEAR) as NearWallet;
 
   const accountId = useMemo(() => wallet?.getAddress(), [ wallet ]);
 

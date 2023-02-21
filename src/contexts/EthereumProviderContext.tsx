@@ -1,7 +1,7 @@
 import { isEVMChain } from "@certusone/wormhole-sdk";
 import { ChainId } from "@xlabs-libs/wallet-aggregator-core";
 import { EVMWallet } from "@xlabs-libs/wallet-aggregator-evm";
-import { useWalletFromChain } from "@xlabs-libs/wallet-aggregator-react";
+import { useWallet } from "@xlabs-libs/wallet-aggregator-react";
 import { ethers } from "ethers";
 import {
   useEffect,
@@ -21,7 +21,7 @@ interface IEthereumContext {
 }
 
 export const useEthereumProvider = (chainId: ChainId): IEthereumContext => {
-  const wallet = useWalletFromChain<EVMWallet>(chainId);
+  const wallet = useWallet<EVMWallet>(chainId);
 
   const [ signerAddress, setSignerAddress ] = useState<string | undefined>();
   const [ evmChainId, setEvmChainId ] = useState<number | undefined>();

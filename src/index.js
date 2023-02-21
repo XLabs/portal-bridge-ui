@@ -11,51 +11,55 @@ import { getWrappedWallets as getWrappedSolanaWallets } from "./contexts/SolanaW
 import { getWrappedWallets as getWrappedAptosWallets } from "./contexts/AptosWalletContext";
 import { configureInjectiveWallets } from "./contexts/InjectiveWalletContext";
 import { configureNearWallets } from "./contexts/NearWalletContext";
-import XplaWalletProvider from "./contexts/XplaWalletContext";
-import { TerraWalletProvider } from "./contexts/TerraWalletContext.tsx";
 import ErrorBoundary from "./ErrorBoundary";
 import { theme } from "./muiTheme";
 import { store } from "./store";
 import { WalletContextProvider } from "@xlabs-libs/wallet-aggregator-react";
-import { CHAIN_ID_ALGORAND, CHAIN_ID_SOLANA, CHAIN_ID_APTOS, CHAIN_ID_INJECTIVE, CHAIN_ID_NEAR } from "@xlabs-libs/wallet-aggregator-core";
-import { AlgorandWallet, MyAlgoWallet, PeraWallet } from "@xlabs-libs/wallet-aggregator-algorand";
-import { CoinbaseWallet, evmChainIdToChainId, EVMWalletConnectWallet, EVMWeb3Wallet, EVM_CHAINS, EVM_CHAINS_TESTNET, LedgerWallet } from "@xlabs-libs/wallet-aggregator-evm";
+import {
+  CHAIN_ID_ALGORAND,
+  CHAIN_ID_SOLANA,
+  CHAIN_ID_APTOS,
+  CHAIN_ID_ETH,
+  CHAIN_ID_INJECTIVE,
+  CHAIN_ID_NEAR,
+  CHAIN_ID_TERRA,
+  CHAIN_ID_TERRA2,
+  CHAIN_ID_XPLA
+} from "@xlabs-libs/wallet-aggregator-core";
+import { MyAlgoWallet, PeraWallet } from "@xlabs-libs/wallet-aggregator-algorand";
+import { CoinbaseWallet, LedgerWallet, MetamaskWallet, WalletConnectWallet } from "@xlabs-libs/wallet-aggregator-evm";
+import { configureXplaWallets } from "./contexts/XplaWalletContext";
+import { configureTerraWallets } from "./contexts/TerraWalletContext";
 
-const network = process.env.REACT_APP_CLUSTER === 'testnet' ? 'TESTNET' : 'MAINNET';
-const evmChains = network === 'MAINNET' ? EVM_CHAINS : EVM_CHAINS_TESTNET;
+const AGGREGATOR_WALLETS_BUILDER = async () => {
+  const solanaWallets = getWrappedSolanaWallets();
+  const aptosWallets = getWrappedAptosWallets();
+  const injectiveWallets = configureInjectiveWallets();
+  const nearWallets = await configureNearWallets();
+  const [ terraWallets, terraClassicWallets] = await configureTerraWallets();
+  const xplaWallets = await configureXplaWallets();
 
-const evmChainMap =
-  Object
-    .values(evmChains)
-    .map(evmChainId => ({
-      evmChainId,
-      chainId: evmChainIdToChainId(evmChainId, network)
-    }))
-    .reduce((map, { evmChainId, chainId }) => {
-      const params = { preferredChain: evmChainId }
-      map[chainId] = [
-        new EVMWeb3Wallet(params),
-        new EVMWalletConnectWallet(params),
-        new CoinbaseWallet({
-          ...params,
-          options: {
-            appName: 'Portal bridge',
-            reloadOnDisconnect: false
-          }
-        }),
-        new LedgerWallet()
-      ]
-      return map;
-    }, {});
-
-const AGGREGATOR_WALLETS_BUILDER = async () => ({
-  [CHAIN_ID_ALGORAND]: [ new MyAlgoWallet(), new PeraWallet() ],
-  ...evmChainMap,
-  [CHAIN_ID_SOLANA]: getWrappedSolanaWallets(),
-  [CHAIN_ID_APTOS]: getWrappedAptosWallets(),
-  [CHAIN_ID_INJECTIVE]: configureInjectiveWallets(),
-  [CHAIN_ID_NEAR]: await configureNearWallets()
-});
+  return {
+    [CHAIN_ID_ALGORAND]: [
+      new MyAlgoWallet(),
+      new PeraWallet()
+    ],
+    // wallet provider context will use ETH for all evm chains by default
+    [CHAIN_ID_ETH]: [
+      new MetamaskWallet(),
+      new WalletConnectWallet(),
+      new CoinbaseWallet({ options: { appName: 'Portal Bridge', reloadOnDisconnect: false } }),
+      new LedgerWallet()
+    ],
+    [CHAIN_ID_SOLANA]: solanaWallets,
+    [CHAIN_ID_APTOS]: aptosWallets,
+    [CHAIN_ID_INJECTIVE]: injectiveWallets,
+    [CHAIN_ID_NEAR]: nearWallets,
+    [CHAIN_ID_TERRA]: terraClassicWallets,
+    [CHAIN_ID_TERRA2]: terraWallets,
+    [CHAIN_ID_XPLA]: xplaWallets
+  }
+};
 
 ReactDOM.render(
   <ErrorBoundary>
@@ -66,14 +70,10 @@ ReactDOM.render(
           <SnackbarProvider maxSnack={3}>
             <WalletContextProvider wallets={AGGREGATOR_WALLETS_BUILDER}>
               <BetaContextProvider>
-                <TerraWalletProvider>
-                  <XplaWalletProvider>
-                    <HashRouter>
-                      <BackgroundImage />
-                      <App />
-                    </HashRouter>
-                  </XplaWalletProvider>
-                </TerraWalletProvider>
+                <HashRouter>
+                  <BackgroundImage />
+                  <App />
+                </HashRouter>
               </BetaContextProvider>
             </WalletContextProvider>
           </SnackbarProvider>

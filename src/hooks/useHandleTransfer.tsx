@@ -37,10 +37,6 @@ import { transferTokens } from "@certusone/wormhole-sdk/lib/esm/aptos/api/tokenB
 import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk/lib/esm";
 import { Alert } from "@material-ui/lab";
 import { Connection } from "@solana/web3.js";
-import {
-  ConnectedWallet,
-  useConnectedWallet,
-} from "@terra-money/wallet-provider";
 import algosdk from "algosdk";
 import { Types } from "aptos";
 import { Signer } from "ethers";
@@ -105,10 +101,6 @@ import parseError from "../utils/parseError";
 import { signSendAndConfirm } from "../utils/solana";
 import { postWithFees, waitForTerraExecution } from "../utils/terra";
 import useTransferTargetAddressHex from "./useTransferTargetAddress";
-import {
-  useConnectedWallet as useXplaConnectedWallet,
-  ConnectedWallet as XplaConnectedWallet,
-} from "@xpla/wallet-provider";
 import { postWithFeesXpla, waitForXplaExecution } from "../utils/xpla";
 import { broadcastInjectiveTx } from "../utils/injective";
 import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
@@ -117,6 +109,10 @@ import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 import { AptosWallet } from "@xlabs-libs/wallet-aggregator-aptos";
 import { InjectiveWallet } from "@xlabs-libs/wallet-aggregator-injective";
 import { NearWallet } from "@xlabs-libs/wallet-aggregator-near";
+import { useTerraWallet } from "../contexts/TerraWalletContext";
+import { TerraWallet } from "@xlabs-libs/wallet-aggregator-terra";
+import { useXplaWallet } from "../contexts/XplaWalletContext";
+import { XplaWallet } from "@xlabs-libs/wallet-aggregator-xpla";
 
 async function fetchSignedVAA(
   chainId: ChainId,
@@ -405,7 +401,7 @@ async function near(
 async function xpla(
   dispatch: any,
   enqueueSnackbar: any,
-  wallet: XplaConnectedWallet,
+  wallet: XplaWallet,
   asset: string,
   amount: string,
   decimals: number,
@@ -420,7 +416,7 @@ async function xpla(
     const transferAmountParsed = baseAmountParsed.add(feeParsed);
     const tokenBridgeAddress = getTokenBridgeAddressForChain(CHAIN_ID_XPLA);
     const msgs = await transferFromXpla(
-      wallet.xplaAddress,
+      wallet.getAddress()!,
       tokenBridgeAddress,
       asset,
       transferAmountParsed.toString(),
@@ -537,7 +533,7 @@ async function solana(
 async function terra(
   dispatch: any,
   enqueueSnackbar: any,
-  wallet: ConnectedWallet,
+  wallet: TerraWallet,
   asset: string,
   amount: string,
   decimals: number,
@@ -554,7 +550,7 @@ async function terra(
     const transferAmountParsed = baseAmountParsed.add(feeParsed);
     const tokenBridgeAddress = getTokenBridgeAddressForChain(chainId);
     const msgs = await transferFromTerra(
-      wallet.terraAddress,
+      wallet.getAddress()!,
       tokenBridgeAddress,
       asset,
       transferAmountParsed.toString(),
@@ -663,9 +659,9 @@ export function useHandleTransfer() {
   const isSendComplete = useSelector(selectTransferIsSendComplete);
   const { signer } = useEthereumProvider(sourceChain);
   const { wallet: solanaWallet, publicKey: solPK } = useSolanaWallet();
-  const terraWallet = useConnectedWallet();
+  const { wallet: terraWallet } = useTerraWallet(sourceChain);
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
-  const xplaWallet = useXplaConnectedWallet();
+  const xplaWallet = useXplaWallet();
   const { address: algoAccount, wallet: algoWallet } = useAlgorandWallet();
   const { accountId: nearAccountId, wallet } = useNearContext();
   const { account: aptosAddress, wallet: aptosWallet } = useAptosContext();

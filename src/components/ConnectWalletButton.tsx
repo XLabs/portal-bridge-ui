@@ -4,7 +4,7 @@ import { Wallet } from "@xlabs-libs/wallet-aggregator-core";
 import {
   useChangeWallet,
   useUnsetWalletFromChain,
-  useWalletFromChain,
+  useWallet,
   useWalletsForChain,
 } from "@xlabs-libs/wallet-aggregator-react";
 import ConnectWalletDialog from "./ConnectWalletDialog";
@@ -12,7 +12,7 @@ import ToggleConnectedButton from "./ToggleConnectedButton";
 import { Typography } from "@material-ui/core";
 
 const ConnectWalletButton = ({ chainId }: { chainId: ChainId }) => {
-  const wallet = useWalletFromChain(chainId);
+  const wallet = useWallet(chainId);
   const changeWallet = useChangeWallet();
   const unsetWalletFromChain = useUnsetWalletFromChain();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -53,10 +53,12 @@ const ConnectWalletButton = ({ chainId }: { chainId: ChainId }) => {
   }, [setIsDialogOpen]);
 
   const handleConnect = useCallback(() => {
+    if (availableWallets.length === 0) throw new Error(`No wallets found for chain id ${chainId}`);
+
     return availableWallets.length > 1
       ? openDialog()
       : connect(availableWallets[0]);
-  }, [ openDialog, availableWallets, connect ]);
+  }, [ openDialog, availableWallets, connect, chainId ]);
 
   return (
     <>

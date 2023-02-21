@@ -3,7 +3,7 @@ import {
 } from "react";
 import { getInjectiveNetworkChainId, getInjectiveNetworkName } from "../utils/consts";
 import { InjectiveWallet } from "@xlabs-libs/wallet-aggregator-injective";
-import { useWalletFromChain } from "@xlabs-libs/wallet-aggregator-react";
+import { useWallet } from "@xlabs-libs/wallet-aggregator-react";
 import { CHAIN_ID_INJECTIVE } from "@xlabs-libs/wallet-aggregator-core";
 import { Wallet as InjectiveWalletType } from "@injectivelabs/wallet-ts";
 import { getNetworkInfo } from "@injectivelabs/networks";
@@ -14,19 +14,26 @@ export const configureInjectiveWallets = () => {
   const network = getInjectiveNetworkName();
   const networkInfo = getNetworkInfo(network);
 
+  const opts = {
+    networkChainId: getInjectiveNetworkChainId(),
+    broadcasterOptions: {
+      network,
+      endpoints: {
+        indexerApi: networkInfo.indexerApi,
+        sentryGrpcApi: networkInfo.sentryGrpcApi,
+        sentryHttpApi: networkInfo.sentryHttpApi,
+      }
+    }
+  }
+
   return [
     new InjectiveWallet({
-      networkChainId: getInjectiveNetworkChainId(),
-      type: InjectiveWalletType.Keplr,
-      disabledWallets: [InjectiveWalletType.WalletConnect],
-      broadcasterOptions: {
-        network,
-        endpoints: {
-          indexerApi: networkInfo.indexerApi,
-          sentryGrpcApi: networkInfo.sentryGrpcApi,
-          sentryHttpApi: networkInfo.sentryHttpApi,
-        }
-      }
+      ...opts,
+      type: InjectiveWalletType.Keplr
+    }),
+    new InjectiveWallet({
+      ...opts,
+      type: InjectiveWalletType.Cosmostation
     })
   ]
 }
@@ -37,7 +44,7 @@ export interface IInjectiveContext {
 }
 
 export const useInjectiveContext = (): IInjectiveContext => {
-  const wallet = useWalletFromChain(CHAIN_ID_INJECTIVE) as InjectiveWallet;
+  const wallet = useWallet(CHAIN_ID_INJECTIVE) as InjectiveWallet;
 
   const address = useMemo(() => wallet?.getAddress(), [ wallet ]);
 

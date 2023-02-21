@@ -5,7 +5,7 @@ import {
   Typography,
   ListItemIcon,
 } from "@material-ui/core";
-import { useConnectedWallet } from "@terra-money/wallet-provider";
+import {  } from "@terra-money/wallet-provider";
 import { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setTerraFeeDenom } from "../store/feeSlice";
@@ -13,6 +13,7 @@ import { selectTerraFeeDenom } from "../store/selectors";
 import useTerraNativeBalances from "../hooks/useTerraNativeBalances";
 import { formatNativeDenom, getNativeTerraIcon } from "../utils/terra";
 import { TerraChainId } from "@certusone/wormhole-sdk";
+import { useTerraWallet } from "../contexts/TerraWalletContext";
 
 const useStyles = makeStyles((theme) => ({
   feePickerContainer: {
@@ -44,10 +45,10 @@ type TerraFeeDenomPickerProps = {
 
 export default function TerraFeeDenomPicker(props: TerraFeeDenomPickerProps) {
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
-  const wallet = useConnectedWallet();
+  const { walletAddress } = useTerraWallet(props.chainId);
   const { balances } = useTerraNativeBalances(
     props.chainId,
-    wallet?.walletAddress
+    walletAddress
   );
   const dispatch = useDispatch();
   const classes = useStyles();

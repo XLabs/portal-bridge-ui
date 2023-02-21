@@ -1,45 +1,59 @@
-import { NetworkInfo, WalletProvider } from "@terra-money/wallet-provider";
-import { ReactChildren } from "react";
+import { ChainId, isTerraChain } from "@xlabs-libs/wallet-aggregator-core";
+import { useWallet } from "@xlabs-libs/wallet-aggregator-react";
+import { TerraWallet } from "@xlabs-libs/wallet-aggregator-terra";
+import { useEffect, useMemo, useState } from "react";
+import { Network as TerraNetwork, getWallets as getTerraWallets } from "@xlabs-libs/wallet-aggregator-terra";
 import { CLUSTER } from "../utils/consts";
+import { ConnectType } from "@terra-money/wallet-provider";
 
-const mainnet: NetworkInfo = {
-  name: "mainnet",
-  chainID: "phoenix-1",
-  lcd: "https://phoenix-lcd.terra.dev",
-  walletconnectID: 1,
-};
-
-const classic: NetworkInfo = {
-  name: "classic",
-  chainID: "columbus-5",
-  lcd: "https://columbus-lcd.terra.dev",
-  walletconnectID: 2,
+export interface TerraWalletState {
+  walletAddress?: string;
+  wallet?: TerraWallet;
 }
 
-const testnet: NetworkInfo = {
-  name: "testnet",
-  chainID: "pisco-1",
-  lcd: "https://pisco-lcd.terra.dev",
-  walletconnectID: 0,
-};
+export const configureTerraWallets = async () => {
+  let terraClassicWallets: TerraWallet[] = [];
+  let terraWallets: TerraWallet[]  = [];
 
-const walletConnectChainIds: Record<number, NetworkInfo> = {
-  0: testnet,
-  1: mainnet,
-  2: classic,
-};
+  try {
+    terraClassicWallets = await getTerraWallets(TerraNetwork.Classic, [ ConnectType.READONLY ]);
+    terraWallets = await getTerraWallets(CLUSTER === 'mainnet' ? TerraNetwork.Mainnet : TerraNetwork.Testnet, [ ConnectType.READONLY ]);
+  } catch (err) {
+    console.error('Failed to init terra chain wallets. Error:', err);
+  }
 
-export const TerraWalletProvider = ({
-  children,
-}: {
-  children: ReactChildren;
-}) => {
-  return (
-    <WalletProvider
-      defaultNetwork={CLUSTER === "testnet" ? testnet : mainnet}
-      walletConnectChainIds={walletConnectChainIds}
-    >
-      {children}
-    </WalletProvider>
-  );
+  return [ terraWallets, terraClassicWallets ];
+}
+
+export const useTerraWallet = (chainId: ChainId) => {
+  const wallet = useWallet<TerraWallet>(chainId);
+
+  const [ walletAddress, setWalletAddress ] = useState<string | undefined>();
+
+  useEffect(() => {
+    if (!isTerraChain(chainId)) return () => {};
+
+    setWalletAddress(wallet?.getAddress());
+
+    const handleNetworkChange = () => {
+      setWalletAddress(wallet?.getAddress());
+    };
+
+    wallet?.on('networkChanged', handleNetworkChange);
+
+    return () => {
+      wallet?.off('networkChanged', handleNetworkChange);
+    }
+  }, [ wallet, chainId ])
+
+  return useMemo(
+    () => ({
+      walletAddress,
+      wallet
+    }),
+    [
+      walletAddress,
+      wallet
+    ]
+  )
 };

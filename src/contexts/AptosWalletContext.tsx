@@ -17,7 +17,7 @@ import { useMemo } from "react";
 import { CLUSTER } from "../utils/consts";
 import { AptosWallet, AptosAdapter } from "@xlabs-libs/wallet-aggregator-aptos";
 import { CHAIN_ID_APTOS, Wallet } from "@xlabs-libs/wallet-aggregator-core";
-import { useWalletFromChain } from "@xlabs-libs/wallet-aggregator-react";
+import { useWallet } from "@xlabs-libs/wallet-aggregator-react";
 
 
 export const getWrappedWallets = (): Wallet[] => {
@@ -59,7 +59,7 @@ interface IAptosContext {
 }
 
 export const useAptosContext = (): IAptosContext => {
-  const wallet = useWalletFromChain(CHAIN_ID_APTOS) as AptosWallet;
+  const wallet = useWallet(CHAIN_ID_APTOS) as AptosWallet;
 
   const account = useMemo(() => wallet?.getAddress(), [ wallet ]);
   const network = useMemo(() => wallet?.getAdapter().network, [ wallet ])

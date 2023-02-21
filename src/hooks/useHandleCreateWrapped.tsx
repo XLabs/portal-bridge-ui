@@ -29,10 +29,6 @@ import {
 } from "@certusone/wormhole-sdk";
 import { Alert } from "@material-ui/lab";
 import { Connection } from "@solana/web3.js";
-import {
-  ConnectedWallet,
-  useConnectedWallet,
-} from "@terra-money/wallet-provider";
 import algosdk from "algosdk";
 import { Signer } from "ethers";
 import { useSnackbar } from "notistack";
@@ -75,10 +71,6 @@ import parseError from "../utils/parseError";
 import { signSendAndConfirm } from "../utils/solana";
 import { postWithFees } from "../utils/terra";
 import useAttestSignedVAA from "./useAttestSignedVAA";
-import {
-  useConnectedWallet as useXplaConnectedWallet,
-  ConnectedWallet as XplaConnectedWallet,
-} from "@xpla/wallet-provider";
 import { broadcastInjectiveTx } from "../utils/injective";
 import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
@@ -86,6 +78,10 @@ import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 import { AptosWallet } from "@xlabs-libs/wallet-aggregator-aptos";
 import { InjectiveWallet } from "@xlabs-libs/wallet-aggregator-injective";
 import { NearWallet } from "@xlabs-libs/wallet-aggregator-near";
+import { useTerraWallet } from "../contexts/TerraWalletContext";
+import { TerraWallet } from "@xlabs-libs/wallet-aggregator-terra";
+import { XplaWallet } from "@xlabs-libs/wallet-aggregator-xpla";
+import { useXplaWallet } from "../contexts/XplaWalletContext";
 
 async function algo(
   dispatch: any,
@@ -253,7 +249,7 @@ async function near(
 async function xpla(
   dispatch: any,
   enqueueSnackbar: any,
-  wallet: XplaConnectedWallet,
+  wallet: XplaWallet,
   signedVAA: Uint8Array,
   shouldUpdate: boolean
 ) {
@@ -263,12 +259,12 @@ async function xpla(
     const msg = shouldUpdate
       ? await updateWrappedOnXpla(
           tokenBridgeAddress,
-          wallet.xplaAddress,
+          wallet.getAddress()!,
           signedVAA
         )
       : await createWrappedOnXpla(
           tokenBridgeAddress,
-          wallet.xplaAddress,
+          wallet.getAddress()!,
           signedVAA
         );
     const result = await postWithFeesXpla(
@@ -344,7 +340,7 @@ async function solana(
 async function terra(
   dispatch: any,
   enqueueSnackbar: any,
-  wallet: ConnectedWallet,
+  wallet: TerraWallet,
   signedVAA: Uint8Array,
   shouldUpdate: boolean,
   feeDenom: string,
@@ -356,12 +352,12 @@ async function terra(
     const msg = shouldUpdate
       ? await updateWrappedOnTerra(
           tokenBridgeAddress,
-          wallet.terraAddress,
+          wallet.getAddress()!,
           signedVAA
         )
       : await createWrappedOnTerra(
           tokenBridgeAddress,
-          wallet.terraAddress,
+          wallet.getAddress()!,
           signedVAA
         );
     const result = await postWithFees(
@@ -433,9 +429,9 @@ export function useHandleCreateWrapped(shouldUpdate: boolean) {
   const signedVAA = useAttestSignedVAA();
   const isCreating = useSelector(selectAttestIsCreating);
   const { signer } = useEthereumProvider(targetChain);
-  const terraWallet = useConnectedWallet();
+  const terraWallet = useTerraWallet(targetChain);
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
-  const xplaWallet = useXplaConnectedWallet();
+  const xplaWallet = useXplaWallet();
   const { address: algoAccount, wallet: algoWallet } = useAlgorandWallet();
   const { account: aptosAddress, wallet: aptosWallet } = useAptosContext();
   const { wallet: injWallet, address: injAddress } = useInjectiveContext();
@@ -464,11 +460,11 @@ export function useHandleCreateWrapped(shouldUpdate: boolean) {
         signedVAA,
         shouldUpdate
       );
-    } else if (isTerraChain(targetChain) && !!terraWallet && !!signedVAA) {
+    } else if (isTerraChain(targetChain) && !!terraWallet.walletAddress && !!terraWallet.wallet && !!signedVAA) {
       terra(
         dispatch,
         enqueueSnackbar,
-        terraWallet,
+        terraWallet.wallet,
         signedVAA,
         shouldUpdate,
         terraFeeDenom,

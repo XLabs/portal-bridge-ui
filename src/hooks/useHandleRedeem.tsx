@@ -24,10 +24,6 @@ import {
 import { completeTransferAndRegister } from "@certusone/wormhole-sdk/lib/esm/aptos/api/tokenBridge";
 import { Alert } from "@material-ui/lab";
 import { Connection } from "@solana/web3.js";
-import {
-  ConnectedWallet,
-  useConnectedWallet,
-} from "@terra-money/wallet-provider";
 import algosdk from "algosdk";
 import axios from "axios";
 import { Signer } from "ethers";
@@ -71,10 +67,6 @@ import parseError from "../utils/parseError";
 import { signSendAndConfirm } from "../utils/solana";
 import { postWithFees } from "../utils/terra";
 import useTransferSignedVAA from "./useTransferSignedVAA";
-import {
-  useConnectedWallet as useXplaConnectedWallet,
-  ConnectedWallet as XplaConnectedWallet,
-} from "@xpla/wallet-provider";
 import { postWithFeesXpla } from "../utils/xpla";
 import { broadcastInjectiveTx } from "../utils/injective";
 import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
@@ -83,6 +75,10 @@ import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 import { AptosWallet } from "@xlabs-libs/wallet-aggregator-aptos";
 import { InjectiveWallet } from "@xlabs-libs/wallet-aggregator-injective";
 import { NearWallet } from "@xlabs-libs/wallet-aggregator-near";
+import { useTerraWallet } from "../contexts/TerraWalletContext";
+import { TerraWallet } from "@xlabs-libs/wallet-aggregator-terra";
+import { useXplaWallet } from "../contexts/XplaWalletContext";
+import { XplaWallet } from "@xlabs-libs/wallet-aggregator-xpla";
 
 async function algo(
   dispatch: any,
@@ -232,14 +228,14 @@ async function near(
 async function xpla(
   dispatch: any,
   enqueueSnackbar: any,
-  wallet: XplaConnectedWallet,
+  wallet: XplaWallet,
   signedVAA: Uint8Array
 ) {
   dispatch(setIsRedeeming(true));
   try {
     const msg = await redeemOnXpla(
       getTokenBridgeAddressForChain(CHAIN_ID_XPLA),
-      wallet.xplaAddress,
+      wallet.getAddress()!,
       signedVAA
     );
     const result = await postWithFeesXpla(
@@ -348,7 +344,7 @@ async function solana(
 async function terra(
   dispatch: any,
   enqueueSnackbar: any,
-  wallet: ConnectedWallet,
+  wallet: TerraWallet,
   signedVAA: Uint8Array,
   feeDenom: string,
   chainId: TerraChainId
@@ -357,7 +353,7 @@ async function terra(
   try {
     const msg = await redeemOnTerra(
       getTokenBridgeAddressForChain(chainId),
-      wallet.terraAddress,
+      wallet.getAddress()!,
       signedVAA
     );
     const result = await postWithFees(
@@ -387,9 +383,9 @@ export function useHandleRedeem() {
   const targetChain = useSelector(selectTransferTargetChain);
   const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
   const { signer } = useEthereumProvider(targetChain);
-  const terraWallet = useConnectedWallet();
+  const { wallet: terraWallet} = useTerraWallet(targetChain);
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
-  const xplaWallet = useXplaConnectedWallet();
+  const xplaWallet = useXplaWallet();
   const { address: algoAccount, wallet: algoWallet } = useAlgorandWallet();
   const { accountId: nearAccountId, wallet } = useNearContext();
   const { account: aptosAddress, wallet: aptosWallet } = useAptosContext();

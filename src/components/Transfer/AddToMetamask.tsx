@@ -32,7 +32,7 @@ export default function AddToMetamask() {
   const {
     provider,
     signerAddress,
-    evmChainId,
+    evmChainId
   } = useEthereumProvider(targetChain);
   const hasCorrectEvmNetwork = evmChainId === getEvmChainId(targetChain);
   const handleClick = useCallback(() => {

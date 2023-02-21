@@ -1,38 +1,22 @@
-import { NetworkInfo, WalletProvider } from "@xpla/wallet-provider";
-import { ReactChildren } from "react";
+import { CHAIN_ID_XPLA } from "@xlabs-libs/wallet-aggregator-core";
+import { useWallet } from "@xlabs-libs/wallet-aggregator-react";
+import { XplaWallet } from "@xlabs-libs/wallet-aggregator-xpla";
+import { Network as XplaNetwork, getWallets as getXplaWallets } from "@xlabs-libs/wallet-aggregator-xpla";
+import { ConnectType } from "@xpla/wallet-provider";
+import { CLUSTER } from "../utils/consts";
 
-const testnet: NetworkInfo = {
-  name: "testnet",
-  chainID: "cube_47-5",
-  lcd: "https://cube-lcd.xpla.dev",
-  walletconnectID: 0,
+export const configureXplaWallets = async () => {
+  let xplaWallets: XplaWallet[] = [];
+
+  try {
+    xplaWallets = await getXplaWallets(CLUSTER === 'mainnet' ? XplaNetwork.Mainnet : XplaNetwork.Testnet, [ ConnectType.READONLY ]);
+  } catch (err) {
+    console.error('Failed to init terra chain wallets. Error:', err);
+  }
+
+  return xplaWallets;
 };
 
-const mainnet: NetworkInfo = {
-  name: "mainnet",
-  chainID: "dimension_37-1",
-  lcd: "https://dimension-lcd.xpla.dev",
-  walletconnectID: 1,
+export const useXplaWallet = () => {
+  return useWallet<XplaWallet>(CHAIN_ID_XPLA);
 };
-
-const walletConnectChainIds: Record<number, NetworkInfo> = {
-  0: testnet,
-  1: mainnet,
-};
-
-export const XplaWalletProvider = ({
-  children,
-}: {
-  children: ReactChildren;
-}) => {
-  return (
-    <WalletProvider
-      defaultNetwork={mainnet}
-      walletConnectChainIds={walletConnectChainIds}
-    >
-      {children}
-    </WalletProvider>
-  );
-};
-
-export default XplaWalletProvider;

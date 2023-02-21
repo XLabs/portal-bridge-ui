@@ -9,7 +9,6 @@ import {
   isEVMChain,
   isTerraChain,
 } from "@certusone/wormhole-sdk";
-import { useConnectedWallet } from "@terra-money/wallet-provider";
 import { useMemo } from "react";
 import { useAlgorandWallet } from "../contexts/AlgorandWalletContext";
 import {
@@ -18,9 +17,10 @@ import {
 import { useNearContext } from "../contexts/NearWalletContext";
 import { useSolanaWallet } from "../contexts/SolanaWalletContext";
 import { APTOS_NETWORK, CLUSTER, getEvmChainId } from "../utils/consts";
-import { useConnectedWallet as useXplaConnectedWallet } from "@xpla/wallet-provider";
+import { useXplaWallet } from "../contexts/XplaWalletContext";
 import { useAptosContext } from "../contexts/AptosWalletContext";
 import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
+import { useTerraWallet } from "../contexts/TerraWalletContext";
 
 
 const createWalletStatus = (
@@ -42,8 +42,8 @@ function useIsWalletReady(
   walletAddress?: string;
 } {
   const { publicKey: solPK } = useSolanaWallet();
-  const terraWallet = useConnectedWallet();
-  const hasTerraWallet = !!terraWallet;
+  const terraWallet = useTerraWallet(chainId);
+  const hasTerraWallet = !!terraWallet.wallet;
   const {
     provider,
     signerAddress,
@@ -55,7 +55,7 @@ function useIsWalletReady(
   const hasCorrectEvmNetwork = evmChainId === correctEvmNetwork;
   const { address: algoAccount } = useAlgorandWallet();
   const { accountId: nearPK } = useNearContext();
-  const xplaWallet = useXplaConnectedWallet();
+  const xplaWallet = useXplaWallet();
   const hasXplaWallet = !!xplaWallet;
   const { account: aptosAddress, network: aptosNetwork } = useAptosContext();
   const hasAptosWallet = !!aptosAddress;
@@ -96,12 +96,12 @@ function useIsWalletReady(
     if (
       chainId === CHAIN_ID_XPLA &&
       hasXplaWallet &&
-      xplaWallet?.walletAddress
+      xplaWallet?.getAddress()
     ) {
       return createWalletStatus(
         true,
         undefined,
-        xplaWallet.walletAddress
+        xplaWallet.getAddress()
       );
     }
     if (chainId === CHAIN_ID_APTOS && hasAptosWallet && aptosAddress) {

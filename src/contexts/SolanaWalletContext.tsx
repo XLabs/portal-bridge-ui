@@ -13,10 +13,11 @@ import {
   BackpackWalletAdapter,
   NightlyWalletAdapter,
   BloctoWalletAdapter,
+  BraveWalletAdapter
 } from "@solana/wallet-adapter-wallets";
 import { Connection } from "@solana/web3.js";
 import { CHAIN_ID_SOLANA, Wallet } from "@xlabs-libs/wallet-aggregator-core";
-import { useWalletFromChain } from "@xlabs-libs/wallet-aggregator-react";
+import { useWallet } from "@xlabs-libs/wallet-aggregator-react";
 import { SolanaAdapter, SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 import { useMemo } from "react";
 import { CLUSTER, SOLANA_HOST } from "../utils/consts";
@@ -35,6 +36,7 @@ export const getWrappedWallets = (): Wallet[] => {
     new SolongWalletAdapter(),
     new TorusWalletAdapter(),
     new ExodusWalletAdapter(),
+    new BraveWalletAdapter()
   ];
 
   const network =
@@ -58,7 +60,7 @@ interface ISolanaContext {
 }
 
 export const useSolanaWallet = (): ISolanaContext => {
-  const wallet = useWalletFromChain(CHAIN_ID_SOLANA) as SolanaWallet;
+  const wallet = useWallet(CHAIN_ID_SOLANA) as SolanaWallet;
 
   const publicKey = useMemo(() => wallet?.getAddress(), [ wallet ])
 
