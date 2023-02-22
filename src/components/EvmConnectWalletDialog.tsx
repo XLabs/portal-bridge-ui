@@ -81,7 +81,10 @@ const EvmConnectWalletDialog = ({
 
   const availableWallets = availableConnections
     .filter((connection) => {
-      if (connection.connectType === ConnectType.METAMASK) {
+      if (
+        connection.connectType === ConnectType.METAMASK ||
+        connection.connectType === ConnectType.BRAVEWALLET
+      ) {
         return true;
       } else if (connection.connectType === ConnectType.WALLETCONNECT) {
         const evmChainId = getEvmChainId(chainId);

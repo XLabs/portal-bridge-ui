@@ -10,6 +10,7 @@ import React, {
   useState,
 } from "react";
 import metamaskIcon from "../icons/metamask-fox.svg";
+import braveIcon from "../icons/brave.svg";
 import walletconnectIcon from "../icons/walletconnect.svg";
 import { EVM_RPC_MAP } from "../utils/metaMaskChainParameters";
 const CacheSubprovider = require("web3-provider-engine/subproviders/cache");
@@ -19,6 +20,7 @@ export type Signer = ethers.Signer | undefined;
 
 export enum ConnectType {
   METAMASK,
+  BRAVEWALLET,
   WALLETCONNECT,
 }
 
@@ -81,7 +83,16 @@ export const EthereumProviderProvider = ({
       const connections: Connection[] = [];
       try {
         const detectedProvider = await detectEthereumProvider();
+
         if (detectedProvider) {
+          const { isBraveWallet } = detectedProvider as any;
+          if (isBraveWallet === true) {
+            connections.push({
+              connectType: ConnectType.BRAVEWALLET,
+              name: "Brave Wallet",
+              icon: braveIcon,
+            });
+          }
           connections.push({
             connectType: ConnectType.METAMASK,
             name: "MetaMask",
@@ -127,7 +138,10 @@ export const EthereumProviderProvider = ({
   const connect = useCallback(
     (connectType: ConnectType) => {
       setConnectType(connectType);
-      if (connectType === ConnectType.METAMASK) {
+      if (
+        connectType === ConnectType.METAMASK ||
+        connectType === ConnectType.BRAVEWALLET
+      ) {
         detectEthereumProvider()
           .then((detectedProvider) => {
             if (detectedProvider) {

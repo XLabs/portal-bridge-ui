@@ -18,6 +18,7 @@ import {
   BackpackWalletAdapter,
   NightlyWalletAdapter,
   BloctoWalletAdapter,
+  BraveWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
 import { FC, useMemo } from "react";
 import { CLUSTER, SOLANA_HOST } from "../utils/consts";
@@ -25,6 +26,7 @@ import { CLUSTER, SOLANA_HOST } from "../utils/consts";
 export const SolanaWalletProvider: FC = (props) => {
   const wallets = useMemo(() => {
     const wallets: Adapter[] = [
+      new BraveWalletAdapter(),
       new PhantomWalletAdapter(),
       new SolflareWalletAdapter(),
       new BackpackWalletAdapter(),
