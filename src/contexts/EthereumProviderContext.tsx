@@ -92,12 +92,13 @@ export const EthereumProviderProvider = ({
               name: "Brave Wallet",
               icon: braveIcon,
             });
+          } else {
+            connections.push({
+              connectType: ConnectType.METAMASK,
+              name: "MetaMask",
+              icon: metamaskIcon,
+            });
           }
-          connections.push({
-            connectType: ConnectType.METAMASK,
-            name: "MetaMask",
-            icon: metamaskIcon,
-          });
         }
       } catch (error) {
         console.error(error);
