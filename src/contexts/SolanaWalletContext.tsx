@@ -83,14 +83,14 @@ export const SolanaWalletProvider: FC = (props) => {
     return wallets;
   }, [isBrave]);
 
-  return isBrave !== null ? (
+  if (isBrave === null) return <></>;
+
+  return (
     <ConnectionProvider endpoint={SOLANA_HOST}>
       <WalletProvider wallets={wallets} autoConnect>
         {props.children}
       </WalletProvider>
     </ConnectionProvider>
-  ) : (
-    <></>
   );
 };
 
