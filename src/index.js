@@ -36,7 +36,7 @@ const AGGREGATOR_WALLETS_BUILDER = async () => {
   const aptosWallets = getWrappedAptosWallets();
   const injectiveWallets = configureInjectiveWallets();
   const nearWallets = await configureNearWallets();
-  const [ terraWallets, terraClassicWallets] = await configureTerraWallets();
+  const terraWallets = await configureTerraWallets();
   const xplaWallets = await configureXplaWallets();
 
   return {
@@ -55,7 +55,6 @@ const AGGREGATOR_WALLETS_BUILDER = async () => {
     [CHAIN_ID_APTOS]: aptosWallets,
     [CHAIN_ID_INJECTIVE]: injectiveWallets,
     [CHAIN_ID_NEAR]: nearWallets,
-    [CHAIN_ID_TERRA]: terraClassicWallets,
     [CHAIN_ID_TERRA2]: terraWallets,
     [CHAIN_ID_XPLA]: xplaWallets
   }

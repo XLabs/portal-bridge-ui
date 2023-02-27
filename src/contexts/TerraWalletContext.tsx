@@ -1,10 +1,8 @@
+import { ConnectType } from "@terra-money/wallet-provider";
 import { ChainId, isTerraChain } from "@xlabs-libs/wallet-aggregator-core";
 import { useWallet } from "@xlabs-libs/wallet-aggregator-react";
-import { TerraWallet } from "@xlabs-libs/wallet-aggregator-terra";
+import { getWallets as getTerraWallets, TerraWallet } from "@xlabs-libs/wallet-aggregator-terra";
 import { useEffect, useMemo, useState } from "react";
-import { Network as TerraNetwork, getWallets as getTerraWallets } from "@xlabs-libs/wallet-aggregator-terra";
-import { CLUSTER } from "../utils/consts";
-import { ConnectType } from "@terra-money/wallet-provider";
 
 export interface TerraWalletState {
   walletAddress?: string;
@@ -12,17 +10,15 @@ export interface TerraWalletState {
 }
 
 export const configureTerraWallets = async () => {
-  let terraClassicWallets: TerraWallet[] = [];
-  let terraWallets: TerraWallet[]  = [];
+  let wallets: TerraWallet[]  = [];
 
   try {
-    terraClassicWallets = await getTerraWallets(TerraNetwork.Classic, [ ConnectType.READONLY ]);
-    terraWallets = await getTerraWallets(CLUSTER === 'mainnet' ? TerraNetwork.Mainnet : TerraNetwork.Testnet, [ ConnectType.READONLY ]);
+    wallets = await getTerraWallets([ ConnectType.READONLY ]);
   } catch (err) {
     console.error('Failed to init terra chain wallets. Error:', err);
   }
 
-  return [ terraWallets, terraClassicWallets ];
+  return wallets;
 }
 
 export const useTerraWallet = (chainId: ChainId) => {
