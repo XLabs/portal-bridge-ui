@@ -1,3 +1,4 @@
+import { FC, useMemo, useState, useEffect } from "react";
 import { Adapter, WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import {
   ConnectionProvider,
@@ -20,13 +21,40 @@ import {
   BloctoWalletAdapter,
   BraveWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
-import { FC, useMemo } from "react";
 import { CLUSTER, SOLANA_HOST } from "../utils/consts";
 
+declare global {
+  interface Navigator {
+    brave: {
+      isBrave(): Promise<boolean>;
+    };
+  }
+  interface Global {
+    navigator: Navigator;
+  }
+}
+
+export const isBraveBrowser = async () => {
+  if (window.navigator.brave) {
+    return await window.navigator.brave.isBrave();
+  }
+  return false;
+};
+
 export const SolanaWalletProvider: FC = (props) => {
+  const [isBrave, setIsBrave] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const checkIfIsBraveBrowser = async () => {
+      const getIsBrave: boolean = await isBraveBrowser();
+      setIsBrave(getIsBrave);
+    };
+
+    checkIfIsBraveBrowser();
+  }, [isBrave]);
+
   const wallets = useMemo(() => {
     const wallets: Adapter[] = [
-      new BraveWalletAdapter(),
       new PhantomWalletAdapter(),
       new SolflareWalletAdapter(),
       new BackpackWalletAdapter(),
@@ -40,6 +68,11 @@ export const SolanaWalletProvider: FC = (props) => {
       new TorusWalletAdapter(),
       new ExodusWalletAdapter(),
     ];
+
+    if (isBrave) {
+      wallets.push(new BraveWalletAdapter());
+    }
+
     const network =
       CLUSTER === "mainnet"
         ? WalletAdapterNetwork.Mainnet
@@ -49,15 +82,18 @@ export const SolanaWalletProvider: FC = (props) => {
     if (network) {
       wallets.push(new BloctoWalletAdapter({ network }));
     }
-    return wallets;
-  }, []);
 
-  return (
+    return wallets;
+  }, [isBrave]);
+
+  return isBrave !== null ? (
     <ConnectionProvider endpoint={SOLANA_HOST}>
       <WalletProvider wallets={wallets} autoConnect>
         {props.children}
       </WalletProvider>
     </ConnectionProvider>
+  ) : (
+    <></>
   );
 };
 
