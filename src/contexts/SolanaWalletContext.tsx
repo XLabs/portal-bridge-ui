@@ -29,9 +29,6 @@ declare global {
       isBrave(): Promise<boolean>;
     };
   }
-  interface Global {
-    navigator: Navigator;
-  }
 }
 
 export const isBraveBrowser = async () => {
@@ -51,7 +48,7 @@ export const SolanaWalletProvider: FC = (props) => {
     };
 
     checkIfIsBraveBrowser();
-  }, [isBrave]);
+  }, []);
 
   const wallets = useMemo(() => {
     const wallets: Adapter[] = [
