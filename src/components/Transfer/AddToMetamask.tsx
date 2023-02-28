@@ -1,9 +1,10 @@
 import { isEVMChain } from "@certusone/wormhole-sdk";
 import { Button, makeStyles } from "@material-ui/core";
 import detectEthereumProvider from "@metamask/detect-provider";
+import { EVMWallet } from "@xlabs-libs/wallet-aggregator-evm";
 import { useCallback } from "react";
 import { useSelector } from "react-redux";
-import { useEthereumProvider } from "../../contexts/EthereumProviderContext";
+import { useWallet } from "../../contexts/WalletContext";
 import {
   selectTransferSourceParsedTokenAccount,
   selectTransferTargetAsset,
@@ -29,9 +30,11 @@ export default function AddToMetamask() {
   );
   const targetChain = useSelector(selectTransferTargetChain);
   const targetAsset = useSelector(selectTransferTargetAsset);
-  const { provider, signerAddress, evmChainId, wallet } =
-    useEthereumProvider(targetChain);
-  const hasCorrectEvmNetwork = evmChainId === getEvmChainId(targetChain);
+  const { address: signerAddress, network, wallet } = useWallet(targetChain);
+  const provider = isEVMChain(targetChain)
+    ? (wallet as EVMWallet)?.getProvider()
+    : undefined;
+  const hasCorrectEvmNetwork = network?.chainId === getEvmChainId(targetChain);
   const handleClick = useCallback(() => {
     if (provider && targetAsset && signerAddress && hasCorrectEvmNetwork) {
       (async () => {

@@ -1,4 +1,4 @@
-import { ChainId, ethers_contracts } from "@certusone/wormhole-sdk";
+import { ChainId, ethers_contracts, isEVMChain } from "@certusone/wormhole-sdk";
 import { Signer } from "@ethersproject/abstract-signer";
 import { getAddress } from "@ethersproject/address";
 import { BigNumber } from "@ethersproject/bignumber";
@@ -11,10 +11,11 @@ import {
 } from "@material-ui/core";
 import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
 import { Alert } from "@material-ui/lab";
+import { EVMWallet } from "@xlabs-libs/wallet-aggregator-evm";
 import { parseUnits } from "ethers/lib/utils";
 import { useSnackbar } from "notistack";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useEthereumProvider } from "../../contexts/EthereumProviderContext";
+import { useWallet } from "../../contexts/WalletContext";
 import useEthereumMigratorInformation from "../../hooks/useEthereumMigratorInformation";
 import useIsWalletReady from "../../hooks/useIsWalletReady";
 import { COLORS } from "../../muiTheme";
@@ -99,7 +100,10 @@ function EvmMigrationLineItem({
 }) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
-  const { signer, signerAddress } = useEthereumProvider(chainId);
+  const { address: signerAddress, wallet } = useWallet(chainId);
+  const signer = isEVMChain(chainId)
+    ? (wallet as EVMWallet)?.getSigner()
+    : undefined;
   const poolInfo = useEthereumMigratorInformation(
     migratorAddress,
     signer,
@@ -273,7 +277,10 @@ const getAddressBalances = async (
 
 export default function EvmQuickMigrate({ chainId }: { chainId: ChainId }) {
   const classes = useStyles();
-  const { signer, signerAddress } = useEthereumProvider(chainId);
+  const { address: signerAddress, wallet } = useWallet(chainId);
+  const signer = isEVMChain(chainId)
+    ? (wallet as EVMWallet)?.getSigner()
+    : undefined;
   const { isReady } = useIsWalletReady(chainId);
   const migrationMap = useMemo(() => getMigrationAssetMap(chainId), [chainId]);
   const eligibleTokens = useMemo(

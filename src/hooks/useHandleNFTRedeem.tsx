@@ -23,13 +23,13 @@ import {
 import { arrayify } from "@ethersproject/bytes";
 import { Alert } from "@material-ui/lab";
 import { Connection } from "@solana/web3.js";
+import { EVMWallet } from "@xlabs-libs/wallet-aggregator-evm";
 import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 import { Signer } from "ethers";
 import { useSnackbar } from "notistack";
 import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useEthereumProvider } from "../contexts/EthereumProviderContext";
-import { useSolanaWallet } from "../contexts/SolanaWalletContext";
+import { useWallet } from "../contexts/WalletContext";
 import { setIsRedeeming, setRedeemTx } from "../store/nftSlice";
 import { selectNFTIsRedeeming, selectNFTTargetChain } from "../store/selectors";
 import {
@@ -47,7 +47,6 @@ import parseError from "../utils/parseError";
 import { signSendAndConfirm } from "../utils/solana";
 import useNFTSignedVAA from "./useNFTSignedVAA";
 import { waitForSignAndSubmitTransaction } from "../utils/aptos";
-import { useAptosContext } from "../contexts/AptosWalletContext";
 import { AptosWallet } from "@xlabs-libs/wallet-aggregator-aptos";
 
 async function evm(
@@ -192,28 +191,28 @@ export function useHandleNFTRedeem() {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const targetChain = useSelector(selectNFTTargetChain);
-  const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
-  const { signer } = useEthereumProvider(targetChain);
-  const { account: aptosAccount, wallet: aptosWallet } = useAptosContext();
+  const { address, wallet } = useWallet(targetChain);
+  const signer = isEVMChain(targetChain)
+    ? (wallet as EVMWallet)?.getSigner()
+    : undefined;
+
   const signedVAA = useNFTSignedVAA();
   const isRedeeming = useSelector(selectNFTIsRedeeming);
   const handleRedeemClick = useCallback(() => {
+    if (!wallet || !signedVAA || !address) return;
+
     if (isEVMChain(targetChain) && !!signer && signedVAA) {
       evm(dispatch, enqueueSnackbar, signer, signedVAA, targetChain);
-    } else if (
-      targetChain === CHAIN_ID_SOLANA &&
-      !!solanaWallet &&
-      !!solPK &&
-      signedVAA
-    ) {
-      solana(dispatch, enqueueSnackbar, solanaWallet, solPK, signedVAA);
-    } else if (
-      targetChain === CHAIN_ID_APTOS &&
-      !!aptosAccount &&
-      !!aptosWallet &&
-      signedVAA
-    ) {
-      aptos(dispatch, enqueueSnackbar, signedVAA, aptosWallet);
+    } else if (targetChain === CHAIN_ID_SOLANA) {
+      solana(
+        dispatch,
+        enqueueSnackbar,
+        wallet as SolanaWallet,
+        address,
+        signedVAA
+      );
+    } else if (targetChain === CHAIN_ID_APTOS) {
+      aptos(dispatch, enqueueSnackbar, signedVAA, wallet as AptosWallet);
     }
   }, [
     dispatch,
@@ -221,10 +220,8 @@ export function useHandleNFTRedeem() {
     targetChain,
     signer,
     signedVAA,
-    solanaWallet,
-    solPK,
-    aptosAccount,
-    aptosWallet,
+    wallet,
+    address,
   ]);
   return useMemo(
     () => ({

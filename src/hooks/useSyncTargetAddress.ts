@@ -19,9 +19,6 @@ import {
 import { PublicKey } from "@solana/web3.js";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useAlgorandWallet } from "../contexts/AlgorandWalletContext";
-import { useEthereumProvider } from "../contexts/EthereumProviderContext";
-import { useSolanaWallet } from "../contexts/SolanaWalletContext";
 import { setTargetAddressHex as setNFTTargetAddressHex } from "../store/nftSlice";
 import {
   selectNFTTargetAsset,
@@ -32,23 +29,18 @@ import {
 } from "../store/selectors";
 import { setTargetAddressHex as setTransferTargetAddressHex } from "../store/transferSlice";
 import { decodeAddress } from "algosdk";
-import { useNearContext } from "../contexts/NearWalletContext";
 import { makeNearAccount, signAndSendTransactions } from "../utils/near";
 import { NEAR_TOKEN_BRIDGE_ACCOUNT } from "../utils/consts";
 import { getTransactionLastResult } from "near-api-js/lib/providers";
 import BN from "bn.js";
-import { useXplaWallet } from "../contexts/XplaWalletContext";
-import { useAptosContext } from "../contexts/AptosWalletContext";
-import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
-import { useTerraWallet } from "../contexts/TerraWalletContext";
+import { useWallet } from "../contexts/WalletContext";
+import { NearWallet } from "@xlabs-libs/wallet-aggregator-near";
 
 function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
   const dispatch = useDispatch();
   const targetChain = useSelector(
     nft ? selectNFTTargetChain : selectTransferTargetChain
   );
-  const { signerAddress } = useEthereumProvider(targetChain);
-  const { publicKey: solPK } = useSolanaWallet();
   const targetAsset = useSelector(
     nft ? selectNFTTargetAsset : selectTransferTargetAsset
   );
@@ -56,22 +48,19 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
     selectTransferTargetParsedTokenAccount
   );
   const targetTokenAccountPublicKey = targetParsedTokenAccount?.publicKey;
-  const terraWallet = useTerraWallet(targetChain);
-  const xplaWallet = useXplaWallet();
-  const { address: algoAccount } = useAlgorandWallet();
-  const { account: aptosAddress } = useAptosContext();
-  const { accountId: nearAccountId, wallet } = useNearContext();
-  const { address: injAddress } = useInjectiveContext();
+
+  const { address: walletAddress, wallet } = useWallet(targetChain);
+
   const setTargetAddressHex = nft
     ? setNFTTargetAddressHex
     : setTransferTargetAddressHex;
   useEffect(() => {
     if (shouldFire) {
       let cancelled = false;
-      if (isEVMChain(targetChain) && signerAddress) {
+      if (isEVMChain(targetChain) && walletAddress) {
         dispatch(
           setTargetAddressHex(
-            uint8ArrayToHex(zeroPad(arrayify(signerAddress), 32))
+            uint8ArrayToHex(zeroPad(arrayify(walletAddress), 32))
           )
         );
       }
@@ -89,7 +78,11 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
             )
           )
         );
-      } else if (targetChain === CHAIN_ID_SOLANA && solPK && targetAsset) {
+      } else if (
+        targetChain === CHAIN_ID_SOLANA &&
+        walletAddress &&
+        targetAsset
+      ) {
         // otherwise, use the associated token account (which we create in the case it doesn't exist)
         (async () => {
           try {
@@ -98,7 +91,7 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
                 ASSOCIATED_TOKEN_PROGRAM_ID,
                 TOKEN_PROGRAM_ID,
                 new PublicKey(targetAsset), // this might error
-                new PublicKey(solPK)
+                new PublicKey(walletAddress)
               );
             if (!cancelled) {
               dispatch(
@@ -113,50 +106,38 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
             }
           }
         })();
-      } else if (
-        isTerraChain(targetChain) &&
-        terraWallet &&
-        terraWallet.walletAddress
-      ) {
+      } else if (isTerraChain(targetChain) && walletAddress) {
         dispatch(
           setTargetAddressHex(
-            uint8ArrayToHex(
-              zeroPad(cosmos.canonicalAddress(terraWallet.walletAddress), 32)
-            )
+            uint8ArrayToHex(zeroPad(cosmos.canonicalAddress(walletAddress), 32))
           )
         );
-      } else if (
-        targetChain === CHAIN_ID_XPLA &&
-        xplaWallet &&
-        xplaWallet.getAddress()
-      ) {
+      } else if (targetChain === CHAIN_ID_XPLA && walletAddress) {
         dispatch(
           setTargetAddressHex(
-            uint8ArrayToHex(
-              zeroPad(cosmos.canonicalAddress(xplaWallet.getAddress()!), 32)
-            )
+            uint8ArrayToHex(zeroPad(cosmos.canonicalAddress(walletAddress), 32))
           )
         );
-      } else if (targetChain === CHAIN_ID_APTOS && aptosAddress) {
+      } else if (targetChain === CHAIN_ID_APTOS && walletAddress) {
         dispatch(
-          setTargetAddressHex(uint8ArrayToHex(zeroPad(aptosAddress, 32)))
+          setTargetAddressHex(uint8ArrayToHex(zeroPad(walletAddress, 32)))
         );
-      } else if (targetChain === CHAIN_ID_ALGORAND && algoAccount) {
+      } else if (targetChain === CHAIN_ID_ALGORAND && walletAddress) {
         dispatch(
           setTargetAddressHex(
-            uint8ArrayToHex(decodeAddress(algoAccount).publicKey)
+            uint8ArrayToHex(decodeAddress(walletAddress).publicKey)
           )
         );
-      } else if (targetChain === CHAIN_ID_INJECTIVE && injAddress) {
+      } else if (targetChain === CHAIN_ID_INJECTIVE && walletAddress) {
         dispatch(
           setTargetAddressHex(
-            uint8ArrayToHex(zeroPad(cosmos.canonicalAddress(injAddress), 32))
+            uint8ArrayToHex(zeroPad(cosmos.canonicalAddress(walletAddress), 32))
           )
         );
-      } else if (targetChain === CHAIN_ID_NEAR && nearAccountId && wallet) {
+      } else if (targetChain === CHAIN_ID_NEAR && walletAddress && wallet) {
         (async () => {
           try {
-            const account = await makeNearAccount(nearAccountId);
+            const account = await makeNearAccount(walletAddress);
             // So, near can have account names up to 64 bytes but wormhole can only have 32...
             //   as a result, we have to hash our account names to sha256's..  What we are doing
             //   here is doing a RPC call (does not require any interaction with the wallet and is free)
@@ -165,22 +146,22 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
               NEAR_TOKEN_BRIDGE_ACCOUNT,
               "hash_account",
               {
-                account: nearAccountId,
+                account: walletAddress,
               }
             );
             if (!cancelled) {
               let myAddress = account_hash[1];
-              console.log("account hash for", nearAccountId, account_hash);
+              console.log("account hash for", walletAddress, account_hash);
 
               if (!account_hash[0]) {
                 console.log("Registering the receiving account");
 
                 let myAddress2 = getTransactionLastResult(
-                  await signAndSendTransactions(account, wallet, [
+                  await signAndSendTransactions(account, wallet as NearWallet, [
                     {
                       contractId: NEAR_TOKEN_BRIDGE_ACCOUNT,
                       methodName: "register_account",
-                      args: { account: nearAccountId },
+                      args: { account: walletAddress },
                       gas: new BN("100000000000000"),
                       attachedDeposit: new BN("2000000000000000000000"), // 0.002 NEAR
                     },
@@ -213,19 +194,12 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
     dispatch,
     shouldFire,
     targetChain,
-    signerAddress,
-    solPK,
     targetAsset,
     targetTokenAccountPublicKey,
-    terraWallet,
     nft,
     setTargetAddressHex,
-    algoAccount,
-    nearAccountId,
+    walletAddress,
     wallet,
-    xplaWallet,
-    aptosAddress,
-    injAddress,
   ]);
 }
 

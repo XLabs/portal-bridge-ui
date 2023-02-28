@@ -44,11 +44,6 @@ import { parseUnits, zeroPad } from "ethers/lib/utils";
 import { useSnackbar } from "notistack";
 import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useAlgorandWallet } from "../contexts/AlgorandWalletContext";
-import { useAptosContext } from "../contexts/AptosWalletContext";
-import { useEthereumProvider } from "../contexts/EthereumProviderContext";
-import { useNearContext } from "../contexts/NearWalletContext";
-import { useSolanaWallet } from "../contexts/SolanaWalletContext";
 import {
   selectTerraFeeDenom,
   selectTransferAmount,
@@ -103,16 +98,15 @@ import { postWithFees, waitForTerraExecution } from "../utils/terra";
 import useTransferTargetAddressHex from "./useTransferTargetAddress";
 import { postWithFeesXpla, waitForXplaExecution } from "../utils/xpla";
 import { broadcastInjectiveTx } from "../utils/injective";
-import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
 import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 import { AptosWallet } from "@xlabs-libs/wallet-aggregator-aptos";
 import { InjectiveWallet } from "@xlabs-libs/wallet-aggregator-injective";
 import { NearWallet } from "@xlabs-libs/wallet-aggregator-near";
-import { useTerraWallet } from "../contexts/TerraWalletContext";
 import { TerraWallet } from "@xlabs-libs/wallet-aggregator-terra";
-import { useXplaWallet } from "../contexts/XplaWalletContext";
 import { XplaWallet } from "@xlabs-libs/wallet-aggregator-xpla";
+import { useWallet } from "../contexts/WalletContext";
+import { EVMWallet } from "@xlabs-libs/wallet-aggregator-evm";
 
 async function fetchSignedVAA(
   chainId: ChainId,
@@ -335,7 +329,6 @@ async function near(
   dispatch: any,
   enqueueSnackbar: any,
   wallet: NearWallet,
-  senderAddr: string,
   tokenAddress: string,
   decimals: number,
   amount: string,
@@ -346,6 +339,7 @@ async function near(
 ) {
   dispatch(setIsSending(true));
   try {
+    const senderAddr = wallet.getAddress()!;
     const baseAmountParsed = parseUnits(amount, decimals);
     const feeParsed = parseUnits(relayerFee || "0", decimals);
     const transferAmountParsed = baseAmountParsed.add(feeParsed);
@@ -454,7 +448,6 @@ async function solana(
   dispatch: any,
   enqueueSnackbar: any,
   wallet: SolanaWallet,
-  payerAddress: string, //TODO: we may not need this since we have wallet
   fromAddress: string,
   mintAddress: string,
   amount: string,
@@ -468,6 +461,7 @@ async function solana(
 ) {
   dispatch(setIsSending(true));
   try {
+    const payerAddress = wallet.getAddress()!;
     const connection = new Connection(SOLANA_HOST, "confirmed");
     const baseAmountParsed = parseUnits(amount, decimals);
     const feeParsed = parseUnits(relayerFee || "0", decimals);
@@ -590,7 +584,6 @@ async function injective(
   dispatch: any,
   enqueueSnackbar: any,
   wallet: InjectiveWallet,
-  walletAddress: string,
   asset: string,
   amount: string,
   decimals: number,
@@ -606,7 +599,7 @@ async function injective(
     const tokenBridgeAddress =
       getTokenBridgeAddressForChain(CHAIN_ID_INJECTIVE);
     const msgs = await transferFromInjective(
-      walletAddress,
+      wallet.getAddress()!,
       tokenBridgeAddress,
       asset,
       transferAmountParsed.toString(),
@@ -616,7 +609,7 @@ async function injective(
     );
     const tx = await broadcastInjectiveTx(
       wallet,
-      walletAddress,
+      wallet.getAddress()!,
       msgs,
       "Wormhole - Initiate Transfer"
     );
@@ -654,15 +647,10 @@ export function useHandleTransfer() {
   const isTargetComplete = useSelector(selectTransferIsTargetComplete);
   const isSending = useSelector(selectTransferIsSending);
   const isSendComplete = useSelector(selectTransferIsSendComplete);
-  const { signer } = useEthereumProvider(sourceChain);
-  const { wallet: solanaWallet, publicKey: solPK } = useSolanaWallet();
-  const { wallet: terraWallet } = useTerraWallet(sourceChain);
+
+  const { wallet, connected } = useWallet(sourceChain);
+
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
-  const xplaWallet = useXplaWallet();
-  const { address: algoAccount, wallet: algoWallet } = useAlgorandWallet();
-  const { accountId: nearAccountId, wallet } = useNearContext();
-  const { account: aptosAddress, wallet: aptosWallet } = useAptosContext();
-  const { wallet: injWallet, address: injAddress } = useInjectiveContext();
   const sourceParsedTokenAccount = useSelector(
     selectTransferSourceParsedTokenAccount
   );
@@ -674,10 +662,11 @@ export function useHandleTransfer() {
   const disabled = !isTargetComplete || isSending || isSendComplete;
 
   const handleTransferClick = useCallback(() => {
+    if (!connected || !wallet) return;
+
     // TODO: we should separate state for transaction vs fetching vaa
     if (
       isEVMChain(sourceChain) &&
-      !!signer &&
       !!sourceAsset &&
       decimals !== undefined &&
       !!targetAddress
@@ -685,7 +674,7 @@ export function useHandleTransfer() {
       evm(
         dispatch,
         enqueueSnackbar,
-        signer,
+        (wallet as EVMWallet).getSigner()!,
         sourceAsset,
         decimals,
         amount,
@@ -697,8 +686,6 @@ export function useHandleTransfer() {
       );
     } else if (
       sourceChain === CHAIN_ID_SOLANA &&
-      !!solanaWallet &&
-      !!solPK &&
       !!sourceAsset &&
       !!sourceTokenPublicKey &&
       !!targetAddress &&
@@ -707,8 +694,7 @@ export function useHandleTransfer() {
       solana(
         dispatch,
         enqueueSnackbar,
-        solanaWallet,
-        solPK,
+        wallet as SolanaWallet,
         sourceTokenPublicKey,
         sourceAsset,
         amount,
@@ -722,7 +708,6 @@ export function useHandleTransfer() {
       );
     } else if (
       isTerraChain(sourceChain) &&
-      !!terraWallet &&
       !!sourceAsset &&
       decimals !== undefined &&
       !!targetAddress
@@ -730,7 +715,7 @@ export function useHandleTransfer() {
       terra(
         dispatch,
         enqueueSnackbar,
-        terraWallet,
+        wallet as TerraWallet,
         sourceAsset,
         amount,
         decimals,
@@ -742,7 +727,6 @@ export function useHandleTransfer() {
       );
     } else if (
       sourceChain === CHAIN_ID_XPLA &&
-      !!xplaWallet &&
       !!sourceAsset &&
       decimals !== undefined &&
       !!targetAddress
@@ -750,7 +734,7 @@ export function useHandleTransfer() {
       xpla(
         dispatch,
         enqueueSnackbar,
-        xplaWallet,
+        wallet as XplaWallet,
         sourceAsset,
         amount,
         decimals,
@@ -760,7 +744,6 @@ export function useHandleTransfer() {
       );
     } else if (
       sourceChain === CHAIN_ID_ALGORAND &&
-      algoAccount &&
       !!sourceAsset &&
       decimals !== undefined &&
       !!targetAddress
@@ -768,7 +751,7 @@ export function useHandleTransfer() {
       algo(
         dispatch,
         enqueueSnackbar,
-        algoWallet,
+        wallet as AlgorandWallet,
         sourceAsset,
         decimals,
         amount,
@@ -779,7 +762,6 @@ export function useHandleTransfer() {
       );
     } else if (
       sourceChain === CHAIN_ID_NEAR &&
-      nearAccountId &&
       wallet &&
       !!sourceAsset &&
       decimals !== undefined &&
@@ -788,8 +770,7 @@ export function useHandleTransfer() {
       near(
         dispatch,
         enqueueSnackbar,
-        wallet,
-        nearAccountId,
+        wallet as NearWallet,
         sourceAsset,
         decimals,
         amount,
@@ -800,7 +781,6 @@ export function useHandleTransfer() {
       );
     } else if (
       sourceChain === CHAIN_ID_APTOS &&
-      aptosAddress &&
       !!sourceAsset &&
       decimals !== undefined &&
       !!targetAddress
@@ -814,13 +794,11 @@ export function useHandleTransfer() {
         targetChain,
         targetAddress,
         sourceChain,
-        aptosWallet!,
+        wallet as AptosWallet,
         relayerFee
       );
     } else if (
       sourceChain === CHAIN_ID_INJECTIVE &&
-      injWallet &&
-      injAddress &&
       !!sourceAsset &&
       decimals !== undefined &&
       !!targetAddress
@@ -828,8 +806,7 @@ export function useHandleTransfer() {
       injective(
         dispatch,
         enqueueSnackbar,
-        injWallet,
-        injAddress,
+        wallet as InjectiveWallet,
         sourceAsset,
         amount,
         decimals,
@@ -842,11 +819,7 @@ export function useHandleTransfer() {
     dispatch,
     enqueueSnackbar,
     sourceChain,
-    signer,
     relayerFee,
-    solanaWallet,
-    solPK,
-    terraWallet,
     sourceTokenPublicKey,
     sourceAsset,
     amount,
@@ -857,15 +830,8 @@ export function useHandleTransfer() {
     originChain,
     isNative,
     terraFeeDenom,
-    algoAccount,
-    algoWallet,
-    nearAccountId,
     wallet,
-    xplaWallet,
-    aptosAddress,
-    aptosWallet,
-    injWallet,
-    injAddress,
+    connected,
   ]);
   return useMemo(
     () => ({

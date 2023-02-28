@@ -62,8 +62,6 @@ import { useSnackbar } from "notistack";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router";
-import { useEthereumProvider } from "../contexts/EthereumProviderContext";
-import { useNearContext } from "../contexts/NearWalletContext";
 import { useAcalaRelayerInfo } from "../hooks/useAcalaRelayerInfo";
 import useIsWalletReady from "../hooks/useIsWalletReady";
 import useRelayersAvailable, { Relayer } from "../hooks/useRelayersAvailable";
@@ -111,6 +109,8 @@ import {
   getInjectiveTxClient,
   getInjectiveWasmClient,
 } from "../utils/injective";
+import { useWallet } from "../contexts/WalletContext";
+import { EVMWallet } from "@xlabs-libs/wallet-aggregator-evm";
 
 const useStyles = makeStyles((theme) => ({
   mainCard: {
@@ -489,8 +489,13 @@ export default function Recovery() {
   const dispatch = useDispatch();
   const [recoverySourceChain, setRecoverySourceChain] =
     useState<ChainId>(CHAIN_ID_SOLANA);
-  const { provider } = useEthereumProvider(recoverySourceChain);
-  const [type, setType] = useState<"Token" | "NFT">("Token");
+
+  const { address: walletAddress, wallet } = useWallet(recoverySourceChain);
+  const provider = isEVMChain(recoverySourceChain)
+    ? (wallet as EVMWallet)?.getProvider()
+    : undefined;
+
+  const [type, setType] = useState("Token");
   const isNFT = type === "NFT";
   const [recoverySourceTx, setRecoverySourceTx] = useState("");
   const [recoverySourceTxIsLoading, setRecoverySourceTxIsLoading] =
@@ -502,7 +507,6 @@ export default function Recovery() {
   );
   const [isVAAPending, setIsVAAPending] = useState(false);
   const [tokenId, setTokenId] = useState("");
-  const { accountId: nearAccountId } = useNearContext();
   const { isReady, statusMessage } = useIsWalletReady(recoverySourceChain);
   const walletConnectError =
     (isEVMChain(recoverySourceChain) ||
@@ -684,14 +688,14 @@ export default function Recovery() {
             setIsVAAPending(isPending);
           }
         })();
-      } else if (recoverySourceChain === CHAIN_ID_NEAR && nearAccountId) {
+      } else if (recoverySourceChain === CHAIN_ID_NEAR && walletAddress) {
         setRecoverySourceTxError("");
         setRecoverySourceTxIsLoading(true);
         (async () => {
           const { vaa, isPending, error } = await near(
             recoverySourceTx,
             enqueueSnackbar,
-            nearAccountId
+            walletAddress
           );
           if (!cancelled) {
             setRecoverySourceTxIsLoading(false);
@@ -775,7 +779,7 @@ export default function Recovery() {
     enqueueSnackbar,
     isNFT,
     isReady,
-    nearAccountId,
+    walletAddress,
   ]);
   const handleTypeChange = useCallback((event) => {
     setRecoverySourceChain((prevChain) =>

@@ -1,6 +1,7 @@
+import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk";
 import { Account } from "near-api-js";
 import { useEffect, useMemo, useState } from "react";
-import { useNearContext } from "../contexts/NearWalletContext";
+import { useWallet } from "../contexts/WalletContext";
 import { DataWrapper } from "../store/helpers";
 import { makeNearAccount } from "../utils/near";
 import { AlgoMetadata } from "./useAlgoMetadata";
@@ -38,18 +39,18 @@ const fetchNearMetadata = async (
 function useNearMetadata(
   addresses: string[]
 ): DataWrapper<Map<string, AlgoMetadata>> {
-  const { accountId: nearAccountId } = useNearContext();
+  const { address } = useWallet(CHAIN_ID_NEAR);
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState("");
   const [data, setData] = useState<Map<string, AlgoMetadata> | null>(null);
 
   useEffect(() => {
     let cancelled = false;
-    if (addresses.length && nearAccountId) {
+    if (addresses.length && address) {
       setIsFetching(true);
       setError("");
       setData(null);
-      fetchNearMetadata(addresses, nearAccountId).then(
+      fetchNearMetadata(addresses, address).then(
         (results) => {
           if (!cancelled) {
             setData(results);
@@ -67,7 +68,7 @@ function useNearMetadata(
     return () => {
       cancelled = true;
     };
-  }, [addresses, nearAccountId]);
+  }, [addresses, address]);
 
   return useMemo(
     () => ({

@@ -1,10 +1,11 @@
-import { ChainId } from "@certusone/wormhole-sdk";
+import { ChainId, isEVMChain } from "@certusone/wormhole-sdk";
 import { CircularProgress, makeStyles, Typography } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
+import { EVMWallet } from "@xlabs-libs/wallet-aggregator-evm";
 import { parseUnits } from "ethers/lib/utils";
 import { useSnackbar } from "notistack";
 import { useCallback, useState } from "react";
-import { useEthereumProvider } from "../../contexts/EthereumProviderContext";
+import { useWallet } from "../../contexts/WalletContext";
 import useEthereumMigratorInformation from "../../hooks/useEthereumMigratorInformation";
 import useIsWalletReady from "../../hooks/useIsWalletReady";
 import ButtonWithLoader from "../ButtonWithLoader";
@@ -32,7 +33,10 @@ export default function EvmWorkflow({
 }) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
-  const { signer, signerAddress } = useEthereumProvider(chainId);
+  const { address: signerAddress, wallet } = useWallet(chainId);
+  const signer = isEVMChain(chainId)
+    ? (wallet as EVMWallet)?.getSigner()
+    : undefined;
   const { isReady } = useIsWalletReady(chainId);
   const [toggleRefresh, setToggleRefresh] = useState(false);
   const forceRefresh = useCallback(

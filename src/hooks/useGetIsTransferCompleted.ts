@@ -20,8 +20,6 @@ import { LCDClient } from "@terra-money/terra.js";
 import algosdk from "algosdk";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useEthereumProvider } from "../contexts/EthereumProviderContext";
-import { useNearContext } from "../contexts/NearWalletContext";
 import {
   selectTransferIsRecovery,
   selectTransferTargetAddressHex,
@@ -44,6 +42,8 @@ import useTransferSignedVAA from "./useTransferSignedVAA";
 import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
 import { getAptosClient } from "../utils/aptos";
 import { getInjectiveWasmClient } from "../utils/injective";
+import { useWallet } from "../contexts/WalletContext";
+import { EVMWallet } from "@xlabs-libs/wallet-aggregator-evm";
 
 /**
  * @param recoveryOnly Only fire when in recovery mode
@@ -63,11 +63,10 @@ export default function useGetIsTransferCompleted(
   const targetChain = useSelector(selectTransferTargetChain);
 
   const { isReady } = useIsWalletReady(targetChain, false);
-  const { provider, evmChainId } = useEthereumProvider(targetChain);
-  const { accountId: nearAccountId } = useNearContext();
+  const { address, network, wallet } = useWallet(targetChain);
   const signedVAA = useTransferSignedVAA();
 
-  const hasCorrectEvmNetwork = evmChainId === getEvmChainId(targetChain);
+  const hasCorrectEvmNetwork = network?.chainId === getEvmChainId(targetChain);
   const shouldFire = !recoveryOnly || isRecovery;
   const [pollState, setPollState] = useState(pollFrequency);
 
@@ -93,13 +92,13 @@ export default function useGetIsTransferCompleted(
     let cancelled = false;
     let transferCompleted = false;
     if (targetChain && targetAddress && signedVAA && isReady) {
-      if (isEVMChain(targetChain) && hasCorrectEvmNetwork && provider) {
+      if (isEVMChain(targetChain) && hasCorrectEvmNetwork && wallet) {
         setIsLoading(true);
         (async () => {
           try {
             transferCompleted = await getIsTransferCompletedEth(
               getTokenBridgeAddressForChain(targetChain),
-              provider,
+              (wallet as EVMWallet).getProvider()!,
               signedVAA
             );
           } catch (error) {
@@ -204,11 +203,11 @@ export default function useGetIsTransferCompleted(
             setIsLoading(false);
           }
         })();
-      } else if (targetChain === CHAIN_ID_NEAR && nearAccountId) {
+      } else if (targetChain === CHAIN_ID_NEAR && address) {
         setIsLoading(true);
         (async () => {
           try {
-            const account = await makeNearAccount(nearAccountId);
+            const account = await makeNearAccount(address);
             transferCompleted = await getIsTransferCompletedNear(
               account,
               NEAR_TOKEN_BRIDGE_ACCOUNT,
@@ -252,9 +251,9 @@ export default function useGetIsTransferCompleted(
     targetAddress,
     signedVAA,
     isReady,
-    provider,
+    wallet,
     pollState,
-    nearAccountId,
+    address,
   ]);
 
   return { isTransferCompletedLoading: isLoading, isTransferCompleted };

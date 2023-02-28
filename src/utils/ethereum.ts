@@ -6,6 +6,9 @@ import {
   createParsedTokenAccount,
 } from "../hooks/useGetSourceParsedTokenAccounts";
 
+export type Provider = ethers.providers.Web3Provider | undefined;
+export type Signer = ethers.Signer | undefined;
+
 //This is a valuable intermediate step to the parsed token account, as the token has metadata information on it.
 export async function getEthereumToken(
   tokenAddress: string,

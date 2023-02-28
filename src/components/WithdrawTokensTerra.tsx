@@ -25,9 +25,9 @@ import TerraFeeDenomPicker from "./TerraFeeDenomPicker";
 import HeaderText from "./HeaderText";
 import { COLORS } from "../muiTheme";
 import { CHAIN_ID_TERRA } from "@certusone/wormhole-sdk";
-import { useTerraWallet } from "../contexts/TerraWalletContext";
 import { TerraWallet } from "@xlabs-libs/wallet-aggregator-terra";
 import ConnectWalletButton from "./ConnectWalletButton";
+import { useWallet } from "../contexts/WalletContext";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -77,7 +77,7 @@ const withdraw = async (
 };
 
 export default function WithdrawTokensTerra() {
-  const { wallet } = useTerraWallet(CHAIN_ID_TERRA);
+  const { wallet } = useWallet<TerraWallet>(CHAIN_ID_TERRA);
   const [token, setToken] = useState(SUPPORTED_TERRA_TOKENS[0]);
   const [isLoading, setIsLoading] = useState(false);
   const classes = useStyles();

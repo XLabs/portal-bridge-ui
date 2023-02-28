@@ -36,8 +36,6 @@ import algosdk from "algosdk";
 import { ethers } from "ethers";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useEthereumProvider } from "../contexts/EthereumProviderContext";
-import { useNearContext } from "../contexts/NearWalletContext";
 import {
   errorDataWrapper,
   fetchDataWrapper,
@@ -79,6 +77,8 @@ import {
 import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
 import { getAptosClient } from "../utils/aptos";
 import { getInjectiveWasmClient } from "../utils/injective";
+import { useWallet } from "../contexts/WalletContext";
+import { EVMWallet } from "@xlabs-libs/wallet-aggregator-evm";
 
 function useFetchTargetAsset(nft?: boolean) {
   const dispatch = useDispatch();
@@ -99,10 +99,9 @@ function useFetchTargetAsset(nft?: boolean) {
     nft ? selectNFTTargetChain : selectTransferTargetChain
   );
   const setTargetAsset = nft ? setNFTTargetAsset : setTransferTargetAsset;
-  const { provider, evmChainId } = useEthereumProvider(targetChain);
+  const { address, wallet, network } = useWallet(targetChain);
   const correctEvmNetwork = getEvmChainId(targetChain);
-  const hasCorrectEvmNetwork = evmChainId === correctEvmNetwork;
-  const { accountId: nearAccountId } = useNearContext();
+  const hasCorrectEvmNetwork = network?.chainId === correctEvmNetwork;
   const [lastSuccessfulArgs, setLastSuccessfulArgs] = useState<{
     isSourceAssetWormholeWrapped: boolean | undefined;
     originChain: ChainId | undefined;
@@ -221,7 +220,7 @@ function useFetchTargetAsset(nft?: boolean) {
               )
             );
           }
-        } else if (originChain === CHAIN_ID_NEAR && nearAccountId) {
+        } else if (originChain === CHAIN_ID_NEAR && address) {
           if (originAsset === NATIVE_NEAR_WH_ADDRESS) {
             dispatch(
               setTargetAsset(
@@ -232,7 +231,7 @@ function useFetchTargetAsset(nft?: boolean) {
               )
             );
           } else {
-            const account = await makeNearAccount(nearAccountId);
+            const account = await makeNearAccount(address);
             const tokenAccount = await lookupHash(
               account,
               NEAR_TOKEN_BRIDGE_ACCOUNT,
@@ -288,13 +287,14 @@ function useFetchTargetAsset(nft?: boolean) {
       }
       if (
         isEVMChain(targetChain) &&
-        provider &&
+        wallet &&
         hasCorrectEvmNetwork &&
         originChain &&
         originAsset
       ) {
         dispatch(setTargetAsset(fetchDataWrapper()));
         try {
+          const provider = (wallet as EVMWallet).getProvider()!;
           const asset = await (nft
             ? getForeignAssetEthNFT(
                 getNFTBridgeAddressForChain(targetChain),
@@ -519,11 +519,11 @@ function useFetchTargetAsset(nft?: boolean) {
         targetChain === CHAIN_ID_NEAR &&
         originChain &&
         originAsset &&
-        nearAccountId
+        address
       ) {
         dispatch(setTargetAsset(fetchDataWrapper()));
         try {
-          const account = await makeNearAccount(nearAccountId);
+          const account = await makeNearAccount(address);
           const asset = await getForeignAssetNear(
             account,
             NEAR_TOKEN_BRIDGE_ACCOUNT,
@@ -594,14 +594,14 @@ function useFetchTargetAsset(nft?: boolean) {
     originChain,
     originAsset,
     targetChain,
-    provider,
     nft,
     setTargetAsset,
     tokenId,
     hasCorrectEvmNetwork,
     argsMatchLastSuccess,
     setArgs,
-    nearAccountId,
+    address,
+    wallet,
   ]);
 }
 

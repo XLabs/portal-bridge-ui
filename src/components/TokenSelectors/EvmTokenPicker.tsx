@@ -2,12 +2,14 @@ import {
   ChainId,
   CHAIN_ID_ETH,
   ethers_contracts,
+  isEVMChain,
 } from "@certusone/wormhole-sdk";
 import { WormholeAbi__factory } from "@certusone/wormhole-sdk/lib/esm/ethers-contracts/abi";
 import { getAddress as getEthAddress } from "@ethersproject/address";
+import { EVMWallet } from "@xlabs-libs/wallet-aggregator-evm";
 import React, { useCallback } from "react";
 import { useSelector } from "react-redux";
-import { useEthereumProvider } from "../../contexts/EthereumProviderContext";
+import { useWallet } from "../../contexts/WalletContext";
 import useIsWalletReady from "../../hooks/useIsWalletReady";
 import { DataWrapper } from "../../store/helpers";
 import { NFTParsedTokenAccount } from "../../store/nftSlice";
@@ -62,7 +64,12 @@ export default function EvmTokenPicker(
     chainId,
     nft,
   } = props;
-  const { provider, signerAddress } = useEthereumProvider(chainId);
+
+  const { address: signerAddress, wallet } = useWallet(chainId);
+  const provider = isEVMChain(chainId)
+    ? (wallet as EVMWallet)?.getProvider()
+    : undefined;
+
   const { isReady } = useIsWalletReady(chainId);
   const selectedTokenAccount: NFTParsedTokenAccount | undefined = useSelector(
     nft

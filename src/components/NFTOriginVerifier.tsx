@@ -30,9 +30,10 @@ import {
 import { Launch } from "@material-ui/icons";
 import { Alert } from "@material-ui/lab";
 import { Connection } from "@solana/web3.js";
+import { EVMWallet } from "@xlabs-libs/wallet-aggregator-evm";
 import { useCallback, useEffect, useState } from "react";
 import { useBetaContext } from "../contexts/BetaContext";
-import { useEthereumProvider } from "../contexts/EthereumProviderContext";
+import { useWallet } from "../contexts/WalletContext";
 import useIsWalletReady from "../hooks/useIsWalletReady";
 import { getMetaplexData } from "../hooks/useMetaplexData";
 import { COLORS } from "../muiTheme";
@@ -82,7 +83,10 @@ export default function NFTOriginVerifier() {
   const classes = useStyles();
   const isBeta = useBetaContext();
   const [lookupChain, setLookupChain] = useState<ChainId>(CHAIN_ID_ETH);
-  const { provider, signerAddress } = useEthereumProvider(lookupChain);
+  const { address: signerAddress, wallet } = useWallet(lookupChain);
+  const provider = isEVMChain(lookupChain)
+    ? (wallet as EVMWallet)?.getProvider()
+    : undefined;
   const { isReady, statusMessage } = useIsWalletReady(lookupChain);
   const [lookupAsset, setLookupAsset] = useState("");
   const [lookupTokenId, setLookupTokenId] = useState("");

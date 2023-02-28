@@ -17,8 +17,9 @@ import {
 } from "@certusone/wormhole-sdk";
 import { LinearProgress, makeStyles, Typography } from "@material-ui/core";
 import { Connection } from "@solana/web3.js";
+import { EVMWallet } from "@xlabs-libs/wallet-aggregator-evm";
 import { useEffect, useState } from "react";
-import { useEthereumProvider } from "../contexts/EthereumProviderContext";
+import { useWallet } from "../contexts/WalletContext";
 import { Transaction } from "../store/transferSlice";
 import { CHAINS_BY_ID, CLUSTER, SOLANA_HOST } from "../utils/consts";
 import SmartBlock from "./SmartBlock";
@@ -43,7 +44,12 @@ export default function TransactionProgress({
   isSendComplete: boolean;
 }) {
   const classes = useStyles();
-  const { provider } = useEthereumProvider(chainId);
+
+  const { wallet } = useWallet(chainId);
+  const provider = isEVMChain(chainId)
+    ? (wallet as EVMWallet)?.getProvider()
+    : undefined;
+
   const [currentBlock, setCurrentBlock] = useState(0);
   useEffect(() => {
     if (isSendComplete || !tx) return;

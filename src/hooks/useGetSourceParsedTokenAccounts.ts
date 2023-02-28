@@ -39,14 +39,6 @@ import { ethers } from "ethers";
 import { formatUnits } from "ethers/lib/utils";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useAlgorandWallet } from "../contexts/AlgorandWalletContext";
-import { useAptosContext } from "../contexts/AptosWalletContext";
-import {
-  Provider,
-  useEthereumProvider,
-} from "../contexts/EthereumProviderContext";
-import { useNearContext } from "../contexts/NearWalletContext";
-import { useSolanaWallet } from "../contexts/SolanaWalletContext";
 import acalaIcon from "../icons/acala.svg";
 import auroraIcon from "../icons/aurora.svg";
 import avaxIcon from "../icons/avax.svg";
@@ -137,6 +129,9 @@ import {
 import { fetchSingleMetadata as fetchSingleMetadataAlgo } from "./useAlgoMetadata";
 import { AptosCoinResourceReturn } from "./useAptosMetadata";
 import { TokenClient, TokenTypes } from "aptos";
+import { useWallet } from "../contexts/WalletContext";
+import { EVMWallet } from "@xlabs-libs/wallet-aggregator-evm";
+import { Provider } from "../utils/ethereum";
 
 export function createParsedTokenAccount(
   publicKey: string,
@@ -1080,11 +1075,11 @@ function useGetAvailableTokens(nft: boolean = false) {
   const lookupChain = useSelector(
     nft ? selectNFTSourceChain : selectTransferSourceChain
   );
-  const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
-  const { provider, signerAddress } = useEthereumProvider(lookupChain);
-  const { address: algoAccount } = useAlgorandWallet();
-  const { accountId: nearAccountId } = useNearContext();
-  const { account: aptosAddress } = useAptosContext();
+
+  const { address: walletAddress, wallet } = useWallet(lookupChain);
+  const provider = isEVMChain(lookupChain)
+    ? (wallet as EVMWallet)?.getProvider()
+    : undefined;
 
   const [covalent, setCovalent] = useState<any>(undefined);
   const [covalentLoading, setCovalentLoading] = useState(false);
@@ -1110,17 +1105,6 @@ function useGetAvailableTokens(nft: boolean = false) {
   const selectedSourceWalletAddress = useSelector(
     nft ? selectNFTSourceWalletAddress : selectSourceWalletAddress
   );
-  const currentSourceWalletAddress: string | undefined = isEVMChain(lookupChain)
-    ? signerAddress
-    : lookupChain === CHAIN_ID_SOLANA
-    ? solPK?.toString()
-    : lookupChain === CHAIN_ID_ALGORAND
-    ? algoAccount
-    : lookupChain === CHAIN_ID_NEAR
-    ? nearAccountId || undefined
-    : lookupChain === CHAIN_ID_APTOS
-    ? aptosAddress || undefined
-    : undefined;
 
   const resetSourceAccounts = useCallback(() => {
     dispatch(
@@ -1153,8 +1137,8 @@ function useGetAvailableTokens(nft: boolean = false) {
   useEffect(() => {
     if (
       selectedSourceWalletAddress !== undefined &&
-      currentSourceWalletAddress !== undefined &&
-      currentSourceWalletAddress !== selectedSourceWalletAddress
+      walletAddress !== undefined &&
+      walletAddress !== selectedSourceWalletAddress
     ) {
       resetSourceAccounts();
       return;
@@ -1162,23 +1146,23 @@ function useGetAvailableTokens(nft: boolean = false) {
     }
   }, [
     selectedSourceWalletAddress,
-    currentSourceWalletAddress,
+    walletAddress,
     dispatch,
     resetSourceAccounts,
   ]);
 
   //Solana accountinfos load
   useEffect(() => {
-    if (lookupChain === CHAIN_ID_SOLANA && solPK) {
+    if (lookupChain === CHAIN_ID_SOLANA && walletAddress) {
       if (
         !(tokenAccounts.data || tokenAccounts.isFetching || tokenAccounts.error)
       ) {
-        getSolanaParsedTokenAccounts(solPK, dispatch, nft);
+        getSolanaParsedTokenAccounts(walletAddress, dispatch, nft);
       }
     }
 
     return () => {};
-  }, [dispatch, solanaWallet, lookupChain, solPK, tokenAccounts, nft]);
+  }, [dispatch, lookupChain, walletAddress, tokenAccounts, nft]);
 
   //Solana Mint Accounts lookup
   useEffect(() => {
@@ -1237,13 +1221,13 @@ function useGetAvailableTokens(nft: boolean = false) {
   useEffect(() => {
     let cancelled = false;
     if (
-      signerAddress &&
+      walletAddress &&
       lookupChain === CHAIN_ID_ETH &&
       !ethNativeAccount &&
       !nft
     ) {
       setEthNativeAccountLoading(true);
-      createNativeEthParsedTokenAccount(provider, signerAddress).then(
+      createNativeEthParsedTokenAccount(provider, walletAddress).then(
         (result) => {
           console.log("create native account returned with value", result);
           if (!cancelled) {
@@ -1265,19 +1249,19 @@ function useGetAvailableTokens(nft: boolean = false) {
     return () => {
       cancelled = true;
     };
-  }, [lookupChain, provider, signerAddress, nft, ethNativeAccount]);
+  }, [lookupChain, provider, walletAddress, nft, ethNativeAccount]);
 
   //Binance Smart Chain native asset load
   useEffect(() => {
     let cancelled = false;
     if (
-      signerAddress &&
+      walletAddress &&
       lookupChain === CHAIN_ID_BSC &&
       !ethNativeAccount &&
       !nft
     ) {
       setEthNativeAccountLoading(true);
-      createNativeBscParsedTokenAccount(provider, signerAddress).then(
+      createNativeBscParsedTokenAccount(provider, walletAddress).then(
         (result) => {
           console.log("create native account returned with value", result);
           if (!cancelled) {
@@ -1299,19 +1283,19 @@ function useGetAvailableTokens(nft: boolean = false) {
     return () => {
       cancelled = true;
     };
-  }, [lookupChain, provider, signerAddress, nft, ethNativeAccount]);
+  }, [lookupChain, provider, walletAddress, nft, ethNativeAccount]);
 
   //Polygon native asset load
   useEffect(() => {
     let cancelled = false;
     if (
-      signerAddress &&
+      walletAddress &&
       lookupChain === CHAIN_ID_POLYGON &&
       !ethNativeAccount &&
       !nft
     ) {
       setEthNativeAccountLoading(true);
-      createNativePolygonParsedTokenAccount(provider, signerAddress).then(
+      createNativePolygonParsedTokenAccount(provider, walletAddress).then(
         (result) => {
           console.log("create native account returned with value", result);
           if (!cancelled) {
@@ -1333,20 +1317,20 @@ function useGetAvailableTokens(nft: boolean = false) {
     return () => {
       cancelled = true;
     };
-  }, [lookupChain, provider, signerAddress, nft, ethNativeAccount]);
+  }, [lookupChain, provider, walletAddress, nft, ethNativeAccount]);
 
   //TODO refactor all these into an isEVM effect
   //avax native asset load
   useEffect(() => {
     let cancelled = false;
     if (
-      signerAddress &&
+      walletAddress &&
       lookupChain === CHAIN_ID_AVAX &&
       !ethNativeAccount &&
       !nft
     ) {
       setEthNativeAccountLoading(true);
-      createNativeAvaxParsedTokenAccount(provider, signerAddress).then(
+      createNativeAvaxParsedTokenAccount(provider, walletAddress).then(
         (result) => {
           console.log("create native account returned with value", result);
           if (!cancelled) {
@@ -1368,18 +1352,18 @@ function useGetAvailableTokens(nft: boolean = false) {
     return () => {
       cancelled = true;
     };
-  }, [lookupChain, provider, signerAddress, nft, ethNativeAccount]);
+  }, [lookupChain, provider, walletAddress, nft, ethNativeAccount]);
 
   useEffect(() => {
     let cancelled = false;
     if (
-      signerAddress &&
+      walletAddress &&
       lookupChain === CHAIN_ID_OASIS &&
       !ethNativeAccount &&
       !nft
     ) {
       setEthNativeAccountLoading(true);
-      createNativeOasisParsedTokenAccount(provider, signerAddress).then(
+      createNativeOasisParsedTokenAccount(provider, walletAddress).then(
         (result) => {
           console.log("create native account returned with value", result);
           if (!cancelled) {
@@ -1401,18 +1385,18 @@ function useGetAvailableTokens(nft: boolean = false) {
     return () => {
       cancelled = true;
     };
-  }, [lookupChain, provider, signerAddress, nft, ethNativeAccount]);
+  }, [lookupChain, provider, walletAddress, nft, ethNativeAccount]);
 
   useEffect(() => {
     let cancelled = false;
     if (
-      signerAddress &&
+      walletAddress &&
       lookupChain === CHAIN_ID_AURORA &&
       !ethNativeAccount &&
       !nft
     ) {
       setEthNativeAccountLoading(true);
-      createNativeAuroraParsedTokenAccount(provider, signerAddress).then(
+      createNativeAuroraParsedTokenAccount(provider, walletAddress).then(
         (result) => {
           console.log("create native account returned with value", result);
           if (!cancelled) {
@@ -1434,18 +1418,18 @@ function useGetAvailableTokens(nft: boolean = false) {
     return () => {
       cancelled = true;
     };
-  }, [lookupChain, provider, signerAddress, nft, ethNativeAccount]);
+  }, [lookupChain, provider, walletAddress, nft, ethNativeAccount]);
 
   useEffect(() => {
     let cancelled = false;
     if (
-      signerAddress &&
+      walletAddress &&
       lookupChain === CHAIN_ID_FANTOM &&
       !ethNativeAccount &&
       !nft
     ) {
       setEthNativeAccountLoading(true);
-      createNativeFantomParsedTokenAccount(provider, signerAddress).then(
+      createNativeFantomParsedTokenAccount(provider, walletAddress).then(
         (result) => {
           console.log("create native account returned with value", result);
           if (!cancelled) {
@@ -1467,18 +1451,18 @@ function useGetAvailableTokens(nft: boolean = false) {
     return () => {
       cancelled = true;
     };
-  }, [lookupChain, provider, signerAddress, nft, ethNativeAccount]);
+  }, [lookupChain, provider, walletAddress, nft, ethNativeAccount]);
 
   useEffect(() => {
     let cancelled = false;
     if (
-      signerAddress &&
+      walletAddress &&
       lookupChain === CHAIN_ID_KARURA &&
       !ethNativeAccount &&
       !nft
     ) {
       setEthNativeAccountLoading(true);
-      createNativeKaruraParsedTokenAccount(provider, signerAddress).then(
+      createNativeKaruraParsedTokenAccount(provider, walletAddress).then(
         (result) => {
           console.log("create native account returned with value", result);
           if (!cancelled) {
@@ -1500,18 +1484,18 @@ function useGetAvailableTokens(nft: boolean = false) {
     return () => {
       cancelled = true;
     };
-  }, [lookupChain, provider, signerAddress, nft, ethNativeAccount]);
+  }, [lookupChain, provider, walletAddress, nft, ethNativeAccount]);
 
   useEffect(() => {
     let cancelled = false;
     if (
-      signerAddress &&
+      walletAddress &&
       lookupChain === CHAIN_ID_ACALA &&
       !ethNativeAccount &&
       !nft
     ) {
       setEthNativeAccountLoading(true);
-      createNativeAcalaParsedTokenAccount(provider, signerAddress).then(
+      createNativeAcalaParsedTokenAccount(provider, walletAddress).then(
         (result) => {
           console.log("create native account returned with value", result);
           if (!cancelled) {
@@ -1533,18 +1517,18 @@ function useGetAvailableTokens(nft: boolean = false) {
     return () => {
       cancelled = true;
     };
-  }, [lookupChain, provider, signerAddress, nft, ethNativeAccount]);
+  }, [lookupChain, provider, walletAddress, nft, ethNativeAccount]);
 
   useEffect(() => {
     let cancelled = false;
     if (
-      signerAddress &&
+      walletAddress &&
       lookupChain === CHAIN_ID_KLAYTN &&
       !ethNativeAccount &&
       !nft
     ) {
       setEthNativeAccountLoading(true);
-      createNativeKlaytnParsedTokenAccount(provider, signerAddress).then(
+      createNativeKlaytnParsedTokenAccount(provider, walletAddress).then(
         (result) => {
           console.log("create native account returned with value", result);
           if (!cancelled) {
@@ -1566,18 +1550,18 @@ function useGetAvailableTokens(nft: boolean = false) {
     return () => {
       cancelled = true;
     };
-  }, [lookupChain, provider, signerAddress, nft, ethNativeAccount]);
+  }, [lookupChain, provider, walletAddress, nft, ethNativeAccount]);
 
   useEffect(() => {
     let cancelled = false;
     if (
-      signerAddress &&
+      walletAddress &&
       lookupChain === CHAIN_ID_CELO &&
       !ethNativeAccount &&
       !nft
     ) {
       setEthNativeAccountLoading(true);
-      createNativeCeloParsedTokenAccount(provider, signerAddress).then(
+      createNativeCeloParsedTokenAccount(provider, walletAddress).then(
         (result) => {
           console.log("create native account returned with value", result);
           if (!cancelled) {
@@ -1599,18 +1583,18 @@ function useGetAvailableTokens(nft: boolean = false) {
     return () => {
       cancelled = true;
     };
-  }, [lookupChain, provider, signerAddress, nft, ethNativeAccount]);
+  }, [lookupChain, provider, walletAddress, nft, ethNativeAccount]);
 
   useEffect(() => {
     let cancelled = false;
     if (
-      signerAddress &&
+      walletAddress &&
       lookupChain === CHAIN_ID_NEON &&
       !ethNativeAccount &&
       !nft
     ) {
       setEthNativeAccountLoading(true);
-      createNativeNeonParsedTokenAccount(provider, signerAddress).then(
+      createNativeNeonParsedTokenAccount(provider, walletAddress).then(
         (result) => {
           console.log("create native account returned with value", result);
           if (!cancelled) {
@@ -1632,18 +1616,18 @@ function useGetAvailableTokens(nft: boolean = false) {
     return () => {
       cancelled = true;
     };
-  }, [lookupChain, provider, signerAddress, nft, ethNativeAccount]);
+  }, [lookupChain, provider, walletAddress, nft, ethNativeAccount]);
 
   useEffect(() => {
     let cancelled = false;
     if (
-      signerAddress &&
+      walletAddress &&
       lookupChain === CHAIN_ID_MOONBEAM &&
       !ethNativeAccount &&
       !nft
     ) {
       setEthNativeAccountLoading(true);
-      createNativeMoonbeamParsedTokenAccount(provider, signerAddress).then(
+      createNativeMoonbeamParsedTokenAccount(provider, walletAddress).then(
         (result) => {
           console.log("create native account returned with value", result);
           if (!cancelled) {
@@ -1667,7 +1651,7 @@ function useGetAvailableTokens(nft: boolean = false) {
     return () => {
       cancelled = true;
     };
-  }, [lookupChain, provider, signerAddress, nft, ethNativeAccount]);
+  }, [lookupChain, provider, walletAddress, nft, ethNativeAccount]);
 
   //Ethereum covalent or blockscout accounts load
   useEffect(() => {
@@ -1678,7 +1662,6 @@ function useGetAvailableTokens(nft: boolean = false) {
     // const nftBscTestWallet1 = "0x5f464a652bd1991df0be37979b93b3306d64a909";
 
     let cancelled = false;
-    const walletAddress = signerAddress;
     if (walletAddress && isEVMChain(lookupChain) && !covalent) {
       let url = COVALENT_GET_TOKENS_URL(lookupChain, walletAddress, nft);
       let getAccounts;
@@ -1751,7 +1734,7 @@ function useGetAvailableTokens(nft: boolean = false) {
         cancelled = true;
       };
     }
-  }, [lookupChain, provider, signerAddress, dispatch, nft, covalent]);
+  }, [lookupChain, provider, walletAddress, dispatch, nft, covalent]);
 
   //Terra accounts load
   //At present, we don't have any mechanism for doing this.
@@ -1759,46 +1742,42 @@ function useGetAvailableTokens(nft: boolean = false) {
 
   //Algorand accounts load
   useEffect(() => {
-    if (lookupChain === CHAIN_ID_ALGORAND && currentSourceWalletAddress) {
+    if (lookupChain === CHAIN_ID_ALGORAND && walletAddress) {
       if (
         !(tokenAccounts.data || tokenAccounts.isFetching || tokenAccounts.error)
       ) {
-        getAlgorandParsedTokenAccounts(
-          currentSourceWalletAddress,
-          dispatch,
-          nft
-        );
+        getAlgorandParsedTokenAccounts(walletAddress, dispatch, nft);
       }
     }
 
     return () => {};
-  }, [dispatch, lookupChain, currentSourceWalletAddress, tokenAccounts, nft]);
+  }, [dispatch, lookupChain, walletAddress, tokenAccounts, nft]);
 
   //Near accounts load
   useEffect(() => {
-    if (lookupChain === CHAIN_ID_NEAR && currentSourceWalletAddress) {
+    if (lookupChain === CHAIN_ID_NEAR && walletAddress) {
       if (
         !(tokenAccounts.data || tokenAccounts.isFetching || tokenAccounts.error)
       ) {
-        getNearParsedTokenAccounts(currentSourceWalletAddress, dispatch, nft);
+        getNearParsedTokenAccounts(walletAddress, dispatch, nft);
       }
     }
 
     return () => {};
-  }, [dispatch, lookupChain, currentSourceWalletAddress, tokenAccounts, nft]);
+  }, [dispatch, lookupChain, walletAddress, tokenAccounts, nft]);
 
   //Aptos accounts load
   useEffect(() => {
-    if (lookupChain === CHAIN_ID_APTOS && currentSourceWalletAddress) {
+    if (lookupChain === CHAIN_ID_APTOS && walletAddress) {
       if (
         !(tokenAccounts.data || tokenAccounts.isFetching || tokenAccounts.error)
       ) {
-        getAptosParsedTokenAccounts(currentSourceWalletAddress, dispatch, nft);
+        getAptosParsedTokenAccounts(walletAddress, dispatch, nft);
       }
     }
 
     return () => {};
-  }, [dispatch, lookupChain, currentSourceWalletAddress, tokenAccounts, nft]);
+  }, [dispatch, lookupChain, walletAddress, tokenAccounts, nft]);
 
   const ethAccounts = useMemo(() => {
     const output = { ...tokenAccounts };

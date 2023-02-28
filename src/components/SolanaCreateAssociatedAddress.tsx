@@ -14,10 +14,11 @@ import {
   TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
 import { Connection, PublicKey, Transaction } from "@solana/web3.js";
+import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 import { useSnackbar } from "notistack";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
-import { useSolanaWallet } from "../contexts/SolanaWalletContext";
+import { useWallet } from "../contexts/WalletContext";
 import {
   selectTransferOriginAsset,
   selectTransferOriginChain,
@@ -35,21 +36,21 @@ export function useAssociatedAccountExistsState(
   readableTargetAddress: string | undefined
 ) {
   const [associatedAccountExists, setAssociatedAccountExists] = useState(true); // for now, assume it exists until we confirm it doesn't
-  const { publicKey: solPK } = useSolanaWallet();
+  const { address: walletAddress } = useWallet<SolanaWallet>(CHAIN_ID_SOLANA);
   useEffect(() => {
     setAssociatedAccountExists(true);
     if (
       targetChain !== CHAIN_ID_SOLANA ||
       !mintAddress ||
       !readableTargetAddress ||
-      !solPK
+      !walletAddress
     )
       return;
     let cancelled = false;
     (async () => {
       const connection = new Connection(SOLANA_HOST, "confirmed");
       const mintPublicKey = new PublicKey(mintAddress);
-      const payerPublicKey = new PublicKey(solPK); // currently assumes the wallet is the owner
+      const payerPublicKey = new PublicKey(walletAddress); // currently assumes the wallet is the owner
       const associatedAddress = await Token.getAssociatedTokenAddress(
         ASSOCIATED_TOKEN_PROGRAM_ID,
         TOKEN_PROGRAM_ID,
@@ -71,7 +72,7 @@ export function useAssociatedAccountExistsState(
     return () => {
       cancelled = true;
     };
-  }, [targetChain, mintAddress, readableTargetAddress, solPK]);
+  }, [targetChain, mintAddress, readableTargetAddress, walletAddress]);
   return useMemo(
     () => ({ associatedAccountExists, setAssociatedAccountExists }),
     [associatedAccountExists]
@@ -90,20 +91,21 @@ export default function SolanaCreateAssociatedAddress({
   setAssociatedAccountExists: (associatedAccountExists: boolean) => void;
 }) {
   const [isCreating, setIsCreating] = useState(false);
-  const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
+  const { address: walletAddress, wallet: solanaWallet } =
+    useWallet<SolanaWallet>(CHAIN_ID_SOLANA);
   const handleClick = useCallback(() => {
     if (
       associatedAccountExists ||
       !mintAddress ||
       !readableTargetAddress ||
-      !solPK ||
+      !walletAddress ||
       !solanaWallet
     )
       return;
     (async () => {
       const connection = new Connection(SOLANA_HOST, "confirmed");
       const mintPublicKey = new PublicKey(mintAddress);
-      const payerPublicKey = new PublicKey(solPK); // currently assumes the wallet is the owner
+      const payerPublicKey = new PublicKey(walletAddress); // currently assumes the wallet is the owner
       const associatedAddress = await Token.getAssociatedTokenAddress(
         ASSOCIATED_TOKEN_PROGRAM_ID,
         TOKEN_PROGRAM_ID,
@@ -142,7 +144,7 @@ export default function SolanaCreateAssociatedAddress({
     associatedAccountExists,
     setAssociatedAccountExists,
     mintAddress,
-    solPK,
+    walletAddress,
     readableTargetAddress,
     solanaWallet,
   ]);
@@ -154,7 +156,7 @@ export default function SolanaCreateAssociatedAddress({
       </Typography>
       <ButtonWithLoader
         disabled={
-          !mintAddress || !readableTargetAddress || !solPK || isCreating
+          !mintAddress || !readableTargetAddress || !walletAddress || isCreating
         }
         onClick={handleClick}
         showLoader={isCreating}
@@ -219,13 +221,15 @@ export function SolanaCreateAssociatedAddressAlternate() {
       base58TargetAddress
     );
 
-  const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
+  const { address: walletAddress, wallet: solanaWallet } =
+    useWallet<SolanaWallet>(CHAIN_ID_SOLANA);
   const handleForceCreateClick = useCallback(() => {
-    if (!targetAsset || !base58TargetAddress || !solPK || !solanaWallet) return;
+    if (!targetAsset || !base58TargetAddress || !walletAddress || !solanaWallet)
+      return;
     (async () => {
       const connection = new Connection(SOLANA_HOST, "confirmed");
       const mintPublicKey = new PublicKey(targetAsset);
-      const payerPublicKey = new PublicKey(solPK); // currently assumes the wallet is the owner
+      const payerPublicKey = new PublicKey(walletAddress); // currently assumes the wallet is the owner
       const associatedAddress = await Token.getAssociatedTokenAddress(
         ASSOCIATED_TOKEN_PROGRAM_ID,
         TOKEN_PROGRAM_ID,
@@ -276,7 +280,7 @@ export function SolanaCreateAssociatedAddressAlternate() {
   }, [
     setAssociatedAccountExists,
     targetAsset,
-    solPK,
+    walletAddress,
     base58TargetAddress,
     solanaWallet,
     enqueueSnackbar,
@@ -295,7 +299,7 @@ export function SolanaCreateAssociatedAddressAlternate() {
               size="small"
               variant="outlined"
               onClick={handleForceCreateClick}
-              disabled={!targetAsset || !base58TargetAddress || !solPK}
+              disabled={!targetAsset || !base58TargetAddress || !walletAddress}
             >
               Force Create Account
             </Button>

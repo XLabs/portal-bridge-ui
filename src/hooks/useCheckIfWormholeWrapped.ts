@@ -27,8 +27,6 @@ import { LCDClient } from "@terra-money/terra.js";
 import { Algodv2 } from "algosdk";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useEthereumProvider } from "../contexts/EthereumProviderContext";
-import { useNearContext } from "../contexts/NearWalletContext";
 import { setSourceWormholeWrappedInfo as setNFTSourceWormholeWrappedInfo } from "../store/nftSlice";
 import {
   selectNFTIsRecovery,
@@ -57,6 +55,8 @@ import { getOriginalAssetNear, makeNearAccount } from "../utils/near";
 import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
 import { getAptosClient } from "../utils/aptos";
 import { getInjectiveWasmClient } from "../utils/injective";
+import { useWallet } from "../contexts/WalletContext";
+import { EVMWallet } from "@xlabs-libs/wallet-aggregator-evm";
 
 export interface StateSafeWormholeWrappedInfo {
   isWrapped: boolean;
@@ -91,8 +91,9 @@ function useCheckIfWormholeWrapped(nft?: boolean) {
   const setSourceWormholeWrappedInfo = nft
     ? setNFTSourceWormholeWrappedInfo
     : setTransferSourceWormholeWrappedInfo;
-  const { provider } = useEthereumProvider(sourceChain);
-  const { accountId: nearAccountId } = useNearContext();
+
+  const { wallet, address } = useWallet(sourceChain);
+
   const isRecovery = useSelector(
     nft ? selectNFTIsRecovery : selectTransferIsRecovery
   );
@@ -103,7 +104,8 @@ function useCheckIfWormholeWrapped(nft?: boolean) {
     // TODO: loading state, error state
     let cancelled = false;
     (async () => {
-      if (isEVMChain(sourceChain) && provider && sourceAsset) {
+      if (isEVMChain(sourceChain) && wallet && sourceAsset) {
+        const provider = (wallet as EVMWallet).getProvider()!;
         const wrappedInfo = makeStateSafe(
           await (nft
             ? getOriginalAssetEthNFT(
@@ -220,11 +222,11 @@ function useCheckIfWormholeWrapped(nft?: boolean) {
       }
       if (
         sourceChain === CHAIN_ID_NEAR &&
-        nearAccountId &&
+        address &&
         sourceAsset !== undefined
       ) {
         try {
-          const account = await makeNearAccount(nearAccountId);
+          const account = await makeNearAccount(address);
           const wrappedInfo = makeStateSafe(
             await getOriginalAssetNear(
               account,
@@ -257,12 +259,12 @@ function useCheckIfWormholeWrapped(nft?: boolean) {
     isRecovery,
     sourceChain,
     sourceAsset,
-    provider,
     nft,
     setSourceWormholeWrappedInfo,
     tokenId,
-    nearAccountId,
     aptosTokenId,
+    wallet,
+    address,
   ]);
 }
 

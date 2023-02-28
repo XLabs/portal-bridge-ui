@@ -40,11 +40,6 @@ import { Signer } from "ethers";
 import { useSnackbar } from "notistack";
 import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useAlgorandWallet } from "../contexts/AlgorandWalletContext";
-import { useAptosContext } from "../contexts/AptosWalletContext";
-import { useEthereumProvider } from "../contexts/EthereumProviderContext";
-import { useNearContext } from "../contexts/NearWalletContext";
-import { useSolanaWallet } from "../contexts/SolanaWalletContext";
 import {
   setAttestTx,
   setIsSending,
@@ -91,17 +86,16 @@ import parseError from "../utils/parseError";
 import { signSendAndConfirm } from "../utils/solana";
 import { postWithFees, waitForTerraExecution } from "../utils/terra";
 import { postWithFeesXpla, waitForXplaExecution } from "../utils/xpla";
-import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 import { broadcastInjectiveTx } from "../utils/injective";
 import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
 import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 import { AptosWallet } from "@xlabs-libs/wallet-aggregator-aptos";
 import { InjectiveWallet } from "@xlabs-libs/wallet-aggregator-injective";
 import { NearWallet } from "@xlabs-libs/wallet-aggregator-near";
-import { useTerraWallet } from "../contexts/TerraWalletContext";
 import { TerraWallet } from "@xlabs-libs/wallet-aggregator-terra";
 import { XplaWallet } from "@xlabs-libs/wallet-aggregator-xpla";
-import { useXplaWallet } from "../contexts/XplaWalletContext";
+import { useWallet } from "../contexts/WalletContext";
+import { EVMWallet } from "@xlabs-libs/wallet-aggregator-evm";
 
 async function algo(
   dispatch: any,
@@ -526,68 +520,68 @@ export function useHandleAttest() {
   const isTargetComplete = useSelector(selectAttestIsTargetComplete);
   const isSending = useSelector(selectAttestIsSending);
   const isSendComplete = useSelector(selectAttestIsSendComplete);
-  const { signer } = useEthereumProvider(sourceChain);
-  const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
-  const { walletAddress: terraAddress, wallet: terraWallet } =
-    useTerraWallet(sourceChain);
+
+  const { address: walletAddress, wallet } = useWallet(sourceChain);
+  const signer = isEVMChain(sourceChain)
+    ? (wallet as EVMWallet)?.getSigner()
+    : undefined;
+
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
-  const xplaWallet = useXplaWallet();
-  const { address: algoAccount, wallet: algoWallet } = useAlgorandWallet();
-  const { account: aptosAddress, wallet: aptosWallet } = useAptosContext();
-  const { accountId: nearAccountId, wallet } = useNearContext();
-  const { wallet: injWallet, address: injAddress } = useInjectiveContext();
   const disabled = !isTargetComplete || isSending || isSendComplete;
   const handleAttestClick = useCallback(() => {
+    if (!wallet || !walletAddress) return;
+
     if (isEVMChain(sourceChain) && !!signer) {
       evm(dispatch, enqueueSnackbar, signer, sourceAsset, sourceChain);
-    } else if (sourceChain === CHAIN_ID_SOLANA && !!solanaWallet && !!solPK) {
+    } else if (sourceChain === CHAIN_ID_SOLANA && !!walletAddress) {
       solana(
         dispatch,
         enqueueSnackbar,
-        new PublicKey(solPK),
+        new PublicKey(walletAddress),
         sourceAsset,
-        solanaWallet
+        wallet as SolanaWallet
       );
-    } else if (isTerraChain(sourceChain) && !!terraAddress && terraWallet) {
+    } else if (isTerraChain(sourceChain)) {
       terra(
         dispatch,
         enqueueSnackbar,
-        terraWallet,
+        wallet as TerraWallet,
         sourceAsset,
         terraFeeDenom,
         sourceChain
       );
-    } else if (sourceChain === CHAIN_ID_XPLA && !!xplaWallet) {
-      xpla(dispatch, enqueueSnackbar, xplaWallet, sourceAsset);
-    } else if (sourceChain === CHAIN_ID_ALGORAND && algoAccount) {
-      algo(dispatch, enqueueSnackbar, algoWallet, sourceAsset);
-    } else if (sourceChain === CHAIN_ID_APTOS && aptosAddress) {
-      aptos(dispatch, enqueueSnackbar, sourceAsset, aptosWallet!);
-    } else if (sourceChain === CHAIN_ID_NEAR && nearAccountId && wallet) {
-      near(dispatch, enqueueSnackbar, nearAccountId, sourceAsset, wallet);
-    } else if (sourceChain === CHAIN_ID_INJECTIVE && injWallet && injAddress) {
-      injective(dispatch, enqueueSnackbar, injWallet, injAddress, sourceAsset);
+    } else if (sourceChain === CHAIN_ID_XPLA) {
+      xpla(dispatch, enqueueSnackbar, wallet as XplaWallet, sourceAsset);
+    } else if (sourceChain === CHAIN_ID_ALGORAND) {
+      algo(dispatch, enqueueSnackbar, wallet as AlgorandWallet, sourceAsset);
+    } else if (sourceChain === CHAIN_ID_APTOS) {
+      aptos(dispatch, enqueueSnackbar, sourceAsset, wallet as AptosWallet);
+    } else if (sourceChain === CHAIN_ID_NEAR && wallet) {
+      near(
+        dispatch,
+        enqueueSnackbar,
+        walletAddress,
+        sourceAsset,
+        wallet as NearWallet
+      );
+    } else if (sourceChain === CHAIN_ID_INJECTIVE) {
+      injective(
+        dispatch,
+        enqueueSnackbar,
+        wallet as InjectiveWallet,
+        walletAddress,
+        sourceAsset
+      );
     }
   }, [
     dispatch,
     enqueueSnackbar,
     sourceChain,
     signer,
-    solanaWallet,
-    solPK,
-    terraWallet,
     sourceAsset,
     terraFeeDenom,
-    algoAccount,
-    algoWallet,
-    nearAccountId,
     wallet,
-    xplaWallet,
-    aptosAddress,
-    aptosWallet,
-    injWallet,
-    injAddress,
-    terraAddress,
+    walletAddress,
   ]);
   return useMemo(
     () => ({

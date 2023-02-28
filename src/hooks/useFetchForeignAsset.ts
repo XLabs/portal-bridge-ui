@@ -24,7 +24,6 @@ import { Connection } from "@solana/web3.js";
 import { LCDClient } from "@terra-money/terra.js";
 import { ethers } from "ethers";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useEthereumProvider } from "../contexts/EthereumProviderContext";
 import { DataWrapper } from "../store/helpers";
 import {
   ALGORAND_HOST,
@@ -46,10 +45,11 @@ import {
   getForeignAssetNear,
   makeNearAccount,
 } from "../utils/near";
-import { useNearContext } from "../contexts/NearWalletContext";
 import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
 import { getAptosClient } from "../utils/aptos";
 import { getInjectiveWasmClient } from "../utils/injective";
+import { useWallet } from "../contexts/WalletContext";
+import { EVMWallet } from "@xlabs-libs/wallet-aggregator-evm";
 
 export type ForeignAssetInfo = {
   doesExist: boolean;
@@ -61,11 +61,14 @@ function useFetchForeignAsset(
   originAsset: string,
   foreignChain: ChainId
 ): DataWrapper<ForeignAssetInfo> {
-  const { provider, evmChainId } = useEthereumProvider(originChain);
+  const { wallet, network, address } = useWallet(originChain);
   const { isReady } = useIsWalletReady(foreignChain, false);
-  const correctEvmNetwork = getEvmChainId(foreignChain);
-  const hasCorrectEvmNetwork = evmChainId === correctEvmNetwork;
-  const { accountId: nearAccountId } = useNearContext();
+
+  let hasCorrectNetwork = true;
+  if (isEVMChain(originChain)) {
+    const correctEvmNetwork = getEvmChainId(foreignChain);
+    hasCorrectNetwork = network?.chainId === correctEvmNetwork;
+  }
 
   const [assetAddress, setAssetAddress] = useState<string | null>(null);
   const [doesExist, setDoesExist] = useState<boolean | null>(null);
@@ -109,14 +112,14 @@ function useFetchForeignAsset(
       !originAssetHex ||
       foreignChain === originChain ||
       (isEVMChain(foreignChain) && !isReady) ||
-      (isEVMChain(foreignChain) && !hasCorrectEvmNetwork) ||
+      (isEVMChain(foreignChain) && !hasCorrectNetwork) ||
       argsEqual,
     [
       isReady,
       foreignChain,
       originAsset,
       originChain,
-      hasCorrectEvmNetwork,
+      hasCorrectNetwork,
       originAssetHex,
       argsEqual,
     ]
@@ -142,7 +145,7 @@ function useFetchForeignAsset(
         ? () =>
             getForeignAssetEth(
               getTokenBridgeAddressForChain(foreignChain),
-              provider as any, //why does this typecheck work elsewhere?
+              (wallet as EVMWallet).getProvider()! as any, //why does this typecheck work elsewhere?
               originChain,
               hexToUint8Array(originAssetHex)
             )
@@ -199,9 +202,9 @@ function useFetchForeignAsset(
               originAssetHex
             );
           }
-        : foreignChain === CHAIN_ID_NEAR && nearAccountId
+        : foreignChain === CHAIN_ID_NEAR && address
         ? () => {
-            return makeNearAccount(nearAccountId)
+            return makeNearAccount(address)
               .then((account) =>
                 getForeignAssetNear(
                   account,
@@ -264,10 +267,10 @@ function useFetchForeignAsset(
     foreignChain,
     originAssetHex,
     originChain,
-    provider,
+    wallet,
     setArgs,
     argsEqual,
-    nearAccountId,
+    address,
   ]);
 
   const compoundError = useMemo(() => {

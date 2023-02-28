@@ -33,11 +33,7 @@ import { LCDClient } from "@terra-money/terra.js";
 import { Algodv2 } from "algosdk";
 import { ethers } from "ethers";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import {
-  Provider,
-  useEthereumProvider,
-} from "../contexts/EthereumProviderContext";
-import { useNearContext } from "../contexts/NearWalletContext";
+import { Provider } from "../utils/ethereum";
 import { DataWrapper } from "../store/helpers";
 import {
   ALGORAND_HOST,
@@ -63,6 +59,8 @@ import useIsWalletReady from "./useIsWalletReady";
 import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
 import { getAptosClient } from "../utils/aptos";
 import { getInjectiveWasmClient } from "../utils/injective";
+import { useWallet } from "../contexts/WalletContext";
+import { EVMWallet } from "@xlabs-libs/wallet-aggregator-evm";
 
 export type OriginalAssetInfo = {
   originChain: ChainId | null;
@@ -219,8 +217,11 @@ function useOriginalAsset(
   nft: boolean,
   tokenId?: string
 ): DataWrapper<OriginalAssetInfo> {
-  const { provider } = useEthereumProvider(foreignChain);
-  const { accountId: nearAccountId } = useNearContext();
+  const { address: walletAddress, wallet } = useWallet(foreignChain);
+  const provider = isEVMChain(foreignChain)
+    ? (wallet as EVMWallet)?.getProvider()
+    : undefined;
+
   const { isReady } = useIsWalletReady(foreignChain, false);
   const [originAddress, setOriginAddress] = useState<string | null>(null);
   const [originTokenId, setOriginTokenId] = useState<string | null>(null);
@@ -283,7 +284,7 @@ function useOriginalAsset(
       nft,
       tokenId,
       provider,
-      nearAccountId
+      walletAddress
     )
       .then((result) => {
         if (!cancelled) {
@@ -310,8 +311,8 @@ function useOriginalAsset(
               uint8ArrayToHex(result.assetAddress) === NATIVE_NEAR_WH_ADDRESS
             ) {
               setOriginAddress(NATIVE_NEAR_PLACEHOLDER);
-            } else if (nearAccountId) {
-              makeNearAccount(nearAccountId).then((account) => {
+            } else if (walletAddress) {
+              makeNearAccount(walletAddress).then((account) => {
                 lookupHash(
                   account,
                   NEAR_TOKEN_BRIDGE_ACCOUNT,
@@ -366,7 +367,7 @@ function useOriginalAsset(
     argumentError,
     tokenId,
     argsEqual,
-    nearAccountId,
+    walletAddress,
   ]);
 
   const output: DataWrapper<OriginalAssetInfo> = useMemo(

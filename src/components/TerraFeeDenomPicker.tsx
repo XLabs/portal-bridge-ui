@@ -12,7 +12,7 @@ import { selectTerraFeeDenom } from "../store/selectors";
 import useTerraNativeBalances from "../hooks/useTerraNativeBalances";
 import { formatNativeDenom, getNativeTerraIcon } from "../utils/terra";
 import { TerraChainId } from "@certusone/wormhole-sdk";
-import { useTerraWallet } from "../contexts/TerraWalletContext";
+import { useWallet } from "../contexts/WalletContext";
 
 const useStyles = makeStyles((theme) => ({
   feePickerContainer: {
@@ -44,7 +44,7 @@ type TerraFeeDenomPickerProps = {
 
 export default function TerraFeeDenomPicker(props: TerraFeeDenomPickerProps) {
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
-  const { walletAddress } = useTerraWallet(props.chainId);
+  const { address: walletAddress } = useWallet(props.chainId);
   const { balances } = useTerraNativeBalances(props.chainId, walletAddress);
   const dispatch = useDispatch();
   const classes = useStyles();

@@ -9,6 +9,7 @@ import {
   CHAIN_ID_OASIS,
   CHAIN_ID_POLYGON,
   ethers_contracts,
+  isEVMChain,
 } from "@certusone/wormhole-sdk";
 import {
   Container,
@@ -19,10 +20,11 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
+import { EVMWallet } from "@xlabs-libs/wallet-aggregator-evm";
 import { ethers } from "ethers";
 import { formatUnits } from "ethers/lib/utils";
 import { useCallback, useEffect, useState } from "react";
-import { useEthereumProvider } from "../contexts/EthereumProviderContext";
+import { useWallet } from "../contexts/WalletContext";
 import useIsWalletReady from "../hooks/useIsWalletReady";
 import avaxIcon from "../icons/avax.svg";
 import bnbIcon from "../icons/bnb.svg";
@@ -174,7 +176,11 @@ function UnwrapNative() {
   const [unwrapRequest, setUnwrapRequest] = useState<DataWrapper<boolean>>(
     getEmptyDataWrapper()
   );
-  const { signer } = useEthereumProvider(selectedChainId);
+  // const { signer } = useEthereumProvider(selectedChainId);
+  const { wallet } = useWallet(selectedChainId);
+  const signer = isEVMChain(selectedChainId)
+    ? (wallet as EVMWallet)?.getSigner()
+    : undefined;
   const { isReady, statusMessage } = useIsWalletReady(selectedChainId);
   const handleSelect = useCallback((event) => {
     setSelectedChainId(parseInt(event.target.value) as SupportedChain);

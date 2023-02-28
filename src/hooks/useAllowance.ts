@@ -5,10 +5,11 @@ import {
   getAllowanceEth,
   isEVMChain,
 } from "@certusone/wormhole-sdk";
+import { EVMWallet } from "@xlabs-libs/wallet-aggregator-evm";
 import { BigNumber } from "ethers";
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useEthereumProvider } from "../contexts/EthereumProviderContext";
+import { useWallet } from "../contexts/WalletContext";
 import { selectTransferIsApproving } from "../store/selectors";
 import { setIsApproving } from "../store/transferSlice";
 import { getTokenBridgeAddressForChain } from "../utils/consts";
@@ -23,7 +24,7 @@ export default function useAllowance(
   const [allowance, setAllowance] = useState<BigInt | null>(null);
   const [isAllowanceFetching, setIsAllowanceFetching] = useState(false);
   const isApproveProcessing = useSelector(selectTransferIsApproving);
-  const { signer } = useEthereumProvider(chainId);
+  const { wallet } = useWallet<EVMWallet>(chainId);
   const sufficientAllowance =
     !isEVMChain(chainId) ||
     sourceIsNative ||
@@ -31,12 +32,12 @@ export default function useAllowance(
 
   useEffect(() => {
     let cancelled = false;
-    if (isEVMChain(chainId) && tokenAddress && signer && !isApproveProcessing) {
+    if (isEVMChain(chainId) && tokenAddress && wallet && !isApproveProcessing) {
       setIsAllowanceFetching(true);
       getAllowanceEth(
         getTokenBridgeAddressForChain(chainId),
         tokenAddress,
-        signer
+        wallet.getSigner()!
       ).then(
         (result) => {
           if (!cancelled) {
@@ -56,15 +57,16 @@ export default function useAllowance(
     return () => {
       cancelled = true;
     };
-  }, [chainId, tokenAddress, signer, isApproveProcessing]);
+  }, [chainId, tokenAddress, wallet, isApproveProcessing]);
 
   const approveAmount: (amount: BigInt) => Promise<any> = useMemo(() => {
-    return !isEVMChain(chainId) || !tokenAddress || !signer
+    return !isEVMChain(chainId) || !tokenAddress || !wallet
       ? (amount: BigInt) => {
           return Promise.resolve();
         }
       : (amount: BigInt) => {
           dispatch(setIsApproving(true));
+          const signer = wallet.getSigner()!;
           // Klaytn requires specifying gasPrice
           const gasPricePromise =
             chainId === CHAIN_ID_KLAYTN
@@ -94,7 +96,7 @@ export default function useAllowance(
             }
           );
         };
-  }, [chainId, tokenAddress, signer, dispatch]);
+  }, [chainId, tokenAddress, wallet, dispatch]);
 
   return useMemo(
     () => ({

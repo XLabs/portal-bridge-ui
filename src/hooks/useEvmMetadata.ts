@@ -1,10 +1,9 @@
-import { ChainId, isEVMChain } from "@certusone/wormhole-sdk";
+import { ChainId, CHAIN_ID_ETH, isEVMChain } from "@certusone/wormhole-sdk";
+import { EVMWallet } from "@xlabs-libs/wallet-aggregator-evm";
 import { ethers } from "ethers";
 import { useEffect, useMemo, useState } from "react";
-import {
-  Provider,
-  useEthereumProvider,
-} from "../contexts/EthereumProviderContext";
+import { Provider } from "../utils/ethereum";
+import { useWallet } from "../contexts/WalletContext";
 import { DataWrapper } from "../store/helpers";
 import useIsWalletReady from "./useIsWalletReady";
 
@@ -57,7 +56,8 @@ function useEvmMetadata(
   chainId: ChainId
 ): DataWrapper<Map<string, EvmMetadata>> {
   const { isReady } = useIsWalletReady(chainId, false);
-  const { provider } = useEthereumProvider(chainId);
+  const { wallet } = useWallet<EVMWallet>(CHAIN_ID_ETH);
+  const provider = wallet?.getProvider();
 
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState("");

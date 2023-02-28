@@ -19,9 +19,6 @@ import { LCDClient } from "@terra-money/terra.js";
 import { formatUnits } from "ethers/lib/utils";
 import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useAlgorandWallet } from "../contexts/AlgorandWalletContext";
-import { useEthereumProvider } from "../contexts/EthereumProviderContext";
-import { useSolanaWallet } from "../contexts/SolanaWalletContext";
 import {
   selectTransferTargetAsset,
   selectTransferTargetChain,
@@ -40,21 +37,18 @@ import { NATIVE_TERRA_DECIMALS } from "../utils/terra";
 import { createParsedTokenAccount } from "./useGetSourceParsedTokenAccounts";
 import useMetadata from "./useMetadata";
 import { Algodv2 } from "algosdk";
-import { useNearContext } from "../contexts/NearWalletContext";
 import { makeNearAccount } from "../utils/near";
 import { fetchSingleMetadata } from "./useNearMetadata";
-import { useXplaWallet } from "../contexts/XplaWalletContext";
 import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
 import { NATIVE_XPLA_DECIMALS } from "../utils/xpla";
-import { useAptosContext } from "../contexts/AptosWalletContext";
 import { getAptosClient } from "../utils/aptos";
 import {
   getInjectiveBankClient,
   NATIVE_INJECTIVE_DECIMALS,
   getInjectiveWasmClient,
 } from "../utils/injective";
-import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
-import { useTerraWallet } from "../contexts/TerraWalletContext";
+import { useWallet } from "../contexts/WalletContext";
+import { EVMWallet } from "@xlabs-libs/wallet-aggregator-evm";
 
 function useGetTargetParsedTokenAccounts() {
   const dispatch = useDispatch();
@@ -73,16 +67,13 @@ function useGetTargetParsedTokenAccounts() {
     (targetAsset && metadata.data?.get(targetAsset)?.logo) || undefined;
   const decimals =
     (targetAsset && metadata.data?.get(targetAsset)?.decimals) || undefined;
-  const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
-  const terraWallet = useTerraWallet(targetChain);
-  const { provider, signerAddress, evmChainId } =
-    useEthereumProvider(targetChain);
-  const hasCorrectEvmNetwork = evmChainId === getEvmChainId(targetChain);
-  const xplaWallet = useXplaWallet();
-  const { address: algoAccount } = useAlgorandWallet();
-  const { accountId: nearAccountId } = useNearContext();
-  const { account: aptosAddress } = useAptosContext();
-  const { address: injAddress } = useInjectiveContext();
+
+  const { address: walletAddress, network, wallet } = useWallet(targetChain);
+  const hasCorrectEvmNetwork = network?.chainId === getEvmChainId(targetChain);
+  const provider = isEVMChain(targetChain)
+    ? (wallet as EVMWallet)?.getProvider()
+    : undefined;
+
   const hasResolvedMetadata = metadata.data || metadata.error;
   useEffect(() => {
     // targetParsedTokenAccount is cleared on setTargetAsset, but we need to clear it on wallet changes too
@@ -92,11 +83,11 @@ function useGetTargetParsedTokenAccounts() {
     }
     let cancelled = false;
 
-    if (isTerraChain(targetChain) && terraWallet.walletAddress) {
+    if (isTerraChain(targetChain) && walletAddress) {
       const lcd = new LCDClient(getTerraConfig(targetChain));
       if (terra.isNativeDenom(targetAsset)) {
         lcd.bank
-          .balance(terraWallet.walletAddress)
+          .balance(walletAddress)
           .then(([coins]) => {
             const balance = coins.get(targetAsset)?.amount?.toString();
             if (balance && !cancelled) {
@@ -131,7 +122,7 @@ function useGetTargetParsedTokenAccounts() {
             lcd.wasm
               .contractQuery(targetAsset, {
                 balance: {
-                  address: terraWallet.walletAddress,
+                  address: walletAddress,
                 },
               })
               .then((balance: any) => {
@@ -161,11 +152,11 @@ function useGetTargetParsedTokenAccounts() {
           });
       }
     }
-    if (targetChain === CHAIN_ID_XPLA && xplaWallet) {
+    if (targetChain === CHAIN_ID_XPLA && walletAddress) {
       const lcd = new XplaLCDClient(XPLA_LCD_CLIENT_CONFIG);
       if (isNativeDenomXpla(targetAsset)) {
         lcd.bank
-          .balance(xplaWallet.getAddress()!)
+          .balance(walletAddress)
           .then(([coins]) => {
             const balance = coins.get(targetAsset)?.amount?.toString();
             if (balance && !cancelled) {
@@ -200,7 +191,7 @@ function useGetTargetParsedTokenAccounts() {
             lcd.wasm
               .contractQuery(targetAsset, {
                 balance: {
-                  address: xplaWallet.getAddress(),
+                  address: walletAddress,
                 },
               })
               .then((balance: any) => {
@@ -232,7 +223,7 @@ function useGetTargetParsedTokenAccounts() {
     }
     if (
       targetChain === CHAIN_ID_APTOS &&
-      aptosAddress &&
+      walletAddress &&
       decimals !== undefined
     ) {
       (async () => {
@@ -245,7 +236,7 @@ function useGetTargetParsedTokenAccounts() {
               targetAsset
             )}>`;
             value = (
-              (await client.getAccountResource(aptosAddress, coinStore))
+              (await client.getAccountResource(walletAddress, coinStore))
                 .data as any
             ).coin.value;
           } catch (e) {}
@@ -274,7 +265,7 @@ function useGetTargetParsedTokenAccounts() {
         }
       })();
     }
-    if (targetChain === CHAIN_ID_SOLANA && solPK) {
+    if (targetChain === CHAIN_ID_SOLANA && walletAddress) {
       let mint;
       try {
         mint = new PublicKey(targetAsset);
@@ -283,7 +274,7 @@ function useGetTargetParsedTokenAccounts() {
       }
       const connection = new Connection(SOLANA_HOST, "confirmed");
       connection
-        .getParsedTokenAccountsByOwner(new PublicKey(solPK), { mint })
+        .getParsedTokenAccountsByOwner(new PublicKey(walletAddress), { mint })
         .then(({ value }) => {
           if (!cancelled) {
             if (value.length) {
@@ -317,7 +308,7 @@ function useGetTargetParsedTokenAccounts() {
     if (
       isEVMChain(targetChain) &&
       provider &&
-      signerAddress &&
+      walletAddress &&
       hasCorrectEvmNetwork
     ) {
       const token = ethers_contracts.TokenImplementation__factory.connect(
@@ -327,13 +318,13 @@ function useGetTargetParsedTokenAccounts() {
       token
         .decimals()
         .then((decimals) => {
-          token.balanceOf(signerAddress).then((n) => {
+          token.balanceOf(walletAddress).then((n) => {
             if (!cancelled) {
               dispatch(
                 setTargetParsedTokenAccount(
                   // TODO: verify accuracy
                   createParsedTokenAccount(
-                    signerAddress,
+                    walletAddress,
                     token.address,
                     n.toString(),
                     decimals,
@@ -356,7 +347,7 @@ function useGetTargetParsedTokenAccounts() {
     }
     if (
       targetChain === CHAIN_ID_ALGORAND &&
-      algoAccount &&
+      walletAddress &&
       decimals !== undefined
     ) {
       const algodClient = new Algodv2(
@@ -367,7 +358,7 @@ function useGetTargetParsedTokenAccounts() {
       try {
         const tokenId = BigInt(targetAsset);
         algodClient
-          .accountInformation(algoAccount)
+          .accountInformation(walletAddress)
           .do()
           .then((accountInfo) => {
             let balance = 0;
@@ -387,7 +378,7 @@ function useGetTargetParsedTokenAccounts() {
             dispatch(
               setTargetParsedTokenAccount(
                 createParsedTokenAccount(
-                  algoAccount,
+                  walletAddress,
                   targetAsset,
                   balance.toString(),
                   decimals,
@@ -411,9 +402,9 @@ function useGetTargetParsedTokenAccounts() {
         }
       }
     }
-    if (targetChain === CHAIN_ID_NEAR && nearAccountId) {
+    if (targetChain === CHAIN_ID_NEAR && walletAddress) {
       try {
-        makeNearAccount(nearAccountId)
+        makeNearAccount(walletAddress)
           .then((account) => {
             if (targetAsset === NATIVE_NEAR_PLACEHOLDER) {
               account
@@ -423,7 +414,7 @@ function useGetTargetParsedTokenAccounts() {
                     dispatch(
                       setTargetParsedTokenAccount(
                         createParsedTokenAccount(
-                          nearAccountId, //publicKey
+                          walletAddress, //publicKey
                           NATIVE_NEAR_PLACEHOLDER, //the app doesn't like when this isn't truthy
                           balance.available, //amount
                           NATIVE_NEAR_DECIMALS,
@@ -453,14 +444,14 @@ function useGetTargetParsedTokenAccounts() {
                 .then(({ decimals }) => {
                   account
                     .viewFunction(targetAsset, "ft_balance_of", {
-                      account_id: nearAccountId,
+                      account_id: walletAddress,
                     })
                     .then((balance) => {
                       if (!cancelled) {
                         dispatch(
                           setTargetParsedTokenAccount(
                             createParsedTokenAccount(
-                              nearAccountId,
+                              walletAddress,
                               targetAsset,
                               balance.toString(),
                               decimals,
@@ -498,11 +489,11 @@ function useGetTargetParsedTokenAccounts() {
         }
       }
     }
-    if (targetChain === CHAIN_ID_INJECTIVE && injAddress) {
+    if (targetChain === CHAIN_ID_INJECTIVE && walletAddress) {
       if (isNativeDenomInjective(targetAsset)) {
         const client = getInjectiveBankClient();
         client
-          .fetchBalance({ accountAddress: injAddress, denom: targetAsset })
+          .fetchBalance({ accountAddress: walletAddress, denom: targetAsset })
           .then(({ amount }) => {
             if (!cancelled) {
               dispatch(
@@ -545,7 +536,7 @@ function useGetTargetParsedTokenAccounts() {
                 Buffer.from(
                   JSON.stringify({
                     balance: {
-                      address: injAddress,
+                      address: walletAddress,
                     },
                   })
                 ).toString("base64")
@@ -588,21 +579,13 @@ function useGetTargetParsedTokenAccounts() {
     targetAsset,
     targetChain,
     provider,
-    signerAddress,
-    solanaWallet,
-    solPK,
-    terraWallet,
+    walletAddress,
     hasCorrectEvmNetwork,
     hasResolvedMetadata,
     symbol,
     tokenName,
     logo,
-    algoAccount,
     decimals,
-    nearAccountId,
-    xplaWallet,
-    aptosAddress,
-    injAddress,
   ]);
 }
 

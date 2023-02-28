@@ -34,11 +34,6 @@ import { Signer } from "ethers";
 import { useSnackbar } from "notistack";
 import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useAlgorandWallet } from "../contexts/AlgorandWalletContext";
-import { useAptosContext } from "../contexts/AptosWalletContext";
-import { useEthereumProvider } from "../contexts/EthereumProviderContext";
-import { useNearContext } from "../contexts/NearWalletContext";
-import { useSolanaWallet } from "../contexts/SolanaWalletContext";
 import { setCreateTx, setIsCreating } from "../store/attestSlice";
 import {
   selectAttestIsCreating,
@@ -72,16 +67,15 @@ import { signSendAndConfirm } from "../utils/solana";
 import { postWithFees } from "../utils/terra";
 import useAttestSignedVAA from "./useAttestSignedVAA";
 import { broadcastInjectiveTx } from "../utils/injective";
-import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
 import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 import { AptosWallet } from "@xlabs-libs/wallet-aggregator-aptos";
 import { InjectiveWallet } from "@xlabs-libs/wallet-aggregator-injective";
 import { NearWallet } from "@xlabs-libs/wallet-aggregator-near";
-import { useTerraWallet } from "../contexts/TerraWalletContext";
 import { TerraWallet } from "@xlabs-libs/wallet-aggregator-terra";
 import { XplaWallet } from "@xlabs-libs/wallet-aggregator-xpla";
-import { useXplaWallet } from "../contexts/XplaWalletContext";
+import { EVMWallet } from "@xlabs-libs/wallet-aggregator-evm";
+import { useWallet } from "../contexts/WalletContext";
 
 async function algo(
   dispatch: any,
@@ -425,19 +419,19 @@ export function useHandleCreateWrapped(shouldUpdate: boolean) {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const targetChain = useSelector(selectAttestTargetChain);
-  const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
   const signedVAA = useAttestSignedVAA();
   const isCreating = useSelector(selectAttestIsCreating);
-  const { signer } = useEthereumProvider(targetChain);
-  const terraWallet = useTerraWallet(targetChain);
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
-  const xplaWallet = useXplaWallet();
-  const { address: algoAccount, wallet: algoWallet } = useAlgorandWallet();
-  const { account: aptosAddress, wallet: aptosWallet } = useAptosContext();
-  const { wallet: injWallet, address: injAddress } = useInjectiveContext();
-  const { accountId: nearAccountId, wallet } = useNearContext();
+
+  const { address: walletAddress, wallet } = useWallet(targetChain);
+  const signer = isEVMChain(targetChain)
+    ? (wallet as EVMWallet)?.getSigner()
+    : undefined;
+
   const handleCreateClick = useCallback(() => {
-    if (isEVMChain(targetChain) && !!signer && !!signedVAA) {
+    if (!wallet || !walletAddress || !signedVAA) return;
+
+    if (isEVMChain(targetChain) && !!signer) {
       evm(
         dispatch,
         enqueueSnackbar,
@@ -446,74 +440,58 @@ export function useHandleCreateWrapped(shouldUpdate: boolean) {
         targetChain,
         shouldUpdate
       );
-    } else if (
-      targetChain === CHAIN_ID_SOLANA &&
-      !!solanaWallet &&
-      !!solPK &&
-      !!signedVAA
-    ) {
+    } else if (targetChain === CHAIN_ID_SOLANA) {
       solana(
         dispatch,
         enqueueSnackbar,
-        solanaWallet,
-        solPK,
+        wallet as SolanaWallet,
+        walletAddress,
         signedVAA,
         shouldUpdate
       );
-    } else if (
-      isTerraChain(targetChain) &&
-      !!terraWallet.walletAddress &&
-      !!terraWallet.wallet &&
-      !!signedVAA
-    ) {
+    } else if (isTerraChain(targetChain)) {
       terra(
         dispatch,
         enqueueSnackbar,
-        terraWallet.wallet,
+        wallet as TerraWallet,
         signedVAA,
         shouldUpdate,
         terraFeeDenom,
         targetChain
       );
-    } else if (targetChain === CHAIN_ID_XPLA && !!xplaWallet && !!signedVAA) {
-      xpla(dispatch, enqueueSnackbar, xplaWallet, signedVAA, shouldUpdate);
-    } else if (
-      targetChain === CHAIN_ID_APTOS &&
-      !!aptosAddress &&
-      !!signedVAA
-    ) {
+    } else if (targetChain === CHAIN_ID_XPLA) {
+      xpla(
+        dispatch,
+        enqueueSnackbar,
+        wallet as XplaWallet,
+        signedVAA,
+        shouldUpdate
+      );
+    } else if (targetChain === CHAIN_ID_APTOS) {
       aptos(
         dispatch,
         enqueueSnackbar,
-        aptosAddress,
+        walletAddress,
         signedVAA,
         shouldUpdate,
-        aptosWallet!
+        wallet as AptosWallet
       );
-    } else if (
-      targetChain === CHAIN_ID_ALGORAND &&
-      algoAccount &&
-      !!signedVAA
-    ) {
-      algo(dispatch, enqueueSnackbar, algoWallet, signedVAA);
-    } else if (
-      targetChain === CHAIN_ID_NEAR &&
-      nearAccountId &&
-      wallet &&
-      !!signedVAA
-    ) {
-      near(dispatch, enqueueSnackbar, nearAccountId, signedVAA, wallet);
-    } else if (
-      targetChain === CHAIN_ID_INJECTIVE &&
-      injWallet &&
-      injAddress &&
-      !!signedVAA
-    ) {
+    } else if (targetChain === CHAIN_ID_ALGORAND) {
+      algo(dispatch, enqueueSnackbar, wallet as AlgorandWallet, signedVAA);
+    } else if (targetChain === CHAIN_ID_NEAR) {
+      near(
+        dispatch,
+        enqueueSnackbar,
+        walletAddress,
+        signedVAA,
+        wallet as NearWallet
+      );
+    } else if (targetChain === CHAIN_ID_INJECTIVE) {
       injective(
         dispatch,
         enqueueSnackbar,
-        injWallet,
-        injAddress,
+        wallet as InjectiveWallet,
+        walletAddress,
         signedVAA,
         shouldUpdate
       );
@@ -529,22 +507,12 @@ export function useHandleCreateWrapped(shouldUpdate: boolean) {
     dispatch,
     enqueueSnackbar,
     targetChain,
-    solanaWallet,
-    solPK,
-    terraWallet,
     signedVAA,
     signer,
     shouldUpdate,
     terraFeeDenom,
-    algoAccount,
-    algoWallet,
-    nearAccountId,
     wallet,
-    xplaWallet,
-    aptosAddress,
-    aptosWallet,
-    injWallet,
-    injAddress,
+    walletAddress,
   ]);
   return useMemo(
     () => ({

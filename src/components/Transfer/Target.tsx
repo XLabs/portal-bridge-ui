@@ -8,7 +8,7 @@ import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk/lib/esm";
 import { makeStyles, Typography } from "@material-ui/core";
 import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNearContext } from "../../contexts/NearWalletContext";
+import { useWallet } from "../../contexts/WalletContext";
 import useGetTargetParsedTokenAccounts from "../../hooks/useGetTargetParsedTokenAccounts";
 import useIsWalletReady from "../../hooks/useIsWalletReady";
 import useSyncTargetAddress from "../../hooks/useSyncTargetAddress";
@@ -52,24 +52,24 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const useTargetInfo = () => {
-  const { accountId: nearAccountId } = useNearContext();
-
   const targetChain = useSelector(selectTransferTargetChain);
   const targetAddressHex = useSelector(selectTransferTargetAddressHex);
   const targetAsset = useSelector(selectTransferTargetAsset);
   const targetParsedTokenAccount = useSelector(
     selectTransferTargetParsedTokenAccount
   );
+  const { address: walletAddress } = useWallet(targetChain);
+
   const tokenName = targetParsedTokenAccount?.name;
   const symbol = targetParsedTokenAccount?.symbol;
   const logo = targetParsedTokenAccount?.logo;
   const readableTargetAddress =
     targetChain === CHAIN_ID_NEAR
       ? // Near uses a hashed address, which isn't very readable - check that the hash matches and show them their account id
-        nearAccountId &&
+        walletAddress &&
         // this just happens to be the same hashing mechanism as emitters
-        getEmitterAddressNear(nearAccountId) === targetAddressHex
-        ? nearAccountId
+        getEmitterAddressNear(walletAddress) === targetAddressHex
+        ? walletAddress
         : targetAddressHex || ""
       : targetChain === CHAIN_ID_APTOS
       ? `0x${targetAddressHex}` || ""

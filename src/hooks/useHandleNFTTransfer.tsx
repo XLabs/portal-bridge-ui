@@ -19,14 +19,14 @@ import {
 } from "@certusone/wormhole-sdk/lib/esm/nft_bridge";
 import { Alert } from "@material-ui/lab";
 import { Connection } from "@solana/web3.js";
+import { EVMWallet } from "@xlabs-libs/wallet-aggregator-evm";
 import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 import { BigNumber, Signer } from "ethers";
 import { arrayify, zeroPad } from "ethers/lib/utils";
 import { useSnackbar } from "notistack";
 import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useEthereumProvider } from "../contexts/EthereumProviderContext";
-import { useSolanaWallet } from "../contexts/SolanaWalletContext";
+import { useWallet } from "../contexts/WalletContext";
 import {
   setIsSending,
   setSignedVAAHex,
@@ -61,7 +61,6 @@ import {
   getEmitterAddressAndSequenceFromResult,
   waitForSignAndSubmitTransaction,
 } from "../utils/aptos";
-import { useAptosContext } from "../contexts/AptosWalletContext";
 import { AptosWallet } from "@xlabs-libs/wallet-aggregator-aptos";
 
 async function evm(
@@ -267,15 +266,20 @@ export function useHandleNFTTransfer() {
   const isTargetComplete = useSelector(selectNFTIsTargetComplete);
   const isSending = useSelector(selectNFTIsSending);
   const isSendComplete = useSelector(selectNFTIsSendComplete);
-  const { signer } = useEthereumProvider(sourceChain);
-  const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
-  const { account: aptosAccount, wallet: aptosWallet } = useAptosContext();
+
+  const { address, wallet } = useWallet(sourceChain);
+  const signer = isEVMChain(sourceChain)
+    ? (wallet as EVMWallet)?.getSigner()
+    : undefined;
+
   const sourceParsedTokenAccount = useSelector(
     selectNFTSourceParsedTokenAccount
   );
   const sourceTokenPublicKey = sourceParsedTokenAccount?.publicKey;
   const disabled = !isTargetComplete || isSending || isSendComplete;
   const handleTransferClick = useCallback(() => {
+    if (!wallet || !address) return;
+
     // TODO: we should separate state for transaction vs fetching vaa
     if (
       isEVMChain(sourceChain) &&
@@ -296,8 +300,6 @@ export function useHandleNFTTransfer() {
       );
     } else if (
       sourceChain === CHAIN_ID_SOLANA &&
-      !!solanaWallet &&
-      !!solPK &&
       !!sourceAsset &&
       !!sourceTokenPublicKey &&
       !!targetAddress
@@ -305,8 +307,8 @@ export function useHandleNFTTransfer() {
       solana(
         dispatch,
         enqueueSnackbar,
-        solanaWallet,
-        solPK,
+        wallet as SolanaWallet,
+        address,
         sourceTokenPublicKey,
         sourceAsset,
         targetChain,
@@ -317,8 +319,6 @@ export function useHandleNFTTransfer() {
       );
     } else if (
       sourceChain === CHAIN_ID_APTOS &&
-      !!aptosAccount &&
-      !!aptosWallet &&
       !!targetAddress &&
       !!aptosTokenId
     ) {
@@ -328,7 +328,7 @@ export function useHandleNFTTransfer() {
         aptosTokenId,
         targetChain,
         targetAddress,
-        aptosWallet
+        wallet as AptosWallet
       );
     }
   }, [
@@ -336,8 +336,8 @@ export function useHandleNFTTransfer() {
     enqueueSnackbar,
     sourceChain,
     signer,
-    solanaWallet,
-    solPK,
+    wallet,
+    address,
     sourceTokenPublicKey,
     sourceAsset,
     sourceTokenId,
@@ -346,8 +346,6 @@ export function useHandleNFTTransfer() {
     originAsset,
     originChain,
     originTokenId,
-    aptosAccount,
-    aptosWallet,
     aptosTokenId,
   ]);
   return useMemo(

@@ -26,15 +26,9 @@ import { Alert } from "@material-ui/lab";
 import { Connection } from "@solana/web3.js";
 import algosdk from "algosdk";
 import axios from "axios";
-import { Signer } from "ethers";
 import { useSnackbar } from "notistack";
 import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useAlgorandWallet } from "../contexts/AlgorandWalletContext";
-import { useAptosContext } from "../contexts/AptosWalletContext";
-import { useEthereumProvider } from "../contexts/EthereumProviderContext";
-import { useNearContext } from "../contexts/NearWalletContext";
-import { useSolanaWallet } from "../contexts/SolanaWalletContext";
 import {
   selectTerraFeeDenom,
   selectTransferIsRedeeming,
@@ -69,16 +63,15 @@ import { postWithFees } from "../utils/terra";
 import useTransferSignedVAA from "./useTransferSignedVAA";
 import { postWithFeesXpla } from "../utils/xpla";
 import { broadcastInjectiveTx } from "../utils/injective";
-import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
 import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 import { AptosWallet } from "@xlabs-libs/wallet-aggregator-aptos";
 import { InjectiveWallet } from "@xlabs-libs/wallet-aggregator-injective";
 import { NearWallet } from "@xlabs-libs/wallet-aggregator-near";
-import { useTerraWallet } from "../contexts/TerraWalletContext";
-import { TerraWallet } from "@xlabs-libs/wallet-aggregator-terra";
-import { useXplaWallet } from "../contexts/XplaWalletContext";
 import { XplaWallet } from "@xlabs-libs/wallet-aggregator-xpla";
+import { useWallet } from "../contexts/WalletContext";
+import { EVMWallet } from "@xlabs-libs/wallet-aggregator-evm";
+import { TerraWallet } from "@xlabs-libs/wallet-aggregator-terra";
 
 async function algo(
   dispatch: any,
@@ -150,13 +143,14 @@ async function aptos(
 async function evm(
   dispatch: any,
   enqueueSnackbar: any,
-  signer: Signer,
+  wallet: EVMWallet,
   signedVAA: Uint8Array,
   isNative: boolean,
   chainId: ChainId
 ) {
   dispatch(setIsRedeeming(true));
   try {
+    const signer = wallet.getSigner()!;
     // Klaytn requires specifying gasPrice
     const overrides =
       chainId === CHAIN_ID_KLAYTN
@@ -192,12 +186,12 @@ async function evm(
 async function near(
   dispatch: any,
   enqueueSnackbar: any,
-  senderAddr: string,
-  signedVAA: Uint8Array,
-  wallet: NearWallet
+  wallet: NearWallet,
+  signedVAA: Uint8Array
 ) {
   dispatch(setIsRedeeming(true));
   try {
+    const senderAddr = wallet.getAddress()!;
     const account = await makeNearAccount(senderAddr);
     const msgs = await redeemOnNear(
       account,
@@ -258,11 +252,11 @@ async function injective(
   dispatch: any,
   enqueueSnackbar: any,
   wallet: InjectiveWallet,
-  walletAddress: string,
   signedVAA: Uint8Array
 ) {
   dispatch(setIsRedeeming(true));
   try {
+    const walletAddress = wallet.getAddress()!;
     const msg = await redeemOnInjective(
       getTokenBridgeAddressForChain(CHAIN_ID_INJECTIVE),
       walletAddress,
@@ -290,12 +284,12 @@ async function solana(
   dispatch: any,
   enqueueSnackbar: any,
   wallet: SolanaWallet,
-  payerAddress: string, //TODO: we may not need this since we have wallet
   signedVAA: Uint8Array,
   isNative: boolean
 ) {
   dispatch(setIsRedeeming(true));
   try {
+    const payerAddress = await wallet.getAddress()!;
     if (!wallet.signTransaction) {
       throw new Error("wallet.signTransaction is undefined");
     }
@@ -378,129 +372,113 @@ export function useHandleRedeem() {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const targetChain = useSelector(selectTransferTargetChain);
-  const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
-  const { signer } = useEthereumProvider(targetChain);
-  const { wallet: terraWallet } = useTerraWallet(targetChain);
+  const { wallet, connected } = useWallet(targetChain);
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
-  const xplaWallet = useXplaWallet();
-  const { address: algoAccount, wallet: algoWallet } = useAlgorandWallet();
-  const { accountId: nearAccountId, wallet } = useNearContext();
-  const { account: aptosAddress, wallet: aptosWallet } = useAptosContext();
-  const { wallet: injWallet, address: injAddress } = useInjectiveContext();
   const signedVAA = useTransferSignedVAA();
   const isRedeeming = useSelector(selectTransferIsRedeeming);
   const handleRedeemClick = useCallback(() => {
-    if (isEVMChain(targetChain) && !!signer && signedVAA) {
-      evm(dispatch, enqueueSnackbar, signer, signedVAA, false, targetChain);
-    } else if (
-      targetChain === CHAIN_ID_SOLANA &&
-      !!solanaWallet &&
-      !!solPK &&
-      signedVAA
-    ) {
-      solana(dispatch, enqueueSnackbar, solanaWallet, solPK, signedVAA, false);
-    } else if (isTerraChain(targetChain) && !!terraWallet && signedVAA) {
+    if (!wallet || !connected || !signedVAA) return;
+
+    if (isEVMChain(targetChain)) {
+      evm(
+        dispatch,
+        enqueueSnackbar,
+        wallet as EVMWallet,
+        signedVAA,
+        false,
+        targetChain
+      );
+    } else if (targetChain === CHAIN_ID_SOLANA) {
+      solana(
+        dispatch,
+        enqueueSnackbar,
+        wallet as SolanaWallet,
+        signedVAA,
+        false
+      );
+    } else if (isTerraChain(targetChain)) {
       terra(
         dispatch,
         enqueueSnackbar,
-        terraWallet,
+        wallet as TerraWallet,
         signedVAA,
         terraFeeDenom,
         targetChain
       );
-    } else if (targetChain === CHAIN_ID_XPLA && !!xplaWallet && signedVAA) {
-      xpla(dispatch, enqueueSnackbar, xplaWallet, signedVAA);
-    } else if (targetChain === CHAIN_ID_APTOS && !!aptosAddress && signedVAA) {
-      aptos(dispatch, enqueueSnackbar, signedVAA, aptosWallet!);
-    } else if (
-      targetChain === CHAIN_ID_ALGORAND &&
-      algoAccount &&
-      !!signedVAA
-    ) {
-      algo(dispatch, enqueueSnackbar, algoWallet, signedVAA);
-    } else if (
-      targetChain === CHAIN_ID_NEAR &&
-      nearAccountId &&
-      wallet &&
-      !!signedVAA
-    ) {
-      near(dispatch, enqueueSnackbar, nearAccountId, signedVAA, wallet);
-    } else if (
-      targetChain === CHAIN_ID_INJECTIVE &&
-      injWallet &&
-      injAddress &&
-      signedVAA
-    ) {
-      injective(dispatch, enqueueSnackbar, injWallet, injAddress, signedVAA);
+    } else if (targetChain === CHAIN_ID_XPLA) {
+      xpla(dispatch, enqueueSnackbar, wallet as XplaWallet, signedVAA);
+    } else if (targetChain === CHAIN_ID_APTOS) {
+      aptos(dispatch, enqueueSnackbar, signedVAA, wallet as AptosWallet);
+    } else if (targetChain === CHAIN_ID_ALGORAND) {
+      algo(dispatch, enqueueSnackbar, wallet as AlgorandWallet, signedVAA);
+    } else if (targetChain === CHAIN_ID_NEAR) {
+      near(dispatch, enqueueSnackbar, wallet as NearWallet, signedVAA);
+    } else if (targetChain === CHAIN_ID_INJECTIVE) {
+      injective(
+        dispatch,
+        enqueueSnackbar,
+        wallet as InjectiveWallet,
+        signedVAA
+      );
     }
   }, [
     dispatch,
     enqueueSnackbar,
     targetChain,
-    signer,
     signedVAA,
-    solanaWallet,
-    solPK,
-    terraWallet,
     terraFeeDenom,
-    algoAccount,
-    algoWallet,
-    nearAccountId,
     wallet,
-    xplaWallet,
-    aptosAddress,
-    aptosWallet,
-    injWallet,
-    injAddress,
+    connected,
   ]);
 
   const handleRedeemNativeClick = useCallback(() => {
-    if (isEVMChain(targetChain) && !!signer && signedVAA) {
-      evm(dispatch, enqueueSnackbar, signer, signedVAA, true, targetChain);
-    } else if (
-      targetChain === CHAIN_ID_SOLANA &&
-      !!solanaWallet &&
-      !!solPK &&
-      signedVAA
-    ) {
-      solana(dispatch, enqueueSnackbar, solanaWallet, solPK, signedVAA, true);
-    } else if (isTerraChain(targetChain) && !!terraWallet && signedVAA) {
+    if (!wallet || !connected || !signedVAA) return;
+
+    if (isEVMChain(targetChain)) {
+      evm(
+        dispatch,
+        enqueueSnackbar,
+        wallet as EVMWallet,
+        signedVAA,
+        true,
+        targetChain
+      );
+    } else if (targetChain === CHAIN_ID_SOLANA) {
+      solana(
+        dispatch,
+        enqueueSnackbar,
+        wallet as SolanaWallet,
+        signedVAA,
+        true
+      );
+    } else if (isTerraChain(targetChain)) {
+      //TODO isNative = true
       terra(
         dispatch,
         enqueueSnackbar,
-        terraWallet,
+        wallet as TerraWallet,
         signedVAA,
         terraFeeDenom,
         targetChain
-      ); //TODO isNative = true
-    } else if (
-      targetChain === CHAIN_ID_ALGORAND &&
-      algoAccount &&
-      !!signedVAA
-    ) {
-      algo(dispatch, enqueueSnackbar, algoWallet, signedVAA);
-    } else if (
-      targetChain === CHAIN_ID_INJECTIVE &&
-      injWallet &&
-      injAddress &&
-      signedVAA
-    ) {
-      injective(dispatch, enqueueSnackbar, injWallet, injAddress, signedVAA);
+      );
+    } else if (targetChain === CHAIN_ID_ALGORAND) {
+      algo(dispatch, enqueueSnackbar, wallet as AlgorandWallet, signedVAA);
+    } else if (targetChain === CHAIN_ID_INJECTIVE) {
+      injective(
+        dispatch,
+        enqueueSnackbar,
+        wallet as InjectiveWallet,
+        signedVAA
+      );
     }
   }, [
     dispatch,
     enqueueSnackbar,
     targetChain,
-    signer,
     signedVAA,
-    solanaWallet,
-    solPK,
-    terraWallet,
     terraFeeDenom,
-    algoAccount,
-    algoWallet,
-    injWallet,
-    injAddress,
+    connected,
+    wallet,
   ]);
 
   const handleAcalaRelayerRedeemClick = useCallback(async () => {

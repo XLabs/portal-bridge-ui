@@ -12,7 +12,6 @@ import { Typography } from "@material-ui/core";
 import { LocalGasStation } from "@material-ui/icons";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useEthereumProvider } from "../contexts/EthereumProviderContext";
 import {
   getDefaultNativeCurrencySymbol,
   SOLANA_HOST,
@@ -24,6 +23,8 @@ import useIsWalletReady from "./useIsWalletReady";
 import { LCDClient } from "@terra-money/terra.js";
 import { setGasPrice } from "../store/transferSlice";
 import { useDispatch } from "react-redux";
+import { useWallet } from "../contexts/WalletContext";
+import { EVMWallet } from "@xlabs-libs/wallet-aggregator-evm";
 
 export type GasEstimate = {
   currentGasPrice: string;
@@ -153,7 +154,10 @@ const toBalanceString = (balance: bigint | undefined, chainId: ChainId) => {
 
 export default function useTransactionFees(chainId: ChainId) {
   const { walletAddress, isReady } = useIsWalletReady(chainId);
-  const { provider } = useEthereumProvider(chainId);
+  const { wallet } = useWallet(chainId);
+  const provider = isEVMChain(chainId)
+    ? (wallet as EVMWallet)?.getProvider()
+    : undefined;
   const [balance, setBalance] = useState<bigint | undefined>(undefined);
   const [terraBalances, setTerraBalances] = useState<TerraBalance[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -234,7 +238,10 @@ export default function useTransactionFees(chainId: ChainId) {
 }
 
 export function useEthereumGasPrice(contract: MethodType, chainId: ChainId) {
-  const { provider } = useEthereumProvider(chainId);
+  const { wallet } = useWallet(chainId);
+  const provider = isEVMChain(chainId)
+    ? (wallet as EVMWallet)?.getProvider()
+    : undefined;
   const { isReady } = useIsWalletReady(chainId);
   const [estimateResults, setEstimateResults] = useState<GasEstimate | null>(
     null

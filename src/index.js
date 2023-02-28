@@ -7,12 +7,6 @@ import { HashRouter } from "react-router-dom";
 import App from "./App";
 import BackgroundImage from "./components/BackgroundImage";
 import { BetaContextProvider } from "./contexts/BetaContext";
-import { getWrappedWallets as getWrappedSolanaWallets } from "./contexts/SolanaWalletContext";
-import { getWrappedWallets as getWrappedAptosWallets } from "./contexts/AptosWalletContext";
-import { getInjectiveWallets } from "./contexts/InjectiveWalletContext";
-import { getNearWallets } from "./contexts/NearWalletContext";
-import { getXplaWallets } from "./contexts/XplaWalletContext";
-import { getTerraWallets } from "./contexts/TerraWalletContext";
 import ErrorBoundary from "./ErrorBoundary";
 import { theme } from "./muiTheme";
 import { store } from "./store";
@@ -37,6 +31,14 @@ import {
   InjectedWallet,
   WalletConnectLegacyWallet,
 } from "@xlabs-libs/wallet-aggregator-evm";
+import {
+  createTerraWallets,
+  createXplaWallets,
+  createAptosWallets,
+  createInjectiveWallets,
+  createNearWallets,
+  createSolanaWallets,
+} from "./utils/wallets";
 
 const AGGREGATOR_WALLETS_BUILDER = async () => {
   return {
@@ -47,12 +49,12 @@ const AGGREGATOR_WALLETS_BUILDER = async () => {
       new AlgorandLedgerWallet(),
     ],
     [CHAIN_ID_ETH]: [new InjectedWallet(), new WalletConnectLegacyWallet()],
-    [CHAIN_ID_SOLANA]: getWrappedSolanaWallets(),
-    [CHAIN_ID_APTOS]: getWrappedAptosWallets(),
-    [CHAIN_ID_INJECTIVE]: getInjectiveWallets(),
-    [CHAIN_ID_NEAR]: await getNearWallets(),
-    [CHAIN_ID_TERRA2]: await getTerraWallets(),
-    [CHAIN_ID_XPLA]: await getXplaWallets(),
+    [CHAIN_ID_SOLANA]: createSolanaWallets(),
+    [CHAIN_ID_APTOS]: createAptosWallets(),
+    [CHAIN_ID_INJECTIVE]: createInjectiveWallets(),
+    [CHAIN_ID_NEAR]: await createNearWallets(),
+    [CHAIN_ID_TERRA2]: await createTerraWallets(),
+    [CHAIN_ID_XPLA]: await createXplaWallets(),
   };
 };
 
