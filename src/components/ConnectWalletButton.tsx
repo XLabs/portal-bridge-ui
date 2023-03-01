@@ -74,11 +74,11 @@ const ConnectWalletButton = ({ chainId }: { chainId: ChainId }) => {
         onClose={closeDialog}
         wallets={availableWallets}
       />
-      {error ? (
+      {error && (
         <Typography variant="body2" color="error">
           {error.message}
         </Typography>
-      ) : null}
+      )}
     </>
   );
 };

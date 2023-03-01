@@ -120,7 +120,7 @@ const ConnectWalletDialog = ({
             key={wallet.getName()}
           />
         )}
-        {undetected.length ? <Divider variant="middle" /> : <></>}
+        {!!undetected.length && <Divider variant="middle" />}
         {undetected.map((wallet) => (
           <ListItem
             button
