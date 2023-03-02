@@ -1,6 +1,5 @@
 import {
   CHAIN_ID_SOLANA,
-  hexToNativeString,
   hexToUint8Array,
   isEVMChain,
 } from "@certusone/wormhole-sdk";
@@ -31,6 +30,7 @@ import {
   CHAINS_WITH_NFT_SUPPORT,
   CLUSTER,
   getIsTransferDisabled,
+  getWalletAddressNative,
 } from "../../utils/consts";
 import ButtonWithLoader from "../ButtonWithLoader";
 import ChainSelect from "../ChainSelect";
@@ -75,8 +75,9 @@ function Target() {
   } catch (e) {
     tokenId = originTokenId;
   }
-  const readableTargetAddress =
-    hexToNativeString(targetAddressHex, targetChain) || "";
+  const readableTargetAddress = targetAddressHex
+    ? getWalletAddressNative(targetAddressHex, targetChain)
+    : "";
   const error = useSelector(selectNFTTargetError);
   const isTargetComplete = useSelector(selectNFTIsTargetComplete);
   const shouldLockFields = useSelector(selectNFTShouldLockFields);
@@ -94,6 +95,8 @@ function Target() {
   const isTransferDisabled = useMemo(() => {
     return getIsTransferDisabled(targetChain, false);
   }, [targetChain]);
+  const isValidTargetAssetAddress =
+    targetAsset && targetAsset !== ethers.constants.AddressZero;
   return (
     <>
       <StepDescription>Select a recipient chain and address.</StepDescription>
@@ -111,10 +114,10 @@ function Target() {
         fullWidth
         variant="outlined"
         className={classes.transferField}
-        value={readableTargetAddress}
+        value={readableTargetAddress || ""}
         disabled={true}
       />
-      {targetAsset !== ethers.constants.AddressZero ? (
+      {isValidTargetAssetAddress ? (
         <>
           <TextField
             label="Token Address"

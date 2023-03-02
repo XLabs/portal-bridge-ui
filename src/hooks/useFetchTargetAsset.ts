@@ -26,6 +26,7 @@ import {
 import {
   getForeignAssetEth as getForeignAssetEthNFT,
   getForeignAssetSol as getForeignAssetSolNFT,
+  getForeignAssetAptos as getForeignAssetAptosNFT,
 } from "@certusone/wormhole-sdk/lib/esm/nft_bridge";
 import { BigNumber } from "@ethersproject/bignumber";
 import { arrayify } from "@ethersproject/bytes";
@@ -184,7 +185,7 @@ function useFetchTargetAsset(nft?: boolean) {
               )
             );
           }
-        } else if (originChain === CHAIN_ID_APTOS) {
+        } else if (originChain === CHAIN_ID_APTOS && !nft) {
           const tokenId = await getTypeFromExternalAddress(
             getAptosClient(),
             getTokenBridgeAddressForChain(CHAIN_ID_APTOS),
@@ -196,6 +197,26 @@ function useFetchTargetAsset(nft?: boolean) {
                 receiveDataWrapper({
                   doesExist: true,
                   address: tokenId || null,
+                })
+              )
+            );
+          }
+        } else if (originChain === CHAIN_ID_APTOS && nft) {
+          const aptosTokenId = await getForeignAssetAptosNFT(
+            getAptosClient(),
+            getNFTBridgeAddressForChain(CHAIN_ID_APTOS),
+            CHAIN_ID_APTOS,
+            hexToUint8Array(originAsset || ""),
+            arrayify(BigNumber.from(tokenId))
+          );
+          if (!cancelled) {
+            dispatch(
+              setTargetAsset(
+                receiveDataWrapper({
+                  doesExist: true,
+                  address: aptosTokenId
+                    ? `${aptosTokenId.token_data_id.collection} ${aptosTokenId.token_data_id.name}`
+                    : null,
                 })
               )
             );
@@ -410,18 +431,34 @@ function useFetchTargetAsset(nft?: boolean) {
       if (targetChain === CHAIN_ID_APTOS && originChain && originAsset) {
         dispatch(setTargetAsset(fetchDataWrapper()));
         try {
-          const asset = await getForeignAssetAptos(
-            getAptosClient(),
-            getTokenBridgeAddressForChain(targetChain),
-            originChain,
-            originAsset
-          );
+          let address: string | null = null;
+          const aptosClient = getAptosClient();
+          if (nft) {
+            const aptosTokenId = await getForeignAssetAptosNFT(
+              aptosClient,
+              getNFTBridgeAddressForChain(targetChain),
+              originChain,
+              hexToUint8Array(originAsset),
+              arrayify(BigNumber.from(tokenId))
+            );
+            address = aptosTokenId
+              ? `${aptosTokenId.token_data_id.collection} ${aptosTokenId.token_data_id.creator}`
+              : null;
+          } else {
+            const asset = await getForeignAssetAptos(
+              aptosClient,
+              getTokenBridgeAddressForChain(targetChain),
+              originChain,
+              originAsset
+            );
+            address = asset ? `${ensureHexPrefix(asset)}` : null;
+          }
           if (!cancelled) {
             dispatch(
               setTargetAsset(
                 receiveDataWrapper({
-                  doesExist: !!asset,
-                  address: asset ? `${ensureHexPrefix(asset)}::coin::T` : null,
+                  doesExist: !!address,
+                  address,
                 })
               )
             );
