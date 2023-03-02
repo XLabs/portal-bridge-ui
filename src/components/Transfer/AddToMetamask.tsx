@@ -22,6 +22,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const addToWalletText = ({
+  isMetaMask,
+  isBraveWallet,
+  isKuCoinWallet,
+}: {
+  isMetaMask: boolean;
+  isBraveWallet: boolean;
+  isKuCoinWallet: boolean;
+}) => {
+  if (isMetaMask) {
+    return "Add to MetaMask";
+  } else if (isKuCoinWallet) {
+    return "Add to KuCoin Wallet";
+  } else if (isBraveWallet) {
+    return "Add to Brave Wallet";
+  } else {
+    return "Add to Wallet";
+  }
+};
+
 export default function AddToMetamask() {
   const classes = useStyles();
   const sourceParsedTokenAccount = useSelector(
@@ -34,7 +54,8 @@ export default function AddToMetamask() {
     signerAddress,
     chainId: evmChainId,
   } = useEthereumProvider();
-  const { isBraveWallet } = (provider as any) || {};
+  const { isBraveWallet, isKuCoinWallet, isMetaMask } =
+    (provider?.provider as any) || {};
   const hasCorrectEvmNetwork = evmChainId === getEvmChainId(targetChain);
   const handleClick = useCallback(() => {
     if (provider && targetAsset && signerAddress && hasCorrectEvmNetwork) {
@@ -85,7 +106,7 @@ export default function AddToMetamask() {
       variant="outlined"
       className={classes.addButton}
     >
-      {isBraveWallet ? "Add to Wallet" : "Add to Metamask"}
+      {addToWalletText({ isMetaMask, isBraveWallet, isKuCoinWallet })}
     </Button>
   ) : null;
 }
