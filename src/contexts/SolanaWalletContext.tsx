@@ -1,4 +1,4 @@
-import { FC, useMemo, useState, useEffect } from "react";
+import { FC, useMemo } from "react";
 import { Adapter, WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import {
   ConnectionProvider,
@@ -23,38 +23,13 @@ import {
 } from "@solana/wallet-adapter-wallets";
 import { CLUSTER, SOLANA_HOST } from "../utils/consts";
 
-declare global {
-  interface Navigator {
-    brave: {
-      isBrave(): Promise<boolean>;
-    };
-  }
-}
-
-export const isBraveBrowser = async () => {
-  if (window.navigator.brave) {
-    return await window.navigator.brave.isBrave();
-  }
-  return false;
-};
-
 export const SolanaWalletProvider: FC = (props) => {
-  const [isBrave, setIsBrave] = useState<boolean | null>(null);
-
-  useEffect(() => {
-    const checkIfIsBraveBrowser = async () => {
-      const getIsBrave: boolean = await isBraveBrowser();
-      setIsBrave(getIsBrave);
-    };
-
-    checkIfIsBraveBrowser();
-  }, []);
-
   const wallets = useMemo(() => {
     const wallets: Adapter[] = [
       new PhantomWalletAdapter(),
       new SolflareWalletAdapter(),
       new BackpackWalletAdapter(),
+      new BraveWalletAdapter(),
       new NightlyWalletAdapter(),
       new SolletWalletAdapter(),
       new SolletExtensionWalletAdapter(),
@@ -65,10 +40,6 @@ export const SolanaWalletProvider: FC = (props) => {
       new TorusWalletAdapter(),
       new ExodusWalletAdapter(),
     ];
-
-    if (isBrave) {
-      wallets.push(new BraveWalletAdapter());
-    }
 
     const network =
       CLUSTER === "mainnet"
@@ -81,9 +52,7 @@ export const SolanaWalletProvider: FC = (props) => {
     }
 
     return wallets;
-  }, [isBrave]);
-
-  if (isBrave === null) return <></>;
+  }, []);
 
   return (
     <ConnectionProvider endpoint={SOLANA_HOST}>
