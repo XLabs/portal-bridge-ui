@@ -34,6 +34,7 @@ export default function AddToMetamask() {
     signerAddress,
     chainId: evmChainId,
   } = useEthereumProvider();
+  const { isBraveWallet } = (provider as any) || {};
   const hasCorrectEvmNetwork = evmChainId === getEvmChainId(targetChain);
   const handleClick = useCallback(() => {
     if (provider && targetAsset && signerAddress && hasCorrectEvmNetwork) {
@@ -84,7 +85,7 @@ export default function AddToMetamask() {
       variant="outlined"
       className={classes.addButton}
     >
-      Add to Metamask
+      {isBraveWallet ? "Add to Wallet" : "Add to Metamask"}
     </Button>
   ) : null;
 }
