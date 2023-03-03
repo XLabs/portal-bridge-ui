@@ -113,7 +113,7 @@ export default function AptosTokenPicker(props: AptosTokenPickerProps) {
       resetAccounts={resetAccountWrapper}
       error={""}
       showLoader={isLoading}
-      nft
+      nft={nft}
       chainId={CHAIN_ID_APTOS}
     />
   );
