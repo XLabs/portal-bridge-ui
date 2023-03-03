@@ -86,7 +86,8 @@ const EvmConnectWalletDialog = ({
       if (
         connectType === ConnectType.METAMASK ||
         connectType === ConnectType.BRAVEWALLET ||
-        connectType === ConnectType.KUCOINWALLET
+        connectType === ConnectType.KUCOINWALLET ||
+        connectType === ConnectType.FRONTIERWALLET
       ) {
         return true;
       } else if (connectType === ConnectType.WALLETCONNECT) {

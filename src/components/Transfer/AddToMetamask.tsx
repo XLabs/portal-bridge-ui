@@ -26,10 +26,12 @@ const addToWalletText = ({
   isMetaMask,
   isBraveWallet,
   isKuCoinWallet,
+  isFrontier,
 }: {
   isMetaMask: boolean;
   isBraveWallet: boolean;
   isKuCoinWallet: boolean;
+  isFrontier: boolean;
 }) => {
   if (isMetaMask) {
     return "Add to MetaMask";
@@ -37,6 +39,8 @@ const addToWalletText = ({
     return "Add to KuCoin Wallet";
   } else if (isBraveWallet) {
     return "Add to Brave Wallet";
+  } else if (isFrontier) {
+    return "Add to Frontier Wallet";
   } else {
     return "Add to Wallet";
   }
@@ -54,7 +58,7 @@ export default function AddToMetamask() {
     signerAddress,
     chainId: evmChainId,
   } = useEthereumProvider();
-  const { isBraveWallet, isKuCoinWallet, isMetaMask } =
+  const { isBraveWallet, isKuCoinWallet, isMetaMask, isFrontier } =
     (provider?.provider as any) || {};
   const hasCorrectEvmNetwork = evmChainId === getEvmChainId(targetChain);
   const handleClick = useCallback(() => {
@@ -106,7 +110,12 @@ export default function AddToMetamask() {
       variant="outlined"
       className={classes.addButton}
     >
-      {addToWalletText({ isMetaMask, isBraveWallet, isKuCoinWallet })}
+      {addToWalletText({
+        isMetaMask,
+        isBraveWallet,
+        isKuCoinWallet,
+        isFrontier,
+      })}
     </Button>
   ) : null;
 }

@@ -12,6 +12,7 @@ import React, {
 import metamaskIcon from "../icons/metamask-fox.svg";
 import braveIcon from "../icons/brave.svg";
 import kucoinWalletIcon from "../icons/kucoin_wallet.webp";
+import frontierIcon from "../icons/frontier.svg";
 import walletconnectIcon from "../icons/walletconnect.svg";
 import { EVM_RPC_MAP } from "../utils/metaMaskChainParameters";
 const CacheSubprovider = require("web3-provider-engine/subproviders/cache");
@@ -22,6 +23,7 @@ export type Signer = ethers.Signer | undefined;
 export enum ConnectType {
   METAMASK,
   BRAVEWALLET,
+  FRONTIERWALLET,
   WALLETCONNECT,
   KUCOINWALLET,
 }
@@ -77,6 +79,11 @@ const EthereumWalletProviders = {
     name: "KuCoin Wallet",
     icon: kucoinWalletIcon,
   },
+  [ConnectType.FRONTIERWALLET]: {
+    connectType: ConnectType.FRONTIERWALLET,
+    name: "Frontier Wallet",
+    icon: frontierIcon,
+  },
 };
 
 export const EthereumProviderProvider = ({
@@ -112,12 +119,17 @@ export const EthereumProviderProvider = ({
         const detectedProvider = await detectEthereumProvider();
 
         if (detectedProvider) {
-          const { isBraveWallet, isKuCoinWallet } = detectedProvider as any;
+          const { isBraveWallet, isKuCoinWallet, isFrontier } =
+            detectedProvider as any;
 
           if (isBraveWallet) {
             connections.push(EthereumWalletProviders[ConnectType.BRAVEWALLET]);
           } else if (isKuCoinWallet) {
             connections.push(EthereumWalletProviders[ConnectType.KUCOINWALLET]);
+          } else if (isFrontier) {
+            connections.push(
+              EthereumWalletProviders[ConnectType.FRONTIERWALLET]
+            );
           } else {
             connections.push(EthereumWalletProviders[ConnectType.METAMASK]);
           }
@@ -162,7 +174,8 @@ export const EthereumProviderProvider = ({
       if (
         connectType === ConnectType.METAMASK ||
         connectType === ConnectType.BRAVEWALLET ||
-        connectType === ConnectType.KUCOINWALLET
+        connectType === ConnectType.KUCOINWALLET ||
+        connectType === ConnectType.FRONTIERWALLET
       ) {
         detectEthereumProvider()
           .then((detectedProvider) => {
