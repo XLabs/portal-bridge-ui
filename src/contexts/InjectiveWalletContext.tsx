@@ -8,6 +8,7 @@ import {
 } from "react";
 import { Wallet, WalletStrategy } from "@injectivelabs/wallet-ts";
 import keplrIcon from "../icons/keplr.svg";
+import FrontierIcon from "../icons/frontier.svg";
 import { getInjectiveNetworkChainId } from "../utils/consts";
 
 interface IInjectiveProviderContext {
@@ -39,6 +40,13 @@ export const getSupportedWallets = (): InjectiveWalletInfo[] => [
     isInstalled: typeof (window as any).keplr !== "undefined",
     icon: keplrIcon,
     url: "https://chrome.google.com/webstore/detail/keplr/dmkamcknogkgcdfhhbddcghachkejeap",
+  },
+  {
+    wallet: Wallet.Frontier,
+    name: "Frontier Wallet",
+    isInstalled: typeof (window as any).frontier.cosmos !== "undefined",
+    icon: FrontierIcon,
+    url: "https://chrome.google.com/webstore/detail/frontier-wallet/kppfdiipphfccemcignhifpjkapfbihd",
   },
 ];
 
