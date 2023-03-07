@@ -394,13 +394,16 @@ export default function TokenPicker({
   }, [nft, marketChainTokens, featuredMarkets, options, searchFilter]);
 
   const nonFeaturedOptions = useMemo(() => {
-    return options.filter(
+    return options.map(option => ({
+      ...option,
+      symbol: marketChainTokens?.[option.mintKey]?.symbol || option.symbol,
+    })).filter(
       (option: NFTParsedTokenAccount) =>
         searchFilter(option) &&
         // only tokens have featured markets
         (nft || !featuredMarkets?.[option.mintKey])
     );
-  }, [nft, options, featuredMarkets, searchFilter]);
+  }, [nft, options, featuredMarkets, marketChainTokens, searchFilter]);
 
   const localFind = useCallback(
     (address: string, tokenIdHolderString: string) => {
