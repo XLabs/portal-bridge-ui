@@ -11,6 +11,7 @@ import React, {
 } from "react";
 import metamaskIcon from "../icons/metamask-fox.svg";
 import braveIcon from "../icons/brave.svg";
+import kucoinWalletIcon from "../icons/kucoin_wallet.webp";
 import walletconnectIcon from "../icons/walletconnect.svg";
 import { EVM_RPC_MAP } from "../utils/metaMaskChainParameters";
 const CacheSubprovider = require("web3-provider-engine/subproviders/cache");
@@ -22,6 +23,7 @@ export enum ConnectType {
   METAMASK,
   BRAVEWALLET,
   WALLETCONNECT,
+  KUCOINWALLET,
 }
 
 export interface Connection {
@@ -54,6 +56,29 @@ const EthereumProviderContext = React.createContext<IEthereumProviderContext>({
   connectType: undefined,
 });
 
+const EthereumWalletProviders = {
+  [ConnectType.WALLETCONNECT]: {
+    connectType: ConnectType.WALLETCONNECT,
+    name: "Wallet Connect",
+    icon: walletconnectIcon,
+  },
+  [ConnectType.METAMASK]: {
+    connectType: ConnectType.METAMASK,
+    name: "MetaMask",
+    icon: metamaskIcon,
+  },
+  [ConnectType.BRAVEWALLET]: {
+    connectType: ConnectType.BRAVEWALLET,
+    name: "Brave Wallet",
+    icon: braveIcon,
+  },
+  [ConnectType.KUCOINWALLET]: {
+    connectType: ConnectType.KUCOINWALLET,
+    name: "KuCoin Wallet",
+    icon: kucoinWalletIcon,
+  },
+};
+
 export const EthereumProviderProvider = ({
   children,
 }: {
@@ -79,35 +104,30 @@ export const EthereumProviderProvider = ({
 
   useEffect(() => {
     let cancelled = false;
+
     (async () => {
       const connections: Connection[] = [];
+
       try {
         const detectedProvider = await detectEthereumProvider();
 
         if (detectedProvider) {
-          const { isBraveWallet } = detectedProvider as any;
-          if (isBraveWallet === true) {
-            connections.push({
-              connectType: ConnectType.BRAVEWALLET,
-              name: "Brave Wallet",
-              icon: braveIcon,
-            });
+          const { isBraveWallet, isKuCoinWallet } = detectedProvider as any;
+
+          if (isBraveWallet) {
+            connections.push(EthereumWalletProviders[ConnectType.BRAVEWALLET]);
+          } else if (isKuCoinWallet) {
+            connections.push(EthereumWalletProviders[ConnectType.KUCOINWALLET]);
           } else {
-            connections.push({
-              connectType: ConnectType.METAMASK,
-              name: "MetaMask",
-              icon: metamaskIcon,
-            });
+            connections.push(EthereumWalletProviders[ConnectType.METAMASK]);
           }
         }
       } catch (error) {
         console.error(error);
       }
-      connections.push({
-        connectType: ConnectType.WALLETCONNECT,
-        name: "Wallet Connect",
-        icon: walletconnectIcon,
-      });
+
+      connections.push(EthereumWalletProviders[ConnectType.WALLETCONNECT]);
+
       if (!cancelled) {
         setAvailableConnections(connections);
       }
@@ -141,7 +161,8 @@ export const EthereumProviderProvider = ({
       setConnectType(connectType);
       if (
         connectType === ConnectType.METAMASK ||
-        connectType === ConnectType.BRAVEWALLET
+        connectType === ConnectType.BRAVEWALLET ||
+        connectType === ConnectType.KUCOINWALLET
       ) {
         detectEthereumProvider()
           .then((detectedProvider) => {
