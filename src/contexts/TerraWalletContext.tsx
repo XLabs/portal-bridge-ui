@@ -14,7 +14,7 @@ const classic: NetworkInfo = {
   chainID: "columbus-5",
   lcd: "https://columbus-lcd.terra.dev",
   walletconnectID: 2,
-}
+};
 
 const testnet: NetworkInfo = {
   name: "testnet",
