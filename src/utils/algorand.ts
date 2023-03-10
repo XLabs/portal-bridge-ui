@@ -12,9 +12,9 @@ export async function signSendAndConfirmAlgorand(
 
   // some wallets like Pera expect the whole group to be present
   // even though not all of them might be signed
-  const unsignedTxns = txs.map(pair => ({
-    txn: Buffer.from(pair.tx.toByte()).toString('base64'),
-    signers: pair.signer ? [] : undefined
+  const unsignedTxns = txs.map((pair) => ({
+    txn: Buffer.from(pair.tx.toByte()).toString("base64"),
+    signers: pair.signer ? [] : undefined,
   }));
 
   const walletSignedTxns = await wallet.signTransaction(unsignedTxns);
@@ -23,10 +23,11 @@ export async function signSendAndConfirmAlgorand(
   for (let i = 0; i < txs.length; i++) {
     const signature = walletSignedTxns[i];
     if (signature) {
-      signedTxns.push(Buffer.from(signature, 'base64'));
+      signedTxns.push(Buffer.from(signature, "base64"));
     } else {
       const pair = txs[i];
-      if (!pair.signer) throw new Error('Got transaction with no signature nor lsig');
+      if (!pair.signer)
+        throw new Error("Got transaction with no signature nor lsig");
       signedTxns.push(await pair.signer.signTxn(pair.tx));
     }
   }

@@ -7,11 +7,11 @@ export const useAlgorandWallet = () => {
   const wallet = useWallet(CHAIN_ID_ALGORAND);
   const address = wallet?.getAddress();
 
-  return useMemo(() => ({
-    wallet: wallet as AlgorandWallet,
-    address
-  }), [
-    wallet,
-    address
-  ]);
-}
+  return useMemo(
+    () => ({
+      wallet: wallet as AlgorandWallet,
+      address,
+    }),
+    [wallet, address]
+  );
+};

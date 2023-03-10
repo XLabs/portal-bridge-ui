@@ -21,16 +21,19 @@ const ConnectWalletButton = ({ chainId }: { chainId: ChainId }) => {
 
   const pk = wallet?.getAddress();
 
-  const connect = useCallback(async (w: Wallet) => {
-    try {
-      await w.connect();
-      changeWallet(w);
-      setError(undefined);
-    } catch (err: any) {
-      console.error(err);
-      setError(err);
-    }
-  }, [ changeWallet ]);
+  const connect = useCallback(
+    async (w: Wallet) => {
+      try {
+        await w.connect();
+        changeWallet(w);
+        setError(undefined);
+      } catch (err: any) {
+        console.error(err);
+        setError(err);
+      }
+    },
+    [changeWallet]
+  );
 
   const disconnect = useCallback(async () => {
     try {
@@ -42,7 +45,7 @@ const ConnectWalletButton = ({ chainId }: { chainId: ChainId }) => {
       console.error(err);
       setError(err);
     }
-  }, [ unsetWalletFromChain, wallet, chainId ]);
+  }, [unsetWalletFromChain, wallet, chainId]);
 
   const openDialog = useCallback(() => {
     setIsDialogOpen(true);
@@ -53,12 +56,13 @@ const ConnectWalletButton = ({ chainId }: { chainId: ChainId }) => {
   }, [setIsDialogOpen]);
 
   const handleConnect = useCallback(() => {
-    if (availableWallets.length === 0) throw new Error(`No wallets found for chain id ${chainId}`);
+    if (availableWallets.length === 0)
+      throw new Error(`No wallets found for chain id ${chainId}`);
 
     return availableWallets.length > 1
       ? openDialog()
       : connect(availableWallets[0]);
-  }, [ openDialog, availableWallets, connect, chainId ]);
+  }, [openDialog, availableWallets, connect, chainId]);
 
   return (
     <>

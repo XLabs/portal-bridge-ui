@@ -6,7 +6,8 @@ import {
   List,
   ListItem,
   ListItemIcon,
-  ListItemText, makeStyles
+  ListItemText,
+  makeStyles,
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import { Wallet, WalletState } from "@xlabs-libs/wallet-aggregator-core";
@@ -31,26 +32,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const WalletOptionContent = ({
-  text, icon
+  text,
+  icon,
 }: {
-  text: string,
-  icon: string
+  text: string;
+  icon: string;
 }) => {
   const classes = useStyles();
 
   return (
     <>
       <ListItemIcon>
-        <img
-          src={icon}
-          alt={text}
-          className={classes.icon}
-        />
+        <img src={icon} alt={text} className={classes.icon} />
       </ListItemIcon>
       <ListItemText>{text}</ListItemText>
     </>
   );
-}
+};
 
 const WalletOption = ({
   wallet,
@@ -63,7 +61,7 @@ const WalletOption = ({
 }) => {
   const handleClick = useCallback(() => {
     onSelect(wallet).then(onClose);
-  }, [ wallet, onClose, onSelect ]);
+  }, [wallet, onClose, onSelect]);
 
   return (
     <ListItem button onClick={handleClick}>
@@ -112,15 +110,19 @@ const ConnectWalletDialog = ({
         </div>
       </DialogTitle>
       <List>
-        {detected.map((wallet) =>
+        {detected.map((wallet) => (
           <WalletOption
             wallet={wallet}
             onSelect={onSelect}
             onClose={onClose}
             key={wallet.getName()}
           />
+        ))}
+        {!!detected.length && !!undetected.length ? (
+          <Divider variant="middle" />
+        ) : (
+          <></>
         )}
-        {(!!detected.length && !!undetected.length) ? <Divider variant="middle" /> : <></>}
         {undetected.map((wallet) => (
           <ListItem
             button

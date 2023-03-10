@@ -19,16 +19,21 @@ import { store } from "./store";
 import InjectiveWalletProvider from "./contexts/InjectiveWalletContext";
 import { WalletContextProvider } from "@xlabs-libs/wallet-aggregator-react";
 import { CHAIN_ID_ALGORAND } from "@xlabs-libs/wallet-aggregator-core";
-import { MyAlgoWallet, PeraWallet, DeflyWallet, AlgorandLedgerWallet } from "@xlabs-libs/wallet-aggregator-algorand";
+import {
+  MyAlgoWallet,
+  PeraWallet,
+  DeflyWallet,
+  AlgorandLedgerWallet,
+} from "@xlabs-libs/wallet-aggregator-algorand";
 
 const AGGREGATOR_WALLETS = {
   [CHAIN_ID_ALGORAND]: [
     new MyAlgoWallet(),
     new PeraWallet(),
     new DeflyWallet(),
-    new AlgorandLedgerWallet()
-  ]
-}
+    new AlgorandLedgerWallet(),
+  ],
+};
 
 ReactDOM.render(
   <ErrorBoundary>

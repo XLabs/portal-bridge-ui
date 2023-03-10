@@ -7,7 +7,7 @@ import {
   CHAIN_ID_SOLANA,
   CHAIN_ID_XPLA,
   isEVMChain,
-  isTerraChain
+  isTerraChain,
 } from "@certusone/wormhole-sdk";
 import AptosWalletKey from "./AptosWalletKey";
 import ConnectWalletButton from "./ConnectWalletButton";

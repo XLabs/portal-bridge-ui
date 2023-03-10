@@ -139,7 +139,12 @@ function useIsWalletReady(
       );
     }
     if (chainId === CHAIN_ID_ALGORAND && algoAccount) {
-      return createWalletStatus(true, undefined, forceNetworkSwitch, algoAccount);
+      return createWalletStatus(
+        true,
+        undefined,
+        forceNetworkSwitch,
+        algoAccount
+      );
     }
     if (chainId === CHAIN_ID_NEAR && nearPK) {
       return createWalletStatus(true, undefined, forceNetworkSwitch, nearPK);
