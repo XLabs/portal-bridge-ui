@@ -9,33 +9,28 @@ export async function signSendAndConfirmAlgorand(
   txs: TransactionSignerPair[]
 ) {
   assignGroupID(txs.map((tx) => tx.tx));
-  const signedTxns: Uint8Array[] = [];
-  const lsigSignedTxns: Uint8Array[] = [];
-  const walletUnsignedTxns: Uint8Array[] = [];
-  // sign all the lsigs
-  for (const lsigTx of txs) {
-    if (lsigTx.signer) {
-      lsigSignedTxns.push(await lsigTx.signer.signTxn(lsigTx.tx));
-    }
-  }
-  // assemble the txs for the wallet to sign
-  for (const walletTx of txs) {
-    if (!walletTx.signer) {
-      walletUnsignedTxns.push(walletTx.tx.toByte());
-    }
-  }
-  const walletSignedTxns = await wallet.signTransaction(
-    walletUnsignedTxns
-  );
-  let lsigIdx = 0;
-  let walletIdx = 0;
-  for (const originalTx of txs) {
-    if (originalTx.signer) {
-      signedTxns.push(lsigSignedTxns[lsigIdx++]);
+
+  // some wallets like Pera expect the whole group to be present
+  // even though not all of them might be signed
+  const unsignedTxns = txs.map(pair => ({
+    txn: Buffer.from(pair.tx.toByte()).toString('base64'),
+    signers: pair.signer ? [] : undefined
+  }));
+
+  const walletSignedTxns = await wallet.signTransaction(unsignedTxns);
+
+  const signedTxns = [];
+  for (let i = 0; i < txs.length; i++) {
+    const signature = walletSignedTxns[i];
+    if (signature) {
+      signedTxns.push(Buffer.from(signature, 'base64'));
     } else {
-      signedTxns.push(walletSignedTxns[walletIdx++]);
+      const pair = txs[i];
+      if (!pair.signer) throw new Error('Got transaction with no signature nor lsig');
+      signedTxns.push(await pair.signer.signTxn(pair.tx));
     }
   }
+
   await algodClient.sendRawTransaction(signedTxns).do();
   const result = await waitForConfirmation(
     algodClient,
