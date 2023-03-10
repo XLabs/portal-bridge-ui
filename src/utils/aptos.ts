@@ -1,7 +1,12 @@
 import { CHAIN_ID_APTOS } from "@certusone/wormhole-sdk";
 import { AptosClient, Types } from "aptos";
 import { hexZeroPad } from "ethers/lib/utils";
-import { APTOS_URL, getBridgeAddressForChain } from "./consts";
+import {
+  APTOS_INDEXER_URL,
+  APTOS_URL,
+  getBridgeAddressForChain,
+} from "./consts";
+import axios from "axios";
 
 export enum AptosNetwork {
   Testnet = "Testnet",
@@ -58,4 +63,47 @@ export async function waitForSignAndSubmitTransaction(
   } catch (e) {
     throw e;
   }
+}
+
+export interface CurrentTokensResponse {
+  data: { current_token_ownerships: Token[] };
+}
+
+export interface Token {
+  token_data_id_hash: string;
+  name: string;
+  collection_name: string;
+  property_version: number;
+  creator_address: string;
+  current_token_data: {
+    metadata_uri: string;
+  };
+}
+
+export async function fetchCurrentTokens(
+  ownerAddress: string,
+  offset: number,
+  limit: number
+) {
+  const response = await axios.post<CurrentTokensResponse>(APTOS_INDEXER_URL, {
+    query: `query CurrentTokens($owner_address: String, $offset: Int, $limit: Int) {
+      current_token_ownerships(
+      where: {owner_address: {_eq: $owner_address}, amount: {_eq: "1"}, table_type: {_eq: "0x3::token::TokenStore"}}
+      order_by: {last_transaction_version: desc}
+      offset: $offset
+      limit: $limit
+    ) {
+      token_data_id_hash
+      name
+      collection_name
+      property_version
+      creator_address
+      current_token_data {
+        metadata_uri
+      }
+    }
+  }`,
+    variables: { owner_address: ownerAddress, offset, limit },
+  });
+  return response.data;
 }

@@ -4,8 +4,7 @@ import {
   selectNFTTargetAddressHex,
   selectNFTTargetChain,
 } from "../../store/selectors";
-import { hexToNativeString } from "@certusone/wormhole-sdk";
-import { CHAINS_BY_ID } from "../../utils/consts";
+import { CHAINS_BY_ID, getWalletAddressNative } from "../../utils/consts";
 import SmartAddress from "../SmartAddress";
 
 const useStyles = makeStyles((theme) => ({
@@ -18,7 +17,9 @@ export default function TargetPreview() {
   const classes = useStyles();
   const targetChain = useSelector(selectNFTTargetChain);
   const targetAddress = useSelector(selectNFTTargetAddressHex);
-  const targetAddressNative = hexToNativeString(targetAddress, targetChain);
+  const targetAddressNative = targetAddress
+    ? getWalletAddressNative(targetAddress, targetChain)
+    : undefined;
 
   const explainerContent =
     targetChain && targetAddressNative ? (

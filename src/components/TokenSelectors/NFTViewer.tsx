@@ -20,6 +20,7 @@ import {
   CHAIN_ID_SOLANA,
   CHAIN_ID_OASIS,
   CHAIN_ID_FANTOM,
+  CHAIN_ID_APTOS,
 } from "@certusone/wormhole-sdk";
 import SmartAddress from "../SmartAddress";
 import avaxIcon from "../../icons/avax.svg";
@@ -29,6 +30,7 @@ import fantomIcon from "../../icons/fantom.svg";
 import solanaIcon from "../../icons/solana.svg";
 import polygonIcon from "../../icons/polygon.svg";
 import oasisIcon from "../../icons/oasis-network-rose-logo.svg";
+import aptosIcon from "../../icons/aptos.svg";
 import useCopyToClipboard from "../../hooks/useCopyToClipboard";
 import { Skeleton } from "@material-ui/lab";
 import Wormhole from "../../icons/wormhole-network.svg";
@@ -126,6 +128,18 @@ const LogoIcon = ({ chainId }: { chainId: ChainId }) =>
       src={fantomIcon}
       alt="Fantom"
     />
+  ) : chainId === CHAIN_ID_APTOS ? (
+    <Avatar
+      style={{
+        backgroundColor: "rgb(2,0,36)",
+        height: "1em",
+        width: "1em",
+        marginLeft: "4px",
+        padding: "3px",
+      }}
+      src={aptosIcon}
+      alt="Aptos"
+    />
   ) : null;
 
 const useStyles = makeStyles((theme) => ({
@@ -221,6 +235,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "rgb(153,69,255)",
     background:
       "linear-gradient(45deg, rgba(153,69,255,1) 0%, rgba(121,98,231,1) 20%, rgba(0,209,140,1) 100%)",
+  },
+  aptos: {
+    // colors from https://aptosfoundation.org/ (teal text)
+    backgroundColor: "rgb(2,0,36)",
+    background:
+      "linear-gradient(45deg, rgba(2,0,36,1) 0%, rgba(63,253,255,1) 100%)",
   },
   hidden: {
     display: "none",
@@ -432,6 +452,7 @@ export default function NFTViewer({
             [classes.bsc]: chainId === CHAIN_ID_BSC,
             [classes.solana]: chainId === CHAIN_ID_SOLANA,
             [classes.polygon]: chainId === CHAIN_ID_POLYGON,
+            [classes.aptos]: chainId === CHAIN_ID_APTOS,
           })}
         >
           <CardContent className={classes.textContent}>
@@ -447,6 +468,7 @@ export default function NFTViewer({
               parsedTokenAccount={value}
               noGutter
               noUnderline
+              propertyVersion={value.aptosTokenId?.property_version}
             />
             <LogoIcon chainId={chainId} />
           </CardContent>

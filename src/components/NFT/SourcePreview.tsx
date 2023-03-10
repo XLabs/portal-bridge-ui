@@ -28,6 +28,9 @@ export default function SourcePreview() {
         <SmartAddress
           chainId={sourceChain}
           parsedTokenAccount={sourceParsedTokenAccount}
+          propertyVersion={
+            sourceParsedTokenAccount.aptosTokenId?.property_version
+          }
         />
         <span>from</span>
         <SmartAddress

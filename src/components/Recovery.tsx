@@ -87,6 +87,7 @@ import {
   WORMHOLE_RPC_HOSTS,
   NEAR_TOKEN_BRIDGE_ACCOUNT,
   XPLA_LCD_CLIENT_CONFIG,
+  getWalletAddressNative,
 } from "../utils/consts";
 import { getSignedVAAWithRetry } from "../utils/getSignedVAAWithRetry";
 import {
@@ -1083,7 +1084,7 @@ export default function Recovery() {
                   disabled
                   value={
                     (parsedPayload &&
-                      hexToNativeString(
+                      getWalletAddressNative(
                         parsedPayload.targetAddress,
                         parsedPayload.targetChain as ChainId
                       )) ||

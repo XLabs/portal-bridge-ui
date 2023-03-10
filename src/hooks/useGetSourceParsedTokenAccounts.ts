@@ -88,7 +88,7 @@ import {
   setSourceParsedTokenAccounts,
   setSourceWalletAddress,
 } from "../store/transferSlice";
-import { getAptosClient } from "../utils/aptos";
+import { fetchCurrentTokens, getAptosClient } from "../utils/aptos";
 import {
   ACA_ADDRESS,
   ACA_DECIMALS,
@@ -126,6 +126,7 @@ import {
   WNEON_DECIMALS,
   WROSE_ADDRESS,
   WROSE_DECIMALS,
+  CLUSTER,
 } from "../utils/consts";
 import { makeNearAccount } from "../utils/near";
 import {
@@ -135,6 +136,7 @@ import {
 } from "../utils/solana";
 import { fetchSingleMetadata as fetchSingleMetadataAlgo } from "./useAlgoMetadata";
 import { AptosCoinResourceReturn } from "./useAptosMetadata";
+import { TokenClient, TokenTypes } from "aptos";
 
 export function createParsedTokenAccount(
   publicKey: string,
@@ -178,7 +180,7 @@ export function createNFTParsedTokenAccount(
   image?: string,
   image_256?: string,
   nftName?: string,
-  description?: string
+  aptosTokenId?: TokenTypes.TokenId
 ): NFTParsedTokenAccount {
   return {
     publicKey,
@@ -196,7 +198,7 @@ export function createNFTParsedTokenAccount(
     symbol,
     name,
     nftName,
-    description,
+    aptosTokenId,
   };
 }
 
@@ -886,55 +888,173 @@ const getAptosParsedTokenAccounts = async (
   );
   try {
     if (nft) {
-      dispatch(receiveSourceParsedTokenAccountsNFT([]));
-      return;
-    }
-    const client = getAptosClient();
-    const resources = await client.getAccountResources(walletAddress);
-    const coinResources = resources.filter((r) =>
-      r.type.startsWith("0x1::coin::CoinStore<")
-    );
-    const parsedTokenAccounts: ParsedTokenAccount[] = [];
-    for (const cr of coinResources) {
-      try {
-        const address = cr.type.substring(
-          cr.type.indexOf("<") + 1,
-          cr.type.length - 1
+      // there is no aptos indexing service in devnet
+      const parsedTokenAccountsNFT: NFTParsedTokenAccount[] = [];
+      if (CLUSTER === "devnet") {
+        const client = getAptosClient();
+        const tokenStore = await client.getAccountResource(
+          walletAddress,
+          "0x3::token::TokenStore"
         );
-        const coinType = `0x1::coin::CoinInfo<${address}>`;
-        const coinStore = `0x1::coin::CoinStore<${address}>`;
-        const value = (
-          (await client.getAccountResource(walletAddress, coinStore))
-            .data as any
-        ).coin.value;
-        const assetInfo = (
-          await client.getAccountResource(address.split("::")[0], coinType)
-        ).data as AptosCoinResourceReturn;
-        if (value && value !== "0" && assetInfo) {
-          const parsedTokenAccount = createParsedTokenAccount(
+        if (tokenStore) {
+          // @ts-ignore
+          const counter = parseInt(tokenStore.data.deposit_events.counter);
+          const events = await client.getEventsByEventHandle(
             walletAddress,
-            address,
-            value,
-            assetInfo.decimals,
-            Number(formatUnits(value, assetInfo.decimals)),
-            formatUnits(value, assetInfo.decimals),
-            assetInfo.symbol,
-            assetInfo.name
+            "0x3::token::TokenStore",
+            "deposit_events",
+            {
+              // TODO: pagination
+              limit: counter,
+            }
           );
-          if (address === APTOS_NATIVE_TOKEN_KEY) {
-            parsedTokenAccount.logo = aptosIcon;
-            parsedTokenAccount.isNativeAsset = true;
-            parsedTokenAccounts.unshift(parsedTokenAccount);
-          } else {
-            parsedTokenAccounts.push(parsedTokenAccount);
-          }
+          const ids = [...new Set(events.map((event) => event.data.id))];
+          const data: TokenTypes.Token[] = [];
+          const tokenClient = new TokenClient(client);
+          await Promise.all(
+            ids.map(async (id) => {
+              const token = await tokenClient.getTokenForAccount(
+                walletAddress,
+                id
+              );
+              if (token) {
+                data.push(token);
+              }
+            })
+          );
+          const result = data.filter((token) => {
+            return token.amount !== "0";
+          });
+          const final = result.filter(
+            (value, index) =>
+              index ===
+              result.findIndex(
+                (t) => t.id.token_data_id.name === value.id.token_data_id.name
+              )
+          );
+          final.sort((a, b) =>
+            a.id.token_data_id.name.localeCompare(b.id.token_data_id.name)
+          );
+          parsedTokenAccountsNFT.push(
+            ...(await Promise.all(
+              final.map(async (token) => {
+                const { creator, collection, name } = token.id.token_data_id;
+                const tokenData = await tokenClient.getTokenData(
+                  creator,
+                  collection,
+                  name
+                );
+                return createNFTParsedTokenAccount(
+                  walletAddress,
+                  creator,
+                  token.amount,
+                  0,
+                  Number(token.amount),
+                  token.amount,
+                  name,
+                  collection,
+                  undefined,
+                  tokenData.uri,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined,
+                  token.id
+                );
+              })
+            ))
+          );
         }
-      } catch (error) {
-        console.error(error);
+      } else {
+        let offset = 0;
+        const limit = 100;
+        while (true) {
+          const tokens = await fetchCurrentTokens(walletAddress, offset, limit);
+          tokens.data.current_token_ownerships.forEach((token) => {
+            parsedTokenAccountsNFT.push(
+              createNFTParsedTokenAccount(
+                walletAddress,
+                token.token_data_id_hash,
+                "1",
+                0,
+                1,
+                "1",
+                token.name,
+                token.collection_name,
+                undefined,
+                token.current_token_data.metadata_uri,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                {
+                  token_data_id: {
+                    creator: token.creator_address,
+                    collection: token.collection_name,
+                    name: token.name,
+                  },
+                  property_version: token.property_version.toString(),
+                }
+              )
+            );
+          });
+          if (tokens.data.current_token_ownerships.length < limit) {
+            break;
+          }
+          offset += tokens.data.current_token_ownerships.length;
+        }
       }
+      dispatch(receiveSourceParsedTokenAccountsNFT(parsedTokenAccountsNFT));
+    } else {
+      const client = getAptosClient();
+      const resources = await client.getAccountResources(walletAddress);
+      const coinResources = resources.filter((r) =>
+        r.type.startsWith("0x1::coin::CoinStore<")
+      );
+      const parsedTokenAccounts: ParsedTokenAccount[] = [];
+      for (const cr of coinResources) {
+        try {
+          const address = cr.type.substring(
+            cr.type.indexOf("<") + 1,
+            cr.type.length - 1
+          );
+          const coinType = `0x1::coin::CoinInfo<${address}>`;
+          const coinStore = `0x1::coin::CoinStore<${address}>`;
+          const value = (
+            (await client.getAccountResource(walletAddress, coinStore))
+              .data as any
+          ).coin.value;
+          const assetInfo = (
+            await client.getAccountResource(address.split("::")[0], coinType)
+          ).data as AptosCoinResourceReturn;
+          if (value && value !== "0" && assetInfo) {
+            const parsedTokenAccount = createParsedTokenAccount(
+              walletAddress,
+              address,
+              value,
+              assetInfo.decimals,
+              Number(formatUnits(value, assetInfo.decimals)),
+              formatUnits(value, assetInfo.decimals),
+              assetInfo.symbol,
+              assetInfo.name
+            );
+            if (address === APTOS_NATIVE_TOKEN_KEY) {
+              parsedTokenAccount.logo = aptosIcon;
+              parsedTokenAccount.isNativeAsset = true;
+              parsedTokenAccounts.unshift(parsedTokenAccount);
+            } else {
+              parsedTokenAccounts.push(parsedTokenAccount);
+            }
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      dispatch(receiveSourceParsedTokenAccounts(parsedTokenAccounts));
     }
-    dispatch(receiveSourceParsedTokenAccounts(parsedTokenAccounts));
-  } catch (e) {
+  } catch (e: any) {
     console.error(e);
     dispatch(
       nft

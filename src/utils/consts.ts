@@ -28,6 +28,10 @@ import {
   CHAIN_ID_ARBITRUM,
   CHAIN_ID_INJECTIVE,
   CHAIN_ID_OPTIMISM,
+  hexToNativeString,
+  ensureHexPrefix,
+  uint8ArrayToHex,
+  hexToNativeAssetString,
 } from "@certusone/wormhole-sdk";
 import { clusterApiUrl } from "@solana/web3.js";
 import { getAddress } from "ethers/lib/utils";
@@ -359,7 +363,8 @@ export const CHAINS_WITH_NFT_SUPPORT = CHAINS.filter(
     id === CHAIN_ID_NEON ||
     id === CHAIN_ID_MOONBEAM ||
     id === CHAIN_ID_ARBITRUM ||
-    id === CHAIN_ID_OPTIMISM
+    id === CHAIN_ID_OPTIMISM ||
+    id === CHAIN_ID_APTOS
 );
 export type ChainsById = { [key in ChainId]: ChainInfo };
 export const CHAINS_BY_ID: ChainsById = CHAINS.reduce((obj, chain) => {
@@ -611,6 +616,13 @@ export const APTOS_URL =
     : CLUSTER === "testnet"
     ? "https://testnet.aptoslabs.com"
     : "http://localhost:8080";
+
+export const APTOS_INDEXER_URL =
+  CLUSTER === "mainnet"
+    ? "https://indexer.mainnet.aptoslabs.com/v1/graphql"
+    : CLUSTER === "testnet"
+    ? "https://indexer-testnet.staging.gcp.aptosdev.com/v1/graphql"
+    : "";
 
 export const APTOS_NETWORK =
   CLUSTER === "mainnet"
@@ -1770,3 +1782,23 @@ export const USD_NUMBER_FORMATTER = new Intl.NumberFormat("en-US", {
   currency: "USD",
   maximumFractionDigits: 0,
 });
+
+export const getWalletAddressNative = (
+  hexAddress: string,
+  chainId: ChainId
+) => {
+  if (chainId === CHAIN_ID_APTOS) {
+    return ensureHexPrefix(hexAddress);
+  }
+  return hexToNativeString(hexAddress, chainId);
+};
+
+export const getAssetAddressNative = (
+  address: Uint8Array,
+  chainId: ChainId
+) => {
+  if (chainId === CHAIN_ID_APTOS) {
+    return uint8ArrayToHex(address);
+  }
+  return hexToNativeAssetString(uint8ArrayToHex(address), chainId);
+};

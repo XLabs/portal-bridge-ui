@@ -76,9 +76,9 @@ function useIsWalletReady(
   // Martian = "Testnet"
   // Pontam = "Aptos testnet"
   // Nightly = undefined... error on NightlyWallet.ts
-  const hasCorrectAptosNetwork = aptosNetwork?.name
-    ?.toLowerCase()
-    .includes(APTOS_NETWORK.toLowerCase());
+  const hasCorrectAptosNetwork =
+    aptosNetwork?.name?.toLowerCase().includes(APTOS_NETWORK.toLowerCase()) ||
+    (CLUSTER === "devnet" && aptosNetwork?.chainId === "4");
   const { address: injAddress } = useInjectiveContext();
   const hasInjWallet = !!injAddress;
 

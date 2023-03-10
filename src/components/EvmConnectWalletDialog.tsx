@@ -81,9 +81,15 @@ const EvmConnectWalletDialog = ({
 
   const availableWallets = availableConnections
     .filter((connection) => {
-      if (connection.connectType === ConnectType.METAMASK) {
+      const { connectType } = connection || {};
+
+      if (
+        connectType === ConnectType.METAMASK ||
+        connectType === ConnectType.BRAVEWALLET ||
+        connectType === ConnectType.KUCOINWALLET
+      ) {
         return true;
-      } else if (connection.connectType === ConnectType.WALLETCONNECT) {
+      } else if (connectType === ConnectType.WALLETCONNECT) {
         const evmChainId = getEvmChainId(chainId);
         // WalletConnect requires a rpc provider
         return (

@@ -50,7 +50,9 @@ export default function ShowTx({
     CLUSTER === "testnet" ||
     CLUSTER === "mainnet" ||
     (CLUSTER === "devnet" &&
-      (chainId === CHAIN_ID_SOLANA || isTerraChain(chainId)));
+      (chainId === CHAIN_ID_SOLANA ||
+        isTerraChain(chainId) ||
+        chainId === CHAIN_ID_APTOS));
   const explorerAddress =
     chainId === CHAIN_ID_ETH
       ? `https://${CLUSTER === "testnet" ? "goerli." : ""}etherscan.io/tx/${

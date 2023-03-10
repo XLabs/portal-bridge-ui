@@ -1,4 +1,4 @@
-import { ChainId } from "@certusone/wormhole-sdk";
+import { CHAIN_ID_APTOS, ChainId } from "@certusone/wormhole-sdk";
 import {
   Button,
   CircularProgress,
@@ -151,7 +151,7 @@ export const BasicAccountRender = (
       </div>
       <div>
         <Typography>{symbol}</Typography>
-        <Typography>{name}</Typography>
+        <Typography style={{ wordBreak: "break-all" }}> {name}</Typography>
       </div>
       <div>
         <Typography>{mintPrettyString}</Typography>
@@ -529,6 +529,8 @@ export default function TokenPicker({
     );
   };
 
+  const isAptosNFT = nft && chainId === CHAIN_ID_APTOS;
+
   const dialog = (
     <Dialog
       onClose={closeDialog}
@@ -560,14 +562,16 @@ export default function TokenPicker({
             Click here to see available markets for wrapped tokens.
           </Link>
         </Alert>
-        <TextField
-          variant="outlined"
-          label="Search name or paste address"
-          value={holderString}
-          onChange={(event) => setHolderString(event.target.value)}
-          fullWidth
-          margin="normal"
-        />
+        {!isAptosNFT ? (
+          <TextField
+            variant="outlined"
+            label="Search name or paste address"
+            value={holderString}
+            onChange={(event) => setHolderString(event.target.value)}
+            fullWidth
+            margin="normal"
+          />
+        ) : null}
         {useTokenId ? (
           <TextField
             variant="outlined"

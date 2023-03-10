@@ -1,3 +1,4 @@
+import { FC, useMemo } from "react";
 import { Adapter, WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import {
   ConnectionProvider,
@@ -7,19 +8,17 @@ import {
 import {
   PhantomWalletAdapter,
   SolflareWalletAdapter,
-  SolletWalletAdapter,
   CloverWalletAdapter,
   Coin98WalletAdapter,
   SlopeWalletAdapter,
   SolongWalletAdapter,
   TorusWalletAdapter,
-  SolletExtensionWalletAdapter,
   ExodusWalletAdapter,
   BackpackWalletAdapter,
   NightlyWalletAdapter,
   BloctoWalletAdapter,
+  BraveWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
-import { FC, useMemo } from "react";
 import { CLUSTER, SOLANA_HOST } from "../utils/consts";
 
 export const SolanaWalletProvider: FC = (props) => {
@@ -28,9 +27,8 @@ export const SolanaWalletProvider: FC = (props) => {
       new PhantomWalletAdapter(),
       new SolflareWalletAdapter(),
       new BackpackWalletAdapter(),
+      new BraveWalletAdapter(),
       new NightlyWalletAdapter(),
-      new SolletWalletAdapter(),
-      new SolletExtensionWalletAdapter(),
       new CloverWalletAdapter(),
       new Coin98WalletAdapter(),
       new SlopeWalletAdapter(),
@@ -38,6 +36,7 @@ export const SolanaWalletProvider: FC = (props) => {
       new TorusWalletAdapter(),
       new ExodusWalletAdapter(),
     ];
+
     const network =
       CLUSTER === "mainnet"
         ? WalletAdapterNetwork.Mainnet
@@ -47,6 +46,7 @@ export const SolanaWalletProvider: FC = (props) => {
     if (network) {
       wallets.push(new BloctoWalletAdapter({ network }));
     }
+
     return wallets;
   }, []);
 
