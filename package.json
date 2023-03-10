@@ -32,7 +32,7 @@
     "@solana/web3.js": "^1.35.1",
     "@terra-money/wallet-provider": "^3.9.4",
     "@walletconnect/web3-provider": "^1.7.8",
-    "@xlabs-libs/wallet-aggregator-algorand": "0.0.1-alpha.13",
+    "@xlabs-libs/wallet-aggregator-algorand": "0.0.1-alpha.14",
     "@xlabs-libs/wallet-aggregator-core": "0.0.1-alpha.10",
     "@xlabs-libs/wallet-aggregator-react": "0.0.1-alpha.10",
     "@xpla/wallet-provider": "^0.3.4",
