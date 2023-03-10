@@ -26,3 +26,6 @@ yarn-error.log*
 # ethereum contracts
 /contracts
 /src/ethers-contracts
+
+.yalc
+yalc.lock

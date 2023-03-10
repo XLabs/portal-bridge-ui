@@ -12,7 +12,7 @@ import {
 import { hexlify, hexStripZeros } from "@ethersproject/bytes";
 import { useConnectedWallet } from "@terra-money/wallet-provider";
 import { useCallback, useMemo } from "react";
-import { useAlgorandContext } from "../contexts/AlgorandWalletContext";
+import { useAlgorandWallet } from "../contexts/AlgorandWalletContext";
 import {
   ConnectType,
   useEthereumProvider,
@@ -64,8 +64,7 @@ function useIsWalletReady(
   const hasEthInfo = !!provider && !!signerAddress;
   const correctEvmNetwork = getEvmChainId(chainId);
   const hasCorrectEvmNetwork = evmChainId === correctEvmNetwork;
-  const { accounts: algorandAccounts } = useAlgorandContext();
-  const algoPK = algorandAccounts[0]?.address;
+  const { address: algoAccount } = useAlgorandWallet();
   const { accountId: nearPK } = useNearContext();
   const xplaWallet = useXplaConnectedWallet();
   const hasXplaWallet = !!xplaWallet;
@@ -139,8 +138,13 @@ function useIsWalletReady(
         solPK.toString()
       );
     }
-    if (chainId === CHAIN_ID_ALGORAND && algoPK) {
-      return createWalletStatus(true, undefined, forceNetworkSwitch, algoPK);
+    if (chainId === CHAIN_ID_ALGORAND && algoAccount) {
+      return createWalletStatus(
+        true,
+        undefined,
+        forceNetworkSwitch,
+        algoAccount
+      );
     }
     if (chainId === CHAIN_ID_NEAR && nearPK) {
       return createWalletStatus(true, undefined, forceNetworkSwitch, nearPK);
@@ -221,7 +225,7 @@ function useIsWalletReady(
     provider,
     signerAddress,
     terraWallet,
-    algoPK,
+    algoAccount,
     nearPK,
     xplaWallet,
     hasXplaWallet,

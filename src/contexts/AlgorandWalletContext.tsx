@@ -1,65 +1,17 @@
-import MyAlgoConnect, { Accounts } from "@randlabs/myalgo-connect";
-import {
-  createContext,
-  ReactChildren,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-} from "react";
+import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
+import { CHAIN_ID_ALGORAND } from "@xlabs-libs/wallet-aggregator-core";
+import { useWallet } from "@xlabs-libs/wallet-aggregator-react";
+import { useMemo } from "react";
 
-interface IAlgorandContext {
-  connect(): void;
-  disconnect(): void;
-  accounts: Accounts[];
-}
+export const useAlgorandWallet = () => {
+  const wallet = useWallet(CHAIN_ID_ALGORAND);
+  const address = wallet?.getAddress();
 
-const AlgorandContext = createContext<IAlgorandContext>({
-  connect: () => {},
-  disconnect: () => {},
-  accounts: [],
-});
-
-export const AlgorandContextProvider = ({
-  children,
-}: {
-  children: ReactChildren;
-}) => {
-  const myAlgoConnect = useMemo(() => new MyAlgoConnect(), []);
-  const [accounts, setAccounts] = useState<Accounts[]>([]);
-  const connect = useCallback(() => {
-    let cancelled = false;
-    (async () => {
-      const accounts = await myAlgoConnect.connect({
-        shouldSelectOneAccount: true,
-      });
-      if (!cancelled) {
-        setAccounts(accounts);
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [myAlgoConnect]);
-  const disconnect = useCallback(() => {
-    setAccounts([]);
-  }, []);
-  const value = useMemo(
+  return useMemo(
     () => ({
-      connect,
-      disconnect,
-      accounts,
+      wallet: wallet as AlgorandWallet,
+      address,
     }),
-    [connect, disconnect, accounts]
+    [wallet, address]
   );
-
-  return (
-    <AlgorandContext.Provider value={value}>
-      {children}
-    </AlgorandContext.Provider>
-  );
-};
-
-export const useAlgorandContext = () => {
-  return useContext(AlgorandContext);
 };

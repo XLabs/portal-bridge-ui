@@ -22,7 +22,6 @@
     "@near-wallet-selector/nightly": "^7.0.1",
     "@near-wallet-selector/sender": "^7.0.1",
     "@project-serum/serum": "^0.13.60",
-    "@randlabs/myalgo-connect": "^1.1.3",
     "@reduxjs/toolkit": "^1.6.1",
     "@solana/spl-token": "^0.1.6",
     "@solana/spl-token-registry": "^0.2.216",
@@ -33,10 +32,13 @@
     "@solana/web3.js": "^1.35.1",
     "@terra-money/wallet-provider": "^3.9.4",
     "@walletconnect/web3-provider": "^1.7.8",
+    "@xlabs-libs/wallet-aggregator-algorand": "0.0.1-alpha.14",
+    "@xlabs-libs/wallet-aggregator-core": "0.0.1-alpha.10",
+    "@xlabs-libs/wallet-aggregator-react": "0.0.1-alpha.10",
     "@xpla/wallet-provider": "^0.3.4",
     "@xpla/xpla.js": "^0.2.1",
     "algosdk": "^1.15.0",
-    "aptos": "^1.5.0",
+    "aptos": "1.5.0",
     "axios": "^0.21.1",
     "bech32": "^1.1.4",
     "bn.js": "^5.1.3",
@@ -64,7 +66,8 @@
     "start": "react-app-rewired start",
     "build": "sed -i '/enableWorkerThreads/d' node_modules/terser-webpack-plugin/dist/index.js && react-app-rewired --max_old_space_size=3072 build",
     "test": "react-app-rewired test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "format": "npx prettier --write ./src"
   },
   "eslintConfig": {
     "extends": [

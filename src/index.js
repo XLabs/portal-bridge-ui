@@ -6,7 +6,6 @@ import { Provider } from "react-redux";
 import { HashRouter } from "react-router-dom";
 import App from "./App";
 import BackgroundImage from "./components/BackgroundImage";
-import { AlgorandContextProvider } from "./contexts/AlgorandWalletContext";
 import AptosWalletProvider from "./contexts/AptosWalletContext";
 import { BetaContextProvider } from "./contexts/BetaContext";
 import { EthereumProviderProvider } from "./contexts/EthereumProviderContext";
@@ -18,6 +17,23 @@ import ErrorBoundary from "./ErrorBoundary";
 import { theme } from "./muiTheme";
 import { store } from "./store";
 import InjectiveWalletProvider from "./contexts/InjectiveWalletContext";
+import { WalletContextProvider } from "@xlabs-libs/wallet-aggregator-react";
+import { CHAIN_ID_ALGORAND } from "@xlabs-libs/wallet-aggregator-core";
+import {
+  MyAlgoWallet,
+  PeraWallet,
+  DeflyWallet,
+  AlgorandLedgerWallet,
+} from "@xlabs-libs/wallet-aggregator-algorand";
+
+const AGGREGATOR_WALLETS = {
+  [CHAIN_ID_ALGORAND]: [
+    new MyAlgoWallet(),
+    new PeraWallet(),
+    new DeflyWallet(),
+    new AlgorandLedgerWallet(),
+  ],
+};
 
 ReactDOM.render(
   <ErrorBoundary>
@@ -26,11 +42,11 @@ ReactDOM.render(
         <CssBaseline />
         <ErrorBoundary>
           <SnackbarProvider maxSnack={3}>
-            <BetaContextProvider>
-              <SolanaWalletProvider>
-                <EthereumProviderProvider>
-                  <TerraWalletProvider>
-                    <AlgorandContextProvider>
+            <WalletContextProvider wallets={AGGREGATOR_WALLETS}>
+              <BetaContextProvider>
+                <SolanaWalletProvider>
+                  <EthereumProviderProvider>
+                    <TerraWalletProvider>
                       <NearContextProvider>
                         <XplaWalletProvider>
                           <AptosWalletProvider>
@@ -43,11 +59,11 @@ ReactDOM.render(
                           </AptosWalletProvider>
                         </XplaWalletProvider>
                       </NearContextProvider>
-                    </AlgorandContextProvider>
-                  </TerraWalletProvider>
-                </EthereumProviderProvider>
-              </SolanaWalletProvider>
-            </BetaContextProvider>
+                    </TerraWalletProvider>
+                  </EthereumProviderProvider>
+                </SolanaWalletProvider>
+              </BetaContextProvider>
+            </WalletContextProvider>
           </SnackbarProvider>
         </ErrorBoundary>
       </ThemeProvider>

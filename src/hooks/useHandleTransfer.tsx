@@ -50,7 +50,7 @@ import { parseUnits, zeroPad } from "ethers/lib/utils";
 import { useSnackbar } from "notistack";
 import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useAlgorandContext } from "../contexts/AlgorandWalletContext";
+import { useAlgorandWallet } from "../contexts/AlgorandWalletContext";
 import { useAptosContext } from "../contexts/AptosWalletContext";
 import { useEthereumProvider } from "../contexts/EthereumProviderContext";
 import { useNearContext } from "../contexts/NearWalletContext";
@@ -115,6 +115,7 @@ import { postWithFeesXpla, waitForXplaExecution } from "../utils/xpla";
 import { WalletStrategy } from "@injectivelabs/wallet-ts";
 import { broadcastInjectiveTx } from "../utils/injective";
 import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
+import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
 
 async function fetchSignedVAA(
   chainId: ChainId,
@@ -159,7 +160,7 @@ function handleError(e: any, enqueueSnackbar: any, dispatch: any) {
 async function algo(
   dispatch: any,
   enqueueSnackbar: any,
-  senderAddr: string,
+  wallet: AlgorandWallet,
   tokenAddress: string,
   decimals: number,
   amount: string,
@@ -182,14 +183,14 @@ async function algo(
       algodClient,
       ALGORAND_TOKEN_BRIDGE_ID,
       ALGORAND_BRIDGE_ID,
-      senderAddr,
+      wallet.getAddress()!,
       BigInt(tokenAddress),
       transferAmountParsed.toBigInt(),
       uint8ArrayToHex(recipientAddress),
       recipientChain,
       feeParsed.toBigInt()
     );
-    const result = await signSendAndConfirmAlgorand(algodClient, txs);
+    const result = await signSendAndConfirmAlgorand(wallet, algodClient, txs);
     const sequence = parseSequenceFromLogAlgorand(result);
     dispatch(
       setTransferTx({
@@ -670,7 +671,7 @@ export function useHandleTransfer() {
   const terraWallet = useConnectedWallet();
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
   const xplaWallet = useXplaConnectedWallet();
-  const { accounts: algoAccounts } = useAlgorandContext();
+  const { address: algoAccount, wallet: algoWallet } = useAlgorandWallet();
   const { accountId: nearAccountId, wallet } = useNearContext();
   const { account: aptosAccount, signAndSubmitTransaction } = useAptosContext();
   const aptosAddress = aptosAccount?.address?.toString();
@@ -772,7 +773,7 @@ export function useHandleTransfer() {
       );
     } else if (
       sourceChain === CHAIN_ID_ALGORAND &&
-      algoAccounts[0] &&
+      algoAccount &&
       !!sourceAsset &&
       decimals !== undefined &&
       !!targetAddress
@@ -780,7 +781,7 @@ export function useHandleTransfer() {
       algo(
         dispatch,
         enqueueSnackbar,
-        algoAccounts[0].address,
+        algoWallet,
         sourceAsset,
         decimals,
         amount,
@@ -869,7 +870,8 @@ export function useHandleTransfer() {
     originChain,
     isNative,
     terraFeeDenom,
-    algoAccounts,
+    algoAccount,
+    algoWallet,
     nearAccountId,
     wallet,
     xplaWallet,

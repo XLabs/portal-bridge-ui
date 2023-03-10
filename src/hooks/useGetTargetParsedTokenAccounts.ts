@@ -20,7 +20,7 @@ import { useConnectedWallet } from "@terra-money/wallet-provider";
 import { formatUnits } from "ethers/lib/utils";
 import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useAlgorandContext } from "../contexts/AlgorandWalletContext";
+import { useAlgorandWallet } from "../contexts/AlgorandWalletContext";
 import { useEthereumProvider } from "../contexts/EthereumProviderContext";
 import { useSolanaWallet } from "../contexts/SolanaWalletContext";
 import {
@@ -83,7 +83,7 @@ function useGetTargetParsedTokenAccounts() {
   } = useEthereumProvider();
   const hasCorrectEvmNetwork = evmChainId === getEvmChainId(targetChain);
   const xplaWallet = useXplaConnectedWallet();
-  const { accounts: algoAccounts } = useAlgorandContext();
+  const { address: algoAccount } = useAlgorandWallet();
   const { accountId: nearAccountId } = useNearContext();
   const { account: aptosAccount } = useAptosContext();
   const aptosAddress = aptosAccount?.address?.toString();
@@ -361,7 +361,7 @@ function useGetTargetParsedTokenAccounts() {
     }
     if (
       targetChain === CHAIN_ID_ALGORAND &&
-      algoAccounts[0] &&
+      algoAccount &&
       decimals !== undefined
     ) {
       const algodClient = new Algodv2(
@@ -372,7 +372,7 @@ function useGetTargetParsedTokenAccounts() {
       try {
         const tokenId = BigInt(targetAsset);
         algodClient
-          .accountInformation(algoAccounts[0].address)
+          .accountInformation(algoAccount)
           .do()
           .then((accountInfo) => {
             let balance = 0;
@@ -392,7 +392,7 @@ function useGetTargetParsedTokenAccounts() {
             dispatch(
               setTargetParsedTokenAccount(
                 createParsedTokenAccount(
-                  algoAccounts[0].address,
+                  algoAccount,
                   targetAsset,
                   balance.toString(),
                   decimals,
@@ -602,7 +602,7 @@ function useGetTargetParsedTokenAccounts() {
     symbol,
     tokenName,
     logo,
-    algoAccounts,
+    algoAccount,
     decimals,
     nearAccountId,
     xplaWallet,
