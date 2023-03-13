@@ -29,7 +29,7 @@ import {
 } from "@xlabs-libs/wallet-aggregator-algorand";
 import {
   InjectedWallet,
-  WalletConnectWallet,
+  WalletConnectLegacyWallet,
 } from "@xlabs-libs/wallet-aggregator-evm";
 
 const AGGREGATOR_WALLETS = {
@@ -39,7 +39,7 @@ const AGGREGATOR_WALLETS = {
     new DeflyWallet(),
     new AlgorandLedgerWallet(),
   ],
-  [CHAIN_ID_ETH]: [new InjectedWallet(), new WalletConnectWallet()],
+  [CHAIN_ID_ETH]: [new InjectedWallet(), new WalletConnectLegacyWallet()],
 };
 
 ReactDOM.render(
