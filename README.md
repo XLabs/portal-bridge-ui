@@ -48,3 +48,9 @@ Create `.env` from the sample file, then add your Covalent API key:
 ```bash
 cp .env.sample .env
 ```
+
+## Note
+
+> Run `npm dedup` after adding a new dependency
+
+see: https://docs.npmjs.com/cli/v8/commands/npm-dedupe
