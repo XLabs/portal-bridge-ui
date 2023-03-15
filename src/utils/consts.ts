@@ -574,7 +574,7 @@ export const getTerraConfig = (chainId: TerraChainId) => {
         URL:
           chainId === CHAIN_ID_TERRA2
             ? "https://phoenix-lcd.terra.dev"
-            : "https://columbus-lcd.terra.dev",
+            : "https://terra-classic-lcd.publicnode.com",
         chainID: chainId === CHAIN_ID_TERRA2 ? "phoenix-1" : "columbus-5",
         name: "mainnet",
         isClassic,
