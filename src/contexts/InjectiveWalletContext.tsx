@@ -41,13 +41,6 @@ export const getSupportedWallets = (): InjectiveWalletInfo[] => [
     icon: keplrIcon,
     url: "https://chrome.google.com/webstore/detail/keplr/dmkamcknogkgcdfhhbddcghachkejeap",
   },
-  {
-    wallet: Wallet.Frontier,
-    name: "Frontier Wallet",
-    isInstalled: typeof (window as any).frontier.cosmos !== "undefined",
-    icon: FrontierIcon,
-    url: "https://chrome.google.com/webstore/detail/frontier-wallet/kppfdiipphfccemcignhifpjkapfbihd",
-  },
 ];
 
 export const InjectiveWalletProvider = ({
