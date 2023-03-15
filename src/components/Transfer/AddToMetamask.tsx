@@ -81,7 +81,7 @@ export default function AddToMetamask() {
       variant="outlined"
       className={classes.addButton}
     >
-      {`Add to ${wallet?.getName()}`}
+      {`Add to ${wallet?.getName() || "wallet"}`}
     </Button>
   ) : null;
 }
