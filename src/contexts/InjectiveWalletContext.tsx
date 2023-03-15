@@ -8,7 +8,6 @@ import {
 } from "react";
 import { Wallet, WalletStrategy } from "@injectivelabs/wallet-ts";
 import keplrIcon from "../icons/keplr.svg";
-import FrontierIcon from "../icons/frontier.svg";
 import { getInjectiveNetworkChainId } from "../utils/consts";
 
 interface IInjectiveProviderContext {
