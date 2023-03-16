@@ -12,7 +12,7 @@ const mainnet: NetworkInfo = {
 const classic: NetworkInfo = {
   name: "classic",
   chainID: "columbus-5",
-  lcd: "https://columbus-lcd.terra.dev",
+  lcd: "https://terra-classic-lcd.publicnode.com",
   walletconnectID: 2,
 };
 
