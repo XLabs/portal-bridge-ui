@@ -20,7 +20,7 @@ import useIsWalletReady from "../../hooks/useIsWalletReady";
 import { COLORS } from "../../muiTheme";
 import { CHAINS_BY_ID, getMigrationAssetMap } from "../../utils/consts";
 import ButtonWithLoader from "../ButtonWithLoader";
-import EthereumSignerKey from "../EthereumSignerKey";
+import ConnectWalletButton from "../ConnectWalletButton";
 import HeaderText from "../HeaderText";
 import ShowTx from "../ShowTx";
 import SmartAddress from "../SmartAddress";
@@ -99,7 +99,7 @@ function EvmMigrationLineItem({
 }) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
-  const { signer, signerAddress } = useEthereumProvider();
+  const { signer, signerAddress } = useEthereumProvider(chainId);
   const poolInfo = useEthereumMigratorInformation(
     migratorAddress,
     signer,
@@ -273,7 +273,7 @@ const getAddressBalances = async (
 
 export default function EvmQuickMigrate({ chainId }: { chainId: ChainId }) {
   const classes = useStyles();
-  const { signer, signerAddress } = useEthereumProvider();
+  const { signer, signerAddress } = useEthereumProvider(chainId);
   const { isReady } = useIsWalletReady(chainId);
   const migrationMap = useMemo(() => getMigrationAssetMap(chainId), [chainId]);
   const eligibleTokens = useMemo(
@@ -348,7 +348,7 @@ export default function EvmQuickMigrate({ chainId }: { chainId: ChainId }) {
         } into
         Wormhole V2 tokens.`}
       </Typography>
-      <EthereumSignerKey chainId={chainId} />
+      <ConnectWalletButton chainId={chainId} />
       {!isReady ? (
         <Typography variant="body1">Please connect your wallet.</Typography>
       ) : migratorsError ? (

@@ -1082,7 +1082,7 @@ function useGetAvailableTokens(nft: boolean = false) {
   );
   const solanaWallet = useSolanaWallet();
   const solPK = solanaWallet?.publicKey;
-  const { provider, signerAddress } = useEthereumProvider();
+  const { provider, signerAddress } = useEthereumProvider(lookupChain);
   const { address: algoAccount } = useAlgorandWallet();
   const { accountId: nearAccountId } = useNearContext();
   const { account: aptosAccount } = useAptosContext();

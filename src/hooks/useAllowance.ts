@@ -23,7 +23,7 @@ export default function useAllowance(
   const [allowance, setAllowance] = useState<BigInt | null>(null);
   const [isAllowanceFetching, setIsAllowanceFetching] = useState(false);
   const isApproveProcessing = useSelector(selectTransferIsApproving);
-  const { signer } = useEthereumProvider();
+  const { signer } = useEthereumProvider(chainId);
   const sufficientAllowance =
     !isEVMChain(chainId) ||
     sourceIsNative ||

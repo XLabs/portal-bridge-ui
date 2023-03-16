@@ -8,7 +8,7 @@ import { useEthereumProvider } from "../../contexts/EthereumProviderContext";
 import useEthereumMigratorInformation from "../../hooks/useEthereumMigratorInformation";
 import useIsWalletReady from "../../hooks/useIsWalletReady";
 import ButtonWithLoader from "../ButtonWithLoader";
-import EthereumSignerKey from "../EthereumSignerKey";
+import ConnectWalletButton from "../ConnectWalletButton";
 import NumberTextField from "../NumberTextField";
 import ShowTx from "../ShowTx";
 import SmartAddress from "../SmartAddress";
@@ -32,7 +32,7 @@ export default function EvmWorkflow({
 }) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
-  const { signer, signerAddress } = useEthereumProvider();
+  const { signer, signerAddress } = useEthereumProvider(chainId);
   const { isReady } = useIsWalletReady(chainId);
   const [toggleRefresh, setToggleRefresh] = useState(false);
   const forceRefresh = useCallback(
@@ -231,7 +231,7 @@ export default function EvmWorkflow({
 
   return (
     <div className={classes.containerDiv}>
-      <EthereumSignerKey chainId={chainId} />
+      <ConnectWalletButton chainId={chainId} />
       {!isReady ? (
         <Typography variant="body1">Please connect your wallet.</Typography>
       ) : poolInfo.isLoading ? (

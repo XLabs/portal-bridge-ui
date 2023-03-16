@@ -8,7 +8,6 @@ import App from "./App";
 import BackgroundImage from "./components/BackgroundImage";
 import AptosWalletProvider from "./contexts/AptosWalletContext";
 import { BetaContextProvider } from "./contexts/BetaContext";
-import { EthereumProviderProvider } from "./contexts/EthereumProviderContext";
 import { NearContextProvider } from "./contexts/NearWalletContext";
 import XplaWalletProvider from "./contexts/XplaWalletContext";
 import { SolanaWalletProvider } from "./contexts/SolanaWalletContext.tsx";
@@ -18,13 +17,20 @@ import { theme } from "./muiTheme";
 import { store } from "./store";
 import InjectiveWalletProvider from "./contexts/InjectiveWalletContext";
 import { WalletContextProvider } from "@xlabs-libs/wallet-aggregator-react";
-import { CHAIN_ID_ALGORAND } from "@xlabs-libs/wallet-aggregator-core";
+import {
+  CHAIN_ID_ALGORAND,
+  CHAIN_ID_ETH,
+} from "@xlabs-libs/wallet-aggregator-core";
 import {
   MyAlgoWallet,
   PeraWallet,
   DeflyWallet,
   AlgorandLedgerWallet,
 } from "@xlabs-libs/wallet-aggregator-algorand";
+import {
+  InjectedWallet,
+  WalletConnectLegacyWallet,
+} from "@xlabs-libs/wallet-aggregator-evm";
 
 const AGGREGATOR_WALLETS = {
   [CHAIN_ID_ALGORAND]: [
@@ -33,6 +39,7 @@ const AGGREGATOR_WALLETS = {
     new DeflyWallet(),
     new AlgorandLedgerWallet(),
   ],
+  [CHAIN_ID_ETH]: [new InjectedWallet(), new WalletConnectLegacyWallet()],
 };
 
 ReactDOM.render(
@@ -45,22 +52,20 @@ ReactDOM.render(
             <WalletContextProvider wallets={AGGREGATOR_WALLETS}>
               <BetaContextProvider>
                 <SolanaWalletProvider>
-                  <EthereumProviderProvider>
-                    <TerraWalletProvider>
-                      <NearContextProvider>
-                        <XplaWalletProvider>
-                          <AptosWalletProvider>
-                            <InjectiveWalletProvider>
-                              <HashRouter>
-                                <BackgroundImage />
-                                <App />
-                              </HashRouter>
-                            </InjectiveWalletProvider>
-                          </AptosWalletProvider>
-                        </XplaWalletProvider>
-                      </NearContextProvider>
-                    </TerraWalletProvider>
-                  </EthereumProviderProvider>
+                  <TerraWalletProvider>
+                    <NearContextProvider>
+                      <XplaWalletProvider>
+                        <AptosWalletProvider>
+                          <InjectiveWalletProvider>
+                            <HashRouter>
+                              <BackgroundImage />
+                              <App />
+                            </HashRouter>
+                          </InjectiveWalletProvider>
+                        </AptosWalletProvider>
+                      </XplaWalletProvider>
+                    </NearContextProvider>
+                  </TerraWalletProvider>
                 </SolanaWalletProvider>
               </BetaContextProvider>
             </WalletContextProvider>

@@ -392,7 +392,7 @@ export function useHandleRedeem() {
   const targetChain = useSelector(selectTransferTargetChain);
   const solanaWallet = useSolanaWallet();
   const solPK = solanaWallet?.publicKey;
-  const { signer } = useEthereumProvider();
+  const { signer } = useEthereumProvider(targetChain);
   const terraWallet = useConnectedWallet();
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
   const xplaWallet = useXplaConnectedWallet();

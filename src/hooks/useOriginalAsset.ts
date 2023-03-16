@@ -219,7 +219,7 @@ function useOriginalAsset(
   nft: boolean,
   tokenId?: string
 ): DataWrapper<OriginalAssetInfo> {
-  const { provider } = useEthereumProvider();
+  const { provider } = useEthereumProvider(foreignChain);
   const { accountId: nearAccountId } = useNearContext();
   const { isReady } = useIsWalletReady(foreignChain, false);
   const [originAddress, setOriginAddress] = useState<string | null>(null);

@@ -91,7 +91,7 @@ function useCheckIfWormholeWrapped(nft?: boolean) {
   const setSourceWormholeWrappedInfo = nft
     ? setNFTSourceWormholeWrappedInfo
     : setTransferSourceWormholeWrappedInfo;
-  const { provider } = useEthereumProvider();
+  const { provider } = useEthereumProvider(sourceChain);
   const { accountId: nearAccountId } = useNearContext();
   const isRecovery = useSelector(
     nft ? selectNFTIsRecovery : selectTransferIsRecovery
