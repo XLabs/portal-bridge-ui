@@ -37,7 +37,6 @@ import { transferTokens } from "@certusone/wormhole-sdk/lib/esm/aptos/api/tokenB
 import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk/lib/esm";
 import { Alert } from "@material-ui/lab";
 import { Wallet } from "@near-wallet-selector/core";
-import { WalletContextState } from "@solana/wallet-adapter-react";
 import { Connection } from "@solana/web3.js";
 import {
   ConnectedWallet,
@@ -116,6 +115,7 @@ import { WalletStrategy } from "@injectivelabs/wallet-ts";
 import { broadcastInjectiveTx } from "../utils/injective";
 import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
+import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 
 async function fetchSignedVAA(
   chainId: ChainId,
@@ -464,7 +464,7 @@ async function xpla(
 async function solana(
   dispatch: any,
   enqueueSnackbar: any,
-  wallet: WalletContextState,
+  wallet: SolanaWallet,
   payerAddress: string, //TODO: we may not need this since we have wallet
   fromAddress: string,
   mintAddress: string,
@@ -513,7 +513,7 @@ async function solana(
           feeParsed.toBigInt()
         );
     const transaction = await promise;
-    const txid = await signSendAndConfirm(wallet, connection, transaction);
+    const txid = await signSendAndConfirm(wallet, transaction);
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
     });
@@ -666,8 +666,7 @@ export function useHandleTransfer() {
   const isSending = useSelector(selectTransferIsSending);
   const isSendComplete = useSelector(selectTransferIsSendComplete);
   const { signer } = useEthereumProvider(sourceChain);
-  const solanaWallet = useSolanaWallet();
-  const solPK = solanaWallet?.publicKey;
+  const { wallet: solanaWallet, publicKey: solPK } = useSolanaWallet();
   const terraWallet = useConnectedWallet();
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
   const xplaWallet = useXplaConnectedWallet();
@@ -721,7 +720,7 @@ export function useHandleTransfer() {
         dispatch,
         enqueueSnackbar,
         solanaWallet,
-        solPK.toString(),
+        solPK,
         sourceTokenPublicKey,
         sourceAsset,
         amount,

@@ -35,8 +35,7 @@ export function useAssociatedAccountExistsState(
   readableTargetAddress: string | undefined
 ) {
   const [associatedAccountExists, setAssociatedAccountExists] = useState(true); // for now, assume it exists until we confirm it doesn't
-  const solanaWallet = useSolanaWallet();
-  const solPK = solanaWallet?.publicKey;
+  const { publicKey: solPK } = useSolanaWallet();
   useEffect(() => {
     setAssociatedAccountExists(true);
     if (
@@ -91,14 +90,14 @@ export default function SolanaCreateAssociatedAddress({
   setAssociatedAccountExists: (associatedAccountExists: boolean) => void;
 }) {
   const [isCreating, setIsCreating] = useState(false);
-  const solanaWallet = useSolanaWallet();
-  const solPK = solanaWallet?.publicKey;
+  const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
   const handleClick = useCallback(() => {
     if (
       associatedAccountExists ||
       !mintAddress ||
       !readableTargetAddress ||
-      !solPK
+      !solPK ||
+      !solanaWallet
     )
       return;
     (async () => {
@@ -131,7 +130,7 @@ export default function SolanaCreateAssociatedAddress({
           const { blockhash } = await connection.getRecentBlockhash();
           transaction.recentBlockhash = blockhash;
           transaction.feePayer = new PublicKey(payerPublicKey);
-          await signSendAndConfirm(solanaWallet, connection, transaction);
+          await signSendAndConfirm(solanaWallet, transaction);
           setIsCreating(false);
           setAssociatedAccountExists(true);
         } else {
@@ -220,10 +219,9 @@ export function SolanaCreateAssociatedAddressAlternate() {
       base58TargetAddress
     );
 
-  const solanaWallet = useSolanaWallet();
-  const solPK = solanaWallet?.publicKey;
+  const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
   const handleForceCreateClick = useCallback(() => {
-    if (!targetAsset || !base58TargetAddress || !solPK) return;
+    if (!targetAsset || !base58TargetAddress || !solPK || !solanaWallet) return;
     (async () => {
       const connection = new Connection(SOLANA_HOST, "confirmed");
       const mintPublicKey = new PublicKey(targetAsset);
@@ -250,7 +248,7 @@ export function SolanaCreateAssociatedAddressAlternate() {
           const { blockhash } = await connection.getRecentBlockhash();
           transaction.recentBlockhash = blockhash;
           transaction.feePayer = new PublicKey(payerPublicKey);
-          await signSendAndConfirm(solanaWallet, connection, transaction);
+          await signSendAndConfirm(solanaWallet, transaction);
           setAssociatedAccountExists(true);
           enqueueSnackbar(null, {
             content: (

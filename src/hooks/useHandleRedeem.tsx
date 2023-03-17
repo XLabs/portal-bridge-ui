@@ -24,7 +24,7 @@ import {
 import { completeTransferAndRegister } from "@certusone/wormhole-sdk/lib/esm/aptos/api/tokenBridge";
 import { Alert } from "@material-ui/lab";
 import { Wallet } from "@near-wallet-selector/core";
-import { WalletContextState } from "@solana/wallet-adapter-react";
+
 import { Connection } from "@solana/web3.js";
 import {
   ConnectedWallet,
@@ -83,6 +83,7 @@ import { broadcastInjectiveTx } from "../utils/injective";
 import { WalletStrategy } from "@injectivelabs/wallet-ts";
 import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
+import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 
 async function algo(
   dispatch: any,
@@ -301,7 +302,7 @@ async function injective(
 async function solana(
   dispatch: any,
   enqueueSnackbar: any,
-  wallet: WalletContextState,
+  wallet: SolanaWallet,
   payerAddress: string, //TODO: we may not need this since we have wallet
   signedVAA: Uint8Array,
   isNative: boolean
@@ -314,7 +315,7 @@ async function solana(
     const connection = new Connection(SOLANA_HOST, "confirmed");
     await postVaaSolanaWithRetry(
       connection,
-      wallet.signTransaction,
+      wallet.signTransaction.bind(wallet),
       SOL_BRIDGE_ADDRESS,
       payerAddress,
       Buffer.from(signedVAA),
@@ -336,7 +337,7 @@ async function solana(
           payerAddress,
           signedVAA
         );
-    const txid = await signSendAndConfirm(wallet, connection, transaction);
+    const txid = await signSendAndConfirm(wallet, transaction);
     // TODO: didn't want to make an info call we didn't need, can we get the block without it by modifying the above call?
     dispatch(setRedeemTx({ id: txid, block: 1 }));
     enqueueSnackbar(null, {
@@ -390,8 +391,7 @@ export function useHandleRedeem() {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const targetChain = useSelector(selectTransferTargetChain);
-  const solanaWallet = useSolanaWallet();
-  const solPK = solanaWallet?.publicKey;
+  const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
   const { signer } = useEthereumProvider(targetChain);
   const terraWallet = useConnectedWallet();
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
@@ -412,14 +412,7 @@ export function useHandleRedeem() {
       !!solPK &&
       signedVAA
     ) {
-      solana(
-        dispatch,
-        enqueueSnackbar,
-        solanaWallet,
-        solPK.toString(),
-        signedVAA,
-        false
-      );
+      solana(dispatch, enqueueSnackbar, solanaWallet, solPK, signedVAA, false);
     } else if (isTerraChain(targetChain) && !!terraWallet && signedVAA) {
       terra(
         dispatch,
@@ -484,14 +477,7 @@ export function useHandleRedeem() {
       !!solPK &&
       signedVAA
     ) {
-      solana(
-        dispatch,
-        enqueueSnackbar,
-        solanaWallet,
-        solPK.toString(),
-        signedVAA,
-        true
-      );
+      solana(dispatch, enqueueSnackbar, solanaWallet, solPK, signedVAA, true);
     } else if (isTerraChain(targetChain) && !!terraWallet && signedVAA) {
       terra(
         dispatch,
