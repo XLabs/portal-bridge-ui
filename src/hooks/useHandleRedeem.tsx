@@ -84,6 +84,7 @@ import { WalletStrategy } from "@injectivelabs/wallet-ts";
 import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
 import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
+import { AptosWallet } from "@xlabs-libs/wallet-aggregator-aptos";
 
 async function algo(
   dispatch: any,
@@ -128,12 +129,7 @@ async function aptos(
   dispatch: any,
   enqueueSnackbar: any,
   signedVAA: Uint8Array,
-  signAndSubmitTransaction: (
-    transaction: Types.TransactionPayload,
-    options?: any
-  ) => Promise<{
-    hash: string;
-  }>
+  wallet: AptosWallet
 ) {
   dispatch(setIsRedeeming(true));
   const tokenBridgeAddress = getTokenBridgeAddressForChain(CHAIN_ID_APTOS);
@@ -144,10 +140,7 @@ async function aptos(
       signedVAA
     );
     msg.arguments[0] = Array.from(msg.arguments[0]);
-    const result = await waitForSignAndSubmitTransaction(
-      msg,
-      signAndSubmitTransaction
-    );
+    const result = await waitForSignAndSubmitTransaction(msg, wallet);
     dispatch(setRedeemTx({ id: result, block: 1 }));
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
@@ -398,8 +391,7 @@ export function useHandleRedeem() {
   const xplaWallet = useXplaConnectedWallet();
   const { address: algoAccount, wallet: algoWallet } = useAlgorandWallet();
   const { accountId: nearAccountId, wallet } = useNearContext();
-  const { account: aptosAccount, signAndSubmitTransaction } = useAptosContext();
-  const aptosAddress = aptosAccount?.address?.toString();
+  const { account: aptosAddress, wallet: aptosWallet } = useAptosContext();
   const { wallet: injWallet, address: injAddress } = useInjectiveContext();
   const signedVAA = useTransferSignedVAA();
   const isRedeeming = useSelector(selectTransferIsRedeeming);
@@ -425,7 +417,7 @@ export function useHandleRedeem() {
     } else if (targetChain === CHAIN_ID_XPLA && !!xplaWallet && signedVAA) {
       xpla(dispatch, enqueueSnackbar, xplaWallet, signedVAA);
     } else if (targetChain === CHAIN_ID_APTOS && !!aptosAddress && signedVAA) {
-      aptos(dispatch, enqueueSnackbar, signedVAA, signAndSubmitTransaction);
+      aptos(dispatch, enqueueSnackbar, signedVAA, aptosWallet!);
     } else if (
       targetChain === CHAIN_ID_ALGORAND &&
       algoAccount &&
@@ -463,7 +455,7 @@ export function useHandleRedeem() {
     wallet,
     xplaWallet,
     aptosAddress,
-    signAndSubmitTransaction,
+    aptosWallet,
     injWallet,
     injAddress,
   ]);

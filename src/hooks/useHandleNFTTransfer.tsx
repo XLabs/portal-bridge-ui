@@ -62,6 +62,7 @@ import {
   waitForSignAndSubmitTransaction,
 } from "../utils/aptos";
 import { useAptosContext } from "../contexts/AptosWalletContext";
+import { AptosWallet } from "@xlabs-libs/wallet-aggregator-aptos";
 
 async function evm(
   dispatch: any,
@@ -198,12 +199,7 @@ async function aptos(
   aptosTokenId: TokenTypes.TokenId,
   targetChain: ChainId,
   targetAddress: Uint8Array,
-  signAndSubmitTransaction: (
-    transaction: Types.TransactionPayload,
-    options?: any
-  ) => Promise<{
-    hash: string;
-  }>
+  aptosWallet: AptosWallet
 ) {
   dispatch(setIsSending(true));
   const nftBridgeAddress = getNFTBridgeAddressForChain(CHAIN_ID_APTOS);
@@ -220,7 +216,7 @@ async function aptos(
     );
     const hash = await waitForSignAndSubmitTransaction(
       transferPayload,
-      signAndSubmitTransaction
+      aptosWallet
     );
     dispatch(setTransferTx({ id: hash, block: 1 }));
     enqueueSnackbar(null, {
@@ -273,8 +269,7 @@ export function useHandleNFTTransfer() {
   const isSendComplete = useSelector(selectNFTIsSendComplete);
   const { signer } = useEthereumProvider(sourceChain);
   const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
-  const { account: aptosAccount, signAndSubmitTransaction } = useAptosContext();
-  const aptosAddress = aptosAccount?.address?.toString();
+  const { account: aptosAccount, wallet: aptosWallet } = useAptosContext();
   const sourceParsedTokenAccount = useSelector(
     selectNFTSourceParsedTokenAccount
   );
@@ -322,7 +317,8 @@ export function useHandleNFTTransfer() {
       );
     } else if (
       sourceChain === CHAIN_ID_APTOS &&
-      !!aptosAddress &&
+      !!aptosAccount &&
+      !!aptosWallet &&
       !!targetAddress &&
       !!aptosTokenId
     ) {
@@ -332,7 +328,7 @@ export function useHandleNFTTransfer() {
         aptosTokenId,
         targetChain,
         targetAddress,
-        signAndSubmitTransaction
+        aptosWallet
       );
     }
   }, [
@@ -350,9 +346,9 @@ export function useHandleNFTTransfer() {
     originAsset,
     originChain,
     originTokenId,
-    aptosAddress,
+    aptosAccount,
+    aptosWallet,
     aptosTokenId,
-    signAndSubmitTransaction,
   ]);
   return useMemo(
     () => ({

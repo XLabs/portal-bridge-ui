@@ -105,6 +105,7 @@ import { broadcastInjectiveTx } from "../utils/injective";
 import { WalletStrategy } from "@injectivelabs/wallet-ts";
 import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
 import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
+import { AptosWallet } from "@xlabs-libs/wallet-aggregator-aptos";
 
 async function algo(
   dispatch: any,
@@ -165,12 +166,7 @@ async function aptos(
   dispatch: any,
   enqueueSnackbar: any,
   sourceAsset: string,
-  signAndSubmitTransaction: (
-    transaction: Types.TransactionPayload,
-    options?: any
-  ) => Promise<{
-    hash: string;
-  }>
+  wallet: AptosWallet
 ) {
   dispatch(setIsSending(true));
   const tokenBridgeAddress = getTokenBridgeAddressForChain(CHAIN_ID_APTOS);
@@ -180,10 +176,7 @@ async function aptos(
       CHAIN_ID_APTOS,
       sourceAsset
     );
-    const hash = await waitForSignAndSubmitTransaction(
-      attestPayload,
-      signAndSubmitTransaction
-    );
+    const hash = await waitForSignAndSubmitTransaction(attestPayload, wallet);
     dispatch(setAttestTx({ id: hash, block: 1 }));
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
@@ -543,8 +536,7 @@ export function useHandleAttest() {
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
   const xplaWallet = useXplaConnectedWallet();
   const { address: algoAccount, wallet: algoWallet } = useAlgorandWallet();
-  const { account: aptosAccount, signAndSubmitTransaction } = useAptosContext();
-  const aptosAddress = aptosAccount?.address?.toString();
+  const { account: aptosAddress, wallet: aptosWallet } = useAptosContext();
   const { accountId: nearAccountId, wallet } = useNearContext();
   const { wallet: injWallet, address: injAddress } = useInjectiveContext();
   const disabled = !isTargetComplete || isSending || isSendComplete;
@@ -573,7 +565,7 @@ export function useHandleAttest() {
     } else if (sourceChain === CHAIN_ID_ALGORAND && algoAccount) {
       algo(dispatch, enqueueSnackbar, algoWallet, sourceAsset);
     } else if (sourceChain === CHAIN_ID_APTOS && aptosAddress) {
-      aptos(dispatch, enqueueSnackbar, sourceAsset, signAndSubmitTransaction);
+      aptos(dispatch, enqueueSnackbar, sourceAsset, aptosWallet!);
     } else if (sourceChain === CHAIN_ID_NEAR && nearAccountId && wallet) {
       near(dispatch, enqueueSnackbar, nearAccountId, sourceAsset, wallet);
     } else if (sourceChain === CHAIN_ID_INJECTIVE && injWallet && injAddress) {
@@ -595,7 +587,7 @@ export function useHandleAttest() {
     wallet,
     xplaWallet,
     aptosAddress,
-    signAndSubmitTransaction,
+    aptosWallet,
     injWallet,
     injAddress,
   ]);
