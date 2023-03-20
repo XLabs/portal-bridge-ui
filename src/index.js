@@ -47,7 +47,7 @@ const AGGREGATOR_WALLETS_BUILDER = async () => ({
   [CHAIN_ID_SOLANA]: getWrappedSolanaWallets(),
   [CHAIN_ID_APTOS]: getWrappedAptosWallets(),
   [CHAIN_ID_INJECTIVE]: getInjectiveWallets(),
-  [CHAIN_ID_NEAR]: await getNearWallets()
+  [CHAIN_ID_NEAR]: await getNearWallets(),
 });
 
 ReactDOM.render(
