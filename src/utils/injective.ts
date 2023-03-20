@@ -5,8 +5,8 @@ import {
   Msgs,
   TxGrpcClient,
 } from "@injectivelabs/sdk-ts";
-import { MsgBroadcaster, WalletStrategy } from "@injectivelabs/wallet-ts";
-import { getInjectiveNetwork, getInjectiveNetworkInfo } from "./consts";
+import { InjectiveWallet } from "@xlabs-libs/wallet-aggregator-injective";
+import { getInjectiveNetworkInfo } from "./consts";
 
 export const NATIVE_INJECTIVE_DECIMALS = 18;
 
@@ -39,25 +39,19 @@ export const formatNativeDenom = (denom: string) =>
   denom === INJECTIVE_NATIVE_DENOM ? "INJ" : "";
 
 export const broadcastInjectiveTx = async (
-  walletStrategy: WalletStrategy,
-  walletAddress: string,
+  wallet: InjectiveWallet,
+  address: string,
   msgs: Msgs | Msgs[],
   memo: string = ""
 ) => {
   const client = getInjectiveTxClient();
-  const network = getInjectiveNetwork();
-  const broadcaster = new MsgBroadcaster({
-    network,
-    walletStrategy,
-    simulateTx: true,
-  });
-  const txResponse = await broadcaster.broadcast({
-    //@ts-ignore
+  const result = await wallet.sendTransaction({
+    // @ts-ignore
     msgs,
-    address: walletAddress,
+    address,
     memo,
   });
-  const tx = await client.fetchTxPoll(txResponse.txHash);
+  const tx = await client.fetchTxPoll(result.id);
   if (!tx) {
     throw new Error("Unable to fetch transaction");
   }

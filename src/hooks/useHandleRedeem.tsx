@@ -24,7 +24,6 @@ import {
 import { completeTransferAndRegister } from "@certusone/wormhole-sdk/lib/esm/aptos/api/tokenBridge";
 import { Alert } from "@material-ui/lab";
 import { Wallet } from "@near-wallet-selector/core";
-
 import { Connection } from "@solana/web3.js";
 import {
   ConnectedWallet,
@@ -78,13 +77,12 @@ import {
   ConnectedWallet as XplaConnectedWallet,
 } from "@xpla/wallet-provider";
 import { postWithFeesXpla } from "../utils/xpla";
-import { Types } from "aptos";
 import { broadcastInjectiveTx } from "../utils/injective";
-import { WalletStrategy } from "@injectivelabs/wallet-ts";
 import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
 import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 import { AptosWallet } from "@xlabs-libs/wallet-aggregator-aptos";
+import { InjectiveWallet } from "@xlabs-libs/wallet-aggregator-injective";
 
 async function algo(
   dispatch: any,
@@ -263,7 +261,7 @@ async function xpla(
 async function injective(
   dispatch: any,
   enqueueSnackbar: any,
-  wallet: WalletStrategy,
+  wallet: InjectiveWallet,
   walletAddress: string,
   signedVAA: Uint8Array
 ) {

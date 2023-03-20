@@ -102,10 +102,10 @@ import {
 import { postWithFeesXpla, waitForXplaExecution } from "../utils/xpla";
 import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 import { broadcastInjectiveTx } from "../utils/injective";
-import { WalletStrategy } from "@injectivelabs/wallet-ts";
 import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
 import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 import { AptosWallet } from "@xlabs-libs/wallet-aggregator-aptos";
+import { InjectiveWallet } from "@xlabs-libs/wallet-aggregator-injective";
 
 async function algo(
   dispatch: any,
@@ -473,7 +473,7 @@ async function terra(
 async function injective(
   dispatch: any,
   enqueueSnackbar: any,
-  wallet: WalletStrategy,
+  wallet: InjectiveWallet,
   walletAddress: string,
   asset: string
 ) {
