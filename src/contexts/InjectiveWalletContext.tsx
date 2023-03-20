@@ -11,9 +11,13 @@ import { useWallet } from "@xlabs-libs/wallet-aggregator-react";
 import { CHAIN_ID_INJECTIVE } from "@xlabs-libs/wallet-aggregator-core";
 import { getNetworkInfo } from "@injectivelabs/networks";
 
+const INJECTIVE_NETWORKS = ["mainnet", "testnet"];
+
 export const getInjectiveWallets = () => {
-  if (!["mainnet", "testnet"].includes(process.env.REACT_APP_CLUSTER || ""))
-    return [];
+  const isValidNetwork = INJECTIVE_NETWORKS.includes(
+    process.env.REACT_APP_CLUSTER || ""
+  );
+  if (!isValidNetwork) return [];
 
   const network = getInjectiveNetworkName();
   const networkInfo = getNetworkInfo(network);
