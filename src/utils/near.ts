@@ -24,9 +24,11 @@ export const signAndSendTransactions = async (
   wallet: NearWallet,
   messages: FunctionCallOptions[]
 ): Promise<FinalExecutionOutcome> => {
-  // the browser wallet's signAndSendTransactions call navigates away from the page which is incompatible with the current app design
   const nearWallet = await wallet.getWallet();
-  if (nearWallet!.type === "browser" && account) {
+  if (!nearWallet) throw new Error("Invalid wallet or not connected.");
+
+  // the browser wallet's signAndSendTransactions call navigates away from the page which is incompatible with the current app design
+  if (nearWallet.type === "browser" && account) {
     let lastReceipt: FinalExecutionOutcome | null = null;
     for (const message of messages) {
       lastReceipt = await account.functionCall(message);
