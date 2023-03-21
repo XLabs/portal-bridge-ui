@@ -1,5 +1,5 @@
 import { LCDClient, isTxError } from "@xpla/xpla.js";
-import { ConnectedWallet, TxResult } from "@xpla/wallet-provider";
+import { TxResult } from "@xpla/wallet-provider";
 import axios from "axios";
 import {
   XPLA_GAS_PRICES_URL,
@@ -7,7 +7,7 @@ import {
   XPLA_NATIVE_DENOM,
 } from "./consts";
 import { cosmos, isNativeDenomXpla } from "@certusone/wormhole-sdk";
-//import { getTerraGasPricesUrl, getTerraConfig } from "./consts";
+import { XplaWallet } from "@xlabs-libs/wallet-aggregator-xpla";
 
 export const NATIVE_XPLA_DECIMALS = 18;
 
@@ -31,7 +31,7 @@ export async function waitForXplaExecution(transaction: TxResult) {
 }
 
 export async function postWithFeesXpla(
-  wallet: ConnectedWallet,
+  wallet: XplaWallet,
   msgs: any[],
   memo: string
 ) {
@@ -42,7 +42,7 @@ export async function postWithFeesXpla(
     .get(XPLA_GAS_PRICES_URL)
     .then((result) => result.data);
 
-  const account = await lcd.auth.accountInfo(wallet.walletAddress);
+  const account = await lcd.auth.accountInfo(wallet.getAddress()!);
 
   const feeDenoms = [XPLA_NATIVE_DENOM];
 
@@ -61,7 +61,7 @@ export async function postWithFeesXpla(
     }
   );
 
-  const result = await wallet.post({
+  const result = await wallet.sendTransaction({
     msgs: [...msgs],
     memo,
     feeDenoms,
@@ -69,7 +69,7 @@ export async function postWithFeesXpla(
     fee: feeEstimate,
   });
 
-  return result;
+  return result.data!;
 }
 
 export const isValidXplaAddress = (address: string) => {

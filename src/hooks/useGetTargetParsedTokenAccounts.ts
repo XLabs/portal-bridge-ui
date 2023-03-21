@@ -16,7 +16,6 @@ import {
 } from "@certusone/wormhole-sdk";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { LCDClient } from "@terra-money/terra.js";
-import { useConnectedWallet } from "@terra-money/wallet-provider";
 import { formatUnits } from "ethers/lib/utils";
 import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -44,7 +43,7 @@ import { Algodv2 } from "algosdk";
 import { useNearContext } from "../contexts/NearWalletContext";
 import { makeNearAccount } from "../utils/near";
 import { fetchSingleMetadata } from "./useNearMetadata";
-import { useConnectedWallet as useXplaConnectedWallet } from "@xpla/wallet-provider";
+import { useXplaWallet } from "../contexts/XplaWalletContext";
 import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
 import { NATIVE_XPLA_DECIMALS } from "../utils/xpla";
 import { useAptosContext } from "../contexts/AptosWalletContext";
@@ -55,6 +54,7 @@ import {
   getInjectiveWasmClient,
 } from "../utils/injective";
 import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
+import { useTerraWallet } from "../contexts/TerraWalletContext";
 
 function useGetTargetParsedTokenAccounts() {
   const dispatch = useDispatch();
@@ -74,11 +74,11 @@ function useGetTargetParsedTokenAccounts() {
   const decimals =
     (targetAsset && metadata.data?.get(targetAsset)?.decimals) || undefined;
   const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
-  const terraWallet = useConnectedWallet();
+  const terraWallet = useTerraWallet(targetChain);
   const { provider, signerAddress, evmChainId } =
     useEthereumProvider(targetChain);
   const hasCorrectEvmNetwork = evmChainId === getEvmChainId(targetChain);
-  const xplaWallet = useXplaConnectedWallet();
+  const xplaWallet = useXplaWallet();
   const { address: algoAccount } = useAlgorandWallet();
   const { accountId: nearAccountId } = useNearContext();
   const { account: aptosAddress } = useAptosContext();
@@ -92,7 +92,7 @@ function useGetTargetParsedTokenAccounts() {
     }
     let cancelled = false;
 
-    if (isTerraChain(targetChain) && terraWallet) {
+    if (isTerraChain(targetChain) && terraWallet.walletAddress) {
       const lcd = new LCDClient(getTerraConfig(targetChain));
       if (terra.isNativeDenom(targetAsset)) {
         lcd.bank
@@ -165,7 +165,7 @@ function useGetTargetParsedTokenAccounts() {
       const lcd = new XplaLCDClient(XPLA_LCD_CLIENT_CONFIG);
       if (isNativeDenomXpla(targetAsset)) {
         lcd.bank
-          .balance(xplaWallet.walletAddress)
+          .balance(xplaWallet.getAddress()!)
           .then(([coins]) => {
             const balance = coins.get(targetAsset)?.amount?.toString();
             if (balance && !cancelled) {
@@ -200,7 +200,7 @@ function useGetTargetParsedTokenAccounts() {
             lcd.wasm
               .contractQuery(targetAsset, {
                 balance: {
-                  address: xplaWallet.xplaAddress,
+                  address: xplaWallet.getAddress(),
                 },
               })
               .then((balance: any) => {

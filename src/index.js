@@ -11,8 +11,8 @@ import { getWrappedWallets as getWrappedSolanaWallets } from "./contexts/SolanaW
 import { getWrappedWallets as getWrappedAptosWallets } from "./contexts/AptosWalletContext";
 import { getInjectiveWallets } from "./contexts/InjectiveWalletContext";
 import { getNearWallets } from "./contexts/NearWalletContext";
-import XplaWalletProvider from "./contexts/XplaWalletContext";
-import { TerraWalletProvider } from "./contexts/TerraWalletContext.tsx";
+import { getXplaWallets } from "./contexts/XplaWalletContext";
+import { getTerraWallets } from "./contexts/TerraWalletContext";
 import ErrorBoundary from "./ErrorBoundary";
 import { theme } from "./muiTheme";
 import { store } from "./store";
@@ -24,6 +24,8 @@ import {
   CHAIN_ID_APTOS,
   CHAIN_ID_INJECTIVE,
   CHAIN_ID_NEAR,
+  CHAIN_ID_TERRA2,
+  CHAIN_ID_XPLA,
 } from "@xlabs-libs/wallet-aggregator-core";
 import {
   MyAlgoWallet,
@@ -36,19 +38,23 @@ import {
   WalletConnectLegacyWallet,
 } from "@xlabs-libs/wallet-aggregator-evm";
 
-const AGGREGATOR_WALLETS_BUILDER = async () => ({
-  [CHAIN_ID_ALGORAND]: [
-    new MyAlgoWallet(),
-    new PeraWallet(),
-    new DeflyWallet(),
-    new AlgorandLedgerWallet(),
-  ],
-  [CHAIN_ID_ETH]: [new InjectedWallet(), new WalletConnectLegacyWallet()],
-  [CHAIN_ID_SOLANA]: getWrappedSolanaWallets(),
-  [CHAIN_ID_APTOS]: getWrappedAptosWallets(),
-  [CHAIN_ID_INJECTIVE]: getInjectiveWallets(),
-  [CHAIN_ID_NEAR]: await getNearWallets(),
-});
+const AGGREGATOR_WALLETS_BUILDER = async () => {
+  return {
+    [CHAIN_ID_ALGORAND]: [
+      new MyAlgoWallet(),
+      new PeraWallet(),
+      new DeflyWallet(),
+      new AlgorandLedgerWallet(),
+    ],
+    [CHAIN_ID_ETH]: [new InjectedWallet(), new WalletConnectLegacyWallet()],
+    [CHAIN_ID_SOLANA]: getWrappedSolanaWallets(),
+    [CHAIN_ID_APTOS]: getWrappedAptosWallets(),
+    [CHAIN_ID_INJECTIVE]: getInjectiveWallets(),
+    [CHAIN_ID_NEAR]: await getNearWallets(),
+    [CHAIN_ID_TERRA2]: await getTerraWallets(),
+    [CHAIN_ID_XPLA]: await getXplaWallets(),
+  };
+};
 
 ReactDOM.render(
   <ErrorBoundary>
@@ -59,14 +65,10 @@ ReactDOM.render(
           <SnackbarProvider maxSnack={3}>
             <WalletContextProvider wallets={AGGREGATOR_WALLETS_BUILDER}>
               <BetaContextProvider>
-                <TerraWalletProvider>
-                  <XplaWalletProvider>
-                    <HashRouter>
-                      <BackgroundImage />
-                      <App />
-                    </HashRouter>
-                  </XplaWalletProvider>
-                </TerraWalletProvider>
+                <HashRouter>
+                  <BackgroundImage />
+                  <App />
+                </HashRouter>
               </BetaContextProvider>
             </WalletContextProvider>
           </SnackbarProvider>

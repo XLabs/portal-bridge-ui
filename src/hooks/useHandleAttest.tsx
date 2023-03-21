@@ -34,10 +34,6 @@ import {
 } from "@certusone/wormhole-sdk";
 import { Alert } from "@material-ui/lab";
 import { Connection, PublicKey } from "@solana/web3.js";
-import {
-  ConnectedWallet,
-  useConnectedWallet,
-} from "@terra-money/wallet-provider";
 import algosdk from "algosdk";
 import { Types } from "aptos";
 import { Signer } from "ethers";
@@ -94,10 +90,6 @@ import {
 import parseError from "../utils/parseError";
 import { signSendAndConfirm } from "../utils/solana";
 import { postWithFees, waitForTerraExecution } from "../utils/terra";
-import {
-  useConnectedWallet as useXplaConnectedWallet,
-  ConnectedWallet as XplaConnectedWallet,
-} from "@xpla/wallet-provider";
 import { postWithFeesXpla, waitForXplaExecution } from "../utils/xpla";
 import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 import { broadcastInjectiveTx } from "../utils/injective";
@@ -106,6 +98,10 @@ import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 import { AptosWallet } from "@xlabs-libs/wallet-aggregator-aptos";
 import { InjectiveWallet } from "@xlabs-libs/wallet-aggregator-injective";
 import { NearWallet } from "@xlabs-libs/wallet-aggregator-near";
+import { useTerraWallet } from "../contexts/TerraWalletContext";
+import { TerraWallet } from "@xlabs-libs/wallet-aggregator-terra";
+import { XplaWallet } from "@xlabs-libs/wallet-aggregator-xpla";
+import { useXplaWallet } from "../contexts/XplaWalletContext";
 
 async function algo(
   dispatch: any,
@@ -322,13 +318,13 @@ async function near(
 async function xpla(
   dispatch: any,
   enqueueSnackbar: any,
-  wallet: XplaConnectedWallet,
+  wallet: XplaWallet,
   asset: string
 ) {
   dispatch(setIsSending(true));
   try {
     const tokenBridgeAddress = getTokenBridgeAddressForChain(CHAIN_ID_XPLA);
-    const msg = attestFromXpla(tokenBridgeAddress, wallet.xplaAddress, asset);
+    const msg = attestFromXpla(tokenBridgeAddress, wallet.getAddress()!, asset);
     const result = await postWithFeesXpla(wallet, [msg], "Create Wrapped");
     const info = await waitForXplaExecution(result);
     dispatch(setAttestTx({ id: info.txhash, block: info.height }));
@@ -418,7 +414,7 @@ async function solana(
 async function terra(
   dispatch: any,
   enqueueSnackbar: any,
-  wallet: ConnectedWallet,
+  wallet: TerraWallet,
   asset: string,
   feeDenom: string,
   chainId: TerraChainId
@@ -428,7 +424,7 @@ async function terra(
     const tokenBridgeAddress = getTokenBridgeAddressForChain(chainId);
     const msg = await attestFromTerra(
       tokenBridgeAddress,
-      wallet.terraAddress,
+      wallet.getAddress()!,
       asset
     );
     const result = await postWithFees(
@@ -532,9 +528,10 @@ export function useHandleAttest() {
   const isSendComplete = useSelector(selectAttestIsSendComplete);
   const { signer } = useEthereumProvider(sourceChain);
   const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
-  const terraWallet = useConnectedWallet();
+  const { walletAddress: terraAddress, wallet: terraWallet } =
+    useTerraWallet(sourceChain);
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
-  const xplaWallet = useXplaConnectedWallet();
+  const xplaWallet = useXplaWallet();
   const { address: algoAccount, wallet: algoWallet } = useAlgorandWallet();
   const { account: aptosAddress, wallet: aptosWallet } = useAptosContext();
   const { accountId: nearAccountId, wallet } = useNearContext();
@@ -551,7 +548,7 @@ export function useHandleAttest() {
         sourceAsset,
         solanaWallet
       );
-    } else if (isTerraChain(sourceChain) && !!terraWallet) {
+    } else if (isTerraChain(sourceChain) && !!terraAddress && terraWallet) {
       terra(
         dispatch,
         enqueueSnackbar,
@@ -590,6 +587,7 @@ export function useHandleAttest() {
     aptosWallet,
     injWallet,
     injAddress,
+    terraAddress,
   ]);
   return useMemo(
     () => ({

@@ -1,45 +1,52 @@
-import { NetworkInfo, WalletProvider } from "@terra-money/wallet-provider";
-import { ReactChildren } from "react";
-import { CLUSTER } from "../utils/consts";
+import { ConnectType } from "@terra-money/wallet-provider";
+import { ChainId, isTerraChain } from "@xlabs-libs/wallet-aggregator-core";
+import { useWallet } from "@xlabs-libs/wallet-aggregator-react";
+import { getWallets, TerraWallet } from "@xlabs-libs/wallet-aggregator-terra";
+import { useEffect, useMemo, useState } from "react";
 
-const mainnet: NetworkInfo = {
-  name: "mainnet",
-  chainID: "phoenix-1",
-  lcd: "https://phoenix-lcd.terra.dev",
-  walletconnectID: 1,
+export interface TerraWalletState {
+  walletAddress?: string;
+  wallet?: TerraWallet;
+}
+
+export const getTerraWallets = async () => {
+  let wallets: TerraWallet[] = [];
+
+  try {
+    wallets = await getWallets([ConnectType.READONLY]);
+  } catch (err) {
+    console.error("Failed to init terra chain wallets. Error:", err);
+  }
+
+  return wallets;
 };
 
-const classic: NetworkInfo = {
-  name: "classic",
-  chainID: "columbus-5",
-  lcd: "https://terra-classic-lcd.publicnode.com",
-  walletconnectID: 2,
-};
+export const useTerraWallet = (chainId: ChainId) => {
+  const wallet = useWallet<TerraWallet>(chainId);
 
-const testnet: NetworkInfo = {
-  name: "testnet",
-  chainID: "pisco-1",
-  lcd: "https://pisco-lcd.terra.dev",
-  walletconnectID: 0,
-};
+  const [walletAddress, setWalletAddress] = useState<string | undefined>();
 
-const walletConnectChainIds: Record<number, NetworkInfo> = {
-  0: testnet,
-  1: mainnet,
-  2: classic,
-};
+  useEffect(() => {
+    if (!isTerraChain(chainId)) return () => {};
 
-export const TerraWalletProvider = ({
-  children,
-}: {
-  children: ReactChildren;
-}) => {
-  return (
-    <WalletProvider
-      defaultNetwork={CLUSTER === "testnet" ? testnet : mainnet}
-      walletConnectChainIds={walletConnectChainIds}
-    >
-      {children}
-    </WalletProvider>
+    setWalletAddress(wallet?.getAddress());
+
+    const handleNetworkChange = () => {
+      setWalletAddress(wallet?.getAddress());
+    };
+
+    wallet?.on("networkChanged", handleNetworkChange);
+
+    return () => {
+      wallet?.off("networkChanged", handleNetworkChange);
+    };
+  }, [wallet, chainId]);
+
+  return useMemo(
+    () => ({
+      walletAddress,
+      wallet,
+    }),
+    [walletAddress, wallet]
   );
 };
