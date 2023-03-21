@@ -36,7 +36,6 @@ import {
 import { transferTokens } from "@certusone/wormhole-sdk/lib/esm/aptos/api/tokenBridge";
 import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk/lib/esm";
 import { Alert } from "@material-ui/lab";
-import { Wallet } from "@near-wallet-selector/core";
 import { Connection } from "@solana/web3.js";
 import {
   ConnectedWallet,
@@ -117,6 +116,7 @@ import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
 import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 import { AptosWallet } from "@xlabs-libs/wallet-aggregator-aptos";
 import { InjectiveWallet } from "@xlabs-libs/wallet-aggregator-injective";
+import { NearWallet } from "@xlabs-libs/wallet-aggregator-near";
 
 async function fetchSignedVAA(
   chainId: ChainId,
@@ -338,7 +338,7 @@ async function evm(
 async function near(
   dispatch: any,
   enqueueSnackbar: any,
-  wallet: Wallet,
+  wallet: NearWallet,
   senderAddr: string,
   tokenAddress: string,
   decimals: number,

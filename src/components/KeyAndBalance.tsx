@@ -10,7 +10,6 @@ import {
   isTerraChain,
 } from "@certusone/wormhole-sdk";
 import ConnectWalletButton from "./ConnectWalletButton";
-import NearWalletKey from "./NearWalletKey";
 import TerraWalletKey from "./TerraWalletKey";
 import XplaWalletKey from "./XplaWalletKey";
 
@@ -28,7 +27,7 @@ function KeyAndBalance({ chainId }: { chainId: ChainId }) {
     return <ConnectWalletButton chainId={chainId} />;
   }
   if (chainId === CHAIN_ID_NEAR) {
-    return <NearWalletKey />;
+    return <ConnectWalletButton chainId={chainId} />;
   }
   if (chainId === CHAIN_ID_XPLA) {
     return <XplaWalletKey />;
