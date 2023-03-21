@@ -5,7 +5,6 @@ import {
   Typography,
   ListItemIcon,
 } from "@material-ui/core";
-import {} from "@terra-money/wallet-provider";
 import { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setTerraFeeDenom } from "../store/feeSlice";

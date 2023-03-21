@@ -29,11 +29,12 @@ export const useTerraWallet = (chainId: ChainId) => {
   useEffect(() => {
     if (!isTerraChain(chainId)) return () => {};
 
-    setWalletAddress(wallet?.getAddress());
-
     const handleNetworkChange = () => {
       setWalletAddress(wallet?.getAddress());
     };
+
+    // init
+    handleNetworkChange();
 
     wallet?.on("networkChanged", handleNetworkChange);
 

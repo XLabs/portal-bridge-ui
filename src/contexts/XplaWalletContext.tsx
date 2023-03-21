@@ -9,7 +9,7 @@ export const getXplaWallets = async () => {
   try {
     xplaWallets = await getWallets([ConnectType.READONLY]);
   } catch (err) {
-    console.error("Failed to init terra chain wallets. Error:", err);
+    console.error("Failed to init xpla chain wallets. Error:", err);
   }
 
   return xplaWallets;
