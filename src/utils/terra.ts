@@ -6,7 +6,8 @@ import {
 } from "@certusone/wormhole-sdk";
 import { formatUnits } from "@ethersproject/units";
 import { Coin, Coins, Fee, isTxError, LCDClient } from "@terra-money/terra.js";
-import { ConnectedWallet, TxResult } from "@terra-money/wallet-provider";
+import { TxResult } from "@terra-money/wallet-provider";
+import { TerraWallet } from "@xlabs-libs/wallet-aggregator-terra";
 import axios from "axios";
 import { getTerraConfig, getTerraGasPricesUrl } from "./consts";
 
@@ -80,7 +81,7 @@ export const isValidTerraAddress = (address: string, chainId: TerraChainId) => {
 };
 
 export async function postWithFees(
-  wallet: ConnectedWallet,
+  wallet: TerraWallet,
   msgs: any[],
   memo: string,
   feeDenoms: string[],
@@ -93,7 +94,7 @@ export async function postWithFees(
     .get(getTerraGasPricesUrl(chainId))
     .then((result) => result.data);
 
-  const account = await lcd.auth.accountInfo(wallet.walletAddress);
+  const account = await lcd.auth.accountInfo(wallet.getAddress()!);
 
   const feeEstimate = await lcd.tx.estimateFee(
     [
@@ -122,7 +123,7 @@ export async function postWithFees(
   // this leaves the amount as a Dec - no bueno - convert that to Int, otherwise we'll get math/big: cannot unmarshal
   stabilityFee = stabilityFee.mul(0.012).toIntCeilCoins();
 
-  const result = await wallet.post({
+  const result = await wallet.sendTransaction({
     msgs: [...msgs],
     memo,
     feeDenoms,
@@ -132,5 +133,5 @@ export async function postWithFees(
     isClassic: lcd.config.isClassic,
   });
 
-  return result;
+  return result.data!;
 }

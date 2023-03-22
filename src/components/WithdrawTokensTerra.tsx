@@ -2,14 +2,9 @@
 import { useCallback, useState } from "react";
 import { MsgExecuteContract } from "@terra-money/terra.js";
 import {
-  ConnectedWallet,
-  useConnectedWallet,
-} from "@terra-money/wallet-provider";
-import {
   getTokenBridgeAddressForChain,
   SUPPORTED_TERRA_TOKENS,
 } from "../utils/consts";
-import TerraWalletKey from "./TerraWalletKey";
 import {
   Container,
   FormControl,
@@ -30,6 +25,9 @@ import TerraFeeDenomPicker from "./TerraFeeDenomPicker";
 import HeaderText from "./HeaderText";
 import { COLORS } from "../muiTheme";
 import { CHAIN_ID_TERRA } from "@certusone/wormhole-sdk";
+import { useTerraWallet } from "../contexts/TerraWalletContext";
+import { TerraWallet } from "@xlabs-libs/wallet-aggregator-terra";
+import ConnectWalletButton from "./ConnectWalletButton";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -50,12 +48,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const withdraw = async (
-  wallet: ConnectedWallet,
+  wallet: TerraWallet,
   token: string,
   feeDenom: string
 ) => {
   const withdraw = new MsgExecuteContract(
-    wallet.walletAddress,
+    wallet.getAddress()!,
     getTokenBridgeAddressForChain(CHAIN_ID_TERRA),
     {
       withdraw_tokens: {
@@ -79,7 +77,7 @@ const withdraw = async (
 };
 
 export default function WithdrawTokensTerra() {
-  const wallet = useConnectedWallet();
+  const { wallet } = useTerraWallet(CHAIN_ID_TERRA);
   const [token, setToken] = useState(SUPPORTED_TERRA_TOKENS[0]);
   const [isLoading, setIsLoading] = useState(false);
   const classes = useStyles();
@@ -113,7 +111,7 @@ export default function WithdrawTokensTerra() {
         <Typography style={{ textAlign: "center" }}>
           Withdraw tokens from the Terra token bridge
         </Typography>
-        <TerraWalletKey />
+        <ConnectWalletButton chainId={CHAIN_ID_TERRA} />
         <FormControl className={classes.formControl}>
           <InputLabel>Token</InputLabel>
           <Select

@@ -40,6 +40,8 @@
     "@xlabs-libs/wallet-aggregator-near": "^0.0.1-alpha.4",
     "@xlabs-libs/wallet-aggregator-react": "0.0.1-alpha.10",
     "@xlabs-libs/wallet-aggregator-solana": "^0.0.1-alpha.7",
+    "@xlabs-libs/wallet-aggregator-terra": "^0.0.1-alpha.4",
+    "@xlabs-libs/wallet-aggregator-xpla": "^0.0.1-alpha.4",
     "@xpla/wallet-provider": "^0.3.4",
     "@xpla/xpla.js": "^0.2.1",
     "algosdk": "^1.15.0",

@@ -17,7 +17,6 @@ import {
   TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
 import { PublicKey } from "@solana/web3.js";
-import { useConnectedWallet } from "@terra-money/wallet-provider";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlgorandWallet } from "../contexts/AlgorandWalletContext";
@@ -38,9 +37,10 @@ import { makeNearAccount, signAndSendTransactions } from "../utils/near";
 import { NEAR_TOKEN_BRIDGE_ACCOUNT } from "../utils/consts";
 import { getTransactionLastResult } from "near-api-js/lib/providers";
 import BN from "bn.js";
-import { useConnectedWallet as useXplaConnectedWallet } from "@xpla/wallet-provider";
+import { useXplaWallet } from "../contexts/XplaWalletContext";
 import { useAptosContext } from "../contexts/AptosWalletContext";
 import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
+import { useTerraWallet } from "../contexts/TerraWalletContext";
 
 function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
   const dispatch = useDispatch();
@@ -56,8 +56,8 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
     selectTransferTargetParsedTokenAccount
   );
   const targetTokenAccountPublicKey = targetParsedTokenAccount?.publicKey;
-  const terraWallet = useConnectedWallet();
-  const xplaWallet = useXplaConnectedWallet();
+  const terraWallet = useTerraWallet(targetChain);
+  const xplaWallet = useXplaWallet();
   const { address: algoAccount } = useAlgorandWallet();
   const { account: aptosAddress } = useAptosContext();
   const { accountId: nearAccountId, wallet } = useNearContext();
@@ -128,12 +128,12 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
       } else if (
         targetChain === CHAIN_ID_XPLA &&
         xplaWallet &&
-        xplaWallet.walletAddress
+        xplaWallet.getAddress()
       ) {
         dispatch(
           setTargetAddressHex(
             uint8ArrayToHex(
-              zeroPad(cosmos.canonicalAddress(xplaWallet.walletAddress), 32)
+              zeroPad(cosmos.canonicalAddress(xplaWallet.getAddress()!), 32)
             )
           )
         );
