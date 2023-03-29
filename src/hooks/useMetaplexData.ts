@@ -30,11 +30,13 @@ export const getMetaplexData = async (mintAddresses: string[]) => {
         try {
           const metadataParsed = decodeMetadata(account.data);
           const response = await fetch(metadataParsed?.data?.uri, {
-            redirect: 'follow'
+            redirect: "follow",
           });
-          if(!response.headers.get('content-type')?.startsWith('image/')) {
+          if (!response.headers.get("content-type")?.startsWith("image/")) {
             const payload = await response.json();
-            metadataParsed.data.uriMetadata = new URIMetadata(payload as URIMetadata);
+            metadataParsed.data.uriMetadata = new URIMetadata(
+              payload as URIMetadata
+            );
           }
           return metadataParsed;
         } catch (e) {
