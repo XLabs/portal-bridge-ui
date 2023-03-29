@@ -229,6 +229,7 @@ export class Data {
   name: string;
   symbol: string;
   uri: string;
+  uriMetadata: URIMetadata;
   sellerFeeBasisPoints: number;
   creators: Creator[] | null;
   constructor(args: {
@@ -241,8 +242,16 @@ export class Data {
     this.name = args.name;
     this.symbol = args.symbol;
     this.uri = args.uri;
+    this.uriMetadata = {} as URIMetadata;
     this.sellerFeeBasisPoints = args.sellerFeeBasisPoints;
     this.creators = args.creators;
+  }
+}
+
+export class URIMetadata {
+  image!: string;
+  constructor(args: Partial<URIMetadata>) {
+    Object.assign(this, args);
   }
 }
 

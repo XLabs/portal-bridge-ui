@@ -6,6 +6,7 @@ import {
   decodeMetadata,
   getMetadataAddress,
   Metadata,
+  URIMetadata,
 } from "../utils/metaplex";
 import { getMultipleAccountsRPC } from "../utils/solana";
 
@@ -21,14 +22,21 @@ export const getMetaplexData = async (mintAddresses: string[]) => {
     metaAddresses.map((pair) => pair && pair[0])
   );
 
-  const output = results.map((account) => {
+  const output = results.map(async (account) => {
     if (account === null) {
       return undefined;
     } else {
       if (account.data) {
         try {
-          const MetadataParsed = decodeMetadata(account.data);
-          return MetadataParsed;
+          const metadataParsed = decodeMetadata(account.data);
+          const response = await fetch(metadataParsed?.data?.uri, {
+            redirect: 'follow'
+          });
+          if(!response.headers.get('content-type')?.startsWith('image/')) {
+            const payload = await response.json();
+            metadataParsed.data.uriMetadata = new URIMetadata(payload as URIMetadata);
+          }
+          return metadataParsed;
         } catch (e) {
           console.error(e);
           return undefined;
@@ -39,7 +47,7 @@ export const getMetaplexData = async (mintAddresses: string[]) => {
     }
   });
 
-  return output;
+  return Promise.all(output);
 };
 
 const createResultMap = (
