@@ -76,6 +76,7 @@ export default function SolanaSourceTokenSelector(
       return (
         (account.isNativeAsset && account.logo) ||
         memoizedTokenMap.get(account.mintKey)?.logoURI ||
+        metaplex.data?.get(account.mintKey)?.data?.uriMetadata?.image ||
         metaplex.data?.get(account.mintKey)?.data?.uri ||
         undefined
       );
