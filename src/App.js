@@ -17,7 +17,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { HelpOutline } from "@material-ui/icons";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router";
 import {
   Link as RouterLink,
@@ -43,6 +43,7 @@ import WithdrawTokensTerra from "./components/WithdrawTokensTerra";
 import { useBetaContext } from "./contexts/BetaContext";
 import Portal from "./icons/portal_logo_w.svg";
 import { CLUSTER } from "./utils/consts";
+import noTor from "./images/noTor.svg";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -177,6 +178,40 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function App() {
+  const [isBlockedIP, setIsBlockedIP] = useState(false);
+
+  const checkForTOR = async () => {
+    // if not on mainnet, no need to check for TOR
+    if (process.env.REACT_APP_CLUSTER !== "mainnet") {
+      return false;
+    } else {
+      await fetch("https://api.ipify.org?format=json")
+        .then((response) => response.json())
+        .then((data) => {
+          const userIP = data.ip;
+
+          fetch(
+            "https://raw.githubusercontent.com/SecOps-Institute/Tor-IP-Addresses/master/tor-nodes.lst"
+          )
+            .then((resp) => resp.text())
+            .then((a) => {
+              const torIPs = a.split("\n");
+              if (torIPs.includes(userIP)) {
+                setIsBlockedIP(true);
+              }
+            })
+            .catch((e) => {
+              console.log("error getting tor ip list", e);
+            });
+        })
+        .catch((error) => console.error("error getting user ip", error));
+    }
+  };
+
+  useEffect(() => {
+    checkForTOR();
+  }, []);
+
   const classes = useStyles();
   const isBeta = useBetaContext();
   const { push } = useHistory();
@@ -187,6 +222,35 @@ function App() {
     },
     [push]
   );
+
+  if (isBlockedIP) {
+    return (
+      <div
+        style={{
+          fontSize: 24,
+          marginTop: 24,
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <span>Using TOR Browser is prohibited on Portal Bridge</span>
+        <div
+          alt="No tor browser allowed"
+          style={{
+            backgroundImage: `url(${noTor})`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "contain",
+            width: 100,
+            height: 100,
+            marginTop: 24,
+          }}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className={classes.bg}>
       <AppBar
