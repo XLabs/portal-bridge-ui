@@ -200,28 +200,28 @@ function App() {
     // if not on mainnet, no need to check for TOR
     if (process.env.REACT_APP_CLUSTER !== "mainnet") {
       return false;
-    } else {
-      await fetch("https://api.ipify.org?format=json")
-        .then((response) => response.json())
-        .then((data) => {
-          const userIP = data.ip;
-
-          fetch(
-            "https://raw.githubusercontent.com/SecOps-Institute/Tor-IP-Addresses/master/tor-nodes.lst"
-          )
-            .then((resp) => resp.text())
-            .then((a) => {
-              const torIPs = a.split("\n");
-              if (torIPs.includes(userIP)) {
-                setIsBlockedIP(true);
-              }
-            })
-            .catch((e) => {
-              console.log("error getting tor ip list", e);
-            });
-        })
-        .catch((error) => console.error("error getting user ip", error));
     }
+
+    await fetch("https://api.ipify.org?format=json")
+      .then((response) => response.json())
+      .then((data) => {
+        const userIP = data.ip;
+
+        fetch(
+          "https://raw.githubusercontent.com/SecOps-Institute/Tor-IP-Addresses/master/tor-nodes.lst"
+        )
+          .then((resp) => resp.text())
+          .then((a) => {
+            const torIPs = a.split("\n");
+            if (torIPs.includes(userIP)) {
+              setIsBlockedIP(true);
+            }
+          })
+          .catch((e) => {
+            console.log("error getting tor ip list", e);
+          });
+      })
+      .catch((error) => console.error("error getting user ip", error));
   };
 
   useEffect(() => {
