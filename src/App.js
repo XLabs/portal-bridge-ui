@@ -175,6 +175,22 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
+  noTorContainer: {
+    fontSize: 24,
+    marginTop: 24,
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  noTorImage: {
+    backgroundImage: `url(${noTor})`,
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "contain",
+    width: 100,
+    height: 100,
+    marginTop: 24,
+  },
 }));
 
 function App() {
@@ -225,28 +241,9 @@ function App() {
 
   if (isBlockedIP) {
     return (
-      <div
-        style={{
-          fontSize: 24,
-          marginTop: 24,
-          width: "100%",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
+      <div className={classes.noTorContainer}>
         <span>Using TOR Browser is prohibited on Portal Bridge</span>
-        <div
-          alt="No tor browser allowed"
-          style={{
-            backgroundImage: `url(${noTor})`,
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "contain",
-            width: 100,
-            height: 100,
-            marginTop: 24,
-          }}
-        />
+        <div alt="No tor browser allowed" className={classes.noTorImage} />
       </div>
     );
   }
