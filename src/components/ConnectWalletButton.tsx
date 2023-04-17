@@ -52,7 +52,7 @@ const ConnectWalletButton = ({ chainId }: { chainId: ChainId }) => {
 
       return isSanctioned;
     }
-    return true;
+    return false;
   };
 
   const connect = useCallback(
