@@ -1631,6 +1631,10 @@ export const POLYGON_TERRA_WRAPPED_TOKENS = [
   "0x24834bbec7e39ef42f4a75eaf8e5b6486d3f0e57", // Wrapped LUNA Token
 ];
 
+export const ETH_POLYGON_WRAPPED_TOKENS = [
+  "0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0", // Wrapped MATIC Token
+];
+
 export const JUPITER_SWAP_BASE_URL = "https://jup.ag/swap";
 
 export const getIsTransferDisabled = (

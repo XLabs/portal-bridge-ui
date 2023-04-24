@@ -1,7 +1,14 @@
-import { ChainId, CHAIN_ID_POLYGON, isEVMChain } from "@certusone/wormhole-sdk";
+import {
+  ChainId,
+  CHAIN_ID_ETH,
+  CHAIN_ID_POLYGON,
+} from "@certusone/wormhole-sdk";
 import { makeStyles, Typography } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
-import { POLYGON_TERRA_WRAPPED_TOKENS } from "../../utils/consts";
+import {
+  ETH_POLYGON_WRAPPED_TOKENS,
+  POLYGON_TERRA_WRAPPED_TOKENS,
+} from "../../utils/consts";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -27,6 +34,19 @@ function PolygonTerraWrappedWarning() {
   );
 }
 
+function EthPolygonWrappedWarning() {
+  const classes = useStyles();
+  return (
+    <Alert severity="warning" variant="outlined" className={classes.alert}>
+      <Typography variant="body1">
+        This is a Polygon Bridge-wrapped asset from Ethereum! Transferring it
+        will result in a double wrapped (Portal-wrapped Polygon-wrapped) asset,
+        which has no liquid markets.
+      </Typography>
+    </Alert>
+  );
+}
+
 export default function SoureAssetWarning({
   sourceChain,
   sourceAsset,
@@ -41,16 +61,24 @@ export default function SoureAssetWarning({
     return null;
   }
 
-  const searchableAddress = isEVMChain(sourceChain)
-    ? sourceAsset.toLowerCase()
-    : sourceAsset;
+  const searchableAddress: string = sourceAsset.toLowerCase();
+
   const showPolygonTerraWrappedWarning =
     sourceChain === CHAIN_ID_POLYGON &&
-    POLYGON_TERRA_WRAPPED_TOKENS.includes(searchableAddress);
+    POLYGON_TERRA_WRAPPED_TOKENS.some(
+      (address) => address.toLowerCase() === searchableAddress
+    );
+
+  const showEthPolygonWrappedWarning =
+    sourceChain === CHAIN_ID_ETH &&
+    ETH_POLYGON_WRAPPED_TOKENS.some(
+      (address) => address.toLowerCase() === searchableAddress
+    );
 
   return (
     <>
-      {showPolygonTerraWrappedWarning ? <PolygonTerraWrappedWarning /> : null}
+      {showPolygonTerraWrappedWarning && <PolygonTerraWrappedWarning />}
+      {showEthPolygonWrappedWarning && <EthPolygonWrappedWarning />}
     </>
   );
 }
