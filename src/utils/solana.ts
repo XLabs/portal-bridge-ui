@@ -17,9 +17,9 @@ export async function signSendAndConfirm(
   }
   const { id } = await wallet.signAndSendTransaction({
     transaction,
-    options: { 
-      commitment: "finalized"
-    }
+    options: {
+      commitment: "finalized",
+    },
   });
   return id;
 }
