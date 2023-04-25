@@ -15,7 +15,12 @@ export async function signSendAndConfirm(
   if (!wallet.signTransaction) {
     throw new Error("wallet.signTransaction is undefined");
   }
-  const { id } = await wallet.signAndSendTransaction({ transaction });
+  const { id } = await wallet.signAndSendTransaction({
+    transaction,
+    options: { 
+      commitment: "finalized"
+    }
+  });
   return id;
 }
 
