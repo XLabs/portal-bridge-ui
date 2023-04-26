@@ -80,7 +80,6 @@ const useStyles = makeStyles((theme) => ({
     display: "inline-flex",
     alignItems: "center",
     borderRadius: 20,
-    width: "fit-content",
     padding: "6px 12px",
     backgroundColor: "white",
     color: "#F47B48",
@@ -89,6 +88,7 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: "0.08em",
     fontWeight: 600,
     minHeight: "32px",
+    minWidth: "fit-content",
   },
   bg: {
     // background:
