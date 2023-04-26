@@ -43,6 +43,7 @@ import WithdrawTokensTerra from "./components/WithdrawTokensTerra";
 import { useBetaContext } from "./contexts/BetaContext";
 import Portal from "./icons/portal_logo_w.svg";
 import { CLUSTER } from "./utils/consts";
+import NewsBar from "./components/NewsBar";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -74,6 +75,20 @@ const useStyles = makeStyles((theme) => ({
     "&.active": {
       textDecoration: "underline",
     },
+  },
+  bannerLink: {
+    display: "inline-flex",
+    alignItems: "center",
+    borderRadius: 20,
+    padding: "6px 12px",
+    backgroundColor: "white",
+    color: "#F47B48",
+    marginLeft: "8px",
+    fontSize: "12px",
+    letterSpacing: "0.08em",
+    fontWeight: 600,
+    minHeight: "32px",
+    minWidth: "fit-content",
   },
   bg: {
     // background:
@@ -189,6 +204,23 @@ function App() {
   );
   return (
     <div className={classes.bg}>
+      <NewsBar>
+        <>
+          <span>
+            Experience frictionless USDC transfers between Ethereum and
+            Avalanche with Circle's CCTP.{" "}
+          </span>
+          <Link
+            href="https://stable.portalbridge.com/usdc-bridge"
+            target="_blank"
+            rel="noopener noreferrer"
+            color="inherit"
+            className={classes.bannerLink}
+          >
+            TRY IT NOW
+          </Link>
+        </>
+      </NewsBar>
       <AppBar
         position="static"
         color="inherit"
@@ -212,7 +244,16 @@ function App() {
                 color="inherit"
                 className={classes.link}
               >
-                Bridge
+                Token Bridge
+              </Link>
+              <Link
+                href="https://stable.portalbridge.com/usdc-bridge"
+                target="_blank"
+                rel="noopener noreferrer"
+                color="inherit"
+                className={classes.link}
+              >
+                USDC Bridge
               </Link>
               <Link
                 href="https://docs.wormhole.com/wormhole/faqs"
