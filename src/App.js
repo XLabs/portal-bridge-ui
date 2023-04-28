@@ -256,6 +256,15 @@ function App() {
                 USDC Bridge
               </Link>
               <Link
+                href="https://sui.portalbridge.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                color="inherit"
+                className={classes.link}
+              >
+                Sui Bridge
+              </Link>
+              <Link
                 href="https://docs.wormhole.com/wormhole/faqs"
                 target="_blank"
                 rel="noopener noreferrer"
