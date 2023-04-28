@@ -63,6 +63,7 @@ interface ISolanaContext {
 export const useSolanaWallet = (): ISolanaContext => {
   const wallet = useWallet<SolanaWallet>(CHAIN_ID_SOLANA);
 
+  // Replace here to debug
   const publicKey = useMemo(() => wallet?.getAddress(), [wallet]);
 
   return useMemo(
