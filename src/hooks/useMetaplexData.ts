@@ -38,9 +38,9 @@ export const getMetaplexData = async (mintAddresses: string[]) => {
               metadataParsed.data.uriMetadata = new URIMetadata(
                 payload as URIMetadata
               );
-            }  
+            }
           } catch (e) {
-            console.error(e);
+            console.error("Error fetching metadata", e);
           }
           return metadataParsed;
         } catch (e) {
