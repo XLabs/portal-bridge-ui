@@ -1,6 +1,7 @@
 import {
   CHAIN_ID_APTOS,
   CHAIN_ID_SOLANA,
+  CHAIN_ID_SUI,
   hexToNativeString,
   isEVMChain,
 } from "@certusone/wormhole-sdk";
@@ -71,8 +72,10 @@ export const useTargetInfo = () => {
         getEmitterAddressNear(nearAccountId) === targetAddressHex
         ? nearAccountId
         : targetAddressHex || ""
-      : targetChain === CHAIN_ID_APTOS
-      ? `0x${targetAddressHex}` || ""
+      : targetChain === CHAIN_ID_APTOS || targetChain === CHAIN_ID_SUI
+      ? targetAddressHex
+        ? `0x${targetAddressHex}`
+        : ""
       : hexToNativeString(targetAddressHex, targetChain) || "";
   return useMemo(
     () => ({

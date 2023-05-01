@@ -22,6 +22,7 @@ import {
   CHAIN_ID_ARBITRUM,
   CHAIN_ID_INJECTIVE,
   CHAIN_ID_OPTIMISM,
+  CHAIN_ID_SUI,
 } from "@certusone/wormhole-sdk";
 import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk/lib/esm";
 import { Button, makeStyles, Typography } from "@material-ui/core";
@@ -158,6 +159,14 @@ export default function ShowTx({
       ? `https://${
           CLUSTER === "testnet" ? "goerli-optimism." : "optimistic."
         }etherscan.io/tx/${tx?.id}`
+      : chainId === CHAIN_ID_SUI
+      ? `https://explorer.sui.io/txblock/${tx?.id}${
+          CLUSTER === "testnet"
+            ? "?network=testnet"
+            : CLUSTER === "devnet"
+            ? "?network=local"
+            : ""
+        }`
       : undefined;
   const explorerName = getExplorerName(chainId);
 

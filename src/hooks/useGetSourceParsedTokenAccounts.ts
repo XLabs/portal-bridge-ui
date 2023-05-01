@@ -24,6 +24,7 @@ import {
   WSOL_ADDRESS,
   WSOL_DECIMALS,
   CHAIN_ID_INJECTIVE,
+  CHAIN_ID_SUI,
 } from "@certusone/wormhole-sdk";
 import { Dispatch } from "@reduxjs/toolkit";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
@@ -61,6 +62,7 @@ import neonIcon from "../icons/neon.svg";
 import oasisIcon from "../icons/oasis-network-rose-logo.svg";
 import polygonIcon from "../icons/polygon.svg";
 import aptosIcon from "../icons/aptos.svg";
+import suiIcon from "../icons/sui.svg";
 import {
   errorSourceParsedTokenAccounts as errorSourceParsedTokenAccountsNFT,
   fetchSourceParsedTokenAccounts as fetchSourceParsedTokenAccountsNFT,
@@ -127,6 +129,7 @@ import {
   WROSE_ADDRESS,
   WROSE_DECIMALS,
   CLUSTER,
+  SUI_NATIVE_TOKEN_KEY,
 } from "../utils/consts";
 import { makeNearAccount } from "../utils/near";
 import {
@@ -137,6 +140,8 @@ import {
 import { fetchSingleMetadata as fetchSingleMetadataAlgo } from "./useAlgoMetadata";
 import { AptosCoinResourceReturn } from "./useAptosMetadata";
 import { TokenClient, TokenTypes } from "aptos";
+import { getSuiProvider } from "../utils/sui";
+import { useSuiWallet } from "../contexts/SuiWalletContext";
 
 export function createParsedTokenAccount(
   publicKey: string,
@@ -1064,6 +1069,58 @@ const getAptosParsedTokenAccounts = async (
   }
 };
 
+const getSuiParsedTokenAccounts = async (
+  walletAddress: string,
+  dispatch: Dispatch,
+  nft: boolean
+) => {
+  dispatch(
+    nft ? fetchSourceParsedTokenAccountsNFT() : fetchSourceParsedTokenAccounts()
+  );
+  try {
+    if (nft) {
+      dispatch(receiveSourceParsedTokenAccountsNFT([]));
+      return;
+    }
+    const provider = getSuiProvider();
+    const balances = await provider.getAllBalances({ owner: walletAddress });
+    const parsedTokenAccounts: ParsedTokenAccount[] = [];
+    for (const { coinType, totalBalance } of balances) {
+      if (totalBalance === "0") continue;
+      const response = await provider.getCoinMetadata({
+        coinType,
+      });
+      if (!response) throw new Error("bad response");
+      const { decimals, symbol, name } = response;
+      const parsedTokenAccount = createParsedTokenAccount(
+        walletAddress,
+        coinType,
+        totalBalance,
+        decimals,
+        Number(formatUnits(totalBalance, decimals)),
+        formatUnits(totalBalance, decimals),
+        symbol,
+        name
+      );
+      if (coinType === SUI_NATIVE_TOKEN_KEY) {
+        parsedTokenAccount.logo = suiIcon;
+        parsedTokenAccount.isNativeAsset = true;
+        parsedTokenAccounts.unshift(parsedTokenAccount);
+      } else {
+        parsedTokenAccounts.push(parsedTokenAccount);
+      }
+    }
+    dispatch(receiveSourceParsedTokenAccounts(parsedTokenAccounts));
+  } catch (e) {
+    console.error(e);
+    dispatch(
+      nft
+        ? errorSourceParsedTokenAccountsNFT("Failed to load NFT metadata")
+        : errorSourceParsedTokenAccounts("Failed to load token metadata.")
+    );
+  }
+};
+
 /**
  * Fetches the balance of an asset for the connected wallet
  * This should handle every type of chain in the future, but only reads the Transfer state.
@@ -1085,6 +1142,8 @@ function useGetAvailableTokens(nft: boolean = false) {
   const { address: algoAccount } = useAlgorandWallet();
   const { accountId: nearAccountId } = useNearContext();
   const { account: aptosAddress } = useAptosContext();
+  const suiWallet = useSuiWallet();
+  const suiAddress = suiWallet?.getAddress();
 
   const [covalent, setCovalent] = useState<any>(undefined);
   const [covalentLoading, setCovalentLoading] = useState(false);
@@ -1120,6 +1179,8 @@ function useGetAvailableTokens(nft: boolean = false) {
     ? nearAccountId || undefined
     : lookupChain === CHAIN_ID_APTOS
     ? aptosAddress || undefined
+    : lookupChain === CHAIN_ID_SUI
+    ? suiAddress || undefined
     : undefined;
 
   const resetSourceAccounts = useCallback(() => {
@@ -1800,6 +1861,19 @@ function useGetAvailableTokens(nft: boolean = false) {
     return () => {};
   }, [dispatch, lookupChain, currentSourceWalletAddress, tokenAccounts, nft]);
 
+  //Sui accounts load
+  useEffect(() => {
+    if (lookupChain === CHAIN_ID_SUI && currentSourceWalletAddress) {
+      if (
+        !(tokenAccounts.data || tokenAccounts.isFetching || tokenAccounts.error)
+      ) {
+        getSuiParsedTokenAccounts(currentSourceWalletAddress, dispatch, nft);
+      }
+    }
+
+    return () => {};
+  }, [dispatch, lookupChain, currentSourceWalletAddress, tokenAccounts, nft]);
+
   const ethAccounts = useMemo(() => {
     const output = { ...tokenAccounts };
     output.data = output.data?.slice() || [];
@@ -1861,6 +1935,11 @@ function useGetAvailableTokens(nft: boolean = false) {
       }
     : lookupChain === CHAIN_ID_INJECTIVE
     ? {
+        resetAccounts: resetSourceAccounts,
+      }
+    : lookupChain === CHAIN_ID_SUI
+    ? {
+        tokenAccounts,
         resetAccounts: resetSourceAccounts,
       }
     : undefined;

@@ -21,6 +21,9 @@ import {
   queryExternalIdInjective,
   uint8ArrayToHex,
   uint8ArrayToNative,
+  CHAIN_ID_SUI,
+  getOriginalAssetSui,
+  getForeignAssetSui,
 } from "@certusone/wormhole-sdk";
 import {
   getOriginalAssetEth as getOriginalAssetEthNFT,
@@ -63,6 +66,7 @@ import useIsWalletReady from "./useIsWalletReady";
 import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
 import { getAptosClient } from "../utils/aptos";
 import { getInjectiveWasmClient } from "../utils/injective";
+import { getSuiProvider } from "../utils/sui";
 
 export type OriginalAssetInfo = {
   originChain: ChainId | null;
@@ -127,6 +131,12 @@ export async function getOriginalAssetToken(
       promise = await getOriginalAssetInjective(
         foreignNativeStringAddress,
         getInjectiveWasmClient()
+      );
+    } else if (foreignChain === CHAIN_ID_SUI) {
+      promise = await getOriginalAssetSui(
+        getSuiProvider(),
+        getTokenBridgeAddressForChain(CHAIN_ID_SUI),
+        foreignNativeStringAddress
       );
     }
   } catch (e) {
@@ -339,6 +349,17 @@ function useOriginalAsset(
               tokenBridgeAddress,
               uint8ArrayToHex(result.assetAddress)
             ).then((tokenId) => setOriginAddress(tokenId));
+          } else if (result.chainId === CHAIN_ID_SUI) {
+            getForeignAssetSui(
+              getSuiProvider(),
+              getTokenBridgeAddressForChain(CHAIN_ID_SUI),
+              result.chainId,
+              result.assetAddress
+            ).then((coinType) => {
+              if (!cancelled) {
+                setOriginAddress(coinType);
+              }
+            });
           } else {
             setOriginAddress(
               hexToNativeAssetString(

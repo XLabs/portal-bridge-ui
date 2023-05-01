@@ -32,6 +32,7 @@ import {
   ensureHexPrefix,
   uint8ArrayToHex,
   hexToNativeAssetString,
+  CHAIN_ID_SUI,
 } from "@certusone/wormhole-sdk";
 import { clusterApiUrl } from "@solana/web3.js";
 import { getAddress } from "ethers/lib/utils";
@@ -54,6 +55,7 @@ import oasisIcon from "../icons/oasis-network-rose-logo.svg";
 import optimismIcon from "../icons/optimism.svg";
 import polygonIcon from "../icons/polygon.svg";
 import solanaIcon from "../icons/solana.svg";
+import suiIcon from "../icons/sui.svg";
 import terraIcon from "../icons/terra.svg";
 import terra2Icon from "../icons/terra2.svg";
 import nearIcon from "../icons/near.svg";
@@ -63,6 +65,11 @@ import { ConnectConfig, keyStores } from "near-api-js";
 import { AptosNetwork } from "./aptos";
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
 import { ChainId as InjectiveChainId } from "@injectivelabs/ts-types";
+import {
+  testnetConnection,
+  localnetConnection,
+  Connection,
+} from "@mysten/sui.js";
 
 export type Cluster = "devnet" | "testnet" | "mainnet";
 export const CLUSTER: Cluster =
@@ -288,6 +295,11 @@ export const CHAINS: ChainInfo[] =
           logo: solanaIcon,
         },
         {
+          id: CHAIN_ID_SUI,
+          name: "Sui",
+          logo: suiIcon,
+        },
+        {
           id: CHAIN_ID_TERRA,
           name: "Terra Classic",
           logo: terraIcon,
@@ -333,6 +345,11 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_SOLANA,
           name: "Solana",
           logo: solanaIcon,
+        },
+        {
+          id: CHAIN_ID_SUI,
+          name: "Sui",
+          logo: suiIcon,
         },
         {
           id: CHAIN_ID_TERRA,
@@ -418,6 +435,8 @@ export const getDefaultNativeCurrencySymbol = (chainId: ChainId) =>
     ? "ETH"
     : chainId === CHAIN_ID_INJECTIVE
     ? "INJ"
+    : chainId === CHAIN_ID_SUI
+    ? "SUI"
     : "";
 
 export const getDefaultNativeCurrencyAddressEvm = (chainId: ChainId) => {
@@ -668,6 +687,16 @@ export const getInjectiveNetworkChainId = () => {
   }
   throw Error("Unsupported injective network");
 };
+
+export const SUI_CONNECTION =
+  CLUSTER === "mainnet"
+    ? new Connection({ fullnode: "https://rpc.mainnet.sui.io" })
+    : CLUSTER === "testnet"
+    ? testnetConnection
+    : localnetConnection;
+
+export const SUI_NATIVE_DECIMALS = 9;
+export const SUI_NATIVE_TOKEN_KEY = "0x2::sui::SUI";
 
 export const ALGORAND_HOST =
   CLUSTER === "mainnet"
