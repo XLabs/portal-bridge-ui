@@ -26,6 +26,7 @@ import {
   CHAIN_ID_INJECTIVE,
   terra,
   CHAIN_ID_OPTIMISM,
+  CHAIN_ID_SUI,
 } from "@certusone/wormhole-sdk";
 import { Button, makeStyles, Tooltip, Typography } from "@material-ui/core";
 import { FileCopy, OpenInNew } from "@material-ui/icons";
@@ -239,6 +240,14 @@ export default function SmartAddress({
     ? `https://${
         CLUSTER === "testnet" ? "goerli-optimism." : "optimistic."
       }etherscan.io/${isAsset ? "token" : "address"}/${useableAddress}`
+    : chainId === CHAIN_ID_SUI // TODO: might need to change for assets / tokens?
+    ? `https://explorer.sui.io/address/${useableAddress}${
+        CLUSTER === "testnet"
+          ? "?network=testnet"
+          : CLUSTER === "devnet"
+          ? "?network=local"
+          : "?network=https%3A%2F%2Frpc.mainnet.sui.io"
+      }`
     : undefined;
   const explorerName = getExplorerName(chainId);
 

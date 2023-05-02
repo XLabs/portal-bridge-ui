@@ -19,6 +19,8 @@ import {
   isEVMChain,
   isTerraChain,
   nativeToHexString,
+  CHAIN_ID_SUI,
+  getForeignAssetSui,
 } from "@certusone/wormhole-sdk";
 import { Connection } from "@solana/web3.js";
 import { LCDClient } from "@terra-money/terra.js";
@@ -50,6 +52,7 @@ import { useNearContext } from "../contexts/NearWalletContext";
 import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
 import { getAptosClient } from "../utils/aptos";
 import { getInjectiveWasmClient } from "../utils/injective";
+import { getSuiProvider } from "../utils/sui";
 
 export type ForeignAssetInfo = {
   doesExist: boolean;
@@ -218,6 +221,15 @@ function useFetchForeignAsset(
             return getForeignAssetInjective(
               getTokenBridgeAddressForChain(foreignChain),
               client,
+              originChain,
+              hexToUint8Array(originAssetHex)
+            );
+          }
+        : foreignChain === CHAIN_ID_SUI
+        ? () => {
+            return getForeignAssetSui(
+              getSuiProvider(),
+              getTokenBridgeAddressForChain(CHAIN_ID_SUI),
               originChain,
               hexToUint8Array(originAssetHex)
             );
