@@ -37,11 +37,9 @@ function Create() {
     targetChain
   );
   const shouldUpdate = foreignAssetInfo.data?.doesExist;
-  const foreignAddress = foreignAssetInfo.data?.address;
   const error = foreignAssetInfo.error || statusMessage;
   const { handleClick, disabled, showLoader } = useHandleCreateWrapped(
-    shouldUpdate || false,
-    foreignAddress
+    shouldUpdate || false
   );
 
   return (

@@ -32,7 +32,6 @@ import {
   ensureHexPrefix,
   uint8ArrayToHex,
   hexToNativeAssetString,
-  CHAIN_ID_SUI,
 } from "@certusone/wormhole-sdk";
 import { clusterApiUrl } from "@solana/web3.js";
 import { getAddress } from "ethers/lib/utils";
@@ -55,7 +54,6 @@ import oasisIcon from "../icons/oasis-network-rose-logo.svg";
 import optimismIcon from "../icons/optimism.svg";
 import polygonIcon from "../icons/polygon.svg";
 import solanaIcon from "../icons/solana.svg";
-import suiIcon from "../icons/sui.svg";
 import terraIcon from "../icons/terra.svg";
 import terra2Icon from "../icons/terra2.svg";
 import nearIcon from "../icons/near.svg";
@@ -65,11 +63,6 @@ import { ConnectConfig, keyStores } from "near-api-js";
 import { AptosNetwork } from "./aptos";
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
 import { ChainId as InjectiveChainId } from "@injectivelabs/ts-types";
-import {
-  testnetConnection,
-  localnetConnection,
-  Connection,
-} from "@mysten/sui.js";
 
 export type Cluster = "devnet" | "testnet" | "mainnet";
 export const CLUSTER: Cluster =
@@ -180,11 +173,6 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_SOLANA,
           name: "Solana",
           logo: solanaIcon,
-        },
-        {
-          id: CHAIN_ID_SUI,
-          name: "Sui",
-          logo: suiIcon,
         },
         {
           id: CHAIN_ID_TERRA,
@@ -300,11 +288,6 @@ export const CHAINS: ChainInfo[] =
           logo: solanaIcon,
         },
         {
-          id: CHAIN_ID_SUI,
-          name: "Sui",
-          logo: suiIcon,
-        },
-        {
           id: CHAIN_ID_TERRA,
           name: "Terra Classic",
           logo: terraIcon,
@@ -352,11 +335,6 @@ export const CHAINS: ChainInfo[] =
           logo: solanaIcon,
         },
         {
-          id: CHAIN_ID_SUI,
-          name: "Sui",
-          logo: suiIcon,
-        },
-        {
           id: CHAIN_ID_TERRA,
           name: "Terra Classic",
           logo: terraIcon,
@@ -367,8 +345,7 @@ export const CHAINS: ChainInfo[] =
           logo: terra2Icon,
         },
       ];
-export const BETA_CHAINS: ChainId[] =
-  CLUSTER === "mainnet" ? [CHAIN_ID_SUI] : [];
+export const BETA_CHAINS: ChainId[] = CLUSTER === "mainnet" ? [] : [];
 export const CHAINS_WITH_NFT_SUPPORT = CHAINS.filter(
   ({ id }) =>
     id === CHAIN_ID_AVAX ||
@@ -441,8 +418,6 @@ export const getDefaultNativeCurrencySymbol = (chainId: ChainId) =>
     ? "ETH"
     : chainId === CHAIN_ID_INJECTIVE
     ? "INJ"
-    : chainId === CHAIN_ID_SUI
-    ? "SUI"
     : "";
 
 export const getDefaultNativeCurrencyAddressEvm = (chainId: ChainId) => {
@@ -693,16 +668,6 @@ export const getInjectiveNetworkChainId = () => {
   }
   throw Error("Unsupported injective network");
 };
-
-export const SUI_CONNECTION =
-  CLUSTER === "mainnet"
-    ? new Connection({ fullnode: "https://rpc.mainnet.sui.io" })
-    : CLUSTER === "testnet"
-    ? testnetConnection
-    : localnetConnection;
-
-export const SUI_NATIVE_DECIMALS = 9;
-export const SUI_NATIVE_TOKEN_KEY = "0x2::sui::SUI";
 
 export const ALGORAND_HOST =
   CLUSTER === "mainnet"
@@ -1110,15 +1075,13 @@ export const NEAR_TOKEN_BRIDGE_ACCOUNT =
     : "token.test.near";
 
 export const getBridgeAddressForChain = (chainId: ChainId) =>
-  CLUSTER === "mainnet" && chainId === CHAIN_ID_SUI
-    ? "0xaeab97f96cf9877fee2883315d459552b2b921edc16d7ceac6eab944dd88919c"
-    : CONTRACTS[
-        CLUSTER === "mainnet"
-          ? "MAINNET"
-          : CLUSTER === "testnet"
-          ? "TESTNET"
-          : "DEVNET"
-      ][coalesceChainName(chainId)].core || "";
+  CONTRACTS[
+    CLUSTER === "mainnet"
+      ? "MAINNET"
+      : CLUSTER === "testnet"
+      ? "TESTNET"
+      : "DEVNET"
+  ][coalesceChainName(chainId)].core || "";
 export const getNFTBridgeAddressForChain = (chainId: ChainId) =>
   CONTRACTS[
     CLUSTER === "mainnet"
@@ -1128,15 +1091,13 @@ export const getNFTBridgeAddressForChain = (chainId: ChainId) =>
       : "DEVNET"
   ][coalesceChainName(chainId)].nft_bridge || "";
 export const getTokenBridgeAddressForChain = (chainId: ChainId) =>
-  CLUSTER === "mainnet" && chainId === CHAIN_ID_SUI
-    ? "0xc57508ee0d4595e5a8728974a4a93a787d38f339757230d441e895422c07aba9"
-    : CONTRACTS[
-        CLUSTER === "mainnet"
-          ? "MAINNET"
-          : CLUSTER === "testnet"
-          ? "TESTNET"
-          : "DEVNET"
-      ][coalesceChainName(chainId)].token_bridge || "";
+  CONTRACTS[
+    CLUSTER === "mainnet"
+      ? "MAINNET"
+      : CLUSTER === "testnet"
+      ? "TESTNET"
+      : "DEVNET"
+  ][coalesceChainName(chainId)].token_bridge || "";
 
 export const COVALENT_API_KEY = process.env.REACT_APP_COVALENT_API_KEY
   ? process.env.REACT_APP_COVALENT_API_KEY

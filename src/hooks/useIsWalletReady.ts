@@ -8,7 +8,6 @@ import {
   CHAIN_ID_XPLA,
   isEVMChain,
   isTerraChain,
-  CHAIN_ID_SUI,
 } from "@certusone/wormhole-sdk";
 import { useMemo } from "react";
 import { useAlgorandWallet } from "../contexts/AlgorandWalletContext";
@@ -20,7 +19,6 @@ import { useXplaWallet } from "../contexts/XplaWalletContext";
 import { useAptosContext } from "../contexts/AptosWalletContext";
 import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 import { useTerraWallet } from "../contexts/TerraWalletContext";
-import { useSuiWallet } from "../contexts/SuiWalletContext";
 
 const createWalletStatus = (
   isReady: boolean,
@@ -68,8 +66,6 @@ function useIsWalletReady(
     (CLUSTER === "devnet" && aptosNetwork?.chainId === "4");
   const { address: injAddress } = useInjectiveContext();
   const hasInjWallet = !!injAddress;
-  const suiWallet = useSuiWallet();
-  const suiAddress = suiWallet?.getAddress();
 
   return useMemo(() => {
     if (isTerraChain(chainId) && hasTerraWallet && terraWallet?.walletAddress) {
@@ -105,9 +101,6 @@ function useIsWalletReady(
     }
     if (chainId === CHAIN_ID_INJECTIVE && hasInjWallet && injAddress) {
       return createWalletStatus(true, undefined, injAddress);
-    }
-    if (chainId === CHAIN_ID_SUI && suiAddress) {
-      return createWalletStatus(true, undefined, suiAddress);
     }
     if (isEVMChain(chainId) && hasEthInfo && signerAddress) {
       if (hasCorrectEvmNetwork) {
@@ -145,7 +138,6 @@ function useIsWalletReady(
     hasCorrectAptosNetwork,
     hasInjWallet,
     injAddress,
-    suiAddress,
   ]);
 }
 

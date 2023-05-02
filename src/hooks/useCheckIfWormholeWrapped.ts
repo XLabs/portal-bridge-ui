@@ -16,8 +16,6 @@ import {
   WormholeWrappedInfo,
   CHAIN_ID_INJECTIVE,
   getOriginalAssetInjective,
-  CHAIN_ID_SUI,
-  getOriginalAssetSui,
 } from "@certusone/wormhole-sdk";
 import {
   getOriginalAssetEth as getOriginalAssetEthNFT,
@@ -59,7 +57,6 @@ import { getOriginalAssetNear, makeNearAccount } from "../utils/near";
 import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
 import { getAptosClient } from "../utils/aptos";
 import { getInjectiveWasmClient } from "../utils/injective";
-import { getSuiProvider } from "../utils/sui";
 
 export interface StateSafeWormholeWrappedInfo {
   isWrapped: boolean;
@@ -250,22 +247,6 @@ function useCheckIfWormholeWrapped(nft?: boolean) {
             dispatch(setSourceWormholeWrappedInfo(wrappedInfo));
           }
         } catch (e) {}
-      }
-      if (sourceChain === CHAIN_ID_SUI && sourceAsset) {
-        try {
-          const wrappedInfo = makeStateSafe(
-            await getOriginalAssetSui(
-              getSuiProvider(),
-              getTokenBridgeAddressForChain(CHAIN_ID_SUI),
-              sourceAsset
-            )
-          );
-          if (!cancelled) {
-            dispatch(setSourceWormholeWrappedInfo(wrappedInfo));
-          }
-        } catch (e) {
-          console.error(e);
-        }
       }
     })();
     return () => {
