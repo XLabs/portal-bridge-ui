@@ -10,6 +10,7 @@ import {
   isEVMChain,
   isTerraChain,
   TerraChainId,
+  CHAIN_ID_SUI,
 } from "@certusone/wormhole-sdk";
 import { TokenInfo } from "@solana/spl-token-registry";
 import { useMemo } from "react";
@@ -28,6 +29,7 @@ import useSolanaTokenMap from "./useSolanaTokenMap";
 import useTerraMetadata, { TerraMetadata } from "./useTerraMetadata";
 import useTerraTokenMap, { TerraTokenMap } from "./useTerraTokenMap";
 import useXplaMetadata, { XplaMetadata } from "./useXplaMetadata";
+import useSuiMetadata, { SuiMetadata } from "./useSuiMetadata";
 
 export type GenericMetadata = {
   symbol?: string;
@@ -237,6 +239,33 @@ const constructInjectiveMetadata = (
   };
 };
 
+const constructSuiMetadata = (
+  addresses: string[],
+  metadataMap: DataWrapper<Map<string, SuiMetadata>>
+) => {
+  const isFetching = metadataMap.isFetching;
+  const error = metadataMap.error;
+  const receivedAt = metadataMap.receivedAt;
+  const data = new Map<string, GenericMetadata>();
+  addresses.forEach((address) => {
+    const meta = metadataMap.data?.get(address);
+    const obj = {
+      symbol: meta?.symbol || undefined,
+      logo: undefined,
+      tokenName: meta?.tokenName || undefined,
+      decimals: meta?.decimals,
+    };
+    data.set(address, obj);
+  });
+
+  return {
+    isFetching,
+    error,
+    receivedAt,
+    data,
+  };
+};
+
 export default function useMetadata(
   chainId: ChainId,
   addresses: string[]
@@ -268,6 +297,9 @@ export default function useMetadata(
   const injAddresses = useMemo(() => {
     return chainId === CHAIN_ID_INJECTIVE ? addresses : [];
   }, [chainId, addresses]);
+  const suiAddresses = useMemo(() => {
+    return chainId === CHAIN_ID_SUI ? addresses : [];
+  }, [chainId, addresses]);
 
   const metaplexData = useMetaplexData(solanaAddresses);
   const terraMetadata = useTerraMetadata(
@@ -280,6 +312,7 @@ export default function useMetadata(
   const xplaMetadata = useXplaMetadata(xplaAddresses);
   const aptosMetadata = useAptosMetadata(aptosAddresses);
   const injMetadata = useInjectiveMetadata(injAddresses);
+  const suiMetadata = useSuiMetadata(suiAddresses);
 
   const output: DataWrapper<Map<string, GenericMetadata>> = useMemo(
     () =>
@@ -304,6 +337,8 @@ export default function useMetadata(
         ? constructAptosMetadata(aptosAddresses, aptosMetadata)
         : chainId === CHAIN_ID_INJECTIVE
         ? constructInjectiveMetadata(injAddresses, injMetadata)
+        : chainId === CHAIN_ID_SUI
+        ? constructSuiMetadata(suiAddresses, suiMetadata)
         : getEmptyDataWrapper(),
     [
       chainId,
@@ -325,6 +360,8 @@ export default function useMetadata(
       aptosMetadata,
       injAddresses,
       injMetadata,
+      suiAddresses,
+      suiMetadata,
     ]
   );
 
