@@ -20,7 +20,6 @@ import {
   redeemOnXpla,
   TerraChainId,
   uint8ArrayToHex,
-  redeemOnSui,
   CHAIN_ID_SUI,
 } from "@certusone/wormhole-sdk";
 import { completeTransferAndRegister } from "@certusone/wormhole-sdk/lib/esm/aptos/api/tokenBridge";
@@ -85,6 +84,7 @@ import { XplaWallet } from "@xlabs-libs/wallet-aggregator-xpla";
 import { SuiWallet } from "@xlabs-libs/wallet-aggregator-sui";
 import { getSuiProvider } from "../utils/sui";
 import { useSuiWallet } from "../contexts/SuiWalletContext";
+import { redeemOnSui } from "../utils/suiRedeemHotfix";
 
 async function algo(
   dispatch: any,

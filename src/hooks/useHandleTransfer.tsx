@@ -719,7 +719,6 @@ async function sui(
         coreBridgePackageId,
         response
       );
-    console.log(emitterAddress, sequence);
     await fetchSignedVAA(
       CHAIN_ID_SUI,
       emitterAddress,

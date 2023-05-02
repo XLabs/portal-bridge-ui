@@ -10,6 +10,8 @@ import {
   TransactionBlock,
 } from "@mysten/sui.js";
 
+// TODO: replace with SDK method once updated
+// the SDK has an outdated bytecode with a version that doesn't match
 export async function createWrappedOnSuiPrepare(
   provider: JsonRpcProvider,
   coreBridgeStateObjectId: string,

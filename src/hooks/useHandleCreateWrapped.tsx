@@ -102,7 +102,7 @@ import { useSuiWallet } from "../contexts/SuiWalletContext";
 import { SuiWallet } from "@xlabs-libs/wallet-aggregator-sui";
 import { createWrappedOnSuiPrepare } from "../utils/suiPublishHotfix";
 
-// TODO: replace with SDK method
+// TODO: replace with SDK method -
 export async function updateWrappedOnSui(
   provider: JsonRpcProvider,
   coreBridgeStateObjectId: string,
@@ -546,7 +546,6 @@ async function sui(
       if (!suiPrepareRegistrationTxRes) {
         throw new Error("Error parsing transaction results");
       }
-      console.log(suiPrepareRegistrationTxRes);
       const wrappedAssetSetupEvent =
         suiPrepareRegistrationTxRes.objectChanges?.find(
           (oc) =>

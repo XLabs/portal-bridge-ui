@@ -246,7 +246,7 @@ export default function SmartAddress({
           ? "?network=testnet"
           : CLUSTER === "devnet"
           ? "?network=local"
-          : ""
+          : "?network=https%3A%2F%2Frpc.mainnet.sui.io"
       }`
     : undefined;
   const explorerName = getExplorerName(chainId);
