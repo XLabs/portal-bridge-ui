@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Portal is a bridge that offers unlimited transfers across chains for tokens and NFTs wrapped by Wormhole."
+    />
+    <meta property="og:title" content="Portal Token Bridge" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://portalbridge.com" />
+    <meta property="og:image" content="/wormhole.png" />
+    <meta property="og:image:alt" content="Wormhole logo" />
+    <meta
+      property="og:description"
+      content="Portal is a bridge that offers unlimited transfers across chains for tokens and NFTs wrapped by Wormhole."
+    />
+    <meta name="twitter:site" content="@portalbridge_" />
+    <meta name="twitter:creator" content="@portalbridge_" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="apple-touch-icon" href="/logo192.png" />
+
+    <link rel="manifest" href="/manifest.json" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="index.css" rel="stylesheet">
+    <link href="https://www.unpkg.com/@wormhole-foundation/wormhole-connect@0.0.1-beta.7/dist/main.css" rel="stylesheet">
+    <title>SUI Token Bridge</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+
+    <div class="root">
+        <div class="container">
+            <div class="banner">
+                <span>
+                    Experience frictionless USDC transfers between Ethereum and Avalanche with Circle's CCTP.
+                </span>
+                <a class="cctp-link" href="https://stable.portalbridge.com/usdc-bridge" target="_blank" rel="noopener noreferrer">
+                    TRY IT NOW
+                </a>
+            </div>
+
+            <div id="wormhole-connect"></div>
+        </div>
+    </div>
+
+    <script src="https://www.unpkg.com/@wormhole-foundation/wormhole-connect@0.0.1-beta.7/dist/main.js"></script>
+  </body>
+</html>
