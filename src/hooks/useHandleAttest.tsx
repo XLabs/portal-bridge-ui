@@ -31,8 +31,6 @@ import {
   parseSequenceFromLogXpla,
   TerraChainId,
   uint8ArrayToHex,
-  attestFromSui,
-  CHAIN_ID_SUI,
 } from "@certusone/wormhole-sdk";
 import { Alert } from "@material-ui/lab";
 import { Connection, PublicKey } from "@solana/web3.js";
@@ -104,13 +102,6 @@ import { useTerraWallet } from "../contexts/TerraWalletContext";
 import { TerraWallet } from "@xlabs-libs/wallet-aggregator-terra";
 import { XplaWallet } from "@xlabs-libs/wallet-aggregator-xpla";
 import { useXplaWallet } from "../contexts/XplaWalletContext";
-import { SuiWallet } from "@xlabs-libs/wallet-aggregator-sui";
-import { getSuiProvider } from "../utils/sui";
-import {
-  getEmitterAddressAndSequenceFromResponseSui,
-  getOriginalPackageId,
-} from "@certusone/wormhole-sdk/lib/cjs/sui";
-import { useSuiWallet } from "../contexts/SuiWalletContext";
 
 async function algo(
   dispatch: any,
@@ -527,75 +518,6 @@ async function injective(
     dispatch(setIsSending(false));
   }
 }
-
-async function sui(
-  dispatch: any,
-  enqueueSnackbar: any,
-  wallet: SuiWallet,
-  asset: string
-) {
-  dispatch(setIsSending(true));
-  try {
-    const provider = getSuiProvider();
-    const tx = await attestFromSui(
-      provider,
-      getBridgeAddressForChain(CHAIN_ID_SUI),
-      getTokenBridgeAddressForChain(CHAIN_ID_SUI),
-      asset
-    );
-    const response = (
-      await wallet.signAndSendTransaction({
-        transactionBlock: tx,
-        options: {
-          showEvents: true,
-        },
-      })
-    ).data;
-    if (!response) {
-      throw new Error("Error parsing transaction results");
-    }
-    dispatch(
-      setAttestTx({
-        id: response.digest,
-        block: Number(response.checkpoint || 0),
-      })
-    );
-    enqueueSnackbar(null, {
-      content: <Alert severity="success">Transaction confirmed</Alert>,
-    });
-    const coreBridgePackageId = await getOriginalPackageId(
-      provider,
-      getBridgeAddressForChain(CHAIN_ID_SUI)
-    );
-    if (!coreBridgePackageId)
-      throw new Error("Unable to retrieve original package id");
-    const { sequence, emitterAddress } =
-      getEmitterAddressAndSequenceFromResponseSui(
-        coreBridgePackageId,
-        response
-      );
-    enqueueSnackbar(null, {
-      content: <Alert severity="info">Fetching VAA</Alert>,
-    });
-    const { vaaBytes } = await getSignedVAAWithRetry(
-      WORMHOLE_RPC_HOSTS,
-      CHAIN_ID_SUI,
-      emitterAddress,
-      sequence
-    );
-    dispatch(setSignedVAAHex(uint8ArrayToHex(vaaBytes)));
-    enqueueSnackbar(null, {
-      content: <Alert severity="success">Fetched Signed VAA</Alert>,
-    });
-  } catch (e) {
-    console.error(e);
-    enqueueSnackbar(null, {
-      content: <Alert severity="error">{parseError(e)}</Alert>,
-    });
-    dispatch(setIsSending(false));
-  }
-}
-
 export function useHandleAttest() {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
@@ -614,7 +536,6 @@ export function useHandleAttest() {
   const { account: aptosAddress, wallet: aptosWallet } = useAptosContext();
   const { accountId: nearAccountId, wallet } = useNearContext();
   const { wallet: injWallet, address: injAddress } = useInjectiveContext();
-  const suiWallet = useSuiWallet();
   const disabled = !isTargetComplete || isSending || isSendComplete;
   const handleAttestClick = useCallback(() => {
     if (isEVMChain(sourceChain) && !!signer) {
@@ -646,12 +567,6 @@ export function useHandleAttest() {
       near(dispatch, enqueueSnackbar, nearAccountId, sourceAsset, wallet);
     } else if (sourceChain === CHAIN_ID_INJECTIVE && injWallet && injAddress) {
       injective(dispatch, enqueueSnackbar, injWallet, injAddress, sourceAsset);
-    } else if (
-      sourceChain === CHAIN_ID_SUI &&
-      suiWallet?.isConnected() &&
-      suiWallet.getAddress()
-    ) {
-      sui(dispatch, enqueueSnackbar, suiWallet, sourceAsset);
     }
   }, [
     dispatch,
@@ -673,7 +588,6 @@ export function useHandleAttest() {
     injWallet,
     injAddress,
     terraAddress,
-    suiWallet,
   ]);
   return useMemo(
     () => ({

@@ -20,7 +20,6 @@ import {
   redeemOnXpla,
   TerraChainId,
   uint8ArrayToHex,
-  CHAIN_ID_SUI,
 } from "@certusone/wormhole-sdk";
 import { completeTransferAndRegister } from "@certusone/wormhole-sdk/lib/esm/aptos/api/tokenBridge";
 import { Alert } from "@material-ui/lab";
@@ -58,7 +57,6 @@ import {
   SOLANA_HOST,
   SOL_BRIDGE_ADDRESS,
   SOL_TOKEN_BRIDGE_ADDRESS,
-  getBridgeAddressForChain,
 } from "../utils/consts";
 import {
   makeNearAccount,
@@ -81,10 +79,6 @@ import { useTerraWallet } from "../contexts/TerraWalletContext";
 import { TerraWallet } from "@xlabs-libs/wallet-aggregator-terra";
 import { useXplaWallet } from "../contexts/XplaWalletContext";
 import { XplaWallet } from "@xlabs-libs/wallet-aggregator-xpla";
-import { SuiWallet } from "@xlabs-libs/wallet-aggregator-sui";
-import { getSuiProvider } from "../utils/sui";
-import { useSuiWallet } from "../contexts/SuiWalletContext";
-import { redeemOnSui } from "../utils/suiRedeemHotfix";
 
 async function algo(
   dispatch: any,
@@ -380,46 +374,6 @@ async function terra(
   }
 }
 
-async function sui(
-  dispatch: any,
-  enqueueSnackbar: any,
-  wallet: SuiWallet,
-  signedVAA: Uint8Array
-) {
-  dispatch(setIsRedeeming(true));
-  try {
-    const provider = getSuiProvider();
-    const tx = await redeemOnSui(
-      provider,
-      getBridgeAddressForChain(CHAIN_ID_SUI),
-      getTokenBridgeAddressForChain(CHAIN_ID_SUI),
-      signedVAA
-    );
-    const response = (
-      await wallet.signAndSendTransaction({
-        transactionBlock: tx,
-      })
-    ).data;
-    if (!response) {
-      throw new Error("Error parsing transaction results");
-    }
-    dispatch(
-      setRedeemTx({
-        id: response.digest,
-        block: Number(response.checkpoint || 0),
-      })
-    );
-    enqueueSnackbar(null, {
-      content: <Alert severity="success">Transaction confirmed</Alert>,
-    });
-  } catch (e) {
-    enqueueSnackbar(null, {
-      content: <Alert severity="error">{parseError(e)}</Alert>,
-    });
-    dispatch(setIsRedeeming(false));
-  }
-}
-
 export function useHandleRedeem() {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
@@ -433,7 +387,6 @@ export function useHandleRedeem() {
   const { accountId: nearAccountId, wallet } = useNearContext();
   const { account: aptosAddress, wallet: aptosWallet } = useAptosContext();
   const { wallet: injWallet, address: injAddress } = useInjectiveContext();
-  const suiWallet = useSuiWallet();
   const signedVAA = useTransferSignedVAA();
   const isRedeeming = useSelector(selectTransferIsRedeeming);
   const handleRedeemClick = useCallback(() => {
@@ -479,12 +432,6 @@ export function useHandleRedeem() {
       signedVAA
     ) {
       injective(dispatch, enqueueSnackbar, injWallet, injAddress, signedVAA);
-    } else if (
-      targetChain === CHAIN_ID_SUI &&
-      suiWallet?.getAddress() &&
-      !!signedVAA
-    ) {
-      sui(dispatch, enqueueSnackbar, suiWallet, signedVAA);
     }
   }, [
     dispatch,
@@ -505,7 +452,6 @@ export function useHandleRedeem() {
     aptosWallet,
     injWallet,
     injAddress,
-    suiWallet,
   ]);
 
   const handleRedeemNativeClick = useCallback(() => {
@@ -540,12 +486,6 @@ export function useHandleRedeem() {
       signedVAA
     ) {
       injective(dispatch, enqueueSnackbar, injWallet, injAddress, signedVAA);
-    } else if (
-      targetChain === CHAIN_ID_SUI &&
-      suiWallet?.getAddress() &&
-      signedVAA
-    ) {
-      sui(dispatch, enqueueSnackbar, suiWallet, signedVAA);
     }
   }, [
     dispatch,
@@ -561,7 +501,6 @@ export function useHandleRedeem() {
     algoWallet,
     injWallet,
     injAddress,
-    suiWallet,
   ]);
 
   const handleAcalaRelayerRedeemClick = useCallback(async () => {

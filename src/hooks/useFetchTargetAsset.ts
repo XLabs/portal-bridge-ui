@@ -22,8 +22,6 @@ import {
   isTerraChain,
   queryExternalId,
   queryExternalIdInjective,
-  CHAIN_ID_SUI,
-  getForeignAssetSui,
 } from "@certusone/wormhole-sdk";
 import {
   getForeignAssetEth as getForeignAssetEthNFT,
@@ -81,7 +79,6 @@ import {
 import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
 import { getAptosClient } from "../utils/aptos";
 import { getInjectiveWasmClient } from "../utils/injective";
-import { getSuiProvider } from "../utils/sui";
 
 function useFetchTargetAsset(nft?: boolean) {
   const dispatch = useDispatch();
@@ -267,24 +264,6 @@ function useFetchTargetAsset(nft?: boolean) {
                 receiveDataWrapper({
                   doesExist: true,
                   address: tokenId,
-                })
-              )
-            );
-          }
-        } else if (originChain === CHAIN_ID_SUI) {
-          const coinType = await getForeignAssetSui(
-            getSuiProvider(),
-            getTokenBridgeAddressForChain(CHAIN_ID_SUI),
-            CHAIN_ID_SUI,
-            hexToUint8Array(originAsset || "")
-          );
-          console.log("target coin type", coinType);
-          if (!cancelled) {
-            dispatch(
-              setTargetAsset(
-                receiveDataWrapper({
-                  doesExist: true,
-                  address: coinType || null,
                 })
               )
             );
@@ -594,39 +573,6 @@ function useFetchTargetAsset(nft?: boolean) {
             setArgs();
           }
         } catch (e) {
-          if (!cancelled) {
-            dispatch(
-              setTargetAsset(
-                errorDataWrapper(
-                  "Unable to determine existence of wrapped asset"
-                )
-              )
-            );
-          }
-        }
-      }
-      if (targetChain === CHAIN_ID_SUI && originChain && originAsset) {
-        dispatch(setTargetAsset(fetchDataWrapper()));
-        try {
-          const asset = await getForeignAssetSui(
-            getSuiProvider(),
-            getTokenBridgeAddressForChain(CHAIN_ID_SUI),
-            originChain,
-            hexToUint8Array(originAsset)
-          );
-          if (!cancelled) {
-            dispatch(
-              setTargetAsset(
-                receiveDataWrapper({
-                  doesExist: !!asset,
-                  address: asset === null ? asset : asset.toString(),
-                })
-              )
-            );
-            setArgs();
-          }
-        } catch (e) {
-          console.error(e);
           if (!cancelled) {
             dispatch(
               setTargetAsset(

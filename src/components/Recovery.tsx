@@ -34,8 +34,6 @@ import {
   queryExternalIdInjective,
   TerraChainId,
   uint8ArrayToHex,
-  CHAIN_ID_SUI,
-  getForeignAssetSui,
 } from "@certusone/wormhole-sdk";
 import { repairVaa } from "@certusone/wormhole-sdk/lib/esm/utils/repairVaa";
 import {
@@ -113,11 +111,6 @@ import {
   getInjectiveTxClient,
   getInjectiveWasmClient,
 } from "../utils/injective";
-import { getSuiProvider } from "../utils/sui";
-import {
-  getEmitterAddressAndSequenceFromResponseSui,
-  getOriginalPackageId,
-} from "@certusone/wormhole-sdk/lib/cjs/sui";
 
 const useStyles = makeStyles((theme) => ({
   mainCard: {
@@ -355,27 +348,6 @@ async function injective(txHash: string, enqueueSnackbar: any) {
   }
 }
 
-async function sui(digest: string, enqueueSnackbar: any) {
-  try {
-    const provider = getSuiProvider();
-    const tx = await provider.getTransactionBlock({
-      digest,
-      options: { showEvents: true },
-    });
-    const coreBridgePackageId = await getOriginalPackageId(
-      provider,
-      getBridgeAddressForChain(CHAIN_ID_SUI)
-    );
-    if (!coreBridgePackageId)
-      throw new Error("Unable to retrieve original package id");
-    const { sequence, emitterAddress } =
-      getEmitterAddressAndSequenceFromResponseSui(coreBridgePackageId, tx);
-    return await fetchSignedVAA(CHAIN_ID_SUI, emitterAddress, sequence);
-  } catch (e) {
-    return handleError(e, enqueueSnackbar);
-  }
-}
-
 function RelayerRecovery({
   parsedPayload,
   signedVaa,
@@ -596,20 +568,6 @@ export default function Recovery() {
         }
       })();
     }
-
-    if (parsedPayload && parsedPayload.targetChain === CHAIN_ID_SUI) {
-      (async () => {
-        const tokenId = await getForeignAssetSui(
-          getSuiProvider(),
-          getTokenBridgeAddressForChain(CHAIN_ID_SUI),
-          parsedPayload.originChain as ChainId,
-          hexToUint8Array(parsedPayload.originAddress)
-        );
-        if (!cancelled) {
-          setTokenId(tokenId || "");
-        }
-      })();
-    }
     return () => {
       cancelled = true;
     };
@@ -791,26 +749,6 @@ export default function Recovery() {
         setTokenId("");
         (async () => {
           const { vaa, isPending, error } = await injective(
-            recoverySourceTx,
-            enqueueSnackbar
-          );
-          if (!cancelled) {
-            setRecoverySourceTxIsLoading(false);
-            if (vaa) {
-              setRecoverySignedVAA(vaa);
-            }
-            if (error) {
-              setRecoverySourceTxError(error);
-            }
-            setIsVAAPending(isPending);
-          }
-        })();
-      } else if (recoverySourceChain === CHAIN_ID_SUI) {
-        setRecoverySourceTxError("");
-        setRecoverySourceTxIsLoading(true);
-        setTokenId("");
-        (async () => {
-          const { vaa, isPending, error } = await sui(
             recoverySourceTx,
             enqueueSnackbar
           );
