@@ -182,6 +182,11 @@ export const CHAINS: ChainInfo[] =
           logo: solanaIcon,
         },
         {
+          id: CHAIN_ID_SUI,
+          name: "Sui",
+          logo: suiIcon,
+        },
+        {
           id: CHAIN_ID_TERRA,
           name: "Terra Classic",
           logo: terraIcon,
@@ -362,7 +367,8 @@ export const CHAINS: ChainInfo[] =
           logo: terra2Icon,
         },
       ];
-export const BETA_CHAINS: ChainId[] = CLUSTER === "mainnet" ? [] : [];
+export const BETA_CHAINS: ChainId[] =
+  CLUSTER === "mainnet" ? [CHAIN_ID_SUI] : [];
 export const CHAINS_WITH_NFT_SUPPORT = CHAINS.filter(
   ({ id }) =>
     id === CHAIN_ID_AVAX ||
@@ -1104,13 +1110,15 @@ export const NEAR_TOKEN_BRIDGE_ACCOUNT =
     : "token.test.near";
 
 export const getBridgeAddressForChain = (chainId: ChainId) =>
-  CONTRACTS[
-    CLUSTER === "mainnet"
-      ? "MAINNET"
-      : CLUSTER === "testnet"
-      ? "TESTNET"
-      : "DEVNET"
-  ][coalesceChainName(chainId)].core || "";
+  CLUSTER === "mainnet" && chainId === CHAIN_ID_SUI
+    ? "0xaeab97f96cf9877fee2883315d459552b2b921edc16d7ceac6eab944dd88919c"
+    : CONTRACTS[
+        CLUSTER === "mainnet"
+          ? "MAINNET"
+          : CLUSTER === "testnet"
+          ? "TESTNET"
+          : "DEVNET"
+      ][coalesceChainName(chainId)].core || "";
 export const getNFTBridgeAddressForChain = (chainId: ChainId) =>
   CONTRACTS[
     CLUSTER === "mainnet"
@@ -1120,13 +1128,15 @@ export const getNFTBridgeAddressForChain = (chainId: ChainId) =>
       : "DEVNET"
   ][coalesceChainName(chainId)].nft_bridge || "";
 export const getTokenBridgeAddressForChain = (chainId: ChainId) =>
-  CONTRACTS[
-    CLUSTER === "mainnet"
-      ? "MAINNET"
-      : CLUSTER === "testnet"
-      ? "TESTNET"
-      : "DEVNET"
-  ][coalesceChainName(chainId)].token_bridge || "";
+  CLUSTER === "mainnet" && chainId === CHAIN_ID_SUI
+    ? "0xc57508ee0d4595e5a8728974a4a93a787d38f339757230d441e895422c07aba9"
+    : CONTRACTS[
+        CLUSTER === "mainnet"
+          ? "MAINNET"
+          : CLUSTER === "testnet"
+          ? "TESTNET"
+          : "DEVNET"
+      ][coalesceChainName(chainId)].token_bridge || "";
 
 export const COVALENT_API_KEY = process.env.REACT_APP_COVALENT_API_KEY
   ? process.env.REACT_APP_COVALENT_API_KEY
