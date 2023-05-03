@@ -155,7 +155,7 @@ body {
     font-weight: 600;
     line-height: 1.43;
     text-underline-offset: 6px;
-    margin-left: 20px;
+    margin-left: 32px;
 }
 .active {
     text-decoration: underline;
