@@ -141,6 +141,11 @@ body {
     }
 }
 
+@font-face {
+    font-family: 'Suisse BP Intl';
+    src: url('SuisseBPIntlBold.woff2');
+}
+
 .links-list-inner {
     display: flex;
     align-items: center;
