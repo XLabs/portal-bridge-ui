@@ -177,3 +177,18 @@ body {
     user-select: none;
 }
 
+.footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.footer-link {
+    color: white;
+    text-decoration: underline;
+}
+
+.footer-link:visited {
+    color: white;
+}
