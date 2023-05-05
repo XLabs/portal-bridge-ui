@@ -286,6 +286,24 @@ async function evm(
   relayerFee?: string
 ) {
   dispatch(setIsSending(true));
+  // !!TODO: handle Threshold Flow
+  // 0. is tBTC token being transfer?
+
+  // 1.
+  // is Origin Chain === ETH
+  // is Target Chain === Polygon, Optimism or Arbitrum
+  // transferFromEth(tokenBridgeAddress=ThresholdL2GateWay & payload=target_wallet_address) [Wormhole]
+
+  // 2.
+  // is Origin Chain === Polygon, Optimism or Arbitrum
+  // is Target Chain === Polygon, Optimism or Arbitrum
+  // sendTbtc() [Threshold]
+
+  // 3.
+  // is Origin Chain === Polygon, Optimism or Arbitrum
+  // is Target Chain === ETH
+  // sendTbtc() [Threshold]
+
   try {
     const baseAmountParsed = parseUnits(amount, decimals);
     const feeParsed = parseUnits(relayerFee || "0", decimals);

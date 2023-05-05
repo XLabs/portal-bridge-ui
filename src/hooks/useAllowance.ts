@@ -19,6 +19,21 @@ export default function useAllowance(
   transferAmount?: BigInt,
   sourceIsNative?: boolean
 ) {
+  // !!TODO: handle Threshold Flow
+  // 0. is tBTC token being transfer?
+
+  // 1.
+  // is Origin Chain === Polygon, Optimism or Arbitrum
+  // is Target Chain === Polygon, Optimism or Arbitrum
+  // Change `getTokenBridgeAddressForChain(chainId)` to use [Threshold Contracts]
+  // Line 52, 91
+
+  // 2.
+  // is Origin Chain === Polygon, Optimism or Arbitrum
+  // is Target Chain === ETH
+  // Change `getTokenBridgeAddressForChain(chainId)` to use [Threshold Contracts]
+  // Line 52, 91
+
   const dispatch = useDispatch();
   const [allowance, setAllowance] = useState<BigInt | null>(null);
   const [isAllowanceFetching, setIsAllowanceFetching] = useState(false);

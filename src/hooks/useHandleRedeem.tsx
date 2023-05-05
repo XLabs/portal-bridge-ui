@@ -162,6 +162,25 @@ async function evm(
   chainId: ChainId
 ) {
   dispatch(setIsRedeeming(true));
+
+  // !!TODO: handle Threshold Flow
+  // 0. is tBTC token being transfer?
+
+  // 1.
+  // is Origin Chain === ETH
+  // is Target Chain === Polygon, Optimism or Arbitrum
+  // receiveTbtc() [Threshold]
+
+  // 2.
+  // is Origin Chain === Polygon, Optimism or Arbitrum
+  // is Target Chain === Polygon, Optimism or Arbitrum
+  // receiveTbtc() [Threshold]
+
+  // 3.
+  // is Origin Chain === Polygon, Optimism or Arbitrum
+  // is Target Chain === ETH
+  // redeemOnEth() [Wormhole]
+
   try {
     // Klaytn requires specifying gasPrice
     const overrides =
