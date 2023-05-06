@@ -41,13 +41,6 @@ export default function useAllowance(
   useEffect(() => {
     let cancelled = false;
 
-    console.log("chainId", chainId);
-    console.log("tokenAddress", tokenAddress);
-    console.log(
-      "THRESHOLD_TBTC_CONTRACTS[chainId]",
-      THRESHOLD_TBTC_CONTRACTS[chainId]
-    );
-
     // THRESHOLD TBTC FLOW
     const isTBTC =
       THRESHOLD_TBTC_CONTRACTS[chainId].toLowerCase() ===
@@ -61,22 +54,20 @@ export default function useAllowance(
       `${targetChain}`
     );
 
-    if (isTBTC) {
+    if (isTBTC && (isCanonicalTarget || isEthTarget)) {
       dispatch(
         setThreshold({ isTBTC: true, source: chainId, target: targetChain })
       );
 
-      console.log("IS TBTC");
       if (
         (isCanonicalSource && isCanonicalTarget) ||
         (isCanonicalSource && isEthTarget)
       ) {
-        console.log("contract is now for threshold!!");
+        console.log("contract is now for Threshold");
         contract.current = THRESHOLD_GATEWAYS[chainId];
-      } else {
       }
     } else {
-      console.log("ITS NOT TBTC");
+      // ITS NOT THRESHOLD FLOW
       dispatch(setThreshold({ isTBTC: false }));
     }
 
