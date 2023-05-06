@@ -67,7 +67,7 @@ export default function useAllowance(
         contract.current = THRESHOLD_GATEWAYS[chainId];
       }
     } else {
-      // ITS NOT THRESHOLD FLOW
+      // ITS NOT THRESHOLD TBTC FLOW
       dispatch(setThreshold({ isTBTC: false }));
     }
 
