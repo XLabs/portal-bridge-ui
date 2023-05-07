@@ -21,6 +21,7 @@ import {
   TerraChainId,
   uint8ArrayToHex,
   CHAIN_ID_SUI,
+  CHAIN_ID_POLYGON,
 } from "@certusone/wormhole-sdk";
 import { completeTransferAndRegister } from "@certusone/wormhole-sdk/lib/esm/aptos/api/tokenBridge";
 import { Alert } from "@material-ui/lab";
@@ -191,9 +192,19 @@ async function evm(
           signer
         );
 
-        const tx = await L2WormholeGateway.receiveTbtc(signedVAA, {
-          gasLimit: (await signer.getGasPrice()).toString(), // TODO: how to calculate this
-        });
+        const estimateGas = await L2WormholeGateway.estimateGas.receiveTbtc(
+          signedVAA
+        );
+
+        const gasLimit = estimateGas.mul(1100).div(1000);
+        const overrides = {
+          gasLimit,
+          ...(chainId === CHAIN_ID_POLYGON && { type: 0 }),
+        };
+
+        console.log("receiveTbtc overrides", { overrides });
+
+        const tx = await L2WormholeGateway.receiveTbtc(signedVAA, overrides);
 
         receipt = await tx.wait();
 

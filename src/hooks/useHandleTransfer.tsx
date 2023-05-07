@@ -35,6 +35,7 @@ import {
   transferFromSui,
   CHAIN_ID_SUI,
   CHAIN_ID_ETH,
+  CHAIN_ID_POLYGON,
 } from "@certusone/wormhole-sdk";
 import { transferTokens } from "@certusone/wormhole-sdk/lib/esm/aptos/api/tokenBridge";
 import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk/lib/esm";
@@ -390,13 +391,29 @@ async function evm(
             // zeroPad(arrayify(targetAddress), 32)
           );
 
+          const estimateGas = await L2WormholeGateway.estimateGas.sendTbtc(
+            transferAmountParsed,
+            recipientChain,
+            zeroPad(arrayify(readableTargetAddress!), 32),
+            0,
+            1
+          );
+
+          const gasLimit = estimateGas.mul(1100).div(1000);
+          const overrides = {
+            gasLimit,
+            ...(chainId === CHAIN_ID_POLYGON && { type: 0 }),
+          };
+
+          console.log("sendTbtc overrides", {overrides})
+
           const tx = await L2WormholeGateway.sendTbtc(
             transferAmountParsed,
             recipientChain,
             zeroPad(arrayify(readableTargetAddress!), 32),
             0,
             1,
-            { gasLimit: 275000 } // TODO: how to calculate this
+            overrides
           );
 
           const receipt = await tx.wait();
