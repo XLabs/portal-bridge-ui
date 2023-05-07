@@ -43,7 +43,7 @@ export default function useAllowance(
 
     // THRESHOLD TBTC FLOW
     const isTBTC =
-      THRESHOLD_TBTC_CONTRACTS[chainId].toLowerCase() ===
+      THRESHOLD_TBTC_CONTRACTS[chainId]?.toLowerCase() ===
       tokenAddress!.toLowerCase();
     const isCanonicalSource = Object.keys(THRESHOLD_GATEWAYS).includes(
       `${chainId}`

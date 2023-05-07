@@ -594,7 +594,7 @@ export default function Recovery() {
       // if is TBTC token
       if (
         parsedTokenAddress &&
-        THRESHOLD_TBTC_CONTRACTS[parsedPayload.originChain].toLowerCase() ===
+        THRESHOLD_TBTC_CONTRACTS[parsedPayload.originChain]?.toLowerCase() ===
           parsedTokenAddress.toLowerCase()
       ) {
         // sets threshold data
