@@ -93,6 +93,8 @@ import {
   SOLANA_HOST,
   SOL_BRIDGE_ADDRESS,
   SOL_TOKEN_BRIDGE_ADDRESS,
+  THRESHOLD_ARBITER_FEE,
+  THRESHOLD_NONCE,
   THRESHOLD_GATEWAYS,
 } from "../utils/consts";
 import { getSignedVAAWithRetry } from "../utils/getSignedVAAWithRetry";
@@ -410,14 +412,14 @@ async function evm(
             ...(chainId === CHAIN_ID_POLYGON && { type: 0 }),
           };
 
-          console.log("sendTbtc overrides", {overrides})
+          console.log("sendTbtc overrides", { overrides });
 
           const tx = await L2WormholeGateway.sendTbtc(
             transferAmountParsed,
             recipientChain,
             zeroPad(arrayify(readableTargetAddress!), 32),
-            0,
-            1,
+            THRESHOLD_ARBITER_FEE,
+            THRESHOLD_NONCE,
             overrides
           );
 

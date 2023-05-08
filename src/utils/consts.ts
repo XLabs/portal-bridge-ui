@@ -429,6 +429,9 @@ export const THRESHOLD_TBTC_CONTRACTS: any = {
       : "0x6449F4381f3d63bDfb36B3bDc375724aD3cD4621",
 };
 
+export const THRESHOLD_ARBITER_FEE = 0;
+export const THRESHOLD_NONCE = 0;
+
 export const COMING_SOON_CHAINS: ChainInfo[] = [];
 export const getDefaultNativeCurrencySymbol = (chainId: ChainId) =>
   chainId === CHAIN_ID_SOLANA
