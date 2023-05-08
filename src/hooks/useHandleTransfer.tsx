@@ -399,9 +399,14 @@ async function evm(
             1
           );
 
+          // We increase the gas limit estimation here by a factor of 10% to account for
+          // some faulty public JSON-RPC endpoints.
           const gasLimit = estimateGas.mul(1100).div(1000);
           const overrides = {
             gasLimit,
+            // We use the legacy tx envelope here to avoid triggering gas price autodetection using EIP1559 for polygon.
+            // EIP1559 is not actually implemented in polygon. The node is only API compatible but this breaks some clients
+            // like ethers when choosing fees automatically.
             ...(chainId === CHAIN_ID_POLYGON && { type: 0 }),
           };
 
