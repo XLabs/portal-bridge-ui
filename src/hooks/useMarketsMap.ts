@@ -11,6 +11,7 @@ import {
   receiveMarketsMap,
 } from "../store/tokenSlice";
 import { CLUSTER, FEATURED_MARKETS_JSON_URL } from "../utils/consts";
+import test from "./test.json";
 
 export type MarketsMap = {
   markets?: {
@@ -62,7 +63,7 @@ const getMarketsMap = (dispatch: Dispatch) => {
   dispatch(fetchMarketsMap());
   axios.get(FEATURED_MARKETS_JSON_URL).then(
     (response) => {
-      dispatch(receiveMarketsMap(response.data as MarketsMap));
+      dispatch(receiveMarketsMap(/* response.data */ test as any));
     },
     (error) => {
       dispatch(errorMarketsMap("Failed to retrieve the Terra Token List."));
