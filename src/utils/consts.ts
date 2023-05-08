@@ -72,7 +72,7 @@ import {
 } from "@mysten/sui.js";
 
 export type Cluster = "devnet" | "testnet" | "mainnet";
-export const CLUSTER: Cluster = "testnet" as Cluster;
+export const CLUSTER: Cluster = "mainnet" as Cluster;
 // process.env.REACT_APP_CLUSTER === "mainnet"
 //   ? "mainnet"
 //   : process.env.REACT_APP_CLUSTER === "testnet"
