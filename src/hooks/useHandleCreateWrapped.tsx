@@ -29,6 +29,7 @@ import {
   CHAIN_ID_SUI,
   parseAttestMetaVaa,
   createWrappedOnSui,
+  createWrappedOnSuiPrepare,
 } from "@certusone/wormhole-sdk";
 import { Alert } from "@material-ui/lab";
 import { Connection } from "@solana/web3.js";
@@ -100,7 +101,6 @@ import { getSuiProvider } from "../utils/sui";
 import { sleep } from "../utils/sleep";
 import { useSuiWallet } from "../contexts/SuiWalletContext";
 import { SuiWallet } from "@xlabs-libs/wallet-aggregator-sui";
-import { createWrappedOnSuiPrepare } from "../utils/suiPublishHotfix";
 
 // TODO: replace with SDK method -
 export async function updateWrappedOnSui(
