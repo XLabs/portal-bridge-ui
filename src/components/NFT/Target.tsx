@@ -93,7 +93,10 @@ function Target() {
     dispatch(incrementStep());
   }, [dispatch]);
   const isTransferDisabled = useMemo(() => {
-    return getIsTransferDisabled(targetChain, false);
+    return (
+      getIsTransferDisabled(targetChain, false) ||
+      targetChain === CHAIN_ID_SOLANA
+    );
   }, [targetChain]);
   const isValidTargetAssetAddress =
     targetAsset && targetAsset !== ethers.constants.AddressZero;
@@ -153,6 +156,11 @@ function Target() {
         <SolanaTPSWarning />
       )}
       <ChainWarningMessage chainId={targetChain} />
+      {targetChain === CHAIN_ID_SOLANA && (
+        <Alert severity="info" variant="outlined">
+          Portal has paused NFT transfers to Solana temporarily.
+        </Alert>
+      )}
       <ButtonWithLoader
         disabled={!isTargetComplete || isTransferDisabled} //|| !associatedAccountExists}
         onClick={handleNextClick}
