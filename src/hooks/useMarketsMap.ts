@@ -63,7 +63,9 @@ const getMarketsMap = (dispatch: Dispatch) => {
   dispatch(fetchMarketsMap());
   axios.get(FEATURED_MARKETS_JSON_URL).then(
     (response) => {
-      dispatch(receiveMarketsMap(/* response.data */ test as any));
+      dispatch(
+        receiveMarketsMap(test as any /* response.data as MarketsMap */)
+      );
     },
     (error) => {
       dispatch(errorMarketsMap("Failed to retrieve the Terra Token List."));
