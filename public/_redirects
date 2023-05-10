@@ -1,0 +1,1 @@
+/:to/from/:from/:asset /#/transfer?sourceChain=:from&targetChain=:to&asset=:asset
