@@ -89,7 +89,7 @@ export default function ShowTx({
         }`
       : chainId === CHAIN_ID_CELO
       ? `https://${
-          CLUSTER === "testnet" ? "alfajores-celoscan.io" : "explorer.celo.org"
+          CLUSTER === "testnet" ? "alfajores.celoscan.io" : "explorer.celo.org"
         }/tx/${tx?.id}`
       : chainId === CHAIN_ID_KARURA
       ? `https://${
