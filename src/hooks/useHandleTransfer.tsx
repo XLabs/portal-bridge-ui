@@ -397,8 +397,8 @@ async function evm(
             transferAmountParsed,
             recipientChain,
             zeroPad(arrayify(readableTargetAddress!), 32),
-            0,
-            1
+            THRESHOLD_ARBITER_FEE,
+            THRESHOLD_NONCE
           );
 
           // We increase the gas limit estimation here by a factor of 10% to account for
