@@ -30,7 +30,7 @@ import Source from "./Source";
 import SourcePreview from "./SourcePreview";
 import Target from "./Target";
 import TargetPreview from "./TargetPreview";
-import { useDeppLinkTransferParams } from "../../hooks/useDeppLinkTransferParams";
+import { useDeepLinkTransferParams } from "../../hooks/useDeepLinkTransferParams";
 
 
 function Transfer() {
@@ -46,7 +46,7 @@ function Transfer() {
     (isSending || isSendComplete || isRedeeming) && !isRedeemComplete;
 
   const { search } = useLocation();
-  const { sourceChain, targetChain } = useDeppLinkTransferParams(search);
+  const { sourceChain, targetChain } = useDeepLinkTransferParams(search);
 
   useEffect(() => {
     if (sourceChain && targetChain) {

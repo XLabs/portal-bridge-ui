@@ -19,7 +19,7 @@ function parseChain(chain: string | null = null): ChainId {
     }
 }
 
-export function useDeppLinkTransferParams(search: string) {
+export function useDeepLinkTransferParams(search: string) {
     const query = useMemo(() => new URLSearchParams(search), [search]);
     const sourceChain = useMemo(() => parseChain(query.get("sourceChain")), [query]);
     const targetChain = useMemo(() => parseChain(query.get("targetChain")), [query]);
