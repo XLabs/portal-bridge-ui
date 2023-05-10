@@ -19,7 +19,6 @@ import {
 } from "../../store/selectors";
 import {
   setSourceChain,
-  setSourceParsedTokenAccount,
   setStep,
   setTargetChain,
 } from "../../store/transferSlice";
