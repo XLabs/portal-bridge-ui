@@ -32,7 +32,6 @@ import Target from "./Target";
 import TargetPreview from "./TargetPreview";
 import { useDeepLinkTransferParams } from "../../hooks/useDeepLinkTransferParams";
 
-
 function Transfer() {
   useCheckIfWormholeWrapped();
   useFetchTargetAsset();
