@@ -72,12 +72,12 @@ import {
 } from "@mysten/sui.js";
 
 export type Cluster = "devnet" | "testnet" | "mainnet";
-export const CLUSTER: Cluster = "testnet" as Cluster;
-// process.env.REACT_APP_CLUSTER === "mainnet"
-//   ? "mainnet"
-//   : process.env.REACT_APP_CLUSTER === "testnet"
-//   ? "testnet"
-//   : "devnet";
+export const CLUSTER: Cluster =
+  process.env.REACT_APP_CLUSTER === "mainnet"
+    ? "mainnet"
+    : process.env.REACT_APP_CLUSTER === "testnet"
+    ? "testnet"
+    : "devnet";
 
 export interface ChainInfo {
   id: ChainId;
