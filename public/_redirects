@@ -1,0 +1,2 @@
+/:to/from/:from/:asset /#/transfer?sourceChain=:from&targetChain=:to&asset=:asset 301
+/:to/from/:from /#/transfer?sourceChain=:from&targetChain=:to 301

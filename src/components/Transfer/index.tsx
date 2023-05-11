@@ -1,4 +1,3 @@
-import { ChainId } from "@certusone/wormhole-sdk";
 import {
   Container,
   Step,
@@ -6,7 +5,7 @@ import {
   StepContent,
   Stepper,
 } from "@material-ui/core";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import useCheckIfWormholeWrapped from "../../hooks/useCheckIfWormholeWrapped";
@@ -23,7 +22,6 @@ import {
   setStep,
   setTargetChain,
 } from "../../store/transferSlice";
-import { CHAINS_BY_ID } from "../../utils/consts";
 import Redeem from "./Redeem";
 import RedeemPreview from "./RedeemPreview";
 import Send from "./Send";
@@ -32,6 +30,7 @@ import Source from "./Source";
 import SourcePreview from "./SourcePreview";
 import Target from "./Target";
 import TargetPreview from "./TargetPreview";
+import { useDeepLinkTransferParams } from "../../hooks/useDeepLinkTransferParams";
 
 function Transfer() {
   useCheckIfWormholeWrapped();
@@ -46,34 +45,14 @@ function Transfer() {
     (isSending || isSendComplete || isRedeeming) && !isRedeemComplete;
 
   const { search } = useLocation();
-  const query = useMemo(() => new URLSearchParams(search), [search]);
-  const pathSourceChain = query.get("sourceChain");
-  const pathTargetChain = query.get("targetChain");
+  const { sourceChain, targetChain } = useDeepLinkTransferParams(search);
 
-  //This effect initializes the state based on the path params
   useEffect(() => {
-    if (!pathSourceChain && !pathTargetChain) {
-      return;
+    if (sourceChain && targetChain) {
+      dispatch(setSourceChain(sourceChain));
+      dispatch(setTargetChain(targetChain));
     }
-    try {
-      const sourceChain: ChainId =
-        CHAINS_BY_ID[parseFloat(pathSourceChain || "") as ChainId]?.id;
-      const targetChain: ChainId =
-        CHAINS_BY_ID[parseFloat(pathTargetChain || "") as ChainId]?.id;
-
-      if (sourceChain === targetChain) {
-        return;
-      }
-      if (sourceChain) {
-        dispatch(setSourceChain(sourceChain));
-      }
-      if (targetChain) {
-        dispatch(setTargetChain(targetChain));
-      }
-    } catch (e) {
-      console.error("Invalid path params specified.");
-    }
-  }, [pathSourceChain, pathTargetChain, dispatch]);
+  }, [sourceChain, targetChain, dispatch]);
 
   useEffect(() => {
     if (preventNavigation) {
