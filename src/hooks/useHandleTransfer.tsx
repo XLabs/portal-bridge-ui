@@ -43,7 +43,7 @@ import { Alert } from "@material-ui/lab";
 import { Connection } from "@solana/web3.js";
 import algosdk from "algosdk";
 import { Types } from "aptos";
-import { Contract, Signer } from "ethers";
+import { BigNumber, Contract, Signer } from "ethers";
 import { arrayify, parseUnits, zeroPad } from "ethers/lib/utils";
 import { useSnackbar } from "notistack";
 import { useCallback, useMemo } from "react";
@@ -281,6 +281,22 @@ async function aptos(
   }
 }
 
+// Threshold normalize amounts
+
+function normalizeAmount(amount: BigNumber, decimals: number): BigNumber {
+  if (decimals > 8) {
+    amount = amount.div(BigNumber.from(10).pow(decimals - 8));
+  }
+  return amount;
+}
+
+function deNormalizeAmount(amount: BigNumber, decimals: number): BigNumber {
+  if (decimals > 8) {
+    amount = amount.mul(BigNumber.from(10).pow(decimals - 8));
+  }
+  return amount;
+}
+
 async function evm(
   dispatch: any,
   enqueueSnackbar: any,
@@ -381,9 +397,15 @@ async function evm(
 
           console.log("SEND TBTC?!?");
 
+          const amountNormalizeAmount = deNormalizeAmount(
+            normalizeAmount(transferAmountParsed, decimals),
+            decimals
+          );
+
           console.log({
             signer,
             transferAmountParsed,
+            amountNormalizeAmount,
             recipientChain,
             readableTargetAddress,
           });
@@ -394,11 +416,11 @@ async function evm(
           );
 
           const estimateGas = await L2WormholeGateway.estimateGas.sendTbtc(
-            transferAmountParsed,
+            amountNormalizeAmount,
             recipientChain,
             zeroPad(arrayify(readableTargetAddress!), 32),
-            0,
-            1
+            THRESHOLD_ARBITER_FEE,
+            THRESHOLD_NONCE
           );
 
           // We increase the gas limit estimation here by a factor of 10% to account for
@@ -415,7 +437,7 @@ async function evm(
           console.log("sendTbtc overrides", { overrides });
 
           const tx = await L2WormholeGateway.sendTbtc(
-            transferAmountParsed,
+            amountNormalizeAmount,
             recipientChain,
             zeroPad(arrayify(readableTargetAddress!), 32),
             THRESHOLD_ARBITER_FEE,
