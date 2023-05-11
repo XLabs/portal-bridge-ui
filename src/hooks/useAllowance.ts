@@ -73,7 +73,6 @@ export default function useAllowance(
 
     if (isEVMChain(chainId) && tokenAddress && signer && !isApproveProcessing) {
       setIsAllowanceFetching(true);
-      console.log("get allowance with contract", contract.current);
       getAllowanceEth(contract.current, tokenAddress, signer).then(
         (result) => {
           if (!cancelled) {

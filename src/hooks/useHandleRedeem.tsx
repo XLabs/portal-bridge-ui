@@ -177,14 +177,8 @@ async function evm(
         `${chainId}`
       );
 
-      console.log("isTBtc", threshold?.isTBTC);
-      console.log("isCanonicalTarget", isCanonicalTarget);
-      console.log("chainId", chainId);
-      console.log("threshold?.source", threshold?.source);
-
+      // tBTC Flow canonical target
       if (isCanonicalTarget) {
-        console.log("tBTC Flow canonical target!");
-
         const targetAddress = THRESHOLD_GATEWAYS[chainId];
         const L2WormholeGateway = new Contract(
           targetAddress,
@@ -207,16 +201,11 @@ async function evm(
           ...(chainId === CHAIN_ID_POLYGON && { type: 0 }),
         };
 
-        console.log("receiveTbtc overrides", { overrides });
-
         const tx = await L2WormholeGateway.receiveTbtc(signedVAA, overrides);
-
         receipt = await tx.wait();
-
-        console.log({ receipt });
-        console.log("tBTC Transaction complete!");
-      } else {
-        console.log("tBTC Flow ethereum target!");
+      }
+      // tBTC Flow ethereum target
+      else {
         receipt = await redeemOnEth(
           getTokenBridgeAddressForChain(chainId),
           signer,
@@ -227,7 +216,6 @@ async function evm(
     }
     // REGULAR PORTAL BRIDGE FLOW
     else {
-      console.log("non tbtc...");
       // Klaytn requires specifying gasPrice
       const overrides =
         chainId === CHAIN_ID_KLAYTN
