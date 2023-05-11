@@ -77,5 +77,5 @@ jobs:
       needs: build
       steps:
         - name: Trigger deploy
-          run: echo deploying
-#          run: curl -X POST ${{ secrets.DEPLOY_HOOK_URL }}
+          continue-on-error: true # necesary due that the deploy hook is not implemented yet
+          run: curl -X POST ${{ secrets.DEPLOY_HOOK_URL }}
