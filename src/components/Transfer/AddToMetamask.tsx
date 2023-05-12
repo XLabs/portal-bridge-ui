@@ -5,16 +5,13 @@ import { useCallback } from "react";
 import { useSelector } from "react-redux";
 import { useEthereumProvider } from "../../contexts/EthereumProviderContext";
 import {
+  selectTransferSourceChain,
   selectTransferSourceParsedTokenAccount,
   selectTransferTargetAsset,
   selectTransferTargetChain,
   selectTransferThreshold,
 } from "../../store/selectors";
-import {
-  THRESHOLD_GATEWAYS,
-  THRESHOLD_TBTC_CONTRACTS,
-  getEvmChainId,
-} from "../../utils/consts";
+import { THRESHOLD_TBTC_CONTRACTS, getEvmChainId } from "../../utils/consts";
 import {
   ethTokenToParsedTokenAccount,
   getEthereumToken,
@@ -33,12 +30,14 @@ export default function AddToMetamask() {
     selectTransferSourceParsedTokenAccount
   );
   const targetChain = useSelector(selectTransferTargetChain);
+  const sourceChain = useSelector(selectTransferSourceChain);
   const targetAsset = useSelector(selectTransferTargetAsset);
 
   const threshold = useSelector(selectTransferThreshold);
   const isAddingTBTC =
     threshold.isTBTC &&
-    Object.keys(THRESHOLD_GATEWAYS).includes(`${targetChain}`);
+    Object.keys(THRESHOLD_TBTC_CONTRACTS).includes(`${targetChain}`) &&
+    Object.keys(THRESHOLD_TBTC_CONTRACTS).includes(`${sourceChain}`);
   const tbtcAsset = THRESHOLD_TBTC_CONTRACTS[targetChain];
 
   const { provider, signerAddress, evmChainId, wallet } =

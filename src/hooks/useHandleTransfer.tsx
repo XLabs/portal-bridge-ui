@@ -319,8 +319,6 @@ async function evm(
     const threshold = thresholdData;
 
     if (threshold?.isTBTC) {
-      console.log("IS TBTC!");
-
       const isEthSource = chainId === CHAIN_ID_ETH;
       const isEthTarget = recipientChain === CHAIN_ID_ETH;
       const isCanonicalSource = Object.keys(THRESHOLD_GATEWAYS).includes(
@@ -352,8 +350,6 @@ async function evm(
           {},
           zeroPad(arrayify(payload), 32)
         );
-
-        console.log({ receipt });
 
         dispatch(
           setTransferTx({
@@ -395,24 +391,9 @@ async function evm(
             signer
           );
 
-          console.log("SEND TBTC?!?");
-
           const amountNormalizeAmount = deNormalizeAmount(
             normalizeAmount(transferAmountParsed, decimals),
             decimals
-          );
-
-          console.log({
-            signer,
-            transferAmountParsed,
-            amountNormalizeAmount,
-            recipientChain,
-            readableTargetAddress,
-          });
-
-          console.log(
-            "zeroPad(arrayify(targetAddress), 32)"
-            // zeroPad(arrayify(targetAddress), 32)
           );
 
           const estimateGas = await L2WormholeGateway.estimateGas.sendTbtc(
@@ -434,8 +415,6 @@ async function evm(
             ...(chainId === CHAIN_ID_POLYGON && { type: 0 }),
           };
 
-          console.log("sendTbtc overrides", { overrides });
-
           const tx = await L2WormholeGateway.sendTbtc(
             amountNormalizeAmount,
             recipientChain,
@@ -446,7 +425,6 @@ async function evm(
           );
 
           const receipt = await tx.wait();
-          console.log({ receipt });
 
           dispatch(
             setTransferTx({
@@ -466,8 +444,6 @@ async function evm(
           const emitterAddress = getEmitterAddressEth(
             getTokenBridgeAddressForChain(chainId)
           );
-
-          console.log({ sequence, emitterAddress });
 
           await fetchSignedVAA(
             chainId,
