@@ -476,30 +476,11 @@ async function evm(
             enqueueSnackbar,
             dispatch
           );
-
-          // const { vaaBytes, isPending } = await getSignedVAAWithRetry(
-          //   chainId,
-          //   emitterAddress,
-          //   sequence
-          // );
-
-          // if (vaaBytes !== undefined) {
-          //   console.log("uint8ArrayToHex(vaaBytes)", uint8ArrayToHex(vaaBytes));
-          //   const signedVAA = uint8ArrayToHex(vaaBytes);
-          //   console.log({ isPending });
-          //   console.log("Fetched Signed VAA");
-          // } else if (isPending) {
-          //   console.log({ isPending });
-          //   console.log("VAA is Pending");
-          // } else {
-          //   throw new Error("Error retrieving VAA info");
-          // }
         } catch (e) {
           console.error(parseError(e));
         }
       }
     } else {
-      console.log("TRANSACCION FLUJO NORMAL PASANDO AQUI");
       const baseAmountParsed = parseUnits(amount, decimals);
       const feeParsed = parseUnits(relayerFee || "0", decimals);
       const transferAmountParsed = baseAmountParsed.add(feeParsed);

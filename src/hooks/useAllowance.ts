@@ -76,13 +76,11 @@ export default function useAllowance(
       getAllowanceEth(contract.current, tokenAddress, signer).then(
         (result) => {
           if (!cancelled) {
-            console.log("RESULT!", result.toBigInt());
             setIsAllowanceFetching(false);
             setAllowance(result.toBigInt());
           }
         },
-        (error) => {
-          console.log("ERROR!", error);
+        (_error) => {
           if (!cancelled) {
             setIsAllowanceFetching(false);
             //setError("Unable to retrieve allowance"); //TODO set an error
