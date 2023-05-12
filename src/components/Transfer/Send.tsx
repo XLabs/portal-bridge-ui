@@ -21,6 +21,7 @@ import {
   selectTransferSourceAsset,
   selectTransferSourceChain,
   selectTransferSourceParsedTokenAccount,
+  selectTransferTargetChain,
   selectTransferTargetError,
   selectTransferTransferTx,
 } from "../../store/selectors";
@@ -56,6 +57,7 @@ function Send() {
   }, [dispatch]);
 
   const sourceChain = useSelector(selectTransferSourceChain);
+  const targetChain = useSelector(selectTransferTargetChain);
   const sourceAsset = useSelector(selectTransferSourceAsset);
   const sourceAmount = useSelector(selectTransferAmount);
   const sourceParsedTokenAccount = useSelector(
@@ -113,7 +115,9 @@ function Send() {
     sourceChain,
     sourceAsset,
     transferAmountParsed || undefined,
-    sourceIsNative
+    sourceIsNative,
+    targetChain,
+    isReady
   );
 
   const approveButtonNeeded = isEVMChain(sourceChain) && !sufficientAllowance;

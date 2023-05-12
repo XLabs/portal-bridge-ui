@@ -78,6 +78,7 @@ export const CLUSTER: Cluster =
     : process.env.REACT_APP_CLUSTER === "testnet"
     ? "testnet"
     : "devnet";
+
 export interface ChainInfo {
   id: ChainId;
   name: string;
@@ -393,6 +394,43 @@ export const CHAINS_BY_ID: ChainsById = CHAINS.reduce((obj, chain) => {
   obj[chain.id] = chain;
   return obj;
 }, {} as ChainsById);
+
+export const THRESHOLD_GATEWAYS: any = {
+  [CHAIN_ID_POLYGON]:
+    CLUSTER === "mainnet"
+      ? "0x09959798B95d00a3183d20FaC298E4594E599eab"
+      : "0xc3D46e0266d95215589DE639cC4E93b79f88fc6C",
+  [CHAIN_ID_OPTIMISM]:
+    CLUSTER === "mainnet"
+      ? "0x1293a54e160D1cd7075487898d65266081A15458"
+      : "0xc3D46e0266d95215589DE639cC4E93b79f88fc6C",
+  [CHAIN_ID_ARBITRUM]:
+    CLUSTER === "mainnet"
+      ? "0x1293a54e160D1cd7075487898d65266081A15458"
+      : "0xe3e0511EEbD87F08FbaE4486419cb5dFB06e1343",
+};
+
+export const THRESHOLD_TBTC_CONTRACTS: any = {
+  [CHAIN_ID_ETH]:
+    CLUSTER === "mainnet"
+      ? "0x18084fbA666a33d37592fA2633fD49a74DD93a88"
+      : "0x679874fBE6D4E7Cc54A59e315FF1eB266686a937",
+  [CHAIN_ID_POLYGON]:
+    CLUSTER === "mainnet"
+      ? "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b"
+      : "0xb8f31A249bcb45267d06b9E51252c4793B917Cd0",
+  [CHAIN_ID_OPTIMISM]:
+    CLUSTER === "mainnet"
+      ? "0x6c84a8f1c29108F47a79964b5Fe888D4f4D0dE40"
+      : "0xb8f31A249bcb45267d06b9E51252c4793B917Cd0",
+  [CHAIN_ID_ARBITRUM]:
+    CLUSTER === "mainnet"
+      ? "0x6c84a8f1c29108F47a79964b5Fe888D4f4D0dE40"
+      : "0x6449F4381f3d63bDfb36B3bDc375724aD3cD4621",
+};
+
+export const THRESHOLD_ARBITER_FEE = 0;
+export const THRESHOLD_NONCE = 0;
 
 export const COMING_SOON_CHAINS: ChainInfo[] = [];
 export const getDefaultNativeCurrencySymbol = (chainId: ChainId) =>

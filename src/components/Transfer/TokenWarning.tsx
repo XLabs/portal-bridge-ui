@@ -51,6 +51,24 @@ function WormholeWrappedWarning() {
   );
 }
 
+function CanonicalWarning() {
+  const classes = useStyles();
+  return (
+    <Alert severity="info" variant="outlined" className={classes.alert}>
+      <Typography component="div">
+        You will receive tBTC as{" "}
+        <Box fontWeight={900} display="inline">
+          canonical tokens
+        </Box>{" "}
+        that are natively supported and ready to use!
+      </Typography>
+      <Typography component="div">
+        No need for unwrapping or exchanging for native assets.
+      </Typography>
+    </Alert>
+  );
+}
+
 function MultichainWarning({
   symbol,
   targetChain,
@@ -141,18 +159,22 @@ export default function TokenWarning({
   originChain,
   targetChain,
   targetAsset,
+  isTBTC = false,
 }: {
   sourceChain?: ChainId;
   sourceAsset?: string;
   originChain?: ChainId;
   targetChain?: ChainId;
   targetAsset?: string;
+  isTBTC?: boolean;
 }) {
   if (
     !(originChain && targetChain && targetAsset && sourceChain && sourceAsset)
   ) {
     return null;
   }
+
+  const isCanonical: boolean = isTBTC;
 
   const searchableAddress = isEVMChain(sourceChain)
     ? sourceAsset.toLowerCase()
@@ -167,8 +189,16 @@ export default function TokenWarning({
 
   const showMultiChainWarning =
     isMultiChain && isWormholeWrapped && targetChain !== CHAIN_ID_APTOS;
+  const showCanonicalWarning =
+    !isMultiChain &&
+    isWormholeWrapped &&
+    targetChain !== CHAIN_ID_APTOS &&
+    isCanonical;
   const showWrappedWarning =
-    !isMultiChain && isWormholeWrapped && targetChain !== CHAIN_ID_APTOS; //Multichain warning is more important
+    !isMultiChain &&
+    isWormholeWrapped &&
+    targetChain !== CHAIN_ID_APTOS &&
+    !isCanonical; //Multichain warning is more important
   const showRewardsWarning = isRewardsToken;
   const showLiquidityWarning = shouldShowLiquidityWarning(
     sourceChain,
@@ -184,6 +214,7 @@ export default function TokenWarning({
           targetChain={targetChain}
         />
       ) : null}
+      {showCanonicalWarning ? <CanonicalWarning /> : null}
       {showWrappedWarning ? <WormholeWrappedWarning /> : null}
       {showRewardsWarning ? <RewardsWarning /> : null}
       {showLiquidityWarning ? <LiquidityWarning /> : null}

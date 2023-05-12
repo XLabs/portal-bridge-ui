@@ -10,6 +10,7 @@ import {
 import ConnectWalletDialog from "./ConnectWalletDialog";
 import ToggleConnectedButton from "./ToggleConnectedButton";
 import { Typography } from "@material-ui/core";
+import { CLUSTER } from "../utils/consts";
 
 interface ISanction {
   address: string;
@@ -28,7 +29,8 @@ const ConnectWalletButton = ({ chainId }: { chainId: ChainId }) => {
 
   const getIsSanctioned = async (addr?: string) => {
     const key = process.env.REACT_APP_TRM_API_KEY;
-    if (addr && key) {
+
+    if (addr && key && CLUSTER === "mainnet") {
       const resp = await fetch(
         `https://api.trmlabs.com/public/v1/sanctions/screening`,
         {

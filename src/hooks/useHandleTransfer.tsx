@@ -34,6 +34,8 @@ import {
   uint8ArrayToHex,
   transferFromSui,
   CHAIN_ID_SUI,
+  CHAIN_ID_ETH,
+  CHAIN_ID_POLYGON,
 } from "@certusone/wormhole-sdk";
 import { transferTokens } from "@certusone/wormhole-sdk/lib/esm/aptos/api/tokenBridge";
 import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk/lib/esm";
@@ -41,8 +43,8 @@ import { Alert } from "@material-ui/lab";
 import { Connection } from "@solana/web3.js";
 import algosdk from "algosdk";
 import { Types } from "aptos";
-import { Signer } from "ethers";
-import { parseUnits, zeroPad } from "ethers/lib/utils";
+import { BigNumber, Contract, Signer } from "ethers";
+import { arrayify, parseUnits, zeroPad } from "ethers/lib/utils";
 import { useSnackbar } from "notistack";
 import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -64,8 +66,10 @@ import {
   selectTransferSourceChain,
   selectTransferSourceParsedTokenAccount,
   selectTransferTargetChain,
+  selectTransferThreshold,
 } from "../store/selectors";
 import {
+  Threshold,
   setIsSending,
   setIsVAAPending,
   setSignedVAAHex,
@@ -89,6 +93,9 @@ import {
   SOLANA_HOST,
   SOL_BRIDGE_ADDRESS,
   SOL_TOKEN_BRIDGE_ADDRESS,
+  THRESHOLD_ARBITER_FEE,
+  THRESHOLD_NONCE,
+  THRESHOLD_GATEWAYS,
 } from "../utils/consts";
 import { getSignedVAAWithRetry } from "../utils/getSignedVAAWithRetry";
 import {
@@ -122,6 +129,8 @@ import {
   getOriginalPackageId,
 } from "@certusone/wormhole-sdk/lib/cjs/sui";
 import { useSuiWallet } from "../contexts/SuiWalletContext";
+import { ThresholdL2WormholeGateway } from "../utils/ThresholdL2WormholeGateway";
+import { useTargetInfo } from "../components/Transfer/Target";
 
 async function fetchSignedVAA(
   chainId: ChainId,
@@ -272,6 +281,22 @@ async function aptos(
   }
 }
 
+// Threshold normalize amounts
+
+function normalizeAmount(amount: BigNumber, decimals: number): BigNumber {
+  if (decimals > 8) {
+    amount = amount.div(BigNumber.from(10).pow(decimals - 8));
+  }
+  return amount;
+}
+
+function deNormalizeAmount(amount: BigNumber, decimals: number): BigNumber {
+  if (decimals > 8) {
+    amount = amount.mul(BigNumber.from(10).pow(decimals - 8));
+  }
+  return amount;
+}
+
 async function evm(
   dispatch: any,
   enqueueSnackbar: any,
@@ -283,58 +308,231 @@ async function evm(
   recipientAddress: Uint8Array,
   isNative: boolean,
   chainId: ChainId,
-  relayerFee?: string
+  relayerFee?: string,
+  thresholdData?: Threshold,
+  readableTargetAddress?: string
 ) {
   dispatch(setIsSending(true));
+
   try {
-    const baseAmountParsed = parseUnits(amount, decimals);
-    const feeParsed = parseUnits(relayerFee || "0", decimals);
-    const transferAmountParsed = baseAmountParsed.add(feeParsed);
-    // Klaytn requires specifying gasPrice
-    const overrides =
-      chainId === CHAIN_ID_KLAYTN
-        ? { gasPrice: (await signer.getGasPrice()).toString() }
-        : {};
-    const receipt = isNative
-      ? await transferFromEthNative(
-          getTokenBridgeAddressForChain(chainId),
-          signer,
-          transferAmountParsed,
-          recipientChain,
-          recipientAddress,
-          feeParsed,
-          overrides
-        )
-      : await transferFromEth(
-          getTokenBridgeAddressForChain(chainId),
+    // THRESHOLD TBTC FLOW
+    const threshold = thresholdData;
+
+    if (threshold?.isTBTC) {
+      console.log("IS TBTC!");
+
+      const isEthSource = chainId === CHAIN_ID_ETH;
+      const isEthTarget = recipientChain === CHAIN_ID_ETH;
+      const isCanonicalSource = Object.keys(THRESHOLD_GATEWAYS).includes(
+        `${chainId}`
+      );
+      const isCanonicalTarget = Object.keys(THRESHOLD_GATEWAYS).includes(
+        `${recipientChain}`
+      );
+
+      const baseAmountParsed = parseUnits(amount, decimals);
+      const relayerFeeParsed = parseUnits(relayerFee || "0", decimals);
+      const transferAmountParsed = baseAmountParsed.add(relayerFeeParsed);
+
+      if (isEthSource && isCanonicalTarget) {
+        const targetAddress = THRESHOLD_GATEWAYS[recipientChain];
+        console.log("Ethereum to Canonical");
+
+        const tokenBridgeAddress = getTokenBridgeAddressForChain(chainId);
+        const payload = recipientAddress;
+
+        const receipt = await transferFromEth(
+          tokenBridgeAddress,
           signer,
           tokenAddress,
           transferAmountParsed,
           recipientChain,
-          recipientAddress,
-          feeParsed,
-          overrides
+          zeroPad(arrayify(targetAddress), 32),
+          relayerFeeParsed,
+          {},
+          zeroPad(arrayify(payload), 32)
         );
-    dispatch(
-      setTransferTx({ id: receipt.transactionHash, block: receipt.blockNumber })
-    );
-    enqueueSnackbar(null, {
-      content: <Alert severity="success">Transaction confirmed</Alert>,
-    });
-    const sequence = parseSequenceFromLogEth(
-      receipt,
-      getBridgeAddressForChain(chainId)
-    );
-    const emitterAddress = getEmitterAddressEth(
-      getTokenBridgeAddressForChain(chainId)
-    );
-    await fetchSignedVAA(
-      chainId,
-      emitterAddress,
-      sequence,
-      enqueueSnackbar,
-      dispatch
-    );
+
+        console.log({ receipt });
+
+        dispatch(
+          setTransferTx({
+            id: receipt.transactionHash,
+            block: receipt.blockNumber,
+          })
+        );
+
+        enqueueSnackbar(null, {
+          content: <Alert severity="success">Transaction confirmed</Alert>,
+        });
+
+        const sequence = parseSequenceFromLogEth(
+          receipt,
+          getBridgeAddressForChain(chainId)
+        );
+
+        const emitterAddress = getEmitterAddressEth(
+          getTokenBridgeAddressForChain(chainId)
+        );
+
+        await fetchSignedVAA(
+          chainId,
+          emitterAddress,
+          sequence,
+          enqueueSnackbar,
+          dispatch
+        );
+      }
+
+      if (isCanonicalSource && (isCanonicalTarget || isEthTarget)) {
+        const sourceAddress = THRESHOLD_GATEWAYS[chainId].toLowerCase();
+        console.log("Canonical to ", isCanonicalTarget ? "Canonical" : "ETH");
+
+        try {
+          const L2WormholeGateway = new Contract(
+            sourceAddress,
+            ThresholdL2WormholeGateway,
+            signer
+          );
+
+          console.log("SEND TBTC?!?");
+
+          const amountNormalizeAmount = deNormalizeAmount(
+            normalizeAmount(transferAmountParsed, decimals),
+            decimals
+          );
+
+          console.log({
+            signer,
+            transferAmountParsed,
+            amountNormalizeAmount,
+            recipientChain,
+            readableTargetAddress,
+          });
+
+          console.log(
+            "zeroPad(arrayify(targetAddress), 32)"
+            // zeroPad(arrayify(targetAddress), 32)
+          );
+
+          const estimateGas = await L2WormholeGateway.estimateGas.sendTbtc(
+            amountNormalizeAmount,
+            recipientChain,
+            zeroPad(arrayify(readableTargetAddress!), 32),
+            THRESHOLD_ARBITER_FEE,
+            THRESHOLD_NONCE
+          );
+
+          // We increase the gas limit estimation here by a factor of 10% to account for
+          // some faulty public JSON-RPC endpoints.
+          const gasLimit = estimateGas.mul(1100).div(1000);
+          const overrides = {
+            gasLimit,
+            // We use the legacy tx envelope here to avoid triggering gas price autodetection using EIP1559 for polygon.
+            // EIP1559 is not actually implemented in polygon. The node is only API compatible but this breaks some clients
+            // like ethers when choosing fees automatically.
+            ...(chainId === CHAIN_ID_POLYGON && { type: 0 }),
+          };
+
+          console.log("sendTbtc overrides", { overrides });
+
+          const tx = await L2WormholeGateway.sendTbtc(
+            amountNormalizeAmount,
+            recipientChain,
+            zeroPad(arrayify(readableTargetAddress!), 32),
+            THRESHOLD_ARBITER_FEE,
+            THRESHOLD_NONCE,
+            overrides
+          );
+
+          const receipt = await tx.wait();
+          console.log({ receipt });
+
+          dispatch(
+            setTransferTx({
+              id: receipt.transactionHash,
+              block: receipt.blockNumber,
+            })
+          );
+
+          enqueueSnackbar(null, {
+            content: <Alert severity="success">Transaction confirmed</Alert>,
+          });
+
+          const sequence = parseSequenceFromLogEth(
+            receipt,
+            getBridgeAddressForChain(chainId)
+          );
+          const emitterAddress = getEmitterAddressEth(
+            getTokenBridgeAddressForChain(chainId)
+          );
+
+          console.log({ sequence, emitterAddress });
+
+          await fetchSignedVAA(
+            chainId,
+            emitterAddress,
+            sequence,
+            enqueueSnackbar,
+            dispatch
+          );
+        } catch (e) {
+          console.error(parseError(e));
+        }
+      }
+    } else {
+      const baseAmountParsed = parseUnits(amount, decimals);
+      const feeParsed = parseUnits(relayerFee || "0", decimals);
+      const transferAmountParsed = baseAmountParsed.add(feeParsed);
+      // Klaytn requires specifying gasPrice
+      const overrides =
+        chainId === CHAIN_ID_KLAYTN
+          ? { gasPrice: (await signer.getGasPrice()).toString() }
+          : {};
+      const receipt = isNative
+        ? await transferFromEthNative(
+            getTokenBridgeAddressForChain(chainId),
+            signer,
+            transferAmountParsed,
+            recipientChain,
+            recipientAddress,
+            feeParsed,
+            overrides
+          )
+        : await transferFromEth(
+            getTokenBridgeAddressForChain(chainId),
+            signer,
+            tokenAddress,
+            transferAmountParsed,
+            recipientChain,
+            recipientAddress,
+            feeParsed,
+            overrides
+          );
+      dispatch(
+        setTransferTx({
+          id: receipt.transactionHash,
+          block: receipt.blockNumber,
+        })
+      );
+      enqueueSnackbar(null, {
+        content: <Alert severity="success">Transaction confirmed</Alert>,
+      });
+      const sequence = parseSequenceFromLogEth(
+        receipt,
+        getBridgeAddressForChain(chainId)
+      );
+      const emitterAddress = getEmitterAddressEth(
+        getTokenBridgeAddressForChain(chainId)
+      );
+      await fetchSignedVAA(
+        chainId,
+        emitterAddress,
+        sequence,
+        enqueueSnackbar,
+        dispatch
+      );
+    }
   } catch (e) {
     handleError(e, enqueueSnackbar, dispatch);
   }
@@ -734,6 +932,7 @@ async function sui(
 export function useHandleTransfer() {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
+  const { readableTargetAddress } = useTargetInfo();
   const sourceChain = useSelector(selectTransferSourceChain);
   const sourceAsset = useSelector(selectTransferSourceAsset);
   const originChain = useSelector(selectTransferOriginChain);
@@ -744,6 +943,7 @@ export function useHandleTransfer() {
   const isTargetComplete = useSelector(selectTransferIsTargetComplete);
   const isSending = useSelector(selectTransferIsSending);
   const isSendComplete = useSelector(selectTransferIsSendComplete);
+  const thresholdData = useSelector(selectTransferThreshold);
   const { signer } = useEthereumProvider(sourceChain);
   const { wallet: solanaWallet, publicKey: solPK } = useSolanaWallet();
   const { wallet: terraWallet } = useTerraWallet(sourceChain);
@@ -784,7 +984,9 @@ export function useHandleTransfer() {
         targetAddress,
         isNative,
         sourceChain,
-        relayerFee
+        relayerFee,
+        thresholdData,
+        readableTargetAddress
       );
     } else if (
       sourceChain === CHAIN_ID_SOLANA &&
@@ -949,34 +1151,36 @@ export function useHandleTransfer() {
       );
     }
   }, [
-    dispatch,
-    enqueueSnackbar,
+    readableTargetAddress,
     sourceChain,
     signer,
-    relayerFee,
+    sourceAsset,
+    decimals,
+    targetAddress,
     solanaWallet,
     solPK,
-    terraWallet,
     sourceTokenPublicKey,
-    sourceAsset,
-    amount,
-    decimals,
-    targetChain,
-    targetAddress,
-    originAsset,
-    originChain,
-    isNative,
-    terraFeeDenom,
+    terraWallet,
+    xplaWallet,
     algoAccount,
-    algoWallet,
     nearAccountId,
     wallet,
-    xplaWallet,
     aptosAddress,
-    aptosWallet,
     injWallet,
     injAddress,
     suiWallet,
+    dispatch,
+    enqueueSnackbar,
+    amount,
+    targetChain,
+    isNative,
+    relayerFee,
+    thresholdData,
+    originAsset,
+    originChain,
+    terraFeeDenom,
+    algoWallet,
+    aptosWallet,
   ]);
   return useMemo(
     () => ({
