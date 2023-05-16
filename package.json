@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "rm node_modules/@xlabs/portal-bridge-ui/package.json"
+    "build": "rm node_modules/@xlabs/portal-bridge-ui/package.json && mv node_modules/@xlabs/portal-bridge-ui/ build"
   },
   "dependencies": {
     "@xlabs/portal-bridge-ui": "^0.1.0"
