@@ -35,6 +35,7 @@ jobs:
     permissions:
       contents: read
       packages: write
+    environment: Cloudflare-Page-Deploy
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -73,6 +74,7 @@ jobs:
       if: "!startsWith(github.event.head_commit.message, '[RELEASE]')"
       runs-on: ubuntu-latest
       needs: build
+      environment: Cloudflare-Page-Deploy
       steps:
         - name: Trigger deploy
           run: curl -X POST ${{ secrets.DEPLOY_HOOK_URL }}
