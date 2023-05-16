@@ -61,9 +61,6 @@ jobs:
         run: npm install
 
       - name: Build
-        env:
-          NODE_OPTIONS: --max-old-space-size=5120
-          GENERATE_SOURCEMAP: false
         run: echo 'REACT_APP_VERSION=$npm_package_version' > .env && npm run build
 
       - name: Publish
@@ -77,5 +74,4 @@ jobs:
       needs: build
       steps:
         - name: Trigger deploy
-          continue-on-error: true # necesary due that the deploy hook is not implemented yet
           run: curl -X POST ${{ secrets.DEPLOY_HOOK_URL }}
