@@ -1,4 +1,4 @@
-import { CHAIN_ID_SOLANA, isEVMChain } from "@certusone/wormhole-sdk";
+import { isEVMChain } from "@certusone/wormhole-sdk";
 import { makeStyles, Typography } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import { useCallback, useMemo } from "react";
@@ -35,10 +35,6 @@ function Target() {
   const targetChain = useSelector(selectAttestTargetChain);
   const isTargetComplete = useSelector(selectAttestIsTargetComplete);
   const shouldLockFields = useSelector(selectAttestShouldLockFields);
-  const isAttestDisabled = useMemo(
-    () => targetChain === CHAIN_ID_SOLANA,
-    [targetChain]
-  );
   const handleTargetChange = useCallback(
     (event) => {
       dispatch(setTargetChain(event.target.value));
@@ -72,14 +68,9 @@ function Target() {
           />
         )}
       </Alert>
-      {targetChain === CHAIN_ID_SOLANA && (
-        <Alert severity="info" variant="outlined">
-          Portal has paused Token attest to Solana temporarily.
-        </Alert>
-      )}
       <LowBalanceWarning chainId={targetChain} />
       <ButtonWithLoader
-        disabled={!isTargetComplete || isAttestDisabled}
+        disabled={!isTargetComplete}
         onClick={handleNextClick}
         showLoader={false}
       >
