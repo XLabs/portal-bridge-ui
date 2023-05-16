@@ -64,9 +64,9 @@ jobs:
 
       - name: Build
         env:
-          NODE_OPTIONS: ${{ env.NODE_OPTIONS }}
-          REACT_APP_CLUSTER: ${{ env.REACT_APP_CLUSTER }}
-          REACT_APP_SOLANA_API_URL: ${{ env.REACT_APP_SOLANA_API_URL }}
+          NODE_OPTIONS: ${{ vars.NODE_OPTIONS }}
+          REACT_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
+          REACT_APP_SOLANA_API_URL: ${{ vars.REACT_APP_SOLANA_API_URL }}
           REACT_APP_COVALENT_API_KEY: ${{ secrets.REACT_APP_COVALENT_API_KEY }}
           REACT_APP_TRM_API_KEY: ${{ secrets.REACT_APP_TRM_API_KEY }}
         run: echo 'REACT_APP_VERSION=$npm_package_version' > .env && npm run build
