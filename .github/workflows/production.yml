@@ -30,7 +30,7 @@ jobs:
 
   build:
     if: "!startsWith(github.event.head_commit.message, '[CI Skip] [RELEASE]')"
-    needs: version
+#    needs: version
     runs-on: ubuntu-latest
     permissions:
       contents: read
