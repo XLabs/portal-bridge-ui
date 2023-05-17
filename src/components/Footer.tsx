@@ -78,7 +78,9 @@ export default function Footer() {
             other government authority.
           </Typography>
           <div className={classes.spacer} />
-          <Typography>v{process.env.REACT_APP_VERSION} - {process.env.REACT_APP_CLUSTER}</Typography>
+          <Typography>
+            v{process.env.REACT_APP_VERSION} - {process.env.REACT_APP_CLUSTER}
+          </Typography>
         </div>
       </div>
     </footer>
