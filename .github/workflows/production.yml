@@ -1,0 +1,91 @@
+name: Portal Bridge
+
+on:
+  push:
+    branches:
+      - main
+      - feat/github-actions-build
+
+jobs:
+  version:
+    if: "!startsWith(github.event.head_commit.message, '[CI Skip] [RELEASE]')"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Set up Node environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: v16.19.1
+          registry-url: https://npm.pkg.github.com
+
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - run: |
+          git config user.name xLabs CI
+          git config user.email devops@xlabs.xyz
+          npm version patch -m "[CI Skip] [RELEASE] %s"
+          git push
+
+  build:
+    if: "!startsWith(github.event.head_commit.message, '[CI Skip] [RELEASE]')"
+    needs: version
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    environment: Cloudflare-Page-Deploy
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Set up Node environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: v16.19.1
+          registry-url: https://npm.pkg.github.com
+
+      - name: Cache Node modules
+        id: cache-npm
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Install dependencies 
+        run: npm install
+
+      - name: Build
+        env:
+          NODE_OPTIONS: ${{ vars.NODE_OPTIONS }}
+          REACT_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
+          REACT_APP_SOLANA_API_URL: ${{ vars.REACT_APP_SOLANA_API_URL }}
+          REACT_APP_COVALENT_API_KEY: ${{ secrets.REACT_APP_COVALENT_API_KEY }}
+          REACT_APP_TRM_API_KEY: ${{ secrets.REACT_APP_TRM_API_KEY }}
+        run: echo 'REACT_APP_VERSION=$npm_package_version' > .env && npm run build
+
+      - name: Publish
+        run: cd build && npm run set-version && npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy:
+      if: "!startsWith(github.event.head_commit.message, '[CI Skip] [RELEASE]')"
+      runs-on: ubuntu-latest
+      needs: build
+      environment: Cloudflare-Page-Deploy
+      steps:
+        - name: Wait package publish to impact
+          run: sleep 60s
+          shell: bash
+        - name: Trigger deploy
+          env:
+            DEPLOY_HOOK_URL: ${{ secrets.DEPLOY_HOOK_URL }}
+          run: curl -X POST ${DEPLOY_HOOK_URL}

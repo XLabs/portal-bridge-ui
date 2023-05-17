@@ -77,6 +77,10 @@ export default function Footer() {
             Security Council, the European Union or its Member States, or any
             other government authority.
           </Typography>
+          <div className={classes.spacer} />
+          <Typography>
+            v{process.env.REACT_APP_VERSION} - {process.env.REACT_APP_CLUSTER}
+          </Typography>
         </div>
       </div>
     </footer>
