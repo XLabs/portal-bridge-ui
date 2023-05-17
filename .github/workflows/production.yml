@@ -83,7 +83,7 @@ jobs:
       environment: Cloudflare-Page-Deploy
       steps:
         - name: Wait package publish to impact
-          run: sleep 1s
+          run: sleep 60s
           shell: bash
         - name: Trigger deploy
           env:
