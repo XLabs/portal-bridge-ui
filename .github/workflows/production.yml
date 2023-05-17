@@ -82,6 +82,9 @@ jobs:
       needs: build
       environment: Cloudflare-Page-Deploy
       steps:
+        - name: Wait package publish to impact
+          run: sleep 1s
+          shell: bash
         - name: Trigger deploy
           env:
             DEPLOY_HOOK_URL: ${{ secrets.DEPLOY_HOOK_URL }}
