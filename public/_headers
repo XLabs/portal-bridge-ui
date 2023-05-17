@@ -1,0 +1,8 @@
+# Disallow frame embedding
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer
+  Permissions-Policy: document-domain=()
+  Content-Security-Policy: script-src 'self'; frame-ancestors 'none'; script-src https://www.unpkg.com/@wormhole-foundation/; script-src https://static.cloudflareinsights.com/; 
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
