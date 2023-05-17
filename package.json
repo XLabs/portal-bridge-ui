@@ -1,6 +1,6 @@
 {
   "name": "@xlabs/portal-bridge-ui",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "private": true,
   "dependencies": {
     "@certusone/wormhole-sdk": "^0.9.15-beta.4",
