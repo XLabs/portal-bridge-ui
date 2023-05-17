@@ -1,3 +1,4 @@
+const CopyPlugin = require("copy-webpack-plugin");
 const { ProvidePlugin } = require("webpack");
 
 module.exports = function override(config, env) {
@@ -26,7 +27,14 @@ module.exports = function override(config, env) {
       new ProvidePlugin({
         Buffer: ["buffer", "Buffer"],
         process: "process/browser",
-      })
+      }),
+      new CopyPlugin({
+        patterns: [
+          {
+            from: "_headers",
+          },
+        ],
+      }),
     ],
     resolve: {
       ...config.resolve,
