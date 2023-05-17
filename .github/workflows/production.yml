@@ -8,7 +8,7 @@ on:
 
 jobs:
   version:
-    if: "!startsWith(github.event.head_commit.message, '[RELEASE]')"
+    if: "!startsWith(github.event.head_commit.message, '[CI Skip] [RELEASE]')"
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -25,11 +25,11 @@ jobs:
       - run: |
           git config user.name xLabs CI
           git config user.email devops@xlabs.xyz
-          npm version patch -m "[RELEASE] %s"
+          npm version patch -m "[CI Skip] [RELEASE] %s"
           git push
 
   build:
-    if: "!startsWith(github.event.head_commit.message, '[RELEASE]')"
+    if: "!startsWith(github.event.head_commit.message, '[CI Skip] [RELEASE]')"
     needs: version
     runs-on: ubuntu-latest
     permissions:
