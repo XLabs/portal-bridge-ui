@@ -25,6 +25,7 @@ import {
   WSOL_DECIMALS,
   CHAIN_ID_INJECTIVE,
   CHAIN_ID_SUI,
+  CHAIN_ID_ARBITRUM,
 } from "@certusone/wormhole-sdk";
 import { Dispatch } from "@reduxjs/toolkit";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
@@ -49,6 +50,7 @@ import {
 import { useNearContext } from "../contexts/NearWalletContext";
 import { useSolanaWallet } from "../contexts/SolanaWalletContext";
 import acalaIcon from "../icons/acala.svg";
+import arbitrumIcon from "../icons/arbitrum.svg";
 import auroraIcon from "../icons/aurora.svg";
 import avaxIcon from "../icons/avax.svg";
 import bnbIcon from "../icons/bnb.svg";
@@ -130,6 +132,8 @@ import {
   WROSE_DECIMALS,
   CLUSTER,
   SUI_NATIVE_TOKEN_KEY,
+  ARBWETH_ADDRESS,
+  ARBWETH_DECIMALS,
 } from "../utils/consts";
 import { makeNearAccount } from "../utils/near";
 import {
@@ -575,6 +579,29 @@ const createNativeMoonbeamParsedTokenAccount = (
           "GLMR", //A white lie for display purposes
           "GLMR", //A white lie for display purposes
           moonbeamIcon,
+          true //isNativeAsset
+        );
+      });
+};
+
+const createNativeArbitrumParsedTokenAccount = (
+  provider: Provider,
+  signerAddress: string | undefined
+) => {
+  return !(provider && signerAddress)
+    ? Promise.reject()
+    : provider.getBalance(signerAddress).then((balanceInWei) => {
+        const balanceInEth = ethers.utils.formatEther(balanceInWei);
+        return createParsedTokenAccount(
+          signerAddress, //public key
+          ARBWETH_ADDRESS, //Mint key, On the other side this will be wneon, so this is hopefully a white lie.
+          balanceInWei.toString(), //amount, in wei
+          ARBWETH_DECIMALS,
+          parseFloat(balanceInEth), //This loses precision, but is a limitation of the current datamodel. This field is essentially deprecated
+          balanceInEth.toString(), //This is the actual display field, which has full precision.
+          "arbETH", //A white lie for display purposes
+          "arbEth", //A white lie for display purposes
+          arbitrumIcon,
           true //isNativeAsset
         );
       });
@@ -1719,6 +1746,41 @@ function useGetAvailableTokens(nft: boolean = false) {
             setEthNativeAccountLoading(false);
             setEthNativeAccountError(
               "Unable to retrieve your Moonbeam balance."
+            );
+          }
+        }
+      );
+    }
+
+    return () => {
+      cancelled = true;
+    };
+  }, [lookupChain, provider, signerAddress, nft, ethNativeAccount]);
+
+  useEffect(() => {
+    let cancelled = false;
+    if (
+      signerAddress &&
+      lookupChain === CHAIN_ID_ARBITRUM &&
+      !ethNativeAccount &&
+      !nft
+    ) {
+      setEthNativeAccountLoading(true);
+      createNativeArbitrumParsedTokenAccount(provider, signerAddress).then(
+        (result) => {
+          console.log("create native account returned with value", result);
+          if (!cancelled) {
+            setEthNativeAccount(result);
+            setEthNativeAccountLoading(false);
+            setEthNativeAccountError("");
+          }
+        },
+        (error) => {
+          if (!cancelled) {
+            setEthNativeAccount(undefined);
+            setEthNativeAccountLoading(false);
+            setEthNativeAccountError(
+              "Unable to retrieve your Arbitrum balance."
             );
           }
         }
