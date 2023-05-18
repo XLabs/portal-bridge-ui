@@ -1,5 +1,5 @@
 {
-  "name": "@xlabs/portal-bridge-ui",
+  "name": "@xlabs-playground/portal-bridge-ui",
   "version": "0.1.17",
   "private": true,
   "dependencies": {
