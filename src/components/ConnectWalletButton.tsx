@@ -28,7 +28,7 @@ const ConnectWalletButton = ({ chainId }: { chainId: ChainId }) => {
   const pk = wallet?.getAddress();
 
   const getIsSanctioned = async (addr?: string) => {
-    const key = process.env.REACT_APP_TRM_API_KEY;
+    const key = import.meta.env.REACT_APP_TRM_API_KEY;
 
     if (addr && key && CLUSTER === "mainnet") {
       const resp = await fetch(

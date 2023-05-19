@@ -1,3 +1,4 @@
+import ReactDOM from "react-dom";
 import { CssBaseline } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/core/styles";
 import {
@@ -23,7 +24,6 @@ import {
 } from "@xlabs-libs/wallet-aggregator-evm";
 import { WalletContextProvider } from "@xlabs-libs/wallet-aggregator-react";
 import { SnackbarProvider } from "notistack";
-import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { HashRouter } from "react-router-dom";
 import App from "./App";
@@ -45,7 +45,7 @@ const AGGREGATOR_WALLETS_BUILDER = async () => {
     [CHAIN_ID_ALGORAND]: [
       new MyAlgoWallet(),
       new PeraWallet(),
-      new DeflyWallet(),
+      new DeflyWallet({}),
       new AlgorandLedgerWallet(),
     ],
     [CHAIN_ID_ETH]: [new InjectedWallet(), new WalletConnectLegacyWallet()],

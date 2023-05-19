@@ -15,7 +15,7 @@ const INJECTIVE_NETWORKS = ["mainnet", "testnet"];
 
 export const getInjectiveWallets = () => {
   const isValidNetwork = INJECTIVE_NETWORKS.includes(
-    process.env.REACT_APP_CLUSTER || ""
+    import.meta.env.REACT_APP_CLUSTER || ""
   );
   if (!isValidNetwork) return [];
 

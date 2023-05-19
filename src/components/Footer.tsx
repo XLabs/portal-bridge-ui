@@ -79,7 +79,8 @@ export default function Footer() {
           </Typography>
           <div className={classes.spacer} />
           <Typography>
-            v{process.env.REACT_APP_VERSION} - {process.env.REACT_APP_CLUSTER}
+            v{import.meta.env.REACT_APP_VERSION} -{" "}
+            {import.meta.env.REACT_APP_CLUSTER}
           </Typography>
         </div>
       </div>

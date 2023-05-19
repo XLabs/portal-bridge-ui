@@ -91,8 +91,6 @@ const useStyles = makeStyles((theme) => ({
     minWidth: "fit-content",
   },
   bg: {
-    // background:
-    //   "linear-gradient(160deg, rgba(69,74,117,.1) 0%, rgba(138,146,178,.1) 33%, rgba(69,74,117,.1) 66%, rgba(98,104,143,.1) 100%), linear-gradient(45deg, rgba(153,69,255,.1) 0%, rgba(121,98,231,.1) 20%, rgba(0,209,140,.1) 100%)",
     display: "flex",
     flexDirection: "column",
     minHeight: "100vh",
@@ -140,7 +138,7 @@ const useStyles = makeStyles((theme) => ({
       "radial-gradient(closest-side at 50% 50%, #FFCE00 0%, #FFCE0000 100%)",
     opacity: "0.2",
     transform: "matrix(0.87, 0.48, -0.48, 0.87, 0, 0)",
-    zIndex: "-1",
+    zIndex: -1,
     pointerEvent: "none",
     [theme.breakpoints.down("sm")]: {
       display: "none",
@@ -155,7 +153,7 @@ const useStyles = makeStyles((theme) => ({
     background:
       "radial-gradient(closest-side at 50% 50%, #F44B1B 0%, #F44B1B00 100%)",
     opacity: "0.2",
-    zIndex: "-1",
+    zIndex: -1,
     pointerEvent: "none",
   },
   gradientLeft2: {
@@ -167,7 +165,7 @@ const useStyles = makeStyles((theme) => ({
     background:
       "radial-gradient(closest-side at 50% 50%, #F44B1B 0%, #F44B1B00 100%)",
     opacity: "0.2",
-    zIndex: "-1",
+    zIndex: -1,
     pointerEvent: "none",
     [theme.breakpoints.down("sm")]: {
       display: "none",
@@ -183,7 +181,7 @@ const useStyles = makeStyles((theme) => ({
       "radial-gradient(closest-side at 50% 50%, #FFCE00 0%, #FFCE0000 100%)",
     opacity: "0.24",
     transform: "matrix(0.87, 0.48, -0.48, 0.87, 0, 0);",
-    zIndex: "-1",
+    zIndex: -1,
     pointerEvent: "none",
     [theme.breakpoints.down("sm")]: {
       display: "none",
@@ -341,7 +339,7 @@ function App() {
           >
             <Tab label="Tokens" value="/transfer" />
             <Tab label="NFTs" value="/nft" />
-            <Tab label="Redeem" value="/redeem" to="/redeem" />
+            <Tab label="Redeem" value="/redeem" />
           </Tabs>
         </Container>
       ) : null}

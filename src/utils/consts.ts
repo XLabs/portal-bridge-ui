@@ -73,9 +73,9 @@ import {
 
 export type Cluster = "devnet" | "testnet" | "mainnet";
 export const CLUSTER: Cluster =
-  process.env.REACT_APP_CLUSTER === "mainnet"
+  import.meta.env.REACT_APP_CLUSTER === "mainnet"
     ? "mainnet"
-    : process.env.REACT_APP_CLUSTER === "testnet"
+    : import.meta.env.REACT_APP_CLUSTER === "testnet"
     ? "testnet"
     : "devnet";
 
@@ -621,8 +621,8 @@ export const getEvmChainId = (chainId: ChainId) =>
     : chainId === CHAIN_ID_OPTIMISM
     ? OPTIMISM_NETWORK_CHAIN_ID
     : undefined;
-export const SOLANA_HOST = process.env.REACT_APP_SOLANA_API_URL
-  ? process.env.REACT_APP_SOLANA_API_URL
+export const SOLANA_HOST = import.meta.env.REACT_APP_SOLANA_API_URL
+  ? import.meta.env.REACT_APP_SOLANA_API_URL
   : CLUSTER === "mainnet"
   ? clusterApiUrl("mainnet-beta")
   : CLUSTER === "testnet"
@@ -1175,8 +1175,8 @@ export const getTokenBridgeAddressForChain = (chainId: ChainId) =>
           : "DEVNET"
       ][coalesceChainName(chainId)].token_bridge || "";
 
-export const COVALENT_API_KEY = process.env.REACT_APP_COVALENT_API_KEY
-  ? process.env.REACT_APP_COVALENT_API_KEY
+export const COVALENT_API_KEY = import.meta.env.REACT_APP_COVALENT_API_KEY
+  ? import.meta.env.REACT_APP_COVALENT_API_KEY
   : "";
 
 export const COVALENT_ETHEREUM = 1; // Covalent only supports mainnet and Kovan
