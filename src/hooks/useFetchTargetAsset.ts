@@ -22,6 +22,7 @@ import {
   isTerraChain,
   queryExternalId,
   queryExternalIdInjective,
+  CHAIN_ID_SEI,
   CHAIN_ID_SUI,
   getForeignAssetSui,
 } from "@certusone/wormhole-sdk";
@@ -30,6 +31,11 @@ import {
   getForeignAssetSol as getForeignAssetSolNFT,
   getForeignAssetAptos as getForeignAssetAptosNFT,
 } from "@certusone/wormhole-sdk/lib/esm/nft_bridge";
+import {
+  getForeignAssetSei,
+  getSeiWasmClient,
+  queryExternalIdSei,
+} from "../utils/sei";
 import { BigNumber } from "@ethersproject/bignumber";
 import { arrayify } from "@ethersproject/bytes";
 import { Connection } from "@solana/web3.js";
@@ -184,6 +190,25 @@ function useFetchTargetAsset(nft?: boolean) {
                 receiveDataWrapper({
                   doesExist: true,
                   address: tokenId || null,
+                })
+              )
+            );
+          }
+        } else if (originChain === CHAIN_ID_SEI) {
+          const client = await getSeiWasmClient();
+          const tokenBridgeAddress =
+            getTokenBridgeAddressForChain(CHAIN_ID_SEI);
+          const tokenId = await queryExternalIdSei(
+            client,
+            tokenBridgeAddress,
+            originAsset || ""
+          );
+          if (!cancelled) {
+            dispatch(
+              setTargetAsset(
+                receiveDataWrapper({
+                  doesExist: true,
+                  address: tokenId,
                 })
               )
             );
@@ -426,6 +451,36 @@ function useFetchTargetAsset(nft?: boolean) {
           const asset = await getForeignAssetXpla(
             getTokenBridgeAddressForChain(targetChain),
             lcd,
+            originChain,
+            hexToUint8Array(originAsset)
+          );
+          if (!cancelled) {
+            dispatch(
+              setTargetAsset(
+                receiveDataWrapper({ doesExist: !!asset, address: asset })
+              )
+            );
+            setArgs();
+          }
+        } catch (e) {
+          if (!cancelled) {
+            dispatch(
+              setTargetAsset(
+                errorDataWrapper(
+                  "Unable to determine existence of wrapped asset"
+                )
+              )
+            );
+          }
+        }
+      }
+      if (targetChain === CHAIN_ID_SEI && originChain && originAsset) {
+        dispatch(setTargetAsset(fetchDataWrapper()));
+        try {
+          const client = await getSeiWasmClient();
+          const asset = await getForeignAssetSei(
+            getTokenBridgeAddressForChain(targetChain),
+            client,
             originChain,
             hexToUint8Array(originAsset)
           );

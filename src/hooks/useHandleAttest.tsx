@@ -33,6 +33,7 @@ import {
   uint8ArrayToHex,
   attestFromSui,
   CHAIN_ID_SUI,
+  CHAIN_ID_SEI,
 } from "@certusone/wormhole-sdk";
 import { Alert } from "@material-ui/lab";
 import { Connection, PublicKey } from "@solana/web3.js";
@@ -111,6 +112,7 @@ import {
   getOriginalPackageId,
 } from "@certusone/wormhole-sdk/lib/cjs/sui";
 import { useSuiWallet } from "../contexts/SuiWalletContext";
+import { useSeiWallet } from "../contexts/SeiWalletContext";
 
 async function algo(
   dispatch: any,
@@ -367,6 +369,8 @@ async function xpla(
   }
 }
 
+// async function sei() ?
+
 async function solana(
   dispatch: any,
   enqueueSnackbar: any,
@@ -615,7 +619,10 @@ export function useHandleAttest() {
   const { accountId: nearAccountId, wallet } = useNearContext();
   const { wallet: injWallet, address: injAddress } = useInjectiveContext();
   const suiWallet = useSuiWallet();
+  const seiWallet = useSeiWallet();
+  const seiAddress = seiWallet?.getAddress();
   const disabled = !isTargetComplete || isSending || isSendComplete;
+
   const handleAttestClick = useCallback(() => {
     if (isEVMChain(sourceChain) && !!signer) {
       evm(dispatch, enqueueSnackbar, signer, sourceAsset, sourceChain);
@@ -646,6 +653,9 @@ export function useHandleAttest() {
       near(dispatch, enqueueSnackbar, nearAccountId, sourceAsset, wallet);
     } else if (sourceChain === CHAIN_ID_INJECTIVE && injWallet && injAddress) {
       injective(dispatch, enqueueSnackbar, injWallet, injAddress, sourceAsset);
+    } else if (sourceChain === CHAIN_ID_SEI && seiAddress) {
+      console.log("TODO: SEI ATTEST FLOW");
+      // sei('...')
     } else if (
       sourceChain === CHAIN_ID_SUI &&
       suiWallet?.isConnected() &&
@@ -674,6 +684,7 @@ export function useHandleAttest() {
     injAddress,
     terraAddress,
     suiWallet,
+    seiAddress,
   ]);
   return useMemo(
     () => ({

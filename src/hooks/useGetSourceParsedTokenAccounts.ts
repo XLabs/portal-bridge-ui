@@ -25,6 +25,7 @@ import {
   WSOL_DECIMALS,
   CHAIN_ID_INJECTIVE,
   CHAIN_ID_SUI,
+  CHAIN_ID_SEI,
 } from "@certusone/wormhole-sdk";
 import { Dispatch } from "@reduxjs/toolkit";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
@@ -1940,6 +1941,10 @@ function useGetAvailableTokens(nft: boolean = false) {
     : lookupChain === CHAIN_ID_SUI
     ? {
         tokenAccounts,
+        resetAccounts: resetSourceAccounts,
+      }
+    : lookupChain === CHAIN_ID_SEI
+    ? {
         resetAccounts: resetSourceAccounts,
       }
     : undefined;

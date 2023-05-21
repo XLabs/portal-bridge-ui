@@ -6,6 +6,7 @@ import {
   CHAIN_ID_SOLANA,
   CHAIN_ID_SUI,
   CHAIN_ID_XPLA,
+  CHAIN_ID_SEI,
   ensureHexPrefix,
   ethers_contracts,
   isEVMChain,
@@ -23,6 +24,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useAlgorandWallet } from "../contexts/AlgorandWalletContext";
 import { useEthereumProvider } from "../contexts/EthereumProviderContext";
 import { useSolanaWallet } from "../contexts/SolanaWalletContext";
+import { useSeiWallet } from "../contexts/SeiWalletContext";
+import { getSeiWasmClient } from "../utils/sei";
 import {
   selectTransferTargetAsset,
   selectTransferTargetChain,
@@ -86,6 +89,8 @@ function useGetTargetParsedTokenAccounts() {
   const { accountId: nearAccountId } = useNearContext();
   const { account: aptosAddress } = useAptosContext();
   const { address: injAddress } = useInjectiveContext();
+  const seiWallet = useSeiWallet();
+  const seiAddress = seiWallet?.getAddress();
   const suiWallet = useSuiWallet();
   const suiAddress = suiWallet?.getAddress();
   const hasResolvedMetadata = metadata.data || metadata.error;
@@ -166,6 +171,44 @@ function useGetTargetParsedTokenAccounts() {
           });
       }
     }
+
+    if (targetChain === CHAIN_ID_SEI && seiAddress) {
+      (async () => {
+        try {
+          const client = await getSeiWasmClient();
+          const info = await client.queryContractSmart(targetAsset, {
+            token_info: {},
+          });
+          const balance = await client.queryContractSmart(targetAsset, {
+            balance: {
+              address: seiAddress,
+            },
+          });
+          if (balance && info && !cancelled) {
+            dispatch(
+              setTargetParsedTokenAccount(
+                createParsedTokenAccount(
+                  "",
+                  "",
+                  balance.balance.toString(),
+                  info.decimals,
+                  Number(formatUnits(balance.balance, info.decimals)),
+                  formatUnits(balance.balance, info.decimals),
+                  symbol,
+                  tokenName,
+                  logo
+                )
+              )
+            );
+          }
+        } catch (e) {
+          if (!cancelled) {
+            // TODO: error state
+          }
+        }
+      })();
+    }
+
     if (targetChain === CHAIN_ID_XPLA && xplaWallet) {
       const lcd = new XplaLCDClient(XPLA_LCD_CLIENT_CONFIG);
       if (isNativeDenomXpla(targetAsset)) {
@@ -650,6 +693,7 @@ function useGetTargetParsedTokenAccounts() {
     xplaWallet,
     aptosAddress,
     injAddress,
+    seiAddress,
     suiAddress,
   ]);
 }

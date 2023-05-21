@@ -9,12 +9,14 @@ import {
   isEVMChain,
   isTerraChain,
   CHAIN_ID_SUI,
+  CHAIN_ID_SEI,
 } from "@certusone/wormhole-sdk";
 import { useMemo } from "react";
 import { useAlgorandWallet } from "../contexts/AlgorandWalletContext";
 import { useEthereumProvider } from "../contexts/EthereumProviderContext";
 import { useNearContext } from "../contexts/NearWalletContext";
 import { useSolanaWallet } from "../contexts/SolanaWalletContext";
+import { useSeiWallet } from "../contexts/SeiWalletContext";
 import { APTOS_NETWORK, CLUSTER, getEvmChainId } from "../utils/consts";
 import { useXplaWallet } from "../contexts/XplaWalletContext";
 import { useAptosContext } from "../contexts/AptosWalletContext";
@@ -70,6 +72,9 @@ function useIsWalletReady(
   const hasInjWallet = !!injAddress;
   const suiWallet = useSuiWallet();
   const suiAddress = suiWallet?.getAddress();
+  const seiWallet = useSeiWallet();
+  const hasSeiWallet = !!seiWallet;
+  const seiAddress = seiWallet?.getAddress();
 
   return useMemo(() => {
     if (isTerraChain(chainId) && hasTerraWallet && terraWallet?.walletAddress) {
@@ -91,6 +96,9 @@ function useIsWalletReady(
       xplaWallet?.getAddress()
     ) {
       return createWalletStatus(true, undefined, xplaWallet.getAddress());
+    }
+    if (chainId === CHAIN_ID_SEI && hasSeiWallet && seiAddress) {
+      return createWalletStatus(true, undefined, seiAddress);
     }
     if (chainId === CHAIN_ID_APTOS && hasAptosWallet && aptosAddress) {
       if (hasCorrectAptosNetwork) {
@@ -128,24 +136,26 @@ function useIsWalletReady(
   }, [
     chainId,
     hasTerraWallet,
+    terraWallet.walletAddress,
     solPK,
-    hasEthInfo,
-    evmWallet,
-    autoSwitch,
-    correctEvmNetwork,
-    hasCorrectEvmNetwork,
-    signerAddress,
-    terraWallet,
     algoAccount,
     nearPK,
-    xplaWallet,
     hasXplaWallet,
+    xplaWallet,
+    hasSeiWallet,
+    seiAddress,
     hasAptosWallet,
     aptosAddress,
-    hasCorrectAptosNetwork,
     hasInjWallet,
     injAddress,
     suiAddress,
+    hasEthInfo,
+    signerAddress,
+    hasCorrectAptosNetwork,
+    hasCorrectEvmNetwork,
+    autoSwitch,
+    evmWallet,
+    correctEvmNetwork,
   ]);
 }
 

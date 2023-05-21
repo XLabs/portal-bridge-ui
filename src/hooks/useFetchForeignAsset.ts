@@ -19,6 +19,7 @@ import {
   isEVMChain,
   isTerraChain,
   nativeToHexString,
+  CHAIN_ID_SEI,
   CHAIN_ID_SUI,
   getForeignAssetSui,
 } from "@certusone/wormhole-sdk";
@@ -53,6 +54,7 @@ import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
 import { getAptosClient } from "../utils/aptos";
 import { getInjectiveWasmClient } from "../utils/injective";
 import { getSuiProvider } from "../utils/sui";
+import { getForeignAssetSei, getSeiWasmClient } from "../utils/sei";
 
 export type ForeignAssetInfo = {
   doesExist: boolean;
@@ -165,6 +167,16 @@ function useFetchForeignAsset(
             return getForeignAssetXpla(
               getTokenBridgeAddressForChain(foreignChain),
               lcd,
+              originChain,
+              hexToUint8Array(originAssetHex)
+            );
+          }
+        : foreignChain === CHAIN_ID_SEI
+        ? async () => {
+            const client = await getSeiWasmClient();
+            return getForeignAssetSei(
+              getTokenBridgeAddressForChain(foreignChain),
+              client,
               originChain,
               hexToUint8Array(originAssetHex)
             );

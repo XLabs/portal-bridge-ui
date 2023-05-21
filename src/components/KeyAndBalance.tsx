@@ -9,6 +9,7 @@ import {
   isEVMChain,
   isTerraChain,
   CHAIN_ID_SUI,
+  CHAIN_ID_SEI,
 } from "@certusone/wormhole-sdk";
 import ConnectWalletButton from "./ConnectWalletButton";
 
@@ -22,7 +23,8 @@ function isChainAllowed(chainId: ChainId) {
     chainId === CHAIN_ID_XPLA ||
     chainId === CHAIN_ID_APTOS ||
     chainId === CHAIN_ID_INJECTIVE ||
-    chainId === CHAIN_ID_SUI
+    chainId === CHAIN_ID_SUI ||
+    chainId === CHAIN_ID_SEI
   );
 }
 
