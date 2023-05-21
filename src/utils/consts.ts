@@ -24,9 +24,11 @@ import {
   CHAIN_ID_SOLANA,
   CHAIN_ID_SUI,
   CHAIN_ID_TERRA,
+  CHAIN_ID_SEI,
   CHAIN_ID_TERRA2,
   CHAIN_ID_XPLA,
   CONTRACTS,
+  cosmos,
   coalesceChainName,
   isEVMChain,
   isTerraChain,
@@ -57,6 +59,7 @@ import oasisIcon from "../icons/oasis-network-rose-logo.svg";
 import optimismIcon from "../icons/optimism.svg";
 import polygonIcon from "../icons/polygon.svg";
 import solanaIcon from "../icons/solana.svg";
+import seiIcon from "../icons/sei.svg";
 import suiIcon from "../icons/sui.svg";
 import terraIcon from "../icons/terra.svg";
 import terra2Icon from "../icons/terra2.svg";
@@ -68,6 +71,7 @@ import { AptosNetwork } from "./aptos";
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
 import { ChainId as InjectiveChainId } from "@injectivelabs/ts-types";
 import { Connection } from "@mysten/sui.js";
+import { ChainConfiguration } from "@sei-js/react";
 
 export type Cluster = "devnet" | "testnet" | "mainnet";
 export const CLUSTER: Cluster =
@@ -179,6 +183,11 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_POLYGON,
           name: "Polygon",
           logo: polygonIcon,
+        },
+        {
+          id: CHAIN_ID_SEI,
+          name: "Sei",
+          logo: seiIcon,
         },
         {
           id: CHAIN_ID_SOLANA,
@@ -302,6 +311,11 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_POLYGON,
           name: "Polygon",
           logo: polygonIcon,
+        },
+        {
+          id: CHAIN_ID_SEI,
+          name: "Sei",
+          logo: seiIcon,
         },
         {
           id: CHAIN_ID_SOLANA,
@@ -760,6 +774,17 @@ export const APTOS_NETWORK =
 
 export const APTOS_NATIVE_DECIMALS = 8;
 export const APTOS_NATIVE_TOKEN_KEY = "0x1::aptos_coin::AptosCoin";
+
+export const SEI_CHAIN_CONFIGURATION: ChainConfiguration = {
+  chainId: "atlantic-2",
+  restUrl: "https://rest.atlantic-2.seinetwork.io/",
+  rpcUrl: "https://rpc.atlantic-2.seinetwork.io/",
+};
+
+export const SEI_TRANSLATOR =
+  "sei1dkdwdvknx0qav5cp5kw68mkn3r99m3svkyjfvkztwh97dv2lm0ksj6xrak";
+export const SEI_TRANSLATER_TARGET = cosmos.canonicalAddress(SEI_TRANSLATOR);
+export const SEI_DECIMALS = 6;
 
 export const getInjectiveNetworkName = () => {
   if (CLUSTER === "mainnet") {

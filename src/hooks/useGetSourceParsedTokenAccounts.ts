@@ -25,6 +25,7 @@ import {
   WSOL_DECIMALS,
   CHAIN_ID_INJECTIVE,
   CHAIN_ID_SUI,
+  CHAIN_ID_SEI,
   CHAIN_ID_ARBITRUM,
   CHAIN_ID_BASE,
 } from "@certusone/wormhole-sdk";
@@ -2064,6 +2065,10 @@ function useGetAvailableTokens(nft: boolean = false) {
     : lookupChain === CHAIN_ID_SUI
     ? {
         tokenAccounts,
+        resetAccounts: resetSourceAccounts,
+      }
+    : lookupChain === CHAIN_ID_SEI
+    ? {
         resetAccounts: resetSourceAccounts,
       }
     : undefined;

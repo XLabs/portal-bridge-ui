@@ -9,6 +9,7 @@ import {
   isTerraChain,
   uint8ArrayToHex,
   CHAIN_ID_INJECTIVE,
+  CHAIN_ID_SEI,
   CHAIN_ID_SUI,
 } from "@certusone/wormhole-sdk";
 import { arrayify, zeroPad } from "@ethersproject/bytes";
@@ -44,6 +45,7 @@ import { useAptosContext } from "../contexts/AptosWalletContext";
 import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 import { useTerraWallet } from "../contexts/TerraWalletContext";
 import { useSuiWallet } from "../contexts/SuiWalletContext";
+import { useSeiWallet } from "../contexts/SeiWalletContext";
 
 function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
   const dispatch = useDispatch();
@@ -68,6 +70,9 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
   const isTBTC = useSelector(selectTransferIsTBTC);
   const suiWallet = useSuiWallet();
   const suiAddress = suiWallet?.getAddress();
+  const seiWallet = useSeiWallet();
+  const seiAddress = seiWallet?.getAddress();
+
   const setTargetAddressHex = nft
     ? setNFTTargetAddressHex
     : setTransferTargetAddressHex;
@@ -216,6 +221,12 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
         })();
       } else if (targetChain === CHAIN_ID_SUI && suiAddress) {
         dispatch(setTargetAddressHex(uint8ArrayToHex(zeroPad(suiAddress, 32))));
+      } else if (targetChain === CHAIN_ID_SEI && seiAddress) {
+        dispatch(
+          setTargetAddressHex(
+            uint8ArrayToHex(zeroPad(cosmos.canonicalAddress(seiAddress), 32))
+          )
+        );
       } else {
         dispatch(setTargetAddressHex(undefined));
       }
@@ -241,6 +252,7 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
     aptosAddress,
     injAddress,
     suiAddress,
+    seiAddress,
     isTBTC,
   ]);
 }
