@@ -1,9 +1,9 @@
 {
   "name": "@xlabs/portal-bridge-ui",
-  "version": "0.1.15",
+  "version": "0.1.17",
   "private": true,
   "dependencies": {
-    "@certusone/wormhole-sdk": "^0.9.15-beta.4",
+    "@certusone/wormhole-sdk": "^0.9.17",
     "@injectivelabs/sdk-ts": "^1.10.47",
     "@injectivelabs/ts-types": "^1.10.4",
     "@injectivelabs/wallet-ts": "^1.10.51",
