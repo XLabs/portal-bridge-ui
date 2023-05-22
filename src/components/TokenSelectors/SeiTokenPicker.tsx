@@ -1,5 +1,5 @@
 import { CHAIN_ID_SEI, ChainId, cosmos } from "@certusone/wormhole-sdk";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useRef } from "react";
 import useIsWalletReady from "../../hooks/useIsWalletReady";
 import useSeiNativeBalances from "../../hooks/useSeiNativeBalances";
 import { DataWrapper } from "../../store/helpers";
@@ -31,17 +31,13 @@ export default function SeiTokenPicker(props: SeiTokenPickerProps) {
     nativeRefresh
   );
 
-  useEffect(() => {
-    console.log({ balances });
-  }, [balances]);
-
   const resetAccountWrapper = useCallback(() => {
     //we can currently skip calling this as we don't read from sourceParsedTokenAccounts
     //resetAccounts && resetAccounts();
     nativeRefresh.current();
   }, []);
 
-  const isLoading = nativeIsLoading; // || (tokenMap?.isFetching || false);
+  const isLoading = nativeIsLoading;
 
   const onChangeWrapper = useCallback(
     async (account: NFTParsedTokenAccount | null) => {
@@ -56,7 +52,6 @@ export default function SeiTokenPicker(props: SeiTokenPickerProps) {
   );
 
   //TODO this only supports non-native assets. Native assets come from the hook.
-  //TODO correlate against token list to get metadata
   const lookupSeiAddress = useCallback(
     (lookupAsset: string) => {
       if (!walletAddress) {
