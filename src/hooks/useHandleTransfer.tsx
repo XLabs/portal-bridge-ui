@@ -962,7 +962,8 @@ async function sei(
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
     });
-    const sequence = parseSequenceFromLogSei(tx);
+
+    const sequence = parseSequenceFromLogSei(tx.data);
     if (!sequence) {
       throw new Error("Sequence not found");
     }

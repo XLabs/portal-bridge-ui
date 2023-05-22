@@ -11,6 +11,7 @@ import {
 import { getCosmWasmClient, getQueryClient } from "@sei-js/core";
 import { fromUint8Array } from "js-base64";
 import { SEI_CHAIN_CONFIGURATION } from "./consts";
+import { logs } from "@cosmjs/stargate";
 
 export const getSeiWasmClient = () =>
   getCosmWasmClient(SEI_CHAIN_CONFIGURATION.rpcUrl);
@@ -146,16 +147,27 @@ export const updateWrappedOnSei = submitVAAOnSei;
 export const redeemOnSei = submitVAAOnSei;
 
 export function parseSequenceFromLogSei(info: any): string {
-  // Scan for the Sequence attribute in all the outputs of the transaction.
-  let sequence = "";
-  info.logs.forEach((row: any) => {
-    row.events.forEach((event: any) => {
-      event.attributes.forEach((attribute: any) => {
-        if (attribute.key === "message.sequence") {
-          sequence = attribute.value;
+  const seq = searchInLogs("message.sequence", info.logs);
+  if (!seq) throw new Error("sequence not found in logs");
+  return seq;
+}
+
+export function parseRawLog(rawLogs: string): readonly logs.Log[] {
+  return logs.parseRawLog(rawLogs);
+}
+
+export function searchInLogs(
+  key: string,
+  logs: readonly logs.Log[]
+): string | undefined {
+  for (const log of logs) {
+    for (const event of log.events) {
+      for (const attr of event.attributes) {
+        if (attr.key === key) {
+          return attr.value;
         }
-      });
-    });
-  });
-  return sequence.toString();
+      }
+    }
+  }
+  return undefined;
 }
