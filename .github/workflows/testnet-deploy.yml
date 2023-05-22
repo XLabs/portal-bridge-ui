@@ -1,0 +1,123 @@
+name: Testnet [Deploy]
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build:
+    name: "Build"
+    runs-on: "ubuntu-latest"
+    concurrency:
+      group: ${{ github.ref }}-testnet
+      cancel-in-progress: true
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Set up Node environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: v16.19.1
+      - name: Setup Git
+        run: |
+          git config user.name "xLabs Playground CI"
+          git config user.email "devops@xlabs-playground.xyz"
+      - name: Install dependencies
+        run: npm ci
+      - name: Set Version
+        run: |
+          npm version $(node -p -e "require('./package.json').version")-T$(echo ${{ github.sha }} | cut -c -10)
+          echo "_PKG_VERSION=$(node -p -e "require('./package.json').version")" >> "${GITHUB_ENV}"
+          echo "_BRANCH_NAME_SHA=$(echo ${{ github.event.pull_request.head.ref }} | sha256sum | cut -c -10)" >> "${GITHUB_ENV}"
+      - name: Build
+        env:
+          PUBLIC_URL: "/${{ env._BRANCH_NAME_SHA }}"
+          REACT_APP_CLUSTER: testnet
+        run: |
+          pushd public
+          npm run set-version
+          popd
+          echo 'REACT_APP_VERSION=$npm_package_version' > .env
+          npm run build
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: testnet-build
+          path: build
+      - name: Deploy metadata
+        run: |
+          mkdir deploy-metadata
+          pushd deploy-metadata
+          echo ${_BRANCH_NAME_SHA} > .branch-sha
+          echo ${_PKG_VERSION} > .version
+      - name: Upload Deploy metadata
+        uses: actions/upload-artifact@v3
+        with:
+          name: testnet-deploy-metadata
+          path: deploy-metadata
+
+  publish:
+    name: "Publish"
+    needs: build
+    runs-on: "ubuntu-latest"
+    concurrency:
+      group: ${{ github.ref }}-testnet
+      cancel-in-progress: true
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: testnet-build
+      - name: Set up GitHub NPM registry
+        uses: actions/setup-node@v3
+        with:
+          node-version: v16.19.1
+          registry-url: https://npm.pkg.github.com
+      - name: Publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm publish
+  
+  deploy:
+    name: "Deploy Testnet"
+    needs: publish
+    runs-on: "ubuntu-latest"
+    concurrency:
+      group: ${{ github.ref }}-testnet
+      cancel-in-progress: true
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout testnet branch
+        uses: actions/checkout@v3
+        with:
+          ref: testnet
+      - name: Setup Git
+        run: |
+          git config user.name "xLabs Playground CI"
+          git config user.email "devops@xlabs-playground.xyz"
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: testnet-deploy-metadata
+          path: deploy-metadata
+      - name: Set deploy metadata
+        run: |
+          echo "_PKG_VERSION=$(cat deploy-metadata/.version)" >> ${GITHUB_ENV}
+          echo "_BRANCH_NAME_SHA=$(cat deploy-metadata/.branch-sha)" >> ${GITHUB_ENV}
+      - name: Trigger a testnet Deploy 
+        run: |
+          sleep 30s
+          mkdir -p testnet/${{ env._BRANCH_NAME_SHA }}
+          pushd testnet/${{ env._BRANCH_NAME_SHA }}
+          [[ ! -f .latest ]] && touch .latest
+          [[ ! -f .artifacts ]] && touch .artifacts
+          cat .latest >> .artifacts
+          echo ${{ env._PKG_VERSION }} > .latest
+          git add .artifacts .latest
+          git commit -m"Update testnet artifacts ${{ env._PKG_VERSION }}"
+          git push
+          echo "The testnet URL is: ${{ vars.TESTNET_ROOT_URL }}/${{ env._BRANCH_NAME_SHA }}/" >> ${GITHUB_STEP_SUMMARY}
