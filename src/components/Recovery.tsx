@@ -35,6 +35,7 @@ import {
   TerraChainId,
   uint8ArrayToHex,
   CHAIN_ID_SUI,
+  CHAIN_ID_SEI,
   getForeignAssetSui,
 } from "@certusone/wormhole-sdk";
 import { repairVaa } from "@certusone/wormhole-sdk/lib/esm/utils/repairVaa";
@@ -120,6 +121,7 @@ import {
   getEmitterAddressAndSequenceFromResponseSui,
   getOriginalPackageId,
 } from "@certusone/wormhole-sdk/lib/cjs/sui";
+import { getSeiWasmClient, parseRawLog, searchInLogs } from "../utils/sei";
 import { useVaaVerifier } from "../hooks/useVaaVerifier";
 import ChainWarningMessage from "./ChainWarningMessage";
 import { useDeepLinkRecoveryParams } from "../hooks/useDeepLinkRecoveryParams";
@@ -409,6 +411,26 @@ async function sui(digest: string, enqueueSnackbar: any) {
     const { sequence, emitterAddress } =
       getEmitterAddressAndSequenceFromResponseSui(coreBridgePackageId, tx);
     return await fetchSignedVAA(CHAIN_ID_SUI, emitterAddress, sequence);
+  } catch (e) {
+    return handleError(e, enqueueSnackbar);
+  }
+}
+
+async function sei(hash: string, enqueueSnackbar: any) {
+  try {
+    const client = await getSeiWasmClient();
+    const tx = await client.getTx(hash);
+    if (!tx) throw new Error("Unable to fetch transaction");
+
+    const parsedLogs = parseRawLog(tx.rawLog);
+    const sequence = searchInLogs("message.sequence", parsedLogs);
+    const emitterAddress = searchInLogs("message.sender", parsedLogs);
+
+    if (!sequence || !emitterAddress) {
+      throw new Error("Sequence or emitter address not found");
+    }
+
+    return await fetchSignedVAA(CHAIN_ID_SEI, emitterAddress, sequence);
   } catch (e) {
     return handleError(e, enqueueSnackbar);
   }
@@ -839,6 +861,26 @@ export default function Recovery() {
         setTokenId("");
         (async () => {
           const { vaa, isPending, error } = await sui(
+            recoverySourceTx,
+            enqueueSnackbar
+          );
+          if (!cancelled) {
+            setRecoverySourceTxIsLoading(false);
+            if (vaa) {
+              setRecoverySignedVAA(vaa);
+            }
+            if (error) {
+              setRecoverySourceTxError(error);
+            }
+            setIsVAAPending(isPending);
+          }
+        })();
+      } else if (recoverySourceChain === CHAIN_ID_SEI) {
+        setRecoverySourceTxError("");
+        setRecoverySourceTxIsLoading(true);
+        setTokenId("");
+        (async () => {
+          const { vaa, isPending, error } = await sei(
             recoverySourceTx,
             enqueueSnackbar
           );
