@@ -151,6 +151,8 @@ export default function TransactionProgress({
               ? `Waiting for Ethereum finality on Optimism block ${tx?.block}`
               : blockDiff < expectedBlocks
               ? `Waiting for ${blockDiff} / ${expectedBlocks} confirmations on ${CHAINS_BY_ID[chainId].name}...`
+              : chainId === CHAIN_ID_POLYGON
+              ? `Waiting for finality on ${CHAINS_BY_ID[chainId].name} which may take between 30 minutes to 3 hours to complete.`
               : `Waiting for Wormhole Network consensus...`}
           </Typography>
         </div>
