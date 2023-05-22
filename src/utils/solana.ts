@@ -19,6 +19,7 @@ export async function signSendAndConfirm(
     transaction,
     options: {
       commitment: "finalized",
+      preflightCommitment: "confirmed",
     },
   });
   return id;
