@@ -1,0 +1,59 @@
+name: Package Clean Up
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  preview-clean-up:
+    name: "Clean Up Preview deployments"
+    runs-on: "ubuntu-latest"
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: preview
+      - name: Setup Git
+        run: |
+          git config --global user.name "xLabs Playground CI"
+          git config --global user.email "devops@xlabs-playground.xyz"
+      - name: Set Version
+        run: echo "_BRANCH_NAME_SHA=$(echo ${{ github.event.pull_request.head.ref }} | sha256sum | cut -c -10)" >> "${GITHUB_ENV}"
+      - name: Unpublish and remove preview artifacts
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npm run unpublish ${_BRANCH_NAME_SHA}
+          git add ${_BRANCH_NAME_SHA}
+          git commit -m"Remove preview artifacts"
+          git push
+  
+  testnet-clean-up:
+    name: "Clean Up Testnet deployments"
+    runs-on: "ubuntu-latest"
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: testnet
+      - name: Setup Git
+        run: |
+          git config --global user.name "xLabs Playground CI"
+          git config --global user.email "devops@xlabs-playground.xyz"
+      - name: Compute Version
+        run: |
+          echo "_BRANCH_NAME_SHA=$(echo ${{ github.event.pull_request.head.ref }} | sha256sum | cut -c -10)" >> "${GITHUB_ENV}"
+      - name: Unpublish and remove testnet artifacts
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npm run unpublish ${_BRANCH_NAME_SHA}
+          git add ${_BRANCH_NAME_SHA}
+          git commit -m"Remove testnet artifacts"
+          git push
