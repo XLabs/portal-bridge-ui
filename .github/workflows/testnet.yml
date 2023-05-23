@@ -95,6 +95,7 @@ jobs:
       cancel-in-progress: true
     permissions:
       contents: write
+    environment: Cloudflare-Testnet
     steps:
       - name: Checkout testnet branch
         uses: actions/checkout@v3
