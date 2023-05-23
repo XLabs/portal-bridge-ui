@@ -1,0 +1,8 @@
+{
+    "name": "@xlabs/testnet-deploy",
+    "version": "0.0.0",
+    "scripts": {
+        "build": "bash scripts/build.sh ${PWD} @xlabs/portal-bridge-ui testnet",
+        "unpublish": "bash scripts/unpublish.sh ${PWD} @xlabs/portal-bridge-ui"
+    }
+}
