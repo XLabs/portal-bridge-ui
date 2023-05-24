@@ -1,10 +1,10 @@
 {
   "name": "@xlabs/portal-bridge-ui",
-  "version": "0.1.21",
+  "version": "0.1.22",
   "private": true,
   "dependencies": {
-    "@certusone/wormhole-sdk": "^0.9.17",
-    "@injectivelabs/sdk-ts": "^1.10.47",
+    "@certusone/wormhole-sdk": "^0.9.18",
+    "@injectivelabs/sdk-ts": "^1.10.72",
     "@injectivelabs/ts-types": "^1.10.4",
     "@injectivelabs/wallet-ts": "^1.10.51",
     "@manahippo/aptos-wallet-adapter": "^1.0.2",
