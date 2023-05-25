@@ -3,36 +3,38 @@ import {
   CHAIN_ID_ACALA,
   CHAIN_ID_ALGORAND,
   CHAIN_ID_APTOS,
+  CHAIN_ID_ARBITRUM,
   CHAIN_ID_AURORA,
   CHAIN_ID_AVAX,
   CHAIN_ID_BSC,
+  CHAIN_ID_BTC,
   CHAIN_ID_CELO,
   CHAIN_ID_ETH,
   CHAIN_ID_FANTOM,
+  CHAIN_ID_INJECTIVE,
   CHAIN_ID_KARURA,
   CHAIN_ID_KLAYTN,
   CHAIN_ID_MOONBEAM,
   CHAIN_ID_NEAR,
   CHAIN_ID_NEON,
   CHAIN_ID_OASIS,
+  CHAIN_ID_OPTIMISM,
   CHAIN_ID_POLYGON,
   CHAIN_ID_SOLANA,
+  CHAIN_ID_SUI,
   CHAIN_ID_TERRA,
-  CHAIN_ID_XPLA,
   CHAIN_ID_TERRA2,
+  CHAIN_ID_XPLA,
   CONTRACTS,
+  coalesceChainName,
   isEVMChain,
   isTerraChain,
   TerraChainId,
-  coalesceChainName,
-  CHAIN_ID_ARBITRUM,
-  CHAIN_ID_INJECTIVE,
-  CHAIN_ID_OPTIMISM,
   hexToNativeString,
   ensureHexPrefix,
   uint8ArrayToHex,
   hexToNativeAssetString,
-  CHAIN_ID_SUI,
+  isCosmWasmChain,
 } from "@certusone/wormhole-sdk";
 import { clusterApiUrl } from "@solana/web3.js";
 import { getAddress } from "ethers/lib/utils";
@@ -431,6 +433,22 @@ export const THRESHOLD_TBTC_CONTRACTS: any = {
 
 export const THRESHOLD_ARBITER_FEE = 0;
 export const THRESHOLD_NONCE = 0;
+
+// TRM screening chain names map with wormhole chain ids
+// https://documentation.trmlabs.com/tag/Supported-Blockchain-List
+export const getTrmChainName = (chain: ChainId) => {
+  if (isCosmWasmChain(chain)) return "cosmos";
+  if (isEVMChain(chain)) return "ethereum";
+
+  const other_trm_names: any = {
+    [CHAIN_ID_ALGORAND]: "algorand",
+    [CHAIN_ID_BTC]: "bitcoin",
+    [CHAIN_ID_SOLANA]: "solana",
+  };
+
+  if (other_trm_names[chain]) return other_trm_names[chain];
+  return "";
+};
 
 export const COMING_SOON_CHAINS: ChainInfo[] = [];
 export const getDefaultNativeCurrencySymbol = (chainId: ChainId) =>
