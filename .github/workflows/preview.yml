@@ -11,7 +11,7 @@ jobs:
     concurrency:
       group: ${{ github.ref }}-preview
       cancel-in-progress: true
-    environment:  Cloudflare-Preview
+    environment: Cloudflare-Preview
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -37,7 +37,6 @@ jobs:
           REACT_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
           REACT_APP_SOLANA_API_URL: ${{ vars.REACT_APP_SOLANA_API_URL }}
           REACT_APP_COVALENT_API_KEY: ${{ secrets.REACT_APP_COVALENT_API_KEY }}
-          REACT_APP_TRM_API_KEY: ${{ secrets.REACT_APP_TRM_API_KEY }}
         run: |
           pushd public
           npm run set-version
@@ -85,7 +84,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm publish
-  
+
   deploy:
     name: "Deploy Preview"
     needs: publish
@@ -95,7 +94,7 @@ jobs:
       cancel-in-progress: true
     permissions:
       contents: write
-    environment:  Cloudflare-Preview
+    environment: Cloudflare-Preview
     steps:
       - name: Checkout preview branch
         uses: actions/checkout@v3
@@ -114,7 +113,7 @@ jobs:
         run: |
           echo "_PKG_VERSION=$(cat deploy-metadata/.version)" >> ${GITHUB_ENV}
           echo "_BRANCH_NAME_SHA=$(cat deploy-metadata/.branch-sha)" >> ${GITHUB_ENV}
-      - name: Trigger a preview Deploy 
+      - name: Trigger a preview Deploy
         run: |
           sleep 30s
           mkdir -p preview/${{ env._BRANCH_NAME_SHA }}

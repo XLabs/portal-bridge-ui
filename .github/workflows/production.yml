@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      
+
       - name: Set up Node environment
         uses: actions/setup-node@v3
         with:
@@ -35,7 +35,7 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - name: Install dependencies 
+      - name: Install dependencies
         run: npm install
 
       - name: Build
@@ -44,7 +44,6 @@ jobs:
           REACT_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
           REACT_APP_SOLANA_API_URL: ${{ vars.REACT_APP_SOLANA_API_URL }}
           REACT_APP_COVALENT_API_KEY: ${{ secrets.REACT_APP_COVALENT_API_KEY }}
-          REACT_APP_TRM_API_KEY: ${{ secrets.REACT_APP_TRM_API_KEY }}
         run: echo 'REACT_APP_VERSION=$npm_package_version' > .env && npm run build
 
       - name: Publish
@@ -53,14 +52,14 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   deploy:
-      runs-on: ubuntu-latest
-      needs: build
-      environment: Cloudflare-Page-Deploy
-      steps:
-        - name: Wait package publish to impact
-          run: sleep 60s
-          shell: bash
-        - name: Trigger deploy
-          env:
-            DEPLOY_HOOK_URL: ${{ secrets.DEPLOY_HOOK_URL }}
-          run: curl -X POST ${DEPLOY_HOOK_URL}
+    runs-on: ubuntu-latest
+    needs: build
+    environment: Cloudflare-Page-Deploy
+    steps:
+      - name: Wait package publish to impact
+        run: sleep 60s
+        shell: bash
+      - name: Trigger deploy
+        env:
+          DEPLOY_HOOK_URL: ${{ secrets.DEPLOY_HOOK_URL }}
+        run: curl -X POST ${DEPLOY_HOOK_URL}

@@ -37,7 +37,6 @@ jobs:
           REACT_APP_CLUSTER: testnet
           REACT_APP_SOLANA_API_URL: ${{ vars.REACT_APP_SOLANA_API_URL }}
           REACT_APP_COVALENT_API_KEY: ${{ secrets.REACT_APP_COVALENT_API_KEY }}
-          REACT_APP_TRM_API_KEY: ${{ secrets.REACT_APP_TRM_API_KEY }}
         run: |
           pushd public
           npm run set-version
@@ -85,7 +84,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm publish
-  
+
   deploy:
     name: "Deploy Testnet"
     needs: publish
@@ -114,7 +113,7 @@ jobs:
         run: |
           echo "_PKG_VERSION=$(cat deploy-metadata/.version)" >> ${GITHUB_ENV}
           echo "_BRANCH_NAME_SHA=$(cat deploy-metadata/.branch-sha)" >> ${GITHUB_ENV}
-      - name: Trigger a testnet Deploy 
+      - name: Trigger a testnet Deploy
         run: |
           sleep 30s
           mkdir -p testnet/${{ env._BRANCH_NAME_SHA }}

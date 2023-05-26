@@ -43,7 +43,7 @@ export const getIsSanctioned = async (
 
   if (storedResult !== "") return storedResult;
 
-  if (trmChain /* && CLUSTER === "mainnet" */) {
+  if (trmChain && CLUSTER === "mainnet") {
     let isSanctioned = false;
 
     const resp = await fetch("https://sanctioned-address.glitch.me/addresses", {
