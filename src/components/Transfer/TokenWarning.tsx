@@ -159,22 +159,20 @@ export default function TokenWarning({
   originChain,
   targetChain,
   targetAsset,
-  isTBTC = false,
+  showCanonicalTbtcMessage = false,
 }: {
   sourceChain?: ChainId;
   sourceAsset?: string;
   originChain?: ChainId;
   targetChain?: ChainId;
   targetAsset?: string;
-  isTBTC?: boolean;
+  showCanonicalTbtcMessage?: boolean;
 }) {
   if (
     !(originChain && targetChain && targetAsset && sourceChain && sourceAsset)
   ) {
     return null;
   }
-
-  const isCanonical: boolean = isTBTC;
 
   const searchableAddress = isEVMChain(sourceChain)
     ? sourceAsset.toLowerCase()
@@ -193,12 +191,12 @@ export default function TokenWarning({
     !isMultiChain &&
     isWormholeWrapped &&
     targetChain !== CHAIN_ID_APTOS &&
-    isCanonical;
+    showCanonicalTbtcMessage;
   const showWrappedWarning =
     !isMultiChain &&
     isWormholeWrapped &&
     targetChain !== CHAIN_ID_APTOS &&
-    !isCanonical; //Multichain warning is more important
+    !showCanonicalTbtcMessage; //Multichain warning is more important
   const showRewardsWarning = isRewardsToken;
   const showLiquidityWarning = shouldShowLiquidityWarning(
     sourceChain,

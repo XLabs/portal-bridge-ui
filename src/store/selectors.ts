@@ -1,5 +1,6 @@
 import {
   CHAIN_ID_ACALA,
+  CHAIN_ID_ETH,
   CHAIN_ID_KARURA,
   CHAIN_ID_SOLANA,
   isEVMChain,
@@ -7,6 +8,7 @@ import {
 import { ethers } from "ethers";
 import { parseUnits } from "ethers/lib/utils";
 import { RootState } from ".";
+import { THRESHOLD_TBTC_CONTRACTS } from "../utils/consts";
 
 /*
  * Attest
@@ -170,8 +172,14 @@ export const selectTransferSourceChain = (state: RootState) =>
 export const selectTransferSourceAsset = (state: RootState) => {
   return state.transfer.sourceParsedTokenAccount?.mintKey || undefined;
 };
-export const selectTransferThreshold = (state: RootState) => {
-  return state.transfer.threshold;
+export const selectTransferIsTBTC = (state: RootState) => {
+  return (
+    state.transfer.originChain === CHAIN_ID_ETH &&
+    state.transfer.originAsset?.toLowerCase() ===
+      THRESHOLD_TBTC_CONTRACTS[CHAIN_ID_ETH].slice(2)
+        .padStart(64, "0")
+        ?.toLowerCase()
+  );
 };
 export const selectTransferIsSourceAssetWormholeWrapped = (state: RootState) =>
   state.transfer.isSourceAssetWormholeWrapped;
