@@ -56,6 +56,7 @@ import {
   SOL_TOKEN_BRIDGE_ADDRESS,
   XPLA_LCD_CLIENT_CONFIG,
   THRESHOLD_TBTC_CONTRACTS,
+  TBTC_ASSET_ADDRESS,
 } from "../utils/consts";
 import { getOriginalAssetNear, makeNearAccount } from "../utils/near";
 import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
@@ -138,9 +139,7 @@ function useCheckIfWormholeWrapped(nft?: boolean) {
             setSourceWormholeWrappedInfo({
               isWrapped: true,
               chainId: CHAIN_ID_ETH,
-              assetAddress: THRESHOLD_TBTC_CONTRACTS[CHAIN_ID_ETH].slice(
-                2
-              ).padStart(64, "0"),
+              assetAddress: TBTC_ASSET_ADDRESS,
             })
           );
           return;

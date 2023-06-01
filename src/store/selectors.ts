@@ -8,7 +8,7 @@ import {
 import { ethers } from "ethers";
 import { parseUnits } from "ethers/lib/utils";
 import { RootState } from ".";
-import { THRESHOLD_TBTC_CONTRACTS } from "../utils/consts";
+import { TBTC_ASSET_ADDRESS } from "../utils/consts";
 
 /*
  * Attest
@@ -176,9 +176,7 @@ export const selectTransferIsTBTC = (state: RootState) => {
   return (
     state.transfer.originChain === CHAIN_ID_ETH &&
     state.transfer.originAsset?.toLowerCase() ===
-      THRESHOLD_TBTC_CONTRACTS[CHAIN_ID_ETH].slice(2)
-        .padStart(64, "0")
-        ?.toLowerCase()
+      TBTC_ASSET_ADDRESS?.toLowerCase()
   );
 };
 export const selectTransferIsSourceAssetWormholeWrapped = (state: RootState) =>
