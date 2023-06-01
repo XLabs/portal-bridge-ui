@@ -53,6 +53,7 @@ import {
   selectNFTOriginTokenId,
   selectNFTTargetChain,
   selectTransferIsSourceAssetWormholeWrapped,
+  selectTransferIsTBTC,
   selectTransferOriginAsset,
   selectTransferOriginChain,
   selectTransferTargetChain,
@@ -72,6 +73,8 @@ import {
   NATIVE_NEAR_WH_ADDRESS,
   NATIVE_NEAR_PLACEHOLDER,
   XPLA_LCD_CLIENT_CONFIG,
+  THRESHOLD_TBTC_CONTRACTS,
+  THRESHOLD_GATEWAYS,
 } from "../utils/consts";
 import {
   getForeignAssetNear,
@@ -101,6 +104,7 @@ function useFetchTargetAsset(nft?: boolean) {
   const targetChain = useSelector(
     nft ? selectNFTTargetChain : selectTransferTargetChain
   );
+  const isTBTC = useSelector(selectTransferIsTBTC);
   const setTargetAsset = nft ? setNFTTargetAsset : setTransferTargetAsset;
   const { provider, evmChainId } = useEthereumProvider(targetChain);
   const correctEvmNetwork = getEvmChainId(targetChain);
@@ -305,6 +309,17 @@ function useFetchTargetAsset(nft?: boolean) {
         if (!cancelled) {
           setArgs();
         }
+        return;
+      }
+      if (isTBTC && THRESHOLD_GATEWAYS[targetChain]) {
+        dispatch(
+          setTargetAsset(
+            receiveDataWrapper({
+              doesExist: true,
+              address: THRESHOLD_TBTC_CONTRACTS[targetChain],
+            })
+          )
+        );
         return;
       }
       if (
@@ -656,6 +671,7 @@ function useFetchTargetAsset(nft?: boolean) {
     argsMatchLastSuccess,
     setArgs,
     nearAccountId,
+    isTBTC,
   ]);
 }
 
