@@ -52,6 +52,7 @@ import {
   selectNFTOriginChain,
   selectNFTOriginTokenId,
   selectNFTTargetChain,
+  selectTransferActiveStep,
   selectTransferIsSourceAssetWormholeWrapped,
   selectTransferIsTBTC,
   selectTransferOriginAsset,
@@ -105,6 +106,7 @@ function useFetchTargetAsset(nft?: boolean) {
     nft ? selectNFTTargetChain : selectTransferTargetChain
   );
   const isTBTC = useSelector(selectTransferIsTBTC);
+  const activeStep = useSelector(selectTransferActiveStep);
   const setTargetAsset = nft ? setNFTTargetAsset : setTransferTargetAsset;
   const { provider, evmChainId } = useEthereumProvider(targetChain);
   const correctEvmNetwork = getEvmChainId(targetChain);
@@ -311,7 +313,7 @@ function useFetchTargetAsset(nft?: boolean) {
         }
         return;
       }
-      if (isTBTC && THRESHOLD_GATEWAYS[targetChain]) {
+      if (isTBTC && THRESHOLD_GATEWAYS[targetChain] && activeStep < 2) {
         dispatch(
           setTargetAsset(
             receiveDataWrapper({
@@ -672,6 +674,7 @@ function useFetchTargetAsset(nft?: boolean) {
     setArgs,
     nearAccountId,
     isTBTC,
+    activeStep,
   ]);
 }
 
