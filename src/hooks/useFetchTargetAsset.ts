@@ -313,7 +313,7 @@ function useFetchTargetAsset(nft?: boolean) {
         }
         return;
       }
-      if (isTBTC && THRESHOLD_GATEWAYS[targetChain] && activeStep < 2) {
+      if (isTBTC && THRESHOLD_GATEWAYS[targetChain] && !cancelled) {
         dispatch(
           setTargetAsset(
             receiveDataWrapper({
@@ -322,6 +322,7 @@ function useFetchTargetAsset(nft?: boolean) {
             })
           )
         );
+        setArgs();
         return;
       }
       if (
