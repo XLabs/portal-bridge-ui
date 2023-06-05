@@ -8,6 +8,9 @@ jobs:
   cctp:
     name: "Build USDC Bridge (CCTP)"
     runs-on: "ubuntu-latest"
+    concurrency:
+      group: ${{ github.ref }}-cctp-preview
+      cancel-in-progress: true
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -20,26 +23,39 @@ jobs:
           node-version: v16.19.1
       - name: Install dependencies
         run: npm ci
+      - name: Set Version
+        run: |
+          echo "_BRANCH_NAME_SHA=$(echo ${{ github.event.pull_request.head.ref }} | sha256sum | cut -c -10)" >> "${GITHUB_ENV}"
       - name: Build
         env:
           NEXT_PUBLIC_NETWORK: ${{ vars.REACT_APP_CLUSTER }}
-          DEPLOY: deploy
+          PUBLIC_URL: "/${{ env._BRANCH_NAME_SHA }}"
         run: |
+          cat << EOF > next.config.js
+          /** @type {import('next').NextConfig} */
+          const nextConfig = {
+            reactStrictMode: true,
+            basePath: process.env.PUBLIC_URL || '',
+            images: {
+              unoptimized: true,
+            },
+            output: 'export'
+          }
+          module.exports = nextConfig
+          EOF
           npm run build
           mv out/usdc-bridge.html out/index.html
-
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: preview-stable-bridge-build
           path: out
   build:
-    name: "Build"
+    name: "Build Portal Bridge"
     runs-on: "ubuntu-latest"
     concurrency:
       group: ${{ github.ref }}-preview
       cancel-in-progress: true
-    environment:  Cloudflare-Preview
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
