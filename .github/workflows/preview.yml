@@ -8,9 +8,6 @@ jobs:
   cctp:
     name: "Build USDC Bridge (CCTP)"
     runs-on: "ubuntu-latest"
-    concurrency:
-      group: ${{ github.ref }}-preview
-      cancel-in-progress: true
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
