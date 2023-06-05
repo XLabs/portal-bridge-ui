@@ -5,6 +5,36 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
+  cctp:
+    name: "Build USDC Bridge (CCTP)"
+    runs-on: "ubuntu-latest"
+    concurrency:
+      group: ${{ github.ref }}-preview
+      cancel-in-progress: true
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          repository: xLabs-xyz/usdc-bridge
+      - name: Set up Node environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: v16.19.1
+      - name: Install dependencies
+        run: npm ci
+      - name: Build
+        env:
+          NEXT_PUBLIC_NETWORK: ${{ vars.REACT_APP_CLUSTER }}
+          DEPLOY: deploy
+        run: |
+          npm run build
+          mv out/usdc-bridge.html out/index.html
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: preview-stable-bridge-build
+          path: out
   build:
     name: "Build"
     runs-on: "ubuntu-latest"
@@ -63,7 +93,9 @@ jobs:
 
   publish:
     name: "Publish"
-    needs: build
+    needs: 
+      - build
+      - cctp
     runs-on: "ubuntu-latest"
     concurrency:
       group: ${{ github.ref }}-preview
@@ -76,6 +108,11 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: preview-build
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: preview-stable-bridge-build
+          path: usdc-bridge
       - name: Set up GitHub NPM registry
         uses: actions/setup-node@v3
         with:
