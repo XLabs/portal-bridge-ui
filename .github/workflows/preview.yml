@@ -51,7 +51,7 @@ jobs:
         with:
           name: preview-stable-bridge-build
           path: out
-  build-portal-bridge:
+  portal:
     name: "Build Portal Bridge"
     runs-on: "ubuntu-latest"
     concurrency:
@@ -110,7 +110,7 @@ jobs:
   publish:
     name: "Publish"
     needs: 
-      - build
+      - portal
       - cctp
     runs-on: "ubuntu-latest"
     concurrency:
