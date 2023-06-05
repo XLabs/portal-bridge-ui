@@ -336,15 +336,6 @@ async function evm(
     if (isTBTC && THRESHOLD_GATEWAYS[chainId]) {
       const sourceAddress = THRESHOLD_GATEWAYS[chainId].toLowerCase();
 
-      console.log(
-        "Canonical to ",
-        THRESHOLD_GATEWAYS[recipientChain]
-          ? "Canonical"
-          : recipientChain === CHAIN_ID_ETH
-          ? "ETH"
-          : "Non-Canonical"
-      );
-
       const L2WormholeGateway = new Contract(
         sourceAddress,
         ThresholdL2WormholeGateway,
@@ -386,8 +377,6 @@ async function evm(
 
       receipt = await tx.wait();
     } else {
-      console.log("Regular flow! isTBTC?", isTBTC);
-
       // Klaytn requires specifying gasPrice
       const overrides =
         chainId === CHAIN_ID_KLAYTN
