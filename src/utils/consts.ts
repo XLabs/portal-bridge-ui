@@ -429,6 +429,8 @@ export const THRESHOLD_TBTC_CONTRACTS: any = {
       : "0x85727F4725A4B2834e00Db1AA8e1b843a188162F",
 };
 
+// prettier-ignore
+export const TBTC_ASSET_ADDRESS = THRESHOLD_TBTC_CONTRACTS[CHAIN_ID_ETH].slice(2).padStart(64, "0");
 export const THRESHOLD_ARBITER_FEE = 0;
 export const THRESHOLD_NONCE = 0;
 

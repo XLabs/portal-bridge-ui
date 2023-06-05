@@ -71,11 +71,7 @@ import useIsWalletReady from "../hooks/useIsWalletReady";
 import useRelayersAvailable, { Relayer } from "../hooks/useRelayersAvailable";
 import { COLORS } from "../muiTheme";
 import { setRecoveryVaa as setRecoveryNFTVaa } from "../store/nftSlice";
-import {
-  Threshold,
-  setRecoveryVaa,
-  setThreshold,
-} from "../store/transferSlice";
+import { setRecoveryVaa } from "../store/transferSlice";
 import {
   ALGORAND_HOST,
   ALGORAND_TOKEN_BRIDGE_ID,
@@ -94,8 +90,6 @@ import {
   NEAR_TOKEN_BRIDGE_ACCOUNT,
   XPLA_LCD_CLIENT_CONFIG,
   getWalletAddressNative,
-  THRESHOLD_GATEWAYS,
-  THRESHOLD_TBTC_CONTRACTS,
   CLUSTER,
 } from "../utils/consts";
 import { getSignedVAAWithRetry } from "../utils/getSignedVAAWithRetry";
@@ -571,43 +565,8 @@ export default function Recovery() {
     }
   }, [recoveryParsedVAA, isNFT]);
 
-  const setThresholdData = useCallback(
-    (data: Threshold) => {
-      dispatch(setThreshold(data));
-    },
-    [dispatch]
-  );
-
   useEffect(() => {
     let cancelled = false;
-
-    // THRESHOLD CHECK: if target chain its a canonical chain
-    if (
-      parsedPayload &&
-      Object.keys(THRESHOLD_GATEWAYS).includes(`${parsedPayload?.targetChain}`)
-    ) {
-      const parsedTokenAddress = hexToNativeString(
-        parsedPayload.originAddress,
-        parsedPayload.originChain as ChainId
-      );
-
-      // if is TBTC token
-      if (
-        parsedTokenAddress &&
-        THRESHOLD_TBTC_CONTRACTS[parsedPayload.originChain]?.toLowerCase() ===
-          parsedTokenAddress.toLowerCase()
-      ) {
-        // sets threshold data
-        setThresholdData({
-          isTBTC: true,
-          source: parsedPayload.originChain as ChainId,
-          target: parsedPayload.targetChain as ChainId,
-        });
-      }
-    } else {
-      setThresholdData({ isTBTC: false });
-    }
-
     if (
       parsedPayload &&
       (parsedPayload.targetChain === CHAIN_ID_TERRA2 ||
@@ -663,7 +622,7 @@ export default function Recovery() {
     return () => {
       cancelled = true;
     };
-  }, [parsedPayload, setThresholdData]);
+  }, [parsedPayload]);
 
   const { search } = useLocation();
   const query = useMemo(() => new URLSearchParams(search), [search]);
