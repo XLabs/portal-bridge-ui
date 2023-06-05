@@ -12,7 +12,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          repository: xLabs-xyz/usdc-bridge
+          repository: xlabs/usdc-bridge
           ref: main
       - name: Set up Node environment
         uses: actions/setup-node@v3
