@@ -247,7 +247,7 @@ function App() {
                 Token Bridge
               </Link>
               <Link
-                href="https://wwww.portalbridge.com/usdc-bridge"
+                href="https://www.portalbridge.com/usdc-bridge"
                 target="_blank"
                 rel="noopener noreferrer"
                 color="inherit"
