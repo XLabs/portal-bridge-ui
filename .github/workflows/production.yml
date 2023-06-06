@@ -44,7 +44,7 @@ jobs:
     name: "Build Portal Bridge"
     runs-on: ubuntu-latest
     concurrency:
-      group: ${{ github.ref }}-cctp-release
+      group: ${{ github.ref }}-portal-release
       cancel-in-progress: true
     permissions:
       contents: read
@@ -129,7 +129,7 @@ jobs:
   deploy:
       runs-on: ubuntu-latest
       concurrency:
-        group: ${{ github.ref }}-cctp-release
+        group: ${{ github.ref }}-deploy-release
         cancel-in-progress: true
       needs: publish
       environment: Cloudflare-Page-Deploy
