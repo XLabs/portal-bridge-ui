@@ -37,7 +37,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: stable-bridge-build
+          name: release-stable-bridge
           path: out
 
   portal:
@@ -91,7 +91,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: preview-build
+          name: release-portal-bridge
           path: build
 
   publish:
@@ -110,11 +110,11 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
-          name: preview-build
+          name: release-portal-bridge
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
-          name: preview-stable-bridge-build
+          name: release-stable-bridge
           path: usdc-bridge
       - name: Set up GitHub NPM registry
         uses: actions/setup-node@v3
