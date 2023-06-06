@@ -29,32 +29,21 @@ jobs:
           echo "_BRANCH_NAME_SHA=$(echo ${{ github.event.pull_request.head.ref }} | sha256sum | cut -c -10)" >> "${GITHUB_ENV}"
       - name: Build
         env:
+          DEPLOY: "true"
           NEXT_PUBLIC_NETWORK: ${{ vars.REACT_APP_CLUSTER }}
           NEXT_PUBLIC_BASE_PATH: "/${{ env._BRANCH_NAME_SHA }}/usdc-bridge"
-        run: |
-          cat << EOF > next.config.js
-          /** @type {import('next').NextConfig} */
-          const nextConfig = {
-            reactStrictMode: true,
-            basePath: process.env.NEXT_PUBLIC_BASE_PATH,
-            images: {
-              unoptimized: true,
-            },
-            output: 'export'
-          }
-          module.exports = nextConfig
-          EOF
-          npm run build
+        run: npm run build
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: preview-stable-bridge-build
           path: out
+          
   portal:
     name: "Build Portal Bridge"
     runs-on: "ubuntu-latest"
     concurrency:
-      group: ${{ github.ref }}-preview
+      group: ${{ github.ref }}-portal-preview
       cancel-in-progress: true
     environment:  Cloudflare-Preview
     steps:
@@ -143,7 +132,7 @@ jobs:
     needs: publish
     runs-on: "ubuntu-latest"
     concurrency:
-      group: ${{ github.ref }}-preview
+      group: ${{ github.ref }}-deploy-preview
       cancel-in-progress: true
     permissions:
       contents: write
