@@ -882,6 +882,7 @@ async function sei(
   decimals: number,
   targetChain: ChainId,
   targetAddress: Uint8Array,
+  maybeAdditionalPayload: MaybeAdditionalPayloadFn,
   relayerFee?: string
 ) {
   dispatch(setIsSending(true));
@@ -1176,6 +1177,7 @@ export function useHandleTransfer() {
         decimals,
         targetChain,
         targetAddress,
+        maybeAdditionalPayload,
         relayerFee
       );
     } else if (
