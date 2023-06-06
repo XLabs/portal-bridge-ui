@@ -1,5 +1,6 @@
 import {
   CHAIN_ID_ACALA,
+  CHAIN_ID_ARBITRUM,
   CHAIN_ID_AURORA,
   CHAIN_ID_AVAX,
   CHAIN_ID_BSC,
@@ -40,6 +41,7 @@ import {
 } from "../../store/selectors";
 import { reset } from "../../store/transferSlice";
 import {
+  ARBWETH_ADDRESS,
   CHAINS_BY_ID,
   CLUSTER,
   getHowToAddTokensToWalletUrl,
@@ -148,6 +150,10 @@ function Redeem() {
     targetChain === CHAIN_ID_MOONBEAM &&
     targetAsset &&
     targetAsset.toLowerCase() === WGLMR_ADDRESS.toLowerCase();
+  const isArbitrumNative =
+    targetChain === CHAIN_ID_ARBITRUM &&
+    targetAsset &&
+    targetAsset.toLowerCase() === ARBWETH_ADDRESS.toLowerCase();
   const isSolNative =
     targetChain === CHAIN_ID_SOLANA &&
     targetAsset &&
@@ -163,6 +169,7 @@ function Redeem() {
     isKlaytnNative ||
     isNeonNative ||
     isMoonbeamNative ||
+    isArbitrumNative ||
     isSolNative;
   const [useNativeRedeem, setUseNativeRedeem] = useState(true);
   const toggleNativeRedeem = useCallback(() => {

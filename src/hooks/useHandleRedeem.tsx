@@ -44,9 +44,9 @@ import {
   selectTerraFeeDenom,
   selectTransferIsRedeeming,
   selectTransferTargetChain,
-  selectTransferThreshold,
+  selectTransferIsTBTC,
 } from "../store/selectors";
-import { Threshold, setIsRedeeming, setRedeemTx } from "../store/transferSlice";
+import { setIsRedeeming, setRedeemTx } from "../store/transferSlice";
 import { signSendAndConfirmAlgorand } from "../utils/algorand";
 import {
   getAptosClient,
@@ -170,55 +170,39 @@ async function evm(
   signedVAA: Uint8Array,
   isNative: boolean,
   chainId: ChainId,
-  threshold?: Threshold
+  isTBTC?: boolean
 ) {
   dispatch(setIsRedeeming(true));
 
   try {
     let receipt;
 
-    // THRESHOLD tBTC FLOW
-    if (threshold?.isTBTC) {
-      const isCanonicalTarget = Object.keys(THRESHOLD_GATEWAYS).includes(
-        `${chainId}`
+    const isCanonicalTarget = !!THRESHOLD_GATEWAYS[chainId];
+    if (isTBTC && isCanonicalTarget) {
+      console.log("redeem tbtc on canonical");
+      const targetAddress = THRESHOLD_GATEWAYS[chainId];
+      const L2WormholeGateway = new Contract(
+        targetAddress,
+        ThresholdL2WormholeGateway,
+        signer
       );
 
-      // tBTC Flow canonical target
-      if (isCanonicalTarget) {
-        const targetAddress = THRESHOLD_GATEWAYS[chainId];
-        const L2WormholeGateway = new Contract(
-          targetAddress,
-          ThresholdL2WormholeGateway,
-          signer
-        );
+      const estimateGas = await L2WormholeGateway.estimateGas.receiveTbtc(
+        signedVAA
+      );
 
-        const estimateGas = await L2WormholeGateway.estimateGas.receiveTbtc(
-          signedVAA
-        );
+      // We increase the gas limit estimation here by a factor of 10% to account for some faulty public JSON-RPC endpoints.
+      const gasLimit = estimateGas.mul(1100).div(1000);
+      const overrides = {
+        gasLimit,
+        // We use the legacy tx envelope here to avoid triggering gas price autodetection using EIP1559 for polygon.
+        // EIP1559 is not actually implemented in polygon. The node is only API compatible but this breaks some clients
+        // like ethers when choosing fees automatically.
+        ...(chainId === CHAIN_ID_POLYGON && { type: 0 }),
+      };
 
-        // We increase the gas limit estimation here by a factor of 10% to account for
-        // some faulty public JSON-RPC endpoints.
-        const gasLimit = estimateGas.mul(1100).div(1000);
-        const overrides = {
-          gasLimit,
-          // We use the legacy tx envelope here to avoid triggering gas price autodetection using EIP1559 for polygon.
-          // EIP1559 is not actually implemented in polygon. The node is only API compatible but this breaks some clients
-          // like ethers when choosing fees automatically.
-          ...(chainId === CHAIN_ID_POLYGON && { type: 0 }),
-        };
-
-        const tx = await L2WormholeGateway.receiveTbtc(signedVAA, overrides);
-        receipt = await tx.wait();
-      }
-      // tBTC Flow ethereum target
-      else {
-        receipt = await redeemOnEth(
-          getTokenBridgeAddressForChain(chainId),
-          signer,
-          signedVAA,
-          {}
-        );
-      }
+      const tx = await L2WormholeGateway.receiveTbtc(signedVAA, overrides);
+      receipt = await tx.wait();
     }
     // REGULAR PORTAL BRIDGE FLOW
     else {
@@ -527,7 +511,7 @@ export function useHandleRedeem() {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const targetChain = useSelector(selectTransferTargetChain);
-  const threshold = useSelector(selectTransferThreshold);
+  const isTBTC = useSelector(selectTransferIsTBTC);
 
   const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
   const { signer } = useEthereumProvider(targetChain);
@@ -552,7 +536,7 @@ export function useHandleRedeem() {
         signedVAA,
         false,
         targetChain,
-        threshold
+        isTBTC
       );
     } else if (
       targetChain === CHAIN_ID_SOLANA &&
@@ -625,7 +609,7 @@ export function useHandleRedeem() {
     suiWallet,
     dispatch,
     enqueueSnackbar,
-    threshold,
+    isTBTC,
     terraFeeDenom,
     aptosWallet,
     algoWallet,

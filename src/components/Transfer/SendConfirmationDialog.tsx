@@ -14,9 +14,14 @@ import {
   selectTransferOriginChain,
   selectTransferSourceChain,
   selectTransferSourceParsedTokenAccount,
-  selectTransferThreshold,
+  selectTransferIsTBTC,
 } from "../../store/selectors";
-import { CHAINS_BY_ID, CLUSTER, MULTI_CHAIN_TOKENS } from "../../utils/consts";
+import {
+  CHAINS_BY_ID,
+  CLUSTER,
+  MULTI_CHAIN_TOKENS,
+  THRESHOLD_TBTC_CONTRACTS,
+} from "../../utils/consts";
 import SmartAddress from "../SmartAddress";
 import SolanaTPSWarning from "../SolanaTPSWarning";
 import { useTargetInfo } from "./Target";
@@ -31,7 +36,7 @@ function SendConfirmationContent({
   onClose: () => void;
   onClick: () => void;
 }) {
-  const { isTBTC } = useSelector(selectTransferThreshold);
+  const isTBTC = useSelector(selectTransferIsTBTC);
   const sourceChain = useSelector(selectTransferSourceChain);
   const sourceParsedTokenAccount = useSelector(
     selectTransferSourceParsedTokenAccount
@@ -128,7 +133,9 @@ function SendConfirmationContent({
           originChain={originChain}
           targetAsset={targetAsset ?? undefined}
           targetChain={targetChain}
-          isTBTC={isTBTC}
+          showCanonicalTbtcMessage={
+            isTBTC && THRESHOLD_TBTC_CONTRACTS[targetChain]
+          }
         />
         {sourceChain === CHAIN_ID_SOLANA && CLUSTER === "mainnet" && (
           <SolanaTPSWarning />

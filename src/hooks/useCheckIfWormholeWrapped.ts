@@ -20,6 +20,7 @@ import {
   cosmos,
   CHAIN_ID_SUI,
   getOriginalAssetSui,
+  CHAIN_ID_ETH,
 } from "@certusone/wormhole-sdk";
 import {
   getOriginalAssetEth as getOriginalAssetEthNFT,
@@ -57,6 +58,8 @@ import {
   SOL_TOKEN_BRIDGE_ADDRESS,
   XPLA_LCD_CLIENT_CONFIG,
   SEI_TRANSLATOR,
+  THRESHOLD_TBTC_CONTRACTS,
+  TBTC_ASSET_ADDRESS,
 } from "../utils/consts";
 import { getOriginalAssetNear, makeNearAccount } from "../utils/near";
 import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
@@ -128,6 +131,25 @@ function useCheckIfWormholeWrapped(nft?: boolean) {
                 sourceChain
               ))
         );
+
+        // check for tBTC on canonical chains, make their origin be eth-wrapped-tbtc
+        if (
+          !cancelled &&
+          sourceChain !== CHAIN_ID_ETH &&
+          THRESHOLD_TBTC_CONTRACTS[sourceChain]?.toLowerCase() ===
+            sourceAsset?.toLowerCase()
+        ) {
+          console.log("selected tBTC on canonical chain");
+          dispatch(
+            setSourceWormholeWrappedInfo({
+              isWrapped: true,
+              chainId: CHAIN_ID_ETH,
+              assetAddress: TBTC_ASSET_ADDRESS,
+            })
+          );
+          return;
+        }
+
         if (!cancelled) {
           dispatch(setSourceWormholeWrappedInfo(wrappedInfo));
         }

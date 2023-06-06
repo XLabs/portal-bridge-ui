@@ -46,7 +46,7 @@ import { Alert } from "@material-ui/lab";
 import { Connection } from "@solana/web3.js";
 import algosdk from "algosdk";
 import { Types } from "aptos";
-import { BigNumber, Contract, Signer } from "ethers";
+import { BigNumber, Contract, ContractReceipt, Signer } from "ethers";
 import { arrayify, parseUnits, zeroPad } from "ethers/lib/utils";
 import { useSnackbar } from "notistack";
 import { useCallback, useMemo } from "react";
@@ -61,6 +61,7 @@ import {
   selectTransferAmount,
   selectTransferIsSendComplete,
   selectTransferIsSending,
+  selectTransferIsTBTC,
   selectTransferIsTargetComplete,
   selectTransferOriginAsset,
   selectTransferOriginChain,
@@ -69,10 +70,8 @@ import {
   selectTransferSourceChain,
   selectTransferSourceParsedTokenAccount,
   selectTransferTargetChain,
-  selectTransferThreshold,
 } from "../store/selectors";
 import {
-  Threshold,
   setIsSending,
   setIsVAAPending,
   setSignedVAAHex,
@@ -136,7 +135,6 @@ import {
 } from "@certusone/wormhole-sdk/lib/cjs/sui";
 import { useSuiWallet } from "../contexts/SuiWalletContext";
 import { ThresholdL2WormholeGateway } from "../utils/ThresholdL2WormholeGateway";
-import { useTargetInfo } from "../components/Transfer/Target";
 import { useSeiWallet } from "../contexts/SeiWalletContext";
 import { SeiWallet } from "@xlabs-libs/wallet-aggregator-sei";
 
@@ -144,30 +142,7 @@ type AdditionalPayloadOverride = {
   receivingContract: Uint8Array;
   payload: Uint8Array;
 };
-
-function maybeAdditionalPayload(
-  recipientChain: ChainId,
-  recipientAddress: Uint8Array
-): AdditionalPayloadOverride | null {
-  if (recipientChain === CHAIN_ID_SEI) {
-    return {
-      receivingContract: SEI_TRANSLATER_TARGET,
-      payload: new Uint8Array(
-        Buffer.from(
-          JSON.stringify({
-            basic_recipient: {
-              recipient: Buffer.from(
-                // Sei wallet addresses are 20 bytes
-                cosmos.humanAddress("sei", recipientAddress.slice(12))
-              ).toString("base64"),
-            },
-          })
-        )
-      ),
-    };
-  }
-  return null;
-}
+type MaybeAdditionalPayloadFn = () => AdditionalPayloadOverride | null;
 
 async function fetchSignedVAA(
   chainId: ChainId,
@@ -219,6 +194,7 @@ async function algo(
   recipientChain: ChainId,
   recipientAddress: Uint8Array,
   chainId: ChainId,
+  maybeAdditionalPayload: MaybeAdditionalPayloadFn,
   relayerFee?: string
 ) {
   dispatch(setIsSending(true));
@@ -226,10 +202,7 @@ async function algo(
     const baseAmountParsed = parseUnits(amount, decimals);
     const feeParsed = parseUnits(relayerFee || "0", decimals);
     const transferAmountParsed = baseAmountParsed.add(feeParsed);
-    const additionalPayload = maybeAdditionalPayload(
-      recipientChain,
-      recipientAddress
-    );
+    const additionalPayload = maybeAdditionalPayload();
     const algodClient = new algosdk.Algodv2(
       ALGORAND_HOST.algodToken,
       ALGORAND_HOST.algodServer,
@@ -281,6 +254,7 @@ async function aptos(
   recipientAddress: Uint8Array,
   chainId: ChainId,
   wallet: AptosWallet,
+  maybeAdditionalPayload: MaybeAdditionalPayloadFn,
   relayerFee?: string
 ) {
   dispatch(setIsSending(true));
@@ -290,10 +264,7 @@ async function aptos(
     const feeParsed = parseUnits(relayerFee || "0", decimals);
     const transferAmountParsed = baseAmountParsed.add(feeParsed);
 
-    const additionalPayload = maybeAdditionalPayload(
-      recipientChain,
-      recipientAddress
-    );
+    const additionalPayload = maybeAdditionalPayload();
     if (additionalPayload?.payload) {
       throw new Error("Transfer with payload is unsupported on Aptos");
     }
@@ -358,168 +329,74 @@ async function evm(
   recipientAddress: Uint8Array,
   isNative: boolean,
   chainId: ChainId,
-  relayerFee?: string,
-  thresholdData?: Threshold,
-  readableTargetAddress?: string
+  isTBTC: boolean,
+  maybeAdditionalPayload: MaybeAdditionalPayloadFn,
+  relayerFee?: string
 ) {
   dispatch(setIsSending(true));
-
   try {
-    // THRESHOLD TBTC FLOW
-    const threshold = thresholdData;
+    const baseAmountParsed = parseUnits(amount, decimals);
+    const feeParsed = parseUnits(relayerFee || "0", decimals);
+    const transferAmountParsed = baseAmountParsed.add(feeParsed);
 
-    if (threshold?.isTBTC) {
-      const isEthSource = chainId === CHAIN_ID_ETH;
-      const isEthTarget = recipientChain === CHAIN_ID_ETH;
-      const isCanonicalSource = Object.keys(THRESHOLD_GATEWAYS).includes(
-        `${chainId}`
+    let receipt: ContractReceipt;
+
+    if (isTBTC && THRESHOLD_GATEWAYS[chainId]) {
+      const sourceAddress = THRESHOLD_GATEWAYS[chainId].toLowerCase();
+
+      const L2WormholeGateway = new Contract(
+        sourceAddress,
+        ThresholdL2WormholeGateway,
+        signer
       );
-      const isCanonicalTarget = Object.keys(THRESHOLD_GATEWAYS).includes(
-        `${recipientChain}`
+
+      const amountNormalizeAmount = deNormalizeAmount(
+        normalizeAmount(transferAmountParsed, decimals),
+        decimals
       );
 
-      const baseAmountParsed = parseUnits(amount, decimals);
-      const relayerFeeParsed = parseUnits(relayerFee || "0", decimals);
-      const transferAmountParsed = baseAmountParsed.add(relayerFeeParsed);
+      const estimateGas = await L2WormholeGateway.estimateGas.sendTbtc(
+        amountNormalizeAmount,
+        recipientChain,
+        recipientAddress,
+        THRESHOLD_ARBITER_FEE,
+        THRESHOLD_NONCE
+      );
 
-      if (isEthSource && isCanonicalTarget) {
-        const targetAddress = THRESHOLD_GATEWAYS[recipientChain];
-        console.log("Ethereum to Canonical");
+      // We increase the gas limit estimation here by a factor of 10% to account for
+      // some faulty public JSON-RPC endpoints.
+      const gasLimit = estimateGas.mul(1100).div(1000);
+      const overrides = {
+        gasLimit,
+        // We use the legacy tx envelope here to avoid triggering gas price autodetection using EIP1559 for polygon.
+        // EIP1559 is not actually implemented in polygon. The node is only API compatible but this breaks some clients
+        // like ethers when choosing fees automatically.
+        ...(chainId === CHAIN_ID_POLYGON && { type: 0 }),
+      };
 
-        const tokenBridgeAddress = getTokenBridgeAddressForChain(chainId);
-        const payload = recipientAddress;
+      const tx = await L2WormholeGateway.sendTbtc(
+        amountNormalizeAmount,
+        recipientChain,
+        recipientAddress,
+        THRESHOLD_ARBITER_FEE,
+        THRESHOLD_NONCE,
+        overrides
+      );
 
-        const receipt = await transferFromEth(
-          tokenBridgeAddress,
-          signer,
-          tokenAddress,
-          transferAmountParsed,
-          recipientChain,
-          zeroPad(arrayify(targetAddress), 32),
-          relayerFeeParsed,
-          {},
-          zeroPad(arrayify(payload), 32)
-        );
-
-        dispatch(
-          setTransferTx({
-            id: receipt.transactionHash,
-            block: receipt.blockNumber,
-          })
-        );
-
-        enqueueSnackbar(null, {
-          content: <Alert severity="success">Transaction confirmed</Alert>,
-        });
-
-        const sequence = parseSequenceFromLogEth(
-          receipt,
-          getBridgeAddressForChain(chainId)
-        );
-
-        const emitterAddress = getEmitterAddressEth(
-          getTokenBridgeAddressForChain(chainId)
-        );
-
-        await fetchSignedVAA(
-          chainId,
-          emitterAddress,
-          sequence,
-          enqueueSnackbar,
-          dispatch
-        );
-      }
-
-      if (isCanonicalSource && (isCanonicalTarget || isEthTarget)) {
-        const sourceAddress = THRESHOLD_GATEWAYS[chainId].toLowerCase();
-        console.log("Canonical to ", isCanonicalTarget ? "Canonical" : "ETH");
-
-        try {
-          const L2WormholeGateway = new Contract(
-            sourceAddress,
-            ThresholdL2WormholeGateway,
-            signer
-          );
-
-          const amountNormalizeAmount = deNormalizeAmount(
-            normalizeAmount(transferAmountParsed, decimals),
-            decimals
-          );
-
-          const estimateGas = await L2WormholeGateway.estimateGas.sendTbtc(
-            amountNormalizeAmount,
-            recipientChain,
-            zeroPad(arrayify(readableTargetAddress!), 32),
-            THRESHOLD_ARBITER_FEE,
-            THRESHOLD_NONCE
-          );
-
-          // We increase the gas limit estimation here by a factor of 10% to account for
-          // some faulty public JSON-RPC endpoints.
-          const gasLimit = estimateGas.mul(1100).div(1000);
-          const overrides = {
-            gasLimit,
-            // We use the legacy tx envelope here to avoid triggering gas price autodetection using EIP1559 for polygon.
-            // EIP1559 is not actually implemented in polygon. The node is only API compatible but this breaks some clients
-            // like ethers when choosing fees automatically.
-            ...(chainId === CHAIN_ID_POLYGON && { type: 0 }),
-          };
-
-          const tx = await L2WormholeGateway.sendTbtc(
-            amountNormalizeAmount,
-            recipientChain,
-            zeroPad(arrayify(readableTargetAddress!), 32),
-            THRESHOLD_ARBITER_FEE,
-            THRESHOLD_NONCE,
-            overrides
-          );
-
-          const receipt = await tx.wait();
-
-          dispatch(
-            setTransferTx({
-              id: receipt.transactionHash,
-              block: receipt.blockNumber,
-            })
-          );
-
-          enqueueSnackbar(null, {
-            content: <Alert severity="success">Transaction confirmed</Alert>,
-          });
-
-          const sequence = parseSequenceFromLogEth(
-            receipt,
-            getBridgeAddressForChain(chainId)
-          );
-          const emitterAddress = getEmitterAddressEth(
-            getTokenBridgeAddressForChain(chainId)
-          );
-
-          await fetchSignedVAA(
-            chainId,
-            emitterAddress,
-            sequence,
-            enqueueSnackbar,
-            dispatch
-          );
-        } catch (e) {
-          console.error(parseError(e));
-        }
-      }
+      receipt = await tx.wait();
     } else {
       const baseAmountParsed = parseUnits(amount, decimals);
       const feeParsed = parseUnits(relayerFee || "0", decimals);
       const transferAmountParsed = baseAmountParsed.add(feeParsed);
-      const additionalPayload = maybeAdditionalPayload(
-        recipientChain,
-        recipientAddress
-      );
       // Klaytn requires specifying gasPrice
       const overrides =
         chainId === CHAIN_ID_KLAYTN
           ? { gasPrice: (await signer.getGasPrice()).toString() }
           : {};
-      const receipt = isNative
+
+      const additionalPayload = maybeAdditionalPayload();
+
+      receipt = isNative
         ? await transferFromEthNative(
             getTokenBridgeAddressForChain(chainId),
             signer,
@@ -541,30 +418,35 @@ async function evm(
             overrides,
             additionalPayload?.payload
           );
-      dispatch(
-        setTransferTx({
-          id: receipt.transactionHash,
-          block: receipt.blockNumber,
-        })
-      );
-      enqueueSnackbar(null, {
-        content: <Alert severity="success">Transaction confirmed</Alert>,
-      });
-      const sequence = parseSequenceFromLogEth(
-        receipt,
-        getBridgeAddressForChain(chainId)
-      );
-      const emitterAddress = getEmitterAddressEth(
-        getTokenBridgeAddressForChain(chainId)
-      );
-      await fetchSignedVAA(
-        chainId,
-        emitterAddress,
-        sequence,
-        enqueueSnackbar,
-        dispatch
-      );
     }
+
+    dispatch(
+      setTransferTx({
+        id: receipt.transactionHash,
+        block: receipt.blockNumber,
+      })
+    );
+
+    enqueueSnackbar(null, {
+      content: <Alert severity="success">Transaction confirmed</Alert>,
+    });
+
+    const sequence = parseSequenceFromLogEth(
+      receipt,
+      getBridgeAddressForChain(chainId)
+    );
+
+    const emitterAddress = getEmitterAddressEth(
+      getTokenBridgeAddressForChain(chainId)
+    );
+
+    await fetchSignedVAA(
+      chainId,
+      emitterAddress,
+      sequence,
+      enqueueSnackbar,
+      dispatch
+    );
   } catch (e) {
     handleError(e, enqueueSnackbar, dispatch);
   }
@@ -581,6 +463,7 @@ async function near(
   recipientChain: ChainId,
   recipientAddress: Uint8Array,
   chainId: ChainId,
+  maybeAdditionalPayload: MaybeAdditionalPayloadFn,
   relayerFee?: string
 ) {
   dispatch(setIsSending(true));
@@ -588,10 +471,7 @@ async function near(
     const baseAmountParsed = parseUnits(amount, decimals);
     const feeParsed = parseUnits(relayerFee || "0", decimals);
     const transferAmountParsed = baseAmountParsed.add(feeParsed);
-    const additionalPayload = maybeAdditionalPayload(
-      recipientChain,
-      recipientAddress
-    );
+    const additionalPayload = maybeAdditionalPayload();
     const account = await makeNearAccount(senderAddr);
     const msgs =
       tokenAddress === NATIVE_NEAR_PLACEHOLDER
@@ -653,6 +533,7 @@ async function xpla(
   decimals: number,
   targetChain: ChainId,
   targetAddress: Uint8Array,
+  maybeAdditionalPayload: MaybeAdditionalPayloadFn,
   relayerFee?: string
 ) {
   dispatch(setIsSending(true));
@@ -660,10 +541,7 @@ async function xpla(
     const baseAmountParsed = parseUnits(amount, decimals);
     const feeParsed = parseUnits(relayerFee || "0", decimals);
     const transferAmountParsed = baseAmountParsed.add(feeParsed);
-    const additionalPayload = maybeAdditionalPayload(
-      targetChain,
-      targetAddress
-    );
+    const additionalPayload = maybeAdditionalPayload();
     const tokenBridgeAddress = getTokenBridgeAddressForChain(CHAIN_ID_XPLA);
     const msgs = await transferFromXpla(
       wallet.getAddress()!,
@@ -716,6 +594,7 @@ async function solana(
   targetChain: ChainId,
   targetAddress: Uint8Array,
   isNative: boolean,
+  maybeAdditionalPayload: MaybeAdditionalPayloadFn,
   originAddressStr?: string,
   originChain?: ChainId,
   relayerFee?: string
@@ -726,10 +605,7 @@ async function solana(
     const baseAmountParsed = parseUnits(amount, decimals);
     const feeParsed = parseUnits(relayerFee || "0", decimals);
     const transferAmountParsed = baseAmountParsed.add(feeParsed);
-    const additionalPayload = maybeAdditionalPayload(
-      targetChain,
-      targetAddress
-    );
+    const additionalPayload = maybeAdditionalPayload();
     const originAddress = originAddressStr
       ? zeroPad(hexToUint8Array(originAddressStr), 32)
       : undefined;
@@ -798,6 +674,7 @@ async function terra(
   targetAddress: Uint8Array,
   feeDenom: string,
   chainId: TerraChainId,
+  maybeAdditionalPayload: MaybeAdditionalPayloadFn,
   relayerFee?: string
 ) {
   dispatch(setIsSending(true));
@@ -805,11 +682,8 @@ async function terra(
     const baseAmountParsed = parseUnits(amount, decimals);
     const feeParsed = parseUnits(relayerFee || "0", decimals);
     const transferAmountParsed = baseAmountParsed.add(feeParsed);
+    const additionalPayload = maybeAdditionalPayload();
     const tokenBridgeAddress = getTokenBridgeAddressForChain(chainId);
-    const additionalPayload = maybeAdditionalPayload(
-      targetChain,
-      targetAddress
-    );
     const msgs = await transferFromTerra(
       wallet.getAddress()!,
       tokenBridgeAddress,
@@ -861,6 +735,7 @@ async function injective(
   decimals: number,
   targetChain: ChainId,
   targetAddress: Uint8Array,
+  maybeAdditionalPayload: MaybeAdditionalPayloadFn,
   relayerFee?: string
 ) {
   dispatch(setIsSending(true));
@@ -868,12 +743,9 @@ async function injective(
     const baseAmountParsed = parseUnits(amount, decimals);
     const feeParsed = parseUnits(relayerFee || "0", decimals);
     const transferAmountParsed = baseAmountParsed.add(feeParsed);
+    const additionalPayload = maybeAdditionalPayload();
     const tokenBridgeAddress =
       getTokenBridgeAddressForChain(CHAIN_ID_INJECTIVE);
-    const additionalPayload = maybeAdditionalPayload(
-      targetChain,
-      targetAddress
-    );
     const msgs = await transferFromInjective(
       walletAddress,
       tokenBridgeAddress,
@@ -990,6 +862,7 @@ async function sui(
   decimals: number,
   targetChain: ChainId,
   targetAddress: Uint8Array,
+  maybeAdditionalPayload: MaybeAdditionalPayloadFn,
   relayerFee?: string
 ) {
   dispatch(setIsSending(true));
@@ -1001,10 +874,7 @@ async function sui(
     const baseAmountParsed = parseUnits(amount, decimals);
     const feeParsed = parseUnits(relayerFee || "0", decimals);
     const transferAmountParsed = baseAmountParsed.add(feeParsed);
-    const additionalPayload = maybeAdditionalPayload(
-      targetChain,
-      targetAddress
-    );
+    const additionalPayload = maybeAdditionalPayload();
     const provider = getSuiProvider();
     // TODO: handle pagination
     const coins = (
@@ -1072,7 +942,6 @@ async function sui(
 export function useHandleTransfer() {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
-  const { readableTargetAddress } = useTargetInfo();
   const sourceChain = useSelector(selectTransferSourceChain);
   const sourceAsset = useSelector(selectTransferSourceAsset);
   const originChain = useSelector(selectTransferOriginChain);
@@ -1083,7 +952,7 @@ export function useHandleTransfer() {
   const isTargetComplete = useSelector(selectTransferIsTargetComplete);
   const isSending = useSelector(selectTransferIsSending);
   const isSendComplete = useSelector(selectTransferIsSendComplete);
-  const thresholdData = useSelector(selectTransferThreshold);
+  const isTBTC = useSelector(selectTransferIsTBTC);
   const { signer } = useEthereumProvider(sourceChain);
   const { wallet: solanaWallet, publicKey: solPK } = useSolanaWallet();
   const { wallet: terraWallet } = useTerraWallet(sourceChain);
@@ -1106,6 +975,41 @@ export function useHandleTransfer() {
   const isNative = sourceParsedTokenAccount?.isNativeAsset || false;
   const disabled = !isTargetComplete || isSending || isSendComplete;
 
+  const maybeAdditionalPayload: MaybeAdditionalPayloadFn = useCallback(() => {
+    if (
+      isTBTC &&
+      originChain === CHAIN_ID_ETH &&
+      THRESHOLD_GATEWAYS[targetChain] &&
+      targetAddress
+    ) {
+      const tbtcGateway = arrayify(THRESHOLD_GATEWAYS[targetChain]);
+      return {
+        receivingContract: zeroPad(tbtcGateway, 32),
+        payload: targetAddress,
+      };
+    }
+
+    if (targetChain === CHAIN_ID_SEI && targetAddress) {
+      return {
+        receivingContract: SEI_TRANSLATER_TARGET,
+        payload: new Uint8Array(
+          Buffer.from(
+            JSON.stringify({
+              basic_recipient: {
+                recipient: Buffer.from(
+                  // Sei wallet addresses are 20 bytes
+                  cosmos.humanAddress("sei", targetAddress.slice(12))
+                ).toString("base64"),
+              },
+            })
+          )
+        ),
+      };
+    }
+
+    return null;
+  }, [isTBTC, originChain, targetAddress, targetChain]);
+
   const handleTransferClick = useCallback(() => {
     // TODO: we should separate state for transaction vs fetching vaa
     if (
@@ -1126,9 +1030,9 @@ export function useHandleTransfer() {
         targetAddress,
         isNative,
         sourceChain,
-        relayerFee,
-        thresholdData,
-        readableTargetAddress
+        isTBTC,
+        maybeAdditionalPayload,
+        relayerFee
       );
     } else if (
       sourceChain === CHAIN_ID_SOLANA &&
@@ -1151,6 +1055,7 @@ export function useHandleTransfer() {
         targetChain,
         targetAddress,
         isNative,
+        maybeAdditionalPayload,
         originAsset,
         originChain,
         relayerFee
@@ -1173,6 +1078,7 @@ export function useHandleTransfer() {
         targetAddress,
         terraFeeDenom,
         sourceChain,
+        maybeAdditionalPayload,
         relayerFee
       );
     } else if (
@@ -1210,6 +1116,7 @@ export function useHandleTransfer() {
         decimals,
         targetChain,
         targetAddress,
+        maybeAdditionalPayload,
         relayerFee
       );
     } else if (
@@ -1229,6 +1136,7 @@ export function useHandleTransfer() {
         targetChain,
         targetAddress,
         sourceChain,
+        maybeAdditionalPayload,
         relayerFee
       );
     } else if (
@@ -1250,6 +1158,7 @@ export function useHandleTransfer() {
         targetChain,
         targetAddress,
         sourceChain,
+        maybeAdditionalPayload,
         relayerFee
       );
     } else if (
@@ -1269,6 +1178,7 @@ export function useHandleTransfer() {
         targetAddress,
         sourceChain,
         aptosWallet!,
+        maybeAdditionalPayload,
         relayerFee
       );
     } else if (
@@ -1289,6 +1199,7 @@ export function useHandleTransfer() {
         decimals,
         targetChain,
         targetAddress,
+        maybeAdditionalPayload,
         relayerFee
       );
     } else if (
@@ -1308,11 +1219,11 @@ export function useHandleTransfer() {
         decimals,
         targetChain,
         targetAddress,
+        maybeAdditionalPayload,
         relayerFee
       );
     }
   }, [
-    readableTargetAddress,
     sourceChain,
     signer,
     sourceAsset,
@@ -1336,7 +1247,6 @@ export function useHandleTransfer() {
     targetChain,
     isNative,
     relayerFee,
-    thresholdData,
     originAsset,
     originChain,
     terraFeeDenom,
@@ -1344,6 +1254,8 @@ export function useHandleTransfer() {
     aptosWallet,
     seiWallet,
     seiAddress,
+    maybeAdditionalPayload,
+    isTBTC,
   ]);
   return useMemo(
     () => ({
