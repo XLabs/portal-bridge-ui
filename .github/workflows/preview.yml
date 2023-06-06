@@ -45,7 +45,6 @@ jobs:
           module.exports = nextConfig
           EOF
           npm run build
-          mv out/usdc-bridge.html out/index.html
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
