@@ -2,7 +2,11 @@ import { cosmos } from "@certusone/wormhole-sdk";
 import { base58, formatUnits } from "ethers/lib/utils";
 import { MutableRefObject, useEffect, useMemo, useState } from "react";
 import { NFTParsedTokenAccount } from "../store/nftSlice";
-import { SEI_DECIMALS, SEI_TRANSLATOR } from "../utils/consts";
+import {
+  SEI_DECIMALS,
+  SEI_NATIVE_DENOM,
+  SEI_TRANSLATOR,
+} from "../utils/consts";
 import { getSeiQueryClient, getSeiWasmClient } from "../utils/sei";
 import seiIcon from "../icons/sei.svg";
 
@@ -35,11 +39,10 @@ export default function useSeiNativeBalances(
           const response = await client.cosmos.bank.v1beta1.allBalances({
             address: walletAddress,
           });
-          console.log("SEI Balances", response);
 
           // NOTE: this UI only handles the translator factory tokens for now
           const seiCoin = response.balances.find(
-            (coin) => coin.denom === "usei"
+            (coin) => coin.denom === SEI_NATIVE_DENOM
           );
 
           const translatedCoins = response.balances.filter((coin) =>
