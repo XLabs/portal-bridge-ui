@@ -1585,6 +1585,7 @@ export const SUPPORTED_TERRA_TOKENS = ["uluna", "uusd"];
 export const TERRA_DEFAULT_FEE_DENOM = SUPPORTED_TERRA_TOKENS[0];
 
 export const XPLA_NATIVE_DENOM = "axpla";
+export const SEI_NATIVE_DENOM = "usei";
 
 export const getTerraFCDBaseUrl = (chainId: TerraChainId) =>
   CLUSTER === "mainnet"
