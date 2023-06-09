@@ -146,7 +146,9 @@ export const createWrappedOnSei = submitVAAOnSei;
 export const updateWrappedOnSei = submitVAAOnSei;
 export const redeemOnSei = submitVAAOnSei;
 
-export function parseSequenceFromLogSei(info: any): string {
+export function parseSequenceFromLogSei(info: {
+  logs: readonly logs.Log[];
+}): string {
   const seq = searchInLogs("message.sequence", info.logs);
   if (!seq) throw new Error("sequence not found in logs");
   return seq;
