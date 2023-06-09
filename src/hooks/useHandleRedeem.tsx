@@ -23,6 +23,10 @@ import {
   uint8ArrayToHex,
   CHAIN_ID_SUI,
   CHAIN_ID_POLYGON,
+  parseVaa,
+  parseTokenTransferPayload,
+  cosmos,
+  tryUint8ArrayToNative,
 } from "@certusone/wormhole-sdk";
 import { completeTransferAndRegister } from "@certusone/wormhole-sdk/lib/esm/aptos/api/tokenBridge";
 import { Alert } from "@material-ui/lab";
@@ -315,17 +319,38 @@ async function sei(
 ) {
   dispatch(setIsRedeeming(true));
   try {
-    const msg = {
-      complete_transfer_and_convert: {
-        vaa: fromUint8Array(signedVAA),
-      },
-    };
-
     // TODO: is this right?
     const fee = calculateFee(800000, "0.1usei");
 
+    const vaa = parseVaa(signedVAA);
+    const transfer = parseTokenTransferPayload(vaa.payload);
+    const receiver = cosmos.humanAddress("sei", transfer.to);
+
+    const instructions =
+      receiver === SEI_TRANSLATOR
+        ? [
+            {
+              contractAddress: SEI_TRANSLATOR,
+              msg: {
+                complete_transfer_and_convert: {
+                  vaa: fromUint8Array(signedVAA),
+                },
+              },
+            },
+          ]
+        : [
+            {
+              contractAddress: getTokenBridgeAddressForChain(CHAIN_ID_SEI),
+              msg: {
+                submit_vaa: {
+                  data: fromUint8Array(signedVAA),
+                },
+              },
+            },
+          ];
+
     const tx = await wallet.executeMultiple({
-      instructions: [{ contractAddress: SEI_TRANSLATOR, msg }],
+      instructions,
       fee,
       memo: "Wormhole - Complete Transfer",
     });

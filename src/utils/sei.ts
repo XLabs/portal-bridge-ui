@@ -3,15 +3,15 @@ import {
   ChainId,
   ChainName,
   WormholeWrappedInfo,
-  buildTokenId,
   coalesceChainId,
   hexToUint8Array,
   isNativeCosmWasmDenom,
 } from "@certusone/wormhole-sdk";
 import { getCosmWasmClient, getQueryClient } from "@sei-js/core";
 import { fromUint8Array } from "js-base64";
-import { SEI_CHAIN_CONFIGURATION } from "./consts";
+import { SEI_CHAIN_CONFIGURATION, SEI_NATIVE_DENOM } from "./consts";
 import { logs } from "@cosmjs/stargate";
+import { utils } from "ethers";
 
 export const getSeiWasmClient = () =>
   getCosmWasmClient(SEI_CHAIN_CONFIGURATION.rpcUrl);
@@ -88,7 +88,7 @@ export async function getOriginalAssetSei(
     return {
       isWrapped: false,
       chainId,
-      assetAddress: hexToUint8Array(buildTokenId(chainId, wrappedAddress)),
+      assetAddress: hexToUint8Array(buildTokenId(wrappedAddress)),
     };
   }
   try {
@@ -106,8 +106,16 @@ export async function getOriginalAssetSei(
   return {
     isWrapped: false,
     chainId: chainId,
-    assetAddress: hexToUint8Array(buildTokenId(chainId, wrappedAddress)),
+    assetAddress: hexToUint8Array(buildTokenId(wrappedAddress)),
   };
+}
+
+// implement it here since there's a bug in the wh sdk of buildTokenId not
+// checking for usei as a native denomination
+export function buildTokenId(address: string) {
+  const marker = address === SEI_NATIVE_DENOM ? "01" : "00";
+  const hash = utils.keccak256(Buffer.from(address, "utf-8")).substring(4);
+  return marker + hash;
 }
 
 export const queryExternalIdSei = async (

@@ -92,6 +92,7 @@ import {
   NATIVE_NEAR_PLACEHOLDER,
   NEAR_CORE_BRIDGE_ACCOUNT,
   NEAR_TOKEN_BRIDGE_ACCOUNT,
+  SEI_NATIVE_DENOM,
   SEI_TRANSLATER_TARGET,
   SEI_TRANSLATOR,
   SOL_BRIDGE_ADDRESS,
@@ -797,31 +798,62 @@ async function sei(
 ) {
   dispatch(setIsSending(true));
   try {
-    console.log("inside sei transfer method");
-
-    const baseAmountParsed = parseUnits(amount, decimals);
-    const feeParsed = parseUnits(relayerFee || "0", decimals);
-    const transferAmountParsed = baseAmountParsed.add(feeParsed);
+    const baseAmount = parseUnits(amount, decimals);
+    const baseAmountParsed = baseAmount.toString();
+    const feeParsed = parseUnits(relayerFee || "0", decimals).toString();
+    const transferAmountParsed = baseAmount.add(feeParsed);
     const tokenBridgeAddress = getTokenBridgeAddressForChain(CHAIN_ID_SEI);
 
-    // NOTE: this only supports transferring out via the Sei CW20 <> Bank translator
-    const msg = {
-      convert_and_transfer: {
-        recipient_chain: targetChain,
-        recipient: Buffer.from(targetAddress).toString("base64"),
-        fee: feeParsed.toString(),
-      },
-    };
+    const encodedRecipient = Buffer.from(targetAddress).toString("base64");
 
     const fee = calculateFee(750000, "0.1usei");
+
+    // NOTE: this only supports transferring out via the Sei CW20 <> Bank translator
+    // or the usei native denomination
+    const instructions =
+      asset === SEI_NATIVE_DENOM
+        ? [
+            {
+              contractAddress: tokenBridgeAddress,
+              msg: {
+                deposit_tokens: {},
+              },
+              funds: [{ denom: asset, amount: baseAmountParsed }],
+            },
+            {
+              contractAddress: tokenBridgeAddress,
+              msg: {
+                initiate_transfer: {
+                  asset: {
+                    amount: baseAmountParsed,
+                    info: { native_token: { denom: asset } },
+                  },
+                  recipient_chain: targetChain,
+                  recipient: encodedRecipient,
+                  fee: feeParsed,
+                  nonce: Math.floor(Math.random() * 100000),
+                },
+              },
+            },
+          ]
+        : [
+            {
+              contractAddress: SEI_TRANSLATOR,
+              msg: {
+                convert_and_transfer: {
+                  recipient_chain: targetChain,
+                  recipient: encodedRecipient,
+                  fee: feeParsed,
+                },
+              },
+              funds: [
+                { denom: asset, amount: transferAmountParsed.toString() },
+              ],
+            },
+          ];
+
     const tx = await wallet.executeMultiple({
-      instructions: [
-        {
-          contractAddress: SEI_TRANSLATOR,
-          msg,
-          funds: [{ denom: asset, amount: transferAmountParsed.toString() }],
-        },
-      ],
+      instructions,
       fee,
       memo: "Wormhole - Initiate Transfer",
     });
@@ -990,7 +1022,13 @@ export function useHandleTransfer() {
       };
     }
 
-    if (targetChain === CHAIN_ID_SEI && targetAddress) {
+    // assets original from Sei (native denomination or native CW20s)
+    // should go through the normal process
+    if (
+      targetChain === CHAIN_ID_SEI &&
+      targetAddress &&
+      originChain !== CHAIN_ID_SEI
+    ) {
       return {
         receivingContract: SEI_TRANSLATER_TARGET,
         payload: new Uint8Array(
