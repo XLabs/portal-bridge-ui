@@ -26,7 +26,6 @@ import {
   parseVaa,
   parseTokenTransferPayload,
   cosmos,
-  tryUint8ArrayToNative,
 } from "@certusone/wormhole-sdk";
 import { completeTransferAndRegister } from "@certusone/wormhole-sdk/lib/esm/aptos/api/tokenBridge";
 import { Alert } from "@material-ui/lab";
