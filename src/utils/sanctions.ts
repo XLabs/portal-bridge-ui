@@ -1,7 +1,7 @@
 import { ChainId } from "@certusone/wormhole-sdk";
 import { Cluster, getTrmChainName } from "./consts";
 
-interface ISanctionResponse {
+interface SanctionResponse {
   accountExternalId: string;
   address: string;
   addressRiskIndicators: {
@@ -64,7 +64,7 @@ export const getIsSanctioned = async (
     );
 
     const data = await resp.json();
-    const screeningData = data[0] as ISanctionResponse;
+    const screeningData = data[0] as SanctionResponse;
 
     screeningData.addressRiskIndicators.forEach((risk) => {
       if (risk.categoryRiskScoreLevel >= 10) {
