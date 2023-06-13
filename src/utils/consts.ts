@@ -439,16 +439,22 @@ export const THRESHOLD_NONCE = 0;
 // TRM screening chain names map with wormhole chain ids
 // https://documentation.trmlabs.com/tag/Supported-Blockchain-List
 export const getTrmChainName = (chain: ChainId) => {
-  if (isCosmWasmChain(chain)) return "cosmos";
-  if (isEVMChain(chain)) return "ethereum";
-
-  const other_trm_names: any = {
+  const trm_chain_names: any = {
     [CHAIN_ID_ALGORAND]: "algorand",
     [CHAIN_ID_BTC]: "bitcoin",
     [CHAIN_ID_SOLANA]: "solana",
+    [CHAIN_ID_AVAX]: "avalanche_c_chain",
+    [CHAIN_ID_BSC]: "binance_smart_chain",
+    [CHAIN_ID_CELO]: "celo",
+    [CHAIN_ID_OPTIMISM]: "optimism",
+    [CHAIN_ID_POLYGON]: "polygon",
+    [CHAIN_ID_ARBITRUM]: "arbitrum",
   };
 
-  if (other_trm_names[chain]) return other_trm_names[chain];
+  if (trm_chain_names[chain]) return trm_chain_names[chain];
+  if (isCosmWasmChain(chain)) return "cosmos";
+  if (isEVMChain(chain)) return "ethereum";
+
   return "";
 };
 

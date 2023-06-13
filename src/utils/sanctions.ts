@@ -46,19 +46,22 @@ export const getIsSanctioned = async (
   if (trmChain && CLUSTER === "mainnet") {
     let isSanctioned = false;
 
-    const resp = await fetch("https://sanctioned-address.glitch.me/addresses", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify([
-        {
-          // address: "149w62rY42aZBox8fGcmqNsXUzSStKeq8C", // sanctioned address example
-          // chain: "bitcoin", // sanctioned address example
-          address: addr,
-          chain: trmChain,
-          accountExternalId: "PortalBridge",
-        },
-      ]),
-    });
+    const resp = await fetch(
+      "https://hjukqn406c.execute-api.us-east-2.amazonaws.com/addresses",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify([
+          {
+            // address: "149w62rY42aZBox8fGcmqNsXUzSStKeq8C", // sanctioned address example
+            // chain: "bitcoin", // sanctioned address example
+            address: addr,
+            chain: trmChain,
+            accountExternalId: "PortalBridge",
+          },
+        ]),
+      }
+    );
 
     const data = await resp.json();
     const screeningData = data[0] as ISanctionResponse;
