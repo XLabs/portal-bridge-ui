@@ -1,13 +1,13 @@
 name: Portal Bridge [Release]
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    types: [ closed ]
 
 jobs:
   cctp:
     name: "Build USDC Bridge (CCTP)"
+    if: github.event.pull_request.merged == true
     runs-on: "ubuntu-latest"
     concurrency:
       group: ${{ github.ref }}-cctp-release
@@ -42,6 +42,7 @@ jobs:
 
   portal:
     name: "Build Portal Bridge"
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.ref }}-portal-release
@@ -99,6 +100,7 @@ jobs:
     needs:
       - portal
       - cctp
+    if: github.event.pull_request.merged == true
     runs-on: "ubuntu-latest"
     concurrency:
       group: ${{ github.ref }}-publish-release
@@ -127,7 +129,9 @@ jobs:
         run: npm publish
 
   deploy:
+    name: Trigger Production Deploy 
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
     concurrency:
       group: ${{ github.ref }}-deploy-release
       cancel-in-progress: true
