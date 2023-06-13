@@ -11,11 +11,7 @@ import ConnectWalletDialog from "./ConnectWalletDialog";
 import ToggleConnectedButton from "./ToggleConnectedButton";
 import { Typography } from "@material-ui/core";
 import { CLUSTER } from "../utils/consts";
-
-interface ISanction {
-  address: string;
-  isSanctioned: boolean;
-}
+import { getIsSanctioned } from "../utils/sanctions";
 
 const ConnectWalletButton = ({ chainId }: { chainId: ChainId }) => {
   const wallet = useWallet(chainId);
@@ -27,43 +23,13 @@ const ConnectWalletButton = ({ chainId }: { chainId: ChainId }) => {
 
   const pk = wallet?.getAddress();
 
-  const getIsSanctioned = async (addr?: string) => {
-    const key = process.env.REACT_APP_TRM_API_KEY;
-
-    if (addr && key && CLUSTER === "mainnet") {
-      const resp = await fetch(
-        `https://api.trmlabs.com/public/v1/sanctions/screening`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization:
-              "Basic " + Buffer.from(`${key}:${key}`).toString("base64"),
-          },
-          body: JSON.stringify([
-            {
-              address: addr,
-              // address: "149w62rY42aZBox8fGcmqNsXUzSStKeq8C", // sanctioned address example
-            },
-          ]),
-        }
-      );
-
-      const data = (await resp.json()) as ISanction[];
-      const { isSanctioned } = data[0];
-
-      return isSanctioned;
-    }
-    return false;
-  };
-
   const connect = useCallback(
     async (w: Wallet) => {
       try {
         await w.connect();
 
         const wAddress = w.getAddress();
-        const isSanctioned = await getIsSanctioned(wAddress);
+        const isSanctioned = await getIsSanctioned(chainId, CLUSTER, wAddress);
 
         if (isSanctioned) {
           console.error("sanctioned wallet detected", wAddress);
@@ -79,7 +45,7 @@ const ConnectWalletButton = ({ chainId }: { chainId: ChainId }) => {
         setError(err);
       }
     },
-    [changeWallet]
+    [chainId, changeWallet]
   );
 
   const disconnect = useCallback(async () => {
