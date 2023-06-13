@@ -12,7 +12,7 @@ jobs:
     concurrency:
       group: ${{ github.ref }}-cctp-release
       cancel-in-progress: true
-    environment:  Cloudflare-Page-Deploy
+    environment: Cloudflare-Page-Deploy
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -53,7 +53,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      
+
       - name: Set up Node environment
         uses: actions/setup-node@v3
         with:
@@ -73,7 +73,7 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - name: Install dependencies 
+      - name: Install dependencies
         run: npm install
 
       - name: Build
@@ -96,7 +96,7 @@ jobs:
 
   publish:
     name: "Publish"
-    needs: 
+    needs:
       - portal
       - cctp
     runs-on: "ubuntu-latest"
@@ -127,17 +127,17 @@ jobs:
         run: npm publish
 
   deploy:
-      runs-on: ubuntu-latest
-      concurrency:
-        group: ${{ github.ref }}-deploy-release
-        cancel-in-progress: true
-      needs: publish
-      environment: Cloudflare-Page-Deploy
-      steps:
-        - name: Wait package publish to impact
-          run: sleep 60s
-          shell: bash
-        - name: Trigger deploy
-          env:
-            DEPLOY_HOOK_URL: ${{ secrets.DEPLOY_HOOK_URL }}
-          run: curl -X POST ${DEPLOY_HOOK_URL}
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.ref }}-deploy-release
+      cancel-in-progress: true
+    needs: publish
+    environment: Cloudflare-Page-Deploy
+    steps:
+      - name: Wait package publish to impact
+        run: sleep 60s
+        shell: bash
+      - name: Trigger deploy
+        env:
+          DEPLOY_HOOK_URL: ${{ secrets.DEPLOY_HOOK_URL }}
+        run: curl -X POST ${DEPLOY_HOOK_URL}
