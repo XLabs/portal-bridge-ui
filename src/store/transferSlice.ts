@@ -37,12 +37,6 @@ export interface Transaction {
   block: number;
 }
 
-export interface Threshold {
-  isTBTC: boolean;
-  source?: ChainId | undefined;
-  target?: ChainId | undefined;
-}
-
 export interface TransferState {
   activeStep: Steps;
   sourceChain: ChainId;
@@ -60,7 +54,6 @@ export interface TransferState {
   transferTx: Transaction | undefined;
   signedVAAHex: string | undefined;
   isSending: boolean;
-  threshold: Threshold;
   isVAAPending: boolean;
   isRedeeming: boolean;
   redeemTx: Transaction | undefined;
@@ -89,9 +82,6 @@ const initialState: TransferState = {
   transferTx: undefined,
   signedVAAHex: undefined,
   isSending: false,
-  threshold: {
-    isTBTC: false,
-  },
   isVAAPending: false,
   isRedeeming: false,
   redeemTx: undefined,
@@ -232,9 +222,6 @@ export const transferSlice = createSlice({
     setIsSending: (state, action: PayloadAction<boolean>) => {
       state.isSending = action.payload;
     },
-    setThreshold: (state, action: PayloadAction<Threshold>) => {
-      state.threshold = action.payload;
-    },
     setIsVAAPending: (state, action: PayloadAction<boolean>) => {
       state.isVAAPending = action.payload;
     },
@@ -344,7 +331,6 @@ export const {
   setTransferTx,
   setSignedVAAHex,
   setIsSending,
-  setThreshold,
   setIsVAAPending,
   setIsRedeeming,
   setRedeemTx,

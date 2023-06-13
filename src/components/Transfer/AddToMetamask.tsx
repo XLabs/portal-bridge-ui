@@ -9,7 +9,7 @@ import {
   selectTransferSourceParsedTokenAccount,
   selectTransferTargetAsset,
   selectTransferTargetChain,
-  selectTransferThreshold,
+  selectTransferIsTBTC,
 } from "../../store/selectors";
 import { THRESHOLD_TBTC_CONTRACTS, getEvmChainId } from "../../utils/consts";
 import {
@@ -33,11 +33,11 @@ export default function AddToMetamask() {
   const sourceChain = useSelector(selectTransferSourceChain);
   const targetAsset = useSelector(selectTransferTargetAsset);
 
-  const threshold = useSelector(selectTransferThreshold);
+  const isTBTC = useSelector(selectTransferIsTBTC);
   const isAddingTBTC =
-    threshold.isTBTC &&
-    Object.keys(THRESHOLD_TBTC_CONTRACTS).includes(`${targetChain}`) &&
-    Object.keys(THRESHOLD_TBTC_CONTRACTS).includes(`${sourceChain}`);
+    isTBTC &&
+    THRESHOLD_TBTC_CONTRACTS[targetChain] &&
+    THRESHOLD_TBTC_CONTRACTS[sourceChain];
   const tbtcAsset = THRESHOLD_TBTC_CONTRACTS[targetChain];
 
   const { provider, signerAddress, evmChainId, wallet } =
