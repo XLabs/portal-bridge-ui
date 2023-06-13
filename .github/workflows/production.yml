@@ -3,6 +3,7 @@ name: Portal Bridge [Release]
 on:
   pull_request:
     types: [ closed ]
+  workflow_dispatch:
 
 jobs:
   cctp:
