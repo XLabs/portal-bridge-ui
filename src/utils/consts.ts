@@ -34,7 +34,6 @@ import {
   ensureHexPrefix,
   uint8ArrayToHex,
   hexToNativeAssetString,
-  isCosmWasmChain,
 } from "@certusone/wormhole-sdk";
 import { clusterApiUrl } from "@solana/web3.js";
 import { getAddress } from "ethers/lib/utils";
@@ -452,7 +451,6 @@ export const getTrmChainName = (chain: ChainId) => {
   };
 
   if (trm_chain_names[chain]) return trm_chain_names[chain];
-  if (isCosmWasmChain(chain)) return "cosmos";
   if (isEVMChain(chain)) return "ethereum";
 
   return "";
