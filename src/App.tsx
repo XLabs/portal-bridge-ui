@@ -45,7 +45,7 @@ import Portal from "./icons/portal_logo_w.svg";
 import { CLUSTER } from "./utils/consts";
 import NewsBar from "./components/NewsBar";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: any) => ({
   appBar: {
     background: "transparent",
     marginTop: theme.spacing(2),
@@ -140,7 +140,7 @@ const useStyles = makeStyles((theme) => ({
       "radial-gradient(closest-side at 50% 50%, #FFCE00 0%, #FFCE0000 100%)",
     opacity: "0.2",
     transform: "matrix(0.87, 0.48, -0.48, 0.87, 0, 0)",
-    zIndex: "-1",
+    zIndex: -1,
     pointerEvent: "none",
     [theme.breakpoints.down("sm")]: {
       display: "none",
@@ -155,7 +155,7 @@ const useStyles = makeStyles((theme) => ({
     background:
       "radial-gradient(closest-side at 50% 50%, #F44B1B 0%, #F44B1B00 100%)",
     opacity: "0.2",
-    zIndex: "-1",
+    zIndex: -1,
     pointerEvent: "none",
   },
   gradientLeft2: {
@@ -167,7 +167,7 @@ const useStyles = makeStyles((theme) => ({
     background:
       "radial-gradient(closest-side at 50% 50%, #F44B1B 0%, #F44B1B00 100%)",
     opacity: "0.2",
-    zIndex: "-1",
+    zIndex: -1,
     pointerEvent: "none",
     [theme.breakpoints.down("sm")]: {
       display: "none",
@@ -183,7 +183,7 @@ const useStyles = makeStyles((theme) => ({
       "radial-gradient(closest-side at 50% 50%, #FFCE00 0%, #FFCE0000 100%)",
     opacity: "0.24",
     transform: "matrix(0.87, 0.48, -0.48, 0.87, 0, 0);",
-    zIndex: "-1",
+    zIndex: -1,
     pointerEvent: "none",
     [theme.breakpoints.down("sm")]: {
       display: "none",
@@ -341,7 +341,7 @@ function App() {
           >
             <Tab label="Tokens" value="/transfer" />
             <Tab label="NFTs" value="/nft" />
-            <Tab label="Redeem" value="/redeem" to="/redeem" />
+            <Tab label="Redeem" value="/redeem" />
           </Tabs>
         </Container>
       ) : null}

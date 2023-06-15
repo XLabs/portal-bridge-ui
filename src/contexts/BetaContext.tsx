@@ -1,11 +1,11 @@
-import React, { ReactChildren, useContext, useEffect, useState } from "react";
+import React, { ReactNode, useContext, useEffect, useState } from "react";
 
 const BetaContext = React.createContext<boolean>(false);
 
 export const BetaContextProvider = ({
   children,
 }: {
-  children: ReactChildren;
+  children: ReactNode;
 }) => {
   const [isBetaEnabled, setIsBetaEnabled] = useState(false);
 

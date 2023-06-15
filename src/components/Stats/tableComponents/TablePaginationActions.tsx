@@ -1,5 +1,4 @@
-import React from "react";
-
+import type { SyntheticEvent } from "react";
 import FirstPageIcon from "@material-ui/icons/FirstPage";
 import IconButton from "@material-ui/core/IconButton";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
@@ -15,24 +14,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TablePaginationActions = (props) => {
+export type TablePaginationActionsProps = {
+  count: number
+  page: number
+  rowsPerPage: number
+  onPageChange: (event: any, newPage: number) => void
+}
+
+const TablePaginationActions = (props: TablePaginationActionsProps) => {
   const classes = useStyles();
   const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
 
-  const handleFirstPageButtonClick = (event) => {
+  const handleFirstPageButtonClick = (event: any) => {
     onPageChange(event, 0);
   };
 
-  const handleBackButtonClick = (event) => {
+  const handleBackButtonClick = (event: SyntheticEvent<HTMLButtonElement>) => {
     onPageChange(event, page - 1);
   };
 
-  const handleNextButtonClick = (event) => {
+  const handleNextButtonClick = (event: SyntheticEvent<HTMLButtonElement>) => {
     onPageChange(event, page + 1);
   };
 
-  const handleLastPageButtonClick = (event) => {
+  const handleLastPageButtonClick = (event: SyntheticEvent<HTMLButtonElement>) => {
     onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
   };
 

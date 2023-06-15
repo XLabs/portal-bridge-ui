@@ -13,7 +13,7 @@ import {
   KeyboardArrowRight,
   RemoveCircleOutline,
 } from "@material-ui/icons";
-import React from "react";
+
 import {
   useExpanded,
   useGlobalFilter,
@@ -24,11 +24,18 @@ import {
 } from "react-table";
 import TablePaginationActions from "./TablePaginationActions";
 
-const stopProp = (e) => {
+const stopProp = (e: any) => {
   e.stopPropagation();
 };
 
-const EnhancedTable = ({ columns, data, skipPageReset, initialState = {} }) => {
+export type TableProps = {
+  columns: any
+  data: any
+  skipPageReset?: boolean
+  initialState?: any
+}
+
+const EnhancedTable = ({ columns, data, skipPageReset, initialState = {} }: TableProps) => {
   const {
     getTableProps,
     headerGroups,
@@ -44,19 +51,19 @@ const EnhancedTable = ({ columns, data, skipPageReset, initialState = {} }) => {
       data,
       autoResetPage: !skipPageReset,
       initialState,
-    },
+    } as any,
     useGlobalFilter,
     useGroupBy,
     useSortBy,
     useExpanded,
     usePagination
-  );
+  ) as any;
 
-  const handlePageChange = (event, newPage) => {
+  const handlePageChange = (_: any, newPage: number) => {
     gotoPage(newPage);
   };
 
-  const handleRowsPerPageChange = (event) => {
+  const handleRowsPerPageChange = (event: any) => {
     setPageSize(Number(event.target.value));
   };
 
@@ -66,16 +73,16 @@ const EnhancedTable = ({ columns, data, skipPageReset, initialState = {} }) => {
       <TableContainer>
         <MaUTable {...getTableProps()}>
           <TableHead>
-            {headerGroups.map((headerGroup) => (
+            {headerGroups.map((headerGroup: any) => (
               <TableRow {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column) => (
+                {headerGroup.headers.map((column: any) => (
                   <TableCell
                     {...(column.id === "selection"
                       ? column.getHeaderProps()
                       : column.getHeaderProps(column.getSortByToggleProps()))}
                     align={
                       // TODO: better way to get column?
-                      columns.find((c) => c.Header === column.Header)?.align ||
+                      columns.find((c: any) => c.Header === column.Header)?.align ||
                       "left"
                     }
                   >
@@ -111,11 +118,11 @@ const EnhancedTable = ({ columns, data, skipPageReset, initialState = {} }) => {
             ))}
           </TableHead>
           <TableBody>
-            {page.map((row, i) => {
+            {page.map((row: any) => {
               prepareRow(row);
               return (
                 <TableRow {...row.getRowProps()}>
-                  {row.cells.map((cell) => {
+                  {row.cells.map((cell: any) => {
                     return (
                       <TableCell
                         {...cell.getCellProps()}

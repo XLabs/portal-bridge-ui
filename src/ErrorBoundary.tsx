@@ -1,17 +1,17 @@
 import { Typography } from "@material-ui/core";
 import React from "react";
 
-export default class ErrorBoundary extends React.Component {
-  constructor(props) {
+export default class ErrorBoundary extends React.Component<{}, { hasError: boolean }> {
+  constructor(props: any) {
     super(props);
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError(_: any) {
     return { hasError: true };
   }
 
-  componentDidCatch(error, errorInfo) {
+  componentDidCatch(error: any, errorInfo: any) {
     console.error(error, errorInfo);
   }
 

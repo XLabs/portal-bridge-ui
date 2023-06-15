@@ -1,3 +1,4 @@
+import type { AvailableWalletsMapBuilderFn } from "@xlabs-libs/wallet-aggregator-react";
 import { CssBaseline } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/core/styles";
 import {
@@ -53,7 +54,7 @@ ReactDOM.render(
         <CssBaseline />
         <ErrorBoundary>
           <SnackbarProvider maxSnack={3}>
-            <WalletContextProvider wallets={AGGREGATOR_WALLETS_BUILDER}>
+            <WalletContextProvider wallets={AGGREGATOR_WALLETS_BUILDER as AvailableWalletsMapBuilderFn}>
               <BetaContextProvider>
                 <HashRouter>
                   <BackgroundImage />
