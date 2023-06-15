@@ -54,7 +54,11 @@ ReactDOM.render(
         <CssBaseline />
         <ErrorBoundary>
           <SnackbarProvider maxSnack={3}>
-            <WalletContextProvider wallets={AGGREGATOR_WALLETS_BUILDER as AvailableWalletsMapBuilderFn}>
+            <WalletContextProvider
+              wallets={
+                AGGREGATOR_WALLETS_BUILDER as AvailableWalletsMapBuilderFn
+              }
+            >
               <BetaContextProvider>
                 <HashRouter>
                   <BackgroundImage />

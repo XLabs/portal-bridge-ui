@@ -29,13 +29,18 @@ const stopProp = (e: any) => {
 };
 
 export type TableProps = {
-  columns: any
-  data: any
-  skipPageReset?: boolean
-  initialState?: any
-}
+  columns: any;
+  data: any;
+  skipPageReset?: boolean;
+  initialState?: any;
+};
 
-const EnhancedTable = ({ columns, data, skipPageReset, initialState = {} }: TableProps) => {
+const EnhancedTable = ({
+  columns,
+  data,
+  skipPageReset,
+  initialState = {},
+}: TableProps) => {
   const {
     getTableProps,
     headerGroups,
@@ -82,8 +87,8 @@ const EnhancedTable = ({ columns, data, skipPageReset, initialState = {} }: Tabl
                       : column.getHeaderProps(column.getSortByToggleProps()))}
                     align={
                       // TODO: better way to get column?
-                      columns.find((c: any) => c.Header === column.Header)?.align ||
-                      "left"
+                      columns.find((c: any) => c.Header === column.Header)
+                        ?.align || "left"
                     }
                   >
                     {column.id !== "selection" ? (

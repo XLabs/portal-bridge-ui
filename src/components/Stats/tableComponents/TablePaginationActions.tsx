@@ -15,11 +15,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export type TablePaginationActionsProps = {
-  count: number
-  page: number
-  rowsPerPage: number
-  onPageChange: (event: any, newPage: number) => void
-}
+  count: number;
+  page: number;
+  rowsPerPage: number;
+  onPageChange: (event: any, newPage: number) => void;
+};
 
 const TablePaginationActions = (props: TablePaginationActionsProps) => {
   const classes = useStyles();
@@ -38,7 +38,9 @@ const TablePaginationActions = (props: TablePaginationActionsProps) => {
     onPageChange(event, page + 1);
   };
 
-  const handleLastPageButtonClick = (event: SyntheticEvent<HTMLButtonElement>) => {
+  const handleLastPageButtonClick = (
+    event: SyntheticEvent<HTMLButtonElement>
+  ) => {
     onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
   };
 

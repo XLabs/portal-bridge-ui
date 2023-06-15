@@ -2,11 +2,7 @@ import React, { ReactNode, useContext, useEffect, useState } from "react";
 
 const BetaContext = React.createContext<boolean>(false);
 
-export const BetaContextProvider = ({
-  children,
-}: {
-  children: ReactNode;
-}) => {
+export const BetaContextProvider = ({ children }: { children: ReactNode }) => {
   const [isBetaEnabled, setIsBetaEnabled] = useState(false);
 
   useEffect(() => {
