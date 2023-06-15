@@ -62,6 +62,7 @@
     "near-api-js": "^0.44.2",
     "notistack": "^1.0.10",
     "numeral": "^2.0.6",
+    "patch-package": "^7.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.4",
@@ -75,10 +76,11 @@
   },
   "scripts": {
     "start": "react-app-rewired start",
-    "build": "sed -i '/enableWorkerThreads/d' node_modules/terser-webpack-plugin/dist/index.js && react-app-rewired build",
+    "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
-    "format": "npx prettier --write ./src"
+    "format": "npx prettier --write ./src",
+    "postinstall": "patch-package"
   },
   "eslintConfig": {
     "extends": [

@@ -1,0 +1,12 @@
+diff --git a/node_modules/terser-webpack-plugin/dist/index.js b/node_modules/terser-webpack-plugin/dist/index.js
+index ee3e34a..d248653 100644
+--- a/node_modules/terser-webpack-plugin/dist/index.js
++++ b/node_modules/terser-webpack-plugin/dist/index.js
+@@ -382,7 +382,6 @@ class TerserPlugin {
+ 
+         new Worker(require.resolve("./minify"), {
+           numWorkers: numberOfWorkers,
+-          enableWorkerThreads: true
+         });
+ 
+         // https://github.com/facebook/jest/issues/8872#issuecomment-524822081
