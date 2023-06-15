@@ -452,7 +452,6 @@ export const getTrmChainName = (chain: ChainId) => {
   };
 
   if (trm_chain_names[chain]) return trm_chain_names[chain];
-  if (isCosmWasmChain(chain)) return "cosmos";
   if (isEVMChain(chain)) return "ethereum";
 
   return "";
