@@ -34,7 +34,6 @@ import {
   ensureHexPrefix,
   uint8ArrayToHex,
   hexToNativeAssetString,
-  isCosmWasmChain,
 } from "@certusone/wormhole-sdk";
 import { clusterApiUrl } from "@solana/web3.js";
 import { getAddress } from "ethers/lib/utils";
