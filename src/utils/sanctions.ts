@@ -7,15 +7,29 @@ interface SanctionResponse {
   addressRiskIndicators: {
     category: string;
     categoryRiskScoreLevel: number;
+    categoryId: number | string;
     riskType: string;
   }[];
   entities: {
     category: string;
+    categoryId: number | string;
     riskScoreLevel: number;
     entity: string;
   }[];
   trmAppUrl: string;
 }
+
+const BLOCKED_CATEGORIES = [
+  34, // "Hacked or Exploited Funds",
+  58, // "Ransomware",
+  42, // "Violent Extremism",
+  45, // "Cybercrime Services",
+  57, // "Malware",
+  628, // "Child Sexual Exploitation Material (CSAM) Scam"
+  38, // "Child Sexual Abuse Material (CSAM) Vendor",
+  61, // "Scam",
+  64, // "ICO Scam"
+];
 
 export const getIsSanctioned = async (
   chainId: ChainId,
@@ -67,7 +81,10 @@ export const getIsSanctioned = async (
     const screeningData = data[0] as SanctionResponse;
 
     screeningData.addressRiskIndicators.forEach((risk) => {
-      if (risk.categoryRiskScoreLevel >= 10) {
+      if (
+        risk.categoryRiskScoreLevel >= 10 &&
+        BLOCKED_CATEGORIES.includes(+risk.categoryId)
+      ) {
         isSanctioned = true;
       }
     });
