@@ -65,13 +65,7 @@ export const getIsSanctioned = async (
 
     const data = await resp.json();
     const screeningData = data[0] as SanctionResponse;
-
-    screeningData.entities.forEach((risk) => {
-      if (risk.categoryRiskScoreLevel >= 10) {
-        isSanctioned = true;
-      }
-    });
-
+    
     screeningData.entities.forEach((entity) => {
       if (entity.riskScoreLevel > 0) {
         isSanctioned = true;
