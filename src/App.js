@@ -287,7 +287,7 @@ function App() {
           <Hidden implementation="css" smUp>
             <Tooltip title="View the FAQ">
               <IconButton
-                href="https://docs.wormhole.com/wormhole/faqs"
+                href="docs"
                 target="_blank"
                 rel="noopener noreferrer"
                 size="small"

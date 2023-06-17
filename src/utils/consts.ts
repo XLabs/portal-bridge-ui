@@ -1699,7 +1699,7 @@ export const MULTI_CHAIN_TOKENS: MultiChainInfo =
       } as MultiChainInfo);
 
 export const AVAILABLE_MARKETS_URL =
-  "https://docs.wormhole.com/wormhole/overview-liquid-markets";
+  "docs/faqs/liquid-markets";
 
 export const SOLANA_SYSTEM_PROGRAM_ADDRESS = "11111111111111111111111111111111";
 export const FEATURED_MARKETS_JSON_URL =
@@ -1714,9 +1714,9 @@ export const logoOverrides = new Map<string, string>([
 
 export const getHowToAddTokensToWalletUrl = (chainId: ChainId) => {
   if (isEVMChain(chainId)) {
-    return "https://docs.wormhole.com/wormhole/video-tutorial-how-to-manually-add-tokens-to-your-wallet#metamask";
+    return "docs/video-tutorials/how-to-manually-add-tokens-to-your-wallet#metamask";
   } else if (isTerraChain(chainId)) {
-    return "https://docs.wormhole.com/wormhole/video-tutorial-how-to-manually-add-tokens-to-your-wallet#terra-station";
+    return "docs/video-tutorials/how-to-manually-add-tokens-to-your-wallet#terra-station";
   }
   return "";
 };
