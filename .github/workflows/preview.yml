@@ -38,6 +38,31 @@ jobs:
         with:
           name: preview-stable-bridge-build
           path: out
+  docs:
+    name: "Build Portal Bridge Documentation"
+    runs-on: "ubuntu-latest"
+    concurrency:
+      group: ${{ github.ref }}-portal-docs-preview
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Set up Node environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: v16.19.1
+      - name: Install dependencies
+        run: |
+          pushd docs
+          npm ci
+      - name: Build
+        run: |
+          pushd docs
+          npm run build
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: docs-preview-build
+          path: docs/build
           
   portal:
     name: "Build Portal Bridge"
@@ -98,6 +123,7 @@ jobs:
     name: "Publish"
     needs: 
       - portal
+      - docs
       - cctp
     runs-on: "ubuntu-latest"
     concurrency:
