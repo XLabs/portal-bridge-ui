@@ -39,7 +39,7 @@ To start, go to [https://portalbridge.com/#/nft](https://portalbridge.com/#/nft)
 ![](<../../static/img/Screen Shot 2022-05-20 at 4.53.25 pm (1).png>)
 
 :::info
-Once you approve the transfer, you must complete the transaction. If you navigate away from this page, you will need to complete the[ recovery workflow ](tutorial-recovery-workflow.md#redeem-workflow)
+Once you approve the transfer, you must complete the transaction. If you navigate away from this page, you will need to complete the[ recovery workflow ](./how-to-use-recovery-workflow.md#redeem-workflow)
 :::
 
 ### 4. Redeem NFT

@@ -57,7 +57,7 @@ A) Click "Transfer**"**
 ![](<../../static/img/Screen Shot 2022-06-06 at 6.36.05 pm.png>)
 
 B) In the Pop-up "Are you sure?“ click "Confirm“\
-_Optional (in the pop-up window)_: Click the link and check for [liquid markets!](https://docs.wormholenetwork.com/wormhole/overview-liquid-markets)
+_Optional (in the pop-up window)_: Click the link and check for [liquid markets!](../faqs/liquid-markets.mdx)
 
 ![](<../../static/img/Screen Shot 2022-06-06 at 6.38.03 pm.png>)
 
@@ -87,7 +87,7 @@ There will be four wallet approvals when sending tokens to Solana
 
 ![](<../../static/img/Screen Shot 2022-06-06 at 6.48.07 pm.png>)
 
-C) (For EVM chains) Click "**Add to Metamask**" and the token will automatically appear in your Metamask wallet. If you forget that step, you can also [add the token manually to your wallet](video-tutorial-how-to-manually-add-tokens-to-your-wallet.md).
+C) (For EVM chains) Click "**Add to Metamask**" and the token will automatically appear in your Metamask wallet. If you forget that step, you can also [add the token manually to your wallet](../video-tutorials/how-to-manually-add-tokens-to-your-wallet.md).
 
 ![](<../../static/img/Screen Shot 2022-06-06 at 6.49.52 pm.png>)
 

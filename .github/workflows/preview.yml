@@ -140,6 +140,11 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
+          name: docs-preview-build
+          path: docs
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
           name: preview-stable-bridge-build
           path: usdc-bridge
       - name: Set up GitHub NPM registry
