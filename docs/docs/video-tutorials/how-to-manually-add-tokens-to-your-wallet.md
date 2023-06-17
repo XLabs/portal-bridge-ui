@@ -52,7 +52,7 @@ sidebar_position: 3
 
 2\) Scroll down to "show logs"&#x20;
 
-![](<../../static/img/Bildschirmfoto 2021-11-29 um 16.40.56 (1).png>)
+![](<../../static/img/Bildschirmfoto 2021-11-29 um 16.40.56.png>)
 
 3\) Within **\[1] from\_contract**, you can find the token contract address as **contract\_address** (just below "amount"). Copy that contract address
 

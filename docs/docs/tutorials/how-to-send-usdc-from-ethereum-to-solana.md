@@ -27,7 +27,7 @@ Head to [https://portalbridge.com/#/transfer](https://portalbridge.com/#/transfe
 
 _Note: Warning will come up if you have a low ETH balance_
 
-![](<../../static/img/Screen Shot 2021-10-11 at 12.13.09 am (1).png>)
+![](<../../static/img/Screen Shot 2021-10-11 at 12.13.09 am.png>)
 
 ### **Step 2 - Target**
 
@@ -50,17 +50,17 @@ _Optional: Select "Approve unlimited tokens" (This option is recommended for use
 
 * Accept wallet approval pop up‌
 
-![](<../../static/img/Screen Shot 2021-10-11 at 12.15.42 am (1).png>)
+![](<../../static/img/Screen Shot 2021-10-11 at 12.15.42 am.png>)
 
 * Click "Transfer"
 
-![](<../../static/img/Screen Shot 2021-10-11 at 12.17.02 am (1).png>)
+![](<../../static/img/Screen Shot 2021-10-11 at 12.17.02 am.png>)
 
 * Wait for 15 confirmations on Ethereum
 
 ![](<../../static/img/Screen Shot 2021-10-11 at 12.18.35 am.png>)
 
-‌_Note: Once you approve the transfer, you must complete the transaction. If you navigate away from this page, you will need to complete the_ [_redeem workflow_](tutorial-recovery-workflow.md)
+‌_Note: Once you approve the transfer, you must complete the transaction. If you navigate away from this page, you will need to complete the_ [_redeem workflow_](./how-to-use-recovery-workflow.md)
 
 ### **Step 4 - Redeem**
 
@@ -83,7 +83,7 @@ There are a few platforms that you can use to swap your ETH-USDC (Wormhole) to n
 3. Select USDCet(Wormhole) & enter amount you want to swap
 4. Select the token you want to swap USDCet to. In this example, we will swap it to USDC
 
-![](<../../static/img/Screen Shot 2021-10-08 at 4.13.45 am (1).png>)
+![](<../../static/img/Screen Shot 2021-10-08 at 4.13.45 am.png>)
 
 
 

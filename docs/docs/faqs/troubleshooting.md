@@ -59,7 +59,7 @@ If you've accidentally refreshed the page during the transfer process or did not
 
 ### I have Wormhole V1 assets; what do I do now?
 
-Some wormhole V1 assets are eligible for migration. To check, please use our [token migration tutorial](broken-reference).&#x20;
+Some wormhole V1 assets are eligible for migration. To check, please use our [token migration tutorial](.).&#x20;
 
 Once you have migrated your V1 assets to a Portal wrapped asset, you cannot swap them back to V1 assets.&#x20;
 
