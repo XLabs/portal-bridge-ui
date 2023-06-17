@@ -54,7 +54,12 @@ jobs:
         run: |
           pushd docs
           npm ci
+      - name: Set Version
+        run: |
+          echo "_BRANCH_NAME_SHA=$(echo ${{ github.event.pull_request.head.ref }} | sha256sum | cut -c -10)" >> "${GITHUB_ENV}"
       - name: Build
+        env:
+          PUBLIC_URL: "/${{ env._BRANCH_NAME_SHA }}/docs"
         run: |
           pushd docs
           npm run build
