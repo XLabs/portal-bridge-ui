@@ -10,7 +10,7 @@ slug: /
 
 > :interrobang: Developing on Wormhole? Check out [the book](https://book.wormhole.com)! :book:
 
-## ？General FAQ
+## General FAQ
 
 ### How does the Portal work?
 
