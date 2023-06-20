@@ -67,7 +67,7 @@ export const getIsSanctioned = async (
     const screeningData = data[0] as SanctionResponse;
 
     screeningData.addressRiskIndicators.forEach((risk) => {
-      if (risk.categoryRiskScoreLevel >= 10 && risk.riskType !== "INDIRECT") {
+      if (risk.categoryRiskScoreLevel >= 10 && risk.riskType === "OWNERSHIP") {
         isSanctioned = true;
       }
     });
