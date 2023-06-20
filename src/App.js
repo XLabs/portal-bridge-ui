@@ -265,7 +265,7 @@ function App() {
                 Sui Bridge
               </Link>
               <Link
-                href="https://docs.wormhole.com/wormhole/faqs"
+                href="docs"
                 target="_blank"
                 rel="noopener noreferrer"
                 color="inherit"
