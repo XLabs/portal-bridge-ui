@@ -5,9 +5,9 @@ sidebar_position: 5
 
 The token register allows users and protocols to register any token for the first time on any chain. Registering a token will incur a small fee.&#x20;
 
-{% hint style="warning" %}
-Before registering a token, please check out our [token register documentation](./) to ensure your token symbol and name appear correctly on explorers.
-{% endhint %}
+:::warning 
+Before registering a token, please check out our [token register documentation](./how-to-do-token-register.md#token-registration-process) to ensure your token symbol and name appear correctly on explorers.
+:::
 
 ## Token registration process
 
@@ -41,9 +41,9 @@ Before registering a token, please check out our [token register documentation](
 * Click "Create"&#x20;
 * Approve the wallet pop-up
 
-{% hint style="info" %}
+:::info
 There will be four wallet approval pop-ups when creating a wrapped token on Solana
-{% endhint %}
+:::
 
 ![](<../../static/img/Screen Shot 2022-05-19 at 5.17.30 pm.png>)
 
