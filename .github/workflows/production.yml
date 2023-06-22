@@ -38,6 +38,35 @@ jobs:
           name: release-stable-bridge
           path: out
 
+  docs:
+    name: "Build Portal Bridge Documentation"
+    runs-on: "ubuntu-latest"
+    concurrency:
+      group: ${{ github.ref }}-portal-docs-preview
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Set up Node environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: v16.19.1
+      - name: Install dependencies
+        run: |
+          pushd docs
+          npm ci
+      - name: Set Version
+        run: |
+          echo "_BRANCH_NAME_SHA=$(echo ${{ github.event.pull_request.head.ref }} | sha256sum | cut -c -10)" >> "${GITHUB_ENV}"
+      - name: Build
+        run: |
+          pushd docs
+          npm run build
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: docs-release-build
+          path: docs/build
+
   portal:
     name: "Build Portal Bridge"
     runs-on: ubuntu-latest
@@ -97,6 +126,7 @@ jobs:
     needs:
       - portal
       - cctp
+      - docs
     runs-on: "ubuntu-latest"
     concurrency:
       group: ${{ github.ref }}-publish-release
@@ -109,6 +139,11 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: release-portal-bridge
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: docs-release-build
+          path: docs
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
