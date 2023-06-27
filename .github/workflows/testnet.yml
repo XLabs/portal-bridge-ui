@@ -11,13 +11,13 @@ jobs:
     concurrency:
       group: ${{ github.ref }}-cctp-testnet
       cancel-in-progress: true
-    environment:  Cloudflare-Testnet
+    environment: Cloudflare-Testnet
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
           repository: xlabs/usdc-bridge
-          ref: feat/add-arbitrum
+          ref: develop
       - name: Set up Node environment
         uses: actions/setup-node@v3
         with:
