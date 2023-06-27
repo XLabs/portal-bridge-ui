@@ -11,7 +11,7 @@ jobs:
     concurrency:
       group: ${{ github.ref }}-cctp-preview
       cancel-in-progress: true
-    environment:  Cloudflare-Preview
+    environment: Cloudflare-Preview
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -68,7 +68,7 @@ jobs:
         with:
           name: docs-preview-build
           path: docs/build
-          
+
   portal:
     name: "Build Portal Bridge"
     runs-on: "ubuntu-latest"
@@ -126,7 +126,7 @@ jobs:
 
   publish:
     name: "Publish"
-    needs: 
+    needs:
       - portal
       - docs
       - cctp
