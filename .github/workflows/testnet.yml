@@ -11,7 +11,7 @@ jobs:
     concurrency:
       group: ${{ github.ref }}-cctp-testnet
       cancel-in-progress: true
-    environment:  Cloudflare-Testnet
+    environment: Cloudflare-Testnet
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -96,7 +96,7 @@ jobs:
 
   publish:
     name: "Publish"
-    needs: 
+    needs:
       - portal
       - cctp
     runs-on: "ubuntu-latest"

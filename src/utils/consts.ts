@@ -722,7 +722,7 @@ export const APTOS_NATIVE_TOKEN_KEY = "0x1::aptos_coin::AptosCoin";
 
 export const getInjectiveNetworkName = () => {
   if (CLUSTER === "mainnet") {
-    return Network.MainnetK8s;
+    return Network.Mainnet;
   } else if (CLUSTER === "testnet") {
     return Network.TestnetK8s;
   }
@@ -730,7 +730,7 @@ export const getInjectiveNetworkName = () => {
 };
 export const getInjectiveNetwork = () => {
   if (CLUSTER === "mainnet") {
-    return Network.MainnetK8s;
+    return Network.Mainnet;
   } else if (CLUSTER === "testnet") {
     return Network.TestnetK8s;
   }
@@ -739,7 +739,7 @@ export const getInjectiveNetwork = () => {
 
 export const getInjectiveNetworkInfo = () => {
   if (CLUSTER === "mainnet") {
-    return getNetworkInfo(Network.MainnetK8s);
+    return getNetworkInfo(Network.Mainnet);
   } else if (CLUSTER === "testnet") {
     return getNetworkInfo(Network.TestnetK8s);
   }
