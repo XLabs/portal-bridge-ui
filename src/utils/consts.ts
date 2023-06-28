@@ -654,7 +654,7 @@ export const SOLANA_HOST = process.env.REACT_APP_SOLANA_API_URL
   : "http://localhost:8899";
 
 export const getTerraConfig = (chainId: TerraChainId) => {
-  const isClassic = chainId === CHAIN_ID_TERRA;
+  const isClassic = false;
   return CLUSTER === "mainnet"
     ? {
         URL:
