@@ -100,6 +100,21 @@ import { useSeiWallet } from "../contexts/SeiWalletContext";
 import { SeiWallet } from "@xlabs-libs/wallet-aggregator-sei";
 import { calculateFeeForContractExecution } from "../utils/sei";
 
+
+const ABI = [
+  {
+    inputs: [
+      { internalType: "bytes", name: "encodedTransferMessage", type: "bytes" },
+    ],
+    name: "completeTransferWithRelay",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  }
+];
+
+const contract = new Contract(, ABI);
+
 async function algo(
   dispatch: any,
   enqueueSnackbar: any,
@@ -582,8 +597,11 @@ export function useHandleRedeem() {
   const seiAddress = seiWallet?.getAddress();
   const signedVAA = useTransferSignedVAA();
   const isRedeeming = useSelector(selectTransferIsRedeeming);
+  const transferWithRelay = useSelector(isTransferWithRelay);
   const handleRedeemClick = useCallback(() => {
-    if (isEVMChain(targetChain) && !!signer && signedVAA) {
+    if (transferWithRelay) {
+      const 
+    } else if (isEVMChain(targetChain) && !!signer && signedVAA) {
       evm(
         dispatch,
         enqueueSnackbar,
