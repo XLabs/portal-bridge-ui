@@ -63,6 +63,8 @@ export interface TransferState {
   useRelayer: boolean;
   relayerFee: string | undefined;
   acalaRelayerInfo: DataWrapper<AcalaRelayerInfo>;
+  isTransferWithRealy: boolean;
+  rawVaa: Uint8Array;
 }
 
 const initialState: TransferState = {
@@ -91,6 +93,8 @@ const initialState: TransferState = {
   useRelayer: false,
   relayerFee: undefined,
   acalaRelayerInfo: getEmptyDataWrapper(),
+  isTransferWithRealy: false,
+  rawVaa: Uint8Array.from([])
 };
 
 export const transferSlice = createSlice({
@@ -308,6 +312,10 @@ export const transferSlice = createSlice({
     ) => {
       state.acalaRelayerInfo = receiveDataWrapper(action.payload);
     },
+    setIsTransferWithRelay: (state, action: PayloadAction<Uint8Array>) => {
+      state.isTransferWithRealy = true;
+      state.rawVaa = action.payload;
+    }
   },
 });
 
@@ -344,6 +352,7 @@ export const {
   fetchAcalaRelayerInfo,
   errorAcalaRelayerInfo,
   receiveAcalaRelayerInfo,
+  setIsTransferWithRelay
 } = transferSlice.actions;
 
 export default transferSlice.reducer;

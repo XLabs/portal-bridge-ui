@@ -73,7 +73,7 @@ import useIsWalletReady from "../hooks/useIsWalletReady";
 import useRelayersAvailable, { Relayer } from "../hooks/useRelayersAvailable";
 import { COLORS } from "../muiTheme";
 import { setRecoveryVaa as setRecoveryNFTVaa } from "../store/nftSlice";
-import { setRecoveryVaa } from "../store/transferSlice";
+import { setRecoveryVaa, setIsTransferWithRelay } from "../store/transferSlice";
 import {
   ALGORAND_TOKEN_BRIDGE_ID,
   CHAINS,
@@ -931,7 +931,11 @@ export default function Recovery() {
   useEffect(() => {
     if (recoverySignedVAA) {
       try {
-        const parsedVAA = parseVaa(hexToUint8Array(recoverySignedVAA));
+        const rawVaa = hexToUint8Array(recoverySignedVAA);
+        const parsedVAA = parseVaa(rawVaa);
+        if (parsedVAA.version === 3) {
+          dispatch(setIsTransferWithRelay(rawVaa));
+        }
         setRecoveryParsedVAA(parsedVAA);
       } catch (e) {
         console.error(e);
