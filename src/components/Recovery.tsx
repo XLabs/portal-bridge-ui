@@ -223,9 +223,7 @@ async function algo(tx: string, enqueueSnackbar: any) {
     // transform the object to match the format expected by parseSequenceFromLogAlgorand
     confirmedTxInfo["inner-txns"] = confirmedTxInfo["inner-txns"].map(
       (txn: any) => ({
-        // TODO: seems to be little different from the format returned by algodClient.pendingTransactionInformation(tx)
-        // so there may be another encoding step to do here
-        logs: [Buffer.from(txn["logs"], "base64")],
+        logs: [Buffer.from(txn["logs"][0], "base64")],
       })
     );
     const sequence = parseSequenceFromLogAlgorand(confirmedTxInfo);
