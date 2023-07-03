@@ -220,11 +220,19 @@ async function algo(tx: string, enqueueSnackbar: any) {
     if (!confirmedTxInfo) {
       throw new Error("Transaction not found or not confirmed");
     }
+    if (!confirmedTxInfo["inner-txns"]) {
+      throw new Error("Source Tx does not refer to a valid bridge transaction");
+    }
     // transform the object to match the format expected by parseSequenceFromLogAlgorand
     confirmedTxInfo["inner-txns"] = confirmedTxInfo["inner-txns"].map(
-      (txn: any) => ({
-        logs: [Buffer.from(txn["logs"][0], "base64")],
-      })
+      (innerTxn: any) => {
+        return {
+          ...innerTxn,
+          logs: innerTxn["logs"]?.[0]
+            ? [Buffer.from(innerTxn["logs"][0], "base64")]
+            : undefined,
+        };
+      }
     );
     const sequence = parseSequenceFromLogAlgorand(confirmedTxInfo);
     if (!sequence) {
