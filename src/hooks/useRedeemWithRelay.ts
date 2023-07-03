@@ -1,5 +1,8 @@
-import { Contract, Signer, ethers } from "ethers";
-import { useMemo, useState } from "react";
+import { ChainId, ChainName } from "@certusone/wormhole-sdk";
+import { Contract, Signer } from "ethers";
+import { useCallback, useEffect, useState } from "react";
+import getRelayerContractAddress from "../wormhole-connect/relayer/contracts";
+import useTransferSignedVAA from "./useTransferSignedVAA";
 
 const ABI = [
   {
@@ -10,70 +13,42 @@ const ABI = [
     outputs: [],
     stateMutability: "payable",
     type: "function",
-  },
-  {
-    inputs: [],
-    name: "confirmOwnershipTransferRequest",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "bytes", name: "encoded", type: "bytes" }],
-    name: "decodeTransferWithRelay",
-    outputs: [
-      {
-        components: [
-          { internalType: "uint8", name: "payloadId", type: "uint8" },
-          {
-            internalType: "uint256",
-            name: "targetRelayerFee",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "toNativeTokenAmount",
-            type: "uint256",
-          },
-          { internalType: "bytes32", name: "targetRecipient", type: "bytes32" },
-        ],
-        internalType: "struct TokenBridgeRelayerStructs.TransferWithRelay",
-        name: "transfer",
-        type: "tuple",
-      },
-    ],
-    stateMutability: "pure",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getPaused",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "token", type: "address" }],
-    name: "isAcceptedToken",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "owner",
-    outputs: [{ internalType: "address", name: "", type: "address" }],
-    stateMutability: "view",
-    type: "function",
   }
 ];
 
-const contract = new Contract(ethers.constants.AddressZero, ABI);
+export type RedeemWithRelayParams = {
+    signer: Signer | undefined;
+    chain: ChainId | ChainName;
+}
 
-export function useRedeemWithRelay(signer: Signer) {
-    const relayerContract = contract.connect(signer);
-    const [isPaused, setIsPaused] = useState(false);
+export default function useRedeemWithRelay({ signer, chain }: RedeemWithRelayParams) {
+    const [contract, setContract] = useState<Contract | null>(null);
+    const [inProgress, setInProgress] = useState(false);
+    const [recipit, setRecipit] = useState<any>(null);
+    const address = getRelayerContractAddress(chain)
+    const newContract = useCallback((address: string) => new Contract(address, ABI), []);
+    useEffect(() => {
+        if (signer) {
+            setContract(newContract(address).connect(signer));
+        }
+    }, [signer, newContract, address])
+    const vaa = useTransferSignedVAA();
+    const completeTransferWithRelay = useCallback(async () => {
+        try {
+            setInProgress(true);
+            const tx = await contract?.completeTransferWithRelay(vaa);
+            const recipit = await tx.wait();
+            setInProgress(false);
+            setRecipit(recipit);
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setInProgress(false);
+        }
+    }, [contract, vaa])
     return {
-        isPaused: useMemo(() => relayerContract.isPaused(), [relayerContract]),
+        completeTransferWithRelay,
+        inProgress,
+        recipit
     }
 }
