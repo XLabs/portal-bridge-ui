@@ -388,3 +388,7 @@ export const selectTerraFeeDenom = (state: RootState) => {
 export const selectRelayerTokenInfo = (state: RootState) => {
   return state.tokens.relayerTokenInfo;
 };
+
+export const selectIsTransferWithRealy = (state: RootState) => {
+  return state.transfer.isTransferWithRealy;
+}
