@@ -73,7 +73,6 @@ import { COLORS } from "../muiTheme";
 import { setRecoveryVaa as setRecoveryNFTVaa } from "../store/nftSlice";
 import { setRecoveryVaa } from "../store/transferSlice";
 import {
-  ALGORAND_HOST,
   ALGORAND_TOKEN_BRIDGE_ID,
   CHAINS,
   CHAINS_BY_ID,
@@ -91,6 +90,7 @@ import {
   XPLA_LCD_CLIENT_CONFIG,
   getWalletAddressNative,
   CLUSTER,
+  ALGORAND_INDEXER,
 } from "../utils/consts";
 import { getSignedVAAWithRetry } from "../utils/getSignedVAAWithRetry";
 import {
@@ -200,28 +200,34 @@ function handleError(e: any, enqueueSnackbar: any) {
 
 async function algo(tx: string, enqueueSnackbar: any) {
   try {
-    const algodClient = new algosdk.Algodv2(
-      ALGORAND_HOST.algodToken,
-      ALGORAND_HOST.algodServer,
-      ALGORAND_HOST.algodPort
+    const algoIndexer = new algosdk.Indexer(
+      ALGORAND_INDEXER.token,
+      ALGORAND_INDEXER.server,
+      ALGORAND_INDEXER.port
     );
-    const pendingInfo = await algodClient
-      .pendingTransactionInformation(tx)
-      .do();
+    const txnInfo = await algoIndexer.lookupTransactionByID(tx).do();
     let confirmedTxInfo: Record<string, any> | undefined = undefined;
     // This is the code from waitForConfirmation
-    if (pendingInfo !== undefined) {
+    if (txnInfo?.transaction !== undefined) {
       if (
-        pendingInfo["confirmed-round"] !== null &&
-        pendingInfo["confirmed-round"] > 0
+        txnInfo?.transaction["confirmed-round"] !== null &&
+        txnInfo?.transaction["confirmed-round"] > 0
       ) {
         //Got the completed Transaction
-        confirmedTxInfo = pendingInfo;
+        confirmedTxInfo = txnInfo.transaction;
       }
     }
     if (!confirmedTxInfo) {
       throw new Error("Transaction not found or not confirmed");
     }
+    // transform the object to match the format expected by parseSequenceFromLogAlgorand
+    confirmedTxInfo["inner-txns"] = confirmedTxInfo["inner-txns"].map(
+      (txn: any) => ({
+        // TODO: seems to be little different from the format returned by algodClient.pendingTransactionInformation(tx)
+        // so there may be another encoding step to do here
+        logs: [Buffer.from(txn["logs"], "base64")],
+      })
+    );
     const sequence = parseSequenceFromLogAlgorand(confirmedTxInfo);
     if (!sequence) {
       throw new Error("Sequence not found");
