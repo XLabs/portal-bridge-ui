@@ -589,6 +589,7 @@ export function useHandleRedeem() {
   const isTransferWithRelay = useSelector(selectIsTransferWithRealy);
   const { completeTransferWithRelay, inProgress, recipit } = useRedeemWithRelay({ signer, chain: targetChain });
   useEffect(() => {
+    setIsRedeeming(inProgress)
     console.debug("completeTransferWithRelay:inProgress", inProgress);
     console.debug("completeTransferWithRelay:recipit", recipit);
   }, [inProgress, recipit]);
@@ -603,7 +604,7 @@ export function useHandleRedeem() {
      * 
      * The user will no be charged with a relay fee in this case.
      */
-    if (isTransferWithRelay) {
+    if (isEVMChain(targetChain) && !!signer && signedVAA && isTransferWithRelay) {
       completeTransferWithRelay();
     } else if (isEVMChain(targetChain) && !!signer && signedVAA) {
       evm(
