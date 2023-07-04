@@ -784,6 +784,25 @@ export const ALGORAND_HOST =
         algodServer: "http://localhost",
         algodPort: "4001",
       };
+export const ALGORAND_INDEXER =
+  CLUSTER === "mainnet"
+    ? {
+        token: "",
+        server: "https://mainnet-idx.algonode.cloud",
+        port: "443",
+      }
+    : CLUSTER === "testnet"
+    ? {
+        token: "",
+        server: "https://testnet-idx.algonode.cloud",
+        port: "443",
+      }
+    : {
+        token:
+          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        server: "http://localhost",
+        port: "8980",
+      };
 export const KARURA_HOST =
   CLUSTER === "mainnet"
     ? "https://eth-rpc-karura.aca-api.network/"
