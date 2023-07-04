@@ -600,13 +600,13 @@ export function useHandleRedeem() {
     }
     console.debug("completeTransferWithRelay:inProgress", inProgress);
     console.debug("completeTransferWithRelay:recipit", recipit);
-  }, [inProgress, recipit]);
+  }, [inProgress, recipit, enqueueSnackbar]);
 
   useEffect(() => {
     enqueueSnackbar(null, {
       content: <Alert severity="error">{parseError(error)}</Alert>,
     });
-  }, [error])
+  }, [error, enqueueSnackbar])
 
   const handleRedeemClick = useCallback(() => {
     /**
