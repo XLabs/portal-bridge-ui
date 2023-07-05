@@ -7,7 +7,7 @@ import {
 import { getAddress } from "@ethersproject/address";
 import { Button, makeStyles, Typography } from "@material-ui/core";
 import { VerifiedUser } from "@material-ui/icons";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
@@ -49,6 +49,8 @@ import SourceAssetWarning from "./SourceAssetWarning";
 import ChainWarningMessage from "../ChainWarningMessage";
 import useIsTransferLimited from "../../hooks/useIsTransferLimited";
 import TransferLimitedWarning from "./TransferLimitedWarning";
+import { RootState } from "../../store";
+import PandleWarning from "../PandleWarning";
 
 const useStyles = makeStyles((theme) => ({
   chainSelectWrapper: {
@@ -151,6 +153,39 @@ function Source() {
     dispatch(incrementStep());
   }, [dispatch]);
 
+  /* Only allow sending from ETH <-> BSC Pandle Token */
+  const [isPandle, setIsPandle] = useState(false);
+  const selectedTokenAddress = useSelector(
+    (state: RootState) => state.transfer.sourceParsedTokenAccount?.mintKey
+  );
+  useEffect(() => {
+    const EthereumPandleAddress =
+      "0x808507121b80c02388fad14726482e061b8da827".toUpperCase();
+    const BscPandleAddres =
+      "0xb3Ed0A426155B79B898849803E3B36552f7ED507".toUpperCase();
+    const isFromEthereum = (
+      sourceChain: number,
+      selectedTokenAddress: string | undefined
+    ) =>
+      sourceChain === CHAIN_ID_ETH &&
+      selectedTokenAddress === EthereumPandleAddress;
+    const isFromBsc = (
+      sourceChain: number,
+      selectedTokenAddress: string | undefined
+    ) =>
+      sourceChain === CHAIN_ID_BSC && selectedTokenAddress === BscPandleAddres;
+    if (isFromEthereum(sourceChain, selectedTokenAddress?.toUpperCase())) {
+      setIsPandle(true);
+      handleTargetChange({ target: { value: CHAIN_ID_BSC } });
+    } else if (isFromBsc(sourceChain, selectedTokenAddress?.toUpperCase())) {
+      setIsPandle(true);
+      handleTargetChange({ target: { value: CHAIN_ID_ETH } });
+    } else {
+      setIsPandle(false);
+    }
+  }, [sourceChain, selectedTokenAddress, handleTargetChange]);
+  /* End pandle token check */
+
   return (
     <>
       <StepDescription>
@@ -202,7 +237,7 @@ function Source() {
             fullWidth
             value={targetChain}
             onChange={handleTargetChange}
-            disabled={shouldLockFields}
+            disabled={shouldLockFields || isPandle}
             chains={targetChainOptions}
           />
         </div>
@@ -225,6 +260,7 @@ function Source() {
       ) : (
         <>
           <LowBalanceWarning chainId={sourceChain} />
+          {isPandle && <PandleWarning />}
           {sourceChain === CHAIN_ID_SOLANA && CLUSTER === "mainnet" && (
             <SolanaTPSWarning />
           )}
