@@ -1,17 +1,19 @@
 import { ChainId } from "@certusone/wormhole-sdk";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Wallet } from "@xlabs-libs/wallet-aggregator-core";
 import {
   useChangeWallet,
   useUnsetWalletFromChain,
   useWallet,
-  useWalletsForChain,
+  useWalletsForChainWithStatus,
 } from "@xlabs-libs/wallet-aggregator-react";
 import ConnectWalletDialog from "./ConnectWalletDialog";
 import ToggleConnectedButton from "./ToggleConnectedButton";
 import { Typography } from "@material-ui/core";
 import { CLUSTER } from "../utils/consts";
 import { getIsSanctioned } from "../utils/sanctions";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
 
 const ConnectWalletButton = ({ chainId }: { chainId: ChainId }) => {
   const wallet = useWallet(chainId);
@@ -19,9 +21,14 @@ const ConnectWalletButton = ({ chainId }: { chainId: ChainId }) => {
   const unsetWalletFromChain = useUnsetWalletFromChain();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [error, setError] = useState<Error | undefined>();
-  const availableWallets = useWalletsForChain(chainId);
-
+  const { wallets: availableWallets, isDetectingWallets } = useWalletsForChainWithStatus(chainId);
+  const sourceChain = useSelector((state: RootState) => state.transfer.sourceChain);
+  const [walletsNotAvailable, setWalletsNotAvailable] = useState(false);
   const pk = wallet?.getAddress();
+
+  useEffect(() => {
+    setWalletsNotAvailable(availableWallets.length === 0);
+  }, [sourceChain, availableWallets])
 
   const connect = useCallback(
     async (w: Wallet) => {
@@ -79,11 +86,30 @@ const ConnectWalletButton = ({ chainId }: { chainId: ChainId }) => {
 
   return (
     <>
+      {isDetectingWallets && (
+        <Typography
+          style={{ textAlign: "center" }}
+          variant="body2"
+          color="textPrimary"
+        >
+          Detecting wallets ...
+        </Typography>
+      )}
+      {!isDetectingWallets && walletsNotAvailable && (
+        <Typography
+          style={{ textAlign: "center" }}
+          variant="body2"
+          color="textPrimary"
+        >
+          Wallets not detected for the selected chain
+        </Typography>
+      )}
       <ToggleConnectedButton
         connect={handleConnect}
         disconnect={disconnect}
         connected={!!pk}
         pk={pk || ""}
+        disabled={isDetectingWallets || walletsNotAvailable}
       />
       <ConnectWalletDialog
         isOpen={isDialogOpen}
