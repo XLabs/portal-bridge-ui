@@ -56,37 +56,37 @@ export default function ShowTx({
         chainId === CHAIN_ID_APTOS));
   const explorerAddress =
     chainId === CHAIN_ID_ETH
-      ? `https://${CLUSTER === "testnet" ? "goerli." : ""}etherscan.io/tx/${
-          tx?.id
-        }`
+      ? `https://${
+          CLUSTER === "testnet" ? "goerli." : ""
+        }etherscan.io/tx/${tx?.id}`
       : chainId === CHAIN_ID_BSC
-      ? `https://${CLUSTER === "testnet" ? "testnet." : ""}bscscan.com/tx/${
-          tx?.id
-        }`
+      ? `https://${
+          CLUSTER === "testnet" ? "testnet." : ""
+        }bscscan.com/tx/${tx?.id}`
       : chainId === CHAIN_ID_POLYGON
-      ? `https://${CLUSTER === "testnet" ? "mumbai." : ""}polygonscan.com/tx/${
-          tx?.id
-        }`
+      ? `https://${
+          CLUSTER === "testnet" ? "mumbai." : ""
+        }polygonscan.com/tx/${tx?.id}`
       : chainId === CHAIN_ID_AVAX
-      ? `https://${CLUSTER === "testnet" ? "testnet." : ""}snowtrace.io/tx/${
-          tx?.id
-        }`
+      ? `https://${
+          CLUSTER === "testnet" ? "testnet." : ""
+        }snowtrace.io/tx/${tx?.id}`
       : chainId === CHAIN_ID_OASIS
       ? `https://${
           CLUSTER === "testnet" ? "testnet." : ""
         }explorer.emerald.oasis.dev/tx/${tx?.id}`
       : chainId === CHAIN_ID_AURORA
-      ? `https://${CLUSTER === "testnet" ? "testnet." : ""}aurorascan.dev/tx/${
-          tx?.id
-        }`
+      ? `https://${
+          CLUSTER === "testnet" ? "testnet." : ""
+        }aurorascan.dev/tx/${tx?.id}`
       : chainId === CHAIN_ID_FANTOM
-      ? `https://${CLUSTER === "testnet" ? "testnet." : ""}ftmscan.com/tx/${
-          tx?.id
-        }`
+      ? `https://${
+          CLUSTER === "testnet" ? "testnet." : ""
+        }ftmscan.com/tx/${tx?.id}`
       : chainId === CHAIN_ID_KLAYTN
-      ? `https://${CLUSTER === "testnet" ? "baobab." : ""}scope.klaytn.com/tx/${
-          tx?.id
-        }`
+      ? `https://${
+          CLUSTER === "testnet" ? "baobab." : ""
+        }scope.klaytn.com/tx/${tx?.id}`
       : chainId === CHAIN_ID_CELO
       ? `https://${
           CLUSTER === "testnet" ? "alfajores.celoscan.io" : "explorer.celo.org"
@@ -124,17 +124,17 @@ export default function ShowTx({
             : "phoenix-1"
         }/tx/${tx?.id}`
       : chainId === CHAIN_ID_ALGORAND
-      ? `https://${CLUSTER === "testnet" ? "testnet." : ""}algoexplorer.io/tx/${
-          tx?.id
-        }`
+      ? `https://${
+          CLUSTER === "testnet" ? "testnet." : ""
+        }algoexplorer.io/tx/${tx?.id}`
       : chainId === CHAIN_ID_NEAR
       ? `https://explorer.${
           CLUSTER === "testnet" ? "testnet." : ""
         }near.org/transactions/${tx?.id}`
       : chainId === CHAIN_ID_MOONBEAM
-      ? `https://${CLUSTER === "testnet" ? "moonbase." : ""}moonscan.io/tx/${
-          tx?.id
-        }`
+      ? `https://${
+          CLUSTER === "testnet" ? "moonbase." : ""
+        }moonscan.io/tx/${tx?.id}`
       : chainId === CHAIN_ID_XPLA
       ? `https://explorer.xpla.io/${
           CLUSTER === "testnet" ? "testnet" : "mainnet"
@@ -148,9 +148,9 @@ export default function ShowTx({
             : ""
         }`
       : chainId === CHAIN_ID_ARBITRUM
-      ? `https://${CLUSTER === "testnet" ? "goerli." : ""}arbiscan.io/tx/${
-          tx?.id
-        }`
+      ? `https://${
+          CLUSTER === "testnet" ? "goerli." : ""
+        }arbiscan.io/tx/${tx?.id}`
       : chainId === CHAIN_ID_INJECTIVE
       ? `https://${
           CLUSTER === "testnet" ? "testnet." : ""

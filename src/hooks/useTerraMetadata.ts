@@ -22,7 +22,7 @@ const fetchSingleMetadata = async (address: string, lcd: LCDClient) =>
           symbol,
           tokenName,
           decimals,
-        } as TerraMetadata)
+        }) as TerraMetadata
     );
 
 const fetchTerraMetadata = async (
