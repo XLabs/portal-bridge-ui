@@ -21,7 +21,7 @@ const fetchSingleMetadata = async (address: string, lcd: LCDClient) =>
           symbol,
           tokenName,
           decimals,
-        } as XplaMetadata)
+        }) as XplaMetadata
     );
 
 const fetchXplaMetadata = async (addresses: string[]) => {

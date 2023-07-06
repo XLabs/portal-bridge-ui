@@ -365,7 +365,7 @@ export default function TokenPicker({
             ({
               ...option,
               markets: featuredMarkets[option.mintKey].markets,
-            } as MarketParsedTokenAccount)
+            }) as MarketParsedTokenAccount
         );
       return [
         ...ownedMarketTokens,
@@ -386,7 +386,7 @@ export default function TokenPicker({
                 uiAmountString: "0", // if we can't look up by address, we can select the market that isn't in the list of holdings, but can't proceed since the balance will be 0
                 symbol: marketChainTokens?.[mintKey]?.symbol,
                 logo: marketChainTokens?.[mintKey]?.logo,
-              } as MarketParsedTokenAccount)
+              }) as MarketParsedTokenAccount
           ),
       ].filter(searchFilter);
     }
