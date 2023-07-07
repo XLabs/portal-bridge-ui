@@ -20,12 +20,14 @@ const ToggleConnectedButton = ({
   connected,
   pk,
   walletIcon,
+  disabled = false,
 }: {
   connect(): any;
   disconnect(): any;
   connected: boolean;
   pk: string;
   walletIcon?: string;
+  disabled?: boolean;
 }) => {
   const classes = useStyles();
   const is0x = pk.startsWith("0x");
@@ -56,6 +58,7 @@ const ToggleConnectedButton = ({
       size="small"
       onClick={connect}
       className={classes.button}
+      disabled={disabled}
     >
       Connect
     </Button>
