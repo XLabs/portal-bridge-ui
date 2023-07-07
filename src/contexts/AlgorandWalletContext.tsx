@@ -16,7 +16,7 @@ export const getAlgorandWallets = (): AlgorandWallet[] => {
     new DeflyWallet({}),
     new AlgorandLedgerWallet(),
   ];
-}
+};
 
 export const useAlgorandWallet = () => {
   const wallet = useWallet(CHAIN_ID_ALGORAND);

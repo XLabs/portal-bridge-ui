@@ -70,7 +70,7 @@ export const theme = responsiveFontSizes(
       },
     },
     zIndex: {
-      modal: 50
+      modal: 50,
     },
     overrides: {
       MuiCssBaseline: {

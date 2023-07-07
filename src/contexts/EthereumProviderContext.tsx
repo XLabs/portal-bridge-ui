@@ -1,6 +1,10 @@
 import { isEVMChain } from "@certusone/wormhole-sdk";
 import { ChainId } from "@xlabs-libs/wallet-aggregator-core";
-import { EVMWallet, InjectedWallet, WalletConnectWallet } from "@xlabs-libs/wallet-aggregator-evm";
+import {
+  EVMWallet,
+  InjectedWallet,
+  WalletConnectWallet,
+} from "@xlabs-libs/wallet-aggregator-evm";
 import { useWallet } from "@xlabs-libs/wallet-aggregator-react";
 import { ethers } from "ethers";
 import { useEffect, useMemo, useState } from "react";
@@ -28,7 +32,7 @@ export const getEvmWallets = (): EVMWallet[] => {
           name: "Wormhole Portal Bridge",
           description: "Wormhole Portal Bridge",
           icons: ["https://portalbridge.com/favicon.ico"],
-        }
+        },
       },
     }),
   ];
