@@ -27,6 +27,11 @@ export const getEvmWallets = (): EVMWallet[] => {
       connectorOptions: {
         projectId: process.env.REACT_APP_WALLET_CONNECT_PROJECT_ID || "",
         showQrModal: true,
+        qrModalOptions: {
+          explorerAllowList: [],
+          explorerDenyList: [],
+          themeMode: 'light'
+        },
         metadata: {
           url: "https://portalbridge.com",
           name: "Wormhole Portal Bridge",
