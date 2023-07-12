@@ -1,12 +1,6 @@
 import { CssBaseline } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/core/styles";
 import {
-  AlgorandLedgerWallet,
-  DeflyWallet,
-  MyAlgoWallet,
-  PeraWallet,
-} from "@xlabs-libs/wallet-aggregator-algorand";
-import {
   CHAIN_ID_ALGORAND,
   CHAIN_ID_APTOS,
   CHAIN_ID_ETH,
@@ -17,10 +11,6 @@ import {
   CHAIN_ID_TERRA2,
   CHAIN_ID_XPLA,
 } from "@xlabs-libs/wallet-aggregator-core";
-import {
-  InjectedWallet,
-  WalletConnectLegacyWallet,
-} from "@xlabs-libs/wallet-aggregator-evm";
 import { WalletContextProvider } from "@xlabs-libs/wallet-aggregator-react";
 import { SnackbarProvider } from "notistack";
 import ReactDOM from "react-dom";
@@ -29,8 +19,10 @@ import { HashRouter } from "react-router-dom";
 import App from "./App";
 import ErrorBoundary from "./ErrorBoundary";
 import BackgroundImage from "./components/BackgroundImage";
+import { getAlgorandWallets } from "./contexts/AlgorandWalletContext";
 import { getWrappedWallets as getWrappedAptosWallets } from "./contexts/AptosWalletContext";
 import { BetaContextProvider } from "./contexts/BetaContext";
+import { getEvmWallets } from "./contexts/EthereumProviderContext";
 import { getInjectiveWallets } from "./contexts/InjectiveWalletContext";
 import { getNearWallets } from "./contexts/NearWalletContext";
 import { getWrappedWallets as getWrappedSolanaWallets } from "./contexts/SolanaWalletContext";
@@ -42,13 +34,8 @@ import { store } from "./store";
 
 const AGGREGATOR_WALLETS_BUILDER = async () => {
   return {
-    [CHAIN_ID_ALGORAND]: [
-      new MyAlgoWallet(),
-      new PeraWallet(),
-      new DeflyWallet(),
-      new AlgorandLedgerWallet(),
-    ],
-    [CHAIN_ID_ETH]: [new InjectedWallet(), new WalletConnectLegacyWallet()],
+    [CHAIN_ID_ALGORAND]: getAlgorandWallets(),
+    [CHAIN_ID_ETH]: getEvmWallets(),
     [CHAIN_ID_SOLANA]: getWrappedSolanaWallets(),
     [CHAIN_ID_APTOS]: getWrappedAptosWallets(),
     [CHAIN_ID_INJECTIVE]: getInjectiveWallets(),

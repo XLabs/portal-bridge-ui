@@ -69,6 +69,9 @@ export const theme = responsiveFontSizes(
         letterSpacing: -1.02,
       },
     },
+    zIndex: {
+      modal: 50,
+    },
     overrides: {
       MuiCssBaseline: {
         "@global": {
