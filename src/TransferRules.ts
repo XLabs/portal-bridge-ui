@@ -70,7 +70,8 @@ const TransferRules: Rule[] = [
   {
     id: "terra-classic-native",
     predicate: ({ source, target, token }: PredicateArgs) =>
-      (source === CHAIN_ID_TERRA || target === CHAIN_ID_TERRA) && terra.isNativeDenom(token),
+      (source === CHAIN_ID_TERRA || target === CHAIN_ID_TERRA) &&
+      terra.isNativeDenom(token),
     text: TerraClassicMessage,
     disableTransfer: true,
   },

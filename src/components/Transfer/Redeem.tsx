@@ -184,8 +184,15 @@ function Redeem() {
   }, [dispatch]);
   const howToAddTokensUrl = getHowToAddTokensToWalletUrl(targetChain);
   const vaaHex = useSelector((state: RootState) => state.transfer.signedVAAHex);
-  const sourceChain = useSelector((state: RootState) => state.transfer.sourceChain);
-  const { warnings, isTransferDisabled } = useRedeemControl(TransferRules, sourceChain, targetChain, vaaHex);
+  const sourceChain = useSelector(
+    (state: RootState) => state.transfer.sourceChain
+  );
+  const { warnings, isTransferDisabled } = useRedeemControl(
+    TransferRules,
+    sourceChain,
+    targetChain,
+    vaaHex
+  );
   const relayerContent = (
     <>
       {isEVMChain(targetChain) && !isTransferCompleted && !targetIsAcala ? (
@@ -276,7 +283,9 @@ function Redeem() {
       {targetChain === CHAIN_ID_SOLANA ? (
         <SolanaCreateAssociatedAddressAlternate />
       ) : null}
-      { warnings.map((message, key) => (<ChainWarningMessage message={message} key={key} />))}
+      {warnings.map((message, key) => (
+        <ChainWarningMessage message={message} key={key} />
+      ))}
       <>
         {" "}
         <ButtonWithLoader
@@ -292,7 +301,10 @@ function Redeem() {
               ? handleNativeClick
               : handleClick
           }
-          showLoader={!isTransferDisabled && (showLoader || (isRecovery && isTransferCompletedLoading))}
+          showLoader={
+            !isTransferDisabled &&
+            (showLoader || (isRecovery && isTransferCompletedLoading))
+          }
           error={statusMessage}
         >
           Redeem
