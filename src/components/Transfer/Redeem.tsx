@@ -187,7 +187,7 @@ function Redeem() {
   const sourceChain = useSelector(
     (state: RootState) => state.transfer.sourceChain
   );
-  const { warnings, isTransferDisabled } = useRedeemControl(
+  const { warnings, isRedeemDisabled } = useRedeemControl(
     TransferRules,
     sourceChain,
     targetChain,
@@ -291,7 +291,7 @@ function Redeem() {
         <ButtonWithLoader
           //TODO disable when the associated token account is confirmed to not exist
           disabled={
-            isTransferDisabled ||
+            isRedeemDisabled ||
             !isReady ||
             disabled ||
             (isRecovery && (isTransferCompletedLoading || isTransferCompleted))
@@ -302,7 +302,7 @@ function Redeem() {
               : handleClick
           }
           showLoader={
-            !isTransferDisabled &&
+            !isRedeemDisabled &&
             (showLoader || (isRecovery && isTransferCompletedLoading))
           }
           error={statusMessage}

@@ -16,7 +16,7 @@ export function useRedeemControl(
   rawVaa: string = ""
 ) {
   const [ids, setIds] = useState<string[]>([]);
-  const [isTransferDisabled, setIsTransferDisabled] = useState<boolean>(false);
+  const [isRedeemDisabled, setIsRedeemDisabled] = useState<boolean>(false);
   const [warnings, setWarnings] = useState<WarningMessage[]>([]);
   const vaa: ParsedVaa | null = useMemo(() => {
     try {
@@ -50,15 +50,15 @@ export function useRedeemControl(
     );
     if (appliedRules.length > 0) {
       setWarnings(appliedRules);
-      setIsTransferDisabled(appliedRules.some((rule) => rule.disableTransfer));
+      setIsRedeemDisabled(appliedRules.some((rule) => rule.disableTransfer));
       setIds(
         appliedRules.filter((rule) => !!rule.id).map((rule) => `${rule.id}`)
       );
     } else {
       setWarnings([]);
       setIds([]);
-      setIsTransferDisabled(false);
+      setIsRedeemDisabled(false);
     }
   }, [rules, sourceChain, targetChain, asset]);
-  return { warnings, ids, isTransferDisabled };
+  return { warnings, ids, isRedeemDisabled };
 }
