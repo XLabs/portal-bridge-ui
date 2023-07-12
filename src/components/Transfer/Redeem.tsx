@@ -183,7 +183,12 @@ function Redeem() {
     dispatch(reset());
   }, [dispatch]);
   const howToAddTokensUrl = getHowToAddTokensToWalletUrl(targetChain);
-  const vaaHex = useSelector((state: RootState) => state.transfer.signedVAAHex);
+  const originAsset = useSelector(
+    (state: RootState) => state.transfer.originAsset
+  );
+  const originChain = useSelector(
+    (state: RootState) => state.transfer.originChain
+  );
   const sourceChain = useSelector(
     (state: RootState) => state.transfer.sourceChain
   );
@@ -191,7 +196,8 @@ function Redeem() {
     TransferRules,
     sourceChain,
     targetChain,
-    vaaHex
+    originAsset,
+    originChain
   );
   const relayerContent = (
     <>

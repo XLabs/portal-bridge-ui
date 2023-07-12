@@ -1,52 +1,34 @@
-import {
-  ChainId,
-  ParsedVaa,
-  parseTransferPayload,
-  parseVaa,
-  hexToUint8Array,
-  tryHexToNativeString,
-} from "@certusone/wormhole-sdk";
+import { ChainId, tryHexToNativeString } from "@certusone/wormhole-sdk";
 import { Rule, WarningMessage } from "./useTransferControl";
 import { useEffect, useMemo, useState } from "react";
+
+function parseOriginAsset(originAddress?: string, originChain?: ChainId) {
+  try {
+    if (originAddress && originChain) {
+      return tryHexToNativeString(originAddress, originChain);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
 
 export function useRedeemControl(
   rules: Rule[],
   sourceChain: ChainId,
   targetChain: ChainId,
-  rawVaa: string = ""
+  originAddress?: string,
+  originChain?: ChainId
 ) {
   const [ids, setIds] = useState<string[]>([]);
   const [isRedeemDisabled, setIsRedeemDisabled] = useState<boolean>(false);
   const [warnings, setWarnings] = useState<WarningMessage[]>([]);
-  const vaa: ParsedVaa | null = useMemo(() => {
-    try {
-      return parseVaa(hexToUint8Array(rawVaa));
-    } catch (e) {
-      console.error(e);
-    }
-    return null;
-  }, [rawVaa]);
-  const payload = useMemo(() => {
-    try {
-      if (vaa) {
-        return parseTransferPayload(Buffer.from(new Uint8Array(vaa?.payload)));
-      }
-    } catch (e) {
-      console.error(e);
-    }
-    return null;
-  }, [vaa]);
-  const asset = useMemo(
-    () =>
-      tryHexToNativeString(
-        payload?.originAddress || "",
-        payload?.originChain as ChainId
-      ),
-    [payload]
+  const token = useMemo(
+    () => parseOriginAsset(originAddress, originChain),
+    [originAddress, originChain]
   );
   useEffect(() => {
     const appliedRules = rules.filter((rule) =>
-      rule.predicate({ source: sourceChain, target: targetChain, token: asset })
+      rule.predicate({ source: sourceChain, target: targetChain, token })
     );
     if (appliedRules.length > 0) {
       setWarnings(appliedRules);
@@ -59,6 +41,6 @@ export function useRedeemControl(
       setIds([]);
       setIsRedeemDisabled(false);
     }
-  }, [rules, sourceChain, targetChain, asset]);
+  }, [rules, sourceChain, targetChain, token]);
   return { warnings, ids, isRedeemDisabled };
 }
