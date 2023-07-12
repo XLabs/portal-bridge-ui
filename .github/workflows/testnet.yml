@@ -71,6 +71,7 @@ jobs:
           REACT_APP_CLUSTER: testnet
           REACT_APP_SOLANA_API_URL: ${{ vars.REACT_APP_SOLANA_API_URL }}
           REACT_APP_COVALENT_API_KEY: ${{ secrets.REACT_APP_COVALENT_API_KEY }}
+         
         run: |
           pushd public
           npm run set-version
