@@ -8,7 +8,6 @@ import { terra } from "@certusone/wormhole-sdk";
 import { Rule, PredicateArgs } from "./hooks/useWarningRulesEngine";
 
 const EthereumPandleAddress = "0X808507121B80C02388FAD14726482E061B8DA827";
-const BscPandleAddres = "0XB3ED0A426155B79B898849803E3B36552F7ED507";
 
 const isPandleFromEthereum = (
   sourceChain: number,
@@ -20,7 +19,7 @@ const isPandleFromEthereum = (
 const isPandleFromBsc = (
   sourceChain: number,
   selectedTokenAddress: string | undefined
-) => sourceChain === CHAIN_ID_BSC && selectedTokenAddress === BscPandleAddres;
+) => sourceChain === CHAIN_ID_BSC && selectedTokenAddress === EthereumPandleAddress;
 
 const PandleMessage =
   "Pandle transfers are limited to Ethereum to BSC and BSC to Ethereum.";
@@ -32,9 +31,7 @@ const TerraClassicMessage =
 const TransferRules: Rule[] = [
   {
     id: "pandle",
-    predicate: ({ source, token }: PredicateArgs) =>
-      isPandleFromEthereum(source, token?.toUpperCase()) ||
-      isPandleFromBsc(source, token?.toUpperCase()),
+    predicate: ({ source, token }: PredicateArgs) => isPandleFromEthereum(source, token?.toUpperCase()) || isPandleFromBsc(source, token?.toUpperCase()),
     text: PandleMessage,
   },
   {
