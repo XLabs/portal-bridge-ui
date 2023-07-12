@@ -23,7 +23,7 @@ function parseOriginAsset(originAddress?: string, originChain?: ChainId) {
  * @param sourceChain Which chain is the transfer coming from
  * @param targetChain Which chain is the transfer going to
  * @param originAddress Origin address of the asset
- * @param originChain Origin chain of the asset used to calculate 
+ * @param originChain Origin chain of the asset used to calculate
  *  the asset address or symbol
  * @returns a set of warnings, a set of ids and a boolean indicating
  *  if the transfer is disabled or not
@@ -39,6 +39,11 @@ export function useRedeemControl(
     () => parseOriginAsset(originAddress, originChain) || "",
     [originAddress, originChain]
   );
-  const { warnings, ids, isDisabled } = useWarningRulesEngine(rules, sourceChain, targetChain, asset);
+  const { warnings, ids, isDisabled } = useWarningRulesEngine(
+    rules,
+    sourceChain,
+    targetChain,
+    asset
+  );
   return { warnings, ids, isRedeemDisabled: isDisabled };
 }

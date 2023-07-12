@@ -22,14 +22,19 @@ export function useTransferControl(
   targetChain: ChainId,
   assetOrToken: string = ""
 ) {
-  const [asset, setAsset] = useState<string>(assetOrToken)
+  const [asset, setAsset] = useState<string>(assetOrToken);
   const info = useOriginalAsset(sourceChain, assetOrToken, false);
   useEffect(() => {
     if (!info.isFetching) {
-      setAsset(info.data?.originAddress || assetOrToken)
+      setAsset(info.data?.originAddress || assetOrToken);
     }
-  }, [assetOrToken, info])
-  const { warnings, ids, isDisabled } = useWarningRulesEngine(rules, sourceChain, targetChain, asset);
+  }, [assetOrToken, info]);
+  const { warnings, ids, isDisabled } = useWarningRulesEngine(
+    rules,
+    sourceChain,
+    targetChain,
+    asset
+  );
   return { warnings, ids, isTransferDisabled: isDisabled };
 }
 
