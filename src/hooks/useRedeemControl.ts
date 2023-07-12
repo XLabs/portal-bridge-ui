@@ -1,6 +1,6 @@
 import { ChainId, tryHexToNativeString } from "@certusone/wormhole-sdk";
-import { Rule, WarningMessage } from "./useTransferControl";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
+import { Rule, useWarningRulesEngine } from "./useWarningRulesEngine";
 
 function parseOriginAsset(originAddress?: string, originChain?: ChainId) {
   try {
@@ -12,6 +12,22 @@ function parseOriginAsset(originAddress?: string, originChain?: ChainId) {
   }
 }
 
+/**
+ * Will calculate if a redeem is allowed or not
+ * by using 4 dimension:
+ * - sourceChain
+ * - targetChain
+ * - originAddress
+ * - originChain
+ *
+ * @param sourceChain Which chain is the transfer coming from
+ * @param targetChain Which chain is the transfer going to
+ * @param originAddress Origin address of the asset
+ * @param originChain Origin chain of the asset used to calculate 
+ *  the asset address or symbol
+ * @returns a set of warnings, a set of ids and a boolean indicating
+ *  if the transfer is disabled or not
+ */
 export function useRedeemControl(
   rules: Rule[],
   sourceChain: ChainId,
@@ -19,28 +35,10 @@ export function useRedeemControl(
   originAddress?: string,
   originChain?: ChainId
 ) {
-  const [ids, setIds] = useState<string[]>([]);
-  const [isRedeemDisabled, setIsRedeemDisabled] = useState<boolean>(false);
-  const [warnings, setWarnings] = useState<WarningMessage[]>([]);
-  const token = useMemo(
-    () => parseOriginAsset(originAddress, originChain),
+  const asset = useMemo(
+    () => parseOriginAsset(originAddress, originChain) || "",
     [originAddress, originChain]
   );
-  useEffect(() => {
-    const appliedRules = rules.filter((rule) =>
-      rule.predicate({ source: sourceChain, target: targetChain, token })
-    );
-    if (appliedRules.length > 0) {
-      setWarnings(appliedRules);
-      setIsRedeemDisabled(appliedRules.some((rule) => rule.disableTransfer));
-      setIds(
-        appliedRules.filter((rule) => !!rule.id).map((rule) => `${rule.id}`)
-      );
-    } else {
-      setWarnings([]);
-      setIds([]);
-      setIsRedeemDisabled(false);
-    }
-  }, [rules, sourceChain, targetChain, token]);
-  return { warnings, ids, isRedeemDisabled };
+  const { warnings, ids, isDisabled } = useWarningRulesEngine(rules, sourceChain, targetChain, asset);
+  return { warnings, ids, isRedeemDisabled: isDisabled };
 }

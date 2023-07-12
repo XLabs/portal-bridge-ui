@@ -1,25 +1,7 @@
 import { ChainId } from "@certusone/wormhole-sdk";
+import { Rule, useWarningRulesEngine } from "./useWarningRulesEngine";
 import { useEffect, useState } from "react";
-
-export type WarningMessage = {
-  text: string;
-  link?: {
-    url: string;
-    text: string;
-  };
-};
-
-export type PredicateArgs = {
-  source: ChainId;
-  target: ChainId;
-  token?: string;
-};
-
-export type Rule = WarningMessage & {
-  id?: string;
-  disableTransfer?: boolean;
-  predicate: (args: PredicateArgs) => boolean;
-};
+import useOriginalAsset from "./useOriginalAsset";
 
 /**
  * Will calculate if a transfer is allowed or not
@@ -29,36 +11,26 @@ export type Rule = WarningMessage & {
  * - asset
  *
  * @param sourceChain Which chain is the transfer coming from
- * @param targetChain
- * @param assset
- * @returns
+ * @param targetChain Which chain is the transfer going to
+ * @param assset Which asset is being transferred
+ * @returns a set of warnings, a set of ids and a boolean indicating
+ *  if the transfer is disabled or not
  */
 export function useTransferControl(
   rules: Rule[],
   sourceChain: ChainId,
   targetChain: ChainId,
-  asset?: string
+  assetOrToken: string = ""
 ) {
-  const [ids, setIds] = useState<string[]>([]);
-  const [isTransferDisabled, setIsTransferDisabled] = useState<boolean>(false);
-  const [warnings, setWarnings] = useState<WarningMessage[]>([]);
+  const [asset, setAsset] = useState<string>(assetOrToken)
+  const info = useOriginalAsset(sourceChain, assetOrToken, false);
   useEffect(() => {
-    const appliedRules = rules.filter((rule) =>
-      rule.predicate({ source: sourceChain, target: targetChain, token: asset })
-    );
-    if (appliedRules.length > 0) {
-      setWarnings(appliedRules);
-      setIsTransferDisabled(appliedRules.some((rule) => rule.disableTransfer));
-      setIds(
-        appliedRules.filter((rule) => !!rule.id).map((rule) => `${rule.id}`)
-      );
-    } else {
-      setWarnings([]);
-      setIds([]);
-      setIsTransferDisabled(false);
+    if (!info.isFetching) {
+      setAsset(info.data?.originAddress || assetOrToken)
     }
-  }, [rules, sourceChain, targetChain, asset]);
-  return { warnings, ids, isTransferDisabled };
+  }, [assetOrToken, info])
+  const { warnings, ids, isDisabled } = useWarningRulesEngine(rules, sourceChain, targetChain, asset);
+  return { warnings, ids, isTransferDisabled: isDisabled };
 }
 
 export default useTransferControl;

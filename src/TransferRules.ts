@@ -4,8 +4,8 @@ import {
   CHAIN_ID_TERRA,
   CHAIN_ID_AURORA,
 } from "@certusone/wormhole-sdk";
-import { PredicateArgs, Rule } from "./hooks/useTransferControl";
 import { terra } from "@certusone/wormhole-sdk";
+import { Rule, PredicateArgs } from "./hooks/useWarningRulesEngine";
 
 const EthereumPandleAddress = "0X808507121B80C02388FAD14726482E061B8DA827";
 const BscPandleAddres = "0XB3ED0A426155B79B898849803E3B36552F7ED507";

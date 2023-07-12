@@ -1,6 +1,6 @@
 import { Link, makeStyles, Typography } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
-import { WarningMessage } from "../hooks/useTransferControl";
+import { WarningMessage } from "../hooks/useWarningRulesEngine";
 
 const useStyles = makeStyles((theme) => ({
   alert: {
