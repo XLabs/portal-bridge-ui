@@ -1130,7 +1130,7 @@ export default function Recovery() {
                         parsedPayload.targetChain === CHAIN_ID_XPLA ||
                         parsedPayload.targetChain === CHAIN_ID_INJECTIVE
                         ? tokenId
-                        : hexToNativeString(
+                        : hexToNativeAssetString(
                             parsedPayload.originAddress,
                             parsedPayload.originChain as ChainId
                           ) || ""
