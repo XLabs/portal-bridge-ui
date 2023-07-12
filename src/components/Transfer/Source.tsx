@@ -7,7 +7,7 @@ import {
 import { getAddress } from "@ethersproject/address";
 import { Button, makeStyles, Typography } from "@material-ui/core";
 import { VerifiedUser } from "@material-ui/icons";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
@@ -33,8 +33,7 @@ import {
   CELO_MIGRATION_ASSET_MAP,
   CHAINS,
   CLUSTER,
-  ETH_MIGRATION_ASSET_MAP,
-  getIsTransferDisabled,
+  ETH_MIGRATION_ASSET_MAP
 } from "../../utils/consts";
 import ButtonWithLoader from "../ButtonWithLoader";
 import ChainSelect from "../ChainSelect";
@@ -50,7 +49,9 @@ import ChainWarningMessage from "../ChainWarningMessage";
 import useIsTransferLimited from "../../hooks/useIsTransferLimited";
 import TransferLimitedWarning from "./TransferLimitedWarning";
 import { RootState } from "../../store";
-import PandleWarning from "../PandleWarning";
+import useTransferControl from "../../hooks/useTransferControl";
+import TransferRules from "../../TransferRules";
+import useRoundTripTranfer from "../../hooks/useRoundTripTransfer";
 
 const useStyles = makeStyles((theme) => ({
   chainSelectWrapper: {
@@ -86,12 +87,6 @@ function Source() {
     () => CHAINS.filter((c) => c.id !== sourceChain),
     [sourceChain]
   );
-  const isSourceTransferDisabled = useMemo(() => {
-    return getIsTransferDisabled(sourceChain, true);
-  }, [sourceChain]);
-  const isTargetTransferDisabled = useMemo(() => {
-    return getIsTransferDisabled(targetChain, false);
-  }, [targetChain]);
   const parsedTokenAccount = useSelector(
     selectTransferSourceParsedTokenAccount
   );
@@ -153,37 +148,13 @@ function Source() {
     dispatch(incrementStep());
   }, [dispatch]);
 
-  /* Only allow sending from ETH <-> BSC Pandle Token */
-  const [isPandle, setIsPandle] = useState(false);
   const selectedTokenAddress = useSelector(
     (state: RootState) => state.transfer.sourceParsedTokenAccount?.mintKey
   );
-  useEffect(() => {
-    const EthereumPandleAddress =
-      "0x808507121b80c02388fad14726482e061b8da827".toUpperCase();
-    const BscPandleAddres =
-      "0xb3Ed0A426155B79B898849803E3B36552f7ED507".toUpperCase();
-    const isFromEthereum = (
-      sourceChain: number,
-      selectedTokenAddress: string | undefined
-    ) =>
-      sourceChain === CHAIN_ID_ETH &&
-      selectedTokenAddress === EthereumPandleAddress;
-    const isFromBsc = (
-      sourceChain: number,
-      selectedTokenAddress: string | undefined
-    ) =>
-      sourceChain === CHAIN_ID_BSC && selectedTokenAddress === BscPandleAddres;
-    if (isFromEthereum(sourceChain, selectedTokenAddress?.toUpperCase())) {
-      setIsPandle(true);
-      handleTargetChange({ target: { value: CHAIN_ID_BSC } });
-    } else if (isFromBsc(sourceChain, selectedTokenAddress?.toUpperCase())) {
-      setIsPandle(true);
-      handleTargetChange({ target: { value: CHAIN_ID_ETH } });
-    } else {
-      setIsPandle(false);
-    }
-  }, [sourceChain, selectedTokenAddress, handleTargetChange]);
+  const { isTransferDisabled, warnings, ids } = useTransferControl(TransferRules, sourceChain, targetChain, selectedTokenAddress);
+  /* Only allow sending from ETH <-> BSC Pandle Token */
+  const isPandle = (id: string) => id === 'pandle';
+  const isRoundTripTransfer = useRoundTripTranfer(CHAIN_ID_ETH, CHAIN_ID_BSC, sourceChain,(chainId: number) => handleTargetChange({ target: { value: chainId } }),  ids, isPandle);
   /* End pandle token check */
 
   return (
@@ -237,7 +208,7 @@ function Source() {
             fullWidth
             value={targetChain}
             onChange={handleTargetChange}
-            disabled={shouldLockFields || isPandle}
+            disabled={shouldLockFields || isRoundTripTransfer}
             chains={targetChainOptions}
           />
         </div>
@@ -260,7 +231,6 @@ function Source() {
       ) : (
         <>
           <LowBalanceWarning chainId={sourceChain} />
-          {isPandle && <PandleWarning />}
           {sourceChain === CHAIN_ID_SOLANA && CLUSTER === "mainnet" && (
             <SolanaTPSWarning />
           )}
@@ -276,7 +246,7 @@ function Source() {
               className={classes.transferField}
               value={amount}
               onChange={handleAmountChange}
-              disabled={shouldLockFields}
+              disabled={isTransferDisabled || shouldLockFields}
               onMaxClick={
                 uiAmountString && !parsedTokenAccount.isNativeAsset
                   ? handleMaxClick
@@ -284,18 +254,15 @@ function Source() {
               }
             />
           ) : null}
-          <ChainWarningMessage chainId={sourceChain} />
-          <ChainWarningMessage chainId={targetChain} />
+          {
+            warnings.map((message, key) => <ChainWarningMessage key={key} message={message} />)
+          }
           <TransferLimitedWarning isTransferLimited={isTransferLimited} />
           <ButtonWithLoader
-            disabled={
-              !isSourceComplete ||
-              isSourceTransferDisabled ||
-              isTargetTransferDisabled
-            }
+            disabled={isTransferDisabled || !isSourceComplete}
             onClick={handleNextClick}
             showLoader={false}
-            error={statusMessage || error}
+            error={isTransferDisabled ? '' : statusMessage || error}
           >
             Next
           </ButtonWithLoader>
