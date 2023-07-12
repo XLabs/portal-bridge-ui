@@ -19,7 +19,9 @@ const isPandleFromEthereum = (
 const isPandleFromBsc = (
   sourceChain: number,
   selectedTokenAddress: string | undefined
-) => sourceChain === CHAIN_ID_BSC && selectedTokenAddress === EthereumPandleAddress;
+) =>
+  sourceChain === CHAIN_ID_BSC &&
+  selectedTokenAddress === EthereumPandleAddress;
 
 const PandleMessage =
   "Pandle transfers are limited to Ethereum to BSC and BSC to Ethereum.";
@@ -31,7 +33,9 @@ const TerraClassicMessage =
 const TransferRules: Rule[] = [
   {
     id: "pandle",
-    predicate: ({ source, token }: PredicateArgs) => isPandleFromEthereum(source, token?.toUpperCase()) || isPandleFromBsc(source, token?.toUpperCase()),
+    predicate: ({ source, token }: PredicateArgs) =>
+      isPandleFromEthereum(source, token?.toUpperCase()) ||
+      isPandleFromBsc(source, token?.toUpperCase()),
     text: PandleMessage,
   },
   {
