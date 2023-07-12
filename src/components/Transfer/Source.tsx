@@ -51,7 +51,7 @@ import TransferLimitedWarning from "./TransferLimitedWarning";
 import { RootState } from "../../store";
 import useTransferControl from "../../hooks/useTransferControl";
 import TransferRules from "../../TransferRules";
-import useRoundTripTranfer from "../../hooks/useRoundTripTransfer";
+import useRoundTripTransfer from "../../hooks/useRoundTripTransfer";
 
 const useStyles = makeStyles((theme) => ({
   chainSelectWrapper: {
@@ -159,7 +159,7 @@ function Source() {
   );
   /* Only allow sending from ETH <-> BSC Pandle Token */
   const isPandle = (id: string) => id === "pandle";
-  const isRoundTripTransfer = useRoundTripTranfer(
+  const isRoundTripTransfer = useRoundTripTransfer(
     CHAIN_ID_ETH,
     CHAIN_ID_BSC,
     sourceChain,

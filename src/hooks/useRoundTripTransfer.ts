@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 const isSource = (sourceChain: ChainId, selectedSourceChain: ChainId) =>
   sourceChain === selectedSourceChain;
 
-function useRoundTripTranfer(
+function useRoundTripTransfer(
   source: ChainId,
   target: ChainId,
   selectedSourceChain: ChainId,
@@ -37,4 +37,4 @@ function useRoundTripTranfer(
   return isRoundTripTransfer;
 }
 
-export default useRoundTripTranfer;
+export default useRoundTripTransfer;
