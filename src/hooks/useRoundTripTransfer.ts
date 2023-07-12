@@ -1,32 +1,40 @@
 import { ChainId } from "@certusone/wormhole-sdk";
 import { useEffect, useState } from "react";
 
-const isSource= (sourceChain: ChainId, selectedSourceChain: ChainId) => sourceChain === selectedSourceChain;
+const isSource = (sourceChain: ChainId, selectedSourceChain: ChainId) =>
+  sourceChain === selectedSourceChain;
 
 function useRoundTripTranfer(
-  source: ChainId, 
-  target: ChainId, 
+  source: ChainId,
+  target: ChainId,
   selectedSourceChain: ChainId,
   onRoundTripTransfer: (chainId: ChainId) => void = () => {},
   ids: string[] = [],
   predicate: (id: string) => boolean = () => true
 ) {
-    const [isRoundTripTransfer, setIsRoundTripTransfer] = useState(false);
-    useEffect(() => {
-      const apply = ids.some(predicate) || predicate('');
-      if (apply) {
-        if (isSource(source, selectedSourceChain)) {
-            onRoundTripTransfer(target);
-        } else if (isSource(target, selectedSourceChain)) {
-            onRoundTripTransfer(source);
-        }
-        setIsRoundTripTransfer(true);
-      } else {
-        setIsRoundTripTransfer(false);
+  const [isRoundTripTransfer, setIsRoundTripTransfer] = useState(false);
+  useEffect(() => {
+    const apply = ids.some(predicate) || predicate("");
+    if (apply) {
+      if (isSource(source, selectedSourceChain)) {
+        onRoundTripTransfer(target);
+      } else if (isSource(target, selectedSourceChain)) {
+        onRoundTripTransfer(source);
       }
-    }, [source, target, ids, predicate, onRoundTripTransfer, selectedSourceChain]);
+      setIsRoundTripTransfer(true);
+    } else {
+      setIsRoundTripTransfer(false);
+    }
+  }, [
+    source,
+    target,
+    ids,
+    predicate,
+    onRoundTripTransfer,
+    selectedSourceChain,
+  ]);
 
-    return isRoundTripTransfer;
+  return isRoundTripTransfer;
 }
 
 export default useRoundTripTranfer;

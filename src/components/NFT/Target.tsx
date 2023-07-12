@@ -93,7 +93,11 @@ function Target() {
   const handleNextClick = useCallback(() => {
     dispatch(incrementStep());
   }, [dispatch]);
-  const { isTransferDisabled, warnings } = useTransferControl(TransferRules, sourceChain, targetChain);
+  const { isTransferDisabled, warnings } = useTransferControl(
+    TransferRules,
+    sourceChain,
+    targetChain
+  );
   const isValidTargetAssetAddress =
     targetAsset && targetAsset !== ethers.constants.AddressZero;
   return (
@@ -151,9 +155,9 @@ function Target() {
       {targetChain === CHAIN_ID_SOLANA && CLUSTER === "mainnet" && (
         <SolanaTPSWarning />
       )}
-      {
-        warnings.map((message, key) => <ChainWarningMessage key={key} message={message} />)
-      }
+      {warnings.map((message, key) => (
+        <ChainWarningMessage key={key} message={message} />
+      ))}
       <ButtonWithLoader
         disabled={!isTargetComplete || isTransferDisabled} //|| !associatedAccountExists}
         onClick={handleNextClick}

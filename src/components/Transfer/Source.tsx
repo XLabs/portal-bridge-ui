@@ -33,7 +33,7 @@ import {
   CELO_MIGRATION_ASSET_MAP,
   CHAINS,
   CLUSTER,
-  ETH_MIGRATION_ASSET_MAP
+  ETH_MIGRATION_ASSET_MAP,
 } from "../../utils/consts";
 import ButtonWithLoader from "../ButtonWithLoader";
 import ChainSelect from "../ChainSelect";
@@ -151,10 +151,22 @@ function Source() {
   const selectedTokenAddress = useSelector(
     (state: RootState) => state.transfer.sourceParsedTokenAccount?.mintKey
   );
-  const { isTransferDisabled, warnings, ids } = useTransferControl(TransferRules, sourceChain, targetChain, selectedTokenAddress);
+  const { isTransferDisabled, warnings, ids } = useTransferControl(
+    TransferRules,
+    sourceChain,
+    targetChain,
+    selectedTokenAddress
+  );
   /* Only allow sending from ETH <-> BSC Pandle Token */
-  const isPandle = (id: string) => id === 'pandle';
-  const isRoundTripTransfer = useRoundTripTranfer(CHAIN_ID_ETH, CHAIN_ID_BSC, sourceChain,(chainId: number) => handleTargetChange({ target: { value: chainId } }),  ids, isPandle);
+  const isPandle = (id: string) => id === "pandle";
+  const isRoundTripTransfer = useRoundTripTranfer(
+    CHAIN_ID_ETH,
+    CHAIN_ID_BSC,
+    sourceChain,
+    (chainId: number) => handleTargetChange({ target: { value: chainId } }),
+    ids,
+    isPandle
+  );
   /* End pandle token check */
 
   return (
@@ -254,15 +266,15 @@ function Source() {
               }
             />
           ) : null}
-          {
-            warnings.map((message, key) => <ChainWarningMessage key={key} message={message} />)
-          }
+          {warnings.map((message, key) => (
+            <ChainWarningMessage key={key} message={message} />
+          ))}
           <TransferLimitedWarning isTransferLimited={isTransferLimited} />
           <ButtonWithLoader
             disabled={isTransferDisabled || !isSourceComplete}
             onClick={handleNextClick}
             showLoader={false}
-            error={isTransferDisabled ? '' : statusMessage || error}
+            error={isTransferDisabled ? "" : statusMessage || error}
           >
             Next
           </ButtonWithLoader>

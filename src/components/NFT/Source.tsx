@@ -15,10 +15,7 @@ import {
   selectNFTSourceError,
   selectNFTTargetChain,
 } from "../../store/selectors";
-import {
-  CHAINS_WITH_NFT_SUPPORT,
-  CLUSTER
-} from "../../utils/consts";
+import { CHAINS_WITH_NFT_SUPPORT, CLUSTER } from "../../utils/consts";
 import ButtonWithLoader from "../ButtonWithLoader";
 import ChainSelect from "../ChainSelect";
 import KeyAndBalance from "../KeyAndBalance";
@@ -55,7 +52,11 @@ function Source() {
   const handleNextClick = useCallback(() => {
     dispatch(incrementStep());
   }, [dispatch]);
-  const { isTransferDisabled, warnings } = useTransferControl(TransferRules, sourceChain, targetChain);
+  const { isTransferDisabled, warnings } = useTransferControl(
+    TransferRules,
+    sourceChain,
+    targetChain
+  );
   return (
     <>
       <StepDescription>
@@ -104,9 +105,9 @@ function Source() {
       {sourceChain === CHAIN_ID_SOLANA && CLUSTER === "mainnet" && (
         <SolanaTPSWarning />
       )}
-      {
-        warnings.map((message, key) => <ChainWarningMessage key={key} message={message} />)
-      }
+      {warnings.map((message, key) => (
+        <ChainWarningMessage key={key} message={message} />
+      ))}
       <ButtonWithLoader
         disabled={!isSourceComplete || isTransferDisabled}
         onClick={handleNextClick}
