@@ -66,6 +66,10 @@ import TerraFeeDenomPicker from "../TerraFeeDenomPicker";
 import AddToMetamask from "./AddToMetamask";
 import RedeemPreview from "./RedeemPreview";
 import WaitingForWalletMessage from "./WaitingForWalletMessage";
+import ChainWarningMessage from "../ChainWarningMessage";
+import { useRedeemControl } from "../../hooks/useRedeemControl";
+import TransferRules from "../../TransferRules";
+import { RootState } from "../../store";
 
 const useStyles = makeStyles((theme) => ({
   alert: {
@@ -179,7 +183,9 @@ function Redeem() {
     dispatch(reset());
   }, [dispatch]);
   const howToAddTokensUrl = getHowToAddTokensToWalletUrl(targetChain);
-
+  const vaaHex = useSelector((state: RootState) => state.transfer.signedVAAHex);
+  const sourceChain = useSelector((state: RootState) => state.transfer.sourceChain);
+  const { warnings, isTransferDisabled } = useRedeemControl(TransferRules, sourceChain, targetChain, vaaHex);
   const relayerContent = (
     <>
       {isEVMChain(targetChain) && !isTransferCompleted && !targetIsAcala ? (
@@ -270,12 +276,13 @@ function Redeem() {
       {targetChain === CHAIN_ID_SOLANA ? (
         <SolanaCreateAssociatedAddressAlternate />
       ) : null}
-
+      { warnings.map((message, key) => (<ChainWarningMessage message={message} key={key} />))}
       <>
         {" "}
         <ButtonWithLoader
           //TODO disable when the associated token account is confirmed to not exist
           disabled={
+            isTransferDisabled ||
             !isReady ||
             disabled ||
             (isRecovery && (isTransferCompletedLoading || isTransferCompleted))
@@ -285,7 +292,7 @@ function Redeem() {
               ? handleNativeClick
               : handleClick
           }
-          showLoader={showLoader || (isRecovery && isTransferCompletedLoading)}
+          showLoader={!isTransferDisabled && (showLoader || (isRecovery && isTransferCompletedLoading))}
           error={statusMessage}
         >
           Redeem

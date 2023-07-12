@@ -36,6 +36,7 @@ import {
   uint8ArrayToHex,
   CHAIN_ID_SUI,
   getForeignAssetSui,
+  tryHexToNativeString,
 } from "@certusone/wormhole-sdk";
 import { repairVaa } from "@certusone/wormhole-sdk/lib/esm/utils/repairVaa";
 import {
@@ -1133,7 +1134,7 @@ export default function Recovery() {
                         parsedPayload.targetChain === CHAIN_ID_XPLA ||
                         parsedPayload.targetChain === CHAIN_ID_INJECTIVE
                         ? tokenId
-                        : hexToNativeAssetString(
+                        : tryHexToNativeString(
                             parsedPayload.originAddress,
                             parsedPayload.originChain as ChainId
                           ) || ""
