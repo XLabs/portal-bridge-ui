@@ -50,7 +50,7 @@ import useIsTransferLimited from "../../hooks/useIsTransferLimited";
 import TransferLimitedWarning from "./TransferLimitedWarning";
 import { RootState } from "../../store";
 import useTransferControl from "../../hooks/useTransferControl";
-import TransferRules from "../../TransferRules";
+import TransferRules from "../../config/transferRules";
 import useRoundTripTransfer from "../../hooks/useRoundTripTransfer";
 
 const useStyles = makeStyles((theme) => ({

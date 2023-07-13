@@ -68,7 +68,7 @@ import RedeemPreview from "./RedeemPreview";
 import WaitingForWalletMessage from "./WaitingForWalletMessage";
 import ChainWarningMessage from "../ChainWarningMessage";
 import { useRedeemControl } from "../../hooks/useRedeemControl";
-import TransferRules from "../../TransferRules";
+import TransferRules from "../../config/transferRules";
 import { RootState } from "../../store";
 
 const useStyles = makeStyles((theme) => ({

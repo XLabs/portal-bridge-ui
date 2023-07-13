@@ -39,7 +39,7 @@ import SolanaTPSWarning from "../SolanaTPSWarning";
 import StepDescription from "../StepDescription";
 import ChainWarningMessage from "../ChainWarningMessage";
 import useTransferControl from "../../hooks/useTransferControl";
-import TransferRules from "../../TransferRules";
+import TransferRules from "../../config/transferRules";
 
 const useStyles = makeStyles((theme) => ({
   transferField: {
