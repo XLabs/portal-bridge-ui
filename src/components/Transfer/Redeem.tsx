@@ -68,7 +68,7 @@ import RedeemPreview from "./RedeemPreview";
 import WaitingForWalletMessage from "./WaitingForWalletMessage";
 import ChainWarningMessage from "../ChainWarningMessage";
 import { useRedeemControl } from "../../hooks/useRedeemControl";
-import TransferRules from "../../config/transferRules";
+import transferRules from "../../config/transferRules";
 import { RootState } from "../../store";
 
 const useStyles = makeStyles((theme) => ({
@@ -193,7 +193,7 @@ function Redeem() {
     (state: RootState) => state.transfer.sourceChain
   );
   const { warnings, isRedeemDisabled } = useRedeemControl(
-    TransferRules,
+    transferRules,
     sourceChain,
     targetChain,
     originAsset,

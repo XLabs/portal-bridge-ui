@@ -50,7 +50,7 @@ import useIsTransferLimited from "../../hooks/useIsTransferLimited";
 import TransferLimitedWarning from "./TransferLimitedWarning";
 import { RootState } from "../../store";
 import useTransferControl from "../../hooks/useTransferControl";
-import TransferRules from "../../config/transferRules";
+import transferRules from "../../config/transferRules";
 import useRoundTripTransfer from "../../hooks/useRoundTripTransfer";
 
 const useStyles = makeStyles((theme) => ({
@@ -152,7 +152,7 @@ function Source() {
     (state: RootState) => state.transfer.sourceParsedTokenAccount?.mintKey
   );
   const { isTransferDisabled, warnings, ids } = useTransferControl(
-    TransferRules,
+    transferRules,
     sourceChain,
     targetChain,
     selectedTokenAddress

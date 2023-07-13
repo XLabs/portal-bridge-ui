@@ -24,7 +24,7 @@ import SolanaTPSWarning from "../SolanaTPSWarning";
 import StepDescription from "../StepDescription";
 import { TokenSelector } from "../TokenSelectors/SourceTokenSelector";
 import ChainWarningMessage from "../ChainWarningMessage";
-import TransferRules from "../../config/transferRules";
+import transferRules from "../../config/transferRules";
 import useTransferControl from "../../hooks/useTransferControl";
 
 const useStyles = makeStyles((theme) => ({
@@ -53,7 +53,7 @@ function Source() {
     dispatch(incrementStep());
   }, [dispatch]);
   const { isTransferDisabled, warnings } = useTransferControl(
-    TransferRules,
+    transferRules,
     sourceChain,
     targetChain
   );

@@ -627,7 +627,6 @@ async function solana(
           additionalPayload?.payload
         );
     const transaction = await promise;
-    console.log('>> Solana', transaction);
     const txid = await signSendAndConfirm(wallet, transaction);
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,

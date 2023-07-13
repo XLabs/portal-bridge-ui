@@ -7,36 +7,36 @@ import {
 import { terra } from "@certusone/wormhole-sdk";
 import { Rule, PredicateArgs } from "../hooks/useWarningRulesEngine";
 
-const EthereumPandleAddress = "0X808507121B80C02388FAD14726482E061B8DA827";
+const ETHEREUM_PANDLE_ADDRESS = "0X808507121B80C02388FAD14726482E061B8DA827";
 
 const isPandleFromEthereum = (
   sourceChain: number,
   selectedTokenAddress: string | undefined
 ) =>
   sourceChain === CHAIN_ID_ETH &&
-  selectedTokenAddress === EthereumPandleAddress;
+  selectedTokenAddress === ETHEREUM_PANDLE_ADDRESS;
 
 const isPandleFromBsc = (
   sourceChain: number,
   selectedTokenAddress: string | undefined
 ) =>
   sourceChain === CHAIN_ID_BSC &&
-  selectedTokenAddress === EthereumPandleAddress;
+  selectedTokenAddress === ETHEREUM_PANDLE_ADDRESS;
 
-const PandleMessage =
+const PANDLE_MESSAGE =
   "Pandle transfers are limited to Ethereum to BSC and BSC to Ethereum.";
 const AuroraMessage =
   "As a precautionary measure, Wormhole Network and Portal have paused Aurora support temporarily.";
-const TerraClassicMessage =
+const TERRA_CLASSIC_MESSAGE =
   "Transfers of native tokens to/from Terra Classic have been temporarily paused.";
 
-const TransferRules: Rule[] = [
+const transferRules: Rule[] = [
   {
     id: "pandle",
     predicate: ({ source, token }: PredicateArgs) =>
       isPandleFromEthereum(source, token?.toUpperCase()) ||
       isPandleFromBsc(source, token?.toUpperCase()),
-    text: PandleMessage,
+    text: PANDLE_MESSAGE,
   },
   {
     id: "aurora",
@@ -50,9 +50,9 @@ const TransferRules: Rule[] = [
     predicate: ({ source, target, token }: PredicateArgs) =>
       (source === CHAIN_ID_TERRA || target === CHAIN_ID_TERRA) &&
       terra.isNativeDenom(token),
-    text: TerraClassicMessage,
+    text: TERRA_CLASSIC_MESSAGE,
     disableTransfer: true,
   },
 ];
 
-export default TransferRules;
+export default transferRules;
