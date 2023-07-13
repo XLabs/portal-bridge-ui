@@ -29,7 +29,6 @@ import {
   CHAINS_BY_ID,
   CHAINS_WITH_NFT_SUPPORT,
   CLUSTER,
-  getIsTransferDisabled,
   getWalletAddressNative,
 } from "../../utils/consts";
 import ButtonWithLoader from "../ButtonWithLoader";
@@ -39,6 +38,8 @@ import LowBalanceWarning from "../LowBalanceWarning";
 import SolanaTPSWarning from "../SolanaTPSWarning";
 import StepDescription from "../StepDescription";
 import ChainWarningMessage from "../ChainWarningMessage";
+import useTransferControl from "../../hooks/useTransferControl";
+import transferRules from "../../config/transferRules";
 
 const useStyles = makeStyles((theme) => ({
   transferField: {
@@ -92,9 +93,11 @@ function Target() {
   const handleNextClick = useCallback(() => {
     dispatch(incrementStep());
   }, [dispatch]);
-  const isTransferDisabled = useMemo(() => {
-    return getIsTransferDisabled(targetChain, false);
-  }, [targetChain]);
+  const { isTransferDisabled, warnings } = useTransferControl(
+    transferRules,
+    sourceChain,
+    targetChain
+  );
   const isValidTargetAssetAddress =
     targetAsset && targetAsset !== ethers.constants.AddressZero;
   return (
@@ -152,7 +155,9 @@ function Target() {
       {targetChain === CHAIN_ID_SOLANA && CLUSTER === "mainnet" && (
         <SolanaTPSWarning />
       )}
-      <ChainWarningMessage chainId={targetChain} />
+      {warnings.map((message, key) => (
+        <ChainWarningMessage key={key} message={message} />
+      ))}
       <ButtonWithLoader
         disabled={!isTargetComplete || isTransferDisabled} //|| !associatedAccountExists}
         onClick={handleNextClick}

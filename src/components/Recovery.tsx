@@ -413,8 +413,6 @@ function RelayerRecovery({
   const [isAttemptingToSchedule, setIsAttemptingToSchedule] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
 
-  console.log(parsedPayload, relayerInfo, "in recovery relayer");
-
   const fee =
     (parsedPayload && parsedPayload.fee && parseInt(parsedPayload.fee)) || null;
   //This check is probably more sophisticated in the future. Possibly a net call.
@@ -432,7 +430,6 @@ function RelayerRecovery({
   );
 
   const handleGo = useCallback(async () => {
-    console.log("handle go", selectedRelayer, parsedPayload);
     if (!(selectedRelayer && selectedRelayer.url)) {
       return;
     }
@@ -462,7 +459,7 @@ function RelayerRecovery({
           });
         }
       );
-  }, [selectedRelayer, enqueueSnackbar, onClick, signedVaa, parsedPayload]);
+  }, [selectedRelayer, enqueueSnackbar, onClick, signedVaa]);
 
   if (!isEligible) {
     return null;
@@ -885,7 +882,7 @@ export default function Recovery() {
         const parsedVAA = parseVaa(hexToUint8Array(recoverySignedVAA));
         setRecoveryParsedVAA(parsedVAA);
       } catch (e) {
-        console.log(e);
+        console.error(e);
         setRecoveryParsedVAA(null);
       }
     }

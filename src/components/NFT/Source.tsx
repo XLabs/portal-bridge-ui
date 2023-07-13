@@ -2,7 +2,7 @@ import { CHAIN_ID_SOLANA, isEVMChain } from "@certusone/wormhole-sdk";
 import { Button, makeStyles } from "@material-ui/core";
 import { VerifiedUser } from "@material-ui/icons";
 import { Alert } from "@material-ui/lab";
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import useIsWalletReady from "../../hooks/useIsWalletReady";
@@ -13,12 +13,9 @@ import {
   selectNFTSourceBalanceString,
   selectNFTSourceChain,
   selectNFTSourceError,
+  selectNFTTargetChain,
 } from "../../store/selectors";
-import {
-  CHAINS_WITH_NFT_SUPPORT,
-  CLUSTER,
-  getIsTransferDisabled,
-} from "../../utils/consts";
+import { CHAINS_WITH_NFT_SUPPORT, CLUSTER } from "../../utils/consts";
 import ButtonWithLoader from "../ButtonWithLoader";
 import ChainSelect from "../ChainSelect";
 import KeyAndBalance from "../KeyAndBalance";
@@ -27,6 +24,8 @@ import SolanaTPSWarning from "../SolanaTPSWarning";
 import StepDescription from "../StepDescription";
 import { TokenSelector } from "../TokenSelectors/SourceTokenSelector";
 import ChainWarningMessage from "../ChainWarningMessage";
+import transferRules from "../../config/transferRules";
+import useTransferControl from "../../hooks/useTransferControl";
 
 const useStyles = makeStyles((theme) => ({
   transferField: {
@@ -38,6 +37,7 @@ function Source() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const sourceChain = useSelector(selectNFTSourceChain);
+  const targetChain = useSelector(selectNFTTargetChain);
   const uiAmountString = useSelector(selectNFTSourceBalanceString);
   const error = useSelector(selectNFTSourceError);
   const isSourceComplete = useSelector(selectNFTIsSourceComplete);
@@ -52,9 +52,11 @@ function Source() {
   const handleNextClick = useCallback(() => {
     dispatch(incrementStep());
   }, [dispatch]);
-  const isTransferDisabled = useMemo(() => {
-    return getIsTransferDisabled(sourceChain, true);
-  }, [sourceChain]);
+  const { isTransferDisabled, warnings } = useTransferControl(
+    transferRules,
+    sourceChain,
+    targetChain
+  );
   return (
     <>
       <StepDescription>
@@ -103,7 +105,9 @@ function Source() {
       {sourceChain === CHAIN_ID_SOLANA && CLUSTER === "mainnet" && (
         <SolanaTPSWarning />
       )}
-      <ChainWarningMessage chainId={sourceChain} />
+      {warnings.map((message, key) => (
+        <ChainWarningMessage key={key} message={message} />
+      ))}
       <ButtonWithLoader
         disabled={!isSourceComplete || isTransferDisabled}
         onClick={handleNextClick}

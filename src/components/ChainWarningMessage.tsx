@@ -1,8 +1,6 @@
-import { ChainId } from "@certusone/wormhole-sdk";
 import { Link, makeStyles, Typography } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
-import { useMemo } from "react";
-import { CHAIN_CONFIG_MAP } from "../config";
+import { WarningMessage } from "../hooks/useWarningRulesEngine";
 
 const useStyles = makeStyles((theme) => ({
   alert: {
@@ -11,27 +9,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ChainWarningMessage({ chainId }: { chainId: ChainId }) {
+export interface ChainWarningProps {
+  message: WarningMessage;
+}
+
+export default function ChainWarningMessage({ message }: ChainWarningProps) {
   const classes = useStyles();
-
-  const warningMessage = useMemo(() => {
-    return CHAIN_CONFIG_MAP[chainId]?.warningMessage;
-  }, [chainId]);
-
-  if (warningMessage === undefined) {
-    return null;
-  }
-
   return (
     <Alert variant="outlined" severity="warning" className={classes.alert}>
-      {warningMessage.text}
-      {warningMessage.link ? (
+      {message.text}
+      {message.link && (
         <Typography component="div">
-          <Link href={warningMessage.link.url} target="_blank" rel="noreferrer">
-            {warningMessage.link.text}
+          <Link href={message.link.url} target="_blank" rel="noreferrer">
+            {message.link.text}
           </Link>
         </Typography>
-      ) : null}
+      )}
     </Alert>
   );
 }

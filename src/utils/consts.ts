@@ -37,7 +37,6 @@ import {
 } from "@certusone/wormhole-sdk";
 import { clusterApiUrl } from "@solana/web3.js";
 import { getAddress } from "ethers/lib/utils";
-import { CHAIN_CONFIG_MAP } from "../config";
 import aptosIcon from "../icons/aptos.svg";
 import acalaIcon from "../icons/acala.svg";
 import algorandIcon from "../icons/algorand.svg";
@@ -1762,18 +1761,6 @@ export const ETH_POLYGON_WRAPPED_TOKENS = [
 ];
 
 export const JUPITER_SWAP_BASE_URL = "https://jup.ag/swap";
-
-export const getIsTransferDisabled = (
-  chainId: ChainId,
-  isSourceChain: boolean
-) => {
-  const disableTransfers = CHAIN_CONFIG_MAP[chainId]?.disableTransfers;
-  return disableTransfers === "from"
-    ? isSourceChain
-    : disableTransfers === "to"
-    ? !isSourceChain
-    : !!disableTransfers;
-};
 
 export const LUNA_ADDRESS = "uluna";
 export const UST_ADDRESS = "uusd";

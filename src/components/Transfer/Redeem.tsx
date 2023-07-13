@@ -66,6 +66,10 @@ import TerraFeeDenomPicker from "../TerraFeeDenomPicker";
 import AddToMetamask from "./AddToMetamask";
 import RedeemPreview from "./RedeemPreview";
 import WaitingForWalletMessage from "./WaitingForWalletMessage";
+import ChainWarningMessage from "../ChainWarningMessage";
+import { useRedeemControl } from "../../hooks/useRedeemControl";
+import transferRules from "../../config/transferRules";
+import { RootState } from "../../store";
 
 const useStyles = makeStyles((theme) => ({
   alert: {
@@ -179,7 +183,22 @@ function Redeem() {
     dispatch(reset());
   }, [dispatch]);
   const howToAddTokensUrl = getHowToAddTokensToWalletUrl(targetChain);
-
+  const originAsset = useSelector(
+    (state: RootState) => state.transfer.originAsset
+  );
+  const originChain = useSelector(
+    (state: RootState) => state.transfer.originChain
+  );
+  const sourceChain = useSelector(
+    (state: RootState) => state.transfer.sourceChain
+  );
+  const { warnings, isRedeemDisabled } = useRedeemControl(
+    transferRules,
+    sourceChain,
+    targetChain,
+    originAsset,
+    originChain
+  );
   const relayerContent = (
     <>
       {isEVMChain(targetChain) && !isTransferCompleted && !targetIsAcala ? (
@@ -270,12 +289,15 @@ function Redeem() {
       {targetChain === CHAIN_ID_SOLANA ? (
         <SolanaCreateAssociatedAddressAlternate />
       ) : null}
-
+      {warnings.map((message, key) => (
+        <ChainWarningMessage message={message} key={key} />
+      ))}
       <>
         {" "}
         <ButtonWithLoader
           //TODO disable when the associated token account is confirmed to not exist
           disabled={
+            isRedeemDisabled ||
             !isReady ||
             disabled ||
             (isRecovery && (isTransferCompletedLoading || isTransferCompleted))
@@ -285,7 +307,10 @@ function Redeem() {
               ? handleNativeClick
               : handleClick
           }
-          showLoader={showLoader || (isRecovery && isTransferCompletedLoading)}
+          showLoader={
+            !isRedeemDisabled &&
+            (showLoader || (isRecovery && isTransferCompletedLoading))
+          }
           error={statusMessage}
         >
           Redeem
