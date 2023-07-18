@@ -1,7 +1,7 @@
-name: 🐞 Development Support Request
-description: File a development support request
-title: "[BUG][DSR] <title>"
-labels: [bug, needs triage, medium]
+name: 🐞 Support Request
+description: File a support request
+title: "[support] <title>"
+labels: [needs triage, medium, wormhole-support]
 body:
 - type: checkboxes
   attributes:
@@ -13,9 +13,9 @@ body:
 - type: checkboxes
   attributes:
     label: have you checked our wiki for common solutions?
-    description: Please take a look to our [wiki page](../wiki) to see if we already have a **how to** to help you.
+    description: Please take a look to our [wiki page](../wiki) or [docs](https://portalbridge.com/docs) to see if we already have a **how to** to help you.
     options:
-    - label: I have searched the wiki
+    - label: I have searched the wiki or docs
       required: true
 - type: textarea
   attributes:
