@@ -1023,7 +1023,7 @@ export default function Recovery() {
               parsedPayload={parsedPayload}
               signedVaa={recoverySignedVAA}
               onClick={handleRecoverWithRelayerClick}
-            />        
+            />
             <AcalaRelayerRecovery
               parsedPayload={parsedPayload}
               signedVaa={recoverySignedVAA}
@@ -1032,7 +1032,7 @@ export default function Recovery() {
             />
           </>
         )}
-        { recoverySignedVAA !== "" && !enableRecovery && (
+        {recoverySignedVAA !== "" && !enableRecovery && (
           <ChainWarningMessage>
             {NOT_SUPPORTED_VAA_WARNING_MESSAGE}
           </ChainWarningMessage>
