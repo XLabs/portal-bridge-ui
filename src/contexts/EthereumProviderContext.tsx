@@ -30,7 +30,7 @@ export const getEvmWallets = (): EVMWallet[] => {
         qrModalOptions: {
           explorerAllowList: [],
           explorerDenyList: [],
-          themeMode: 'light'
+          themeMode: "light",
         },
         metadata: {
           url: "https://portalbridge.com",
