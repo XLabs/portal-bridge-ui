@@ -1,4 +1,4 @@
-name: 🐞 Support Request
+name: Support Request
 description: File a support request
 title: "[support] <title>"
 labels: [needs triage, medium, wormhole-support]
