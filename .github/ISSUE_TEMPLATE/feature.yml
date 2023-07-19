@@ -1,0 +1,45 @@
+name: Feature Request
+description: File a feature request
+title: "[feat] <title>"
+labels: [enhancement, low]
+body:
+- type: textarea
+  attributes:
+    label: Scenario
+    description: A brief description of the requirement.
+    placeholder: |
+      User Story: As a [Role], I want [Feature] so that [Reason]
+      > As a User, I want to connect my wallet so that I can transfer my assets.
+
+      Job Story: When [Situation], I want [Motivation] so that [Expected Outcome]
+      > When I have a wallet connected, I want to be able to transfer my assets to another chain so that I can use them in other applications.
+
+      Problem Story: In order to [Solve Problem], we will [Build Solution]
+      > In order to allow users to transfer their assets to other chains, we will build a bridge that will allow them to do so.
+
+      System Story: [Action Verb] [Subject] So that [Who] gets [What] or [Goal] is achieved.
+      > Connect Wallet So that User gets access to their assets.
+
+      Improvement Story: We have [Current Situation], we want to have [Desired Situation]
+      > We have a bridge that allows users to transfer their assets to other chains, we want to have a bridge that allows users to transfer their assets to other chains and also allows them to swap their assets.
+  
+      Feature Story: [Action] the [Result] [by/for/of/to/in] [Object]
+      > Transfer the assets by using the bridge.
+    render: markdown
+
+- type: textarea
+  attributes:
+    label: Acceptance Criteria
+    description: A concise description of what are your expectations.
+    placeholder: |
+      - [ ] Given that the user has a wallet connected When the user clicks on the transfer button Then the user should be able to transfer their assets
+      - [ ] Given that the user has a wallet connected When the user clicks on the swap button Then the user should be able to swap their assets
+      - [ ] Given that the user has a wallet connected When the user clicks on the transfer button Then the user should be able to transfer their assets
+
+- type: textarea
+  attributes:
+    label: Anything else?
+    description: |
+      Links? References? Anything that will give us more context about the issue you are encountering!
+
+      Tip: You can attach images or log files by clicking this area to highlight it and then dragging files in.
