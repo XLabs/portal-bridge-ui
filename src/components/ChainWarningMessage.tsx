@@ -10,20 +10,28 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export interface ChainWarningProps {
-  message: WarningMessage;
+  message?: WarningMessage;
+  children?: string | JSX.Element | JSX.Element[];
 }
 
-export default function ChainWarningMessage({ message }: ChainWarningProps) {
+export default function ChainWarningMessage({
+  children,
+  message,
+}: ChainWarningProps) {
   const classes = useStyles();
   return (
     <Alert variant="outlined" severity="warning" className={classes.alert}>
-      {message.text}
-      {message.link && (
-        <Typography component="div">
-          <Link href={message.link.url} target="_blank" rel="noreferrer">
-            {message.link.text}
-          </Link>
-        </Typography>
+      {children || (
+        <>
+          {message?.text}
+          {message?.link && (
+            <Typography component="div">
+              <Link href={message.link.url} target="_blank" rel="noreferrer">
+                {message.link.text}
+              </Link>
+            </Typography>
+          )}
+        </>
       )}
     </Alert>
   );

@@ -47,6 +47,7 @@ import {
   CircularProgress,
   Container,
   Divider,
+  Link,
   makeStyles,
   MenuItem,
   TextField,
@@ -119,6 +120,20 @@ import {
   getEmitterAddressAndSequenceFromResponseSui,
   getOriginalPackageId,
 } from "@certusone/wormhole-sdk/lib/cjs/sui";
+import { useVaaVerifier } from "../hooks/useVaaVerifier";
+import ChainWarningMessage from "./ChainWarningMessage";
+
+const NOT_SUPPORTED_VAA_WARNING_MESSAGE = (
+  <>
+    This VAA was not generated from Token Bridge, or the type is not supported
+    yet. If you have any questions or believe this is a mistake, please open a
+    support ticket on{" "}
+    <Link href="https://discord.gg/wormholecrypto" target="_blank">
+      Discord
+    </Link>
+    .
+  </>
+);
 
 const useStyles = makeStyles((theme) => ({
   mainCard: {
@@ -538,12 +553,14 @@ export default function Recovery() {
     useState<ChainId>(CHAIN_ID_SOLANA);
   const { provider } = useEthereumProvider(recoverySourceChain);
   const [type, setType] = useState<"Token" | "NFT">("Token");
-  const isNFT = type === "NFT";
+  const isNFT = useMemo(() => type === "NFT", [type]);
   const [recoverySourceTx, setRecoverySourceTx] = useState("");
   const [recoverySourceTxIsLoading, setRecoverySourceTxIsLoading] =
     useState(false);
   const [recoverySourceTxError, setRecoverySourceTxError] = useState("");
   const [recoverySignedVAA, setRecoverySignedVAA] = useState("");
+  const { isNFTTransfer, isTokenBridgeTransfer } =
+    useVaaVerifier(recoverySignedVAA);
   const [recoveryParsedVAA, setRecoveryParsedVAA] = useState<ParsedVaa | null>(
     null
   );
@@ -888,7 +905,10 @@ export default function Recovery() {
     }
   }, [recoverySignedVAA]);
   const parsedPayloadTargetChain = parsedPayload?.targetChain;
-  const enableRecovery = recoverySignedVAA && parsedPayloadTargetChain;
+  const enableRecovery =
+    recoverySignedVAA &&
+    parsedPayloadTargetChain &&
+    (isNFTTransfer || isTokenBridgeTransfer);
 
   const handleRecoverClickBase = useCallback(
     (useRelayer: boolean) => {
@@ -997,17 +1017,26 @@ export default function Recovery() {
           fullWidth
           margin="normal"
         />
-        <RelayerRecovery
-          parsedPayload={parsedPayload}
-          signedVaa={recoverySignedVAA}
-          onClick={handleRecoverWithRelayerClick}
-        />
-        <AcalaRelayerRecovery
-          parsedPayload={parsedPayload}
-          signedVaa={recoverySignedVAA}
-          onClick={handleRecoverWithRelayerClick}
-          isNFT={isNFT}
-        />
+        {enableRecovery && (
+          <>
+            <RelayerRecovery
+              parsedPayload={parsedPayload}
+              signedVaa={recoverySignedVAA}
+              onClick={handleRecoverWithRelayerClick}
+            />
+            <AcalaRelayerRecovery
+              parsedPayload={parsedPayload}
+              signedVaa={recoverySignedVAA}
+              onClick={handleRecoverWithRelayerClick}
+              isNFT={isNFT}
+            />
+          </>
+        )}
+        {recoverySignedVAA !== "" && !enableRecovery && (
+          <ChainWarningMessage>
+            {NOT_SUPPORTED_VAA_WARNING_MESSAGE}
+          </ChainWarningMessage>
+        )}
         <ButtonWithLoader
           onClick={handleRecoverClick}
           disabled={!enableRecovery}
