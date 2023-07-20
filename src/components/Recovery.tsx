@@ -907,8 +907,8 @@ export default function Recovery() {
   const parsedPayloadTargetChain = parsedPayload?.targetChain;
   const enableRecovery =
     recoverySignedVAA &&
-    parsedPayloadTargetChain &&
-    (isNFTTransfer || isTokenBridgeTransfer);
+    parsedPayloadTargetChain;
+    //&& (isNFTTransfer || isTokenBridgeTransfer);
 
   const handleRecoverClickBase = useCallback(
     (useRelayer: boolean) => {
@@ -1032,7 +1032,7 @@ export default function Recovery() {
             />
           </>
         )}
-        {recoverySignedVAA !== "" && !enableRecovery && (
+        {recoverySignedVAA !== "" && !(isNFTTransfer || isTokenBridgeTransfer) && (
           <ChainWarningMessage>
             {NOT_SUPPORTED_VAA_WARNING_MESSAGE}
           </ChainWarningMessage>
