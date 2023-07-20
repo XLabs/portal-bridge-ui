@@ -559,7 +559,7 @@ export default function Recovery() {
     useState(false);
   const [recoverySourceTxError, setRecoverySourceTxError] = useState("");
   const [recoverySignedVAA, setRecoverySignedVAA] = useState("");
-  const { itIsNFTTransfer, itIsTokenBridgeTransfer } =
+  const { isNFTTransfer, isTokenBridgeTransfer } =
     useVaaVerifier(recoverySignedVAA);
   const [recoveryParsedVAA, setRecoveryParsedVAA] = useState<ParsedVaa | null>(
     null
@@ -908,7 +908,7 @@ export default function Recovery() {
   const enableRecovery =
     recoverySignedVAA &&
     parsedPayloadTargetChain &&
-    (itIsNFTTransfer || itIsTokenBridgeTransfer);
+    (isNFTTransfer || isTokenBridgeTransfer);
 
   const handleRecoverClickBase = useCallback(
     (useRelayer: boolean) => {

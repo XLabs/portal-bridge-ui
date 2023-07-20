@@ -78,7 +78,7 @@ function itWasEmittedFrom(
   return false;
 }
 
-function itIsASupportedType(
+function isItASupportedType(
   type: VAAType,
   ...supportedTypes: VAAType[]
 ): boolean {
@@ -95,34 +95,34 @@ export function useVaaVerifier(hexVaa: string) {
     [vaa]
   );
   const payloadType = useMemo(() => getPayloadType(vaa?.payload), [vaa]);
-  const itIsTokenBridgeTransfer = useMemo(
+  const isTokenBridgeTransfer = useMemo(
     () =>
       itWasEmittedFrom(
         vaaEmitterAddress,
         vaaEmitterChain,
         getTokenBridgeAddressForChain
       ) &&
-      itIsASupportedType(
+      isItASupportedType(
         payloadType,
         VAAType.TRANSFER,
         VAAType.TRANSFER_WITH_PAYLOAD
       ),
     [vaaEmitterAddress, vaaEmitterChain, payloadType]
   );
-  const itIsNFTTransfer = useMemo(
+  const isNFTTransfer = useMemo(
     () =>
       itWasEmittedFrom(
         vaaEmitterAddress,
         vaaEmitterChain,
         getNFTBridgeAddressForChain
-      ) && itIsASupportedType(payloadType, VAAType.TRANSFER),
+      ) && isItASupportedType(payloadType, VAAType.TRANSFER),
     [vaaEmitterAddress, vaaEmitterChain, payloadType]
   );
   return {
     transfer,
     nft,
     payloadType,
-    itIsTokenBridgeTransfer,
-    itIsNFTTransfer,
+    isTokenBridgeTransfer,
+    isNFTTransfer,
   };
 }
