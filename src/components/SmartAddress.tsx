@@ -27,6 +27,7 @@ import {
   terra,
   CHAIN_ID_OPTIMISM,
   CHAIN_ID_SUI,
+  CHAIN_ID_BASE,
 } from "@certusone/wormhole-sdk";
 import { Button, makeStyles, Tooltip, Typography } from "@material-ui/core";
 import { FileCopy, OpenInNew } from "@material-ui/icons";
@@ -198,6 +199,10 @@ export default function SmartAddress({
       }near.org/accounts/${useableAddress}`
     : chainId === CHAIN_ID_MOONBEAM
     ? `https://${CLUSTER === "testnet" ? "moonbase." : ""}moonscan.io/${
+        isAsset ? "token" : "address"
+      }/${useableAddress}`
+    : chainId === CHAIN_ID_BASE
+    ? `https://${CLUSTER === "testnet" ? "goerli." : ""}basescan.org/${
         isAsset ? "token" : "address"
       }/${useableAddress}`
     : chainId === CHAIN_ID_XPLA

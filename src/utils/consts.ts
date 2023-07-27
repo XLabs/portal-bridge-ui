@@ -6,6 +6,7 @@ import {
   CHAIN_ID_ARBITRUM,
   CHAIN_ID_AURORA,
   CHAIN_ID_AVAX,
+  CHAIN_ID_BASE,
   CHAIN_ID_BSC,
   CHAIN_ID_BTC,
   CHAIN_ID_CELO,
@@ -43,6 +44,7 @@ import algorandIcon from "../icons/algorand.svg";
 import arbitrumIcon from "../icons/arbitrum.svg";
 import auroraIcon from "../icons/aurora.svg";
 import avaxIcon from "../icons/avax.svg";
+import baseIcon from '../icons/base.svg';
 import bscIcon from "../icons/bsc.svg";
 import celoIcon from "../icons/celo.svg";
 import ethIcon from "../icons/eth.svg";
@@ -116,6 +118,11 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_AVAX,
           name: "Avalanche",
           logo: avaxIcon,
+        },
+        {
+          id: CHAIN_ID_BASE,
+          name: "Base",
+          logo: baseIcon
         },
         {
           id: CHAIN_ID_BSC,
@@ -234,6 +241,11 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_AVAX,
           name: "Avalanche",
           logo: avaxIcon,
+        },
+        {
+          id: CHAIN_ID_BASE,
+          name: "Base",
+          logo: baseIcon
         },
         {
           id: CHAIN_ID_BSC,
@@ -387,7 +399,8 @@ export const CHAINS_WITH_NFT_SUPPORT = CHAINS.filter(
     id === CHAIN_ID_MOONBEAM ||
     id === CHAIN_ID_ARBITRUM ||
     id === CHAIN_ID_OPTIMISM ||
-    id === CHAIN_ID_APTOS
+    id === CHAIN_ID_APTOS ||
+    id === CHAIN_ID_BASE
 );
 export type ChainsById = { [key in ChainId]: ChainInfo };
 export const CHAINS_BY_ID: ChainsById = CHAINS.reduce((obj, chain) => {
@@ -495,6 +508,8 @@ export const getDefaultNativeCurrencySymbol = (chainId: ChainId) =>
     ? "NEON"
     : chainId === CHAIN_ID_MOONBEAM
     ? "GLMR"
+    : chainId === CHAIN_ID_BASE
+    ? "ETH"
     : chainId === CHAIN_ID_APTOS
     ? "APTOS"
     : chainId === CHAIN_ID_ARBITRUM
@@ -556,6 +571,8 @@ export const getExplorerName = (chainId: ChainId) =>
     ? "Solscan"
     : chainId === CHAIN_ID_MOONBEAM
     ? "Moonscan"
+    : chainId === CHAIN_ID_BASE
+    ? "BaseScan"
     : chainId === CHAIN_ID_XPLA
     ? "XPLA Explorer"
     : chainId === CHAIN_ID_ARBITRUM
@@ -612,6 +629,9 @@ export const ARBITRUM_NETWORK_CHAIN_ID =
   CLUSTER === "mainnet" ? 42161 : CLUSTER === "testnet" ? 421613 : 1381;
 export const OPTIMISM_NETWORK_CHAIN_ID =
   CLUSTER === "mainnet" ? 10 : CLUSTER === "testnet" ? 420 : 1381;
+export const BASE_NETWORK_CHAIN_ID = 
+  CLUSTER === "mainnet" ? 8453 : CLUSTER === "testnet" ? 84531 : 1381;
+
 export const getEvmChainId = (chainId: ChainId) =>
   chainId === CHAIN_ID_ETH
     ? ETH_NETWORK_CHAIN_ID
@@ -643,6 +663,8 @@ export const getEvmChainId = (chainId: ChainId) =>
     ? ARBITRUM_NETWORK_CHAIN_ID
     : chainId === CHAIN_ID_OPTIMISM
     ? OPTIMISM_NETWORK_CHAIN_ID
+    : chainId === CHAIN_ID_BASE
+    ? BASE_NETWORK_CHAIN_ID
     : undefined;
 export const SOLANA_HOST = process.env.REACT_APP_SOLANA_API_URL
   ? process.env.REACT_APP_SOLANA_API_URL
@@ -1238,6 +1260,10 @@ export const COVALENT_ARBITRUM =
   CLUSTER === "devnet" ? null : ARBITRUM_NETWORK_CHAIN_ID; // Covalent only supports mainnet
 export const COVALENT_OPTIMISM =
   CLUSTER === "devnet" ? null : OPTIMISM_NETWORK_CHAIN_ID; // Covalent only supports mainnet
+
+export const COVALENT_BASE =
+  CLUSTER === "devnet" ? null : BASE_NETWORK_CHAIN_ID
+
 export const COVALENT_GET_TOKENS_URL = (
   chainId: ChainId,
   walletAddress: string,
@@ -1263,6 +1289,8 @@ export const COVALENT_GET_TOKENS_URL = (
       ? COVALENT_NEON
       : chainId === CHAIN_ID_MOONBEAM
       ? COVALENT_MOONBEAM
+      : chainId === CHAIN_ID_BASE
+      ? COVALENT_BASE
       : chainId === CHAIN_ID_ARBITRUM
       ? COVALENT_ARBITRUM
       : chainId === CHAIN_ID_OPTIMISM
@@ -1331,6 +1359,15 @@ export const WETH_ADDRESS =
     ? "0xb4fbf271143f4fbf7b91a5ded31805e42b2208d6"
     : "0xDDb64fE46a91D46ee29420539FC25FD07c5FEa3E";
 export const WETH_DECIMALS = 18;
+
+export const BASE_WETH_ADDRESS = 
+  CLUSTER === "mainnet"
+  ? ""
+  : CLUSTER === "testnet"
+  ? "0x44d627f900da8adac7561bd73aa745f132450798"
+  : "0xDDb64fE46a91D46ee29420539FC25FD07c5FEa3E"
+
+export const BASE_WETH_DECIMALS = 18;
 
 export const WBNB_ADDRESS =
   CLUSTER === "mainnet"
