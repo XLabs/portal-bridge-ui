@@ -1360,13 +1360,6 @@ export const WETH_ADDRESS =
     : "0xDDb64fE46a91D46ee29420539FC25FD07c5FEa3E";
 export const WETH_DECIMALS = 18;
 
-export const BASE_WETH_ADDRESS = 
-  CLUSTER === "mainnet"
-  ? ""
-  : CLUSTER === "testnet"
-  ? "0x44d627f900da8adac7561bd73aa745f132450798"
-  : "0xDDb64fE46a91D46ee29420539FC25FD07c5FEa3E"
-
 export const BASE_WETH_DECIMALS = 18;
 
 export const WBNB_ADDRESS =
