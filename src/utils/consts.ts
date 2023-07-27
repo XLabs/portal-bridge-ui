@@ -44,7 +44,7 @@ import algorandIcon from "../icons/algorand.svg";
 import arbitrumIcon from "../icons/arbitrum.svg";
 import auroraIcon from "../icons/aurora.svg";
 import avaxIcon from "../icons/avax.svg";
-import baseIcon from '../icons/base.svg';
+import baseIcon from "../icons/base.svg";
 import bscIcon from "../icons/bsc.svg";
 import celoIcon from "../icons/celo.svg";
 import ethIcon from "../icons/eth.svg";
@@ -122,7 +122,7 @@ export const CHAINS: ChainInfo[] =
         {
           id: CHAIN_ID_BASE,
           name: "Base",
-          logo: baseIcon
+          logo: baseIcon,
         },
         {
           id: CHAIN_ID_BSC,
@@ -245,7 +245,7 @@ export const CHAINS: ChainInfo[] =
         {
           id: CHAIN_ID_BASE,
           name: "Base",
-          logo: baseIcon
+          logo: baseIcon,
         },
         {
           id: CHAIN_ID_BSC,
@@ -629,7 +629,7 @@ export const ARBITRUM_NETWORK_CHAIN_ID =
   CLUSTER === "mainnet" ? 42161 : CLUSTER === "testnet" ? 421613 : 1381;
 export const OPTIMISM_NETWORK_CHAIN_ID =
   CLUSTER === "mainnet" ? 10 : CLUSTER === "testnet" ? 420 : 1381;
-export const BASE_NETWORK_CHAIN_ID = 
+export const BASE_NETWORK_CHAIN_ID =
   CLUSTER === "mainnet" ? 8453 : CLUSTER === "testnet" ? 84531 : 1381;
 
 export const getEvmChainId = (chainId: ChainId) =>
@@ -1262,7 +1262,7 @@ export const COVALENT_OPTIMISM =
   CLUSTER === "devnet" ? null : OPTIMISM_NETWORK_CHAIN_ID; // Covalent only supports mainnet
 
 export const COVALENT_BASE =
-  CLUSTER === "devnet" ? null : BASE_NETWORK_CHAIN_ID
+  CLUSTER === "devnet" ? null : BASE_NETWORK_CHAIN_ID;
 
 export const COVALENT_GET_TOKENS_URL = (
   chainId: ChainId,
@@ -1359,8 +1359,6 @@ export const WETH_ADDRESS =
     ? "0xb4fbf271143f4fbf7b91a5ded31805e42b2208d6"
     : "0xDDb64fE46a91D46ee29420539FC25FD07c5FEa3E";
 export const WETH_DECIMALS = 18;
-
-export const BASE_WETH_DECIMALS = 18;
 
 export const WBNB_ADDRESS =
   CLUSTER === "mainnet"

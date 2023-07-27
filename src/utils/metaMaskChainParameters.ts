@@ -240,7 +240,7 @@ export const METAMASK_CHAIN_PARAMETERS: {
     nativeCurrency: { name: "Goerli Ether", symbol: "GOR", decimals: 18 },
     rpcUrls: ["https://goerli.base.org"],
     blockExplorerUrls: ["https://goerli.basescan.org"],
-  }
+  },
 };
 
 export interface EvmRpcMap {
