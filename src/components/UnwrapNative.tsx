@@ -67,7 +67,7 @@ import {
   WROSE_ADDRESS,
   WROSE_DECIMALS,
   BASE_WETH_ADDRESS,
-  BASE_WETH_DECIMALS
+  BASE_WETH_DECIMALS,
 } from "../utils/consts";
 import parseError from "../utils/parseError";
 import ButtonWithLoader from "./ButtonWithLoader";
@@ -173,7 +173,7 @@ const supportedTokens = {
     icon: baseIcon,
     address: BASE_WETH_ADDRESS,
     decimals: BASE_WETH_DECIMALS,
-  }
+  },
 } as const;
 
 type SupportedChain = keyof typeof supportedTokens;
