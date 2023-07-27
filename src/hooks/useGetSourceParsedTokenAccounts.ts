@@ -26,6 +26,7 @@ import {
   CHAIN_ID_INJECTIVE,
   CHAIN_ID_SUI,
   CHAIN_ID_ARBITRUM,
+  CHAIN_ID_BASE,
 } from "@certusone/wormhole-sdk";
 import { Dispatch } from "@reduxjs/toolkit";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
@@ -53,6 +54,7 @@ import acalaIcon from "../icons/acala.svg";
 import arbitrumIcon from "../icons/arbitrum.svg";
 import auroraIcon from "../icons/aurora.svg";
 import avaxIcon from "../icons/avax.svg";
+import baseIcon from "../icons/base.svg";
 import bnbIcon from "../icons/bnb.svg";
 import celoIcon from "../icons/celo.svg";
 import ethIcon from "../icons/eth.svg";
@@ -130,10 +132,12 @@ import {
   WNEON_DECIMALS,
   WROSE_ADDRESS,
   WROSE_DECIMALS,
-  CLUSTER,
-  SUI_NATIVE_TOKEN_KEY,
   ARBWETH_ADDRESS,
   ARBWETH_DECIMALS,
+  BASE_WETH_ADDRESS,
+  BASE_WETH_DECIMALS,
+  CLUSTER,
+  SUI_NATIVE_TOKEN_KEY,
 } from "../utils/consts";
 import { makeNearAccount } from "../utils/near";
 import {
@@ -286,6 +290,29 @@ const createNativeEthParsedTokenAccount = (
           "ETH", //A white lie for display purposes
           "Ethereum", //A white lie for display purposes
           ethIcon,
+          true //isNativeAsset
+        );
+      });
+};
+
+const createNativeBaseParsedTokenAccount = (
+  provider: Provider,
+  signerAddress: string | undefined
+) => {
+  return !(provider && signerAddress)
+    ? Promise.reject()
+    : provider.getBalance(signerAddress).then((balanceInWei) => {
+        const balanceInEth = ethers.utils.formatEther(balanceInWei);
+        return createParsedTokenAccount(
+          signerAddress, //public key
+          BASE_WETH_ADDRESS, //Mint key, On the other side this will be WETH, so this is hopefully a white lie.
+          balanceInWei.toString(), //amount, in wei
+          BASE_WETH_DECIMALS, //Luckily both ETH and WETH have 18 decimals, so this should not be an issue.
+          parseFloat(balanceInEth), //This loses precision, but is a limitation of the current datamodel. This field is essentially deprecated
+          balanceInEth.toString(), //This is the actual display field, which has full precision.
+          "baseETH", //A white lie for display purposes
+          "Base Ethereum", //A white lie for display purposes
+          baseIcon,
           true //isNativeAsset
         );
       });
@@ -1332,6 +1359,40 @@ function useGetAvailableTokens(nft: boolean = false) {
     ) {
       setEthNativeAccountLoading(true);
       createNativeEthParsedTokenAccount(provider, signerAddress).then(
+        (result) => {
+          console.log("create native account returned with value", result);
+          if (!cancelled) {
+            setEthNativeAccount(result);
+            setEthNativeAccountLoading(false);
+            setEthNativeAccountError("");
+          }
+        },
+        (error) => {
+          if (!cancelled) {
+            setEthNativeAccount(undefined);
+            setEthNativeAccountLoading(false);
+            setEthNativeAccountError("Unable to retrieve your ETH balance.");
+          }
+        }
+      );
+    }
+
+    return () => {
+      cancelled = true;
+    };
+  }, [lookupChain, provider, signerAddress, nft, ethNativeAccount]);
+
+  //Base native asset load
+  useEffect(() => {
+    let cancelled = false;
+    if (
+      signerAddress &&
+      lookupChain === CHAIN_ID_BASE &&
+      !ethNativeAccount &&
+      !nft
+    ) {
+      setEthNativeAccountLoading(true);
+      createNativeBaseParsedTokenAccount(provider, signerAddress).then(
         (result) => {
           console.log("create native account returned with value", result);
           if (!cancelled) {
