@@ -115,8 +115,10 @@
     "domain-browser": "^4.22.0",
     "events": "^3.3.0",
     "https-browserify": "^1.0.0",
+    "husky": "^8.0.3",
     "jest": "^26.6.0",
     "jest-watch-typeahead": "^0.6.4",
+    "lint-staged": "^13.2.3",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
     "prettier": "^2.3.2",
@@ -138,5 +140,8 @@
   },
   "overrides": {
     "alchemy-sdk": "2.8.0"
+  },
+  "lint-staged": {
+    "*.{svg,ts,tsx,js,jsx,scss,css,md}": "prettier --write"
   }
 }
