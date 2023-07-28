@@ -244,7 +244,7 @@ export const CHAINS: ChainInfo[] =
         },
         {
           id: CHAIN_ID_BASE,
-          name: "Base",
+          name: "Base (Goerli)",
           logo: baseIcon,
         },
         {
