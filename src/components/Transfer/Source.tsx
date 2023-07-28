@@ -110,7 +110,8 @@ function Source() {
   const error = useSelector(selectTransferSourceError);
   const isSourceComplete = useSelector(selectTransferIsSourceComplete);
   const shouldLockFields = useSelector(selectTransferShouldLockFields);
-  const { isReady, statusMessage, walletAddress } = useIsWalletReady(sourceChain);
+  const { isReady, statusMessage, walletAddress } =
+    useIsWalletReady(sourceChain);
   const isTransferLimited = useIsTransferLimited();
   const handleMigrationClick = useCallback(() => {
     if (sourceChain === CHAIN_ID_ETH) {
@@ -226,7 +227,7 @@ function Source() {
         </div>
       </div>
       <KeyAndBalance chainId={sourceChain} />
-      {((isReady || uiAmountString) && !!walletAddress) ? (
+      {(isReady || uiAmountString) && !!walletAddress ? (
         <div className={classes.transferField}>
           <TokenSelector disabled={shouldLockFields} />
         </div>
@@ -250,7 +251,7 @@ function Source() {
             sourceChain={sourceChain}
             sourceAsset={parsedTokenAccount?.mintKey}
           />
-          {(hasParsedTokenAccount && !!walletAddress) ? (
+          {hasParsedTokenAccount && !!walletAddress ? (
             <NumberTextField
               variant="outlined"
               label="Amount"
