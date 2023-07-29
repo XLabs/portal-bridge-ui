@@ -1,21 +1,21 @@
 import { ChainId } from "@certusone/wormhole-sdk";
-import { Cluster, getTrmChainName } from "./consts";
+import { Cluster /*, getTrmChainName */ } from "./consts";
 
-interface SanctionResponse {
-  accountExternalId: string;
-  address: string;
-  addressRiskIndicators: {
-    category: string;
-    categoryRiskScoreLevel: number;
-    riskType: "OWNERSHIP" | "COUNTERPARTY" | "INDIRECT";
-  }[];
-  entities: {
-    category: string;
-    riskScoreLevel: number;
-    entity: string;
-  }[];
-  trmAppUrl: string;
-}
+// interface SanctionResponse {
+//   accountExternalId: string;
+//   address: string;
+//   addressRiskIndicators: {
+//     category: string;
+//     categoryRiskScoreLevel: number;
+//     riskType: "OWNERSHIP" | "COUNTERPARTY" | "INDIRECT";
+//   }[];
+//   entities: {
+//     category: string;
+//     riskScoreLevel: number;
+//     entity: string;
+//   }[];
+//   trmAppUrl: string;
+// }
 
 export const getIsSanctioned = async (
   chainId: ChainId,
