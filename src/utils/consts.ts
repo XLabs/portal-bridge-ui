@@ -411,6 +411,10 @@ export const THRESHOLD_GATEWAYS: any = {
 };
 
 export const THRESHOLD_TBTC_CONTRACTS: any = {
+  [CHAIN_ID_SOLANA]: 
+    CLUSTER === "mainnet"
+      ? "" // TODO fill solana threshold contract for mainnet
+      : "",// TODO fill solana threshold contract for devnet
   [CHAIN_ID_ETH]:
     CLUSTER === "mainnet"
       ? "0x18084fbA666a33d37592fA2633fD49a74DD93a88"
@@ -1786,10 +1790,10 @@ export const getCoinGeckoURL = (coinGeckoId: string) =>
 
 export const RELAYER_INFO_URL =
   CLUSTER === "mainnet"
-    ? "https://raw.githubusercontent.com/certusone/wormhole-relayer-list/main/relayer.json"
+    ? "/empty-relayer-config.json"
     : CLUSTER === "testnet"
-    ? ""
-    : "/relayerExample.json";
+    ? "/empty-relayer-config.json"
+    : "/local-relayer-config.json";
 
 export const RELAY_URL_EXTENSION = "/relayvaa/";
 
