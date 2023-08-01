@@ -411,10 +411,6 @@ export const THRESHOLD_GATEWAYS: any = {
 };
 
 export const THRESHOLD_TBTC_CONTRACTS: any = {
-  [CHAIN_ID_SOLANA]: 
-    CLUSTER === "mainnet"
-      ? "" // TODO fill solana threshold contract for mainnet
-      : "",// TODO fill solana threshold contract for devnet
   [CHAIN_ID_ETH]:
     CLUSTER === "mainnet"
       ? "0x18084fbA666a33d37592fA2633fD49a74DD93a88"
