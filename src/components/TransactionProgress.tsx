@@ -14,6 +14,7 @@ import {
   CHAIN_ID_SOLANA,
   CHAIN_ID_OPTIMISM,
   isEVMChain,
+  CHAIN_ID_BASE,
 } from "@certusone/wormhole-sdk";
 import { LinearProgress, makeStyles, Typography } from "@material-ui/core";
 import { Connection } from "@solana/web3.js";
@@ -126,6 +127,8 @@ export default function TransactionProgress({
         ? 32
         : chainId === CHAIN_ID_ARBITRUM
         ? 64
+        : chainId === CHAIN_ID_BASE
+        ? 124 // something to show progress
         : isEVMChain(chainId)
         ? 15
         : 1;
@@ -147,6 +150,8 @@ export default function TransactionProgress({
           <Typography variant="body2" className={classes.message}>
             {chainId === CHAIN_ID_ARBITRUM
               ? `Waiting for Ethereum finality on Arbitrum block ${tx?.block}` //TODO: more advanced finality checking for Arbitrum
+              : chainId === CHAIN_ID_BASE
+              ? `Waiting for Ethereum finality on Base block ${tx?.block}` //TODO: more advanced finality checking for Base
               : chainId === CHAIN_ID_OPTIMISM
               ? `Waiting for Ethereum finality on Optimism block ${tx?.block}`
               : blockDiff < expectedBlocks

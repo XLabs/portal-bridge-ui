@@ -9,6 +9,7 @@ import {
   CHAIN_ID_NEON,
   CHAIN_ID_OASIS,
   CHAIN_ID_POLYGON,
+  CHAIN_ID_BASE,
   ethers_contracts,
 } from "@certusone/wormhole-sdk";
 import {
@@ -26,6 +27,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useEthereumProvider } from "../contexts/EthereumProviderContext";
 import useIsWalletReady from "../hooks/useIsWalletReady";
 import arbitrumIcon from "../icons/arbitrum.svg";
+import baseIcon from "../icons/base.svg";
 import avaxIcon from "../icons/avax.svg";
 import bnbIcon from "../icons/bnb.svg";
 import ethIcon from "../icons/eth.svg";
@@ -64,6 +66,8 @@ import {
   WNEON_DECIMALS,
   WROSE_ADDRESS,
   WROSE_DECIMALS,
+  BASE_WETH_ADDRESS,
+  BASE_WETH_DECIMALS,
 } from "../utils/consts";
 import parseError from "../utils/parseError";
 import ButtonWithLoader from "./ButtonWithLoader";
@@ -163,6 +167,12 @@ const supportedTokens = {
     icon: arbitrumIcon,
     address: ARBWETH_ADDRESS,
     decimals: ARBWETH_DECIMALS,
+  },
+  [CHAIN_ID_BASE]: {
+    symbol: "WETH",
+    icon: baseIcon,
+    address: BASE_WETH_ADDRESS,
+    decimals: BASE_WETH_DECIMALS,
   },
 } as const;
 
