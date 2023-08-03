@@ -73,6 +73,8 @@ import {
   Connection,
 } from "@mysten/sui.js";
 
+import tBTCBase from "@keep-network/tbtc-v2-base/export.json";
+
 export type Cluster = "devnet" | "testnet" | "mainnet";
 export const CLUSTER: Cluster =
   process.env.REACT_APP_CLUSTER === "mainnet"
@@ -412,6 +414,7 @@ const THRESHOLD_GATEWAYS_MAINNET: any = {
   [CHAIN_ID_POLYGON]: "0x09959798B95d00a3183d20FaC298E4594E599eab",
   [CHAIN_ID_OPTIMISM]: "0x1293a54e160D1cd7075487898d65266081A15458",
   [CHAIN_ID_ARBITRUM]: "0x1293a54e160D1cd7075487898d65266081A15458",
+  [CHAIN_ID_BASE]: tBTCBase.contracts.BaseWormholeGateway.address,
 } as const;
 
 const THRESHOLD_GATEWAYS_TESTNET: any = {
@@ -432,6 +435,7 @@ const THRESHOLD_TBTC_CONTRACTS_MAINNET: any = {
   [CHAIN_ID_POLYGON]: "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
   [CHAIN_ID_OPTIMISM]: "0x6c84a8f1c29108F47a79964b5Fe888D4f4D0dE40",
   [CHAIN_ID_ARBITRUM]: "0x6c84a8f1c29108F47a79964b5Fe888D4f4D0dE40",
+  [CHAIN_ID_BASE]: tBTCBase.contracts.BaseTBTC.address,
 } as const;
 
 const THRESHOLD_TBTC_CONTRACTS_TESTNET: any = {
