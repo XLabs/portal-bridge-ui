@@ -207,8 +207,8 @@ function App() {
       <NewsBar>
         <>
           <span>
-            Experience frictionless USDC transfers between Ethereum and
-            Avalanche with Circle's CCTP.{" "}
+            Experience frictionless USDC transfers between Ethereum, Avalanche,
+            and Arbitrum with Circle's CCTP.{" "}
           </span>
           <Link
             href="https://portalbridge.com/usdc-bridge"
