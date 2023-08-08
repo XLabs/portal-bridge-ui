@@ -1272,38 +1272,69 @@ export const COVALENT_OPTIMISM =
 export const COVALENT_BASE =
   CLUSTER === "devnet" ? null : BASE_NETWORK_CHAIN_ID;
 
+export type ChainIdMap = {
+  [key in ChainId]?: number | string | null;
+};
+
+export const COVALENT_CHAIN_MAINNET: ChainIdMap = {
+  [CHAIN_ID_ETH]: 1,
+  [CHAIN_ID_BSC]: BSC_NETWORK_CHAIN_ID,
+  [CHAIN_ID_POLYGON]: POLYGON_NETWORK_CHAIN_ID,
+  [CHAIN_ID_AVAX]: AVAX_NETWORK_CHAIN_ID,
+  [CHAIN_ID_KLAYTN]: null, // suspended network
+  [CHAIN_ID_FANTOM]: FANTOM_NETWORK_CHAIN_ID,
+  [CHAIN_ID_CELO]: null,
+  [CHAIN_ID_NEON]: null,
+  [CHAIN_ID_MOONBEAM]: COVALENT_MOONBEAM,
+  [CHAIN_ID_BASE]: COVALENT_BASE,
+  [CHAIN_ID_ARBITRUM]: COVALENT_ARBITRUM,
+  [CHAIN_ID_OPTIMISM]: COVALENT_OPTIMISM,
+} as const;
+
+export const COVALENT_CHAIN_TESTNET: ChainIdMap = {
+  [CHAIN_ID_ETH]: 5,
+  [CHAIN_ID_BSC]: BSC_NETWORK_CHAIN_ID,
+  [CHAIN_ID_POLYGON]: POLYGON_NETWORK_CHAIN_ID,
+  [CHAIN_ID_AVAX]: AVAX_NETWORK_CHAIN_ID,
+  [CHAIN_ID_KLAYTN]: null,
+  [CHAIN_ID_FANTOM]: FANTOM_NETWORK_CHAIN_ID,
+  [CHAIN_ID_CELO]: null,
+  [CHAIN_ID_NEON]: null,
+  [CHAIN_ID_MOONBEAM]: COVALENT_MOONBEAM,
+  [CHAIN_ID_BASE]: COVALENT_BASE,
+  [CHAIN_ID_ARBITRUM]: COVALENT_ARBITRUM,
+  [CHAIN_ID_OPTIMISM]: COVALENT_OPTIMISM,
+} as const;
+
+export const COVALENT_CHAIN_DEVNET: ChainIdMap = {
+  [CHAIN_ID_ETH]: 1,
+  [CHAIN_ID_BSC]: 56,
+  [CHAIN_ID_POLYGON]: 137,
+  [CHAIN_ID_AVAX]: 137,
+  [CHAIN_ID_KLAYTN]: null,
+  [CHAIN_ID_FANTOM]: 250,
+  [CHAIN_ID_CELO]: null,
+  [CHAIN_ID_NEON]: null,
+  [CHAIN_ID_MOONBEAM]: null,
+  [CHAIN_ID_BASE]: null,
+  [CHAIN_ID_ARBITRUM]: null,
+  [CHAIN_ID_OPTIMISM]: null,
+} as const;
+
 export const COVALENT_GET_TOKENS_URL = (
   chainId: ChainId,
   walletAddress: string,
   nft?: boolean,
   noNftMetadata?: boolean
 ) => {
-  const chainNum =
-    chainId === CHAIN_ID_ETH
-      ? COVALENT_ETHEREUM
-      : chainId === CHAIN_ID_BSC
-      ? COVALENT_BSC
-      : chainId === CHAIN_ID_POLYGON
-      ? COVALENT_POLYGON
-      : chainId === CHAIN_ID_AVAX
-      ? COVALENT_AVAX
-      : chainId === CHAIN_ID_FANTOM
-      ? COVALENT_FANTOM
-      : chainId === CHAIN_ID_KLAYTN
-      ? COVALENT_KLAYTN
-      : chainId === CHAIN_ID_CELO
-      ? COVALENT_CELO
-      : chainId === CHAIN_ID_NEON
-      ? COVALENT_NEON
-      : chainId === CHAIN_ID_MOONBEAM
-      ? COVALENT_MOONBEAM
-      : chainId === CHAIN_ID_BASE
-      ? COVALENT_BASE
-      : chainId === CHAIN_ID_ARBITRUM
-      ? COVALENT_ARBITRUM
-      : chainId === CHAIN_ID_OPTIMISM
-      ? COVALENT_OPTIMISM
-      : "";
+  let chainNum;
+  if (CLUSTER === "mainnet") {
+    chainNum = COVALENT_CHAIN_MAINNET[chainId];
+  } else if (CLUSTER === "testnet") {
+    chainNum = COVALENT_CHAIN_TESTNET[chainId];
+  } else {
+    chainNum = COVALENT_CHAIN_DEVNET[chainId];
+  }
   // https://www.covalenthq.com/docs/api/#get-/v1/{chain_id}/address/{address}/balances_v2/
   return chainNum
     ? `https://api.covalenthq.com/v1/${chainNum}/address/${walletAddress}/balances_v2/?key=${COVALENT_API_KEY}${

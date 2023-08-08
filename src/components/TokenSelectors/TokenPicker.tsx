@@ -122,6 +122,12 @@ const useStyles = makeStyles((theme) =>
     disabledTokenAlert: {
       borderStyle: "none",
     },
+    symbolText: {
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap",
+      maxWidth: 115,
+      overflow: "hidden",
+    },
   })
 );
 
@@ -139,7 +145,7 @@ export const BasicAccountRender = (
   const classes = useStyles();
   const mintPrettyString = shortenAddress(account.mintKey);
   const uri = nft ? account.image_256 : account.logo || account.uri;
-  const symbol = account.symbol || "Unknown";
+  const symbol = account.symbol || account.name || "Unknown";
   const name = account.name || "Unknown";
   const tokenId = account.tokenId;
   const shouldDisplayBalance = !displayBalance || displayBalance(account);
@@ -187,7 +193,13 @@ export const BasicAccountRender = (
         {uri && <img alt="" className={classes.tokenImage} src={uri} />}
       </div>
       <div>
-        <Typography variant="subtitle1">{symbol}</Typography>
+        <Typography
+          title={symbol}
+          className={classes.symbolText}
+          variant="subtitle1"
+        >
+          {symbol}
+        </Typography>
       </div>
       <div>
         {
@@ -365,7 +377,7 @@ export default function TokenPicker({
             ({
               ...option,
               markets: featuredMarkets[option.mintKey].markets,
-            }) as MarketParsedTokenAccount
+            } as MarketParsedTokenAccount)
         );
       return [
         ...ownedMarketTokens,
@@ -386,7 +398,7 @@ export default function TokenPicker({
                 uiAmountString: "0", // if we can't look up by address, we can select the market that isn't in the list of holdings, but can't proceed since the balance will be 0
                 symbol: marketChainTokens?.[mintKey]?.symbol,
                 logo: marketChainTokens?.[mintKey]?.logo,
-              }) as MarketParsedTokenAccount
+              } as MarketParsedTokenAccount)
           ),
       ].filter(searchFilter);
     }
