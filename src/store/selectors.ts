@@ -247,7 +247,9 @@ export const selectTransferSourceError = (
     if (
       parseUnits(
         state.transfer.amount,
-        state.transfer.sourceParsedTokenAccount.decimals
+        state.transfer.sourceParsedTokenAccount.isNativeAsset
+          ? state.transfer.sourceParsedTokenAccount.decimals
+          : state.transfer.sourceParsedTokenAccount.decimals - 10
       ).lte(0)
     ) {
       return "Amount must be greater than zero";
@@ -267,7 +269,10 @@ export const selectTransferSourceError = (
     }
   } catch (e: any) {
     if (e?.message) {
-      return e.message.substring(0, e.message.indexOf("("));
+      return `Invalid amount - ${e.message.substring(
+        0,
+        e.message.indexOf("(")
+      )}`;
     }
     return "Invalid amount";
   }
