@@ -247,9 +247,7 @@ export const selectTransferSourceError = (
     if (
       parseUnits(
         state.transfer.amount,
-        state.transfer.sourceParsedTokenAccount.isNativeAsset
-          ? state.transfer.sourceParsedTokenAccount.decimals
-          : state.transfer.sourceParsedTokenAccount.decimals - 10
+        state.transfer.sourceParsedTokenAccount.decimals
       ).lte(0)
     ) {
       return "Amount must be greater than zero";
