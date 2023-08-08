@@ -48,8 +48,8 @@ const useStyles = makeStyles((theme) =>
       padding: theme.spacing(1),
     },
     tokenList: {
-      maxHeight: theme.spacing(80), //TODO smarter
-      height: theme.spacing(80),
+      maxHeight: theme.spacing(60),
+      height: theme.spacing(60),
       overflow: "auto",
     },
     dialogContent: {
