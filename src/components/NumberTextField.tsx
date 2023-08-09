@@ -14,6 +14,10 @@ export default function NumberTextField({
       type="number"
       {...props}
       InputProps={{
+        inputProps: {
+          min: 0,
+          onWheel: (e) => e.currentTarget.blur(),
+        },
         endAdornment: onMaxClick ? (
           <InputAdornment position="end">
             <Button

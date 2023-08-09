@@ -267,7 +267,10 @@ export const selectTransferSourceError = (
     }
   } catch (e: any) {
     if (e?.message) {
-      return e.message.substring(0, e.message.indexOf("("));
+      return `Invalid amount - ${e.message.substring(
+        0,
+        e.message.indexOf("(")
+      )}`;
     }
     return "Invalid amount";
   }
