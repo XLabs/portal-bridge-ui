@@ -52,6 +52,7 @@ import { RootState } from "../../store";
 import useTransferControl from "../../hooks/useTransferControl";
 import transferRules from "../../config/transferRules";
 import useRoundTripTransfer from "../../hooks/useRoundTripTransfer";
+import useMinimumAmountGuard from "../../hooks/useMinimumAmountGuard";
 
 const useStyles = makeStyles((theme) => ({
   chainSelectWrapper: {
@@ -169,7 +170,7 @@ function Source() {
     isPandle
   );
   /* End pandle token check */
-
+  const isBelowMinimum = useMinimumAmountGuard();
   return (
     <>
       <StepDescription>
@@ -260,6 +261,8 @@ function Source() {
               value={amount}
               onChange={handleAmountChange}
               disabled={isTransferDisabled || shouldLockFields}
+              error={isBelowMinimum}
+              helperText={isBelowMinimum ? "Amount is below minimum" : ""}
               onMaxClick={
                 uiAmountString && !parsedTokenAccount.isNativeAsset
                   ? handleMaxClick
