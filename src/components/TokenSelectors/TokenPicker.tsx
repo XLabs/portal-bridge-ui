@@ -48,8 +48,8 @@ const useStyles = makeStyles((theme) =>
       padding: theme.spacing(1),
     },
     tokenList: {
-      maxHeight: theme.spacing(80), //TODO smarter
-      height: theme.spacing(80),
+      maxHeight: theme.spacing(60),
+      height: theme.spacing(60),
       overflow: "auto",
     },
     dialogContent: {
@@ -122,6 +122,12 @@ const useStyles = makeStyles((theme) =>
     disabledTokenAlert: {
       borderStyle: "none",
     },
+    symbolText: {
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap",
+      maxWidth: 115,
+      overflow: "hidden",
+    },
   })
 );
 
@@ -139,7 +145,7 @@ export const BasicAccountRender = (
   const classes = useStyles();
   const mintPrettyString = shortenAddress(account.mintKey);
   const uri = nft ? account.image_256 : account.logo || account.uri;
-  const symbol = account.symbol || "Unknown";
+  const symbol = account.symbol || account.name || "Unknown";
   const name = account.name || "Unknown";
   const tokenId = account.tokenId;
   const shouldDisplayBalance = !displayBalance || displayBalance(account);
@@ -187,7 +193,13 @@ export const BasicAccountRender = (
         {uri && <img alt="" className={classes.tokenImage} src={uri} />}
       </div>
       <div>
-        <Typography variant="subtitle1">{symbol}</Typography>
+        <Typography
+          title={symbol}
+          className={classes.symbolText}
+          variant="subtitle1"
+        >
+          {symbol}
+        </Typography>
       </div>
       <div>
         {
