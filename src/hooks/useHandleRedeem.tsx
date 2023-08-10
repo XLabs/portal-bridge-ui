@@ -89,7 +89,7 @@ import { useSuiWallet } from "../contexts/SuiWalletContext";
 import { redeemOnSui } from "../utils/suiRedeemHotfix";
 import { ThresholdL2WormholeGateway } from "../utils/ThresholdL2WormholeGateway";
 import useIsTBtc from "./useIsTBtc";
-import WormholeGateway, { newWormholeGateway } from "../assets/providers/tbtc/solana/WormholeGateway";
+import { newThresholdWormholeGateway } from "../assets/providers/tbtc/solana/WormholeGateway.v2";
 
 async function algo(
   dispatch: any,
@@ -358,15 +358,8 @@ async function solana(
         Buffer.from(signedVAA),
         MAX_VAA_UPLOAD_RETRIES_SOLANA
       );
-      const tbtcGateway = newWormholeGateway(connection, wallet);
+      const tbtcGateway = newThresholdWormholeGateway(connection, wallet);
       const transaction = await tbtcGateway.receiveTbtc(signedVAA, payerAddress);
-/*      const transaction = await WormholeGateway.receiveTbtc(
-        connection,
-        SOL_BRIDGE_ADDRESS,
-        SOL_TOKEN_BRIDGE_ADDRESS,
-        payerAddress,
-        signedVAA
-      )*/
       const txid = await signSendAndConfirm(wallet, transaction);
       // TODO: didn't want to make an info call we didn't need, can we get the block without it by modifying the above call?
       dispatch(setRedeemTx({ id: txid, block: 1 }));
@@ -405,7 +398,9 @@ async function solana(
         content: <Alert severity="success">Transaction confirmed</Alert>,
       });
     }
-  } catch (e) {
+  } catch (e: any) {
+    console.log(e.logs);
+    console.trace(e);
     enqueueSnackbar(null, {
       content: <Alert severity="error">{parseError(e)}</Alert>,
     });

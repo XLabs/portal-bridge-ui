@@ -333,7 +333,7 @@ async function evm(
     const transferAmountParsed = baseAmountParsed.add(feeParsed);
 
     let receipt: ContractReceipt;
-
+    debugger;
     if (isTBTC && THRESHOLD_GATEWAYS[chainId]) {
       const sourceAddress = THRESHOLD_GATEWAYS[chainId].toLowerCase();
 
@@ -366,7 +366,7 @@ async function evm(
         // like ethers when choosing fees automatically.
         ...(chainId === CHAIN_ID_POLYGON && { type: 0 }),
       };
-
+      console.log('sending tBTC to solana')
       const tx = await L2WormholeGateway.sendTbtc(
         amountNormalizeAmount,
         recipientChain,
