@@ -41,7 +41,6 @@ import {
   selectTerraFeeDenom,
   selectTransferIsRedeeming,
   selectTransferTargetChain,
-  selectTransferIsTBTC,
 } from "../store/selectors";
 import { setIsRedeeming, setRedeemTx } from "../store/transferSlice";
 import { signSendAndConfirmAlgorand } from "../utils/algorand";
@@ -89,6 +88,8 @@ import { getSuiProvider } from "../utils/sui";
 import { useSuiWallet } from "../contexts/SuiWalletContext";
 import { redeemOnSui } from "../utils/suiRedeemHotfix";
 import { ThresholdL2WormholeGateway } from "../utils/ThresholdL2WormholeGateway";
+import useIsTBtc from "./useIsTBtc";
+import WormholeGateway, { newWormholeGateway } from "../assets/providers/tbtc/solana/WormholeGateway";
 
 async function algo(
   dispatch: any,
@@ -339,7 +340,8 @@ async function solana(
   wallet: SolanaWallet,
   payerAddress: string, //TODO: we may not need this since we have wallet
   signedVAA: Uint8Array,
-  isNative: boolean
+  isNative: boolean,
+  isTbtc: boolean
 ) {
   dispatch(setIsRedeeming(true));
   try {
@@ -347,36 +349,62 @@ async function solana(
       throw new Error("wallet.signTransaction is undefined");
     }
     const connection = new Connection(SOLANA_HOST, "confirmed");
-    await postVaaSolanaWithRetry(
-      connection,
-      wallet.signTransaction.bind(wallet),
-      SOL_BRIDGE_ADDRESS,
-      payerAddress,
-      Buffer.from(signedVAA),
-      MAX_VAA_UPLOAD_RETRIES_SOLANA
-    );
-    // TODO: how do we retry in between these steps
-    const transaction = isNative
-      ? await redeemAndUnwrapOnSolana(
-          connection,
-          SOL_BRIDGE_ADDRESS,
-          SOL_TOKEN_BRIDGE_ADDRESS,
-          payerAddress,
-          signedVAA
-        )
-      : await redeemOnSolana(
-          connection,
-          SOL_BRIDGE_ADDRESS,
-          SOL_TOKEN_BRIDGE_ADDRESS,
-          payerAddress,
-          signedVAA
-        );
-    const txid = await signSendAndConfirm(wallet, transaction);
-    // TODO: didn't want to make an info call we didn't need, can we get the block without it by modifying the above call?
-    dispatch(setRedeemTx({ id: txid, block: 1 }));
-    enqueueSnackbar(null, {
-      content: <Alert severity="success">Transaction confirmed</Alert>,
-    });
+    if (isTbtc) {
+      await postVaaSolanaWithRetry(
+        connection,
+        wallet.signTransaction.bind(wallet),
+        SOL_BRIDGE_ADDRESS,
+        payerAddress,
+        Buffer.from(signedVAA),
+        MAX_VAA_UPLOAD_RETRIES_SOLANA
+      );
+      const tbtcGateway = newWormholeGateway(connection, wallet);
+      const transaction = await tbtcGateway.receiveTbtc(signedVAA, payerAddress);
+/*      const transaction = await WormholeGateway.receiveTbtc(
+        connection,
+        SOL_BRIDGE_ADDRESS,
+        SOL_TOKEN_BRIDGE_ADDRESS,
+        payerAddress,
+        signedVAA
+      )*/
+      const txid = await signSendAndConfirm(wallet, transaction);
+      // TODO: didn't want to make an info call we didn't need, can we get the block without it by modifying the above call?
+      dispatch(setRedeemTx({ id: txid, block: 1 }));
+      enqueueSnackbar(null, {
+        content: <Alert severity="success">Transaction confirmed</Alert>,
+      });
+    } else {
+      await postVaaSolanaWithRetry(
+        connection,
+        wallet.signTransaction.bind(wallet),
+        SOL_BRIDGE_ADDRESS,
+        payerAddress,
+        Buffer.from(signedVAA),
+        MAX_VAA_UPLOAD_RETRIES_SOLANA
+      );
+      // TODO: how do we retry in between these steps
+      const transaction = isNative
+        ? await redeemAndUnwrapOnSolana(
+            connection,
+            SOL_BRIDGE_ADDRESS,
+            SOL_TOKEN_BRIDGE_ADDRESS,
+            payerAddress,
+            signedVAA
+          )
+        : await redeemOnSolana(
+            connection,
+            SOL_BRIDGE_ADDRESS,
+            SOL_TOKEN_BRIDGE_ADDRESS,
+            payerAddress,
+            signedVAA
+          );
+      const txid = await signSendAndConfirm(wallet, transaction);
+      // TODO: didn't want to make an info call we didn't need, can we get the block without it by modifying the above call?
+      dispatch(setRedeemTx({ id: txid, block: 1 }));
+      enqueueSnackbar(null, {
+        content: <Alert severity="success">Transaction confirmed</Alert>,
+      });
+    }
   } catch (e) {
     enqueueSnackbar(null, {
       content: <Alert severity="error">{parseError(e)}</Alert>,
@@ -465,8 +493,7 @@ export function useHandleRedeem() {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const targetChain = useSelector(selectTransferTargetChain);
-  const isTBTC = useSelector(selectTransferIsTBTC);
-
+  const isTBTC = useIsTBtc();;
   const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
   const { signer } = useEthereumProvider(targetChain);
   const { wallet: terraWallet } = useTerraWallet(targetChain);
@@ -496,7 +523,7 @@ export function useHandleRedeem() {
       !!solPK &&
       signedVAA
     ) {
-      solana(dispatch, enqueueSnackbar, solanaWallet, solPK, signedVAA, false);
+      solana(dispatch, enqueueSnackbar, solanaWallet, solPK, signedVAA, false, isTBTC);
     } else if (isTerraChain(targetChain) && !!terraWallet && signedVAA) {
       terra(
         dispatch,
@@ -569,7 +596,7 @@ export function useHandleRedeem() {
       !!solPK &&
       signedVAA
     ) {
-      solana(dispatch, enqueueSnackbar, solanaWallet, solPK, signedVAA, true);
+      solana(dispatch, enqueueSnackbar, solanaWallet, solPK, signedVAA, true, isTBTC);
     } else if (isTerraChain(targetChain) && !!terraWallet && signedVAA) {
       terra(
         dispatch,

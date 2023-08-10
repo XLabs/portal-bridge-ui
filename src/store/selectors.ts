@@ -172,13 +172,6 @@ export const selectTransferSourceChain = (state: RootState) =>
 export const selectTransferSourceAsset = (state: RootState) => {
   return state.transfer.sourceParsedTokenAccount?.mintKey || undefined;
 };
-export const selectTransferIsTBTC = (state: RootState) => {
-  return (
-    state.transfer.originChain === CHAIN_ID_ETH &&
-    state.transfer.originAsset?.toLowerCase() ===
-      TBTC_ASSET_ADDRESS?.toLowerCase()
-  );
-};
 export const selectTransferIsSourceAssetWormholeWrapped = (state: RootState) =>
   state.transfer.isSourceAssetWormholeWrapped;
 export const selectTransferOriginChain = (state: RootState) =>

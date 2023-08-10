@@ -54,7 +54,6 @@ import {
   selectNFTTargetChain,
   selectTransferActiveStep,
   selectTransferIsSourceAssetWormholeWrapped,
-  selectTransferIsTBTC,
   selectTransferOriginAsset,
   selectTransferOriginChain,
   selectTransferTargetChain,
@@ -86,6 +85,7 @@ import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
 import { getAptosClient } from "../utils/aptos";
 import { getInjectiveWasmClient } from "../utils/injective";
 import { getSuiProvider } from "../utils/sui";
+import useIsTBtc from "./useIsTBtc";
 
 function useFetchTargetAsset(nft?: boolean) {
   const dispatch = useDispatch();
@@ -105,7 +105,7 @@ function useFetchTargetAsset(nft?: boolean) {
   const targetChain = useSelector(
     nft ? selectNFTTargetChain : selectTransferTargetChain
   );
-  const isTBTC = useSelector(selectTransferIsTBTC);
+  const isTBTC = useIsTBtc();
   const activeStep = useSelector(selectTransferActiveStep);
   const setTargetAsset = nft ? setNFTTargetAsset : setTransferTargetAsset;
   const { provider, evmChainId } = useEthereumProvider(targetChain);

@@ -14,7 +14,6 @@ import {
   selectTransferOriginChain,
   selectTransferSourceChain,
   selectTransferSourceParsedTokenAccount,
-  selectTransferIsTBTC,
 } from "../../store/selectors";
 import {
   CHAINS_BY_ID,
@@ -26,6 +25,7 @@ import SmartAddress from "../SmartAddress";
 import SolanaTPSWarning from "../SolanaTPSWarning";
 import { useTargetInfo } from "./Target";
 import TokenWarning from "./TokenWarning";
+import useIsTBtc from "../../hooks/useIsTBtc";
 
 function SendConfirmationContent({
   open,
@@ -36,7 +36,7 @@ function SendConfirmationContent({
   onClose: () => void;
   onClick: () => void;
 }) {
-  const isTBTC = useSelector(selectTransferIsTBTC);
+  const isTBTC = useIsTBtc();
   const sourceChain = useSelector(selectTransferSourceChain);
   const sourceParsedTokenAccount = useSelector(
     selectTransferSourceParsedTokenAccount

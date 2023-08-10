@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEthereumProvider } from "../contexts/EthereumProviderContext";
 import {
   selectTransferIsApproving,
-  selectTransferIsTBTC,
   selectTransferSourceChain,
 } from "../store/selectors";
 import { setIsApproving } from "../store/transferSlice";
@@ -19,6 +18,7 @@ import {
   THRESHOLD_GATEWAYS,
   getTokenBridgeAddressForChain,
 } from "../utils/consts";
+import useIsTBtc from "./useIsTBtc";
 
 export default function useAllowance(
   chainId: ChainId,
@@ -33,7 +33,7 @@ export default function useAllowance(
   const [isAllowanceFetching, setIsAllowanceFetching] = useState(false);
   const contract = useRef(getTokenBridgeAddressForChain(chainId));
 
-  const isTBTC = useSelector(selectTransferIsTBTC);
+  const isTBTC = useIsTBtc();
   const sourceChain = useSelector(selectTransferSourceChain);
   const isApproveProcessing = useSelector(selectTransferIsApproving);
   const { signer } = useEthereumProvider(chainId);

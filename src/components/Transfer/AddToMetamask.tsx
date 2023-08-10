@@ -9,13 +9,13 @@ import {
   selectTransferSourceParsedTokenAccount,
   selectTransferTargetAsset,
   selectTransferTargetChain,
-  selectTransferIsTBTC,
 } from "../../store/selectors";
 import { THRESHOLD_TBTC_CONTRACTS, getEvmChainId } from "../../utils/consts";
 import {
   ethTokenToParsedTokenAccount,
   getEthereumToken,
 } from "../../utils/ethereum";
+import useIsTBtc from "../../hooks/useIsTBtc";
 
 const useStyles = makeStyles((theme) => ({
   addButton: {
@@ -33,7 +33,7 @@ export default function AddToMetamask() {
   const sourceChain = useSelector(selectTransferSourceChain);
   const targetAsset = useSelector(selectTransferTargetAsset);
 
-  const isTBTC = useSelector(selectTransferIsTBTC);
+  const isTBTC = useIsTBtc();
   const isAddingTBTC =
     isTBTC &&
     THRESHOLD_TBTC_CONTRACTS[targetChain] &&

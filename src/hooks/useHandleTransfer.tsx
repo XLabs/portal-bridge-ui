@@ -58,7 +58,6 @@ import {
   selectTransferAmount,
   selectTransferIsSendComplete,
   selectTransferIsSending,
-  selectTransferIsTBTC,
   selectTransferIsTargetComplete,
   selectTransferOriginAsset,
   selectTransferOriginChain,
@@ -129,6 +128,8 @@ import {
 } from "@certusone/wormhole-sdk/lib/cjs/sui";
 import { useSuiWallet } from "../contexts/SuiWalletContext";
 import { ThresholdL2WormholeGateway } from "../utils/ThresholdL2WormholeGateway";
+import useIsTBtc from "./useIsTBtc";
+import WormholeGateway from "../assets/providers/tbtc/solana/WormholeGateway";
 
 type AdditionalPayloadOverride = {
   receivingContract: Uint8Array;
@@ -586,7 +587,8 @@ async function solana(
   maybeAdditionalPayload: MaybeAdditionalPayloadFn,
   originAddressStr?: string,
   originChain?: ChainId,
-  relayerFee?: string
+  relayerFee?: string,
+  isTBtc: boolean = false
 ) {
   dispatch(setIsSending(true));
   try {
@@ -598,55 +600,79 @@ async function solana(
     const originAddress = originAddressStr
       ? zeroPad(hexToUint8Array(originAddressStr), 32)
       : undefined;
-    const promise = isNative
-      ? transferNativeSol(
-          connection,
-          SOL_BRIDGE_ADDRESS,
-          SOL_TOKEN_BRIDGE_ADDRESS,
-          payerAddress,
-          transferAmountParsed.toBigInt(),
-          additionalPayload?.receivingContract || targetAddress,
-          targetChain,
-          feeParsed.toBigInt(),
-          additionalPayload?.payload
-        )
-      : transferFromSolana(
-          connection,
-          SOL_BRIDGE_ADDRESS,
-          SOL_TOKEN_BRIDGE_ADDRESS,
-          payerAddress,
-          fromAddress,
-          mintAddress,
-          transferAmountParsed.toBigInt(),
-          additionalPayload?.receivingContract || targetAddress,
-          targetChain,
-          originAddress,
-          originChain,
-          undefined,
-          feeParsed.toBigInt(),
-          additionalPayload?.payload
-        );
-    const transaction = await promise;
-    const txid = await signSendAndConfirm(wallet, transaction);
-    enqueueSnackbar(null, {
-      content: <Alert severity="success">Transaction confirmed</Alert>,
-    });
-    const info = await connection.getTransaction(txid);
-    if (!info) {
-      throw new Error("An error occurred while fetching the transaction info");
+    if (isTBtc) {
+      const transaction = await WormholeGateway.sendTbtc();
+      const txid = await signSendAndConfirm(wallet, transaction);
+      enqueueSnackbar(null, {
+        content: <Alert severity="success">Transaction confirmed</Alert>,
+      });
+      const info = await connection.getTransaction(txid);
+      if (!info) {
+        throw new Error("An error occurred while fetching the transaction info");
+      }
+      dispatch(setTransferTx({ id: txid, block: info.slot }));
+      const sequence = parseSequenceFromLogSolana(info);
+      const emitterAddress = await getEmitterAddressSolana(
+        SOL_TOKEN_BRIDGE_ADDRESS
+      );
+      await fetchSignedVAA(
+        CHAIN_ID_SOLANA,
+        emitterAddress,
+        sequence,
+        enqueueSnackbar,
+        dispatch
+      );
+    } else {
+      const promise = isNative
+        ? transferNativeSol(
+            connection,
+            SOL_BRIDGE_ADDRESS,
+            SOL_TOKEN_BRIDGE_ADDRESS,
+            payerAddress,
+            transferAmountParsed.toBigInt(),
+            additionalPayload?.receivingContract || targetAddress,
+            targetChain,
+            feeParsed.toBigInt(),
+            additionalPayload?.payload
+          )
+        : transferFromSolana(
+            connection,
+            SOL_BRIDGE_ADDRESS,
+            SOL_TOKEN_BRIDGE_ADDRESS,
+            payerAddress,
+            fromAddress,
+            mintAddress,
+            transferAmountParsed.toBigInt(),
+            additionalPayload?.receivingContract || targetAddress,
+            targetChain,
+            originAddress,
+            originChain,
+            undefined,
+            feeParsed.toBigInt(),
+            additionalPayload?.payload
+          );
+      const transaction = await promise;
+      const txid = await signSendAndConfirm(wallet, transaction);
+      enqueueSnackbar(null, {
+        content: <Alert severity="success">Transaction confirmed</Alert>,
+      });
+      const info = await connection.getTransaction(txid);
+      if (!info) {
+        throw new Error("An error occurred while fetching the transaction info");
+      }
+      dispatch(setTransferTx({ id: txid, block: info.slot }));
+      const sequence = parseSequenceFromLogSolana(info);
+      const emitterAddress = await getEmitterAddressSolana(
+        SOL_TOKEN_BRIDGE_ADDRESS
+      );
+      await fetchSignedVAA(
+        CHAIN_ID_SOLANA,
+        emitterAddress,
+        sequence,
+        enqueueSnackbar,
+        dispatch
+      );
     }
-    dispatch(setTransferTx({ id: txid, block: info.slot }));
-    const sequence = parseSequenceFromLogSolana(info);
-    const emitterAddress = await getEmitterAddressSolana(
-      SOL_TOKEN_BRIDGE_ADDRESS
-    );
-    await fetchSignedVAA(
-      CHAIN_ID_SOLANA,
-      emitterAddress,
-      sequence,
-      enqueueSnackbar,
-      dispatch
-    );
   } catch (e) {
     handleError(e, enqueueSnackbar, dispatch);
   }
@@ -871,7 +897,7 @@ export function useHandleTransfer() {
   const isTargetComplete = useSelector(selectTransferIsTargetComplete);
   const isSending = useSelector(selectTransferIsSending);
   const isSendComplete = useSelector(selectTransferIsSendComplete);
-  const isTBTC = useSelector(selectTransferIsTBTC);
+  const isTBTC = useIsTBtc();
   const { signer } = useEthereumProvider(sourceChain);
   const { wallet: solanaWallet, publicKey: solPK } = useSolanaWallet();
   const { wallet: terraWallet } = useTerraWallet(sourceChain);
