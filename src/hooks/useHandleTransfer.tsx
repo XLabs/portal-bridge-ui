@@ -36,6 +36,7 @@ import {
   CHAIN_ID_SUI,
   CHAIN_ID_ETH,
   CHAIN_ID_POLYGON,
+  tryNativeToUint8Array,
 } from "@certusone/wormhole-sdk";
 import { transferTokens } from "@certusone/wormhole-sdk/lib/esm/aptos/api/tokenBridge";
 import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk/lib/esm";
@@ -44,7 +45,7 @@ import { Connection } from "@solana/web3.js";
 import algosdk from "algosdk";
 import { Types } from "aptos";
 import { BigNumber, Contract, ContractReceipt, Signer } from "ethers";
-import { arrayify, parseUnits, zeroPad } from "ethers/lib/utils";
+import { parseUnits, zeroPad } from "ethers/lib/utils";
 import { useSnackbar } from "notistack";
 import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -333,11 +334,8 @@ async function evm(
 
     let receipt: ContractReceipt;
 
-    debugger;
-    console.log('sending tBTC to solana')
     if (isTBTC && THRESHOLD_GATEWAYS[chainId]) {
       const sourceAddress = THRESHOLD_GATEWAYS[chainId].toLowerCase();
-      console.log('in sending tBTC to solana')
       const L2WormholeGateway = new Contract(
         sourceAddress,
         ThresholdL2WormholeGateway,
@@ -901,11 +899,11 @@ export function useHandleTransfer() {
       THRESHOLD_GATEWAYS[targetChain] &&
       targetAddress
     ) {
-      const tbtcGateway = arrayify(THRESHOLD_GATEWAYS[targetChain]);
+      const tbtcGateway = tryNativeToUint8Array(THRESHOLD_GATEWAYS[targetChain], targetChain);
       return {
-        receivingContract: zeroPad(tbtcGateway, 32),
-        payload: targetAddress,
-      };
+          receivingContract: tbtcGateway,
+          payload: targetAddress,
+        };
     }
     return null;
   }, [isTBTC, originChain, targetAddress, targetChain]);
