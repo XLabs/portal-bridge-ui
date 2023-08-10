@@ -333,9 +333,11 @@ async function evm(
 
     let receipt: ContractReceipt;
 
+    debugger;
+    console.log('sending tBTC to solana')
     if (isTBTC && THRESHOLD_GATEWAYS[chainId]) {
       const sourceAddress = THRESHOLD_GATEWAYS[chainId].toLowerCase();
-
+      console.log('in sending tBTC to solana')
       const L2WormholeGateway = new Contract(
         sourceAddress,
         ThresholdL2WormholeGateway,

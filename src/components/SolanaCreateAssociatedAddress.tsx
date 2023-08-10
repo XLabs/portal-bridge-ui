@@ -130,6 +130,7 @@ export default function SolanaCreateAssociatedAddress({
           const { blockhash } = await connection.getRecentBlockhash();
           transaction.recentBlockhash = blockhash;
           transaction.feePayer = new PublicKey(payerPublicKey);
+          console.log(transaction);
           await signSendAndConfirm(solanaWallet, transaction);
           setIsCreating(false);
           setAssociatedAccountExists(true);
