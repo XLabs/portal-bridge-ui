@@ -96,6 +96,7 @@ import {
   THRESHOLD_ARBITER_FEE,
   THRESHOLD_NONCE,
   THRESHOLD_GATEWAYS,
+  THRESHOLD_TBTC_CONTRACTS,
 } from "../utils/consts";
 import { getSignedVAAWithRetry } from "../utils/getSignedVAAWithRetry";
 import {
@@ -584,10 +585,10 @@ async function solana(
   targetAddress: Uint8Array,
   isNative: boolean,
   maybeAdditionalPayload: MaybeAdditionalPayloadFn,
+  isTBTC: boolean,
   originAddressStr?: string,
   originChain?: ChainId,
-  relayerFee?: string,
-  isTBTC: boolean = false
+  relayerFee?: string
 ) {
   dispatch(setIsSending(true));
   try {
@@ -600,7 +601,7 @@ async function solana(
       ? zeroPad(hexToUint8Array(originAddressStr), 32)
       : undefined;
 
-    if (isTBTC) {
+    if (THRESHOLD_TBTC_CONTRACTS[originChain!] === mintAddress) {
       const wormholeGateway = newThresholdWormholeGateway(connection, wallet);
       const transaction = await wormholeGateway.sendTbtc(
         transferAmountParsed.toBigInt(),
@@ -685,6 +686,7 @@ async function solana(
       );
     }
   } catch (e) {
+    console.trace(e);
     handleError(e, enqueueSnackbar, dispatch);
   }
 }
@@ -940,7 +942,6 @@ export function useHandleTransfer() {
         THRESHOLD_GATEWAYS[targetChain],
         targetChain
       );
-      console.log(uint8ArrayToHex(targetAddress), uint8ArrayToHex(tbtcGateway));
       return {
         receivingContract: tbtcGateway,
         payload: targetAddress,
@@ -995,6 +996,7 @@ export function useHandleTransfer() {
         targetAddress,
         isNative,
         maybeAdditionalPayload,
+        isTBTC,
         originAsset,
         originChain,
         relayerFee

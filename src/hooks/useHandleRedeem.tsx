@@ -363,13 +363,11 @@ async function solana(
         MAX_VAA_UPLOAD_RETRIES_SOLANA
       );
       const tbtcGateway = newThresholdWormholeGateway(connection, wallet);
-      // TODO: how do we retry in between these steps
       const transaction = await tbtcGateway.receiveTbtc(
         signedVAA,
         payerAddress
       );
       const txid = await signSendAndConfirm(wallet, transaction);
-      // TODO: didn't want to make an info call we didn't need, can we get the block without it by modifying the above call?
       dispatch(setRedeemTx({ id: txid, block: 1 }));
       enqueueSnackbar(null, {
         content: <Alert severity="success">Transaction confirmed</Alert>,

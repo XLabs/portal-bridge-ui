@@ -14,10 +14,10 @@ import {
   THRESHOLD_TBTC_SOLANA_PROGRAM_TESTNET,
 } from "../../../../utils/consts";
 import {
+    CHAIN_ID_ETH,
   CHAIN_ID_SOLANA,
   ChainId,
   SignedVaa,
-  hexToUint8Array,
   parseTokenTransferVaa,
 } from "@certusone/wormhole-sdk";
 import { WormholeGatewayIdl } from "./WormholeGatewayIdl";
@@ -96,6 +96,50 @@ function getCoreMessagePDA(sequence: bigint): PublicKey {
     [Buffer.from("msg"), encodedSequence],
     WORMHOLE_GATEWAY_PROGRAM_ID
   )[0];
+}
+
+function getGatewayInfoPDA(targetChain: number): PublicKey {
+    const encodedChain = Buffer.alloc(2);
+    encodedChain.writeUInt16LE(targetChain);
+    return PublicKey.findProgramAddressSync(
+        [Buffer.from("gateway-info"), encodedChain],
+        WORMHOLE_GATEWAY_PROGRAM_ID
+    )[0];
+}
+
+type SendTbtcArgs = {
+
+}
+
+type SendTbtcWrappedAccounts = {}
+
+type SendTbtcGatewayAccounts = {
+
+}
+
+/**
+ * will off board from Solana to L1 (Ethereum)
+ */
+function sendTbtcWrapped(program: Program<typeof WormholeGatewayIdl>, args: SendTbtcArgs, accounts: SendTbtcWrappedAccounts) {
+    const tx = program.methods
+        .sendTbtcWrapped({
+            ...args,
+            arbiterFee: new BN(0)
+        })
+        .accounts(accounts)
+        .transaction();
+    return tx;
+}
+
+/**
+ * Send tBtc beween gateways allow burn and mint of tBtc
+ */
+function sendTbtcGateway(program: Program<typeof WormholeGatewayIdl>, args: SendTbtcArgs, accounts: SendTbtcGatewayAccounts) {
+    const tx = program.methods
+        .sendTbtcGateway(args)
+        .accounts(accounts)
+        .transaction();
+    return tx;
 }
 
 export function newThresholdWormholeGateway(
@@ -224,37 +268,71 @@ export function newThresholdWormholeGateway(
       tokenBridgeCoreEmitter,
       CORE_BRIDGE_PROGRAM_ID
     );
-    const accounts = {
-      custodian,
-      wrappedTbtcToken,
-      wrappedTbtcMint,
-      tbtcMint,
-      senderToken: new PublicKey(senderToken), // associated token account
-      sender: new PublicKey(sender), //sender, associated token account owner,
-      tokenBridgeConfig,
-      tokenBridgeWrappedAsset,
-      tokenBridgeTransferAuthority,
-      coreBridgeData,
-      coreMessage,
-      tokenBridgeCoreEmitter,
-      coreEmitterSequence,
-      coreFeeCollector,
-      clock: SYSVAR_CLOCK_PUBKEY,
-      rent: SYSVAR_RENT_PUBKEY,
-      tokenBridgeProgram: TOKEN_BRIDGE_PROGRAM_ID,
-      coreBridgeProgram: CORE_BRIDGE_PROGRAM_ID,
-    };
+    const gatewayInfo = getGatewayInfoPDA(recipientChain);
+    const tokenBridgeSender = tokenBridge.deriveSenderAccountKey(
+        WORMHOLE_GATEWAY_PROGRAM_ID
+    );
     const args = {
-      amount: new BN(amount.toString()),
-      recipientChain,
-      recipientAddress,
-      nonce: 0,
+        amount: new BN(amount.toString()),
+        recipientChain,
+        recipient: recipientAddress,
+        nonce: 0,
     };
-    const tx = program.methods
-      .sendTbtcGateway(args)
-      .accounts(accounts)
-      .transaction();
-    return tx;
+    const associatedTokenAccount = await Token.getAssociatedTokenAddress(
+        ASSOCIATED_TOKEN_PROGRAM_ID,
+        TOKEN_PROGRAM_ID,
+        new PublicKey(senderToken), // this might error
+        new PublicKey(wallet.getAddress()!)
+    )
+    if (recipientChain === CHAIN_ID_ETH) { // L1 off board
+        const wrappedAccounts = {
+            custodian,
+            wrappedTbtcToken,
+            wrappedTbtcMint,
+            tbtcMint,
+            senderToken: associatedTokenAccount, // associated token account
+            sender: new PublicKey(wallet.getAddress()!), //sender, associated token account owner,
+            tokenBridgeConfig,
+            tokenBridgeWrappedAsset,
+            tokenBridgeTransferAuthority,
+            coreBridgeData,
+            coreMessage,
+            tokenBridgeCoreEmitter,
+            coreEmitterSequence,
+            coreFeeCollector,
+            clock: SYSVAR_CLOCK_PUBKEY,
+            rent: SYSVAR_RENT_PUBKEY,
+            tokenBridgeProgram: TOKEN_BRIDGE_PROGRAM_ID,
+            coreBridgeProgram: CORE_BRIDGE_PROGRAM_ID
+        }
+        console.log('accounts', Object.entries(wrappedAccounts).map(([k, v]) => [k, v.toBase58()]));
+        console.log('args', Object.entries(args).map(([k, v]) => [k, v.toString()]));
+        return sendTbtcWrapped(program, args, wrappedAccounts);
+    } else {
+        const gatewayAccounts = {
+            custodian,
+            gatewayInfo,
+            wrappedTbtcToken,
+            wrappedTbtcMint,
+            tbtcMint,
+            senderToken: associatedTokenAccount, // associated token account
+            sender: new PublicKey(wallet.getAddress()!), //sender, associated token account owner,
+            tokenBridgeConfig,
+            tokenBridgeWrappedAsset,
+            tokenBridgeTransferAuthority,
+            coreBridgeData,
+            coreMessage,
+            tokenBridgeCoreEmitter,
+            coreEmitterSequence,
+            coreFeeCollector,
+            clock: SYSVAR_CLOCK_PUBKEY,
+            tokenBridgeSender,
+            rent: SYSVAR_RENT_PUBKEY,
+            tokenBridgeProgram: TOKEN_BRIDGE_PROGRAM_ID,
+            coreBridgeProgram: CORE_BRIDGE_PROGRAM_ID,
+        }
+        return sendTbtcGateway(program, args, gatewayAccounts);
+    }
   };
   return {
     sendTbtc,
