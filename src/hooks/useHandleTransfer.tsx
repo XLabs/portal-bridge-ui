@@ -608,14 +608,16 @@ async function solana(
         targetAddress,
         fromAddress,
         mintAddress
-      )
+      );
       const txid = await signSendAndConfirm(wallet, transaction);
       enqueueSnackbar(null, {
         content: <Alert severity="success">Transaction confirmed</Alert>,
       });
       const info = await connection.getTransaction(txid);
       if (!info) {
-        throw new Error("An error occurred while fetching the transaction info");
+        throw new Error(
+          "An error occurred while fetching the transaction info"
+        );
       }
       dispatch(setTransferTx({ id: txid, block: info.slot }));
       const sequence = parseSequenceFromLogSolana(info);
@@ -665,7 +667,9 @@ async function solana(
       });
       const info = await connection.getTransaction(txid);
       if (!info) {
-        throw new Error("An error occurred while fetching the transaction info");
+        throw new Error(
+          "An error occurred while fetching the transaction info"
+        );
       }
       dispatch(setTransferTx({ id: txid, block: info.slot }));
       const sequence = parseSequenceFromLogSolana(info);
@@ -932,12 +936,15 @@ export function useHandleTransfer() {
       THRESHOLD_GATEWAYS[targetChain] &&
       targetAddress
     ) {
-      const tbtcGateway = tryNativeToUint8Array(THRESHOLD_GATEWAYS[targetChain], targetChain);
+      const tbtcGateway = tryNativeToUint8Array(
+        THRESHOLD_GATEWAYS[targetChain],
+        targetChain
+      );
       console.log(uint8ArrayToHex(targetAddress), uint8ArrayToHex(tbtcGateway));
       return {
-          receivingContract: tbtcGateway,
-          payload: targetAddress,
-        };
+        receivingContract: tbtcGateway,
+        payload: targetAddress,
+      };
     }
     return null;
   }, [isTBTC, originChain, targetAddress, targetChain]);

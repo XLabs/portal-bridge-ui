@@ -85,13 +85,10 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
       else if (!nft && solPK && targetChain === CHAIN_ID_SOLANA && isTBTC) {
         dispatch(
           setTargetAddressHex(
-            uint8ArrayToHex(
-              zeroPad(new PublicKey(solPK).toBytes(), 32)
-            )
+            uint8ArrayToHex(zeroPad(new PublicKey(solPK).toBytes(), 32))
           )
         );
-      }
-      else if (
+      } else if (
         !nft && // only support existing, non-derived token accounts for token transfers (nft flow doesn't check balance)
         targetChain === CHAIN_ID_SOLANA &&
         targetTokenAccountPublicKey
@@ -244,7 +241,7 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
     aptosAddress,
     injAddress,
     suiAddress,
-    isTBTC
+    isTBTC,
   ]);
 }
 

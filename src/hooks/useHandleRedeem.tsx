@@ -358,10 +358,16 @@ async function solana(
         Buffer.from(signedVAA),
         MAX_VAA_UPLOAD_RETRIES_SOLANA
       );
-      console.log("txidVaaPosted", txidVaaPosted.map(tx => tx.signature));
+      console.log(
+        "txidVaaPosted",
+        txidVaaPosted.map((tx) => tx.signature)
+      );
       const tbtcGateway = newThresholdWormholeGateway(connection, wallet);
       // TODO: how do we retry in between these steps
-      const transaction = await tbtcGateway.receiveTbtc(signedVAA, payerAddress);
+      const transaction = await tbtcGateway.receiveTbtc(
+        signedVAA,
+        payerAddress
+      );
       const txid = await signSendAndConfirm(wallet, transaction);
       // TODO: didn't want to make an info call we didn't need, can we get the block without it by modifying the above call?
       dispatch(setRedeemTx({ id: txid, block: 1 }));
@@ -519,7 +525,15 @@ export function useHandleRedeem() {
       !!solPK &&
       signedVAA
     ) {
-      solana(dispatch, enqueueSnackbar, solanaWallet, solPK, signedVAA, false, isTBTC);
+      solana(
+        dispatch,
+        enqueueSnackbar,
+        solanaWallet,
+        solPK,
+        signedVAA,
+        false,
+        isTBTC
+      );
     } else if (isTerraChain(targetChain) && !!terraWallet && signedVAA) {
       terra(
         dispatch,
@@ -592,7 +606,15 @@ export function useHandleRedeem() {
       !!solPK &&
       signedVAA
     ) {
-      solana(dispatch, enqueueSnackbar, solanaWallet, solPK, signedVAA, true, isTBTC);
+      solana(
+        dispatch,
+        enqueueSnackbar,
+        solanaWallet,
+        solPK,
+        signedVAA,
+        true,
+        isTBTC
+      );
     } else if (isTerraChain(targetChain) && !!terraWallet && signedVAA) {
       terra(
         dispatch,
