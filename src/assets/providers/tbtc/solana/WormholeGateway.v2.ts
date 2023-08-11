@@ -169,11 +169,20 @@ export function newThresholdWormholeGateway(
       custodianData.wrappedTbtcMint as string
     );
     const recipientToken = await Token.getAssociatedTokenAddress(
-      ASSOCIATED_TOKEN_PROGRAM_ID,
-      TOKEN_PROGRAM_ID,
-      tbtcMint,
-      recipient
-    );
+        ASSOCIATED_TOKEN_PROGRAM_ID,
+        TOKEN_PROGRAM_ID,
+        tbtcMint,
+        recipient
+      );
+    const recipientTokenAta = Token.createAssociatedTokenAccountInstruction(
+        ASSOCIATED_TOKEN_PROGRAM_ID,
+        TOKEN_PROGRAM_ID,
+        tbtcMint,
+        recipientToken,
+        recipient, // owner
+        recipient // payer
+      )
+    console.log(recipientToken);
     const tokenBridgeWrappedAsset = tokenBridge.deriveWrappedMetaKey(
       TOKEN_BRIDGE_PROGRAM_ID,
       wrappedTbtcMint
@@ -222,11 +231,13 @@ export function newThresholdWormholeGateway(
       tokenBridgeProgram: TOKEN_BRIDGE_PROGRAM_ID,
       coreBridgeProgram: CORE_BRIDGE_PROGRAM_ID,
     };
-    const tx = program.methods
+    const tx = await program.methods
       .receiveTbtc(parsed.hash)
       .accounts(accounts)
       .transaction();
-    return tx;
+    return new Transaction()
+        .add(recipientTokenAta)
+        .add(tx);
   };
 
   const sendTbtc = async (
@@ -305,8 +316,6 @@ export function newThresholdWormholeGateway(
             tokenBridgeProgram: TOKEN_BRIDGE_PROGRAM_ID,
             coreBridgeProgram: CORE_BRIDGE_PROGRAM_ID
         }
-        console.log('accounts', Object.entries(wrappedAccounts).map(([k, v]) => [k, v.toBase58()]));
-        console.log('args', Object.entries(args).map(([k, v]) => [k, v.toString()]));
         return sendTbtcWrapped(program, args, wrappedAccounts);
     } else {
         const gatewayAccounts = {
