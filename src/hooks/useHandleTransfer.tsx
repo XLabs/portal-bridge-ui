@@ -385,7 +385,6 @@ async function evm(
           : {};
 
       const additionalPayload = maybeAdditionalPayload();
-
       receipt = isNative
         ? await transferFromEthNative(
             getTokenBridgeAddressForChain(chainId),
@@ -934,6 +933,7 @@ export function useHandleTransfer() {
       targetAddress
     ) {
       const tbtcGateway = tryNativeToUint8Array(THRESHOLD_GATEWAYS[targetChain], targetChain);
+      console.log(uint8ArrayToHex(targetAddress), uint8ArrayToHex(tbtcGateway));
       return {
           receivingContract: tbtcGateway,
           payload: targetAddress,

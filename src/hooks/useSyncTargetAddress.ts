@@ -82,9 +82,13 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
         );
       }
       // TODO: have the user explicitly select an account on solana
-      else if (!nft && targetChain === CHAIN_ID_SOLANA && isTBTC) {
+      else if (!nft && solPK && targetChain === CHAIN_ID_SOLANA && isTBTC) {
         dispatch(
-          setTargetAddressHex(solPK)
+          setTargetAddressHex(
+            uint8ArrayToHex(
+              zeroPad(new PublicKey(solPK).toBytes(), 32)
+            )
+          )
         );
       }
       else if (

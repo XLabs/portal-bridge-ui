@@ -95,7 +95,7 @@ export function newThresholdWormholeGateway(connection: Connection, wallet: Sola
             tbtcMint,
             recipient
         ); 
-        const tokenBridgeWrappedAsset = tokenBridge.deriveWrappedMetaKey(TOKEN_BRIDGE_PROGRAM_ID, tbtcMint);
+        const tokenBridgeWrappedAsset = tokenBridge.deriveWrappedMetaKey(TOKEN_BRIDGE_PROGRAM_ID, wrappedTbtcMint);
         const recipientWrappedToken = await Token.getAssociatedTokenAddress(
             ASSOCIATED_TOKEN_PROGRAM_ID,
             TOKEN_PROGRAM_ID,
@@ -124,10 +124,9 @@ export function newThresholdWormholeGateway(connection: Connection, wallet: Sola
             tokenBridgeProgram: TOKEN_BRIDGE_PROGRAM_ID,
             coreBridgeProgram: CORE_BRIDGE_PROGRAM_ID
 
-        }
-        console.debug(Object.entries(accounts).map(([key, value]) => `${key}: ${value}`));
+        };
         const tx = program.methods
-            .receiveTbtc(Array.from(parsed.hash))
+            .receiveTbtc(parsed.hash)
             .accounts(accounts)
             .transaction();
         return tx;
@@ -145,7 +144,7 @@ export function newThresholdWormholeGateway(connection: Connection, wallet: Sola
         const tbtcMint = new PublicKey(custodianData.tbtcMint as string);
         const wrappedTbtcToken = new PublicKey(custodianData.wrappedTbtcToken as string);
         const wrappedTbtcMint = new PublicKey(custodianData.wrappedTbtcMint as string);
-        const tokenBridgeWrappedAsset = tokenBridge.deriveWrappedMetaKey(TOKEN_BRIDGE_PROGRAM_ID, tbtcMint);
+        const tokenBridgeWrappedAsset = tokenBridge.deriveWrappedMetaKey(TOKEN_BRIDGE_PROGRAM_ID, wrappedTbtcMint);
         const tokenBridgeConfig = tokenBridge.deriveTokenBridgeConfigKey(TOKEN_BRIDGE_PROGRAM_ID);
         const tokenBridgeTransferAuthority = tokenBridge.deriveAuthoritySignerKey(TOKEN_BRIDGE_PROGRAM_ID);
         const coreFeeCollector = coreBridge.deriveFeeCollectorKey(CORE_BRIDGE_PROGRAM_ID);
@@ -163,7 +162,7 @@ export function newThresholdWormholeGateway(connection: Connection, wallet: Sola
             wrappedTbtcMint,
             tbtcMint,
             //senderToken, associated token account
-            //sender, associated token account owner
+            //sender, associated token account owner, 
             tokenBridgeConfig,
             tokenBridgeWrappedAsset,
             tokenBridgeTransferAuthority,

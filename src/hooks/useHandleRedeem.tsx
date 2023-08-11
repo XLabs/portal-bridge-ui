@@ -350,7 +350,7 @@ async function solana(
     }
     const connection = new Connection(SOLANA_HOST, "confirmed");
     if (isTbtc) {
-      await postVaaSolanaWithRetry(
+      const txidVaaPosted = await postVaaSolanaWithRetry(
         connection,
         wallet.signTransaction.bind(wallet),
         SOL_BRIDGE_ADDRESS,
@@ -358,6 +358,7 @@ async function solana(
         Buffer.from(signedVAA),
         MAX_VAA_UPLOAD_RETRIES_SOLANA
       );
+      console.log("txidVaaPosted", txidVaaPosted.map(tx => tx.signature));
       const tbtcGateway = newThresholdWormholeGateway(connection, wallet);
       // TODO: how do we retry in between these steps
       const transaction = await tbtcGateway.receiveTbtc(signedVAA, payerAddress);
