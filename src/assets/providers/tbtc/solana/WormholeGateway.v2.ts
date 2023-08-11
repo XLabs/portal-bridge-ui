@@ -235,9 +235,7 @@ export function newThresholdWormholeGateway(
       .receiveTbtc(parsed.hash)
       .accounts(accounts)
       .transaction();
-    return new Transaction()
-        .add(recipientTokenAta)
-        .add(tx);
+    return tx;
   };
 
   const sendTbtc = async (

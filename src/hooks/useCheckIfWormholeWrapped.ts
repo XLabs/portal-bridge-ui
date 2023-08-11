@@ -57,6 +57,7 @@ import {
   XPLA_LCD_CLIENT_CONFIG,
   THRESHOLD_TBTC_CONTRACTS,
   TBTC_ASSET_ADDRESS,
+  THRESHOLD_TBTC_SOLANA_MINT_TESTNET,
 } from "../utils/consts";
 import { getOriginalAssetNear, makeNearAccount } from "../utils/near";
 import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
@@ -151,23 +152,37 @@ function useCheckIfWormholeWrapped(nft?: boolean) {
       }
       if (sourceChain === CHAIN_ID_SOLANA && sourceAsset) {
         try {
-          const connection = new Connection(SOLANA_HOST, "confirmed");
-          const wrappedInfo = makeStateSafe(
-            await (nft
-              ? getOriginalAssetSolNFT(
-                  connection,
-                  SOL_NFT_BRIDGE_ADDRESS,
-                  sourceAsset
-                )
-              : getOriginalAssetSol(
-                  connection,
-                  SOL_TOKEN_BRIDGE_ADDRESS,
-                  sourceAsset
-                ))
-          );
-          if (!cancelled) {
-            dispatch(setSourceWormholeWrappedInfo(wrappedInfo));
-          }
+          // Check if is tBtc canonical on Solana
+          // TODO improve the check and centralice the login on just one place
+          if (THRESHOLD_TBTC_SOLANA_MINT_TESTNET === sourceAsset) {
+            console.log("selected tBTC on canonical chain");
+            dispatch(
+              setSourceWormholeWrappedInfo({
+                isWrapped: true,
+                chainId: CHAIN_ID_ETH,
+                assetAddress: TBTC_ASSET_ADDRESS,
+              })
+            );
+            return;
+          } else {
+            const connection = new Connection(SOLANA_HOST, "confirmed");
+            const wrappedInfo = makeStateSafe(
+              await (nft
+                ? getOriginalAssetSolNFT(
+                    connection,
+                    SOL_NFT_BRIDGE_ADDRESS,
+                    sourceAsset
+                  )
+                : getOriginalAssetSol(
+                    connection,
+                    SOL_TOKEN_BRIDGE_ADDRESS,
+                    sourceAsset
+                  ))
+            );
+            if (!cancelled) {
+              dispatch(setSourceWormholeWrappedInfo(wrappedInfo));
+            }
+          }          
         } catch (e) {}
       }
       if (isTerraChain(sourceChain) && sourceAsset) {

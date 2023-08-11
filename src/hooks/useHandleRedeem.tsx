@@ -171,7 +171,10 @@ async function evm(
 
   try {
     let receipt;
-
+    /**
+     * if THRESHOLD_GATEWAYS[chainId] has something
+     * we have a gateway contract on the target chain to use
+     */
     const isCanonicalTarget = !!THRESHOLD_GATEWAYS[chainId];
     if (isTBTC && isCanonicalTarget) {
       console.log("redeem tbtc on canonical");
