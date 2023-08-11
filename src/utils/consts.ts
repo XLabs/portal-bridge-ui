@@ -446,10 +446,16 @@ const THRESHOLD_TBTC_CONTRACTS_TESTNET: any = {
   [CHAIN_ID_SOLANA]: "6DNSN2BJsaPFdFFc1zP37kkeNe4Usc1Sqkzr9C9vPWcU", // Solana TBTC Mint
 } as const;
 
-export const THRESHOLD_TBTC_SOLANA_MINT_TESTNET =
-  "6DNSN2BJsaPFdFFc1zP37kkeNe4Usc1Sqkzr9C9vPWcU";
-export const THRESHOLD_TBTC_SOLANA_PROGRAM_TESTNET =
+const THRESHOLD_TBTC_SOLANA_PROGRAM_TESTNET =
   "Gj93RRt6QB7FjmyokAD5rcMAku7pq3Fk2Aa8y6nNbwsV";
+
+// TODO update this when mainnet tbtc solana program is deployed
+const THRESHOLD_TBTC_SOLANA_PROGRAM_MAINNET = "";
+
+export const THRESHOLD_TBTC_SOLANA_PROGRAM: any =
+  CLUSTER === "mainnet"
+    ? THRESHOLD_TBTC_SOLANA_PROGRAM_MAINNET
+    : THRESHOLD_TBTC_SOLANA_PROGRAM_TESTNET;
 
 export const THRESHOLD_TBTC_CONTRACTS: any = {
   ...(CLUSTER === "mainnet"

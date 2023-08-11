@@ -57,7 +57,6 @@ import {
   XPLA_LCD_CLIENT_CONFIG,
   THRESHOLD_TBTC_CONTRACTS,
   TBTC_ASSET_ADDRESS,
-  THRESHOLD_TBTC_SOLANA_MINT_TESTNET,
 } from "../utils/consts";
 import { getOriginalAssetNear, makeNearAccount } from "../utils/near";
 import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
@@ -154,7 +153,7 @@ function useCheckIfWormholeWrapped(nft?: boolean) {
         try {
           // Check if is tBtc canonical on Solana
           // TODO improve the check and centralice the login on just one place
-          if (THRESHOLD_TBTC_SOLANA_MINT_TESTNET === sourceAsset) {
+          if (THRESHOLD_TBTC_CONTRACTS[sourceChain] === sourceAsset) {
             console.log("selected tBTC on canonical chain");
             dispatch(
               setSourceWormholeWrappedInfo({
@@ -182,7 +181,7 @@ function useCheckIfWormholeWrapped(nft?: boolean) {
             if (!cancelled) {
               dispatch(setSourceWormholeWrappedInfo(wrappedInfo));
             }
-          }          
+          }
         } catch (e) {}
       }
       if (isTerraChain(sourceChain) && sourceAsset) {
