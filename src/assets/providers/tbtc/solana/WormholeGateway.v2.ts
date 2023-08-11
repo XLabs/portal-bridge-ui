@@ -1,12 +1,11 @@
-import { AnchorProvider, Program } from '@project-serum/anchor';
-import { Connection, PublicKey, PublicKeyInitData, SYSVAR_RENT_PUBKEY, Transaction } from '@solana/web3.js';
-import { SOL_BRIDGE_ADDRESS as CORE_BRIDGE_ADDRESS, SOL_TOKEN_BRIDGE_ADDRESS as TOKEN_BRIDGE_ADDRESS, THRESHOLD_GATEWAYS, THRESHOLD_TBTC_CONTRACTS, THRESHOLD_TBTC_SOLANA_PROGRAM_TESTNET } from '../../../../utils/consts';
-import { CHAIN_ID_SOLANA, ChainId, SignedVaa, parseTokenTransferVaa, parseTransferPayload } from '@certusone/wormhole-sdk';
+import { AnchorProvider, BN, Program } from '@project-serum/anchor';
+import { Connection, PublicKey, PublicKeyInitData, SYSVAR_CLOCK_PUBKEY, SYSVAR_RENT_PUBKEY, Transaction } from '@solana/web3.js';
+import { SOL_BRIDGE_ADDRESS as CORE_BRIDGE_ADDRESS, SOL_TOKEN_BRIDGE_ADDRESS as TOKEN_BRIDGE_ADDRESS, THRESHOLD_GATEWAYS, THRESHOLD_TBTC_SOLANA_PROGRAM_TESTNET } from '../../../../utils/consts';
+import { CHAIN_ID_SOLANA, ChainId, SignedVaa, parseTokenTransferVaa } from '@certusone/wormhole-sdk';
 import { WormholeGatewayIdl } from './WormholeGatewayIdl';
 import * as coreBridge from '@certusone/wormhole-sdk/lib/esm/solana/wormhole';
 import * as tokenBridge from '@certusone/wormhole-sdk/lib/esm/solana/tokenBridge';
 import { SolanaWallet } from '@xlabs-libs/wallet-aggregator-solana';
-import { createNonce } from '@certusone/wormhole-sdk/lib/esm/utils/createNonce';
 import {
     ASSOCIATED_TOKEN_PROGRAM_ID,
     Token,
@@ -51,13 +50,39 @@ function getMinterInfoPDA(minter: PublicKey): PublicKey {
     )[0];
 }
 
+function getTokenBridgeCoreEmitter() {
+    const [tokenBridgeCoreEmitter] = PublicKey.findProgramAddressSync(
+    [Buffer.from("emitter")],
+    TOKEN_BRIDGE_PROGRAM_ID
+    );
+    return tokenBridgeCoreEmitter;
+}
+
+async function getTokenBridgeSequence(connection: Connection) {
+    const emitter = getTokenBridgeCoreEmitter();
+    return coreBridge
+    .getSequenceTracker(connection,
+        emitter,
+        CORE_BRIDGE_PROGRAM_ID
+    )
+    .then((tracker) => tracker.sequence);
+}
+
+function getCoreMessagePDA(sequence: bigint): PublicKey {
+    const encodedSequence = Buffer.alloc(8);
+    encodedSequence.writeBigUInt64LE(sequence);
+    return PublicKey.findProgramAddressSync(
+      [Buffer.from("msg"), encodedSequence],
+      WORMHOLE_GATEWAY_PROGRAM_ID
+    )[0];
+}
+
 export function newThresholdWormholeGateway(connection: Connection, wallet: SolanaWallet) {
     const provider = newAnchorProvider(connection, wallet);
     const program = new Program<typeof WormholeGatewayIdl>(WormholeGatewayIdl, WORMHOLE_GATEWAY_PROGRAM_ID, provider);
     
     const receiveTbtc = async (signedVAA: SignedVaa, payer: PublicKeyInitData): Promise<Transaction> => {
         const parsed = parseTokenTransferVaa(signedVAA);
-        const payload = parseTransferPayload(parsed.payload);
         const recipient = new PublicKey(payer);
         const custodian = getCustodianPDA();
         const custodianData = await program.account.custodian.fetch(custodian);
@@ -107,10 +132,62 @@ export function newThresholdWormholeGateway(connection: Connection, wallet: Sola
             .transaction();
         return tx;
     }
-    const sendTbtc = async (amount: bigint, recipientChain: ChainId, recipientAddress: Uint8Array): Promise<Transaction> => {
-        const nonce = createNonce().readUInt32LE(0);
-        const call = program.methods.sendTbtcGateway(amount, recipientChain, recipientAddress, nonce);
-        return call.transaction();
+
+    const sendTbtc = async (
+            amount: bigint, 
+            recipientChain: ChainId, 
+            recipientAddress: Uint8Array,
+            sender: Uint8Array,
+            senderToken: Uint8Array
+        ): Promise<Transaction> => {
+        const custodian = getCustodianPDA();
+        const custodianData = await program.account.custodian.fetch(custodian);
+        const tbtcMint = new PublicKey(custodianData.tbtcMint as string);
+        const wrappedTbtcToken = new PublicKey(custodianData.wrappedTbtcToken as string);
+        const wrappedTbtcMint = new PublicKey(custodianData.wrappedTbtcMint as string);
+        const tokenBridgeWrappedAsset = tokenBridge.deriveWrappedMetaKey(TOKEN_BRIDGE_PROGRAM_ID, tbtcMint);
+        const tokenBridgeConfig = tokenBridge.deriveTokenBridgeConfigKey(TOKEN_BRIDGE_PROGRAM_ID);
+        const tokenBridgeTransferAuthority = tokenBridge.deriveAuthoritySignerKey(TOKEN_BRIDGE_PROGRAM_ID);
+        const coreFeeCollector = coreBridge.deriveFeeCollectorKey(CORE_BRIDGE_PROGRAM_ID);
+        const sequence = await getTokenBridgeSequence(connection);
+        const coreMessage = getCoreMessagePDA(sequence);
+        const coreBridgeData = coreBridge.deriveWormholeBridgeDataKey(CORE_BRIDGE_PROGRAM_ID);
+        const tokenBridgeCoreEmitter = getTokenBridgeCoreEmitter(); 
+        const coreEmitterSequence = coreBridge.deriveEmitterSequenceKey(
+            tokenBridgeCoreEmitter,
+            CORE_BRIDGE_PROGRAM_ID
+        );
+        const accounts = {
+            custodian,
+            wrappedTbtcToken,
+            wrappedTbtcMint,
+            tbtcMint,
+            //senderToken, associated token account
+            //sender, associated token account owner
+            tokenBridgeConfig,
+            tokenBridgeWrappedAsset,
+            tokenBridgeTransferAuthority,
+            coreBridgeData,
+            coreMessage,
+            tokenBridgeCoreEmitter,
+            coreEmitterSequence,
+            coreFeeCollector,
+            clock: SYSVAR_CLOCK_PUBKEY,
+            rent: SYSVAR_RENT_PUBKEY,
+            tokenBridgeProgram: TOKEN_BRIDGE_PROGRAM_ID,
+            coreBridgeProgram: CORE_BRIDGE_PROGRAM_ID,
+        }
+        const args = {
+            amount: new BN(amount.toString()),
+            recipientChain,
+            recipientAddress,
+            nonce: 0,
+        }
+        const tx = program.methods
+            .sendTbtcGateway(args)
+            .accounts(accounts)
+            .transaction();
+        return tx;
     }
     return {
         sendTbtc,

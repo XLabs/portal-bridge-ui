@@ -489,7 +489,6 @@ export function useHandleRedeem() {
   const { enqueueSnackbar } = useSnackbar();
   const targetChain = useSelector(selectTransferTargetChain);
   const isTBTC = useSelector(selectTransferIsTBTC);
-
   const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
   const { signer } = useEthereumProvider(targetChain);
   const { wallet: terraWallet } = useTerraWallet(targetChain);
@@ -637,6 +636,7 @@ export function useHandleRedeem() {
     injWallet,
     injAddress,
     suiWallet,
+    isTBTC,
   ]);
 
   const handleAcalaRelayerRedeemClick = useCallback(async () => {
