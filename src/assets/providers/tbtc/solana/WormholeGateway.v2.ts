@@ -1,7 +1,7 @@
 import { AnchorProvider, BN, Program } from '@project-serum/anchor';
 import { Connection, PublicKey, PublicKeyInitData, SYSVAR_CLOCK_PUBKEY, SYSVAR_RENT_PUBKEY, Transaction } from '@solana/web3.js';
 import { SOL_BRIDGE_ADDRESS as CORE_BRIDGE_ADDRESS, SOL_TOKEN_BRIDGE_ADDRESS as TOKEN_BRIDGE_ADDRESS, THRESHOLD_GATEWAYS, THRESHOLD_TBTC_SOLANA_PROGRAM_TESTNET } from '../../../../utils/consts';
-import { CHAIN_ID_SOLANA, ChainId, SignedVaa, parseTokenTransferVaa } from '@certusone/wormhole-sdk';
+import { CHAIN_ID_SOLANA, ChainId, SignedVaa, hexToUint8Array, parseTokenTransferVaa } from '@certusone/wormhole-sdk';
 import { WormholeGatewayIdl } from './WormholeGatewayIdl';
 import * as coreBridge from '@certusone/wormhole-sdk/lib/esm/solana/wormhole';
 import * as tokenBridge from '@certusone/wormhole-sdk/lib/esm/solana/tokenBridge';
@@ -136,8 +136,8 @@ export function newThresholdWormholeGateway(connection: Connection, wallet: Sola
             amount: bigint, 
             recipientChain: ChainId, 
             recipientAddress: Uint8Array,
-            sender: Uint8Array,
-            senderToken: Uint8Array
+            sender: string,
+            senderToken: string
         ): Promise<Transaction> => {
         const custodian = getCustodianPDA();
         const custodianData = await program.account.custodian.fetch(custodian);
@@ -161,8 +161,8 @@ export function newThresholdWormholeGateway(connection: Connection, wallet: Sola
             wrappedTbtcToken,
             wrappedTbtcMint,
             tbtcMint,
-            //senderToken, associated token account
-            //sender, associated token account owner, 
+            senderToken: new PublicKey(senderToken), // associated token account
+            sender: new PublicKey(sender),//sender, associated token account owner, 
             tokenBridgeConfig,
             tokenBridgeWrappedAsset,
             tokenBridgeTransferAuthority,

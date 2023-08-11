@@ -605,9 +605,9 @@ async function solana(
       const transaction = await wormholeGateway.sendTbtc(
         transferAmountParsed.toBigInt(),
         targetChain,
-        new Uint8Array(0),
-        new Uint8Array(0),
-        new Uint8Array(0)
+        targetAddress,
+        fromAddress,
+        mintAddress
       )
       const txid = await signSendAndConfirm(wallet, transaction);
       enqueueSnackbar(null, {
