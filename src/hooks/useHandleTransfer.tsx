@@ -601,7 +601,7 @@ async function solana(
       ? zeroPad(hexToUint8Array(originAddressStr), 32)
       : undefined;
 
-    if (THRESHOLD_TBTC_CONTRACTS[originChain!] === mintAddress) {
+    if (THRESHOLD_TBTC_CONTRACTS[CHAIN_ID_SOLANA] === mintAddress) {
       const wormholeGateway = newThresholdWormholeGateway(connection, wallet);
       const transaction = await wormholeGateway.sendTbtc(
         transferAmountParsed.toBigInt(),

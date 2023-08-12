@@ -96,8 +96,13 @@ export default function EvmTokenPicker(
        * Select as target eth
        * Sent the tokens, and hit transfer more tokens button
        */
-      const assetMap = getMigrationAssetMap(chainId);
-      return !!assetMap.get(getEthAddress(address));
+      try {
+        const assetMap = getMigrationAssetMap(chainId);
+        return !!assetMap.get(getEthAddress(address));
+      } catch (e) {
+        console.error(e);
+        return false;
+      }
     },
     [chainId]
   );
