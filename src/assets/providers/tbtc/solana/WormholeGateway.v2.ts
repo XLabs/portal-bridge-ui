@@ -218,24 +218,24 @@ export function newThresholdWormholeGateway(
       custodianData.wrappedTbtcMint as string
     );
     const recipientTokenKey = await Token.getAssociatedTokenAddress(
-        ASSOCIATED_TOKEN_PROGRAM_ID,
-        TOKEN_PROGRAM_ID,
-        tbtcMint,
-        recipient
+      ASSOCIATED_TOKEN_PROGRAM_ID,
+      TOKEN_PROGRAM_ID,
+      tbtcMint,
+      recipient
     );
     const transaction = new Transaction();
     const recipientToken = await connection.getAccountInfo(recipientTokenKey);
     console.log(recipientToken, recipientTokenKey.toBase58());
     if (!recipientToken) {
-        const recipientTokenAtaIx = Token.createAssociatedTokenAccountInstruction(
-            ASSOCIATED_TOKEN_PROGRAM_ID,
-            TOKEN_PROGRAM_ID,
-            tbtcMint,
-            recipientTokenKey,
-            recipient, // owner
-            recipient // payer
-        );
-        transaction.add(recipientTokenAtaIx);
+      const recipientTokenAtaIx = Token.createAssociatedTokenAccountInstruction(
+        ASSOCIATED_TOKEN_PROGRAM_ID,
+        TOKEN_PROGRAM_ID,
+        tbtcMint,
+        recipientTokenKey,
+        recipient, // owner
+        recipient // payer
+      );
+      transaction.add(recipientTokenAtaIx);
     }
     const tokenBridgeWrappedAsset = tokenBridge.deriveWrappedMetaKey(
       TOKEN_BRIDGE_PROGRAM_ID,
