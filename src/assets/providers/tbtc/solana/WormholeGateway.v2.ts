@@ -217,23 +217,26 @@ export function newThresholdWormholeGateway(
     const wrappedTbtcMint = new PublicKey(
       custodianData.wrappedTbtcMint as string
     );
-    const recipientToken = await Token.getAssociatedTokenAddress(
-      ASSOCIATED_TOKEN_PROGRAM_ID,
-      TOKEN_PROGRAM_ID,
-      tbtcMint,
-      recipient
+    const recipientTokenKey = await Token.getAssociatedTokenAddress(
+        ASSOCIATED_TOKEN_PROGRAM_ID,
+        TOKEN_PROGRAM_ID,
+        tbtcMint,
+        recipient
     );
-/*    
-    const recipientTokenAta = Token.createAssociatedTokenAccountInstruction(
-      ASSOCIATED_TOKEN_PROGRAM_ID,
-      TOKEN_PROGRAM_ID,
-      tbtcMint,
-      recipientToken,
-      recipient, // owner
-      recipient // payer
-    );
-    console.log(recipientToken);
-*/
+    const transaction = new Transaction();
+    const recipientToken = await connection.getAccountInfo(recipientTokenKey);
+    console.log(recipientToken, recipientTokenKey.toBase58());
+    if (!recipientToken) {
+        const recipientTokenAtaIx = Token.createAssociatedTokenAccountInstruction(
+            ASSOCIATED_TOKEN_PROGRAM_ID,
+            TOKEN_PROGRAM_ID,
+            tbtcMint,
+            recipientTokenKey,
+            recipient, // owner
+            recipient // payer
+        );
+        transaction.add(recipientTokenAtaIx);
+    }
     const tokenBridgeWrappedAsset = tokenBridge.deriveWrappedMetaKey(
       TOKEN_BRIDGE_PROGRAM_ID,
       wrappedTbtcMint
@@ -260,7 +263,7 @@ export function newThresholdWormholeGateway(
       wrappedTbtcToken,
       wrappedTbtcMint,
       tbtcMint,
-      recipientToken,
+      recipientToken: recipientTokenKey,
       recipient,
       recipientWrappedToken,
       tbtcConfig: getConfigPDA(),
@@ -282,11 +285,11 @@ export function newThresholdWormholeGateway(
       tokenBridgeProgram: TOKEN_BRIDGE_PROGRAM_ID,
       coreBridgeProgram: CORE_BRIDGE_PROGRAM_ID,
     };
-    const tx = await program.methods
+    const receiveTbtcIx = await program.methods
       .receiveTbtc(parsed.hash)
       .accounts(accounts)
-      .transaction();
-    return tx;
+      .instruction();
+    return transaction.add(receiveTbtcIx);
   };
 
   const sendTbtc = async (
