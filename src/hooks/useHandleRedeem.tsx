@@ -352,19 +352,19 @@ async function solana(
       throw new Error("wallet.signTransaction is undefined");
     }
     const connection = new Connection(SOLANA_HOST, "confirmed");
+    // TODO compute the amount of tx that postVaaSolanaWithRetry
+    // will create to notice the user up front
+    // we could call createPostSignedVaaTransactions to create fake txs
+    // and read the length of the array
+    await postVaaSolanaWithRetry(
+      connection,
+      wallet.signTransaction.bind(wallet),
+      SOL_BRIDGE_ADDRESS,
+      payerAddress,
+      Buffer.from(signedVAA),
+      MAX_VAA_UPLOAD_RETRIES_SOLANA
+    );
     if (isTbtc) {
-      // TODO compute the amount of tx that postVaaSolanaWithRetry
-      // will create to notice the user up front
-      // we could call createPostSignedVaaTransactions to create fake txs
-      // and read the length of the array
-      await postVaaSolanaWithRetry(
-        connection,
-        wallet.signTransaction.bind(wallet),
-        SOL_BRIDGE_ADDRESS,
-        payerAddress,
-        Buffer.from(signedVAA),
-        MAX_VAA_UPLOAD_RETRIES_SOLANA
-      );
       const tbtcGateway = newThresholdWormholeGateway(connection, wallet);
       const transaction = await tbtcGateway.receiveTbtc(
         signedVAA,
@@ -376,14 +376,6 @@ async function solana(
         content: <Alert severity="success">Transaction confirmed</Alert>,
       });
     } else {
-      await postVaaSolanaWithRetry(
-        connection,
-        wallet.signTransaction.bind(wallet),
-        SOL_BRIDGE_ADDRESS,
-        payerAddress,
-        Buffer.from(signedVAA),
-        MAX_VAA_UPLOAD_RETRIES_SOLANA
-      );
       // TODO: how do we retry in between these steps
       const transaction = isNative
         ? await redeemAndUnwrapOnSolana(
