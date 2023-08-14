@@ -151,22 +151,36 @@ function useCheckIfWormholeWrapped(nft?: boolean) {
       }
       if (sourceChain === CHAIN_ID_SOLANA && sourceAsset) {
         try {
-          const connection = new Connection(SOLANA_HOST, "confirmed");
-          const wrappedInfo = makeStateSafe(
-            await (nft
-              ? getOriginalAssetSolNFT(
-                  connection,
-                  SOL_NFT_BRIDGE_ADDRESS,
-                  sourceAsset
-                )
-              : getOriginalAssetSol(
-                  connection,
-                  SOL_TOKEN_BRIDGE_ADDRESS,
-                  sourceAsset
-                ))
-          );
-          if (!cancelled) {
-            dispatch(setSourceWormholeWrappedInfo(wrappedInfo));
+          // Check if is tBtc canonical on Solana
+          // TODO improve the check and centralice the login on just one place
+          if (THRESHOLD_TBTC_CONTRACTS[sourceChain] === sourceAsset) {
+            console.log("selected tBTC on canonical chain");
+            dispatch(
+              setSourceWormholeWrappedInfo({
+                isWrapped: true,
+                chainId: CHAIN_ID_ETH,
+                assetAddress: TBTC_ASSET_ADDRESS,
+              })
+            );
+            return;
+          } else {
+            const connection = new Connection(SOLANA_HOST, "confirmed");
+            const wrappedInfo = makeStateSafe(
+              await (nft
+                ? getOriginalAssetSolNFT(
+                    connection,
+                    SOL_NFT_BRIDGE_ADDRESS,
+                    sourceAsset
+                  )
+                : getOriginalAssetSol(
+                    connection,
+                    SOL_TOKEN_BRIDGE_ADDRESS,
+                    sourceAsset
+                  ))
+            );
+            if (!cancelled) {
+              dispatch(setSourceWormholeWrappedInfo(wrappedInfo));
+            }
           }
         } catch (e) {}
       }

@@ -90,8 +90,19 @@ export default function EvmTokenPicker(
 
   const isMigrationEligible = useCallback(
     (address: string) => {
-      const assetMap = getMigrationAssetMap(chainId);
-      return !!assetMap.get(getEthAddress(address));
+      // TODO at the end of a transfer from from Solanato Eth an error happens
+      /**
+       * Select as source solana
+       * Select as target eth
+       * Sent the tokens, and hit transfer more tokens button
+       */
+      try {
+        const assetMap = getMigrationAssetMap(chainId);
+        return !!assetMap.get(getEthAddress(address));
+      } catch (e) {
+        console.error(e);
+        return false;
+      }
     },
     [chainId]
   );

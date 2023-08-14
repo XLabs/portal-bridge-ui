@@ -27,6 +27,7 @@ import { setTargetAddressHex as setNFTTargetAddressHex } from "../store/nftSlice
 import {
   selectNFTTargetAsset,
   selectNFTTargetChain,
+  selectTransferIsTBTC,
   selectTransferTargetAsset,
   selectTransferTargetChain,
   selectTransferTargetParsedTokenAccount,
@@ -64,6 +65,7 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
   const { account: aptosAddress } = useAptosContext();
   const { accountId: nearAccountId, wallet } = useNearContext();
   const { address: injAddress } = useInjectiveContext();
+  const isTBTC = useSelector(selectTransferIsTBTC);
   const suiWallet = useSuiWallet();
   const suiAddress = suiWallet?.getAddress();
   const setTargetAddressHex = nft
@@ -80,7 +82,13 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
         );
       }
       // TODO: have the user explicitly select an account on solana
-      else if (
+      else if (!nft && solPK && targetChain === CHAIN_ID_SOLANA && isTBTC) {
+        dispatch(
+          setTargetAddressHex(
+            uint8ArrayToHex(zeroPad(new PublicKey(solPK).toBytes(), 32))
+          )
+        );
+      } else if (
         !nft && // only support existing, non-derived token accounts for token transfers (nft flow doesn't check balance)
         targetChain === CHAIN_ID_SOLANA &&
         targetTokenAccountPublicKey
@@ -233,6 +241,7 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
     aptosAddress,
     injAddress,
     suiAddress,
+    isTBTC,
   ]);
 }
 
