@@ -1,6 +1,4 @@
-import type { RootState } from "../store";
 import { useMemo } from "react";
-import { useSelector } from "react-redux";
 import { ChainId, isEVMChain } from "@certusone/wormhole-sdk";
 
 function checkIfIsBelowMinimum(amount: string, decimals: number) {
@@ -15,13 +13,15 @@ function checkIfIsBelowMinimum(amount: string, decimals: number) {
   }
 }
 
+const EIGHT_DECIMALS = 8;
+
 function getAdjustedDecimals(
   chainId: ChainId,
   isNativeAsset: boolean,
   decimals: number
 ) {
-  return isEVMChain(chainId) && !isNativeAsset && decimals > 8
-    ? decimals - 8
+  return isEVMChain(chainId) && !isNativeAsset && decimals > EIGHT_DECIMALS
+    ? EIGHT_DECIMALS // max decimals supported on evm chains
     : decimals;
 }
 
