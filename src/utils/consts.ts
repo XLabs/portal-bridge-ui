@@ -800,7 +800,7 @@ export const SUI_CONNECTION =
   CLUSTER === "mainnet"
     ? new Connection({ fullnode: "https://fullnode.mainnet.sui.io:443" })
     : CLUSTER === "testnet"
-    ? new Connection({ fullnode: "https://fullnode.devnet.sui.io:443" })
+    ? new Connection({ fullnode: "https://fullnode.testnet.sui.io:443" })
     : new Connection({ fullnode: "http://127.0.0.1:9000" });
 
 export const SUI_NATIVE_DECIMALS = 9;
