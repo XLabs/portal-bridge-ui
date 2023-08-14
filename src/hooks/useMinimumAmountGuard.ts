@@ -30,7 +30,7 @@ export type MinimumAmountGuardArgs = {
   sourceChain: ChainId;
   decimals: number;
   isNativeAsset: boolean;
-}
+};
 
 export default function useMinimumAmountGuard({
   amount,

@@ -171,7 +171,12 @@ function Source() {
   );
   /* End pandle token check */
   const { decimals = 0, isNativeAsset = false } = parsedTokenAccount || {};
-  const isBelowMinimum = useMinimumAmountGuard({ amount, sourceChain, decimals, isNativeAsset });
+  const isBelowMinimum = useMinimumAmountGuard({
+    amount,
+    sourceChain,
+    decimals,
+    isNativeAsset,
+  });
   return (
     <>
       <StepDescription>
