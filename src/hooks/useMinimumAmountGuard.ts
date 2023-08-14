@@ -25,12 +25,19 @@ function getAdjustedDecimals(
     : decimals;
 }
 
-export default function useMinimumAmountGuard() {
-  const {
-    amount,
-    sourceChain,
-    sourceParsedTokenAccount: { decimals = 0, isNativeAsset = false } = {},
-  } = useSelector((state: RootState) => state.transfer);
+export type MinimumAmountGuardArgs = {
+  amount: string;
+  sourceChain: ChainId;
+  decimals: number;
+  isNativeAsset: boolean;
+}
+
+export default function useMinimumAmountGuard({
+  amount,
+  sourceChain,
+  decimals = 0,
+  isNativeAsset = false,
+}: MinimumAmountGuardArgs) {
   const isBelowMinimum = useMemo(
     () =>
       checkIfIsBelowMinimum(

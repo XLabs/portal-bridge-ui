@@ -170,7 +170,8 @@ function Source() {
     isPandle
   );
   /* End pandle token check */
-  const isBelowMinimum = useMinimumAmountGuard();
+  const { decimals = 0, isNativeAsset = false } = parsedTokenAccount || {};
+  const isBelowMinimum = useMinimumAmountGuard({ amount, sourceChain, decimals, isNativeAsset });
   return (
     <>
       <StepDescription>
