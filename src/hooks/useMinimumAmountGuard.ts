@@ -1,7 +1,16 @@
 import { useMemo } from "react";
 import { ChainId, isEVMChain } from "@certusone/wormhole-sdk";
 
-function getDivider(decimals: number) {
+export type MinimumAmountGuardArgs = {
+  amount: string;
+  sourceChain: ChainId;
+  decimals: number;
+  isNativeAsset: boolean;
+};
+
+const EIGHT_DECIMALS = 8;
+
+function getMultiplier(decimals: number) {
   return Math.pow(10, decimals);
 }
 
@@ -19,25 +28,16 @@ function getMinimum(divider: number, adjustedDecimals: number) {
   return (1 / divider).toFixed(adjustedDecimals);
 }
 
-function checkIfIsBelowMinimum(amount: string, divider: number) {
+function checkIfIsBelowMinimum(amount: string, multiplier: number) {
   try {
     const floatAmount = parseFloat(amount);
-    const intAmount = floatAmount * divider;
+    const intAmount = floatAmount * multiplier;
     return Math.trunc(intAmount) <= 0;
   } catch (err: any) {
     console.error(err);
     return true;
   }
 }
-
-const EIGHT_DECIMALS = 8;
-
-export type MinimumAmountGuardArgs = {
-  amount: string;
-  sourceChain: ChainId;
-  decimals: number;
-  isNativeAsset: boolean;
-};
 
 export default function useMinimumAmountGuard({
   amount,
@@ -49,17 +49,17 @@ export default function useMinimumAmountGuard({
     () => getAdjustedDecimals(sourceChain, isNativeAsset, decimals),
     [sourceChain, isNativeAsset, decimals]
   );
-  const divider = useMemo(
-    () => getDivider(adjustedDecimals),
+  const multiplier = useMemo(
+    () => getMultiplier(adjustedDecimals),
     [adjustedDecimals]
   );
   const isBelowMinimum = useMemo(
-    () => checkIfIsBelowMinimum(amount, divider),
-    [amount, divider]
+    () => checkIfIsBelowMinimum(amount, multiplier),
+    [amount, multiplier]
   );
   const minimum = useMemo(
-    () => getMinimum(divider, adjustedDecimals),
-    [divider, adjustedDecimals]
+    () => getMinimum(multiplier, adjustedDecimals),
+    [multiplier, adjustedDecimals]
   );
   return { isBelowMinimum, minimum };
 }
