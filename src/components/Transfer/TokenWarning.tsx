@@ -188,10 +188,7 @@ export default function TokenWarning({
   const showMultiChainWarning =
     isMultiChain && isWormholeWrapped && targetChain !== CHAIN_ID_APTOS;
   const showCanonicalWarning =
-    !isMultiChain &&
-    isWormholeWrapped &&
-    targetChain !== CHAIN_ID_APTOS &&
-    showCanonicalTbtcMessage;
+    !isMultiChain && targetChain !== CHAIN_ID_APTOS && showCanonicalTbtcMessage;
   const showWrappedWarning =
     !isMultiChain &&
     isWormholeWrapped &&
