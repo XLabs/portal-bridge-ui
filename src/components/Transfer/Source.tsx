@@ -171,7 +171,7 @@ function Source() {
   );
   /* End pandle token check */
   const { decimals = 0, isNativeAsset = false } = parsedTokenAccount || {};
-  const isBelowMinimum = useMinimumAmountGuard({
+  const { isBelowMinimum, minimum } = useMinimumAmountGuard({
     amount,
     sourceChain,
     decimals,
@@ -268,7 +268,11 @@ function Source() {
               onChange={handleAmountChange}
               disabled={isTransferDisabled || shouldLockFields}
               error={isBelowMinimum}
-              helperText={isBelowMinimum ? "Amount is below minimum" : ""}
+              helperText={
+                isBelowMinimum
+                  ? `Amount sent is too small. The amount must be equal or greater than ${minimum}.`
+                  : ""
+              }
               onMaxClick={
                 uiAmountString && !parsedTokenAccount.isNativeAsset
                   ? handleMaxClick

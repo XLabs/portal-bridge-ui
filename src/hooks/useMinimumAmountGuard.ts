@@ -1,19 +1,9 @@
 import { useMemo } from "react";
 import { ChainId, isEVMChain } from "@certusone/wormhole-sdk";
 
-function checkIfIsBelowMinimum(amount: string, decimals: number) {
-  try {
-    const divider = Math.pow(10, decimals);
-    const floatAmount = parseFloat(amount);
-    const intAmount = floatAmount * divider;
-    return Math.trunc(intAmount) <= 0;
-  } catch (err: any) {
-    console.error(err);
-    return true;
-  }
+function getDivider(decimals: number) {
+  return Math.pow(10, decimals);
 }
-
-const EIGHT_DECIMALS = 8;
 
 function getAdjustedDecimals(
   chainId: ChainId,
@@ -24,6 +14,23 @@ function getAdjustedDecimals(
     ? EIGHT_DECIMALS // max decimals supported on evm chains
     : decimals;
 }
+
+function getMinimum(divider: number, adjustedDecimals: number) {
+  return (1 / divider).toFixed(adjustedDecimals);
+}
+
+function checkIfIsBelowMinimum(amount: string, divider: number) {
+  try {
+    const floatAmount = parseFloat(amount);
+    const intAmount = floatAmount * divider;
+    return Math.trunc(intAmount) <= 0;
+  } catch (err: any) {
+    console.error(err);
+    return true;
+  }
+}
+
+const EIGHT_DECIMALS = 8;
 
 export type MinimumAmountGuardArgs = {
   amount: string;
@@ -38,13 +45,21 @@ export default function useMinimumAmountGuard({
   decimals = 0,
   isNativeAsset = false,
 }: MinimumAmountGuardArgs) {
-  const isBelowMinimum = useMemo(
-    () =>
-      checkIfIsBelowMinimum(
-        amount,
-        getAdjustedDecimals(sourceChain, isNativeAsset, decimals)
-      ),
-    [amount, sourceChain, isNativeAsset, decimals]
+  const adjustedDecimals = useMemo(
+    () => getAdjustedDecimals(sourceChain, isNativeAsset, decimals),
+    [sourceChain, isNativeAsset, decimals]
   );
-  return isBelowMinimum;
+  const divider = useMemo(
+    () => getDivider(adjustedDecimals),
+    [adjustedDecimals]
+  );
+  const isBelowMinimum = useMemo(
+    () => checkIfIsBelowMinimum(amount, divider),
+    [amount, divider]
+  );
+  const minimum = useMemo(
+    () => getMinimum(divider, adjustedDecimals),
+    [divider, adjustedDecimals]
+  );
+  return { isBelowMinimum, minimum };
 }
