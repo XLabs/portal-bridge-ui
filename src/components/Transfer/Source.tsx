@@ -52,6 +52,7 @@ import { RootState } from "../../store";
 import useTransferControl from "../../hooks/useTransferControl";
 import transferRules from "../../config/transferRules";
 import useRoundTripTransfer from "../../hooks/useRoundTripTransfer";
+import useMinimumAmountGuard from "../../hooks/useMinimumAmountGuard";
 
 const useStyles = makeStyles((theme) => ({
   chainSelectWrapper: {
@@ -169,7 +170,13 @@ function Source() {
     isPandle
   );
   /* End pandle token check */
-
+  const { decimals = 0, isNativeAsset = false } = parsedTokenAccount || {};
+  const { isBelowMinimum, minimum } = useMinimumAmountGuard({
+    amount,
+    sourceChain,
+    decimals,
+    isNativeAsset,
+  });
   return (
     <>
       <StepDescription>
@@ -260,6 +267,12 @@ function Source() {
               value={amount}
               onChange={handleAmountChange}
               disabled={isTransferDisabled || shouldLockFields}
+              error={isBelowMinimum}
+              helperText={
+                isBelowMinimum
+                  ? `Amount sent is too small. The amount must be equal or greater than ${minimum}.`
+                  : ""
+              }
               onMaxClick={
                 uiAmountString && !parsedTokenAccount.isNativeAsset
                   ? handleMaxClick
@@ -272,7 +285,7 @@ function Source() {
           ))}
           <TransferLimitedWarning isTransferLimited={isTransferLimited} />
           <ButtonWithLoader
-            disabled={isTransferDisabled || !isSourceComplete}
+            disabled={isTransferDisabled || !isSourceComplete || isBelowMinimum}
             onClick={handleNextClick}
             showLoader={false}
             error={isTransferDisabled ? "" : statusMessage || error}
