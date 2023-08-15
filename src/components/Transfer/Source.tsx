@@ -285,7 +285,7 @@ function Source() {
           ))}
           <TransferLimitedWarning isTransferLimited={isTransferLimited} />
           <ButtonWithLoader
-            disabled={isTransferDisabled || !isSourceComplete}
+            disabled={isTransferDisabled || !isSourceComplete || isBelowMinimum}
             onClick={handleNextClick}
             showLoader={false}
             error={isTransferDisabled ? "" : statusMessage || error}
