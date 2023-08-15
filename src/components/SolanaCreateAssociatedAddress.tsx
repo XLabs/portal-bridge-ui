@@ -58,9 +58,8 @@ export function useAssociatedAccountExistsState(
       );
       const match = associatedAddress.toString() === readableTargetAddress;
       if (match) {
-        const associatedAddressInfo = await connection.getAccountInfo(
-          associatedAddress
-        );
+        const associatedAddressInfo =
+          await connection.getAccountInfo(associatedAddress);
         if (!associatedAddressInfo) {
           if (!cancelled) {
             setAssociatedAccountExists(false);
@@ -112,9 +111,8 @@ export default function SolanaCreateAssociatedAddress({
       );
       const match = associatedAddress.toString() === readableTargetAddress;
       if (match) {
-        const associatedAddressInfo = await connection.getAccountInfo(
-          associatedAddress
-        );
+        const associatedAddressInfo =
+          await connection.getAccountInfo(associatedAddress);
         if (!associatedAddressInfo) {
           setIsCreating(true);
           const transaction = new Transaction().add(
