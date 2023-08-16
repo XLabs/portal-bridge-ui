@@ -1996,7 +1996,7 @@ function useGetAvailableTokens(nft: boolean = false) {
 
     return () => {};
   }, [dispatch, lookupChain, currentSourceWalletAddress, tokenAccounts, nft]);
-  //
+
   const ethAccounts = useMemo(() => {
     const output = { ...tokenAccounts };
     output.data = output.data?.slice() || [];
@@ -2023,7 +2023,7 @@ function useGetAvailableTokens(nft: boolean = false) {
         },
         resetAccounts: resetSourceAccounts,
       }
-    : isEVMChain(lookupChain) //
+    : isEVMChain(lookupChain)
     ? {
         tokenAccounts: ethAccounts,
         covalent: {
