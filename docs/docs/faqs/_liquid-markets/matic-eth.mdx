@@ -1,0 +1,3 @@
+| Token (origin) | Token (target)   | Markets                                                                                                             | Contract address                           |
+| -------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| USDC           | USDCpo(Wormhole) | [Uniswap](https://app.uniswap.org/#/swap?exactField=input&inputCurrency=0x566957ef80f9fd5526cd2bef8be67035c0b81130) | 0x566957ef80f9fd5526cd2bef8be67035c0b81130 |
