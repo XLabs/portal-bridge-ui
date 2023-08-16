@@ -2002,7 +2002,7 @@ function useGetAvailableTokens(nft: boolean = false) {
     output.data = output.data?.slice() || [];
     output.isFetching = output.isFetching || ethNativeAccountLoading;
     output.error = output.error || ethNativeAccountError;
-    console.log("data ethAccounts", output, ethNativeAccount);
+
     ethNativeAccount && output.data && output.data.unshift(ethNativeAccount);
     return output;
   }, [
