@@ -7,13 +7,7 @@ export function useDeepLinkRecoveryParams(search: string) {
     () => parseChain(query.get("sourceChain")),
     [query]
   );
-  const transactionId = useMemo(
-    () => query.get("transactionId"),
-    [query]
-  );
-  const vaaHex = useMemo(
-    () => query.get("vaa"),
-    [query]
-  )
+  const transactionId = useMemo(() => query.get("transactionId"), [query]);
+  const vaaHex = useMemo(() => query.get("vaa"), [query]);
   return { sourceChain, transactionId, vaaHex };
 }

@@ -185,8 +185,9 @@ async function evm(
         signer
       );
 
-      const estimateGas =
-        await L2WormholeGateway.estimateGas.receiveTbtc(signedVAA);
+      const estimateGas = await L2WormholeGateway.estimateGas.receiveTbtc(
+        signedVAA
+      );
 
       // We increase the gas limit estimation here by a factor of 10% to account for some faulty public JSON-RPC endpoints.
       const gasLimit = estimateGas.mul(1100).div(1000);

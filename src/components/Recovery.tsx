@@ -652,9 +652,8 @@ export default function Recovery() {
   }, [parsedPayload]);
 
   const { search } = useLocation();
-  const {
-    sourceChain, transactionId, vaaHex
-  } = useDeepLinkRecoveryParams(search);
+  const { sourceChain, transactionId, vaaHex } =
+    useDeepLinkRecoveryParams(search);
   //This effect initializes the state based on the path params.
   useEffect(() => {
     try {
