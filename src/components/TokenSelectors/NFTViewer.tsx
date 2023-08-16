@@ -78,7 +78,7 @@ const LogoIcon = ({ chainId }: { chainId: ChainId }) =>
         padding: "2px",
       }}
       src={bscIcon}
-      alt="Binance Smart Chain"
+      alt="BNB Chain"
     />
   ) : chainId === CHAIN_ID_POLYGON ? (
     <Avatar

@@ -65,7 +65,7 @@ const CustodyAddresses: React.FC<any> = () => {
         nftAddress: SOL_NFT_CUSTODY_ADDRESS,
       },
       {
-        chainName: "Binance Smart Chain",
+        chainName: "BNB Chain",
         chainId: CHAIN_ID_BSC,
         tokenAddress: getTokenBridgeAddressForChain(CHAIN_ID_BSC),
         nftAddress: getNFTBridgeAddressForChain(CHAIN_ID_BSC),
