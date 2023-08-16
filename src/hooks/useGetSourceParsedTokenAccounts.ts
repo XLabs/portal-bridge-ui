@@ -1416,7 +1416,7 @@ function useGetAvailableTokens(nft: boolean = false) {
     };
   }, [lookupChain, provider, signerAddress, nft, ethNativeAccount]);
 
-  //Binance Smart Chain native asset load
+  //BNB Chain native asset load
   useEffect(() => {
     let cancelled = false;
     if (
@@ -2002,6 +2002,7 @@ function useGetAvailableTokens(nft: boolean = false) {
     output.data = output.data?.slice() || [];
     output.isFetching = output.isFetching || ethNativeAccountLoading;
     output.error = output.error || ethNativeAccountError;
+
     ethNativeAccount && output.data && output.data.unshift(ethNativeAccount);
     return output;
   }, [

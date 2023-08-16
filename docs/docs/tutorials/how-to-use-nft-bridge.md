@@ -7,7 +7,7 @@ sidebar_position: 4
 
 ## Introduction
 
-The NFT Portal allows users to send their NFT cross chain to Ethereum, Solana, Binance Smart Chain, Polygon, Avalanche, Fantom, Oasis, Karura and Celo.&#x20;
+The NFT Portal allows users to send their NFT cross chain to Ethereum, Solana, BNB Chain, Polygon, Avalanche, Fantom, Oasis, Karura and Celo.&#x20;
 
 The Wormhole NFT portal currently supports ERC-721 (with metadata) and SPL assets (with a supply of 1).&#x20;
 
@@ -15,26 +15,26 @@ To start, go to [https://portalbridge.com/#/nft](https://portalbridge.com/#/nft)
 
 ### 1. Source&#x20;
 
-* Select the chain you want to send the NFT from
-* Connect your wallet
-* Select the NFT you want to send cross chain&#x20;
-* Click "Next"
+- Select the chain you want to send the NFT from
+- Connect your wallet
+- Select the NFT you want to send cross chain&#x20;
+- Click "Next"
 
 ![](<../../static/img/Screen Shot 2022-05-20 at 4.32.56 pm.png>)
 
 ### 2. Target
 
-* Select the chain you want to send the NFT to&#x20;
-* Connect your wallet
-* Click "Next"
+- Select the chain you want to send the NFT to&#x20;
+- Connect your wallet
+- Click "Next"
 
 ![](<../../static/img/Screen Shot 2022-05-20 at 4.50.20 pm.png>)
 
 ### 3. Send NFT
 
-* Click "Transfer"
-* Accept wallet approval pop-up(s)
-* Wait for the confirmation(s)
+- Click "Transfer"
+- Accept wallet approval pop-up(s)
+- Wait for the confirmation(s)
 
 ![](<../../static/img/Screen Shot 2022-05-20 at 4.53.25 pm.png>)
 
@@ -44,8 +44,8 @@ Once you approve the transfer, you must complete the transaction. If you navigat
 
 ### 4. Redeem NFT
 
-* Click "Redeem"
-* Accept wallet approval pop-up(s)
+- Click "Redeem"
+- Accept wallet approval pop-up(s)
 
 ![](../../static/img/redeem-screenshot.png)
 

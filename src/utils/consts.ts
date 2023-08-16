@@ -122,7 +122,7 @@ export const CHAINS: ChainInfo[] =
         },
         {
           id: CHAIN_ID_BSC,
-          name: "Binance Smart Chain",
+          name: "BNB Chain",
           logo: bscIcon,
         },
         {
@@ -245,7 +245,7 @@ export const CHAINS: ChainInfo[] =
         },
         {
           id: CHAIN_ID_BSC,
-          name: "Binance Smart Chain",
+          name: "BNB Chain",
           logo: bscIcon,
         },
         {
@@ -342,7 +342,7 @@ export const CHAINS: ChainInfo[] =
         },
         {
           id: CHAIN_ID_BSC,
-          name: "Binance Smart Chain",
+          name: "BNB Chain",
           logo: bscIcon,
         },
         {

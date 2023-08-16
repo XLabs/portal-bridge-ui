@@ -53,7 +53,7 @@ export const METAMASK_CHAIN_PARAMETERS: {
   },
   56: {
     chainId: "0x38",
-    chainName: "Binance Smart Chain Mainnet",
+    chainName: "BNB Chain Mainnet",
     nativeCurrency: {
       name: "Binance Chain Native Token",
       symbol: "BNB",
@@ -64,7 +64,7 @@ export const METAMASK_CHAIN_PARAMETERS: {
   },
   97: {
     chainId: "0x61",
-    chainName: "Binance Smart Chain Testnet",
+    chainName: "BNB Chain Testnet",
     nativeCurrency: {
       name: "Binance Chain Native Token",
       symbol: "BNB",
