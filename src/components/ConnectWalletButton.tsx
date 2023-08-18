@@ -88,7 +88,9 @@ const ConnectWalletButton = ({ chainId }: { chainId: ChainId }) => {
   }, [openDialog, availableWallets, connect, chainId]);
 
   //TODO remove once outage banned got removed
-  const outageDisabled = Date.now() > Date.UTC(2023, 7, 21, 6) && Date.now() < Date.UTC(2023, 7, 21, 9);
+  const outageDisabled =
+    Date.now() > Date.UTC(2023, 7, 21, 6) &&
+    Date.now() < Date.UTC(2023, 7, 21, 9);
 
   return (
     <>

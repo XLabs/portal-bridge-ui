@@ -30,8 +30,10 @@ const useHeadUpStyles = makeStyles((theme) => ({
     margin: "auto",
     textAlign: "left",
     display: "flex",
-    width: "792px",
-    height: "282px",
+    [theme.breakpoints.up("sm")]: {
+      width: "792px",
+      height: "282px",
+    },
     padding: theme.spacing(4), // 32px
     justifyContent: "center",
     alignItems: "flex-start",
@@ -50,9 +52,11 @@ const useHeadUpStyles = makeStyles((theme) => ({
       marginRight: 0,
     },
     "& .MuiAlert-message": {
-      width: "633px",
-      marginRight: "55px",
-      flexShrink: 0,
+      [theme.breakpoints.up("sm")]: {
+        width: "633px",
+        marginRight: "55px",
+        flexShrink: 0,
+      },
       "& .MuiTypography-paragraph": {
         color: "#FBECD0",
         fontFamily: "Poppins",
@@ -79,7 +83,6 @@ const useHeadUpStyles = makeStyles((theme) => ({
     },
   },
 }));
-
 
 function HeadUpNotice() {
   const style = useHeadUpStyles();
@@ -126,8 +129,10 @@ const useInProgressStyles = makeStyles((theme) => ({
     margin: "auto",
     textAlign: "left",
     display: "flex",
-    width: "792px",
-    height: "258px",
+    [theme.breakpoints.up("sm")]: {
+      width: "792px",
+      height: "258px",
+    },
     padding: theme.spacing(4), // 32px
     justifyContent: "center",
     alignItems: "flex-start",
@@ -146,9 +151,11 @@ const useInProgressStyles = makeStyles((theme) => ({
       marginRight: 0,
     },
     "& .MuiAlert-message": {
-      width: "633px",
-      marginRight: "55px",
-      flexShrink: 0,
+      [theme.breakpoints.up("sm")]: {
+        width: "633px",
+        marginRight: "55px",
+        flexShrink: 0,
+      },
       "& .MuiTypography-paragraph": {
         color: "#FFE3E9",
         fontFamily: "Poppins",
@@ -219,8 +226,10 @@ const useBackOnLineStyles = makeStyles((theme) => ({
     margin: "auto",
     textAlign: "left",
     display: "flex",
-    width: "792px",
-    height: "210px",
+    [theme.breakpoints.up("sm")]: {
+      width: "792px",
+      height: "210px",
+    },
     padding: theme.spacing(4), // 32px
     justifyContent: "center",
     alignItems: "flex-start",
@@ -242,9 +251,11 @@ const useBackOnLineStyles = makeStyles((theme) => ({
       marginRight: 0,
     },
     "& .MuiAlert-message": {
-      width: "633px",
-      marginRight: "55px",
-      flexShrink: 0,
+      [theme.breakpoints.up("sm")]: {
+        width: "633px",
+        marginRight: "55px",
+        flexShrink: 0,
+      },
       "& .MuiTypography-paragraph": {
         color: "#FFE3E9",
         fontFamily: "Poppins",
@@ -298,11 +309,11 @@ function Notice() {
   const outageStart = Date.UTC(2023, 7, 21, 6);
   const outageEnd = Date.UTC(2023, 7, 21, 9);
   if (now < outageStart) {
-    return <HeadUpNotice />
+    return <HeadUpNotice />;
   } else if (now > outageStart && now < outageEnd) {
-    return <InProgressNotice />
+    return <InProgressNotice />;
   } else if (now > outageEnd) {
-    return <BackOnLineNotice />
+    return <BackOnLineNotice />;
   } else {
     return null;
   }
