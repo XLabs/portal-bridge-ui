@@ -86,7 +86,6 @@ const ConnectWalletButton = ({ chainId }: { chainId: ChainId }) => {
       ? openDialog()
       : connect(availableWallets[0]);
   }, [openDialog, availableWallets, connect, chainId]);
-  const disabled = true; // TODO remove once outage is done
   return (
     <>
       {isDetectingWallets && (
@@ -112,7 +111,7 @@ const ConnectWalletButton = ({ chainId }: { chainId: ChainId }) => {
         disconnect={disconnect}
         connected={!!pk}
         pk={pk || ""}
-        disabled={disabled || isDetectingWallets || walletsNotAvailable}
+        disabled={isDetectingWallets || walletsNotAvailable}
       />
       <ConnectWalletDialog
         isOpen={isDialogOpen}

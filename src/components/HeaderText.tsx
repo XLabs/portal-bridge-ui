@@ -1,4 +1,4 @@
-import { Box, Link, makeStyles, Typography } from "@material-ui/core";
+import { Box, makeStyles, Typography } from "@material-ui/core";
 import clsx from "clsx";
 import { ReactChild } from "react";
 import { COLORS } from "../muiTheme";
@@ -28,19 +28,22 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "left",
     display: "flex",
     width: "792px",
-    height: "258px",
+    height: "210px",
     padding: theme.spacing(4), // 32px
     justifyContent: "center",
     alignItems: "flex-start",
     gap: "16px",
     borderRadius: "28px",
-    background: "rgba(255, 42, 87, 0.10)",
+    background: "rgba(1, 187, 172, 0.10)",
     border: "none",
     lineHeight: "24px",
     "& .MuiAlertTitle-root": {
       color: "#FFE3E9",
       fontWeight: 700,
       marginBottom: theme.spacing(3),
+      "& span": {
+        color: "#07D9C8",
+      },
     },
     "& .MuiAlert-icon": {
       fontSize: 24,
@@ -80,33 +83,18 @@ const useStyles = makeStyles((theme) => ({
 function Notice() {
   const style = useStyles();
   return (
-    <Alert severity="error" className={style.alert}>
+    <Alert severity="success" className={style.alert}>
       <AlertTitle>
-        Wormhole Upgrade In Progress - Temporary Downtime In Effect
+        Wormhole Upgrade Completed -{" "}
+        <Typography component="span">Back Online</Typography>
       </AlertTitle>
       <Box>
         <Typography paragraph>
-          A required upgrade is being executed by the network of Wormhole
-          Guardian (validator) nodes to add Gateway to the Wormhole stack.
+          A required upgrade was completed by the network of Wormhole Guardian
+          (validator) nodes to add Gateway to the Wormhole stack.
         </Typography>
         <Typography paragraph>
-          <Typography component="span">
-            Token bridging is currently paused.{" "}
-          </Typography>{" "}
-        </Typography>
-        <Typography paragraph>
-          Follow:{" "}
-          <Link href="https://twitter.com/wormholecrypto" target="_blank">
-            @wormholecrypto
-          </Link>{" "}
-          and join the{" "}
-          <Link
-            href="https://discord.com/invite/wormholecrypto"
-            target="_blank"
-          >
-            Discord
-          </Link>{" "}
-          for updates.
+          <Typography component="span">Token bridging is now live. </Typography>{" "}
         </Typography>
       </Box>
     </Alert>
