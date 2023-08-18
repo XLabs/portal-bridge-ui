@@ -9,4 +9,4 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Run prettier
-        run: npx prettier --check ./src
+        run: npx prettier@3.0.2 --check ./src

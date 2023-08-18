@@ -1,11 +1,12 @@
-import { makeStyles, Typography } from "@material-ui/core";
+import { Box, Link, makeStyles, Typography } from "@material-ui/core";
 import clsx from "clsx";
 import { ReactChild } from "react";
 import { COLORS } from "../muiTheme";
+import { Alert, AlertTitle } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
   centeredContainer: {
-    marginBottom: theme.spacing(16),
+    //marginBottom: theme.spacing(16),
     textAlign: "center",
     width: "100%",
   },
@@ -20,7 +21,99 @@ const useStyles = makeStyles((theme) => ({
   subtitle: {
     marginTop: theme.spacing(2),
   },
+  alert: {
+    marginTop: theme.spacing(5),
+    marginBottom: theme.spacing(5),
+    margin: "auto",
+    textAlign: "left",
+    display: "flex",
+    width: "792px",
+    height: "282px",
+    padding: theme.spacing(4), // 32px
+    justifyContent: "center",
+    alignItems: "flex-start",
+    gap: "16px",
+    borderRadius: "28px",
+    background: "rgba(193, 149, 49, 0.10)",
+    border: "none",
+    lineHeight: "24px",
+    "& .MuiAlertTitle-root": {
+      color: "#FBECD0",
+      fontWeight: 700,
+      marginBottom: theme.spacing(3),
+    },
+    "& .MuiAlert-icon": {
+      fontSize: 24,
+      marginRight: 0,
+    },
+    "& .MuiAlert-message": {
+      width: "633px",
+      marginRight: "55px",
+      flexShrink: 0,
+      "& .MuiTypography-paragraph": {
+        color: "#FBECD0",
+        fontFamily: "Poppins",
+        fontSize: "14px",
+        fontStyle: "normal",
+        fontWeight: 400,
+        "&:not(:last-child)": {
+          marginBottom: theme.spacing(3),
+        },
+      },
+      "& span": {
+        color: "#EEB32A",
+        fontWeight: 700,
+      },
+      "& .MuiLink-root": {
+        color: "#FBECD0",
+        fontFamily: "Poppins",
+        fontSize: "14px",
+        fontStyle: "normal",
+        fontWeight: 400,
+        lineHeight: "24px",
+        textDecorationLine: "underline",
+      },
+    },
+  },
 }));
+
+function Notice() {
+  const style = useStyles();
+  return (
+    <Alert severity="warning" className={style.alert}>
+      <AlertTitle>
+        Wormhole Upgrade Approaching - Expect Temporary Downtime
+      </AlertTitle>
+      <Box>
+        <Typography paragraph>
+          A required upgrade is being coordinated and executed by the network of
+          Wormhole Guardian (validator) nodes to add Gateway to the Wormhole
+          stack.
+        </Typography>
+        <Typography paragraph>
+          Please take note that token bridging will pause for several hours on{" "}
+          <br />
+          <Typography component="span">Monday, August 21, 2023</Typography>{" "}
+          during the upgrade.
+        </Typography>
+        <Typography paragraph>
+          Follow:{" "}
+          <Link href="https://twitter.com/wormholecrypto" target="_blank">
+            @wormholecrypto
+          </Link>{" "}
+          and join the{" "}
+          <Link
+            href="https://discord.com/invite/wormholecrypto"
+            target="_blank"
+          >
+            Discord
+          </Link>{" "}
+          for updates.
+        </Typography>
+      </Box>
+    </Alert>
+  );
+}
 
 export default function HeaderText({
   children,
@@ -48,6 +141,7 @@ export default function HeaderText({
           {subtitle}
         </Typography>
       ) : null}
+      <Notice />
     </div>
   );
 }
