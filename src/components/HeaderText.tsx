@@ -28,17 +28,17 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "left",
     display: "flex",
     width: "792px",
-    height: "282px",
+    height: "258px",
     padding: theme.spacing(4), // 32px
     justifyContent: "center",
     alignItems: "flex-start",
     gap: "16px",
     borderRadius: "28px",
-    background: "rgba(193, 149, 49, 0.10)",
+    background: "rgba(255, 42, 87, 0.10)",
     border: "none",
     lineHeight: "24px",
     "& .MuiAlertTitle-root": {
-      color: "#FBECD0",
+      color: "#FFE3E9",
       fontWeight: 700,
       marginBottom: theme.spacing(3),
     },
@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
       marginRight: "55px",
       flexShrink: 0,
       "& .MuiTypography-paragraph": {
-        color: "#FBECD0",
+        color: "#FFE3E9",
         fontFamily: "Poppins",
         fontSize: "14px",
         fontStyle: "normal",
@@ -61,11 +61,11 @@ const useStyles = makeStyles((theme) => ({
         },
       },
       "& span": {
-        color: "#EEB32A",
+        color: "#FFE3E9",
         fontWeight: 700,
       },
       "& .MuiLink-root": {
-        color: "#FBECD0",
+        color: "#FFE3E9",
         fontFamily: "Poppins",
         fontSize: "14px",
         fontStyle: "normal",
@@ -80,21 +80,19 @@ const useStyles = makeStyles((theme) => ({
 function Notice() {
   const style = useStyles();
   return (
-    <Alert severity="warning" className={style.alert}>
+    <Alert severity="error" className={style.alert}>
       <AlertTitle>
-        Wormhole Upgrade Approaching - Expect Temporary Downtime
+        Wormhole Upgrade In Progress - Temporary Downtime In Effect
       </AlertTitle>
       <Box>
         <Typography paragraph>
-          A required upgrade is being coordinated and executed by the network of
-          Wormhole Guardian (validator) nodes to add Gateway to the Wormhole
-          stack.
+          A required upgrade is being executed by the network of Wormhole
+          Guardian (validator) nodes to add Gateway to the Wormhole stack.
         </Typography>
         <Typography paragraph>
-          Please take note that token bridging will pause for several hours on{" "}
-          <br />
-          <Typography component="span">Monday, August 21, 2023</Typography>{" "}
-          during the upgrade.
+          <Typography component="span">
+            Token bridging is currently paused.{" "}
+          </Typography>{" "}
         </Typography>
         <Typography paragraph>
           Follow:{" "}
