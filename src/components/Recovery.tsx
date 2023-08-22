@@ -122,6 +122,7 @@ import {
 } from "@certusone/wormhole-sdk/lib/cjs/sui";
 import { useVaaVerifier } from "../hooks/useVaaVerifier";
 import ChainWarningMessage from "./ChainWarningMessage";
+import { useDeepLinkRecoveryParams } from "../hooks/useDeepLinkRecoveryParams";
 
 const NOT_SUPPORTED_VAA_WARNING_MESSAGE = (
   <>
@@ -651,30 +652,22 @@ export default function Recovery() {
   }, [parsedPayload]);
 
   const { search } = useLocation();
-  const query = useMemo(() => new URLSearchParams(search), [search]);
-  const pathSourceChain = query.get("sourceChain");
-  const pathSourceTransaction = query.get("transactionId");
-
+  const { sourceChain, transactionId, vaaHex } =
+    useDeepLinkRecoveryParams(search);
   //This effect initializes the state based on the path params.
   useEffect(() => {
-    if (!pathSourceChain && !pathSourceTransaction) {
-      return;
-    }
     try {
-      const sourceChain: ChainId =
-        CHAINS_BY_ID[parseFloat(pathSourceChain || "") as ChainId]?.id;
-
-      if (sourceChain) {
+      if (sourceChain && transactionId) {
         setRecoverySourceChain(sourceChain);
-      }
-      if (pathSourceTransaction) {
-        setRecoverySourceTx(pathSourceTransaction);
+        setRecoverySourceTx(transactionId);
+      } else if (vaaHex) {
+        setRecoverySignedVAA(vaaHex);
       }
     } catch (e) {
       console.error(e);
       console.error("Invalid path params specified.");
     }
-  }, [pathSourceChain, pathSourceTransaction]);
+  }, [sourceChain, transactionId, vaaHex]);
 
   useEffect(() => {
     if (recoverySourceTx && (!isEVMChain(recoverySourceChain) || isReady)) {
@@ -1047,7 +1040,7 @@ export default function Recovery() {
           <PendingVAAWarning sourceChain={recoverySourceChain} />
         )}
         <div className={classes.advancedContainer}>
-          <Accordion>
+          <Accordion defaultExpanded={!!vaaHex}>
             <AccordionSummary expandIcon={<ExpandMore />}>
               Advanced
             </AccordionSummary>
