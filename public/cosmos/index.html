@@ -40,13 +40,10 @@
     <div class="root">
         <div class="container">
           <div class="cctp-banner">
-              <span id="cctp-default-text">
-                Experience frictionless USDC transfers between Ethereum, Avalanche, and Arbitrum with Circle's CCTP.
+              <span>
+                  Experience frictionless USDC transfers between Ethereum and Avalanche with Circle's CCTP.
               </span>
-              <span id="cctp-optimism-text">
-                Experience frictionless USDC transfers between Ethereum, Avalanche, Arbitrum, and Optimism with Circle's CCTP. 
-              </span>
-              <a class="cctp-link" href="https://portalbridge.com/usdc-bridge" target="_blank" rel="noopener noreferrer">
+              <a class="cctp-link" href="https://www.portalbridge.com/usdc-bridge" target="_blank" rel="noopener noreferrer">
                   TRY IT NOW
               </a>
           </div>
@@ -62,20 +59,16 @@
                   <a class="link" href="/" target="_blank" aria-current="page">
                     Token Bridge
                   </a>
-                  <a class="link" href="https://portalbridge.com/usdc-bridge" target="_blank" rel="noopener noreferrer">
+                  <a class="link" href="https://www.portalbridge.com/usdc-bridge" target="_blank" rel="noopener noreferrer">
                     USDC Bridge
                   </a>
-                  <a class="link active" href="#" aria-current="page">
+                  <a class="link" href="https://www.portalbridge.com/sui" target="_blank" rel="noopener noreferrer">
                     Sui Bridge
                   </a>
-<<<<<<< Updated upstream
-                  <a class="link" href="https://www.portalbridge.com/docs" target="_blank" rel="noopener noreferrer">
-=======
-                  <a class="link active" href="https://www.portalbridge.com/cosmos" target="_blank" rel="noopener noreferrer">
+                  <a class="link active" href="#" aria-current="page">
                     Cosmos Gateway
                   </a>
                   <a class="link" href="https://docs.wormhole.com/wormhole/faqs" target="_blank" rel="noopener noreferrer">
->>>>>>> Stashed changes
                     FAQ
                   </a>
                   <a class="link" href="https://wormhole.com/" target="_blank" rel="noopener noreferrer">
@@ -84,7 +77,7 @@
                 </div>
               </div>
               <div class="help-container">
-                <a class="help-link" tabindex="0" aria-disabled="false" href="docs" target="_blank" rel="noopener noreferrer" title="View the FAQ">
+                <a class="help-link" tabindex="0" aria-disabled="false" href="https://docs.wormhole.com/wormhole/faqs" target="_blank" rel="noopener noreferrer" title="View the FAQ">
                   <span class="help-label">
                     <svg class="help-icon" focusable="false" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"></path></svg>
                   </span>
@@ -109,16 +102,5 @@
     </div>
 
     <script src="https://www.unpkg.com/@wormhole-foundation/wormhole-connect@0.0.5/dist/main.js"></script>
-    <script>
-      // To show Optimism option on SEPT 8th 2023
-      if (new Date() < new Date(2023, 8, 8)) {
-        document.getElementById("cctp-default-text").style.display = "block";
-        document.getElementById("cctp-optimism-text").style.display = "none";
-        
-      } else {
-        document.getElementById("cctp-default-text").style.display = "none";
-        document.getElementById("cctp-optimism-text").style.display = "block";
-      }
-    </script>
   </body>
 </html>
