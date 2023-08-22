@@ -269,6 +269,15 @@ function App() {
                 Sui Bridge
               </Link>
               <Link
+                href="/cosmos"
+                target="_blank"
+                rel="noopener noreferrer"
+                color="inherit"
+                className={classes.link}
+              >
+                Cosmos Gateway
+              </Link>
+              <Link
                 href="docs"
                 target="_blank"
                 rel="noopener noreferrer"
