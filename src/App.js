@@ -269,7 +269,7 @@ function App() {
                 Sui Bridge
               </Link>
               <Link
-                href="/cosmos"
+                href="./cosmos"
                 target="_blank"
                 rel="noopener noreferrer"
                 color="inherit"
