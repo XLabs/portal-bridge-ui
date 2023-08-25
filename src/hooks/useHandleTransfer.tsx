@@ -146,34 +146,7 @@ type AdditionalPayloadOverride = {
   receivingContract: Uint8Array;
   payload: Uint8Array;
 };
-type MaybeAdditionalPayloadFn = (
-  recipientChain: ChainId,
-  recipientAddress: Uint8Array
-) => AdditionalPayloadOverride | null;
-
-function maybeAdditionalPayload(
-  recipientChain: ChainId,
-  recipientAddress: Uint8Array
-): AdditionalPayloadOverride | null {
-  if (recipientChain === CHAIN_ID_SEI) {
-    return {
-      receivingContract: SEI_TRANSLATER_TARGET,
-      payload: new Uint8Array(
-        Buffer.from(
-          JSON.stringify({
-            basic_recipient: {
-              recipient: Buffer.from(
-                // Sei wallet addresses are 20 bytes
-                cosmos.humanAddress("sei", recipientAddress.slice(12))
-              ).toString("base64"),
-            },
-          })
-        )
-      ),
-    };
-  }
-  return null;
-}
+type MaybeAdditionalPayloadFn = () => AdditionalPayloadOverride | null;
 
 async function fetchSignedVAA(
   chainId: ChainId,
@@ -233,10 +206,7 @@ async function algo(
     const baseAmountParsed = parseUnits(amount, decimals);
     const feeParsed = parseUnits(relayerFee || "0", decimals);
     const transferAmountParsed = baseAmountParsed.add(feeParsed);
-    const additionalPayload = maybeAdditionalPayload(
-      recipientChain,
-      recipientAddress
-    );
+    const additionalPayload = maybeAdditionalPayload();
     const algodClient = new algosdk.Algodv2(
       ALGORAND_HOST.algodToken,
       ALGORAND_HOST.algodServer,
@@ -298,10 +268,7 @@ async function aptos(
     const feeParsed = parseUnits(relayerFee || "0", decimals);
     const transferAmountParsed = baseAmountParsed.add(feeParsed);
 
-    const additionalPayload = maybeAdditionalPayload(
-      recipientChain,
-      recipientAddress
-    );
+    const additionalPayload = maybeAdditionalPayload();
     if (additionalPayload?.payload) {
       throw new Error("Transfer with payload is unsupported on Aptos");
     }
@@ -424,10 +391,7 @@ async function evm(
       const baseAmountParsed = parseUnits(amount, decimals);
       const feeParsed = parseUnits(relayerFee || "0", decimals);
       const transferAmountParsed = baseAmountParsed.add(feeParsed);
-      const additionalPayload = maybeAdditionalPayload(
-        recipientChain,
-        recipientAddress
-      );
+      const additionalPayload = maybeAdditionalPayload();
       // Klaytn requires specifying gasPrice
       const overrides =
         chainId === CHAIN_ID_KLAYTN
@@ -509,10 +473,7 @@ async function near(
     const baseAmountParsed = parseUnits(amount, decimals);
     const feeParsed = parseUnits(relayerFee || "0", decimals);
     const transferAmountParsed = baseAmountParsed.add(feeParsed);
-    const additionalPayload = maybeAdditionalPayload(
-      recipientChain,
-      recipientAddress
-    );
+    const additionalPayload = maybeAdditionalPayload();
     const account = await makeNearAccount(senderAddr);
     const msgs =
       tokenAddress === NATIVE_NEAR_PLACEHOLDER
@@ -582,10 +543,7 @@ async function xpla(
     const baseAmountParsed = parseUnits(amount, decimals);
     const feeParsed = parseUnits(relayerFee || "0", decimals);
     const transferAmountParsed = baseAmountParsed.add(feeParsed);
-    const additionalPayload = maybeAdditionalPayload(
-      targetChain,
-      targetAddress
-    );
+    const additionalPayload = maybeAdditionalPayload();
     const tokenBridgeAddress = getTokenBridgeAddressForChain(CHAIN_ID_XPLA);
     const msgs = await transferFromXpla(
       wallet.getAddress()!,
@@ -650,10 +608,7 @@ async function solana(
     const baseAmountParsed = parseUnits(amount, decimals);
     const feeParsed = parseUnits(relayerFee || "0", decimals);
     const transferAmountParsed = baseAmountParsed.add(feeParsed);
-    const additionalPayload = maybeAdditionalPayload(
-      targetChain,
-      targetAddress
-    );
+    const additionalPayload = maybeAdditionalPayload();
     const originAddress = originAddressStr
       ? zeroPad(hexToUint8Array(originAddressStr), 32)
       : undefined;
@@ -768,10 +723,7 @@ async function terra(
     const feeParsed = parseUnits(relayerFee || "0", decimals);
     const transferAmountParsed = baseAmountParsed.add(feeParsed);
     const tokenBridgeAddress = getTokenBridgeAddressForChain(chainId);
-    const additionalPayload = maybeAdditionalPayload(
-      targetChain,
-      targetAddress
-    );
+    const additionalPayload = maybeAdditionalPayload();
     const msgs = await transferFromTerra(
       wallet.getAddress()!,
       tokenBridgeAddress,
@@ -833,10 +785,7 @@ async function injective(
     const transferAmountParsed = baseAmountParsed.add(feeParsed);
     const tokenBridgeAddress =
       getTokenBridgeAddressForChain(CHAIN_ID_INJECTIVE);
-    const additionalPayload = maybeAdditionalPayload(
-      targetChain,
-      targetAddress
-    );
+    const additionalPayload = maybeAdditionalPayload();
     const msgs = await transferFromInjective(
       walletAddress,
       tokenBridgeAddress,
@@ -997,10 +946,7 @@ async function sui(
     const baseAmountParsed = parseUnits(amount, decimals);
     const feeParsed = parseUnits(relayerFee || "0", decimals);
     const transferAmountParsed = baseAmountParsed.add(feeParsed);
-    const additionalPayload = maybeAdditionalPayload(
-      targetChain,
-      targetAddress
-    );
+    const additionalPayload = maybeAdditionalPayload();
     const provider = getSuiProvider();
     // TODO: handle pagination
     const coins = (
