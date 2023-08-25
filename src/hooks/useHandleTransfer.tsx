@@ -391,13 +391,13 @@ async function evm(
       const baseAmountParsed = parseUnits(amount, decimals);
       const feeParsed = parseUnits(relayerFee || "0", decimals);
       const transferAmountParsed = baseAmountParsed.add(feeParsed);
-      const additionalPayload = maybeAdditionalPayload();
       // Klaytn requires specifying gasPrice
       const overrides =
         chainId === CHAIN_ID_KLAYTN
           ? { gasPrice: (await signer.getGasPrice()).toString() }
           : {};
 
+      const additionalPayload = maybeAdditionalPayload();
       receipt = isNative
         ? await transferFromEthNative(
             getTokenBridgeAddressForChain(chainId),
