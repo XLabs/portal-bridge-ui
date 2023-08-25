@@ -1238,25 +1238,6 @@ export function useHandleTransfer() {
         relayerFee
       );
     } else if (
-      sourceChain === CHAIN_ID_SEI &&
-      seiWallet &&
-      seiAddress &&
-      !!sourceAsset &&
-      decimals !== undefined &&
-      !!targetAddress
-    ) {
-      sei(
-        dispatch,
-        enqueueSnackbar,
-        seiWallet,
-        sourceAsset,
-        amount,
-        decimals,
-        targetChain,
-        targetAddress,
-        relayerFee
-      );
-    } else if (
       sourceChain === CHAIN_ID_XPLA &&
       !!xplaWallet &&
       !!sourceAsset &&
