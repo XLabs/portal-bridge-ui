@@ -652,7 +652,7 @@ async function solana(
             SOL_TOKEN_BRIDGE_ADDRESS,
             payerAddress,
             transferAmountParsed.toBigInt(),
-          additionalPayload?.receivingContract ||   additionalPayload?.receivingContract || targetAddress,
+            additionalPayload?.receivingContract || targetAddress,
             targetChain,
             feeParsed.toBigInt(),
             additionalPayload?.payload
@@ -665,7 +665,7 @@ async function solana(
             fromAddress,
             mintAddress,
             transferAmountParsed.toBigInt(),
-          additionalPayload?.receivingContract ||   additionalPayload?.receivingContract || targetAddress,
+            additionalPayload?.receivingContract || targetAddress,
             targetChain,
             originAddress,
             originChain,
@@ -722,8 +722,8 @@ async function terra(
     const baseAmountParsed = parseUnits(amount, decimals);
     const feeParsed = parseUnits(relayerFee || "0", decimals);
     const transferAmountParsed = baseAmountParsed.add(feeParsed);
-    const tokenBridgeAddress = getTokenBridgeAddressForChain(chainId);
     const additionalPayload = maybeAdditionalPayload();
+    const tokenBridgeAddress = getTokenBridgeAddressForChain(chainId);
     const msgs = await transferFromTerra(
       wallet.getAddress()!,
       tokenBridgeAddress,
@@ -783,9 +783,9 @@ async function injective(
     const baseAmountParsed = parseUnits(amount, decimals);
     const feeParsed = parseUnits(relayerFee || "0", decimals);
     const transferAmountParsed = baseAmountParsed.add(feeParsed);
+    const additionalPayload = maybeAdditionalPayload();
     const tokenBridgeAddress =
       getTokenBridgeAddressForChain(CHAIN_ID_INJECTIVE);
-    const additionalPayload = maybeAdditionalPayload();
     const msgs = await transferFromInjective(
       walletAddress,
       tokenBridgeAddress,
@@ -1335,10 +1335,10 @@ export function useHandleTransfer() {
     terraFeeDenom,
     algoWallet,
     aptosWallet,
-    maybeAdditionalPayload,
-    isTBTC,
     seiWallet,
     seiAddress,
+    maybeAdditionalPayload,
+    isTBTC,
   ]);
   return useMemo(
     () => ({
