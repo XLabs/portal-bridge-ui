@@ -147,9 +147,8 @@ function EvmMigrationLineItem({
         poolInfo.data.migrator.address,
         migrationAmountAbs
       );
-      const transaction = await poolInfo.data.migrator.migrate(
-        migrationAmountAbs
-      );
+      const transaction =
+        await poolInfo.data.migrator.migrate(migrationAmountAbs);
       await transaction.wait();
       setTransaction(transaction.hash);
       enqueueSnackbar(null, {

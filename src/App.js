@@ -202,14 +202,18 @@ function App() {
     },
     [push]
   );
+
+  // To show Optimism option on SEPT 4th 2023
+  const bannerMsg =
+    new Date() < new Date(2023, 8, 4)
+      ? "Experience frictionless USDC transfers between Ethereum, Avalanche, and Arbitrum with Circle's CCTP. "
+      : "Experience frictionless USDC transfers between Ethereum, Avalanche, Arbitrum, and Optimism with Circle's CCTP. ";
+
   return (
     <div className={classes.bg}>
       <NewsBar>
         <>
-          <span>
-            Experience frictionless USDC transfers between Ethereum, Avalanche,
-            Arbitrum, and Optimism with Circle's CCTP.{" "}
-          </span>
+          <span>{bannerMsg}</span>
           <Link
             href="https://portalbridge.com/usdc-bridge"
             target="_blank"
