@@ -2003,13 +2003,23 @@ function useGetAvailableTokens(nft: boolean = false) {
     output.isFetching = output.isFetching || ethNativeAccountLoading;
     output.error = output.error || ethNativeAccountError;
 
+    // To avoid have two MATIC in the list (issue: https://github.com/XLabs/portal-bridge-ui/issues/170)
+    if (
+      lookupChain === CHAIN_ID_POLYGON &&
+      ethNativeAccount?.symbol === output.data[0]?.symbol &&
+      ethNativeAccount?.amount === output.data[0]?.amount
+    ) {
+      output.data && output.data.shift();
+    }
     ethNativeAccount && output.data && output.data.unshift(ethNativeAccount);
+
     return output;
   }, [
-    ethNativeAccount,
+    tokenAccounts,
     ethNativeAccountLoading,
     ethNativeAccountError,
-    tokenAccounts,
+    ethNativeAccount,
+    lookupChain,
   ]);
 
   return lookupChain === CHAIN_ID_SOLANA
