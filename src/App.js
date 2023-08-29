@@ -257,7 +257,7 @@ function App() {
                 color="inherit"
                 className={classes.link}
               >
-                USDC Bridge
+                USDC
               </Link>
               <Link
                 href="/sui"
@@ -266,7 +266,7 @@ function App() {
                 color="inherit"
                 className={classes.link}
               >
-                Sui Bridge
+                Sui
               </Link>
               <Link
                 href="./cosmos"
@@ -275,7 +275,7 @@ function App() {
                 color="inherit"
                 className={classes.link}
               >
-                Cosmos Gateway
+                Cosmos
               </Link>
               <Link
                 href="docs"
