@@ -3,7 +3,11 @@ import { Typography, makeStyles } from "@material-ui/core";
 import { useMemo } from "react";
 import { Theme } from "@near-wallet-selector/modal-ui";
 
-const useStyles = makeStyles<Theme, { changeWindowPassDue: boolean }>(() => ({
+interface StyleProps {
+  exchangeWindowExpired: boolean;
+}
+
+const useStyles = makeStyles<Theme, StyleProps>(() => ({
   bar: {
     display: "flex",
     alignItems: "center",
@@ -14,8 +18,8 @@ const useStyles = makeStyles<Theme, { changeWindowPassDue: boolean }>(() => ({
     fontWeight: 500,
     fontSize: "16px",
     letterSpacing: "0.02em",
-    background: ({ changeWindowPassDue }) =>
-    changeWindowPassDue
+    background: ({ exchangeWindowExpired }) =>
+    exchangeWindowExpired
         ? "linear-gradient(1deg, #9577F4 0%, #AD55DA 28.96%, #CA2EBD 100%);"
         : "linear-gradient(20deg, #f44b1b 0%, #eeb430 100%);",
   },
@@ -25,7 +29,7 @@ const useStyles = makeStyles<Theme, { changeWindowPassDue: boolean }>(() => ({
     borderRadius: 20,
     padding: "6px 12px",
     backgroundColor: "white",
-    color: ({ changeWindowPassDue }) => (changeWindowPassDue ? "#17153F" : "#F47B48"),
+    color: ({ exchangeWindowExpired }) => (exchangeWindowExpired ? "#17153F" : "#F47B48"),
     marginLeft: "8px",
     fontSize: "12px",
     letterSpacing: "0.08em",
@@ -102,11 +106,11 @@ const messages = {
 };
 
 export default function NewsBar() {
-  const changeWindowPassDue = useMemo(() => new Date() < new Date(2023, 8, 4), []);
-  const classes = useStyles({ changeWindowPassDue });
+  const exchangeWindowExpired = useMemo(() => new Date() < new Date(2023, 8, 4), []);
+  const classes = useStyles({ exchangeWindowExpired });
   const { content, href } = useMemo(
-    () => (changeWindowPassDue ? messages.cosmos : messages.cctp),
-    [changeWindowPassDue]
+    () => (exchangeWindowExpired ? messages.cosmos : messages.cctp),
+    [exchangeWindowExpired]
   );
   return (
     <div className={classes.bar}>
