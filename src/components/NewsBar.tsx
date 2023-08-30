@@ -63,7 +63,7 @@ function Link({ href, className }: LinkProps) {
 
 const messages = {
   cctp: {
-    href: "https://portalbridge.com/usdc-bridge",
+    href: `${process.env.PUBLIC_URL}/usdc-bridge`,
     // To show Optimism option on SEPT 4th 2023
     content:
       new Date() < new Date(2023, 8, 4)
@@ -71,7 +71,7 @@ const messages = {
         : "Experience frictionless USDC transfers between Ethereum, Avalanche, Arbitrum, and Optimism with Circle's CCTP.",
   },
   cosmos: {
-    href: "https://portalbridge.com/cosmos",
+    href: `${process.env.PUBLIC_URL}/cosmos`,
     content: (
       <>
         <Typography

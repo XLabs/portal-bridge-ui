@@ -218,7 +218,7 @@ function App() {
                 Token Bridge
               </Link>
               <Link
-                href="https://portalbridge.com/usdc-bridge"
+                href={`${process.env.PUBLIC_URL}/usdc-bridge`}
                 target="_blank"
                 rel="noopener noreferrer"
                 color="inherit"
@@ -227,7 +227,7 @@ function App() {
                 USDC
               </Link>
               <Link
-                href="/sui"
+                href={`${process.env.PUBLIC_URL}/sui`}
                 target="_blank"
                 rel="noopener noreferrer"
                 color="inherit"
@@ -236,7 +236,7 @@ function App() {
                 Sui
               </Link>
               <Link
-                href="./cosmos"
+                href={`${process.env.PUBLIC_URL}/cosmos`}
                 target="_blank"
                 rel="noopener noreferrer"
                 color="inherit"
