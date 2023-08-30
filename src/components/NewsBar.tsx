@@ -19,7 +19,7 @@ const useStyles = makeStyles<Theme, StyleProps>(() => ({
     fontSize: "16px",
     letterSpacing: "0.02em",
     background: ({ exchangeWindowExpired }) =>
-    exchangeWindowExpired
+      exchangeWindowExpired
         ? "linear-gradient(1deg, #9577F4 0%, #AD55DA 28.96%, #CA2EBD 100%);"
         : "linear-gradient(20deg, #f44b1b 0%, #eeb430 100%);",
   },
@@ -29,17 +29,19 @@ const useStyles = makeStyles<Theme, StyleProps>(() => ({
     borderRadius: 20,
     padding: "6px 12px",
     backgroundColor: "white",
-    color: ({ exchangeWindowExpired }) => (exchangeWindowExpired ? "#17153F" : "#F47B48"),
+    color: ({ exchangeWindowExpired }) =>
+      exchangeWindowExpired ? "#17153F" : "#F47B48",
     marginLeft: "8px",
     fontSize: "12px",
     letterSpacing: "0.08em",
     fontWeight: 600,
     minHeight: "32px",
     minWidth: "fit-content",
-    fontFamily: 'Poppins',
-    wordWrap: 'break-word'
+    fontFamily: "Poppins",
+    wordWrap: "break-word",
   },
 }));
+
 interface LinkProps {
   href: string;
   className: string;
@@ -106,8 +108,12 @@ const messages = {
 };
 
 export default function NewsBar() {
-  const exchangeWindowExpired = useMemo(() => new Date() < new Date(2023, 8, 4), []);
+  const exchangeWindowExpired = useMemo(
+    () => new Date() < new Date(2023, 8, 4),
+    []
+  );
   const classes = useStyles({ exchangeWindowExpired });
+  // Shows Cosmos message until Sept 4th 2023
   const { content, href } = useMemo(
     () => (exchangeWindowExpired ? messages.cosmos : messages.cctp),
     [exchangeWindowExpired]
@@ -118,4 +124,4 @@ export default function NewsBar() {
       <Link href={href} className={classes.bannerLink} />
     </div>
   );
-};
+}
