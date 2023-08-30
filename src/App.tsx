@@ -215,7 +215,7 @@ function App() {
                 color="inherit"
                 className={classes.link}
               >
-                Bridge
+                Token Bridge
               </Link>
               <Link
                 href={`${process.env.PUBLIC_URL}/usdc-bridge`}
