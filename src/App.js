@@ -76,20 +76,6 @@ const useStyles = makeStyles((theme) => ({
       textDecoration: "underline",
     },
   },
-  bannerLink: {
-    display: "inline-flex",
-    alignItems: "center",
-    borderRadius: 20,
-    padding: "6px 12px",
-    backgroundColor: "white",
-    color: "#F47B48",
-    marginLeft: "8px",
-    fontSize: "12px",
-    letterSpacing: "0.08em",
-    fontWeight: 600,
-    minHeight: "32px",
-    minWidth: "fit-content",
-  },
   bg: {
     // background:
     //   "linear-gradient(160deg, rgba(69,74,117,.1) 0%, rgba(138,146,178,.1) 33%, rgba(69,74,117,.1) 66%, rgba(98,104,143,.1) 100%), linear-gradient(45deg, rgba(153,69,255,.1) 0%, rgba(121,98,231,.1) 20%, rgba(0,209,140,.1) 100%)",
@@ -197,34 +183,15 @@ function App() {
   const { push } = useHistory();
   const { pathname } = useLocation();
   const handleTabChange = useCallback(
-    (event, value) => {
+    (_, value) => {
       push(value);
     },
     [push]
   );
 
-  // To show Optimism option on SEPT 8th 2023
-  const bannerMsg =
-    new Date() < new Date(2023, 8, 8)
-      ? "Experience frictionless USDC transfers between Ethereum, Avalanche, and Arbitrum with Circle's CCTP. "
-      : "Experience frictionless USDC transfers between Ethereum, Avalanche, Arbitrum, and Optimism with Circle's CCTP. ";
-
   return (
     <div className={classes.bg}>
-      <NewsBar>
-        <>
-          <span>{bannerMsg}</span>
-          <Link
-            href="https://portalbridge.com/usdc-bridge"
-            target="_blank"
-            rel="noopener noreferrer"
-            color="inherit"
-            className={classes.bannerLink}
-          >
-            TRY IT NOW
-          </Link>
-        </>
-      </NewsBar>
+      <NewsBar />
       <AppBar
         position="static"
         color="inherit"
