@@ -39,21 +39,48 @@ body {
   width: 100%;
   display: flex;
   padding: 4px 16px;
-  font-size: 14px;
+  font-size: 16px;
   background: linear-gradient(20deg, #f44b1b 0%, #eeb430 100%);
-  min-height: 48px;
+  min-height: 56px;
   text-align: center;
   align-items: center;
   font-weight: 500;
   letter-spacing: 0.02em;
   justify-content: center;
 }
-#cctp-default-text {
-  display: none;
+
+.cosmos-banner {
+  box-sizing: inherit;
+  width: 100%;
+  display: flex;
+  padding: 4px 16px;
+  font-size: 16px;
+  background: linear-gradient(1deg, #9577F4 0%, #AD55DA 28.96%, #CA2EBD 100%);
+  min-height: 56px;
+  text-align: center;
+  align-items: center;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  justify-content: center;
 }
 
-#cctp-optimism-text {
-  display: none;
+.cosmos-link {
+  text-align: center;
+  box-sizing: inherit;
+  margin: 0;
+  text-decoration: none;
+  color: #17153F;
+  display: inline-flex;
+  padding: 6px 12px;
+  font-size: 12px;
+  min-width: fit-content;
+  min-height: 32px;
+  align-items: center;
+  font-weight: 600;
+  margin-left: 8px;
+  border-radius: 20px;
+  letter-spacing: 0.08em;
+  background-color: white;
 }
 
 .cctp-link {
