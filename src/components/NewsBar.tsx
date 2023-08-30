@@ -1,7 +1,7 @@
 import MuiLink from "@material-ui/core/Link";
-import { Typography, makeStyles } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
+import { Theme, makeStyles } from "@material-ui/core";
 import { useMemo } from "react";
-import { Theme } from "@near-wallet-selector/modal-ui";
 
 interface StyleProps {
   exchangeWindowExpired: boolean;
