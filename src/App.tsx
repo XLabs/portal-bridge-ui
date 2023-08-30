@@ -245,7 +245,7 @@ function App() {
                 Cosmos
               </Link>
               <Link
-                href="docs"
+                href={`${process.env.PUBLIC_URL}/docs`}
                 target="_blank"
                 rel="noopener noreferrer"
                 color="inherit"
