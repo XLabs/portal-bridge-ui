@@ -27,7 +27,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap"
     rel="stylesheet" />
   <link href="index.css" rel="stylesheet">
-  <link href="https://sebastianscatularo.github.io/tmp-js-host-wc/main.7499d3ce.css" rel="stylesheet">
+  <link href="https://www.unpkg.com/@wormhole-foundation/wormhole-connect@0.0.10/dist/main.css" rel="stylesheet">
   <title>Cosmos</title>
 </head>
 
@@ -100,7 +100,7 @@
       </header>
 
       <div id="wormhole-connect"
-        config='{"bridgeDefaults":{"requiredNetwork":"osmosis","toNetwork":"osmosis"},"env":"mainnet","networks":["ethereum","bsc","polygon","avalanche","fantom","celo","moonbeam","goerli","mumbai","fuji","alfajores","moonbasealpha","sui","osmosis"],"mode":"dark","customTheme":{"background":{"default":"transparent"},"button":{"primary":"#ffffff19","primaryText":"#ffffff","disabled":"#ffffff0F","disabledText":"#ffffff66","action":"#ffffff","actionText":"#17153F","hover":"#ffffff0F"},"font":{"primary":"Poppins, sans-serif","header":"Suisse BP Intl, sans-serif"}}}'>
+        config='{"bridgeDefaults":{"requiredNetwork":"osmosis","toNetwork":"osmosis"},"env":"mainnet", "rpc": { "wormchain": "https://wormchain.jumpisolated.com" } ,"networks":["ethereum","bsc","polygon","avalanche","fantom","celo","moonbeam","goerli","mumbai","fuji","alfajores","moonbasealpha","sui","osmosis"],"mode":"dark","customTheme":{"background":{"default":"transparent"},"button":{"primary":"#ffffff19","primaryText":"#ffffff","disabled":"#ffffff0F","disabledText":"#ffffff66","action":"#ffffff","actionText":"#17153F","hover":"#ffffff0F"},"font":{"primary":"Poppins, sans-serif","header":"Suisse BP Intl, sans-serif"}}}'>
       </div>
 
       <div class="footer">
@@ -115,7 +115,7 @@
     </div>
   </div>
 
-  <script src="https://sebastianscatularo.github.io/tmp-js-host-wc/main.97e2dad4.js"></script>
+  <script src="https://www.unpkg.com/@wormhole-foundation/wormhole-connect@0.0.10/dist/main.js"></script>
   <script>
     // To show Optimism option on SEPT 4th 2023
     if (new Date() < new Date(2023, 8, 4)) {
