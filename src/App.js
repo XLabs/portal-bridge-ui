@@ -203,9 +203,9 @@ function App() {
     [push]
   );
 
-  // To show Optimism option on SEPT 4th 2023
+  // To show Optimism option on SEPT 8th 2023
   const bannerMsg =
-    new Date() < new Date(2023, 8, 4)
+    new Date() < new Date(2023, 8, 8)
       ? "Experience frictionless USDC transfers between Ethereum, Avalanche, and Arbitrum with Circle's CCTP. "
       : "Experience frictionless USDC transfers between Ethereum, Avalanche, Arbitrum, and Optimism with Circle's CCTP. ";
 
