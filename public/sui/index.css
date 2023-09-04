@@ -48,13 +48,6 @@ body {
   letter-spacing: 0.02em;
   justify-content: center;
 }
-#cctp-default-text {
-  display: none;
-}
-
-#cctp-optimism-text {
-  display: none;
-}
 
 .cctp-link {
   text-align: center;

@@ -40,10 +40,7 @@
     <div class="root">
         <div class="container">
           <div class="cctp-banner">
-              <span id="cctp-default-text">
-                Experience frictionless USDC transfers between Ethereum, Avalanche, and Arbitrum with Circle's CCTP.
-              </span>
-              <span id="cctp-optimism-text">
+              <span>
                 Experience frictionless USDC transfers between Ethereum, Avalanche, Arbitrum, and Optimism with Circle's CCTP. 
               </span>
               <a class="cctp-link" href="https://portalbridge.com/usdc-bridge" target="_blank" rel="noopener noreferrer">
@@ -102,16 +99,5 @@
     </div>
 
     <script src="https://www.unpkg.com/@wormhole-foundation/wormhole-connect@0.0.5/dist/main.js"></script>
-    <script>
-      // To show Optimism option on SEPT 8th 2023
-      if (new Date() < new Date(2023, 8, 8)) {
-        document.getElementById("cctp-default-text").style.display = "block";
-        document.getElementById("cctp-optimism-text").style.display = "none";
-        
-      } else {
-        document.getElementById("cctp-default-text").style.display = "none";
-        document.getElementById("cctp-optimism-text").style.display = "block";
-      }
-    </script>
   </body>
 </html>
