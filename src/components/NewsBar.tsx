@@ -109,7 +109,7 @@ const messages = {
 
 export default function NewsBar() {
   const exchangeWindowExpired = useMemo(
-    () => new Date() < new Date(2023, 8, 4),
+    () => new Date() < new Date(2023, 8, 8),
     []
   );
   const classes = useStyles({ exchangeWindowExpired });
