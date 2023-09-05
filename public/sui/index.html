@@ -32,23 +32,30 @@
       rel="stylesheet"
     />
     <link href="index.css" rel="stylesheet">
-    <link href="https://www.unpkg.com/@wormhole-foundation/wormhole-connect@0.0.5/dist/main.css" rel="stylesheet">
+    <link href="https://www.unpkg.com/@wormhole-foundation/wormhole-connect@0.0.12/dist/main.css" rel="stylesheet">
     <title>SUI Token Bridge</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div class="root">
         <div class="container">
-          <div class="cctp-banner">
-              <span id="cctp-default-text">
-                Experience frictionless USDC transfers between Ethereum, Avalanche, and Arbitrum with Circle's CCTP.
-              </span>
-              <span id="cctp-optimism-text">
-                Experience frictionless USDC transfers between Ethereum, Avalanche, Arbitrum, and Optimism with Circle's CCTP. 
-              </span>
-              <a class="cctp-link" href="https://portalbridge.com/usdc-bridge" target="_blank" rel="noopener noreferrer">
-                  TRY IT NOW
-              </a>
+          <div class="cosmos-banner" id="cosmos-banner" style="display: none;">
+            <div style="text-align: center"><span
+                style="color: white; font-size: 16px; font-family: Poppins; font-weight: 500; line-height: 20.02px; letter-spacing: 0.28px; word-wrap: break-word">Wormhole
+                Gateway is now live on mainnet!</span><span
+                style="color: white; font-size: 16px; font-family: Poppins; font-weight: 700; line-height: 20.02px; letter-spacing: 0.28px; word-wrap: break-word">
+                Bridge your assets to Osmosis today.</span></div>
+            <a class="cosmos-link" href="https://portalbridge.com/cosmos" target="_blank" rel="noopener noreferrer">
+              TRY IT NOW
+            </a>
+          </div>
+          <div class="cctp-banner" id="cctp-banner" style="display: none;">
+            <span>
+              Experience frictionless USDC transfers between Ethereum, Avalanche, Arbitrum, and Optimism with Circle's CCTP.
+            </span>
+            <a class="cctp-link" href="https://portalbridge.com/usdc-bridge" target="_blank" rel="noopener noreferrer">
+              TRY IT NOW
+            </a>
           </div>
 
           <header class="header">
@@ -63,12 +70,15 @@
                     Token Bridge
                   </a>
                   <a class="link" href="https://portalbridge.com/usdc-bridge" target="_blank" rel="noopener noreferrer">
-                    USDC Bridge
+                    USDC
                   </a>
                   <a class="link active" href="#" aria-current="page">
-                    Sui Bridge
+                    Sui
                   </a>
-                  <a class="link" href="https://www.portalbridge.com/docs" target="_blank" rel="noopener noreferrer">
+                  <a class="link" href="https://portalbridge.com/cosmos" target="_blank" rel="noopener noreferrer">
+                    Cosmos
+                  </a>
+                  <a class="link" href="https://portalbridge.com/docs" target="_blank" rel="noopener noreferrer">
                     FAQ
                   </a>
                   <a class="link" href="https://wormhole.com/" target="_blank" rel="noopener noreferrer">
@@ -88,7 +98,7 @@
             </div>
           </header>
 
-          <div id="wormhole-connect" config='{"bridgeDefaults": {"requiredNetwork":"sui","toNetwork":"sui"},"env":"mainnet","networks":["ethereum", "bsc", "polygon", "avalanche", "fantom", "celo", "moonbeam", "goerli", "mumbai", "fuji", "alfajores", "moonbasealpha", "sui"],"mode":"dark","customTheme":{"background":{"default":"transparent"},"button":{"primary":"#ffffff19","primaryText":"#ffffff","disabled":"#ffffff0F","disabledText":"#ffffff66","action":"#ffffff","actionText":"#17153F","hover":"#ffffff0F"},"font":{"primary":"Poppins, sans-serif","header":"Suisse BP Intl, sans-serif"}}}'></div>
+          <div id="wormhole-connect" config='{"bridgeDefaults":{"requiredNetwork":"sui","toNetwork":"sui"},"rpcs":{"wormchain":"https://rpc.wormchain-pub.ccvalidators.com","aptos":"https://virulent-cool-choice.aptos-mainnet.discover.quiknode.pro/92fe1c5c22c3ed6edcdd9c423598e7a8e180e52c/v1/","solana":"https://wormhole.rpcpool.com/","ethereum":"https://rpc.ankr.com/eth/0e1bc8da1b2638d5a6d43afd21ce4318b09ac4044812f4e12134888cf3cceeca","sui":"https://rpc.ankr.com/sui/0e1bc8da1b2638d5a6d43afd21ce4318b09ac4044812f4e12134888cf3cceeca"},"env":"mainnet","networks":["ethereum","bsc","polygon","avalanche","fantom","celo","moonbeam","goerli","mumbai","fuji","alfajores","moonbasealpha","sui"],"mode":"dark","customTheme":{"background":{"default":"transparent"},"button":{"primary":"#ffffff19","primaryText":"#ffffff","disabled":"#ffffff0F","disabledText":"#ffffff66","action":"#ffffff","actionText":"#17153F","hover":"#ffffff0F"},"font":{"primary":"Poppins, sans-serif","header":"Suisse BP Intl, sans-serif"}}}'></div>
 
           <div class="footer">
             <span>
@@ -101,16 +111,16 @@
       </div>
     </div>
 
-    <script src="https://www.unpkg.com/@wormhole-foundation/wormhole-connect@0.0.5/dist/main.js"></script>
+    <script src="https://www.unpkg.com/@wormhole-foundation/wormhole-connect@0.0.12/dist/main.js"></script>
     <script>
-      // To show Optimism option on SEPT 8th 2023
+      // To show Optimism option on SEPT 4th 2023
       if (new Date() < new Date(2023, 8, 8)) {
-        document.getElementById("cctp-default-text").style.display = "block";
-        document.getElementById("cctp-optimism-text").style.display = "none";
-        
+        document.getElementById("cosmos-banner").style.display = "flex";
+        document.getElementById("cctp-banner").style.display = "none";
+  
       } else {
-        document.getElementById("cctp-default-text").style.display = "none";
-        document.getElementById("cctp-optimism-text").style.display = "block";
+        document.getElementById("cosmos-banner").style.display = "none";
+        document.getElementById("cctp-banner").style.display = "flex";
       }
     </script>
   </body>

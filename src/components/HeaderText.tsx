@@ -1,11 +1,11 @@
 import { makeStyles, Typography } from "@material-ui/core";
 import clsx from "clsx";
-import { ReactChild } from "react";
 import { COLORS } from "../muiTheme";
 
 const useStyles = makeStyles((theme) => ({
   centeredContainer: {
-    marginBottom: theme.spacing(16),
+    marginTop: theme.spacing(5),
+    marginBottom: theme.spacing(7.5),
     textAlign: "center",
     width: "100%",
   },
@@ -28,10 +28,10 @@ export default function HeaderText({
   small,
   subtitle,
 }: {
-  children: ReactChild;
+  children: JSX.Element | string | JSX.Element[];
   white?: boolean;
   small?: boolean;
-  subtitle?: ReactChild;
+  subtitle?: JSX.Element | string | JSX.Element[];
 }) {
   const classes = useStyles();
   return (
