@@ -1,6 +1,6 @@
 import MuiLink from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
-import { Theme, makeStyles } from "@material-ui/core";
+import { Theme, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import { useMemo } from "react";
 
 interface StyleProps {
@@ -61,53 +61,56 @@ function Link({ href, className }: LinkProps) {
   );
 }
 
-const messages = {
-  cctp: {
-    href: `${process.env.PUBLIC_URL}/usdc-bridge`,
-    // To show Optimism option on SEPT 4th 2023
-    content:
-      new Date() < new Date(2023, 8, 4)
-        ? "Experience frictionless USDC transfers between Ethereum, Avalanche, and Arbitrum with Circle's CCTP. "
-        : "Experience frictionless USDC transfers between Ethereum, Avalanche, Arbitrum, and Optimism with Circle's CCTP.",
-  },
-  cosmos: {
-    href: `${process.env.PUBLIC_URL}/cosmos`,
-    content: (
-      <>
-        <Typography
-          variant="body1"
-          style={{
-            color: "white",
-            fontSize: 16,
-            fontFamily: "Poppins",
-            fontWeight: 500,
-            lineHeight: 20.02,
-            letterSpacing: 0.28,
-            wordWrap: "break-word",
-          }}
-        >
-          Wormhole Gateway is now live on mainnet! &nbsp;
-        </Typography>
-        <Typography
-          variant="body1"
-          style={{
-            color: "white",
-            fontSize: 16,
-            fontFamily: "Poppins",
-            fontWeight: 700,
-            lineHeight: 20.02,
-            letterSpacing: 0.28,
-            wordWrap: "break-word",
-          }}
-        >
-          Bridge your assets to Osmosis today.
-        </Typography>
-      </>
-    ),
-  },
-};
-
 export default function NewsBar() {
+  const theme = useTheme();
+  const isBigScreen = useMediaQuery(theme.breakpoints.up("md"));
+  const fontSize1 = isBigScreen ? 16 : 12;
+  const fontSize2 = isBigScreen ? 16 : 10;
+
+  const messages = {
+    cctp: {
+      href: `${process.env.PUBLIC_URL}/usdc-bridge`,
+      // To show Optimism option on SEPT 4th 2023
+      content:
+        new Date() < new Date(2023, 8, 4)
+          ? "Experience frictionless USDC transfers between Ethereum, Avalanche, and Arbitrum with Circle's CCTP. "
+          : "Experience frictionless USDC transfers between Ethereum, Avalanche, Arbitrum, and Optimism with Circle's CCTP.",
+    },
+    cosmos: {
+      href: `${process.env.PUBLIC_URL}/cosmos`,
+      content: (
+        <>
+          <Typography
+            variant="body1"
+            style={{
+              color: "white",
+              fontSize: fontSize1,
+              fontFamily: "Poppins",
+              fontWeight: 500,
+              letterSpacing: 0.28,
+              wordWrap: "break-word",
+            }}
+          >
+            Wormhole Gateway is now live on mainnet! &nbsp;
+          </Typography>
+          <Typography
+            variant="body1"
+            style={{
+              color: "white",
+              fontSize: fontSize2,
+              fontFamily: "Poppins",
+              fontWeight: 700,
+              letterSpacing: 0.28,
+              wordWrap: "break-word",
+            }}
+          >
+            Bridge your assets to Osmosis today.
+          </Typography>
+        </>
+      ),
+    },
+  };
+
   const exchangeWindowExpired = useMemo(
     () => new Date() < new Date(2023, 8, 8),
     []
@@ -116,7 +119,7 @@ export default function NewsBar() {
   // Shows Cosmos message until Sept 4th 2023
   const { content, href } = useMemo(
     () => (exchangeWindowExpired ? messages.cosmos : messages.cctp),
-    [exchangeWindowExpired]
+    [exchangeWindowExpired, messages.cctp, messages.cosmos]
   );
   return (
     <div className={classes.bar}>
