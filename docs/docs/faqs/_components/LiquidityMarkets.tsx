@@ -7,6 +7,7 @@ import {
   CHAIN_ID_TO_SYMBOL,
 } from "@site/src/utils/const";
 import TOCInline from "@theme/TOCInline";
+
 const moreAssets = {
   ETH: {
     symbol: "ETH",
@@ -92,8 +93,8 @@ function useLiquidityMarkets(): any {
         );
 
         const assets = await responseAssets.json();
-        console.log("assets", { ...assets, ...moreAssets });
 
+        // TODO: remove moreAssets object once we have a proper token list
         setJson({ ...data, assets: { ...assets, ...moreAssets } });
       } catch (err) {
         console.log(err);
@@ -106,7 +107,7 @@ function useLiquidityMarkets(): any {
   return json;
 }
 
-function AssetTable(target, id, markets, tokens, assets) {
+function AssetTable(target, markets, tokens, assets) {
   return (
     <>
       <table>
@@ -189,13 +190,7 @@ function LiquidityMarketTable({
               label={`${targetName} -> ${sourceName}`}
               default={idx === 0}
             >
-              {AssetTable(
-                source[item.target],
-                item.target,
-                markets,
-                tokens,
-                assets
-              )}
+              {AssetTable(source[item.target], markets, tokens, assets)}
             </TabItem>
           );
         })}
