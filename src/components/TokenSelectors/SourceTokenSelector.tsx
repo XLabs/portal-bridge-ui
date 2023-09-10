@@ -7,6 +7,7 @@ import {
   CHAIN_ID_SOLANA,
   CHAIN_ID_SUI,
   CHAIN_ID_XPLA,
+  CHAIN_ID_SEI,
   isEVMChain,
   isTerraChain,
 } from "@certusone/wormhole-sdk";
@@ -40,6 +41,7 @@ import TerraTokenPicker from "./TerraTokenPicker";
 import XplaTokenPicker from "./XplaTokenPicker";
 import InjectiveTokenPicker from "./InjectiveTokenPicker";
 import SuiTokenPicker from "./SuiTokenPicker";
+import SeiTokenPicker from "./SeiTokenPicker";
 
 type TokenSelectorProps = {
   disabled: boolean;
@@ -170,6 +172,14 @@ export const TokenSelector = (props: TokenSelectorProps) => {
     />
   ) : lookupChain === CHAIN_ID_SUI ? (
     <SuiTokenPicker
+      value={sourceParsedTokenAccount || null}
+      disabled={disabled}
+      onChange={handleOnChange}
+      resetAccounts={maps?.resetAccounts}
+      tokenAccounts={maps?.tokenAccounts}
+    />
+  ) : lookupChain === CHAIN_ID_SEI ? (
+    <SeiTokenPicker
       value={sourceParsedTokenAccount || null}
       disabled={disabled}
       onChange={handleOnChange}

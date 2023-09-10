@@ -18,6 +18,7 @@ import {
   CHAIN_ID_POLYGON,
   CHAIN_ID_SOLANA,
   CHAIN_ID_XPLA,
+  CHAIN_ID_SEI,
   isEVMChain,
   isTerraChain,
   ethers_contracts,
@@ -2074,6 +2075,10 @@ function useGetAvailableTokens(nft: boolean = false) {
     : lookupChain === CHAIN_ID_SUI
     ? {
         tokenAccounts,
+        resetAccounts: resetSourceAccounts,
+      }
+    : lookupChain === CHAIN_ID_SEI
+    ? {
         resetAccounts: resetSourceAccounts,
       }
     : undefined;

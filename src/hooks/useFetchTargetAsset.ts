@@ -7,6 +7,7 @@ import {
   CHAIN_ID_SOLANA,
   CHAIN_ID_TERRA2,
   CHAIN_ID_XPLA,
+  CHAIN_ID_SEI,
   ensureHexPrefix,
   getForeignAssetAlgorand,
   getForeignAssetAptos,
@@ -86,6 +87,11 @@ import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
 import { getAptosClient } from "../utils/aptos";
 import { getInjectiveWasmClient } from "../utils/injective";
 import { getSuiProvider } from "../utils/sui";
+import {
+  getForeignAssetSei,
+  getSeiWasmClient,
+  queryExternalIdSei,
+} from "../utils/sei";
 
 function useFetchTargetAsset(nft?: boolean) {
   const dispatch = useDispatch();
@@ -190,6 +196,25 @@ function useFetchTargetAsset(nft?: boolean) {
                 receiveDataWrapper({
                   doesExist: true,
                   address: tokenId || null,
+                })
+              )
+            );
+          }
+        } else if (originChain === CHAIN_ID_SEI) {
+          const client = await getSeiWasmClient();
+          const tokenBridgeAddress =
+            getTokenBridgeAddressForChain(CHAIN_ID_SEI);
+          const tokenId = await queryExternalIdSei(
+            client,
+            tokenBridgeAddress,
+            originAsset || ""
+          );
+          if (!cancelled) {
+            dispatch(
+              setTargetAsset(
+                receiveDataWrapper({
+                  doesExist: true,
+                  address: tokenId,
                 })
               )
             );
@@ -444,6 +469,36 @@ function useFetchTargetAsset(nft?: boolean) {
           const asset = await getForeignAssetXpla(
             getTokenBridgeAddressForChain(targetChain),
             lcd,
+            originChain,
+            hexToUint8Array(originAsset)
+          );
+          if (!cancelled) {
+            dispatch(
+              setTargetAsset(
+                receiveDataWrapper({ doesExist: !!asset, address: asset })
+              )
+            );
+            setArgs();
+          }
+        } catch (e) {
+          if (!cancelled) {
+            dispatch(
+              setTargetAsset(
+                errorDataWrapper(
+                  "Unable to determine existence of wrapped asset"
+                )
+              )
+            );
+          }
+        }
+      }
+      if (targetChain === CHAIN_ID_SEI && originChain && originAsset) {
+        dispatch(setTargetAsset(fetchDataWrapper()));
+        try {
+          const client = await getSeiWasmClient();
+          const asset = await getForeignAssetSei(
+            getTokenBridgeAddressForChain(targetChain),
+            client,
             originChain,
             hexToUint8Array(originAsset)
           );

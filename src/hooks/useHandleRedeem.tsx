@@ -22,6 +22,10 @@ import {
   uint8ArrayToHex,
   CHAIN_ID_SUI,
   CHAIN_ID_POLYGON,
+  CHAIN_ID_SEI,
+  parseVaa,
+  parseTokenTransferPayload,
+  cosmos
 } from "@certusone/wormhole-sdk";
 import { completeTransferAndRegister } from "@certusone/wormhole-sdk/lib/esm/aptos/api/tokenBridge";
 import { Alert } from "@material-ui/lab";
@@ -62,6 +66,7 @@ import {
   SOL_TOKEN_BRIDGE_ADDRESS,
   getBridgeAddressForChain,
   THRESHOLD_GATEWAYS,
+  SEI_TRANSLATOR
 } from "../utils/consts";
 import {
   makeNearAccount,
@@ -90,6 +95,10 @@ import { useSuiWallet } from "../contexts/SuiWalletContext";
 import { redeemOnSui } from "../utils/suiRedeemHotfix";
 import { ThresholdL2WormholeGateway } from "../utils/ThresholdL2WormholeGateway";
 import { newThresholdWormholeGateway } from "../assets/providers/tbtc/solana/WormholeGateway.v2";
+import { calculateFee } from "@cosmjs/stargate";
+import { fromUint8Array } from "js-base64";
+import { useSeiWallet } from "../contexts/SeiWalletContext";
+import { SeiWallet } from "@xlabs-libs/wallet-aggregator-sei";
 
 async function algo(
   dispatch: any,
@@ -304,6 +313,67 @@ async function xpla(
   }
 }
 
+async function sei(
+  dispatch: any,
+  enqueueSnackbar: any,
+  wallet: SeiWallet,
+  signedVAA: Uint8Array
+) {
+  dispatch(setIsRedeeming(true));
+  try {
+    // TODO: is this right?
+    const fee = calculateFee(800000, "0.1usei");
+
+    const vaa = parseVaa(signedVAA);
+    const transfer = parseTokenTransferPayload(vaa.payload);
+    const receiver = cosmos.humanAddress("sei", transfer.to);
+
+    const instructions =
+      receiver === SEI_TRANSLATOR
+        ? [
+            {
+              contractAddress: SEI_TRANSLATOR,
+              msg: {
+                complete_transfer_and_convert: {
+                  vaa: fromUint8Array(signedVAA),
+                },
+              },
+            },
+          ]
+        : [
+            {
+              contractAddress: getTokenBridgeAddressForChain(CHAIN_ID_SEI),
+              msg: {
+                submit_vaa: {
+                  data: fromUint8Array(signedVAA),
+                },
+              },
+            },
+          ];
+
+    const tx = await wallet.executeMultiple({
+      instructions,
+      fee,
+      memo: "Wormhole - Complete Transfer",
+    });
+
+    if (!tx.data?.height) {
+      console.error("Error: No tx height [sei redeem]");
+      return;
+    }
+
+    dispatch(setRedeemTx({ id: tx.id, block: tx.data.height }));
+    enqueueSnackbar(null, {
+      content: <Alert severity="success">Transaction confirmed</Alert>,
+    });
+  } catch (e) {
+    enqueueSnackbar(null, {
+      content: <Alert severity="error">{parseError(e)}</Alert>,
+    });
+    dispatch(setIsRedeeming(false));
+  }
+}
+
 async function injective(
   dispatch: any,
   enqueueSnackbar: any,
@@ -498,6 +568,8 @@ export function useHandleRedeem() {
   const { account: aptosAddress, wallet: aptosWallet } = useAptosContext();
   const { wallet: injWallet, address: injAddress } = useInjectiveContext();
   const suiWallet = useSuiWallet();
+  const seiWallet = useSeiWallet();
+  const seiAddress = seiWallet?.getAddress();
   const signedVAA = useTransferSignedVAA();
   const isRedeeming = useSelector(selectTransferIsRedeeming);
   const handleRedeemClick = useCallback(() => {
@@ -537,6 +609,13 @@ export function useHandleRedeem() {
       );
     } else if (targetChain === CHAIN_ID_XPLA && !!xplaWallet && signedVAA) {
       xpla(dispatch, enqueueSnackbar, xplaWallet, signedVAA);
+    } else if (
+      targetChain === CHAIN_ID_SEI &&
+      seiWallet &&
+      seiAddress &&
+      signedVAA
+    ) {
+      sei(dispatch, enqueueSnackbar, seiWallet, signedVAA);  
     } else if (targetChain === CHAIN_ID_APTOS && !!aptosAddress && signedVAA) {
       aptos(dispatch, enqueueSnackbar, signedVAA, aptosWallet!);
     } else if (
@@ -587,6 +666,8 @@ export function useHandleRedeem() {
     terraFeeDenom,
     aptosWallet,
     algoWallet,
+    seiWallet,
+    seiAddress
   ]);
 
   const handleRedeemNativeClick = useCallback(() => {
@@ -630,6 +711,13 @@ export function useHandleRedeem() {
     ) {
       injective(dispatch, enqueueSnackbar, injWallet, injAddress, signedVAA);
     } else if (
+      targetChain === CHAIN_ID_SEI &&
+      seiWallet &&
+      seiAddress &&
+      signedVAA
+    ) {
+      sei(dispatch, enqueueSnackbar, seiWallet, signedVAA);
+    } else if (
       targetChain === CHAIN_ID_SUI &&
       suiWallet?.getAddress() &&
       signedVAA
@@ -652,6 +740,8 @@ export function useHandleRedeem() {
     injAddress,
     suiWallet,
     isTBTC,
+    seiWallet,
+    seiAddress
   ]);
 
   const handleAcalaRelayerRedeemClick = useCallback(async () => {

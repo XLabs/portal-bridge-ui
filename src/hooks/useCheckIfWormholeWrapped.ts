@@ -5,6 +5,8 @@ import {
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   CHAIN_ID_XPLA,
+  CHAIN_ID_SEI,
+  cosmos,
   getOriginalAssetAptos,
   getOriginalAssetAlgorand,
   getOriginalAssetCosmWasm,
@@ -57,12 +59,15 @@ import {
   XPLA_LCD_CLIENT_CONFIG,
   THRESHOLD_TBTC_CONTRACTS,
   TBTC_ASSET_ADDRESS,
+  SEI_TRANSLATOR
 } from "../utils/consts";
 import { getOriginalAssetNear, makeNearAccount } from "../utils/near";
 import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
 import { getAptosClient } from "../utils/aptos";
 import { getInjectiveWasmClient } from "../utils/injective";
 import { getSuiProvider } from "../utils/sui";
+import { getOriginalAssetSei, getSeiWasmClient } from "../utils/sei";
+import { base58 } from "ethers/lib/utils";
 
 export interface StateSafeWormholeWrappedInfo {
   isWrapped: boolean;
@@ -200,6 +205,25 @@ function useCheckIfWormholeWrapped(nft?: boolean) {
           const lcd = new XplaLCDClient(XPLA_LCD_CLIENT_CONFIG);
           const wrappedInfo = makeStateSafe(
             await getOriginalAssetCosmWasm(lcd, sourceAsset, sourceChain)
+          );
+          if (!cancelled) {
+            dispatch(setSourceWormholeWrappedInfo(wrappedInfo));
+          }
+        } catch (e) {}
+      }
+      if (sourceChain === CHAIN_ID_SEI && sourceAsset) {
+        try {
+          const client = await getSeiWasmClient();
+          const queryAsset = sourceAsset.startsWith(
+            `factory/${SEI_TRANSLATOR}/`
+          )
+            ? cosmos.humanAddress(
+                "sei",
+                base58.decode(sourceAsset.split("/")[2])
+              )
+            : sourceAsset;
+          const wrappedInfo = makeStateSafe(
+            await getOriginalAssetSei(queryAsset, client)
           );
           if (!cancelled) {
             dispatch(setSourceWormholeWrappedInfo(wrappedInfo));
