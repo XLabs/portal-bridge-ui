@@ -28,8 +28,8 @@ export const getEvmWallets = (): EVMWallet[] => {
         projectId: process.env.REACT_APP_WALLET_CONNECT_PROJECT_ID || "",
         showQrModal: true,
         qrModalOptions: {
-          explorerAllowList: [],
-          explorerDenyList: [],
+          //          explorerAllowList: [],
+          //          explorerDenyList: [],
           themeMode: "light",
         },
         metadata: {

@@ -51,7 +51,7 @@
     "@xpla/wallet-provider": "^0.3.4",
     "@xpla/xpla.js": "^0.2.1",
     "alchemy-sdk": "2.8.0",
-    "algosdk": "^1.15.0",
+    "algosdk": "^2.5.0",
     "aptos": "1.5.0",
     "axios": "^0.21.1",
     "bech32": "^1.1.4",

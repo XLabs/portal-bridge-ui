@@ -116,6 +116,7 @@ import { useSeiWallet } from "../contexts/SeiWalletContext";
 import { SeiWallet } from "@xlabs-libs/wallet-aggregator-sei";
 import { parseSequenceFromLogSei } from "../utils/sei";
 import { calculateFee } from "@cosmjs/stargate";
+import { SuiTransactionBlockResponse } from "@mysten/sui.js";
 
 async function algo(
   dispatch: any,
@@ -555,7 +556,7 @@ async function sui(
           showEvents: true,
         },
       })
-    ).data;
+    ).data as SuiTransactionBlockResponse;
     if (!response) {
       throw new Error("Error parsing transaction results");
     }

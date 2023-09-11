@@ -91,6 +91,7 @@ import { useXplaWallet } from "../contexts/XplaWalletContext";
 import {
   JsonRpcProvider,
   SUI_CLOCK_OBJECT_ID,
+  SuiTransactionBlockResponse,
   TransactionBlock,
   getPublishedObjectChanges,
 } from "@mysten/sui.js";
@@ -606,7 +607,7 @@ async function sui(
         throw new Error("Error parsing wrappedAssetSetupType");
       }
       const publishEvents = getPublishedObjectChanges(
-        suiPrepareRegistrationTxRes
+        suiPrepareRegistrationTxRes as SuiTransactionBlockResponse
       );
       if (publishEvents.length < 1) {
         throw new Error("Error parsing publishEvents");

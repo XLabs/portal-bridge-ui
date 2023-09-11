@@ -141,6 +141,7 @@ import { calculateFee } from "@cosmjs/stargate";
 import { parseSequenceFromLogSei } from "../utils/sei";
 import { useSeiWallet } from "../contexts/SeiWalletContext";
 import { SeiWallet } from "@xlabs-libs/wallet-aggregator-sei";
+import { SuiTransactionBlockResponse } from "@mysten/sui.js";
 
 type AdditionalPayloadOverride = {
   receivingContract: Uint8Array;
@@ -975,7 +976,7 @@ async function sui(
           showEvents: true,
         },
       })
-    ).data;
+    ).data as SuiTransactionBlockResponse;
     if (!response) {
       throw new Error("Error parsing transaction results");
     }
