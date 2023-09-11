@@ -398,7 +398,7 @@ export default function useMetadata(
       suiAddresses,
       suiMetadata,
       seiAddresses,
-      seiMetadata
+      seiMetadata,
     ]
   );
 

@@ -10,7 +10,7 @@ import {
   CHAIN_ID_SUI,
   CHAIN_ID_TERRA2,
   CHAIN_ID_XPLA,
-  CHAIN_ID_SEI
+  CHAIN_ID_SEI,
 } from "@xlabs-libs/wallet-aggregator-core";
 import { WalletContextProvider } from "@xlabs-libs/wallet-aggregator-react";
 import { SnackbarProvider } from "notistack";

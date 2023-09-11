@@ -25,7 +25,7 @@ import {
   CHAIN_ID_SEI,
   parseVaa,
   parseTokenTransferPayload,
-  cosmos
+  cosmos,
 } from "@certusone/wormhole-sdk";
 import { completeTransferAndRegister } from "@certusone/wormhole-sdk/lib/esm/aptos/api/tokenBridge";
 import { Alert } from "@material-ui/lab";
@@ -66,7 +66,7 @@ import {
   SOL_TOKEN_BRIDGE_ADDRESS,
   getBridgeAddressForChain,
   THRESHOLD_GATEWAYS,
-  SEI_TRANSLATOR
+  SEI_TRANSLATOR,
 } from "../utils/consts";
 import {
   makeNearAccount,
@@ -615,7 +615,7 @@ export function useHandleRedeem() {
       seiAddress &&
       signedVAA
     ) {
-      sei(dispatch, enqueueSnackbar, seiWallet, signedVAA);  
+      sei(dispatch, enqueueSnackbar, seiWallet, signedVAA);
     } else if (targetChain === CHAIN_ID_APTOS && !!aptosAddress && signedVAA) {
       aptos(dispatch, enqueueSnackbar, signedVAA, aptosWallet!);
     } else if (
@@ -667,7 +667,7 @@ export function useHandleRedeem() {
     aptosWallet,
     algoWallet,
     seiWallet,
-    seiAddress
+    seiAddress,
   ]);
 
   const handleRedeemNativeClick = useCallback(() => {
@@ -741,7 +741,7 @@ export function useHandleRedeem() {
     suiWallet,
     isTBTC,
     seiWallet,
-    seiAddress
+    seiAddress,
   ]);
 
   const handleAcalaRelayerRedeemClick = useCallback(async () => {

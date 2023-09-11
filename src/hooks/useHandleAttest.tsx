@@ -80,7 +80,7 @@ import {
   SOL_BRIDGE_ADDRESS,
   SOL_TOKEN_BRIDGE_ADDRESS,
   WORMHOLE_RPC_HOSTS,
-  SEI_NATIVE_DENOM
+  SEI_NATIVE_DENOM,
 } from "../utils/consts";
 import {
   attestNearFromNear,
@@ -671,8 +671,9 @@ export function useHandleAttest() {
   const isSendComplete = useSelector(selectAttestIsSendComplete);
   const { signer } = useEthereumProvider(sourceChain as any);
   const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
-  const { walletAddress: terraAddress, wallet: terraWallet } =
-    useTerraWallet(sourceChain as any);
+  const { walletAddress: terraAddress, wallet: terraWallet } = useTerraWallet(
+    sourceChain as any
+  );
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
   const xplaWallet = useXplaWallet();
   const { address: algoAccount, wallet: algoWallet } = useAlgorandWallet();
@@ -744,7 +745,7 @@ export function useHandleAttest() {
     terraAddress,
     suiWallet,
     seiWallet,
-    seiAddress
+    seiAddress,
   ]);
   return useMemo(
     () => ({

@@ -252,7 +252,7 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
     injAddress,
     suiAddress,
     isTBTC,
-    seiAddress
+    seiAddress,
   ]);
 }
 

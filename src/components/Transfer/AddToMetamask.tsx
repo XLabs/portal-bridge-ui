@@ -40,8 +40,9 @@ export default function AddToMetamask() {
     THRESHOLD_TBTC_CONTRACTS[sourceChain];
   const tbtcAsset = THRESHOLD_TBTC_CONTRACTS[targetChain];
 
-  const { provider, signerAddress, evmChainId, wallet } =
-    useEthereumProvider(targetChain as any);
+  const { provider, signerAddress, evmChainId, wallet } = useEthereumProvider(
+    targetChain as any
+  );
   const hasCorrectEvmNetwork = evmChainId === getEvmChainId(targetChain);
   const handleClick = useCallback(() => {
     if (provider && targetAsset && signerAddress && hasCorrectEvmNetwork) {

@@ -59,7 +59,7 @@ import {
   XPLA_LCD_CLIENT_CONFIG,
   THRESHOLD_TBTC_CONTRACTS,
   TBTC_ASSET_ADDRESS,
-  SEI_TRANSLATOR
+  SEI_TRANSLATOR,
 } from "../utils/consts";
 import { getOriginalAssetNear, makeNearAccount } from "../utils/near";
 import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";

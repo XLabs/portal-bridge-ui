@@ -823,7 +823,6 @@ async function injective(
   }
 }
 
-
 async function sei(
   dispatch: any,
   enqueueSnackbar: any,
@@ -1184,7 +1183,6 @@ export function useHandleTransfer() {
         maybeAdditionalPayload,
         relayerFee
       );
-    
     } else if (
       sourceChain === CHAIN_ID_XPLA &&
       !!xplaWallet &&
@@ -1340,7 +1338,7 @@ export function useHandleTransfer() {
     maybeAdditionalPayload,
     isTBTC,
     seiWallet,
-    seiAddress
+    seiAddress,
   ]);
   return useMemo(
     () => ({

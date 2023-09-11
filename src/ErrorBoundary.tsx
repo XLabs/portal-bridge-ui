@@ -3,9 +3,12 @@ import React from "react";
 
 type ErrorBoundaryState = {
   hasError: boolean;
-}
+};
 
-export default class ErrorBoundary extends React.Component<any, ErrorBoundaryState> {
+export default class ErrorBoundary extends React.Component<
+  any,
+  ErrorBoundaryState
+> {
   constructor(props: {} | Readonly<{}>) {
     super(props);
     this.state = { hasError: false };

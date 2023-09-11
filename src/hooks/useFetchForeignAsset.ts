@@ -173,14 +173,14 @@ function useFetchForeignAsset(
           }
         : foreignChain === CHAIN_ID_SEI
         ? async () => {
-          const client = await getSeiWasmClient();
-          return getForeignAssetSei(
-            getTokenBridgeAddressForChain(foreignChain),
-            client,
-            originChain,
-            hexToUint8Array(originAssetHex)
-          );
-        }
+            const client = await getSeiWasmClient();
+            return getForeignAssetSei(
+              getTokenBridgeAddressForChain(foreignChain),
+              client,
+              originChain,
+              hexToUint8Array(originAssetHex)
+            );
+          }
         : foreignChain === CHAIN_ID_APTOS
         ? () => {
             return getForeignAssetAptos(

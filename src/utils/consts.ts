@@ -36,7 +36,7 @@ import {
   ensureHexPrefix,
   uint8ArrayToHex,
   hexToNativeAssetString,
-  cosmos
+  cosmos,
 } from "@certusone/wormhole-sdk";
 import { clusterApiUrl } from "@solana/web3.js";
 import { getAddress } from "ethers/lib/utils";
@@ -187,7 +187,7 @@ export const CHAINS: ChainInfo[] =
         {
           id: CHAIN_ID_SEI,
           name: "Sei",
-          logo: seiIcon
+          logo: seiIcon,
         },
         {
           id: CHAIN_ID_SOLANA,
@@ -315,7 +315,7 @@ export const CHAINS: ChainInfo[] =
         {
           id: CHAIN_ID_SEI,
           name: "Sei",
-          logo: seiIcon
+          logo: seiIcon,
         },
         {
           id: CHAIN_ID_SOLANA,

@@ -155,7 +155,7 @@ function useIsWalletReady(
     injAddress,
     suiAddress,
     hasSeiWallet,
-    seiAddress
+    seiAddress,
   ]);
 }
 

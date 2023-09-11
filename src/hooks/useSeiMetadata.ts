@@ -20,7 +20,7 @@ const fetchSingleMetadata = async (address: string, client: CosmWasmClient) =>
           symbol,
           tokenName,
           decimals,
-        } as SeiMetadata)
+        }) as SeiMetadata
     );
 
 const fetchSeiMetadata = async (

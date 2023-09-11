@@ -29,7 +29,7 @@ import {
   CHAIN_ID_SUI,
   parseAttestMetaVaa,
   createWrappedOnSui,
-  CHAIN_ID_SEI
+  CHAIN_ID_SEI,
 } from "@certusone/wormhole-sdk";
 
 import { Alert } from "@material-ui/lab";
@@ -735,7 +735,7 @@ export function useHandleCreateWrapped(
       seiAddress &&
       !!signedVAA
     ) {
-      sei(dispatch, enqueueSnackbar, seiWallet, signedVAA, shouldUpdate);  
+      sei(dispatch, enqueueSnackbar, seiWallet, signedVAA, shouldUpdate);
     } else if (
       targetChain === CHAIN_ID_APTOS &&
       !!aptosAddress &&
@@ -815,7 +815,7 @@ export function useHandleCreateWrapped(
     foreignAddress,
     suiWallet,
     seiWallet,
-    seiAddress
+    seiAddress,
   ]);
   return useMemo(
     () => ({
