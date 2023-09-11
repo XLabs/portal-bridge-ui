@@ -104,6 +104,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@truffle/hdwallet-provider": "^1.4.1",
     "@types/luxon": "^2.3.1",
     "@types/node": "^16.6.1",
