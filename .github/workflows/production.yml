@@ -20,7 +20,7 @@ jobs:
       - name: Set up Node environment
         uses: actions/setup-node@v3
         with:
-          node-version: v16.19.1
+          node-version: v18.17.1
       - name: Install dependencies
         run: npm ci
       - name: Set Version
@@ -84,7 +84,7 @@ jobs:
       - name: Set up Node environment
         uses: actions/setup-node@v3
         with:
-          node-version: v16.19.1
+          node-version: v18.17.1
           registry-url: https://npm.pkg.github.com
 
       - name: Cache Node modules
@@ -153,7 +153,7 @@ jobs:
       - name: Set up GitHub NPM registry
         uses: actions/setup-node@v3
         with:
-          node-version: v16.19.1
+          node-version: v18.17.1
           registry-url: https://npm.pkg.github.com
       - name: Publish
         env:
