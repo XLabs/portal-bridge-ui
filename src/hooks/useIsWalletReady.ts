@@ -43,14 +43,14 @@ function useIsWalletReady(
   walletAddress?: string;
 } {
   const { publicKey: solPK } = useSolanaWallet();
-  const terraWallet = useTerraWallet(chainId);
+  const terraWallet = useTerraWallet(chainId as any);
   const hasTerraWallet = !!terraWallet.wallet;
   const {
     provider,
     signerAddress,
     evmChainId,
     wallet: evmWallet,
-  } = useEthereumProvider(chainId);
+  } = useEthereumProvider(chainId as any);
   const hasEthInfo = !!provider && !!signerAddress;
   const correctEvmNetwork = getEvmChainId(chainId);
   const hasCorrectEvmNetwork = evmChainId === correctEvmNetwork;

@@ -99,7 +99,7 @@ function EvmMigrationLineItem({
 }) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
-  const { signer, signerAddress } = useEthereumProvider(chainId);
+  const { signer, signerAddress } = useEthereumProvider(chainId as any);
   const poolInfo = useEthereumMigratorInformation(
     migratorAddress,
     signer,
@@ -272,7 +272,7 @@ const getAddressBalances = async (
 
 export default function EvmQuickMigrate({ chainId }: { chainId: ChainId }) {
   const classes = useStyles();
-  const { signer, signerAddress } = useEthereumProvider(chainId);
+  const { signer, signerAddress } = useEthereumProvider(chainId as any);
   const { isReady } = useIsWalletReady(chainId);
   const migrationMap = useMemo(() => getMigrationAssetMap(chainId), [chainId]);
   const eligibleTokens = useMemo(

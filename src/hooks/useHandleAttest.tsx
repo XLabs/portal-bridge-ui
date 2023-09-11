@@ -131,7 +131,7 @@ async function algo(
       ALGORAND_HOST.algodPort
     );
     const txs = await attestFromAlgorand(
-      algodClient,
+      algodClient as any,
       ALGORAND_TOKEN_BRIDGE_ID,
       ALGORAND_BRIDGE_ID,
       wallet.getAddress()!,
@@ -669,10 +669,10 @@ export function useHandleAttest() {
   const isTargetComplete = useSelector(selectAttestIsTargetComplete);
   const isSending = useSelector(selectAttestIsSending);
   const isSendComplete = useSelector(selectAttestIsSendComplete);
-  const { signer } = useEthereumProvider(sourceChain);
+  const { signer } = useEthereumProvider(sourceChain as any);
   const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
   const { walletAddress: terraAddress, wallet: terraWallet } =
-    useTerraWallet(sourceChain);
+    useTerraWallet(sourceChain as any);
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
   const xplaWallet = useXplaWallet();
   const { address: algoAccount, wallet: algoWallet } = useAlgorandWallet();

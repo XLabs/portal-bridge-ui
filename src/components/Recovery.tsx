@@ -574,7 +574,7 @@ export default function Recovery() {
   const dispatch = useDispatch();
   const [recoverySourceChain, setRecoverySourceChain] =
     useState<ChainId>(CHAIN_ID_SOLANA);
-  const { provider } = useEthereumProvider(recoverySourceChain);
+  const { provider } = useEthereumProvider(recoverySourceChain as any);
   const [type, setType] = useState<"Token" | "NFT">("Token");
   const isNFT = useMemo(() => type === "NFT", [type]);
   const [recoverySourceTx, setRecoverySourceTx] = useState("");
@@ -645,7 +645,7 @@ export default function Recovery() {
         const tokenBridgeAddress =
           getTokenBridgeAddressForChain(CHAIN_ID_INJECTIVE);
         const tokenId = await queryExternalIdInjective(
-          client,
+          client as any,
           tokenBridgeAddress,
           parsedPayload.originAddress
         );

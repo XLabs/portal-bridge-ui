@@ -114,7 +114,7 @@ function useFetchTargetAsset(nft?: boolean) {
   const isTBTC = useSelector(selectTransferIsTBTC);
   const activeStep = useSelector(selectTransferActiveStep);
   const setTargetAsset = nft ? setNFTTargetAsset : setTransferTargetAsset;
-  const { provider, evmChainId } = useEthereumProvider(targetChain);
+  const { provider, evmChainId } = useEthereumProvider(targetChain as any);
   const correctEvmNetwork = getEvmChainId(targetChain);
   const hasCorrectEvmNetwork = evmChainId === correctEvmNetwork;
   const { accountId: nearAccountId } = useNearContext();
@@ -288,7 +288,7 @@ function useFetchTargetAsset(nft?: boolean) {
           const tokenBridgeAddress =
             getTokenBridgeAddressForChain(CHAIN_ID_INJECTIVE);
           const tokenId = await queryExternalIdInjective(
-            client,
+            client as any,
             tokenBridgeAddress,
             originAsset || ""
           );
@@ -580,7 +580,7 @@ function useFetchTargetAsset(nft?: boolean) {
             ALGORAND_HOST.algodPort
           );
           const asset = await getForeignAssetAlgorand(
-            algodClient,
+            algodClient as any,
             ALGORAND_TOKEN_BRIDGE_ID,
             originChain,
             originAsset
@@ -654,7 +654,7 @@ function useFetchTargetAsset(nft?: boolean) {
           const client = getInjectiveWasmClient();
           const asset = await getForeignAssetInjective(
             getTokenBridgeAddressForChain(targetChain),
-            client,
+            client as any,
             originChain,
             hexToUint8Array(originAsset)
           );

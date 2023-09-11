@@ -1193,7 +1193,7 @@ function useGetAvailableTokens(nft: boolean = false) {
     nft ? selectNFTSourceChain : selectTransferSourceChain
   );
   const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
-  const { provider, signerAddress } = useEthereumProvider(lookupChain);
+  const { provider, signerAddress } = useEthereumProvider(lookupChain as any);
   const { address: algoAccount } = useAlgorandWallet();
   const { accountId: nearAccountId } = useNearContext();
   const { account: aptosAddress } = useAptosContext();

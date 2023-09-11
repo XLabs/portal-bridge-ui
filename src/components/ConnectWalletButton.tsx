@@ -16,13 +16,13 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store";
 
 const ConnectWalletButton = ({ chainId }: { chainId: ChainId }) => {
-  const wallet = useWallet(chainId);
+  const wallet = useWallet(chainId as any);
   const changeWallet = useChangeWallet();
   const unsetWalletFromChain = useUnsetWalletFromChain();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [error, setError] = useState<Error | undefined>();
   const { wallets: availableWallets, isDetectingWallets } =
-    useWalletsForChainWithStatus(chainId);
+    useWalletsForChainWithStatus(chainId as any);
   const sourceChain = useSelector(
     (state: RootState) => state.transfer.sourceChain
   );
@@ -62,7 +62,7 @@ const ConnectWalletButton = ({ chainId }: { chainId: ChainId }) => {
     try {
       if (!wallet) return;
       await wallet.disconnect();
-      unsetWalletFromChain(chainId);
+      unsetWalletFromChain(chainId as any);
       setError(undefined);
     } catch (err: any) {
       console.error(err);

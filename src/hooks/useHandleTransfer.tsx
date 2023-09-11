@@ -213,7 +213,7 @@ async function algo(
       ALGORAND_HOST.algodPort
     );
     const txs = await transferFromAlgorand(
-      algodClient,
+      algodClient as any,
       ALGORAND_TOKEN_BRIDGE_ID,
       ALGORAND_BRIDGE_ID,
       wallet.getAddress()!,
@@ -1026,9 +1026,9 @@ export function useHandleTransfer() {
   const isSending = useSelector(selectTransferIsSending);
   const isSendComplete = useSelector(selectTransferIsSendComplete);
   const isTBTC = useSelector(selectTransferIsTBTC);
-  const { signer } = useEthereumProvider(sourceChain);
+  const { signer } = useEthereumProvider(sourceChain as any);
   const { wallet: solanaWallet, publicKey: solPK } = useSolanaWallet();
-  const { wallet: terraWallet } = useTerraWallet(sourceChain);
+  const { wallet: terraWallet } = useTerraWallet(sourceChain as any);
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
   const xplaWallet = useXplaWallet();
   const { address: algoAccount, wallet: algoWallet } = useAlgorandWallet();

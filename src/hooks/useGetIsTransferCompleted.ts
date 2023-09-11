@@ -68,7 +68,7 @@ export default function useGetIsTransferCompleted(
   const targetChain = useSelector(selectTransferTargetChain);
 
   const { isReady } = useIsWalletReady(targetChain, false);
-  const { provider, evmChainId } = useEthereumProvider(targetChain);
+  const { provider, evmChainId } = useEthereumProvider(targetChain as any);
   const { accountId: nearAccountId } = useNearContext();
   const signedVAA = useTransferSignedVAA();
 
@@ -215,7 +215,7 @@ export default function useGetIsTransferCompleted(
               ALGORAND_HOST.algodPort
             );
             transferCompleted = await getIsTransferCompletedAlgorand(
-              algodClient,
+              algodClient as any,
               ALGORAND_TOKEN_BRIDGE_ID,
               signedVAA
             );
@@ -253,7 +253,7 @@ export default function useGetIsTransferCompleted(
             transferCompleted = await getIsTransferCompletedInjective(
               getTokenBridgeAddressForChain(targetChain),
               signedVAA,
-              client
+              client as any
             );
           } catch (error) {
             console.error(error);

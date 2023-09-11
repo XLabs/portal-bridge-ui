@@ -36,7 +36,7 @@ export default function useAllowance(
   const isTBTC = useSelector(selectTransferIsTBTC);
   const sourceChain = useSelector(selectTransferSourceChain);
   const isApproveProcessing = useSelector(selectTransferIsApproving);
-  const { signer } = useEthereumProvider(chainId);
+  const { signer } = useEthereumProvider(chainId as any);
   const sufficientAllowance =
     !isEVMChain(chainId) ||
     sourceIsNative ||

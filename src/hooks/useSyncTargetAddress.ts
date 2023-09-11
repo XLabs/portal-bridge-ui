@@ -52,7 +52,7 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
   const targetChain = useSelector(
     nft ? selectNFTTargetChain : selectTransferTargetChain
   );
-  const { signerAddress } = useEthereumProvider(targetChain);
+  const { signerAddress } = useEthereumProvider(targetChain as any);
   const { publicKey: solPK } = useSolanaWallet();
   const targetAsset = useSelector(
     nft ? selectNFTTargetAsset : selectTransferTargetAsset
@@ -61,7 +61,7 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
     selectTransferTargetParsedTokenAccount
   );
   const targetTokenAccountPublicKey = targetParsedTokenAccount?.publicKey;
-  const terraWallet = useTerraWallet(targetChain);
+  const terraWallet = useTerraWallet(targetChain as any);
   const xplaWallet = useXplaWallet();
   const { address: algoAccount } = useAlgorandWallet();
   const { account: aptosAddress } = useAptosContext();

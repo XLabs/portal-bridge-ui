@@ -102,7 +102,7 @@ function useCheckIfWormholeWrapped(nft?: boolean) {
   const setSourceWormholeWrappedInfo = nft
     ? setNFTSourceWormholeWrappedInfo
     : setTransferSourceWormholeWrappedInfo;
-  const { provider } = useEthereumProvider(sourceChain);
+  const { provider } = useEthereumProvider(sourceChain as any);
   const { accountId: nearAccountId } = useNearContext();
   const isRecovery = useSelector(
     nft ? selectNFTIsRecovery : selectTransferIsRecovery
@@ -271,7 +271,7 @@ function useCheckIfWormholeWrapped(nft?: boolean) {
           );
           const wrappedInfo = makeStateSafe(
             await getOriginalAssetAlgorand(
-              algodClient,
+              algodClient as any,
               ALGORAND_TOKEN_BRIDGE_ID,
               BigInt(sourceAsset)
             )
@@ -304,7 +304,7 @@ function useCheckIfWormholeWrapped(nft?: boolean) {
         try {
           const client = getInjectiveWasmClient();
           const wrappedInfo = makeStateSafe(
-            await getOriginalAssetInjective(sourceAsset, client)
+            await getOriginalAssetInjective(sourceAsset, client as any)
           );
           if (!cancelled) {
             dispatch(setSourceWormholeWrappedInfo(wrappedInfo));

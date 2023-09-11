@@ -153,7 +153,7 @@ const toBalanceString = (balance: bigint | undefined, chainId: ChainId) => {
 
 export default function useTransactionFees(chainId: ChainId) {
   const { walletAddress, isReady } = useIsWalletReady(chainId);
-  const { provider } = useEthereumProvider(chainId);
+  const { provider } = useEthereumProvider(chainId as any);
   const [balance, setBalance] = useState<bigint | undefined>(undefined);
   const [terraBalances, setTerraBalances] = useState<TerraBalance[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -234,7 +234,7 @@ export default function useTransactionFees(chainId: ChainId) {
 }
 
 export function useEthereumGasPrice(contract: MethodType, chainId: ChainId) {
-  const { provider } = useEthereumProvider(chainId);
+  const { provider } = useEthereumProvider(chainId as any);
   const { isReady } = useIsWalletReady(chainId);
   const [estimateResults, setEstimateResults] = useState<GasEstimate | null>(
     null

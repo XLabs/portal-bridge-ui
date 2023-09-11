@@ -66,7 +66,7 @@ function useFetchForeignAsset(
   originAsset: string,
   foreignChain: ChainId
 ): DataWrapper<ForeignAssetInfo> {
-  const { provider, evmChainId } = useEthereumProvider(originChain);
+  const { provider, evmChainId } = useEthereumProvider(originChain as any);
   const { isReady } = useIsWalletReady(foreignChain, false);
   const correctEvmNetwork = getEvmChainId(foreignChain);
   const hasCorrectEvmNetwork = evmChainId === correctEvmNetwork;
@@ -208,7 +208,7 @@ function useFetchForeignAsset(
               ALGORAND_HOST.algodPort
             );
             return getForeignAssetAlgorand(
-              algodClient,
+              algodClient as any,
               ALGORAND_TOKEN_BRIDGE_ID,
               originChain,
               originAssetHex
@@ -232,7 +232,7 @@ function useFetchForeignAsset(
             const client = getInjectiveWasmClient();
             return getForeignAssetInjective(
               getTokenBridgeAddressForChain(foreignChain),
-              client,
+              client as any,
               originChain,
               hexToUint8Array(originAssetHex)
             );

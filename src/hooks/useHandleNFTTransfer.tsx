@@ -267,7 +267,7 @@ export function useHandleNFTTransfer() {
   const isTargetComplete = useSelector(selectNFTIsTargetComplete);
   const isSending = useSelector(selectNFTIsSending);
   const isSendComplete = useSelector(selectNFTIsSendComplete);
-  const { signer } = useEthereumProvider(sourceChain);
+  const { signer } = useEthereumProvider(sourceChain as any);
   const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
   const { account: aptosAccount, wallet: aptosWallet } = useAptosContext();
   const sourceParsedTokenAccount = useSelector(

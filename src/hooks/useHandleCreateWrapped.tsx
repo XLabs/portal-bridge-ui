@@ -177,7 +177,7 @@ async function algo(
       ALGORAND_HOST.algodPort
     );
     const txs = await createWrappedOnAlgorand(
-      algodClient,
+      algodClient as any,
       ALGORAND_TOKEN_BRIDGE_ID,
       ALGORAND_BRIDGE_ID,
       wallet.getAddress()!,
@@ -677,8 +677,8 @@ export function useHandleCreateWrapped(
   const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
   const signedVAA = useAttestSignedVAA();
   const isCreating = useSelector(selectAttestIsCreating);
-  const { signer } = useEthereumProvider(targetChain);
-  const terraWallet = useTerraWallet(targetChain);
+  const { signer } = useEthereumProvider(targetChain as any);
+  const terraWallet = useTerraWallet(targetChain as any);
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
   const xplaWallet = useXplaWallet();
   const { address: algoAccount, wallet: algoWallet } = useAlgorandWallet();

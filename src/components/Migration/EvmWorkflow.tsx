@@ -32,7 +32,7 @@ export default function EvmWorkflow({
 }) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
-  const { signer, signerAddress } = useEthereumProvider(chainId);
+  const { signer, signerAddress } = useEthereumProvider(chainId as any);
   const { isReady } = useIsWalletReady(chainId);
   const [toggleRefresh, setToggleRefresh] = useState(false);
   const forceRefresh = useCallback(

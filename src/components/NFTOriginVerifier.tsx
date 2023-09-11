@@ -82,7 +82,7 @@ export default function NFTOriginVerifier() {
   const classes = useStyles();
   const isBeta = useBetaContext();
   const [lookupChain, setLookupChain] = useState<ChainId>(CHAIN_ID_ETH);
-  const { provider, signerAddress } = useEthereumProvider(lookupChain);
+  const { provider, signerAddress } = useEthereumProvider(lookupChain as any);
   const { isReady, statusMessage } = useIsWalletReady(lookupChain);
   const [lookupAsset, setLookupAsset] = useState("");
   const [lookupTokenId, setLookupTokenId] = useState("");
