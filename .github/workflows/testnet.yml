@@ -41,7 +41,7 @@ jobs:
 
   portal:
     name: "Build Portal Bridge"
-    runs-on: "ubuntu-latest"
+    runs-on: xlabs-large-runner
     concurrency:
       group: ${{ github.ref }}-portal-testnet
       cancel-in-progress: true

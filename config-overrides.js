@@ -1,6 +1,16 @@
 const { ProvidePlugin } = require("webpack");
+const threadLoader = require('thread-loader');
 
 module.exports = function override(config, env) {
+  config.module.rules.forEach(rule => {
+    if (rule.loader && rule.loader.includes('babel-loader')) {
+      // Use thread-loader for Babel
+      threadLoader(rule.loader, {
+        // Number of worker threads to use
+        workers: 2, // Adjust as needed
+      });
+    }
+  });
   return {
     ...config,
     module: {
