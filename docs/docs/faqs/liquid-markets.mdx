@@ -10,7 +10,6 @@ import EthSol from "./_liquid-markets/eth-sol.md";
 import BscSol from "./_liquid-markets/bsc-sol.md";
 import MaticSol from "./_liquid-markets/matic-sol.md";
 import SolEth from "./_liquid-markets/sol-eth.md";
-import MaticEth from './_liquid-markets/matic-eth.md'
 import NearEth from './_liquid-markets/near-eth.md'
 import AvaxMatic from './_liquid-markets/avax-matic.md'
 import SolMatic from './_liquid-markets/sol-matic.md'
@@ -37,10 +36,15 @@ import EthMoonbeam from './_liquid-markets/eth-moonbeam.md'
 import BscMoonbeam from './_liquid-markets/bsc-moonbeam.md'
 import EthAptos from './_liquid-markets/eth-aptos.md'
 import EthAlgorand from './_liquid-markets/eth-algorand.md'
+import SolAlgorand from './_liquid-markets/sol-algorand.md'
+import AvaxAlgorand from './_liquid-markets/avax-algorand.md'
 import SolInjective from './_liquid-markets/sol-injective.md'
 import EthInjective from './_liquid-markets/eth-injective.md'
 import EthSui from './_liquid-markets/eth-sui.md'
 import SolSui from './_liquid-markets/sol-sui.md'
+import AptosOsmosis from './_liquid-markets/aptos-osmosis.md'
+import SolOsmosis from './_liquid-markets/sol-osmosis.md'
+import SuiOsmosis from './_liquid-markets/sui-osmosis.md'
 
 # Overview: Liquid Markets
 
@@ -93,9 +97,6 @@ Check out the [Wormhole Token list](https://github.com/certusone/wormhole-token-
 <Tabs>
   <TabItem value="SOL -> ETH" label="SOL -> ETH" default>
     <SolEth />
-  </TabItem>
-  <TabItem value="MATIC -> ETH" label="MATIC -> ETH" >
-    <MaticEth />
   </TabItem>
   <TabItem value="NEAR -> ETH" label="NEAR -> ETH" >
     <NearEth />
@@ -220,6 +221,12 @@ Check out the [Wormhole Token list](https://github.com/certusone/wormhole-token-
   <TabItem value="ETH -> ALGORAND" label="ETH -> ALGORAND" default>
     <EthAlgorand />
   </TabItem>
+  <TabItem value="SOL -> ALGORAND" label="SOL -> ALGORAND" default>
+    <SolAlgorand />
+  </TabItem>
+  <TabItem value="AVAX -> ALGORAND" label="AVAX -> ALGORAND" default>
+    <AvaxAlgorand />
+  </TabItem>
 </Tabs>
 
 ## Target chain: Injective
@@ -241,5 +248,19 @@ Check out the [Wormhole Token list](https://github.com/certusone/wormhole-token-
   </TabItem>
   <TabItem value="SOL -> SUI" label="SOL -> SUI" default>
     <SolSui />
+  </TabItem>
+</Tabs>
+
+## Target chain: Osmosis
+
+<Tabs>
+  <TabItem value="SOL -> OSMO" label="SOL -> OSMO" default>
+    <SolOsmosis />
+  </TabItem>
+  <TabItem value="SUI -> OSMO" label="SUI -> OSMO" default>
+    <SuiOsmosis />
+  </TabItem>
+  <TabItem value="APTOS -> OSMO" label="APTOS -> OSMO" default>
+    <AptosOsmosis />
   </TabItem>
 </Tabs>
