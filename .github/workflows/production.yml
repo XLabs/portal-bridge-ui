@@ -105,7 +105,7 @@ jobs:
 
       - name: Build
         env:
-          NODE_OPTIONS: ${{ vars.NODE_OPTIONS }}
+          NODE_OPTIONS: "--max-old-space-size=10240"
           REACT_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
           REACT_APP_SOLANA_API_URL: ${{ vars.REACT_APP_SOLANA_API_URL }}
           REACT_APP_COVALENT_API_KEY: ${{ secrets.REACT_APP_COVALENT_API_KEY }}
