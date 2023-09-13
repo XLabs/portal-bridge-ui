@@ -775,14 +775,23 @@ export const APTOS_NETWORK =
 export const APTOS_NATIVE_DECIMALS = 8;
 export const APTOS_NATIVE_TOKEN_KEY = "0x1::aptos_coin::AptosCoin";
 
-export const SEI_CHAIN_CONFIGURATION: ChainConfiguration = {
-  chainId: "atlantic-2",
-  restUrl: "https://rest.atlantic-2.seinetwork.io/",
-  rpcUrl: "https://rpc.atlantic-2.seinetwork.io/",
-};
+export const SEI_CHAIN_CONFIGURATION: ChainConfiguration =
+  CLUSTER === "mainnet"
+    ? {
+        chainId: "pacific-1",
+        restUrl: "https://sei-api.polkachu.com/",
+        rpcUrl: "https://sei-rpc.polkachu.com/",
+      }
+    : {
+        chainId: "atlantic-2",
+        restUrl: "https://rest.atlantic-2.seinetwork.io/",
+        rpcUrl: "https://rpc.atlantic-2.seinetwork.io/",
+      };
 
 export const SEI_TRANSLATOR =
-  "sei1dkdwdvknx0qav5cp5kw68mkn3r99m3svkyjfvkztwh97dv2lm0ksj6xrak";
+  CLUSTER === "mainnet"
+    ? "sei189adguawugk3e55zn63z8r9ll29xrjwca636ra7v7gxuzn98sxyqwzt47l"
+    : "sei1dkdwdvknx0qav5cp5kw68mkn3r99m3svkyjfvkztwh97dv2lm0ksj6xrak";
 export const SEI_TRANSLATER_TARGET = cosmos.canonicalAddress(SEI_TRANSLATOR);
 export const SEI_DECIMALS = 6;
 
