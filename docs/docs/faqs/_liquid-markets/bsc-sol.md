@@ -1,6 +1,5 @@
 | Token (origin) | Token (target)         | Markets                                                                                            | Contract address                             |
 | -------------- | ---------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------- |
-| BNB            | Binance Coin(Wormhole) | [Mercurial](https://mercurial.finance/), [Jupiter](https://jup.ag/)                                | 9gP2kCy3wA1ctvYWQk75guqXuHfrEomqydHLtcTCqiLa |
-| USDC           | USDCbs(Wormhole)       | [Saber](https://app.saber.so), [Mercurial](https://mercurial.finance/), [Jupiter](https://jup.ag/) | FCqfQSujuPxy6V42UvafBhsysWtEq1vhjfMN1PUbgaxA |
-| USDT           | USDTbs(Wormhole)       | [Saber](https://app.saber.so), [Mercurial](https://mercurial.finance/), [Jupiter](https://jup.ag/) | 8qJSyQprMC57TWKaYEmetUR3UUiTP2M3hXdcvFhkZdmv |
-| BUSD           | BUSD(Wormhole)         | [Saber](https://app.saber.so), [Mercurial](https://mercurial.finance/), [Jupiter](https://jup.ag/) | 5RpUwQ8wtdPCZHhu6MERp2RGrpobsbZ6MH5dDHkUjs2  |
+| USDC           | USDCbs(Wormhole)       | [Jupiter](https://jup.ag/) | FCqfQSujuPxy6V42UvafBhsysWtEq1vhjfMN1PUbgaxA |
+| USDT           | USDTbs(Wormhole)       | [Jupiter](https://jup.ag/) | 8qJSyQprMC57TWKaYEmetUR3UUiTP2M3hXdcvFhkZdmv |
+| BUSD           | BUSD(Wormhole)         | [Jupiter](https://jup.ag/) | 5RpUwQ8wtdPCZHhu6MERp2RGrpobsbZ6MH5dDHkUjs2  |
