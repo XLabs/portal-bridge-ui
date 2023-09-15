@@ -220,7 +220,7 @@ function useFetchForeignAsset(
             const client = getInjectiveWasmClient();
             return getForeignAssetInjective(
               getTokenBridgeAddressForChain(foreignChain),
-              client,
+              client as any,
               originChain,
               hexToUint8Array(originAssetHex)
             );

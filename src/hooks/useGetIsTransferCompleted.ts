@@ -233,7 +233,7 @@ export default function useGetIsTransferCompleted(
             transferCompleted = await getIsTransferCompletedInjective(
               getTokenBridgeAddressForChain(targetChain),
               signedVAA,
-              client
+              client as any
             );
           } catch (error) {
             console.error(error);

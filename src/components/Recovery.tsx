@@ -623,7 +623,7 @@ export default function Recovery() {
         const tokenBridgeAddress =
           getTokenBridgeAddressForChain(CHAIN_ID_INJECTIVE);
         const tokenId = await queryExternalIdInjective(
-          client,
+          client as any,
           tokenBridgeAddress,
           parsedPayload.originAddress
         );

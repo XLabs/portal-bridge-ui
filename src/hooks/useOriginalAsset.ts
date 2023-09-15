@@ -130,7 +130,7 @@ export async function getOriginalAssetToken(
     } else if (foreignChain === CHAIN_ID_INJECTIVE) {
       promise = await getOriginalAssetInjective(
         foreignNativeStringAddress,
-        getInjectiveWasmClient()
+        getInjectiveWasmClient() as any
       );
     } else if (foreignChain === CHAIN_ID_SUI) {
       promise = await getOriginalAssetSui(
@@ -345,7 +345,7 @@ function useOriginalAsset(
               result.chainId
             );
             queryExternalIdInjective(
-              client,
+              client as any,
               tokenBridgeAddress,
               uint8ArrayToHex(result.assetAddress)
             ).then((tokenId) => setOriginAddress(tokenId));

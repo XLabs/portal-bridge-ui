@@ -263,7 +263,7 @@ function useFetchTargetAsset(nft?: boolean) {
           const tokenBridgeAddress =
             getTokenBridgeAddressForChain(CHAIN_ID_INJECTIVE);
           const tokenId = await queryExternalIdInjective(
-            client,
+            client as any,
             tokenBridgeAddress,
             originAsset || ""
           );
@@ -599,7 +599,7 @@ function useFetchTargetAsset(nft?: boolean) {
           const client = getInjectiveWasmClient();
           const asset = await getForeignAssetInjective(
             getTokenBridgeAddressForChain(targetChain),
-            client,
+            client as any,
             originChain,
             hexToUint8Array(originAsset)
           );
