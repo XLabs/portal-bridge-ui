@@ -27,7 +27,7 @@ import {
   CHAIN_ID_ARBITRUM,
   CHAIN_ID_BASE,
 } from "@certusone/wormhole-sdk";
-import { ChainId } from "@xlabs-libs/wallet-aggregator-core/dist/types/constants";
+import { ChainId } from "@xlabs-libs/wallet-aggregator-core";
 import { Dispatch } from "@reduxjs/toolkit";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import {

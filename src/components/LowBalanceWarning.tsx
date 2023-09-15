@@ -1,5 +1,5 @@
 import { isTerraChain } from "@certusone/wormhole-sdk";
-import { ChainId } from "@xlabs-libs/wallet-aggregator-core/dist/types/constants";
+import { ChainId } from "@xlabs-libs/wallet-aggregator-core";
 import { makeStyles, Typography } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import { useSelector } from "react-redux";

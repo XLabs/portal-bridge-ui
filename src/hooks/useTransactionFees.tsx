@@ -12,7 +12,7 @@ import { LocalGasStation } from "@material-ui/icons";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useEthereumProvider } from "../contexts/EthereumProviderContext";
-import { ChainId } from "@xlabs-libs/wallet-aggregator-core/dist/types/constants";
+import { ChainId } from "@xlabs-libs/wallet-aggregator-core";
 import {
   getDefaultNativeCurrencySymbol,
   SOLANA_HOST,

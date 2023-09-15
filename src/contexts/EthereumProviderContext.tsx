@@ -1,5 +1,5 @@
 import { isEVMChain } from "@certusone/wormhole-sdk";
-import { ChainId } from "@xlabs-libs/wallet-aggregator-core/dist/types/constants";
+import { ChainId } from "@xlabs-libs/wallet-aggregator-core";
 import {
   EVMWallet,
   InjectedWallet,

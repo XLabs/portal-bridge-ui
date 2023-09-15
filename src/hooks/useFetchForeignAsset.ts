@@ -21,7 +21,7 @@ import {
   CHAIN_ID_SUI,
   getForeignAssetSui,
 } from "@certusone/wormhole-sdk";
-import { ChainId } from "@xlabs-libs/wallet-aggregator-core/dist/types/constants";
+import { ChainId } from "@xlabs-libs/wallet-aggregator-core";
 import { Connection } from "@solana/web3.js";
 import { LCDClient } from "@terra-money/terra.js";
 import { ethers } from "ethers";

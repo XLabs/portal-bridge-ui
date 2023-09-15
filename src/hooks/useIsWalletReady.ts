@@ -9,7 +9,7 @@ import {
   isTerraChain,
   CHAIN_ID_SUI,
 } from "@certusone/wormhole-sdk";
-import { ChainId } from "@xlabs-libs/wallet-aggregator-core/dist/types/constants";
+import { ChainId } from "@xlabs-libs/wallet-aggregator-core";
 import { useMemo } from "react";
 import { useAlgorandWallet } from "../contexts/AlgorandWalletContext";
 import { useEthereumProvider } from "../contexts/EthereumProviderContext";

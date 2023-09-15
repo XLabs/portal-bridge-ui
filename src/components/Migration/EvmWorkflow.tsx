@@ -1,4 +1,4 @@
-import { ChainId } from "@xlabs-libs/wallet-aggregator-core/dist/types/constants";
+import { ChainId } from "@xlabs-libs/wallet-aggregator-core";
 import { CircularProgress, makeStyles, Typography } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import { parseUnits } from "ethers/lib/utils";

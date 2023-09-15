@@ -19,7 +19,7 @@ import {
   SignedVaa,
   parseTokenTransferVaa,
 } from "@certusone/wormhole-sdk";
-import { ChainId } from "@xlabs-libs/wallet-aggregator-core/dist/types/constants";
+import { ChainId } from "@xlabs-libs/wallet-aggregator-core";
 import { WormholeGatewayIdl } from "./WormholeGatewayIdl";
 import * as coreBridge from "@certusone/wormhole-sdk/lib/esm/solana/wormhole";
 import * as tokenBridge from "@certusone/wormhole-sdk/lib/esm/solana/tokenBridge";

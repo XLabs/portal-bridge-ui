@@ -6,7 +6,7 @@ import {
   isEVMChain,
   nativeToHexString,
 } from "@certusone/wormhole-sdk";
-import { ChainId } from "@xlabs-libs/wallet-aggregator-core/dist/types/constants";
+import { ChainId } from "@xlabs-libs/wallet-aggregator-core";
 import {
   Card,
   CircularProgress,

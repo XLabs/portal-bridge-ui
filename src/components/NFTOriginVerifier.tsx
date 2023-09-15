@@ -10,7 +10,7 @@ import {
   isEVMChain,
   CHAIN_ID_APTOS,
 } from "@certusone/wormhole-sdk";
-import { ChainId } from "@xlabs-libs/wallet-aggregator-core/dist/types/constants";
+import { ChainId } from "@xlabs-libs/wallet-aggregator-core";
 import {
   getOriginalAssetEth,
   getOriginalAssetSol,
