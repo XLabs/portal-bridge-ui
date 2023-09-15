@@ -42,7 +42,7 @@ import { transferTokens } from "@certusone/wormhole-sdk/lib/esm/aptos/api/tokenB
 import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk/lib/esm";
 import { Alert } from "@material-ui/lab";
 import { Connection } from "@solana/web3.js";
-import algosdk, { Algodv2 } from "algosdk";
+import { Algodv2 } from "algosdk";
 import { Types } from "aptos";
 import { BigNumber, Contract, ContractReceipt, Signer } from "ethers";
 import { parseUnits, zeroPad } from "ethers/lib/utils";
