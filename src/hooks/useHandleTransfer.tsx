@@ -140,7 +140,10 @@ import { newThresholdWormholeGateway } from "../assets/providers/tbtc/solana/Wor
 import { calculateFee } from "@cosmjs/stargate";
 import { parseSequenceFromLogSei } from "../utils/sei";
 import { useSeiWallet } from "../contexts/SeiWalletContext";
-import { SeiWallet } from "@xlabs-libs/wallet-aggregator-sei";
+import {
+  SeiWallet,
+  buildExecuteMessage,
+} from "@xlabs-libs/wallet-aggregator-sei";
 import { SuiTransactionBlockResponse } from "@mysten/sui.js";
 
 type AdditionalPayloadOverride = {
@@ -845,8 +848,7 @@ async function sei(
     const tokenBridgeAddress = getTokenBridgeAddressForChain(CHAIN_ID_SEI);
 
     const encodedRecipient = Buffer.from(targetAddress).toString("base64");
-
-    const fee = calculateFee(750000, "0.1usei");
+    const fee = calculateFee(100000000, "0.1usei");
 
     // NOTE: this only supports transferring out via the Sei CW20 <> Bank translator
     // or the usei native denomination
@@ -891,10 +893,21 @@ async function sei(
               ],
             },
           ];
+    const simulatedFee = await wallet.calculateFee({
+      msgs: [
+        buildExecuteMessage(
+          wallet.getAddress()!,
+          tokenBridgeAddress,
+          instructions.map((i) => i.msg)
+        ),
+      ],
+      fee,
+      memo: "Wormhole - Create Wrapped",
+    });
 
     const tx = await wallet.executeMultiple({
       instructions,
-      fee,
+      fee: calculateFee(parseInt(simulatedFee), "0.1usei"),
       memo: "Wormhole - Initiate Transfer",
     });
 

@@ -113,7 +113,7 @@ import {
 } from "@certusone/wormhole-sdk/lib/cjs/sui";
 import { useSuiWallet } from "../contexts/SuiWalletContext";
 import { useSeiWallet } from "../contexts/SeiWalletContext";
-import { SeiWallet } from "@xlabs-libs/wallet-aggregator-sei";
+import { SeiWallet, buildExecuteMessage } from "@xlabs-libs/wallet-aggregator-sei";
 import { parseSequenceFromLogSei } from "../utils/sei";
 import { calculateFee } from "@cosmjs/stargate";
 import { SuiTransactionBlockResponse } from "@mysten/sui.js";
@@ -606,7 +606,6 @@ async function sei(
   dispatch: any,
   enqueueSnackbar: any,
   wallet: SeiWallet,
-  walletAddress: string,
   asset: string
 ) {
   dispatch(setIsSending(true));
@@ -625,7 +624,7 @@ async function sei(
       },
     };
 
-    const fee = calculateFee(750000, "0.1usei");
+    const fee = calculateFee(10000000, "0.1usei");
     const tx = await wallet.executeMultiple({
       instructions: [{ contractAddress: tokenBridgeAddress, msg }],
       fee,
@@ -716,7 +715,7 @@ export function useHandleAttest() {
     } else if (sourceChain === CHAIN_ID_INJECTIVE && injWallet && injAddress) {
       injective(dispatch, enqueueSnackbar, injWallet, injAddress, sourceAsset);
     } else if (sourceChain === CHAIN_ID_SEI && seiWallet && seiAddress) {
-      sei(dispatch, enqueueSnackbar, seiWallet, seiAddress, sourceAsset);
+      sei(dispatch, enqueueSnackbar, seiWallet, sourceAsset);
     } else if (
       sourceChain === CHAIN_ID_SUI &&
       suiWallet?.isConnected() &&

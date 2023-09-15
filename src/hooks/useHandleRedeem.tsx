@@ -98,7 +98,10 @@ import { newThresholdWormholeGateway } from "../assets/providers/tbtc/solana/Wor
 import { calculateFee } from "@cosmjs/stargate";
 import { fromUint8Array } from "js-base64";
 import { useSeiWallet } from "../contexts/SeiWalletContext";
-import { SeiWallet } from "@xlabs-libs/wallet-aggregator-sei";
+import {
+  SeiWallet,
+  buildExecuteMessage,
+} from "@xlabs-libs/wallet-aggregator-sei";
 
 async function algo(
   dispatch: any,
@@ -322,17 +325,22 @@ async function sei(
   dispatch(setIsRedeeming(true));
   try {
     // TODO: is this right?
-    const fee = calculateFee(800000, "0.1usei");
+
+    const fee = calculateFee(100000000, "0.1usei");
 
     const vaa = parseVaa(signedVAA);
     const transfer = parseTokenTransferPayload(vaa.payload);
     const receiver = cosmos.humanAddress("sei", transfer.to);
+    const contractAddress =
+      receiver === SEI_TRANSLATOR
+        ? SEI_TRANSLATOR
+        : getTokenBridgeAddressForChain(CHAIN_ID_SEI);
 
     const instructions =
       receiver === SEI_TRANSLATOR
         ? [
             {
-              contractAddress: SEI_TRANSLATOR,
+              contractAddress,
               msg: {
                 complete_transfer_and_convert: {
                   vaa: fromUint8Array(signedVAA),
@@ -342,7 +350,7 @@ async function sei(
           ]
         : [
             {
-              contractAddress: getTokenBridgeAddressForChain(CHAIN_ID_SEI),
+              contractAddress,
               msg: {
                 submit_vaa: {
                   data: fromUint8Array(signedVAA),
@@ -350,10 +358,18 @@ async function sei(
               },
             },
           ];
-
+    const simulatedFee = await wallet.calculateFee({
+      msgs: [
+        buildExecuteMessage(wallet.getAddress()!, contractAddress, [
+          instructions.map((i) => i.msg),
+        ]),
+      ],
+      fee,
+      memo: "Wormhole - Create Wrapped",
+    });
     const tx = await wallet.executeMultiple({
       instructions,
-      fee,
+      fee: calculateFee(parseInt(simulatedFee), "0.1usei"),
       memo: "Wormhole - Complete Transfer",
     });
 

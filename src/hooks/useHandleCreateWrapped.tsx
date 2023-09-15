@@ -107,7 +107,7 @@ import { createWrappedOnSuiPrepare } from "../utils/suiPublishHotfix";
 import { calculateFee } from "@cosmjs/stargate";
 import { createWrappedOnSei, updateWrappedOnSei } from "../utils/sei";
 import { useSeiWallet } from "../contexts/SeiWalletContext";
-import { SeiWallet } from "@xlabs-libs/wallet-aggregator-sei";
+import { SeiWallet, buildExecuteMessage } from "@xlabs-libs/wallet-aggregator-sei";
 
 // TODO: replace with SDK method -
 export async function updateWrappedOnSui(
@@ -374,7 +374,6 @@ async function sei(
   signedVAA: Uint8Array,
   shouldUpdate: boolean
 ) {
-  console.log("inside SEI method pa!");
   dispatch(setIsCreating(true));
   const tokenBridgeAddress = getTokenBridgeAddressForChain(CHAIN_ID_SEI);
   try {
@@ -382,12 +381,20 @@ async function sei(
       ? await updateWrappedOnSei(signedVAA)
       : await createWrappedOnSei(signedVAA);
 
+    const fee = calculateFee(100000000, "0.1usei");
+    const currentFee = await wallet.calculateFee({
+      msgs: [buildExecuteMessage(
+        wallet.getAddress()!,
+        tokenBridgeAddress,
+        [msg]
+      )],
+      fee,
+      memo: "Wormhole - Create Wrapped",
+    })
     // TODO: is this right?
-    const fee = calculateFee(750000, "0.1usei");
-
     const tx = await wallet.executeMultiple({
       instructions: [{ msg: msg, contractAddress: tokenBridgeAddress }],
-      fee,
+      fee: calculateFee(parseInt(currentFee), "0.1usei"),
       memo: "Wormhole - Create Wrapped",
     });
 
