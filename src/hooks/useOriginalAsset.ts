@@ -1,5 +1,4 @@
 import {
-  ChainId,
   CHAIN_ID_ALGORAND,
   CHAIN_ID_APTOS,
   CHAIN_ID_INJECTIVE,
@@ -25,6 +24,7 @@ import {
   getOriginalAssetSui,
   getForeignAssetSui,
 } from "@certusone/wormhole-sdk";
+import { ChainId } from "@xlabs-libs/wallet-aggregator-core/dist/types/constants";
 import {
   getOriginalAssetEth as getOriginalAssetEthNFT,
   getOriginalAssetSol as getOriginalAssetSolNFT,
@@ -110,7 +110,7 @@ export async function getOriginalAssetToken(
         ALGORAND_HOST.algodPort
       );
       promise = await getOriginalAssetAlgorand(
-        algodClient,
+        algodClient as any,
         ALGORAND_TOKEN_BRIDGE_ID,
         BigInt(foreignNativeStringAddress)
       );
@@ -369,7 +369,7 @@ function useOriginalAsset(
             );
           }
           setOriginTokenId(result.tokenId || null);
-          setOriginChain(result.chainId);
+          setOriginChain(result.chainId as any);
         }
       })
       .catch((e) => {

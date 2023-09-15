@@ -1,6 +1,5 @@
 import {
   buildTokenId,
-  ChainId,
   CHAIN_ID_ALGORAND,
   CHAIN_ID_APTOS,
   CHAIN_ID_INJECTIVE,
@@ -22,6 +21,7 @@ import {
   CHAIN_ID_SUI,
   getForeignAssetSui,
 } from "@certusone/wormhole-sdk";
+import { ChainId } from "@xlabs-libs/wallet-aggregator-core/dist/types/constants";
 import { Connection } from "@solana/web3.js";
 import { LCDClient } from "@terra-money/terra.js";
 import { ethers } from "ethers";
@@ -196,7 +196,7 @@ function useFetchForeignAsset(
               ALGORAND_HOST.algodPort
             );
             return getForeignAssetAlgorand(
-              algodClient,
+              algodClient as any,
               ALGORAND_TOKEN_BRIDGE_ID,
               originChain,
               originAssetHex

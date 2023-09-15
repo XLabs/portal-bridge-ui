@@ -1,4 +1,4 @@
-import { ChainId } from "@certusone/wormhole-sdk";
+import { ChainId } from "@xlabs-libs/wallet-aggregator-core/dist/types/constants";
 import { useCallback, useEffect, useState } from "react";
 import { Wallet } from "@xlabs-libs/wallet-aggregator-core";
 import {

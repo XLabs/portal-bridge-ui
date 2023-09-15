@@ -1,5 +1,6 @@
 import { ConnectType } from "@terra-money/wallet-provider";
-import { ChainId, isTerraChain } from "@xlabs-libs/wallet-aggregator-core";
+import { isTerraChain } from "@xlabs-libs/wallet-aggregator-core";
+import { ChainId } from "@xlabs-libs/wallet-aggregator-core/dist/types/constants";
 import { useWallet } from "@xlabs-libs/wallet-aggregator-react";
 import { getWallets, TerraWallet } from "@xlabs-libs/wallet-aggregator-terra";
 import { useEffect, useMemo, useState } from "react";

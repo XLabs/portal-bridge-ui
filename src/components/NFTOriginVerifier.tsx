@@ -1,5 +1,4 @@
 import {
-  ChainId,
   CHAIN_ID_AURORA,
   CHAIN_ID_AVAX,
   CHAIN_ID_BSC,
@@ -11,6 +10,7 @@ import {
   isEVMChain,
   CHAIN_ID_APTOS,
 } from "@certusone/wormhole-sdk";
+import { ChainId } from "@xlabs-libs/wallet-aggregator-core/dist/types/constants";
 import {
   getOriginalAssetEth,
   getOriginalAssetSol,
@@ -82,8 +82,8 @@ export default function NFTOriginVerifier() {
   const classes = useStyles();
   const isBeta = useBetaContext();
   const [lookupChain, setLookupChain] = useState<ChainId>(CHAIN_ID_ETH);
-  const { provider, signerAddress } = useEthereumProvider(lookupChain);
-  const { isReady, statusMessage } = useIsWalletReady(lookupChain);
+  const { provider, signerAddress } = useEthereumProvider(lookupChain as any);
+  const { isReady, statusMessage } = useIsWalletReady(lookupChain as any);
   const [lookupAsset, setLookupAsset] = useState("");
   const [lookupTokenId, setLookupTokenId] = useState("");
   const [lookupCreatorAddress, setLookupCreatorAddress] = useState("");

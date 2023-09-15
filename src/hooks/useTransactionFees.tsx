@@ -1,5 +1,4 @@
 import {
-  ChainId,
   CHAIN_ID_SOLANA,
   CHAIN_ID_TERRA,
   isEVMChain,
@@ -13,6 +12,7 @@ import { LocalGasStation } from "@material-ui/icons";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useEthereumProvider } from "../contexts/EthereumProviderContext";
+import { ChainId } from "@xlabs-libs/wallet-aggregator-core/dist/types/constants";
 import {
   getDefaultNativeCurrencySymbol,
   SOLANA_HOST,

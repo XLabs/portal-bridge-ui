@@ -49,8 +49,8 @@ function Transfer() {
 
   useEffect(() => {
     if (sourceChain && targetChain) {
-      dispatch(setSourceChain(sourceChain));
-      dispatch(setTargetChain(targetChain));
+      dispatch(setSourceChain(sourceChain as any));
+      dispatch(setTargetChain(targetChain as any));
     }
   }, [sourceChain, targetChain, dispatch]);
 

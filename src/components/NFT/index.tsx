@@ -63,10 +63,10 @@ function NFT() {
         return;
       }
       if (sourceChain) {
-        dispatch(setSourceChain(sourceChain));
+        dispatch(setSourceChain(sourceChain as any));
       }
       if (targetChain) {
-        dispatch(setTargetChain(targetChain));
+        dispatch(setTargetChain(targetChain as any));
       }
     } catch (e) {
       console.error("Invalid path params specified.");

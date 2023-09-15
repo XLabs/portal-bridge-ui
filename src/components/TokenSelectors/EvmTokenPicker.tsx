@@ -1,8 +1,5 @@
-import {
-  ChainId,
-  CHAIN_ID_ETH,
-  ethers_contracts,
-} from "@certusone/wormhole-sdk";
+import { CHAIN_ID_ETH, ethers_contracts } from "@certusone/wormhole-sdk";
+import { ChainId } from "@xlabs-libs/wallet-aggregator-core/dist/types/constants";
 import { WormholeAbi__factory } from "@certusone/wormhole-sdk/lib/esm/ethers-contracts/abi";
 import { getAddress as getEthAddress } from "@ethersproject/address";
 import React, { useCallback } from "react";

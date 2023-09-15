@@ -1,10 +1,10 @@
 import {
   approveEth,
-  ChainId,
   CHAIN_ID_KLAYTN,
   getAllowanceEth,
   isEVMChain,
 } from "@certusone/wormhole-sdk";
+import { ChainId } from "@xlabs-libs/wallet-aggregator-core/dist/types/constants";
 import { BigNumber } from "ethers";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";

@@ -1,4 +1,5 @@
-import { ChainId, isEVMChain } from "@certusone/wormhole-sdk";
+import { isEVMChain } from "@certusone/wormhole-sdk";
+import { ChainId } from "@xlabs-libs/wallet-aggregator-core/dist/types/constants";
 import { ethers } from "ethers";
 import { useEffect, useMemo, useState } from "react";
 import {

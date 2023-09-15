@@ -1,5 +1,4 @@
 import {
-  ChainId,
   CHAIN_ID_ALGORAND,
   CHAIN_ID_APTOS,
   CHAIN_ID_INJECTIVE,
@@ -12,6 +11,7 @@ import {
   TerraChainId,
   CHAIN_ID_SUI,
 } from "@certusone/wormhole-sdk";
+import { ChainId } from "@xlabs-libs/wallet-aggregator-core";
 import { TokenInfo } from "@solana/spl-token-registry";
 import { useMemo } from "react";
 import { DataWrapper, getEmptyDataWrapper } from "../store/helpers";
@@ -325,7 +325,7 @@ export default function useMetadata(
             terraAddresses,
             terraTokenMap,
             terraMetadata,
-            chainId
+            chainId as any
           )
         : chainId === CHAIN_ID_ALGORAND
         ? constructAlgoMetadata(algoAddresses, algoMetadata)

@@ -1,5 +1,4 @@
 import {
-  ChainId,
   CHAIN_ID_ACALA,
   CHAIN_ID_ALGORAND,
   CHAIN_ID_APTOS,
@@ -28,6 +27,7 @@ import {
   CHAIN_ID_ARBITRUM,
   CHAIN_ID_BASE,
 } from "@certusone/wormhole-sdk";
+import { ChainId } from "@xlabs-libs/wallet-aggregator-core/dist/types/constants";
 import { Dispatch } from "@reduxjs/toolkit";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import {

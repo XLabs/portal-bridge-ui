@@ -1,5 +1,4 @@
 import {
-  ChainId,
   CHAIN_ID_ACALA,
   CHAIN_ID_ARBITRUM,
   CHAIN_ID_AURORA,
@@ -16,6 +15,7 @@ import {
   isEVMChain,
   CHAIN_ID_BASE,
 } from "@certusone/wormhole-sdk";
+import { ChainId } from "@xlabs-libs/wallet-aggregator-core/dist/types/constants";
 import { LinearProgress, makeStyles, Typography } from "@material-ui/core";
 import { Connection } from "@solana/web3.js";
 import { useEffect, useState } from "react";

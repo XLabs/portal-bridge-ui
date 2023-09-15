@@ -1,5 +1,4 @@
 import {
-  ChainId,
   CHAIN_ID_ACALA,
   CHAIN_ID_ALGORAND,
   CHAIN_ID_APTOS,
@@ -37,6 +36,7 @@ import {
   CHAIN_ID_SUI,
   getForeignAssetSui,
 } from "@certusone/wormhole-sdk";
+import { ChainId } from "@xlabs-libs/wallet-aggregator-core/dist/types/constants";
 import { repairVaa } from "@certusone/wormhole-sdk/lib/esm/utils/repairVaa";
 import {
   Accordion,
@@ -658,7 +658,7 @@ export default function Recovery() {
   useEffect(() => {
     try {
       if (sourceChain && transactionId) {
-        setRecoverySourceChain(sourceChain);
+        setRecoverySourceChain(sourceChain as any);
         setRecoverySourceTx(transactionId);
       } else if (vaaHex) {
         setRecoverySignedVAA(vaaHex);

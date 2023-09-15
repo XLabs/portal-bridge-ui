@@ -1,5 +1,4 @@
 import {
-  ChainId,
   CHAIN_ID_ALGORAND,
   CHAIN_ID_APTOS,
   CHAIN_ID_NEAR,
@@ -20,6 +19,7 @@ import {
   getOriginalAssetSui,
   CHAIN_ID_ETH,
 } from "@certusone/wormhole-sdk";
+import { ChainId } from "@xlabs-libs/wallet-aggregator-core/dist/types/constants";
 import {
   getOriginalAssetEth as getOriginalAssetEthNFT,
   getOriginalAssetSol as getOriginalAssetSolNFT,
@@ -75,6 +75,7 @@ const makeStateSafe = (
   info: WormholeWrappedInfo
 ): StateSafeWormholeWrappedInfo => ({
   ...info,
+  chainId: info.chainId as any,
   assetAddress: uint8ArrayToHex(info.assetAddress),
 });
 
@@ -247,7 +248,7 @@ function useCheckIfWormholeWrapped(nft?: boolean) {
           );
           const wrappedInfo = makeStateSafe(
             await getOriginalAssetAlgorand(
-              algodClient,
+              algodClient as any,
               ALGORAND_TOKEN_BRIDGE_ID,
               BigInt(sourceAsset)
             )
@@ -280,7 +281,7 @@ function useCheckIfWormholeWrapped(nft?: boolean) {
         try {
           const client = getInjectiveWasmClient();
           const wrappedInfo = makeStateSafe(
-            await getOriginalAssetInjective(sourceAsset, client)
+            await getOriginalAssetInjective(sourceAsset, client as any)
           );
           if (!cancelled) {
             dispatch(setSourceWormholeWrappedInfo(wrappedInfo));

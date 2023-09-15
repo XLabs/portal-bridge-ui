@@ -1,5 +1,4 @@
 import {
-  ChainId,
   CHAIN_ID_ETH,
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
@@ -7,6 +6,7 @@ import {
   isEVMChain,
   nativeToHexString,
 } from "@certusone/wormhole-sdk";
+import { ChainId } from "@xlabs-libs/wallet-aggregator-core/dist/types/constants";
 import {
   Card,
   CircularProgress,

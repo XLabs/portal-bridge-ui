@@ -195,7 +195,7 @@ export default function useGetIsTransferCompleted(
               ALGORAND_HOST.algodPort
             );
             transferCompleted = await getIsTransferCompletedAlgorand(
-              algodClient,
+              algodClient as any,
               ALGORAND_TOKEN_BRIDGE_ID,
               signedVAA
             );

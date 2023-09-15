@@ -105,7 +105,7 @@ async function algo(
       ALGORAND_HOST.algodPort
     );
     const txs = await redeemOnAlgorand(
-      algodClient,
+      algodClient as any,
       ALGORAND_TOKEN_BRIDGE_ID,
       ALGORAND_BRIDGE_ID,
       signedVAA,

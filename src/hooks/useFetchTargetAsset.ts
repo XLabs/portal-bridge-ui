@@ -1,5 +1,4 @@
 import {
-  ChainId,
   CHAIN_ID_ALGORAND,
   CHAIN_ID_APTOS,
   CHAIN_ID_INJECTIVE,
@@ -25,6 +24,7 @@ import {
   CHAIN_ID_SUI,
   getForeignAssetSui,
 } from "@certusone/wormhole-sdk";
+import { ChainId } from "@xlabs-libs/wallet-aggregator-core/dist/types/constants";
 import {
   getForeignAssetEth as getForeignAssetEthNFT,
   getForeignAssetSol as getForeignAssetSolNFT,
@@ -525,7 +525,7 @@ function useFetchTargetAsset(nft?: boolean) {
             ALGORAND_HOST.algodPort
           );
           const asset = await getForeignAssetAlgorand(
-            algodClient,
+            algodClient as any,
             ALGORAND_TOKEN_BRIDGE_ID,
             originChain,
             originAsset

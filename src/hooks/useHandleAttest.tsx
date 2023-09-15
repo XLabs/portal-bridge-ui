@@ -126,7 +126,7 @@ async function algo(
       ALGORAND_HOST.algodPort
     );
     const txs = await attestFromAlgorand(
-      algodClient,
+      algodClient as any,
       ALGORAND_TOKEN_BRIDGE_ID,
       ALGORAND_BRIDGE_ID,
       wallet.getAddress()!,

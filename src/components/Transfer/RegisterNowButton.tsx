@@ -16,7 +16,6 @@ import {
   selectTransferTargetChain,
 } from "../../store/selectors";
 import {
-  ChainId,
   CHAIN_ID_APTOS,
   CHAIN_ID_INJECTIVE,
   CHAIN_ID_NEAR,
@@ -25,6 +24,7 @@ import {
   hexToNativeAssetString,
   CHAIN_ID_SUI,
 } from "@certusone/wormhole-sdk";
+import { ChainId } from "@xlabs-libs/wallet-aggregator-core/dist/types/constants";
 
 export function RegisterNowButtonCore({
   originChain,
@@ -57,7 +57,7 @@ export function RegisterNowButtonCore({
     if (originChain && originAsset && nativeAsset && canSwitch) {
       dispatch(setSourceChain(originChain));
       dispatch(setSourceAsset(nativeAsset));
-      dispatch(setTargetChain(targetChain));
+      dispatch(setTargetChain(targetChain as any));
       dispatch(setStep(2));
       history.push("/register");
     }

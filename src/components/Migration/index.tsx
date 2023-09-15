@@ -1,9 +1,9 @@
 import {
-  ChainId,
   CHAIN_ID_BSC,
   CHAIN_ID_CELO,
   CHAIN_ID_ETH,
 } from "@certusone/wormhole-sdk";
+import { ChainId } from "@xlabs-libs/wallet-aggregator-core/dist/types/constants";
 import { getAddress } from "@ethersproject/address";
 import { Container, makeStyles, Paper, Typography } from "@material-ui/core";
 import { withRouter } from "react-router";
