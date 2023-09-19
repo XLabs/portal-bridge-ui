@@ -145,11 +145,11 @@ jobs:
         with:
           name: docs-release-build
           path: docs
-      - name: Download Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: release-stable-bridge
-          path: usdc-bridge
+      # - name: Download Artifact
+      #   uses: actions/download-artifact@v3
+      #   with:
+      #     name: release-stable-bridge
+      #     path: usdc-bridge
       - name: Set up GitHub NPM registry
         uses: actions/setup-node@v3
         with:

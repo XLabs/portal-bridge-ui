@@ -112,11 +112,11 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: testnet-portal-bridge
-      - name: Download Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: testnet-stable-bridge
-          path: usdc-bridge
+      # - name: Download Artifact
+      #   uses: actions/download-artifact@v3
+      #   with:
+      #     name: testnet-stable-bridge
+      #     path: usdc-bridge
       - name: Set up GitHub NPM registry
         uses: actions/setup-node@v3
         with:
