@@ -895,7 +895,6 @@ async function sei(
     const fee = await calculateFeeForContractExecution(
       instructions,
       wallet,
-      tokenBridgeAddress,
       "Wormhole - Complete Transfer"
     );
 
@@ -929,6 +928,7 @@ async function sei(
       dispatch
     );
   } catch (e) {
+    console.log('>>>>', e);
     handleError(e, enqueueSnackbar, dispatch);
   }
 }
@@ -1100,6 +1100,7 @@ export function useHandleTransfer() {
   }, [isTBTC, originChain, targetAddress, targetChain]);
 
   const handleTransferClick = useCallback(() => {
+    console.log('Transfer clicked')
     // TODO: we should separate state for transaction vs fetching vaa
     if (
       isEVMChain(sourceChain) &&

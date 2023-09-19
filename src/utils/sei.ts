@@ -10,9 +10,9 @@ import {
 import { getCosmWasmClient, getQueryClient } from "@sei-js/core";
 import { fromUint8Array } from "js-base64";
 import { SEI_CHAIN_CONFIGURATION, SEI_NATIVE_DENOM } from "./consts";
-import { logs } from "@cosmjs/stargate";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
-import { calculateFee } from "@cosmjs/stargate";
+import type { ExecuteInstruction } from "@cosmjs/cosmwasm-stargate";
+import { logs, calculateFee,  } from "@cosmjs/stargate";
 import { StdFee } from "@cosmjs/amino";
 import { utils } from "ethers";
 import { SeiWallet } from "@xlabs-libs/wallet-aggregator-sei";
@@ -189,26 +189,30 @@ export function searchInLogs(
 const MSG_EXECUTE_CONTRACT_TYPE_URL = "/cosmwasm.wasm.v1.MsgExecuteContract";
 
 export async function calculateFeeForContractExecution(
-  msg: any,
+  instructions: ExecuteInstruction[],
   wallet: SeiWallet,
-  contractAddress: string,
   memo = "",
   fee = 70000
 ): Promise<StdFee> {
-  const seiTx = {
-    typeUrl: MSG_EXECUTE_CONTRACT_TYPE_URL,
-    value: MsgExecuteContract.fromPartial({
-      sender: wallet.getAddress(),
-      contract: contractAddress,
-      msg: Buffer.from(JSON.stringify(msg)),
-    }),
-  };
-  const stimatedFee = await wallet.calculateFee({
-    msgs: [seiTx],
-    fee: calculateFee(fee, "0.1usei"),
-    memo,
-  });
-  console.log(stimatedFee);
-  debugger;
-  return calculateFee(parseInt(stimatedFee), "0.1usei");
+  try {
+    const seiTxs = instructions.map(({ msg, contractAddress }) => ({
+      typeUrl: MSG_EXECUTE_CONTRACT_TYPE_URL,
+      value: MsgExecuteContract.fromPartial({
+        sender: wallet.getAddress(),
+        contract: contractAddress,
+        msg: Buffer.from(JSON.stringify(msg)),
+      }),
+    }));
+    const strEstimatedFee = await wallet.calculateFee({
+      msgs: seiTxs,
+      fee: calculateFee(fee, "0.1usei"),
+      memo,
+    });
+    // Increase 25% the estimatd fee
+    const estimatedFee = Math.trunc(parseInt(strEstimatedFee) / (1 - .25));
+    return calculateFee(estimatedFee, "0.1usei");  
+  } catch (e) {
+    console.trace(e);
+    return calculateFee(fee, "0.1usei");  
+  }
 }

@@ -383,18 +383,17 @@ async function sei(
     const msg = shouldUpdate
       ? await updateWrappedOnSei(signedVAA)
       : await createWrappedOnSei(signedVAA);
-
+    const instructions = [{ msg: msg, contractAddress: tokenBridgeAddress }];
+    const memo = "Wormhole - Create Wrapped";
     const fee = await calculateFeeForContractExecution(
-      msg,
+      instructions,
       wallet,
-      tokenBridgeAddress,
-      "Wormhole - Create Wrapped"
+      memo
     );
-
     const tx = await wallet.executeMultiple({
-      instructions: [{ msg: msg, contractAddress: tokenBridgeAddress }],
+      instructions,
       fee,
-      memo: "Wormhole - Create Wrapped",
+      memo,
     });
 
     if (!tx.data?.height) {

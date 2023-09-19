@@ -354,7 +354,6 @@ async function sei(
     const fee = await calculateFeeForContractExecution(
       instructions,
       wallet,
-      contractAddress,
       "Wormhole - Complete Transfer"
     );
     const tx = await wallet.executeMultiple({

@@ -624,16 +624,17 @@ async function sei(
         nonce,
       },
     };
+    const instructions = [{ contractAddress: tokenBridgeAddress, msg }];
+    const memo = "Wormhole - Attest Token";
     const fee = await calculateFeeForContractExecution(
-      msg,
+      instructions,
       wallet,
-      tokenBridgeAddress,
-      "Wormhole - Attest Token"
+      memo
     );
     const tx = await wallet.executeMultiple({
-      instructions: [{ contractAddress: tokenBridgeAddress, msg }],
+      instructions,
       fee,
-      memo: "Wormhole - Attest Token",
+      memo
     });
     dispatch(setAttestTx({ id: tx.id, block: tx.data!.height }));
     enqueueSnackbar(null, {
