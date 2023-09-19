@@ -779,8 +779,8 @@ export const SEI_CHAIN_CONFIGURATION: ChainConfiguration =
   CLUSTER === "mainnet"
     ? {
         chainId: "pacific-1",
-        restUrl: "https://sei-api.polkachu.com/",
-        rpcUrl: "https://sei-rpc.polkachu.com/",
+        restUrl: "https://rest.sei-apis.com/",
+        rpcUrl: "https://rpc.sei-apis.com/",
       }
     : {
         chainId: "atlantic-2",

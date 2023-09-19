@@ -192,15 +192,16 @@ export async function calculateFeeForContractExecution(
   instructions: ExecuteInstruction[],
   wallet: SeiWallet,
   memo = "",
-  fee = 70000
+  fee = 10000000
 ): Promise<StdFee> {
   try {
-    const seiTxs = instructions.map(({ msg, contractAddress }) => ({
+    const seiTxs = instructions.map(({ msg, contractAddress, funds }) => ({
       typeUrl: MSG_EXECUTE_CONTRACT_TYPE_URL,
       value: MsgExecuteContract.fromPartial({
         sender: wallet.getAddress(),
         contract: contractAddress,
         msg: Buffer.from(JSON.stringify(msg)),
+        funds: funds ? [ ...funds ] : [],
       }),
     }));
     const strEstimatedFee = await wallet.calculateFee({
@@ -209,10 +210,10 @@ export async function calculateFeeForContractExecution(
       memo,
     });
     // Increase 25% the estimatd fee
-    const estimatedFee = Math.trunc(parseInt(strEstimatedFee) / (1 - .25));
+    const estimatedFee = Math.trunc(parseInt(strEstimatedFee) / (1 - .30));
     return calculateFee(estimatedFee, "0.1usei");  
   } catch (e) {
-    console.trace(e);
+    console.log(e);
     return calculateFee(fee, "0.1usei");  
   }
 }
