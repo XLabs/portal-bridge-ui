@@ -107,15 +107,18 @@ import { XplaWallet } from "@xlabs-libs/wallet-aggregator-xpla";
 import { useXplaWallet } from "../contexts/XplaWalletContext";
 import { SuiWallet } from "@xlabs-libs/wallet-aggregator-sui";
 import { getSuiProvider } from "../utils/sui";
+
 import {
   getEmitterAddressAndSequenceFromResponseSui,
   getOriginalPackageId,
 } from "@certusone/wormhole-sdk/lib/cjs/sui";
 import { useSuiWallet } from "../contexts/SuiWalletContext";
 import { useSeiWallet } from "../contexts/SeiWalletContext";
-import { SeiWallet, buildExecuteMessage } from "@xlabs-libs/wallet-aggregator-sei";
-import { parseSequenceFromLogSei } from "../utils/sei";
-import { calculateFee } from "@cosmjs/stargate";
+import { SeiWallet } from "@xlabs-libs/wallet-aggregator-sei";
+import {
+  calculateFeeForContractExecution,
+  parseSequenceFromLogSei,
+} from "../utils/sei";
 import { SuiTransactionBlockResponse } from "@mysten/sui.js";
 
 async function algo(
@@ -611,9 +614,7 @@ async function sei(
   dispatch(setIsSending(true));
   try {
     const tokenBridgeAddress = getTokenBridgeAddressForChain(CHAIN_ID_SEI);
-
     const nonce = Math.round(Math.random() * 100000);
-
     const msg = {
       create_asset_meta: {
         asset_info:
@@ -623,8 +624,12 @@ async function sei(
         nonce,
       },
     };
-
-    const fee = calculateFee(10000000, "0.1usei");
+    const fee = await calculateFeeForContractExecution(
+      msg,
+      wallet,
+      tokenBridgeAddress,
+      "Wormhole - Attest Token"
+    );
     const tx = await wallet.executeMultiple({
       instructions: [{ contractAddress: tokenBridgeAddress, msg }],
       fee,

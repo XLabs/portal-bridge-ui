@@ -11,7 +11,11 @@ import { getCosmWasmClient, getQueryClient } from "@sei-js/core";
 import { fromUint8Array } from "js-base64";
 import { SEI_CHAIN_CONFIGURATION, SEI_NATIVE_DENOM } from "./consts";
 import { logs } from "@cosmjs/stargate";
+import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
+import { calculateFee } from "@cosmjs/stargate";
+import { StdFee } from "@cosmjs/amino";
 import { utils } from "ethers";
+import { SeiWallet } from "@xlabs-libs/wallet-aggregator-sei";
 
 export const getSeiWasmClient = () =>
   getCosmWasmClient(SEI_CHAIN_CONFIGURATION.rpcUrl);
@@ -180,4 +184,31 @@ export function searchInLogs(
     }
   }
   return undefined;
+}
+
+const MSG_EXECUTE_CONTRACT_TYPE_URL = "/cosmwasm.wasm.v1.MsgExecuteContract";
+
+export async function calculateFeeForContractExecution(
+  msg: any,
+  wallet: SeiWallet,
+  contractAddress: string,
+  memo = "",
+  fee = 70000
+): Promise<StdFee> {
+  const seiTx = {
+    typeUrl: MSG_EXECUTE_CONTRACT_TYPE_URL,
+    value: MsgExecuteContract.fromPartial({
+      sender: wallet.getAddress(),
+      contract: contractAddress,
+      msg: Buffer.from(JSON.stringify(msg)),
+    }),
+  };
+  const stimatedFee = await wallet.calculateFee({
+    msgs: [seiTx],
+    fee: calculateFee(fee, "0.1usei"),
+    memo,
+  });
+  console.log(stimatedFee);
+  debugger;
+  return calculateFee(parseInt(stimatedFee), "0.1usei");
 }

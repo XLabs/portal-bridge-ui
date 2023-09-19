@@ -95,13 +95,10 @@ import { useSuiWallet } from "../contexts/SuiWalletContext";
 import { redeemOnSui } from "../utils/suiRedeemHotfix";
 import { ThresholdL2WormholeGateway } from "../utils/ThresholdL2WormholeGateway";
 import { newThresholdWormholeGateway } from "../assets/providers/tbtc/solana/WormholeGateway.v2";
-import { calculateFee } from "@cosmjs/stargate";
 import { fromUint8Array } from "js-base64";
 import { useSeiWallet } from "../contexts/SeiWalletContext";
-import {
-  SeiWallet,
-  buildExecuteMessage,
-} from "@xlabs-libs/wallet-aggregator-sei";
+import { SeiWallet } from "@xlabs-libs/wallet-aggregator-sei";
+import { calculateFeeForContractExecution } from "../utils/sei";
 
 async function algo(
   dispatch: any,
@@ -292,7 +289,7 @@ async function xpla(
 ) {
   dispatch(setIsRedeeming(true));
   try {
-    const msg = await redeemOnXpla(
+    const msg = redeemOnXpla(
       getTokenBridgeAddressForChain(CHAIN_ID_XPLA),
       wallet.getAddress()!,
       signedVAA
@@ -324,10 +321,6 @@ async function sei(
 ) {
   dispatch(setIsRedeeming(true));
   try {
-    // TODO: is this right?
-
-    const fee = calculateFee(100000000, "0.1usei");
-
     const vaa = parseVaa(signedVAA);
     const transfer = parseTokenTransferPayload(vaa.payload);
     const receiver = cosmos.humanAddress("sei", transfer.to);
@@ -358,18 +351,15 @@ async function sei(
               },
             },
           ];
-    const simulatedFee = await wallet.calculateFee({
-      msgs: [
-        buildExecuteMessage(wallet.getAddress()!, contractAddress, [
-          instructions.map((i) => i.msg),
-        ]),
-      ],
-      fee,
-      memo: "Wormhole - Create Wrapped",
-    });
+    const fee = await calculateFeeForContractExecution(
+      instructions,
+      wallet,
+      contractAddress,
+      "Wormhole - Complete Transfer"
+    );
     const tx = await wallet.executeMultiple({
       instructions,
-      fee: calculateFee(parseInt(simulatedFee), "0.1usei"),
+      fee,
       memo: "Wormhole - Complete Transfer",
     });
 

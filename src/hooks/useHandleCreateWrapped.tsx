@@ -104,10 +104,13 @@ import { sleep } from "../utils/sleep";
 import { useSuiWallet } from "../contexts/SuiWalletContext";
 import { SuiWallet } from "@xlabs-libs/wallet-aggregator-sui";
 import { createWrappedOnSuiPrepare } from "../utils/suiPublishHotfix";
-import { calculateFee } from "@cosmjs/stargate";
-import { createWrappedOnSei, updateWrappedOnSei } from "../utils/sei";
+import {
+  calculateFeeForContractExecution,
+  createWrappedOnSei,
+  updateWrappedOnSei,
+} from "../utils/sei";
 import { useSeiWallet } from "../contexts/SeiWalletContext";
-import { SeiWallet, buildExecuteMessage } from "@xlabs-libs/wallet-aggregator-sei";
+import { SeiWallet } from "@xlabs-libs/wallet-aggregator-sei";
 
 // TODO: replace with SDK method -
 export async function updateWrappedOnSui(
@@ -381,20 +384,16 @@ async function sei(
       ? await updateWrappedOnSei(signedVAA)
       : await createWrappedOnSei(signedVAA);
 
-    const fee = calculateFee(100000000, "0.1usei");
-    const currentFee = await wallet.calculateFee({
-      msgs: [buildExecuteMessage(
-        wallet.getAddress()!,
-        tokenBridgeAddress,
-        [msg]
-      )],
-      fee,
-      memo: "Wormhole - Create Wrapped",
-    })
-    // TODO: is this right?
+    const fee = await calculateFeeForContractExecution(
+      msg,
+      wallet,
+      tokenBridgeAddress,
+      "Wormhole - Create Wrapped"
+    );
+
     const tx = await wallet.executeMultiple({
       instructions: [{ msg: msg, contractAddress: tokenBridgeAddress }],
-      fee: calculateFee(parseInt(currentFee), "0.1usei"),
+      fee,
       memo: "Wormhole - Create Wrapped",
     });
 
