@@ -27,24 +27,11 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: bash
         run: |
-          clean_up() {
-            shopt -s extglob
-            INPUT=$(gh pr list --json headRefName --jq '.[].headRefName')
-            OUTPUT="clean.sh"
-            # Loop through the array and concatenate the strings with pipe character
-            for BRANCH in ${INPUT}; do
-                HASH=$(echo ${BRANCH} | sha256sum | cut -c -10)
-                if [ -n "${OUTPUT}" ]; then
-                    OUTPUT="${OUTPUT}|${HASH}"
-                else
-                    OUTPUT="${HASH}"
-                fi
-            done
-            echo "Hashes to remove ${OUTPUT}"
-            rm -rf !(${OUTPUT})
-          }
           cd preview
-          clean_up
+          export INPUT=$(gh pr list --json headRefName --jq '.[].headRefName')
+          for BRANCH in ${INPUT}; do
+              rm -rf $(echo ${BRANCH} | sha256sum | cut -c -10)
+          done
           git add .
           git commit -m"Remove preview artifacts"
           git push
@@ -72,24 +59,11 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: bash
         run: |
-          clean_up() {
-            shopt -s extglob
-            INPUT=$(gh pr list --json headRefName --jq '.[].headRefName')
-            OUTPUT="clean.sh"
-            # Loop through the array and concatenate the strings with pipe character
-            for BRANCH in ${INPUT}; do
-                HASH=$(echo ${BRANCH} | sha256sum | cut -c -10)
-                if [ -n "${OUTPUT}" ]; then
-                    OUTPUT="${OUTPUT}|${HASH}"
-                else
-                    OUTPUT="${HASH}"
-                fi
-            done
-            echo "Hashes to remove ${OUTPUT}"
-            rm -rf !(${OUTPUT})
-          }
           cd testnet
-          clean_up
+          export INPUT=$(gh pr list --json headRefName --jq '.[].headRefName')
+          for BRANCH in ${INPUT}; do
+              rm -rf $(echo ${BRANCH} | sha256sum | cut -c -10)
+          done
           git add .
           git commit -m"Remove testnet artifacts"
           git push
