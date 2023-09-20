@@ -159,6 +159,7 @@ body {
 .poweredBy {
   font-family: Poppins;
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -167,6 +168,7 @@ body {
   padding-bottom: 40px;
   font-size: 18px;
   font-weight: 400;
+  white-space: nowrap;
 }
 
 .poweredBy img {
