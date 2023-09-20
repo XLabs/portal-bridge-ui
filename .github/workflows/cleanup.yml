@@ -25,6 +25,7 @@ jobs:
       - name: Unpublish and remove preview artifacts
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
         run: |
           clean_up() {
             shopt -s extglob
@@ -42,7 +43,6 @@ jobs:
             echo "Hashes to remove ${OUTPUT}"
             rm -rf !(${OUTPUT})
           }
-          npm run unpublish ${_BRANCH_NAME_SHA}
           cd preview
           clean_up
           git add .
@@ -70,6 +70,7 @@ jobs:
       - name: Unpublish and remove testnet artifacts
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
         run: |
           clean_up() {
             shopt -s extglob
@@ -87,7 +88,6 @@ jobs:
             echo "Hashes to remove ${OUTPUT}"
             rm -rf !(${OUTPUT})
           }
-          npm run unpublish ${_BRANCH_NAME_SHA}
           cd testnet
           clean_up
           git add .
