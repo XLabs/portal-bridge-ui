@@ -634,7 +634,7 @@ async function sei(
     const tx = await wallet.executeMultiple({
       instructions,
       fee,
-      memo
+      memo,
     });
     dispatch(setAttestTx({ id: tx.id, block: tx.data!.height }));
     enqueueSnackbar(null, {

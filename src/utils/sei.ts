@@ -12,7 +12,7 @@ import { fromUint8Array } from "js-base64";
 import { SEI_CHAIN_CONFIGURATION, SEI_NATIVE_DENOM } from "./consts";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx";
 import type { ExecuteInstruction } from "@cosmjs/cosmwasm-stargate";
-import { logs, calculateFee,  } from "@cosmjs/stargate";
+import { logs, calculateFee } from "@cosmjs/stargate";
 import { StdFee } from "@cosmjs/amino";
 import { utils } from "ethers";
 import { SeiWallet } from "@xlabs-libs/wallet-aggregator-sei";
@@ -201,7 +201,7 @@ export async function calculateFeeForContractExecution(
         sender: wallet.getAddress(),
         contract: contractAddress,
         msg: Buffer.from(JSON.stringify(msg)),
-        funds: funds ? [ ...funds ] : [],
+        funds: funds ? [...funds] : [],
       }),
     }));
     const strEstimatedFee = await wallet.calculateFee({
@@ -210,10 +210,10 @@ export async function calculateFeeForContractExecution(
       memo,
     });
     // Increase 25% the estimatd fee
-    const estimatedFee = Math.trunc(parseInt(strEstimatedFee) / (1 - .30));
-    return calculateFee(estimatedFee, "0.1usei");  
+    const estimatedFee = Math.trunc(parseInt(strEstimatedFee) / (1 - 0.3));
+    return calculateFee(estimatedFee, "0.1usei");
   } catch (e) {
     console.log(e);
-    return calculateFee(fee, "0.1usei");  
+    return calculateFee(fee, "0.1usei");
   }
 }
