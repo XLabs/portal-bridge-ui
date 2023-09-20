@@ -26,8 +26,26 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          clean_up() {
+            shopt -s extglob
+            INPUT=$(gh pr list --json headRefName --jq '.[].headRefName')
+            OUTPUT="clean.sh"
+            # Loop through the array and concatenate the strings with pipe character
+            for BRANCH in ${INPUT}; do
+                HASH=$(echo ${BRANCH} | sha256sum | cut -c -10)
+                if [ -n "${OUTPUT}" ]; then
+                    OUTPUT="${OUTPUT}|${HASH}"
+                else
+                    OUTPUT="${HASH}"
+                fi
+            done
+            echo "Hashes to remove ${OUTPUT}"
+            rm -rf !(${OUTPUT})
+          }
           npm run unpublish ${_BRANCH_NAME_SHA}
-          git add ${_BRANCH_NAME_SHA}
+          cd preview
+          clean_up
+          git add .
           git commit -m"Remove preview artifacts"
           git push
   
@@ -53,7 +71,25 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          clean_up() {
+            shopt -s extglob
+            INPUT=$(gh pr list --json headRefName --jq '.[].headRefName')
+            OUTPUT="clean.sh"
+            # Loop through the array and concatenate the strings with pipe character
+            for BRANCH in ${INPUT}; do
+                HASH=$(echo ${BRANCH} | sha256sum | cut -c -10)
+                if [ -n "${OUTPUT}" ]; then
+                    OUTPUT="${OUTPUT}|${HASH}"
+                else
+                    OUTPUT="${HASH}"
+                fi
+            done
+            echo "Hashes to remove ${OUTPUT}"
+            rm -rf !(${OUTPUT})
+          }
           npm run unpublish ${_BRANCH_NAME_SHA}
-          git add ${_BRANCH_NAME_SHA}
+          cd testnet
+          clean_up
+          git add .
           git commit -m"Remove testnet artifacts"
           git push
