@@ -24,7 +24,7 @@ jobs:
         run: echo "_BRANCH_NAME_SHA=$(echo ${{ github.event.pull_request.head.ref }} | sha256sum | cut -c -10)" >> "${GITHUB_ENV}"
       - name: Unpublish and remove preview artifacts
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           cd preview
@@ -56,7 +56,7 @@ jobs:
           echo "_BRANCH_NAME_SHA=$(echo ${{ github.event.pull_request.head.ref }} | sha256sum | cut -c -10)" >> "${GITHUB_ENV}"
       - name: Unpublish and remove testnet artifacts
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           cd testnet
