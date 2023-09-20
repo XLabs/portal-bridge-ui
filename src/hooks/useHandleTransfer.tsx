@@ -918,11 +918,10 @@ async function sei(
     if (!sequence) {
       throw new Error("Sequence not found");
     }
-    const emitterAddress = await getEmitterAddressTerra(tokenBridgeAddress);
 
     await fetchSignedVAA(
       CHAIN_ID_SEI,
-      emitterAddress,
+      tokenBridgeAddress,
       sequence,
       enqueueSnackbar,
       dispatch
