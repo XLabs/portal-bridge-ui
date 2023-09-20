@@ -79,6 +79,7 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "sed -i '/enableWorkerThreads/d' node_modules/terser-webpack-plugin/dist/index.js && react-app-rewired build",
+    "postinstall": "cd wormhole-connect && npm install && cd ..",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "format": "npx prettier --write ./src"
@@ -126,7 +127,7 @@
     "lint-staged": "^13.2.3",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
-    "prettier": "^3.0.2",
+    "prettier": "^3.0.3",
     "process": "^0.11.10",
     "punycode": "^2.1.1",
     "querystring-es3": "^0.2.1",

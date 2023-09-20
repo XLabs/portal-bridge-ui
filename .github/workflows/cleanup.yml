@@ -24,10 +24,23 @@ jobs:
         run: echo "_BRANCH_NAME_SHA=$(echo ${{ github.event.pull_request.head.ref }} | sha256sum | cut -c -10)" >> "${GITHUB_ENV}"
       - name: Unpublish and remove preview artifacts
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
         run: |
-          npm run unpublish ${_BRANCH_NAME_SHA}
-          git add ${_BRANCH_NAME_SHA}
+          cd preview
+          shopt -s extglob
+          export INPUT=$(gh pr list --json headRefName --jq '.[].headRefName')
+          export OUTPUT=""
+          for BRANCH in ${INPUT}; do
+            HASH=$(echo ${BRANCH} | sha256sum | cut -c -10)
+            if [ -n "${OUTPUT}" ]; then
+                OUTPUT="${OUTPUT}|${HASH}"
+            else
+                OUTPUT="${HASH}"
+            fi
+          done  
+          rm -rf !(${OUTPUT})
+          git add .
           git commit -m"Remove preview artifacts"
           git push
   
@@ -51,9 +64,23 @@ jobs:
           echo "_BRANCH_NAME_SHA=$(echo ${{ github.event.pull_request.head.ref }} | sha256sum | cut -c -10)" >> "${GITHUB_ENV}"
       - name: Unpublish and remove testnet artifacts
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
         run: |
-          npm run unpublish ${_BRANCH_NAME_SHA}
-          git add ${_BRANCH_NAME_SHA}
+          cd testnet
+          shopt -s extglob
+          export INPUT=$(gh pr list --json headRefName --jq '.[].headRefName')
+          export OUTPUT=""
+          for BRANCH in ${INPUT}; do
+            HASH=$(echo ${BRANCH} | sha256sum | cut -c -10)
+            if [ -n "${OUTPUT}" ]; then
+                OUTPUT="${OUTPUT}|${HASH}"
+            else
+                OUTPUT="${HASH}"
+            fi
+          done  
+          rm -rf !(${OUTPUT})
+
+          git add .
           git commit -m"Remove testnet artifacts"
           git push

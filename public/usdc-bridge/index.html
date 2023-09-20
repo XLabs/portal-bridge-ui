@@ -28,36 +28,17 @@
     rel="stylesheet" />
   <link href="index.css" rel="stylesheet">
   <link href="../wormhole-connect/main.css" rel="stylesheet">
-  <title>Cosmos</title>
+  <title>USDC Bridge: Native Cross-Chain USDC Transfers</title>
 </head>
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div class="root">
     <div class="container">
-      <div class="cosmos-banner" id="cosmos-banner" style="display: none;">
-        <div style="text-align: center"><span
-            style="color: white; font-size: 16px; font-family: Poppins; font-weight: 500; line-height: 20.02px; letter-spacing: 0.28px; word-wrap: break-word">Wormhole
-            Gateway is now live on mainnet!</span><span
-            style="color: white; font-size: 16px; font-family: Poppins; font-weight: 700; line-height: 20.02px; letter-spacing: 0.28px; word-wrap: break-word">
-            Bridge your assets to Osmosis today.</span></div>
-        <a class="cosmos-link" href="https://portalbridge.com/cosmos" target="_blank" rel="noopener noreferrer">
-          TRY IT NOW
-        </a>
-      </div>
-      <div class="cctp-banner" id="cctp-banner" style="display: none;">
-        <span>
-          Experience frictionless USDC transfers between Ethereum, Avalanche, Arbitrum, and Optimism with Circle's CCTP.
-        </span>
-        <a class="cctp-link" href="https://portalbridge.com/usdc-bridge" target="_blank" rel="noopener noreferrer">
-          TRY IT NOW
-        </a>
-      </div>
-
       <header class="header">
         <div class="header-inner">
           <a class="logo-link" href="/">
-            <img src="portal_logo_w.svg" alt="Portal" class="logo">
+            <img src="../cosmos/portal_logo_w.svg" alt="Portal" class="logo">
           </a>
           <div class="spacer"></div>
           <div class="links-list">
@@ -65,13 +46,13 @@
               <a class="link" href="/" target="_blank" aria-current="page">
                 Token Bridge
               </a>
-              <a class="link" href="https://portalbridge.com/usdc-bridge" target="_blank" rel="noopener noreferrer">
+              <a class="link active" href="#" aria-current="page">
                 USDC
               </a>
               <a class="link" href="https://portalbridge.com/sui" target="_blank" rel="noopener noreferrer">
                 Sui
               </a>
-              <a class="link active" href="#" aria-current="page">
+              <a class="link" href="https://portalbridge.com/cosmos" target="_blank" rel="noopener noreferrer">
                 Cosmos
               </a>
               <a class="link" href="https://portalbridge.com/docs" target="_blank" rel="noopener noreferrer">
@@ -100,9 +81,20 @@
       </header>
 
       <div id="wormhole-connect"
-        config='{"bridgeDefaults":{"requiredNetwork":"osmosis","toNetwork":"osmosis"},"env":"mainnet","rpcs":{"wormchain":"https://and76cjzpa.execute-api.us-east-2.amazonaws.com/wormchain/","solana":"https://wormhole.rpcpool.com/","osmosis":"https://and76cjzpa.execute-api.us-east-2.amazonaws.com/osmosis/","ethereum":"https://and76cjzpa.execute-api.us-east-2.amazonaws.com/ethereum/","sui":"https://and76cjzpa.execute-api.us-east-2.amazonaws.com/sui/","aptos":"https://and76cjzpa.execute-api.us-east-2.amazonaws.com/aptos/"},"networks":["ethereum","bsc","polygon","base","solana","aptos","avalanche","fantom","celo","moonbeam","goerli","mumbai","fuji","alfajores","moonbasealpha","sui","osmosis"],"mode":"dark","customTheme":{"background":{"default":"transparent"},"button":{"primary":"#ffffff19","primaryText":"#ffffff","disabled":"#ffffff0F","disabledText":"#ffffff66","action":"#ffffff","actionText":"#17153F","hover":"#ffffff0F"},"font":{"primary":"Poppins, sans-serif","header":"Suisse BP Intl, sans-serif"}}}'>
+        config='{"routes": ["cctpManual", "cctpRelay"], "networks": ["ethereum", "avalanche", "arbitrum", "optimism"], "tokens": ["USDCeth", "USDCavax", "USDCarbitrum", "USDCoptimism"], "env": "mainnet", "pageHeader": "USDC Bridge","mode":"dark","customTheme":{"background":{"default":"transparent"},"button":{"primary":"#ffffff19","primaryText":"#ffffff","disabled":"#ffffff0F","disabledText":"#ffffff66","action":"#ffffff","actionText":"#17153F","hover":"#ffffff0F"},"font":{"primary":"Poppins, sans-serif","header":"Suisse BP Intl, sans-serif"}}}'>
       </div>
-
+      <div class="poweredBy">
+        <span>Powered by </span>
+        <a href="https://wormhole.com/" target="_blank" style="height: 30px;">
+          <img alt="Powered by Wormhole" loading="lazy" width="auto"
+            height="30" decoding="async" data-nimg="1" style="color:transparent" src="wormhole.png">
+        </a>
+        <span> &amp; </span>
+        <a href="https://developers.circle.com/stablecoin/docs/cctp-faq" target="_blank" style="height: 30px;">
+          <img alt="Powered by Circle" loading="lazy" width="auto" height="30" decoding="async" data-nimg="1"
+            style="color:transparent" src="circle.png">
+        </a>
+      </div>
       <div class="footer">
         <span>
           Want to embed the Wormhole Connect bridge into your own dapp or website?
@@ -112,21 +104,16 @@
             target="_blank">https://wormhole.com/connect</a>
         </span>
       </div>
+      <div class="gradients">
+        <div class="gradientLeft"></div>
+        <div class="gradientLeft2"></div>
+        <div class="gradientRight"></div>
+        <div class="gradientRight2"></div>
+      </div>
     </div>
   </div>
-
-  <script src="../wormhole-connect/main.js"></script>
-  <script>
-    // To show Optimism option on SEPT 4th 2023
-    if (new Date() < new Date(2023, 8, 8)) {
-      document.getElementById("cosmos-banner").style.display = "flex";
-      document.getElementById("cctp-banner").style.display = "none";
-
-    } else {
-      document.getElementById("cosmos-banner").style.display = "none";
-      document.getElementById("cctp-banner").style.display = "flex";
-    }
-  </script>
+  <script
+    src="../wormhole-connect/main.js"></script>
 </body>
 
 </html>
