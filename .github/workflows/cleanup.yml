@@ -28,10 +28,18 @@ jobs:
         shell: bash
         run: |
           cd preview
+          shopt -s extglob
           export INPUT=$(gh pr list --json headRefName --jq '.[].headRefName')
+          export OUTPUT=""
           for BRANCH in ${INPUT}; do
-              rm -rf $(echo ${BRANCH} | sha256sum | cut -c -10)
-          done
+            HASH=$(echo ${BRANCH} | sha256sum | cut -c -10)
+            if [ -n "${OUTPUT}" ]; then
+                OUTPUT="${OUTPUT}|${HASH}"
+            else
+                OUTPUT="${HASH}"
+            fi
+          done  
+          rm -rf !(${OUTPUT})
           git add .
           git commit -m"Remove preview artifacts"
           git push
@@ -60,10 +68,19 @@ jobs:
         shell: bash
         run: |
           cd testnet
+          shopt -s extglob
           export INPUT=$(gh pr list --json headRefName --jq '.[].headRefName')
+          export OUTPUT=""
           for BRANCH in ${INPUT}; do
-              rm -rf $(echo ${BRANCH} | sha256sum | cut -c -10)
-          done
+            HASH=$(echo ${BRANCH} | sha256sum | cut -c -10)
+            if [ -n "${OUTPUT}" ]; then
+                OUTPUT="${OUTPUT}|${HASH}"
+            else
+                OUTPUT="${HASH}"
+            fi
+          done  
+          rm -rf !(${OUTPUT})
+
           git add .
           git commit -m"Remove testnet artifacts"
           git push
