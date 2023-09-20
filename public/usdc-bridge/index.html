@@ -27,7 +27,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap"
     rel="stylesheet" />
   <link href="index.css" rel="stylesheet">
-  <link href="https://www.unpkg.com/@wormhole-foundation/wormhole-connect@0.0.12/dist/main.css" rel="stylesheet">
+  <link href="../wormhole-connect/main.css" rel="stylesheet">
   <title>USDC Bridge: Native Cross-Chain USDC Transfers</title>
 </head>
 
@@ -35,25 +35,6 @@
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div class="root">
     <div class="container">
-      <div class="cosmos-banner" id="cosmos-banner" style="display: none;">
-        <div style="text-align: center"><span
-            style="color: white; font-size: 16px; font-family: Poppins; font-weight: 500; line-height: 20.02px; letter-spacing: 0.28px; word-wrap: break-word">Wormhole
-            Gateway is now live on mainnet!</span><span
-            style="color: white; font-size: 16px; font-family: Poppins; font-weight: 700; line-height: 20.02px; letter-spacing: 0.28px; word-wrap: break-word">
-            Bridge your assets to Osmosis today.</span></div>
-        <a class="cosmos-link" href="https://portalbridge.com/cosmos" target="_blank" rel="noopener noreferrer">
-          TRY IT NOW
-        </a>
-      </div>
-      <div class="cctp-banner" id="cctp-banner" style="display: none;">
-        <span>
-          Experience frictionless USDC transfers between Ethereum, Avalanche, Arbitrum, and Optimism with Circle's CCTP.
-        </span>
-        <a class="cctp-link" href="https://portalbridge.com/usdc-bridge" target="_blank" rel="noopener noreferrer">
-          TRY IT NOW
-        </a>
-      </div>
-
       <header class="header">
         <div class="header-inner">
           <a class="logo-link" href="/">
@@ -132,18 +113,7 @@
     </div>
   </div>
   <script
-    src="https://www.unpkg.com/@wormhole-foundation/wormhole-connect@0.0.13-beta.3-development/dist/main.js"></script>
-  <script>
-    // To show Optimism option on SEPT 4th 2023
-    if (new Date() < new Date(2023, 8, 8)) {
-      document.getElementById("cosmos-banner").style.display = "flex";
-      document.getElementById("cctp-banner").style.display = "none";
-
-    } else {
-      document.getElementById("cosmos-banner").style.display = "none";
-      document.getElementById("cctp-banner").style.display = "flex";
-    }
-  </script>
+    src="../wormhole-connect/main.js"></script>
 </body>
 
 </html>

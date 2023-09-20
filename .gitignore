@@ -31,3 +31,5 @@ yarn-error.log*
 
 .yalc
 yalc.lock
+public/wormhole-connect/
+wormhole-connect/node_modules/
