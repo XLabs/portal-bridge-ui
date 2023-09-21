@@ -918,10 +918,11 @@ async function sei(
     if (!sequence) {
       throw new Error("Sequence not found");
     }
-
+    const emitterAddress = await getEmitterAddressTerra(tokenBridgeAddress);
+  
     await fetchSignedVAA(
       CHAIN_ID_SEI,
-      tokenBridgeAddress,
+      emitterAddress,
       sequence,
       enqueueSnackbar,
       dispatch
@@ -973,7 +974,10 @@ async function sui(
       additionalPayload?.receivingContract || targetAddress,
       undefined,
       undefined,
-      additionalPayload?.payload
+      additionalPayload?.payload,
+      undefined,
+      undefined,
+      wallet.getAddress()!
     );
     const response = (
       await wallet.signAndSendTransaction({
