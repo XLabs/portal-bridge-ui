@@ -28,7 +28,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import useGetIsTransferCompleted from "../../hooks/useGetIsTransferCompleted";
 import { useHandleRedeem } from "../../hooks/useHandleRedeem";
@@ -70,6 +70,8 @@ import ChainWarningMessage from "../ChainWarningMessage";
 import { useRedeemControl } from "../../hooks/useRedeemControl";
 import transferRules from "../../config/transferRules";
 import { RootState } from "../../store";
+import { CHAIN_ID_SEI, ChainId } from "@xlabs-libs/wallet-aggregator-core";
+import { isNativeDenomSei } from "@certusone/wormhole-sdk/lib/esm";
 
 const useStyles = makeStyles((theme) => ({
   alert: {
@@ -80,7 +82,46 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(4, 0, 2),
     textAlign: "center",
   },
+  description: {
+    textAlign: "center",
+    marginBottom: theme.spacing(2),
+  },
 }));
+
+type AutomaticRelayRedeemProps = {
+  isTransferCompleted: boolean;
+  chainId: ChainId;
+  handleManualRedeem: () => void;
+}
+
+function AutomaticRelayRedeem({ isTransferCompleted, chainId, handleManualRedeem }: AutomaticRelayRedeemProps) {
+  const classes = useStyles();
+  return <>
+    {!isTransferCompleted ? (
+      <div className={classes.centered}>
+        <Typography
+          component="div"
+          variant="subtitle1"
+          className={classes.description}
+        >
+          {CHAINS_BY_ID[chainId].name} is running a relayer for this operation
+        </Typography>
+        <Button
+          onClick={handleManualRedeem}
+          size="small"
+          variant="outlined"
+          style={{ marginTop: 16 }}
+        >
+          Manually redeem instead
+        </Button>
+      </div>
+    ) : null}
+
+    {isTransferCompleted ? (
+      <RedeemPreview overrideExplainerString={`Success! Your transfer is complete. ${CHAINS_BY_ID[chainId].name} relayed this operation for you.`} />
+    ) : null}
+  </>
+}
 
 function Redeem() {
   const {
@@ -105,11 +146,7 @@ function Redeem() {
     targetChain === CHAIN_ID_ACALA || targetChain === CHAIN_ID_KARURA;
   const targetAsset = useSelector(selectTransferTargetAsset);
   const isRecovery = useSelector(selectTransferIsRecovery);
-  const { isTransferCompletedLoading, isTransferCompleted } =
-    useGetIsTransferCompleted(
-      useRelayer ? false : true,
-      useRelayer ? 5000 : undefined
-    );
+  
   const classes = useStyles();
   const dispatch = useDispatch();
   const { isReady, statusMessage } = useIsWalletReady(targetChain);
@@ -199,6 +236,13 @@ function Redeem() {
     originAsset,
     originChain
   );
+  const useAutomaticRelay = targetAsset && targetChain === CHAIN_ID_SEI && isNativeDenomSei(targetAsset);
+  const isRealyed = useMemo(() => (useRelayer || useAutomaticRelay), [useRelayer, useAutomaticRelay]);
+  const { isTransferCompletedLoading, isTransferCompleted } =
+  useGetIsTransferCompleted(
+    isRealyed ? false : true,
+    isRealyed ? 5000 : undefined
+  );
   const relayerContent = (
     <>
       {isEVMChain(targetChain) && !isTransferCompleted && !targetIsAcala ? (
@@ -206,17 +250,17 @@ function Redeem() {
       ) : null}
 
       {!isReady &&
-      isEVMChain(targetChain) &&
-      !isTransferCompleted &&
-      !targetIsAcala ? (
+        isEVMChain(targetChain) &&
+        !isTransferCompleted &&
+        !targetIsAcala ? (
         <Typography className={classes.centered}>
           {"Please connect your wallet to check for transfer completion."}
         </Typography>
       ) : null}
 
       {(!isEVMChain(targetChain) || isReady) &&
-      !isTransferCompleted &&
-      !targetIsAcala ? (
+        !isTransferCompleted &&
+        !targetIsAcala ? (
         <div className={classes.centered}>
           <CircularProgress style={{ marginBottom: 16 }} />
           <Typography>
@@ -367,7 +411,9 @@ function Redeem() {
   return (
     <>
       <StepDescription>Receive the tokens on the target chain</StepDescription>
-      {manualRedeem ? nonRelayContent : relayerContent}
+      {useAutomaticRelay ? <AutomaticRelayRedeem isTransferCompleted={isTransferCompleted} chainId={targetChain} handleManualRedeem={isNativeEligible && useNativeRedeem
+        ? handleNativeClick
+        : handleClick} /> : manualRedeem ? nonRelayContent : relayerContent}
     </>
   );
 }
