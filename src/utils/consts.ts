@@ -1908,9 +1908,9 @@ export const getCoinGeckoURL = (coinGeckoId: string) =>
 
 export const RELAYER_INFO_URL =
   CLUSTER === "mainnet"
-    ? "/empty-relayer-config.json"
+    ? "empty-relayer-config.json"
     : CLUSTER === "testnet"
-    ? "/empty-relayer-config.json"
+    ? "empty-relayer-config.json"
     : "/local-relayer-config.json";
 
 export const RELAY_URL_EXTENSION = "/relayvaa/";
