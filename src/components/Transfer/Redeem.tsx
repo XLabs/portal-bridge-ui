@@ -13,6 +13,7 @@ import {
   CHAIN_ID_OASIS,
   CHAIN_ID_POLYGON,
   CHAIN_ID_SOLANA,
+  ChainId,
   isEVMChain,
   isTerraChain,
   WSOL_ADDRESS,
@@ -70,8 +71,7 @@ import ChainWarningMessage from "../ChainWarningMessage";
 import { useRedeemControl } from "../../hooks/useRedeemControl";
 import transferRules from "../../config/transferRules";
 import { RootState } from "../../store";
-import { CHAIN_ID_SEI, ChainId } from "@xlabs-libs/wallet-aggregator-core";
-import { isNativeDenomSei } from "@certusone/wormhole-sdk/lib/esm";
+import { CHAIN_ID_SEI } from "@xlabs-libs/wallet-aggregator-core";
 
 const useStyles = makeStyles((theme) => ({
   alert: {
@@ -236,7 +236,7 @@ function Redeem() {
     originAsset,
     originChain
   );
-  const useAutomaticRelay = targetAsset && targetChain === CHAIN_ID_SEI && isNativeDenomSei(targetAsset);
+  const useAutomaticRelay = useMemo(() => (targetAsset && targetChain === CHAIN_ID_SEI), [targetAsset, targetChain]);
   const isRealyed = useMemo(() => (useRelayer || useAutomaticRelay), [useRelayer, useAutomaticRelay]);
   const { isTransferCompletedLoading, isTransferCompleted } =
   useGetIsTransferCompleted(
