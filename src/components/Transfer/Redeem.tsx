@@ -92,35 +92,43 @@ type AutomaticRelayRedeemProps = {
   isTransferCompleted: boolean;
   chainId: ChainId;
   handleManualRedeem: () => void;
-}
+};
 
-function AutomaticRelayRedeem({ isTransferCompleted, chainId, handleManualRedeem }: AutomaticRelayRedeemProps) {
+function AutomaticRelayRedeem({
+  isTransferCompleted,
+  chainId,
+  handleManualRedeem,
+}: AutomaticRelayRedeemProps) {
   const classes = useStyles();
-  return <>
-    {!isTransferCompleted ? (
-      <div className={classes.centered}>
-        <Typography
-          component="div"
-          variant="subtitle1"
-          className={classes.description}
-        >
-          {CHAINS_BY_ID[chainId].name} is running a relayer for this operation
-        </Typography>
-        <Button
-          onClick={handleManualRedeem}
-          size="small"
-          variant="outlined"
-          style={{ marginTop: 16 }}
-        >
-          Manually redeem instead
-        </Button>
-      </div>
-    ) : null}
+  return (
+    <>
+      {!isTransferCompleted ? (
+        <div className={classes.centered}>
+          <Typography
+            component="div"
+            variant="subtitle1"
+            className={classes.description}
+          >
+            {CHAINS_BY_ID[chainId].name} is running a relayer for this operation
+          </Typography>
+          <Button
+            onClick={handleManualRedeem}
+            size="small"
+            variant="outlined"
+            style={{ marginTop: 16 }}
+          >
+            Manually redeem instead
+          </Button>
+        </div>
+      ) : null}
 
-    {isTransferCompleted ? (
-      <RedeemPreview overrideExplainerString={`Success! Your transfer is complete. ${CHAINS_BY_ID[chainId].name} relayed this operation for you.`} />
-    ) : null}
-  </>
+      {isTransferCompleted ? (
+        <RedeemPreview
+          overrideExplainerString={`Success! Your transfer is complete. ${CHAINS_BY_ID[chainId].name} relayed this operation for you.`}
+        />
+      ) : null}
+    </>
+  );
 }
 
 function Redeem() {
@@ -146,7 +154,7 @@ function Redeem() {
     targetChain === CHAIN_ID_ACALA || targetChain === CHAIN_ID_KARURA;
   const targetAsset = useSelector(selectTransferTargetAsset);
   const isRecovery = useSelector(selectTransferIsRecovery);
-  
+
   const classes = useStyles();
   const dispatch = useDispatch();
   const { isReady, statusMessage } = useIsWalletReady(targetChain);
@@ -236,13 +244,19 @@ function Redeem() {
     originAsset,
     originChain
   );
-  const useAutomaticRelay = useMemo(() => (targetAsset && targetChain === CHAIN_ID_SEI), [targetAsset, targetChain]);
-  const isRealyed = useMemo(() => (useRelayer || useAutomaticRelay), [useRelayer, useAutomaticRelay]);
-  const { isTransferCompletedLoading, isTransferCompleted } =
-  useGetIsTransferCompleted(
-    isRealyed ? false : true,
-    isRealyed ? 5000 : undefined
+  const useAutomaticRelay = useMemo(
+    () => targetAsset && targetChain === CHAIN_ID_SEI,
+    [targetAsset, targetChain]
   );
+  const isRealyed = useMemo(
+    () => useRelayer || useAutomaticRelay,
+    [useRelayer, useAutomaticRelay]
+  );
+  const { isTransferCompletedLoading, isTransferCompleted } =
+    useGetIsTransferCompleted(
+      isRealyed ? false : true,
+      isRealyed ? 5000 : undefined
+    );
   const relayerContent = (
     <>
       {isEVMChain(targetChain) && !isTransferCompleted && !targetIsAcala ? (
@@ -250,17 +264,17 @@ function Redeem() {
       ) : null}
 
       {!isReady &&
-        isEVMChain(targetChain) &&
-        !isTransferCompleted &&
-        !targetIsAcala ? (
+      isEVMChain(targetChain) &&
+      !isTransferCompleted &&
+      !targetIsAcala ? (
         <Typography className={classes.centered}>
           {"Please connect your wallet to check for transfer completion."}
         </Typography>
       ) : null}
 
       {(!isEVMChain(targetChain) || isReady) &&
-        !isTransferCompleted &&
-        !targetIsAcala ? (
+      !isTransferCompleted &&
+      !targetIsAcala ? (
         <div className={classes.centered}>
           <CircularProgress style={{ marginBottom: 16 }} />
           <Typography>
@@ -411,9 +425,21 @@ function Redeem() {
   return (
     <>
       <StepDescription>Receive the tokens on the target chain</StepDescription>
-      {useAutomaticRelay ? <AutomaticRelayRedeem isTransferCompleted={isTransferCompleted} chainId={targetChain} handleManualRedeem={isNativeEligible && useNativeRedeem
-        ? handleNativeClick
-        : handleClick} /> : manualRedeem ? nonRelayContent : relayerContent}
+      {useAutomaticRelay ? (
+        <AutomaticRelayRedeem
+          isTransferCompleted={isTransferCompleted}
+          chainId={targetChain}
+          handleManualRedeem={
+            isNativeEligible && useNativeRedeem
+              ? handleNativeClick
+              : handleClick
+          }
+        />
+      ) : manualRedeem ? (
+        nonRelayContent
+      ) : (
+        relayerContent
+      )}
     </>
   );
 }
