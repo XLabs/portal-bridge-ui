@@ -356,11 +356,14 @@ async function sei(
       wallet,
       "Wormhole - Complete Transfer"
     );
+    // TODO: remove console log test
+    console.log('executeMultiple redeem')
     const tx = await wallet.executeMultiple({
       instructions,
       fee,
       memo: "Wormhole - Complete Transfer",
     });
+    console.log('executeMultiple redeem done', tx)
 
     if (!tx.data?.height) {
       console.error("Error: No tx height [sei redeem]");
@@ -372,6 +375,7 @@ async function sei(
       content: <Alert severity="success">Transaction confirmed</Alert>,
     });
   } catch (e) {
+    console.log('error redeem', e)
     enqueueSnackbar(null, {
       content: <Alert severity="error">{parseError(e)}</Alert>,
     });

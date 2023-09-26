@@ -390,11 +390,15 @@ async function sei(
       wallet,
       memo
     );
+
+    // TODO: remove console log test
+    console.log('executeMultiple create');
     const tx = await wallet.executeMultiple({
       instructions,
       fee,
       memo,
     });
+    console.log('executeMultiple create done', tx);
 
     if (!tx.data?.height) {
       console.error("Error: No tx height [sei create wrapped]");
@@ -406,6 +410,7 @@ async function sei(
       content: <Alert severity="success">Transaction confirmed</Alert>,
     });
   } catch (e) {
+    console.log('error', e);
     enqueueSnackbar(null, {
       content: <Alert severity="error">{parseError(e)}</Alert>,
     });
