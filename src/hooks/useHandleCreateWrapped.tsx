@@ -392,12 +392,14 @@ async function sei(
     );
 
     // Increase timeout to 3 minutes
-    const tx = await wallet.executeMultiple({
-      instructions,
-      fee,
-      memo,
-    },
-    { broadcastTimeoutMs: 180000 });
+    const tx = await wallet.executeMultiple(
+      {
+        instructions,
+        fee,
+        memo,
+      },
+      { broadcastTimeoutMs: 180000 }
+    );
 
     if (!tx.data?.height) {
       console.error("Error: No tx height [sei create wrapped]");

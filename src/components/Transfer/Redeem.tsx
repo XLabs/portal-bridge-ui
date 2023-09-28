@@ -99,9 +99,7 @@ function AutomaticRelayRedeem({
   chainId,
   handleManualRedeem,
 }: AutomaticRelayRedeemProps) {
-  const {
-    showLoader,
-  } = useHandleRedeem();
+  const { showLoader } = useHandleRedeem();
   const targetChain = useSelector(selectTransferTargetChain);
   const { isReady } = useIsWalletReady(targetChain);
   const classes = useStyles();
@@ -315,7 +313,7 @@ function Redeem() {
             onClick={handleManuallyRedeemClick}
             showLoader={showLoader}
             disabled={showLoader}
-          > 
+          >
             Manually redeem instead
           </ButtonWithLoader>
         </div>
