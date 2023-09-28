@@ -8,6 +8,7 @@ import {
   CHAIN_ID_SOLANA,
   CHAIN_ID_TERRA2,
   CHAIN_ID_XPLA,
+  CHAIN_ID_SEI,
   getForeignAssetAlgorand,
   getForeignAssetAptos,
   getForeignAssetEth,
@@ -53,6 +54,7 @@ import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
 import { getAptosClient } from "../utils/aptos";
 import { getInjectiveWasmClient } from "../utils/injective";
 import { getSuiProvider } from "../utils/sui";
+import { getForeignAssetSei, getSeiWasmClient } from "../utils/sei";
 
 export type ForeignAssetInfo = {
   doesExist: boolean;
@@ -64,7 +66,7 @@ function useFetchForeignAsset(
   originAsset: string,
   foreignChain: ChainId
 ): DataWrapper<ForeignAssetInfo> {
-  const { provider, evmChainId } = useEthereumProvider(originChain);
+  const { provider, evmChainId } = useEthereumProvider(originChain as any);
   const { isReady } = useIsWalletReady(foreignChain, false);
   const correctEvmNetwork = getEvmChainId(foreignChain);
   const hasCorrectEvmNetwork = evmChainId === correctEvmNetwork;
@@ -169,6 +171,16 @@ function useFetchForeignAsset(
               hexToUint8Array(originAssetHex)
             );
           }
+        : foreignChain === CHAIN_ID_SEI
+        ? async () => {
+            const client = await getSeiWasmClient();
+            return getForeignAssetSei(
+              getTokenBridgeAddressForChain(foreignChain),
+              client,
+              originChain,
+              hexToUint8Array(originAssetHex)
+            );
+          }
         : foreignChain === CHAIN_ID_APTOS
         ? () => {
             return getForeignAssetAptos(
@@ -196,7 +208,7 @@ function useFetchForeignAsset(
               ALGORAND_HOST.algodPort
             );
             return getForeignAssetAlgorand(
-              algodClient,
+              algodClient as any,
               ALGORAND_TOKEN_BRIDGE_ID,
               originChain,
               originAssetHex
@@ -220,7 +232,7 @@ function useFetchForeignAsset(
             const client = getInjectiveWasmClient();
             return getForeignAssetInjective(
               getTokenBridgeAddressForChain(foreignChain),
-              client,
+              client as any,
               originChain,
               hexToUint8Array(originAssetHex)
             );

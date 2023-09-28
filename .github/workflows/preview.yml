@@ -49,7 +49,7 @@ jobs:
       - name: Set up Node environment
         uses: actions/setup-node@v3
         with:
-          node-version: v16.19.1
+          node-version: v18.17.1
       - name: Install dependencies
         run: |
           pushd docs
@@ -71,7 +71,7 @@ jobs:
 
   portal:
     name: "Build Portal Bridge"
-    runs-on: "ubuntu-latest"
+    runs-on: xlabs-large-runner
     concurrency:
       group: ${{ github.ref }}-portal-preview
       cancel-in-progress: true
@@ -82,13 +82,13 @@ jobs:
       - name: Set up Node environment
         uses: actions/setup-node@v3
         with:
-          node-version: v16.19.1
+          node-version: v18.17.1
       - name: Setup Git
         run: |
           git config user.name "xLabs CI"
           git config user.email "devops@xlabs.xyz"
       - name: Install dependencies
-        run: npm ci
+        run: npm install
       - name: Set Version
         run: |
           npm version $(node -p -e "require('./package.json').version")-P$(echo ${{ github.sha }} | cut -c -10)
@@ -97,7 +97,7 @@ jobs:
       - name: Build
         env:
           PUBLIC_URL: "/${{ env._BRANCH_NAME_SHA }}"
-          NODE_OPTIONS: ${{ vars.NODE_OPTIONS }}
+          NODE_OPTIONS: "--max-old-space-size=10240"
           REACT_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
           REACT_APP_SOLANA_API_URL: ${{ vars.REACT_APP_SOLANA_API_URL }}
           REACT_APP_COVALENT_API_KEY: ${{ secrets.REACT_APP_COVALENT_API_KEY }}
@@ -156,7 +156,7 @@ jobs:
       - name: Set up GitHub NPM registry
         uses: actions/setup-node@v3
         with:
-          node-version: v16.19.1
+          node-version: v18.17.1
           registry-url: https://npm.pkg.github.com
       - name: Publish
         env:

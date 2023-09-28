@@ -110,7 +110,7 @@ export async function getOriginalAssetToken(
         ALGORAND_HOST.algodPort
       );
       promise = await getOriginalAssetAlgorand(
-        algodClient,
+        algodClient as any,
         ALGORAND_TOKEN_BRIDGE_ID,
         BigInt(foreignNativeStringAddress)
       );
@@ -130,7 +130,7 @@ export async function getOriginalAssetToken(
     } else if (foreignChain === CHAIN_ID_INJECTIVE) {
       promise = await getOriginalAssetInjective(
         foreignNativeStringAddress,
-        getInjectiveWasmClient()
+        getInjectiveWasmClient() as any
       );
     } else if (foreignChain === CHAIN_ID_SUI) {
       promise = await getOriginalAssetSui(
@@ -229,7 +229,7 @@ function useOriginalAsset(
   nft: boolean,
   tokenId?: string
 ): DataWrapper<OriginalAssetInfo> {
-  const { provider } = useEthereumProvider(foreignChain);
+  const { provider } = useEthereumProvider(foreignChain as any);
   const { accountId: nearAccountId } = useNearContext();
   const { isReady } = useIsWalletReady(foreignChain, false);
   const [originAddress, setOriginAddress] = useState<string | null>(null);
@@ -345,7 +345,7 @@ function useOriginalAsset(
               result.chainId
             );
             queryExternalIdInjective(
-              client,
+              client as any,
               tokenBridgeAddress,
               uint8ArrayToHex(result.assetAddress)
             ).then((tokenId) => setOriginAddress(tokenId));

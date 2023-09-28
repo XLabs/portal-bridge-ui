@@ -9,6 +9,7 @@ import {
   CHAIN_ID_SOLANA,
   CHAIN_ID_TERRA2,
   CHAIN_ID_XPLA,
+  CHAIN_ID_SEI,
   getEmitterAddressAlgorand,
   getEmitterAddressEth,
   getEmitterAddressInjective,
@@ -120,6 +121,7 @@ import {
   getEmitterAddressAndSequenceFromResponseSui,
   getOriginalPackageId,
 } from "@certusone/wormhole-sdk/lib/cjs/sui";
+import { getSeiWasmClient, parseRawLog, searchInLogs } from "../utils/sei";
 import { useVaaVerifier } from "../hooks/useVaaVerifier";
 import ChainWarningMessage from "./ChainWarningMessage";
 import { useDeepLinkRecoveryParams } from "../hooks/useDeepLinkRecoveryParams";
@@ -414,6 +416,26 @@ async function sui(digest: string, enqueueSnackbar: any) {
   }
 }
 
+async function sei(hash: string, enqueueSnackbar: any) {
+  try {
+    const client = await getSeiWasmClient();
+    const tx = await client.getTx(hash);
+    if (!tx) throw new Error("Unable to fetch transaction");
+
+    const parsedLogs = parseRawLog(tx.rawLog);
+    const sequence = searchInLogs("message.sequence", parsedLogs);
+    const emitterAddress = searchInLogs("message.sender", parsedLogs);
+
+    if (!sequence || !emitterAddress) {
+      throw new Error("Sequence or emitter address not found");
+    }
+
+    return await fetchSignedVAA(CHAIN_ID_SEI, emitterAddress, sequence);
+  } catch (e) {
+    return handleError(e, enqueueSnackbar);
+  }
+}
+
 function RelayerRecovery({
   parsedPayload,
   signedVaa,
@@ -552,7 +574,7 @@ export default function Recovery() {
   const dispatch = useDispatch();
   const [recoverySourceChain, setRecoverySourceChain] =
     useState<ChainId>(CHAIN_ID_SOLANA);
-  const { provider } = useEthereumProvider(recoverySourceChain);
+  const { provider } = useEthereumProvider(recoverySourceChain as any);
   const [type, setType] = useState<"Token" | "NFT">("Token");
   const isNFT = useMemo(() => type === "NFT", [type]);
   const [recoverySourceTx, setRecoverySourceTx] = useState("");
@@ -623,7 +645,7 @@ export default function Recovery() {
         const tokenBridgeAddress =
           getTokenBridgeAddressForChain(CHAIN_ID_INJECTIVE);
         const tokenId = await queryExternalIdInjective(
-          client,
+          client as any,
           tokenBridgeAddress,
           parsedPayload.originAddress
         );
@@ -839,6 +861,26 @@ export default function Recovery() {
         setTokenId("");
         (async () => {
           const { vaa, isPending, error } = await sui(
+            recoverySourceTx,
+            enqueueSnackbar
+          );
+          if (!cancelled) {
+            setRecoverySourceTxIsLoading(false);
+            if (vaa) {
+              setRecoverySignedVAA(vaa);
+            }
+            if (error) {
+              setRecoverySourceTxError(error);
+            }
+            setIsVAAPending(isPending);
+          }
+        })();
+      } else if (recoverySourceChain === CHAIN_ID_SEI) {
+        setRecoverySourceTxError("");
+        setRecoverySourceTxIsLoading(true);
+        setTokenId("");
+        (async () => {
+          const { vaa, isPending, error } = await sei(
             recoverySourceTx,
             enqueueSnackbar
           );

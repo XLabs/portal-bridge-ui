@@ -44,7 +44,7 @@ export default function TransactionProgress({
   isSendComplete: boolean;
 }) {
   const classes = useStyles();
-  const { provider } = useEthereumProvider(chainId);
+  const { provider } = useEthereumProvider(chainId as any);
   const [currentBlock, setCurrentBlock] = useState(0);
   useEffect(() => {
     if (isSendComplete || !tx) return;

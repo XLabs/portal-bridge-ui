@@ -7,6 +7,7 @@ import {
   CHAIN_ID_SOLANA,
   CHAIN_ID_TERRA2,
   CHAIN_ID_XPLA,
+  CHAIN_ID_SEI,
   ensureHexPrefix,
   getForeignAssetAlgorand,
   getForeignAssetAptos,
@@ -86,6 +87,11 @@ import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
 import { getAptosClient } from "../utils/aptos";
 import { getInjectiveWasmClient } from "../utils/injective";
 import { getSuiProvider } from "../utils/sui";
+import {
+  getForeignAssetSei,
+  getSeiWasmClient,
+  queryExternalIdSei,
+} from "../utils/sei";
 
 function useFetchTargetAsset(nft?: boolean) {
   const dispatch = useDispatch();
@@ -108,7 +114,7 @@ function useFetchTargetAsset(nft?: boolean) {
   const isTBTC = useSelector(selectTransferIsTBTC);
   const activeStep = useSelector(selectTransferActiveStep);
   const setTargetAsset = nft ? setNFTTargetAsset : setTransferTargetAsset;
-  const { provider, evmChainId } = useEthereumProvider(targetChain);
+  const { provider, evmChainId } = useEthereumProvider(targetChain as any);
   const correctEvmNetwork = getEvmChainId(targetChain);
   const hasCorrectEvmNetwork = evmChainId === correctEvmNetwork;
   const { accountId: nearAccountId } = useNearContext();
@@ -194,6 +200,25 @@ function useFetchTargetAsset(nft?: boolean) {
               )
             );
           }
+        } else if (originChain === CHAIN_ID_SEI) {
+          const client = await getSeiWasmClient();
+          const tokenBridgeAddress =
+            getTokenBridgeAddressForChain(CHAIN_ID_SEI);
+          const tokenId = await queryExternalIdSei(
+            client,
+            tokenBridgeAddress,
+            originAsset || ""
+          );
+          if (!cancelled) {
+            dispatch(
+              setTargetAsset(
+                receiveDataWrapper({
+                  doesExist: true,
+                  address: tokenId,
+                })
+              )
+            );
+          }
         } else if (originChain === CHAIN_ID_APTOS && !nft) {
           const tokenId = await getTypeFromExternalAddress(
             getAptosClient(),
@@ -263,7 +288,7 @@ function useFetchTargetAsset(nft?: boolean) {
           const tokenBridgeAddress =
             getTokenBridgeAddressForChain(CHAIN_ID_INJECTIVE);
           const tokenId = await queryExternalIdInjective(
-            client,
+            client as any,
             tokenBridgeAddress,
             originAsset || ""
           );
@@ -467,6 +492,36 @@ function useFetchTargetAsset(nft?: boolean) {
           }
         }
       }
+      if (targetChain === CHAIN_ID_SEI && originChain && originAsset) {
+        dispatch(setTargetAsset(fetchDataWrapper()));
+        try {
+          const client = await getSeiWasmClient();
+          const asset = await getForeignAssetSei(
+            getTokenBridgeAddressForChain(targetChain),
+            client,
+            originChain,
+            hexToUint8Array(originAsset)
+          );
+          if (!cancelled) {
+            dispatch(
+              setTargetAsset(
+                receiveDataWrapper({ doesExist: !!asset, address: asset })
+              )
+            );
+            setArgs();
+          }
+        } catch (e) {
+          if (!cancelled) {
+            dispatch(
+              setTargetAsset(
+                errorDataWrapper(
+                  "Unable to determine existence of wrapped asset"
+                )
+              )
+            );
+          }
+        }
+      }
       if (targetChain === CHAIN_ID_APTOS && originChain && originAsset) {
         dispatch(setTargetAsset(fetchDataWrapper()));
         try {
@@ -525,7 +580,7 @@ function useFetchTargetAsset(nft?: boolean) {
             ALGORAND_HOST.algodPort
           );
           const asset = await getForeignAssetAlgorand(
-            algodClient,
+            algodClient as any,
             ALGORAND_TOKEN_BRIDGE_ID,
             originChain,
             originAsset
@@ -599,7 +654,7 @@ function useFetchTargetAsset(nft?: boolean) {
           const client = getInjectiveWasmClient();
           const asset = await getForeignAssetInjective(
             getTokenBridgeAddressForChain(targetChain),
-            client,
+            client as any,
             originChain,
             hexToUint8Array(originAsset)
           );

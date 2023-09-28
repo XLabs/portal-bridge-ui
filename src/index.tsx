@@ -10,6 +10,7 @@ import {
   CHAIN_ID_SUI,
   CHAIN_ID_TERRA2,
   CHAIN_ID_XPLA,
+  CHAIN_ID_SEI,
 } from "@xlabs-libs/wallet-aggregator-core";
 import { WalletContextProvider } from "@xlabs-libs/wallet-aggregator-react";
 import { SnackbarProvider } from "notistack";
@@ -31,6 +32,7 @@ import { getTerraWallets } from "./contexts/TerraWalletContext";
 import { getXplaWallets } from "./contexts/XplaWalletContext";
 import { theme } from "./muiTheme";
 import { store } from "./store";
+import { getSeiWallets } from "./contexts/SeiWalletContext";
 
 const AGGREGATOR_WALLETS_BUILDER = async () => {
   return {
@@ -43,6 +45,7 @@ const AGGREGATOR_WALLETS_BUILDER = async () => {
     [CHAIN_ID_TERRA2]: await getTerraWallets(),
     [CHAIN_ID_XPLA]: await getXplaWallets(),
     [CHAIN_ID_SUI]: await getSuiWallets(),
+    [CHAIN_ID_SEI]: getSeiWallets(),
   };
 };
 

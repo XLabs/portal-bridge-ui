@@ -29,7 +29,9 @@ import {
   CHAIN_ID_SUI,
   parseAttestMetaVaa,
   createWrappedOnSui,
+  CHAIN_ID_SEI,
 } from "@certusone/wormhole-sdk";
+
 import { Alert } from "@material-ui/lab";
 import { Connection } from "@solana/web3.js";
 import algosdk from "algosdk";
@@ -89,6 +91,7 @@ import { useXplaWallet } from "../contexts/XplaWalletContext";
 import {
   JsonRpcProvider,
   SUI_CLOCK_OBJECT_ID,
+  SuiTransactionBlockResponse,
   TransactionBlock,
   getPublishedObjectChanges,
 } from "@mysten/sui.js";
@@ -101,6 +104,13 @@ import { sleep } from "../utils/sleep";
 import { useSuiWallet } from "../contexts/SuiWalletContext";
 import { SuiWallet } from "@xlabs-libs/wallet-aggregator-sui";
 import { createWrappedOnSuiPrepare } from "../utils/suiPublishHotfix";
+import {
+  calculateFeeForContractExecution,
+  createWrappedOnSei,
+  updateWrappedOnSei,
+} from "../utils/sei";
+import { useSeiWallet } from "../contexts/SeiWalletContext";
+import { SeiWallet } from "@xlabs-libs/wallet-aggregator-sei";
 
 // TODO: replace with SDK method -
 export async function updateWrappedOnSui(
@@ -171,7 +181,7 @@ async function algo(
       ALGORAND_HOST.algodPort
     );
     const txs = await createWrappedOnAlgorand(
-      algodClient,
+      algodClient as any,
       ALGORAND_TOKEN_BRIDGE_ID,
       ALGORAND_BRIDGE_ID,
       wallet.getAddress()!,
@@ -349,6 +359,54 @@ async function xpla(
     dispatch(
       setCreateTx({ id: result.result.txhash, block: result.result.height })
     );
+    enqueueSnackbar(null, {
+      content: <Alert severity="success">Transaction confirmed</Alert>,
+    });
+  } catch (e) {
+    enqueueSnackbar(null, {
+      content: <Alert severity="error">{parseError(e)}</Alert>,
+    });
+    dispatch(setIsCreating(false));
+  }
+}
+
+async function sei(
+  dispatch: any,
+  enqueueSnackbar: any,
+  wallet: SeiWallet,
+  signedVAA: Uint8Array,
+  shouldUpdate: boolean
+) {
+  dispatch(setIsCreating(true));
+  const tokenBridgeAddress = getTokenBridgeAddressForChain(CHAIN_ID_SEI);
+  try {
+    const msg = shouldUpdate
+      ? await updateWrappedOnSei(signedVAA)
+      : await createWrappedOnSei(signedVAA);
+    const instructions = [{ msg: msg, contractAddress: tokenBridgeAddress }];
+    const memo = "Wormhole - Create Wrapped";
+    const fee = await calculateFeeForContractExecution(
+      instructions,
+      wallet,
+      memo
+    );
+
+    // Increase timeout to 3 minutes
+    const tx = await wallet.executeMultiple(
+      {
+        instructions,
+        fee,
+        memo,
+      },
+      { broadcastTimeoutMs: 180000 }
+    );
+
+    if (!tx.data?.height) {
+      console.error("Error: No tx height [sei create wrapped]");
+      return;
+    }
+
+    dispatch(setCreateTx({ id: tx.id, block: tx.data?.height }));
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
     });
@@ -559,7 +617,7 @@ async function sui(
         throw new Error("Error parsing wrappedAssetSetupType");
       }
       const publishEvents = getPublishedObjectChanges(
-        suiPrepareRegistrationTxRes
+        suiPrepareRegistrationTxRes as SuiTransactionBlockResponse
       );
       if (publishEvents.length < 1) {
         throw new Error("Error parsing publishEvents");
@@ -630,8 +688,8 @@ export function useHandleCreateWrapped(
   const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
   const signedVAA = useAttestSignedVAA();
   const isCreating = useSelector(selectAttestIsCreating);
-  const { signer } = useEthereumProvider(targetChain);
-  const terraWallet = useTerraWallet(targetChain);
+  const { signer } = useEthereumProvider(targetChain as any);
+  const terraWallet = useTerraWallet(targetChain as any);
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
   const xplaWallet = useXplaWallet();
   const { address: algoAccount, wallet: algoWallet } = useAlgorandWallet();
@@ -639,6 +697,8 @@ export function useHandleCreateWrapped(
   const { wallet: injWallet, address: injAddress } = useInjectiveContext();
   const { accountId: nearAccountId, wallet } = useNearContext();
   const suiWallet = useSuiWallet();
+  const seiWallet = useSeiWallet();
+  const seiAddress = seiWallet?.getAddress();
   const handleCreateClick = useCallback(() => {
     if (isEVMChain(targetChain) && !!signer && !!signedVAA) {
       evm(
@@ -680,6 +740,13 @@ export function useHandleCreateWrapped(
       );
     } else if (targetChain === CHAIN_ID_XPLA && !!xplaWallet && !!signedVAA) {
       xpla(dispatch, enqueueSnackbar, xplaWallet, signedVAA, shouldUpdate);
+    } else if (
+      targetChain === CHAIN_ID_SEI &&
+      seiWallet &&
+      seiAddress &&
+      !!signedVAA
+    ) {
+      sei(dispatch, enqueueSnackbar, seiWallet, signedVAA, shouldUpdate);
     } else if (
       targetChain === CHAIN_ID_APTOS &&
       !!aptosAddress &&
@@ -758,6 +825,8 @@ export function useHandleCreateWrapped(
     injAddress,
     foreignAddress,
     suiWallet,
+    seiWallet,
+    seiAddress,
   ]);
   return useMemo(
     () => ({

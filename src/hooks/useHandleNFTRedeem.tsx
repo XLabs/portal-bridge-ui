@@ -193,7 +193,7 @@ export function useHandleNFTRedeem() {
   const { enqueueSnackbar } = useSnackbar();
   const targetChain = useSelector(selectNFTTargetChain);
   const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
-  const { signer } = useEthereumProvider(targetChain);
+  const { signer } = useEthereumProvider(targetChain as any);
   const { account: aptosAccount, wallet: aptosWallet } = useAptosContext();
   const signedVAA = useNFTSignedVAA();
   const isRedeeming = useSelector(selectNFTIsRedeeming);

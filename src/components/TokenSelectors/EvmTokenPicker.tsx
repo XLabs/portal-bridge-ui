@@ -62,7 +62,7 @@ export default function EvmTokenPicker(
     chainId,
     nft,
   } = props;
-  const { provider, signerAddress } = useEthereumProvider(chainId);
+  const { provider, signerAddress } = useEthereumProvider(chainId as any);
   const { isReady } = useIsWalletReady(chainId);
   const selectedTokenAccount: NFTParsedTokenAccount | undefined = useSelector(
     nft

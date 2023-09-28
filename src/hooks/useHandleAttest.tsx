@@ -14,6 +14,7 @@ import {
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   CHAIN_ID_XPLA,
+  CHAIN_ID_SEI,
   getEmitterAddressAlgorand,
   getEmitterAddressEth,
   getEmitterAddressInjective,
@@ -79,11 +80,11 @@ import {
   SOL_BRIDGE_ADDRESS,
   SOL_TOKEN_BRIDGE_ADDRESS,
   WORMHOLE_RPC_HOSTS,
+  SEI_NATIVE_DENOM,
 } from "../utils/consts";
 import {
   attestNearFromNear,
   attestTokenFromNear,
-  // attestTokenFromNear,
   getEmitterAddressNear,
   makeNearAccount,
   parseSequenceFromLogNear,
@@ -106,11 +107,19 @@ import { XplaWallet } from "@xlabs-libs/wallet-aggregator-xpla";
 import { useXplaWallet } from "../contexts/XplaWalletContext";
 import { SuiWallet } from "@xlabs-libs/wallet-aggregator-sui";
 import { getSuiProvider } from "../utils/sui";
+
 import {
   getEmitterAddressAndSequenceFromResponseSui,
   getOriginalPackageId,
 } from "@certusone/wormhole-sdk/lib/cjs/sui";
 import { useSuiWallet } from "../contexts/SuiWalletContext";
+import { useSeiWallet } from "../contexts/SeiWalletContext";
+import { SeiWallet } from "@xlabs-libs/wallet-aggregator-sei";
+import {
+  calculateFeeForContractExecution,
+  parseSequenceFromLogSei,
+} from "../utils/sei";
+import { SuiTransactionBlockResponse } from "@mysten/sui.js";
 
 async function algo(
   dispatch: any,
@@ -126,7 +135,7 @@ async function algo(
       ALGORAND_HOST.algodPort
     );
     const txs = await attestFromAlgorand(
-      algodClient,
+      algodClient as any,
       ALGORAND_TOKEN_BRIDGE_ID,
       ALGORAND_BRIDGE_ID,
       wallet.getAddress()!,
@@ -550,7 +559,7 @@ async function sui(
           showEvents: true,
         },
       })
-    ).data;
+    ).data as SuiTransactionBlockResponse;
     if (!response) {
       throw new Error("Error parsing transaction results");
     }
@@ -596,6 +605,68 @@ async function sui(
   }
 }
 
+async function sei(
+  dispatch: any,
+  enqueueSnackbar: any,
+  wallet: SeiWallet,
+  asset: string
+) {
+  dispatch(setIsSending(true));
+  try {
+    const tokenBridgeAddress = getTokenBridgeAddressForChain(CHAIN_ID_SEI);
+    const nonce = Math.round(Math.random() * 100000);
+    const msg = {
+      create_asset_meta: {
+        asset_info:
+          asset === SEI_NATIVE_DENOM
+            ? { native_token: { denom: asset } }
+            : { token: { contract_addr: asset } },
+        nonce,
+      },
+    };
+    const instructions = [{ contractAddress: tokenBridgeAddress, msg }];
+    const memo = "Wormhole - Attest Token";
+    const fee = await calculateFeeForContractExecution(
+      instructions,
+      wallet,
+      memo
+    );
+    const tx = await wallet.executeMultiple({
+      instructions,
+      fee,
+      memo,
+    });
+    dispatch(setAttestTx({ id: tx.id, block: tx.data!.height }));
+    enqueueSnackbar(null, {
+      content: <Alert severity="success">Transaction confirmed</Alert>,
+    });
+    const sequence = parseSequenceFromLogSei(tx.data!);
+    if (!sequence) {
+      throw new Error("Sequence not found");
+    }
+    const emitterAddress = await getEmitterAddressTerra(tokenBridgeAddress);
+    enqueueSnackbar(null, {
+      content: <Alert severity="info">Fetching VAA</Alert>,
+    });
+    const { vaaBytes } = await getSignedVAAWithRetry(
+      WORMHOLE_RPC_HOSTS,
+      CHAIN_ID_SEI,
+      emitterAddress,
+      sequence
+    );
+    dispatch(setSignedVAAHex(uint8ArrayToHex(vaaBytes)));
+    enqueueSnackbar(null, {
+      content: <Alert severity="success">Fetched Signed VAA</Alert>,
+    });
+  } catch (e) {
+    console.error(e);
+    enqueueSnackbar(null, {
+      content: <Alert severity="error">{parseError(e)}</Alert>,
+    });
+    dispatch(setIsSending(false));
+  }
+}
+
 export function useHandleAttest() {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
@@ -604,16 +675,19 @@ export function useHandleAttest() {
   const isTargetComplete = useSelector(selectAttestIsTargetComplete);
   const isSending = useSelector(selectAttestIsSending);
   const isSendComplete = useSelector(selectAttestIsSendComplete);
-  const { signer } = useEthereumProvider(sourceChain);
+  const { signer } = useEthereumProvider(sourceChain as any);
   const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
-  const { walletAddress: terraAddress, wallet: terraWallet } =
-    useTerraWallet(sourceChain);
+  const { walletAddress: terraAddress, wallet: terraWallet } = useTerraWallet(
+    sourceChain as any
+  );
   const terraFeeDenom = useSelector(selectTerraFeeDenom);
   const xplaWallet = useXplaWallet();
   const { address: algoAccount, wallet: algoWallet } = useAlgorandWallet();
   const { account: aptosAddress, wallet: aptosWallet } = useAptosContext();
   const { accountId: nearAccountId, wallet } = useNearContext();
   const { wallet: injWallet, address: injAddress } = useInjectiveContext();
+  const seiWallet = useSeiWallet();
+  const seiAddress = seiWallet?.getAddress();
   const suiWallet = useSuiWallet();
   const disabled = !isTargetComplete || isSending || isSendComplete;
   const handleAttestClick = useCallback(() => {
@@ -646,6 +720,8 @@ export function useHandleAttest() {
       near(dispatch, enqueueSnackbar, nearAccountId, sourceAsset, wallet);
     } else if (sourceChain === CHAIN_ID_INJECTIVE && injWallet && injAddress) {
       injective(dispatch, enqueueSnackbar, injWallet, injAddress, sourceAsset);
+    } else if (sourceChain === CHAIN_ID_SEI && seiWallet && seiAddress) {
+      sei(dispatch, enqueueSnackbar, seiWallet, sourceAsset);
     } else if (
       sourceChain === CHAIN_ID_SUI &&
       suiWallet?.isConnected() &&
@@ -674,6 +750,8 @@ export function useHandleAttest() {
     injAddress,
     terraAddress,
     suiWallet,
+    seiWallet,
+    seiAddress,
   ]);
   return useMemo(
     () => ({

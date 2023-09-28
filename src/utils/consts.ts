@@ -26,6 +26,7 @@ import {
   CHAIN_ID_TERRA,
   CHAIN_ID_TERRA2,
   CHAIN_ID_XPLA,
+  CHAIN_ID_SEI,
   CONTRACTS,
   coalesceChainName,
   isEVMChain,
@@ -35,9 +36,11 @@ import {
   ensureHexPrefix,
   uint8ArrayToHex,
   hexToNativeAssetString,
+  cosmos,
 } from "@certusone/wormhole-sdk";
 import { clusterApiUrl } from "@solana/web3.js";
 import { getAddress } from "ethers/lib/utils";
+import seiIcon from "../icons/sei.svg";
 import aptosIcon from "../icons/aptos.svg";
 import acalaIcon from "../icons/acala.svg";
 import algorandIcon from "../icons/algorand.svg";
@@ -67,6 +70,7 @@ import { ConnectConfig, keyStores } from "near-api-js";
 import { AptosNetwork } from "./aptos";
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
 import { ChainId as InjectiveChainId } from "@injectivelabs/ts-types";
+import { ChainConfiguration } from "@sei-js/react";
 import { Connection } from "@mysten/sui.js";
 
 export type Cluster = "devnet" | "testnet" | "mainnet";
@@ -179,6 +183,11 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_POLYGON,
           name: "Polygon",
           logo: polygonIcon,
+        },
+        {
+          id: CHAIN_ID_SEI,
+          name: "Sei",
+          logo: seiIcon,
         },
         {
           id: CHAIN_ID_SOLANA,
@@ -302,6 +311,11 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_POLYGON,
           name: "Polygon",
           logo: polygonIcon,
+        },
+        {
+          id: CHAIN_ID_SEI,
+          name: "Sei",
+          logo: seiIcon,
         },
         {
           id: CHAIN_ID_SOLANA,
@@ -760,6 +774,26 @@ export const APTOS_NETWORK =
 
 export const APTOS_NATIVE_DECIMALS = 8;
 export const APTOS_NATIVE_TOKEN_KEY = "0x1::aptos_coin::AptosCoin";
+
+export const SEI_CHAIN_CONFIGURATION: ChainConfiguration =
+  CLUSTER === "mainnet"
+    ? {
+        chainId: "pacific-1",
+        restUrl: "https://sei-api.polkachu.com/",
+        rpcUrl: "https://sei-rpc.polkachu.com/",
+      }
+    : {
+        chainId: "atlantic-2",
+        restUrl: "https://rest.atlantic-2.seinetwork.io/",
+        rpcUrl: "https://rpc.atlantic-2.seinetwork.io/",
+      };
+
+export const SEI_TRANSLATOR =
+  CLUSTER === "mainnet"
+    ? "sei189adguawugk3e55zn63z8r9ll29xrjwca636ra7v7gxuzn98sxyqwzt47l"
+    : "sei1dkdwdvknx0qav5cp5kw68mkn3r99m3svkyjfvkztwh97dv2lm0ksj6xrak";
+export const SEI_TRANSLATER_TARGET = cosmos.canonicalAddress(SEI_TRANSLATOR);
+export const SEI_DECIMALS = 6;
 
 export const getInjectiveNetworkName = () => {
   if (CLUSTER === "mainnet") {
@@ -1687,6 +1721,7 @@ export const SUPPORTED_TERRA_TOKENS = ["uluna", "uusd"];
 export const TERRA_DEFAULT_FEE_DENOM = SUPPORTED_TERRA_TOKENS[0];
 
 export const XPLA_NATIVE_DENOM = "axpla";
+export const SEI_NATIVE_DENOM = "usei";
 
 export const getTerraFCDBaseUrl = (chainId: TerraChainId) =>
   CLUSTER === "mainnet"
@@ -1873,9 +1908,9 @@ export const getCoinGeckoURL = (coinGeckoId: string) =>
 
 export const RELAYER_INFO_URL =
   CLUSTER === "mainnet"
-    ? "/empty-relayer-config.json"
+    ? "empty-relayer-config.json"
     : CLUSTER === "testnet"
-    ? "/empty-relayer-config.json"
+    ? "empty-relayer-config.json"
     : "/local-relayer-config.json";
 
 export const RELAY_URL_EXTENSION = "/relayvaa/";

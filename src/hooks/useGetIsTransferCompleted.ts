@@ -6,6 +6,7 @@ import {
   CHAIN_ID_SOLANA,
   CHAIN_ID_SUI,
   CHAIN_ID_XPLA,
+  CHAIN_ID_SEI,
   getIsTransferCompletedAlgorand,
   getIsTransferCompletedAptos,
   getIsTransferCompletedEth,
@@ -47,6 +48,7 @@ import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
 import { getAptosClient } from "../utils/aptos";
 import { getInjectiveWasmClient } from "../utils/injective";
 import { getSuiProvider } from "../utils/sui";
+import { getIsTransferCompletedSei, getSeiWasmClient } from "../utils/sei";
 
 /**
  * @param recoveryOnly Only fire when in recovery mode
@@ -66,7 +68,7 @@ export default function useGetIsTransferCompleted(
   const targetChain = useSelector(selectTransferTargetChain);
 
   const { isReady } = useIsWalletReady(targetChain, false);
-  const { provider, evmChainId } = useEthereumProvider(targetChain);
+  const { provider, evmChainId } = useEthereumProvider(targetChain as any);
   const { accountId: nearAccountId } = useNearContext();
   const signedVAA = useTransferSignedVAA();
 
@@ -168,6 +170,24 @@ export default function useGetIsTransferCompleted(
             setIsLoading(false);
           }
         })();
+      } else if (targetChain === CHAIN_ID_SEI) {
+        setIsLoading(true);
+        (async () => {
+          try {
+            const client = await getSeiWasmClient();
+            transferCompleted = await getIsTransferCompletedSei(
+              getTokenBridgeAddressForChain(targetChain),
+              signedVAA,
+              client
+            );
+          } catch (error) {
+            console.error(error);
+          }
+          if (!cancelled) {
+            setIsTransferCompleted(transferCompleted);
+            setIsLoading(false);
+          }
+        })();
       } else if (targetChain === CHAIN_ID_APTOS) {
         setIsLoading(true);
         (async () => {
@@ -195,7 +215,7 @@ export default function useGetIsTransferCompleted(
               ALGORAND_HOST.algodPort
             );
             transferCompleted = await getIsTransferCompletedAlgorand(
-              algodClient,
+              algodClient as any,
               ALGORAND_TOKEN_BRIDGE_ID,
               signedVAA
             );
@@ -233,7 +253,7 @@ export default function useGetIsTransferCompleted(
             transferCompleted = await getIsTransferCompletedInjective(
               getTokenBridgeAddressForChain(targetChain),
               signedVAA,
-              client
+              client as any
             );
           } catch (error) {
             console.error(error);

@@ -6,6 +6,7 @@ import {
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   CHAIN_ID_XPLA,
+  CHAIN_ID_SEI,
   isEVMChain,
   isTerraChain,
   CHAIN_ID_SUI,
@@ -21,6 +22,7 @@ import { useAptosContext } from "../contexts/AptosWalletContext";
 import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 import { useTerraWallet } from "../contexts/TerraWalletContext";
 import { useSuiWallet } from "../contexts/SuiWalletContext";
+import { useSeiWallet } from "../contexts/SeiWalletContext";
 
 const createWalletStatus = (
   isReady: boolean,
@@ -41,14 +43,14 @@ function useIsWalletReady(
   walletAddress?: string;
 } {
   const { publicKey: solPK } = useSolanaWallet();
-  const terraWallet = useTerraWallet(chainId);
+  const terraWallet = useTerraWallet(chainId as any);
   const hasTerraWallet = !!terraWallet.wallet;
   const {
     provider,
     signerAddress,
     evmChainId,
     wallet: evmWallet,
-  } = useEthereumProvider(chainId);
+  } = useEthereumProvider(chainId as any);
   const hasEthInfo = !!provider && !!signerAddress;
   const correctEvmNetwork = getEvmChainId(chainId);
   const hasCorrectEvmNetwork = evmChainId === correctEvmNetwork;
@@ -70,6 +72,9 @@ function useIsWalletReady(
   const hasInjWallet = !!injAddress;
   const suiWallet = useSuiWallet();
   const suiAddress = suiWallet?.getAddress();
+  const seiWallet = useSeiWallet();
+  const hasSeiWallet = !!seiWallet;
+  const seiAddress = seiWallet?.getAddress();
 
   return useMemo(() => {
     if (isTerraChain(chainId) && hasTerraWallet && terraWallet?.walletAddress) {
@@ -91,6 +96,9 @@ function useIsWalletReady(
       xplaWallet?.getAddress()
     ) {
       return createWalletStatus(true, undefined, xplaWallet.getAddress());
+    }
+    if (chainId === CHAIN_ID_SEI && hasSeiWallet && seiAddress) {
+      return createWalletStatus(true, undefined, seiAddress);
     }
     if (chainId === CHAIN_ID_APTOS && hasAptosWallet && aptosAddress) {
       if (hasCorrectAptosNetwork) {
@@ -146,6 +154,8 @@ function useIsWalletReady(
     hasInjWallet,
     injAddress,
     suiAddress,
+    hasSeiWallet,
+    seiAddress,
   ]);
 }
 
