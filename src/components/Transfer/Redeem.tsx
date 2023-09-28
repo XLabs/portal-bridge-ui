@@ -252,14 +252,14 @@ function Redeem() {
     () => targetAsset && targetChain === CHAIN_ID_SEI,
     [targetAsset, targetChain]
   );
-  const isRealyed = useMemo(
+  const isRelayed = useMemo(
     () => useRelayer || useAutomaticRelay,
     [useRelayer, useAutomaticRelay]
   );
   const { isTransferCompletedLoading, isTransferCompleted } =
     useGetIsTransferCompleted(
-      isRealyed ? false : true,
-      isRealyed ? 5000 : undefined
+      isRelayed ? false : true,
+      isRelayed ? 5000 : undefined
     );
   const relayerContent = (
     <>
