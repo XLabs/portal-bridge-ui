@@ -99,6 +99,11 @@ function AutomaticRelayRedeem({
   chainId,
   handleManualRedeem,
 }: AutomaticRelayRedeemProps) {
+  const {
+    showLoader,
+  } = useHandleRedeem();
+  const targetChain = useSelector(selectTransferTargetChain);
+  const { isReady } = useIsWalletReady(targetChain);
   const classes = useStyles();
   return (
     <>
@@ -111,14 +116,15 @@ function AutomaticRelayRedeem({
           >
             {CHAINS_BY_ID[chainId].name} is running a relayer for this operation
           </Typography>
-          <Button
+          {!isReady && <KeyAndBalance chainId={targetChain} />}
+
+          <ButtonWithLoader
             onClick={handleManualRedeem}
-            size="small"
-            variant="outlined"
-            style={{ marginTop: 16 }}
+            showLoader={showLoader}
+            disabled={showLoader || !isReady}
           >
             Manually redeem instead
-          </Button>
+          </ButtonWithLoader>
         </div>
       ) : null}
 
@@ -281,14 +287,13 @@ function Redeem() {
             {"Waiting for a relayer to process your transfer."}
           </Typography>
           <Tooltip title="Your fees will be refunded on the target chain">
-            <Button
+            <ButtonWithLoader
               onClick={handleManuallyRedeemClick}
-              size="small"
-              variant="outlined"
-              style={{ marginTop: 16 }}
+              showLoader={showLoader}
+              disabled={showLoader}
             >
               Manually redeem instead
-            </Button>
+            </ButtonWithLoader>
           </Tooltip>
         </div>
       ) : null}
@@ -306,14 +311,13 @@ function Redeem() {
               &#127881;)
             </span>
           </ButtonWithLoader>
-          <Button
+          <ButtonWithLoader
             onClick={handleManuallyRedeemClick}
-            size="small"
-            variant="outlined"
-            style={{ marginTop: 16 }}
-          >
+            showLoader={showLoader}
+            disabled={showLoader}
+          > 
             Manually redeem instead
-          </Button>
+          </ButtonWithLoader>
         </div>
       ) : null}
 
