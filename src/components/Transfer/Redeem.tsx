@@ -267,17 +267,17 @@ function Redeem() {
       ) : null}
 
       {!isReady &&
-        isEVMChain(targetChain) &&
-        !isTransferCompleted &&
-        !targetIsAcala ? (
+      isEVMChain(targetChain) &&
+      !isTransferCompleted &&
+      !targetIsAcala ? (
         <Typography className={classes.centered}>
           {"Please connect your wallet to check for transfer completion."}
         </Typography>
       ) : null}
 
       {(!isEVMChain(targetChain) || isReady) &&
-        !isTransferCompleted &&
-        !targetIsAcala ? (
+      !isTransferCompleted &&
+      !targetIsAcala ? (
         <div className={classes.centered}>
           <CircularProgress style={{ marginBottom: 16 }} />
           <Typography>
