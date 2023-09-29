@@ -356,11 +356,16 @@ async function sei(
       wallet,
       "Wormhole - Complete Transfer"
     );
-    const tx = await wallet.executeMultiple({
-      instructions,
-      fee,
-      memo: "Wormhole - Complete Transfer",
-    });
+
+    // Increase timeout to 3 minutes
+    const tx = await wallet.executeMultiple(
+      {
+        instructions,
+        fee,
+        memo: "Wormhole - Complete Transfer",
+      },
+      { broadcastTimeoutMs: 180000 }
+    );
 
     if (!tx.data?.height) {
       console.error("Error: No tx height [sei redeem]");
