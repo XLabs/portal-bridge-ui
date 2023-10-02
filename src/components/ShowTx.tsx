@@ -26,14 +26,30 @@ import {
   CHAIN_ID_BASE,
 } from "@certusone/wormhole-sdk";
 import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk/lib/esm";
-import { Button, makeStyles, Typography } from "@material-ui/core";
+import { Button, makeStyles, Typography, Chip } from "@material-ui/core";
 import { Transaction } from "../store/transferSlice";
-import { CLUSTER, getExplorerName } from "../utils/consts";
+import { CLUSTER, getExplorerName, getWormholescanLink } from "../utils/consts";
 
 const useStyles = makeStyles((theme) => ({
   tx: {
     marginTop: theme.spacing(1),
     textAlign: "center",
+  },
+  txButtons: {
+    display: "flex",
+    justifyContent: "center",
+    gap: theme.spacing(3),
+    marginTop: 20,
+  },
+  wormscanButton: {
+    position: "relative"
+  },
+  newTag: {
+    position: "absolute",
+    backgroundColor: theme.palette.warning.main,
+    color: theme.palette.background.default,
+    fontSize: 12,
+    fontWeight: 500,
   },
   viewButton: {
     marginTop: theme.spacing(1),
@@ -177,21 +193,40 @@ export default function ShowTx({
 
   return (
     <div className={classes.tx}>
-      <Typography noWrap component="div" variant="body2">
-        {tx.id}
-      </Typography>
-      {showExplorerLink && explorerAddress ? (
-        <Button
-          href={explorerAddress}
-          target="_blank"
-          rel="noopener noreferrer"
-          size="small"
-          variant="outlined"
-          className={classes.viewButton}
-        >
-          View on {explorerName}
-        </Button>
-      ) : null}
+      <div>
+        <Typography noWrap component="div" variant="body2">
+          {tx.id}
+        </Typography>
+      </div>
+      <div className={classes.txButtons}>
+        {showExplorerLink && explorerAddress ? (
+          <Button
+            href={explorerAddress}
+            target="_blank"
+            rel="noopener noreferrer"
+            size="small"
+            variant="outlined"
+            className={classes.viewButton}
+          >
+            View on {explorerName}
+          </Button>
+        ) : null}
+        {showExplorerLink && tx.id
+          && (<div className={classes.wormscanButton}>
+            <Button
+              href={getWormholescanLink(tx.id)}
+              target="_blank"
+              rel="noopener noreferrer"
+              size="small"
+              variant="outlined"
+              className={classes.viewButton}
+            >
+              View on Wormholescan
+            </Button>
+            <Chip className={classes.newTag} label="NEW!" size="small" />
+          </div>
+          )}
+      </div>
     </div>
   );
 }
