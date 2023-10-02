@@ -28,7 +28,7 @@ const PANDLE_MESSAGE =
 const AuroraMessage =
   "As a precautionary measure, Wormhole Network and Portal have paused Aurora support temporarily.";
 const TERRA_CLASSIC_MESSAGE =
-  "Transfers of native tokens to/from Terra Classic have been temporarily paused.";
+  "Transfers of native tokens to Terra Classic have been temporarily paused.";
 
 const transferRules: Rule[] = [
   {
@@ -47,9 +47,8 @@ const transferRules: Rule[] = [
   },
   {
     id: "terra-classic-native",
-    predicate: ({ source, target, token }: PredicateArgs) =>
-      (source === CHAIN_ID_TERRA || target === CHAIN_ID_TERRA) &&
-      terra.isNativeDenom(token),
+    predicate: ({ target, token }: PredicateArgs) =>
+      target === CHAIN_ID_TERRA && terra.isNativeDenom(token),
     text: TERRA_CLASSIC_MESSAGE,
     disableTransfer: true,
   },
