@@ -138,6 +138,8 @@ const NOT_SUPPORTED_VAA_WARNING_MESSAGE = (
   </>
 );
 
+const TransferWithRelay = 3;
+
 const useStyles = makeStyles((theme) => ({
   mainCard: {
     padding: "32px 32px 16px",
@@ -929,12 +931,14 @@ export default function Recovery() {
     setRecoverySignedVAA(event.target.value.trim());
   }, []);
   useEffect(() => {
+    console.log(recoverySignedVAA)
     if (recoverySignedVAA) {
       try {
         const rawVaa = hexToUint8Array(recoverySignedVAA);
         const parsedVAA = parseVaa(rawVaa);
-        if (parsedVAA.version === 3) {
-          dispatch(setIsTransferWithRelay(rawVaa));
+        // Transfer with relay
+        if (parsedVAA.payload.readUInt8(0) === TransferWithRelay) {
+          dispatch(setIsTransferWithRelay());
         }
         setRecoveryParsedVAA(parsedVAA);
       } catch (e) {
@@ -942,7 +946,7 @@ export default function Recovery() {
         setRecoveryParsedVAA(null);
       }
     }
-  }, [recoverySignedVAA]);
+  }, [recoverySignedVAA, dispatch]);
   const parsedPayloadTargetChain = parsedPayload?.targetChain;
   const enableRecovery = recoverySignedVAA && parsedPayloadTargetChain;
   //&& (isNFTTransfer || isTokenBridgeTransfer);

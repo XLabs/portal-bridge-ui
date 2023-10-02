@@ -35,6 +35,7 @@ import useGetIsTransferCompleted from "../../hooks/useGetIsTransferCompleted";
 import { useHandleRedeem } from "../../hooks/useHandleRedeem";
 import useIsWalletReady from "../../hooks/useIsWalletReady";
 import {
+  selectIsTransferWithRealy,
   selectTransferIsRecovery,
   selectTransferTargetAsset,
   selectTransferTargetChain,
@@ -231,7 +232,7 @@ function Redeem() {
     dispatch(reset());
   }, [dispatch]);
   const howToAddTokensUrl = getHowToAddTokensToWalletUrl(targetChain);
-  const originAsset = useSelector(
+  const isTransferWithRelay = useSelector(selectIsTransferWithRealy);  const originAsset = useSelector(
     (state: RootState) => state.transfer.originAsset
   );
   const originChain = useSelector(
@@ -351,6 +352,11 @@ function Redeem() {
       {warnings.map((message, key) => (
         <ChainWarningMessage message={message} key={key} />
       ))}
+      { isTransferWithRelay && 
+        <Alert severity="info" variant="outlined" className={classes.alert}>
+          By redeeming by your own, you would not pay any fees other than gas and you would not get any native gas dropped off.
+        </Alert>
+      }
       <>
         {" "}
         <ButtonWithLoader
