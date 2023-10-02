@@ -101,6 +101,7 @@ import { useSeiWallet } from "../contexts/SeiWalletContext";
 import { SeiWallet } from "@xlabs-libs/wallet-aggregator-sei";
 import { calculateFeeForContractExecution } from "../utils/sei";
 import useRedeemWithRelay from "./useRedeemWithRelay";
+import { isChainSupported as isChainSupportedForTransferWithRelay } from "../wormhole-connect/relayer";
 
 async function algo(
   dispatch: any,
@@ -587,24 +588,43 @@ export function useHandleRedeem() {
 
   // Wormhole Connect transfer with relay (AUTOMATIC trasfer)
   const isTransferWithRelay = useSelector(selectIsTransferWithRealy);
-  const { completeTransferWithRelay, inProgress, recipit } = useRedeemWithRelay({ signer, chain: targetChain });
+  const { completeTransferWithRelay, inProgress, recipit, error } = useRedeemWithRelay(
+    { signer, chain: targetChain }
+  );
   useEffect(() => {
-    setIsRedeeming(inProgress)
+    setIsRedeeming(inProgress);
+    if (!inProgress && recipit) {
+      enqueueSnackbar(null, {
+        content: <Alert severity="success">Transaction confirmed</Alert>,
+      });
+    }
     console.debug("completeTransferWithRelay:inProgress", inProgress);
     console.debug("completeTransferWithRelay:recipit", recipit);
   }, [inProgress, recipit]);
+
+  useEffect(() => {
+    enqueueSnackbar(null, {
+      content: <Alert severity="error">{parseError(error)}</Alert>,
+    });
+  }, [error])
 
   const handleRedeemClick = useCallback(() => {
     /**
      * If is Wormhole Connect tranfer with relay (AUTOMATIC trasfer),
      * we need to use Relayer contract to complete the transfer, if not
      * we should use the normal redeem process.
-     * 
-     * Transfer with Relay is detected at {@see Redeem.tsx}
-     * 
+     *
+     * Transfer with Relay is detected at {@see Redeem}
+     *
      * The user will no be charged with a relay fee in this case.
      */
-    if (isEVMChain(targetChain) && !!signer && signedVAA && isTransferWithRelay) {
+    if (
+      isEVMChain(targetChain) &&
+      isChainSupportedForTransferWithRelay(targetChain) &&
+      !!signer &&
+      signedVAA &&
+      isTransferWithRelay
+    ) {
       completeTransferWithRelay();
     } else if (isEVMChain(targetChain) && !!signer && signedVAA) {
       evm(
