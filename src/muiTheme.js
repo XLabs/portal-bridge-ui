@@ -52,7 +52,7 @@ export const theme = responsiveFontSizes(
       },
       warning: {
         main: COLORS.orange,
-      }
+      },
     },
 
     typography: {
