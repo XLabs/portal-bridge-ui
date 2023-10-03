@@ -33,7 +33,9 @@ export default function RedeemPreview() {
       >
         {explainerString}
       </Typography>
-      {redeemTx ? <ShowTx chainId={targetChain} tx={redeemTx} /> : null}
+      {redeemTx ? (
+        <ShowTx chainId={targetChain} tx={redeemTx} showWormscanLink={false} />
+      ) : null}
       <ButtonWithLoader onClick={handleResetClick}>
         Transfer Another NFT!
       </ButtonWithLoader>

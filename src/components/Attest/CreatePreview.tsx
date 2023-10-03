@@ -48,7 +48,9 @@ export default function CreatePreview() {
       >
         {explainerString}
       </Typography>
-      {createTx ? <ShowTx chainId={targetChain} tx={createTx} /> : null}
+      {createTx ? (
+        <ShowTx chainId={targetChain} tx={createTx} showWormscanLink={false} />
+      ) : null}
       {howToAddToTokenListUrl ? (
         <Alert severity="info" variant="outlined" className={classes.alert}>
           Remember to add the token to the{" "}

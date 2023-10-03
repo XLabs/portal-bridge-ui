@@ -177,7 +177,11 @@ function EvmMigrationLineItem({
             Successfully migrated your tokens. They will become available once
             this transaction confirms.
           </Typography>
-          <ShowTx chainId={chainId} tx={{ id: transaction, block: 1 }} />
+          <ShowTx
+            chainId={chainId}
+            tx={{ id: transaction, block: 1 }}
+            showWormscanLink={false}
+          />
         </div>
       </div>
     );
