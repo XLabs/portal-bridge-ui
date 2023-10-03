@@ -2050,7 +2050,8 @@ export const getAssetAddressNative = (
   return hexToNativeAssetString(uint8ArrayToHex(address), chainId);
 };
 
-
 export const getWormholescanLink = (tx: string) => {
-  return `https://wormholescan.io/#/tx/${tx}?network=${process.env.REACT_APP_CLUSTER === "mainnet" ? 'MAINNET' : 'TESTNET'}`
-}
+  return `https://wormholescan.io/#/tx/${tx}?network=${
+    process.env.REACT_APP_CLUSTER === "mainnet" ? "MAINNET" : "TESTNET"
+  }`;
+};

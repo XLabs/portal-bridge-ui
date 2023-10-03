@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 20,
   },
   wormscanButton: {
-    position: "relative"
+    position: "relative",
   },
   newTag: {
     position: "absolute",
@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ShowTx({
   chainId,
   tx,
-  showWormscanLink = true
+  showWormscanLink = true,
 }: {
   chainId: ChainId;
   tx: Transaction;
@@ -213,8 +213,8 @@ export default function ShowTx({
             View on {explorerName}
           </Button>
         ) : null}
-        {showExplorerLink && showWormscanLink && tx.id
-          && (<div className={classes.wormscanButton}>
+        {showExplorerLink && showWormscanLink && tx.id && (
+          <div className={classes.wormscanButton}>
             <Button
               href={getWormholescanLink(tx.id)}
               target="_blank"
@@ -227,7 +227,7 @@ export default function ShowTx({
             </Button>
             <Chip className={classes.newTag} label="NEW!" size="small" />
           </div>
-          )}
+        )}
       </div>
     </div>
   );

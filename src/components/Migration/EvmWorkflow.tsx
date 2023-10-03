@@ -223,7 +223,11 @@ export default function EvmWorkflow({
             Successfully migrated your tokens! They will be available once this
             transaction confirms.
           </Typography>
-          <ShowTx tx={{ id: transaction, block: 1 }} chainId={chainId} showWormscanLink={false} />
+          <ShowTx
+            tx={{ id: transaction, block: 1 }}
+            chainId={chainId}
+            showWormscanLink={false}
+          />
         </>
       ) : null}
     </>
