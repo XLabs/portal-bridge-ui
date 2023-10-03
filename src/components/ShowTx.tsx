@@ -59,9 +59,11 @@ const useStyles = makeStyles((theme) => ({
 export default function ShowTx({
   chainId,
   tx,
+  showWormscanLink = true
 }: {
   chainId: ChainId;
   tx: Transaction;
+  showWormscanLink?: boolean;
 }) {
   const classes = useStyles();
   const showExplorerLink =
@@ -211,7 +213,7 @@ export default function ShowTx({
             View on {explorerName}
           </Button>
         ) : null}
-        {showExplorerLink && tx.id
+        {showExplorerLink && showWormscanLink && tx.id
           && (<div className={classes.wormscanButton}>
             <Button
               href={getWormholescanLink(tx.id)}
