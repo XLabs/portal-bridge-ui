@@ -232,7 +232,8 @@ function Redeem() {
     dispatch(reset());
   }, [dispatch]);
   const howToAddTokensUrl = getHowToAddTokensToWalletUrl(targetChain);
-  const isTransferWithRelay = useSelector(selectIsTransferWithRealy);  const originAsset = useSelector(
+  const isTransferWithRelay = useSelector(selectIsTransferWithRealy);
+  const originAsset = useSelector(
     (state: RootState) => state.transfer.originAsset
   );
   const originChain = useSelector(

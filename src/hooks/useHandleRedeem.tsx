@@ -588,9 +588,8 @@ export function useHandleRedeem() {
 
   // Wormhole Connect transfer with relay (AUTOMATIC trasfer)
   const isTransferWithRelay = useSelector(selectIsTransferWithRealy);
-  const { completeTransferWithRelay, inProgress, recipit, error } = useRedeemWithRelay(
-    { signer, chain: targetChain }
-  );
+  const { completeTransferWithRelay, inProgress, recipit, error } =
+    useRedeemWithRelay({ signer, chain: targetChain });
   useEffect(() => {
     setIsRedeeming(inProgress);
     if (!inProgress && recipit) {
@@ -606,7 +605,7 @@ export function useHandleRedeem() {
     enqueueSnackbar(null, {
       content: <Alert severity="error">{parseError(error)}</Alert>,
     });
-  }, [error, enqueueSnackbar])
+  }, [error, enqueueSnackbar]);
 
   const handleRedeemClick = useCallback(() => {
     /**

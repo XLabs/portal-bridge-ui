@@ -58,6 +58,6 @@ export default function useRedeemWithRelay({
     completeTransferWithRelay,
     inProgress,
     recipit,
-    error
+    error,
   };
 }
