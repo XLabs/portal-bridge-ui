@@ -9,13 +9,12 @@ const config: WormholeConnectConfig = {
   env: import.meta.env.VITE_APP_CLUSTER || "mainnet",
   pageHeader: "Token Bridge",
   pageSubHeader: "Portal is a bridge that offers unlimited transfers across chains for tokens and NFTs wrapped by Wormhole. Unlike many other bridges, you avoid double wrapping and never have to retrace your steps.",
-  
   moreTokens: {
-    href: 'https://portalbridge.com?sourceChain={:sourceChain}&targetChain={:targetChain}',
+    href: 'https://portalbridge.com/#/transfer?sourceChain={:sourceChain}&targetChain={:targetChain}',
     label: 'More tokens ...',
   },
   extraNetworks: {
-    href: 'https://portalbridge.com?sourceChain={:sourceChain}&targetChain={:targetChain}',
+    href: 'https://portalbridge.com/#/transfer?sourceChain={:sourceChain}&targetChain={:targetChain}',
     description: 'Portal is a bridge that offers unlimited transfers across chains for tokens and NFTs wrapped by Wormhole. Unlike many other bridges, you avoid double wrapping and never have to retrace your steps.',
     networks: [
       {
