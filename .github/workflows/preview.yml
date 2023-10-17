@@ -19,22 +19,23 @@ jobs:
           node-version: v16.19.1
       - name: Install dependencies
         run: |
-          pushd docs
+          pushd apps/docs
           npm ci
       - name: Set Version
+        id: set-version
         run: |
-          echo "_BRANCH_NAME_SHA=$(echo ${{ github.event.pull_request.head.ref }} | sha256sum | cut -c -10)" >> "${GITHUB_ENV}"
+          echo "_BRANCH_NAME_SHA=$(echo ${{ github.event.pull_request.head.ref }} | sha256sum | cut -c -10)" >> "${GITHUB_OUTPUT}"
       - name: Build
         env:
-          PUBLIC_URL: "/${{ env._BRANCH_NAME_SHA }}/docs"
+          PUBLIC_URL: "/${{ steps.set-version.outputs._BRANCH_NAME_SHA }}/docs"
         run: |
-          pushd docs
+          pushd apps/docs
           npm run build
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: docs-preview-build
-          path: docs/build
+          path: apps/docs/build
   portal:
     name: "Build Portal Bridge"
     runs-on: "ubuntu-latest"
@@ -63,14 +64,15 @@ jobs:
           git config user.name "xLabs CI"
           git config user.email "devops@xlabs.xyz"
       - name: Set Portal Bridge Version
+        id: set-version
         run: |
           cd portal
           npm version $(node -p -e "require('./package.json').version")-P$(echo ${{ github.sha }} | cut -c -10)
-          echo "_PKG_VERSION=$(node -p -e "require('./package.json').version")" >> "${GITHUB_ENV}"
-          echo "_BRANCH_NAME_SHA=$(echo ${{ github.event.pull_request.head.ref }} | sha256sum | cut -c -10)" >> "${GITHUB_ENV}"
+          echo "_PKG_VERSION=$(node -p -e "require('./package.json').version")" >> "${GITHUB_OUTPUT}"
+          echo "_BRANCH_NAME_SHA=$(echo ${{ github.event.pull_request.head.ref }} | sha256sum | cut -c -10)" >> "${GITHUB_OUTPUT}"
       - name: Build Portal Bridge
         env:
-          PUBLIC_URL: "/${{ env._BRANCH_NAME_SHA }}"
+          PUBLIC_URL: "/${{ steps.set-version.outputs._BRANCH_NAME_SHA }}"
           VITE_APP_VERSION: ${{ github.event.pull_request.head.ref }}
           VITE_APP_CLUSTER: "mainnet"
         run: |
@@ -97,8 +99,8 @@ jobs:
         run: |
           mkdir deploy-metadata
           pushd deploy-metadata
-          echo ${_BRANCH_NAME_SHA} > .branch-sha
-          echo ${_PKG_VERSION} > .version
+          echo ${{ steps.set-version.outputs._BRANCH_NAME_SHA }} > .branch-sha
+          echo ${{ steps.set-version.outputs._PKG_VERSION }} > .version
       - name: Upload Deploy metadata
         uses: actions/upload-artifact@v3
         with:
@@ -162,19 +164,20 @@ jobs:
           name: preview-deploy-metadata
           path: deploy-metadata
       - name: Set deploy metadata
+        id: set-version
         run: |
-          echo "_PKG_VERSION=$(cat deploy-metadata/.version)" >> ${GITHUB_ENV}
-          echo "_BRANCH_NAME_SHA=$(cat deploy-metadata/.branch-sha)" >> ${GITHUB_ENV}
+          echo "_PKG_VERSION=$(cat deploy-metadata/.version)" >> ${GITHUB_OUTPUT}
+          echo "_BRANCH_NAME_SHA=$(cat deploy-metadata/.branch-sha)" >> ${GITHUB_OUTPUT}
       - name: Trigger a preview Deploy
         run: |
           sleep 30s
-          mkdir -p preview/${{ env._BRANCH_NAME_SHA }}
-          pushd preview/${{ env._BRANCH_NAME_SHA }}
+          mkdir -p preview/${{ steps.set-version.outputs._BRANCH_NAME_SHA }}
+          pushd preview/${{ steps.set-version.outputs._BRANCH_NAME_SHA }}
           [[ ! -f .latest ]] && touch .latest
           [[ ! -f .artifacts ]] && touch .artifacts
           cat .latest >> .artifacts
-          echo ${{ env._PKG_VERSION }} > .latest
+          echo ${{ steps.set-version.outputs._PKG_VERSION }} > .latest
           git add .artifacts .latest
-          git commit -m"Update preview artifacts ${{ env._PKG_VERSION }}"
+          git commit -m"Update preview artifacts ${{ steps.set-version.outputs._PKG_VERSION }}"
           git push
-          echo "The preview URL is: ${{ vars.PREVIEW_ROOT_URL }}/${{ env._BRANCH_NAME_SHA }}/" >> ${GITHUB_STEP_SUMMARY}
+          echo "The preview URL is: ${{ vars.PREVIEW_ROOT_URL }}/${{ steps.set-version.outputs._BRANCH_NAME_SHA }}/" >> ${GITHUB_STEP_SUMMARY}
