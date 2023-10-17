@@ -56,15 +56,15 @@ jobs:
       - name: Checkout Portal Bridge
         uses: actions/checkout@v3
         with:
-          path: portal-bridge
+          path: portal
       - name: Setup Git
         run: |
-          cd portal-bridge
+          cd portal
           git config user.name "xLabs CI"
           git config user.email "devops@xlabs.xyz"
       - name: Set Portal Bridge Version
         run: |
-          cd portal-bridge
+          cd portal
           npm version $(node -p -e "require('./package.json').version")-P$(echo ${{ github.sha }} | cut -c -10)
           echo "_PKG_VERSION=$(node -p -e "require('./package.json').version")" >> "${GITHUB_ENV}"
           echo "_BRANCH_NAME_SHA=$(echo ${{ github.event.pull_request.head.ref }} | sha256sum | cut -c -10)" >> "${GITHUB_ENV}"
@@ -80,7 +80,7 @@ jobs:
           npm run build
           npm link --workspaces --if-present 
           popd
-          pushd apps/connect
+          pushd portal/apps/connect
           npm ci
           npm link @wormhole-foundation/wormhole-connect
           pushd public
