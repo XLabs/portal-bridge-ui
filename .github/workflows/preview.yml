@@ -92,7 +92,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: preview-advance-build
-          path: build
+          path: apps/portal/build
 
   connect:
     name: "Build Portal Bridge"
