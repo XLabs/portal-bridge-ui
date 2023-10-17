@@ -14,6 +14,7 @@ jobs:
       - name: Set Version
         id: set-version
         run: echo "_BRANCH_NAME_SHA=$(echo ${{ github.event.pull_request.head.ref }} | sha256sum | cut -c -10)" >> "${GITHUB_OUTPUT}"
+
   docs:
     name: "Build Portal Bridge Documentation"
     runs-on: "ubuntu-latest"
@@ -72,10 +73,9 @@ jobs:
         id: set-version
         run: |
           npm version $(node -p -e "require('./package.json').version")-P$(echo ${{ github.sha }} | cut -c -10)
-          echo "_PKG_VERSION=$(node -p -e "require('./package.json').version")" >> "${GITHUB_OUTPUT}"
       - name: Build
         env:
-          PUBLIC_URL: "/${{ needs.branch-sha.outputs.value }}"
+          PUBLIC_URL: "/${{ needs.branch-sha.outputs.value }}/advance"
           NODE_OPTIONS: "--max-old-space-size=10240"
           REACT_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
           REACT_APP_SOLANA_API_URL: ${{ vars.REACT_APP_SOLANA_API_URL }}
