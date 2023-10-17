@@ -65,7 +65,9 @@ jobs:
           git config user.name "xLabs CI"
           git config user.email "devops@xlabs.xyz"
       - name: Install dependencies
-        run: npm install
+        run: |
+          pushd apps/portal
+          npm install
       - name: Set Version
         id: set-version
         run: |
@@ -80,7 +82,6 @@ jobs:
           REACT_APP_COVALENT_API_KEY: ${{ secrets.REACT_APP_COVALENT_API_KEY }}
           REACT_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}
         run: |
-          pushd apps/portal
           pushd public
           npm run set-version
           popd
