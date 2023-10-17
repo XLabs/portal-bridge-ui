@@ -80,7 +80,7 @@ jobs:
           npm run build
           npm link --workspaces --if-present 
           popd
-          pushd portal-bridge
+          pushd apps/connect
           npm ci
           npm link @wormhole-foundation/wormhole-connect
           pushd public
@@ -92,7 +92,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: preview-build
-          path: portal-bridge/dist
+          path: apps/connect/dist
       - name: Deploy metadata
         run: |
           mkdir deploy-metadata
