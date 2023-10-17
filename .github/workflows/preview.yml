@@ -5,11 +5,22 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
+  branch-sha:
+    name: Compute Branch Sha
+    runs-on: ubuntu-latest
+    outputs:
+      value: ${{ steps.set-version.outputs._BRANCH_NAME_SHA }}
+    steps:
+      - name: Set Version
+        id: set-version
+        run: echo "_BRANCH_NAME_SHA=$(echo ${{ github.event.pull_request.head.ref }} | sha256sum | cut -c -10)" >> "${GITHUB_OUTPUT}"
   docs:
     name: "Build Portal Bridge Documentation"
     runs-on: "ubuntu-latest"
     concurrency:
       group: ${{ github.ref }}-portal-docs-preview
+    needs: 
+      - branch-sha
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -21,13 +32,9 @@ jobs:
         run: |
           pushd apps/docs
           npm ci
-      - name: Set Version
-        id: set-version
-        run: |
-          echo "_BRANCH_NAME_SHA=$(echo ${{ github.event.pull_request.head.ref }} | sha256sum | cut -c -10)" >> "${GITHUB_OUTPUT}"
       - name: Build
         env:
-          PUBLIC_URL: "/${{ steps.set-version.outputs._BRANCH_NAME_SHA }}/docs"
+          PUBLIC_URL: "/${{ needs.branch-sha.outputs.value }}/docs"
         run: |
           pushd apps/docs
           npm run build
@@ -44,6 +51,8 @@ jobs:
       group: ${{ github.ref }}-portal-preview
       cancel-in-progress: true
     environment: Cloudflare-Preview
+    needs: 
+      - branch-sha
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -62,10 +71,9 @@ jobs:
         run: |
           npm version $(node -p -e "require('./package.json').version")-P$(echo ${{ github.sha }} | cut -c -10)
           echo "_PKG_VERSION=$(node -p -e "require('./package.json').version")" >> "${GITHUB_OUTPUT}"
-          echo "_BRANCH_NAME_SHA=$(echo ${{ github.event.pull_request.head.ref }} | sha256sum | cut -c -10)" >> "${GITHUB_OUTPUT}"
       - name: Build
         env:
-          PUBLIC_URL: "/${{ steps.set-version.outputs._BRANCH_NAME_SHA }}"
+          PUBLIC_URL: "/${{ needs.branch-sha.outputs.value }}"
           NODE_OPTIONS: "--max-old-space-size=10240"
           REACT_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
           REACT_APP_SOLANA_API_URL: ${{ vars.REACT_APP_SOLANA_API_URL }}
@@ -87,9 +95,13 @@ jobs:
     name: "Build Portal Bridge"
     runs-on: "ubuntu-latest"
     concurrency:
-      group: ${{ github.ref }}-portal-preview
+      group: ${{ github.ref }}-connect-preview
       cancel-in-progress: true
     environment: Cloudflare-Preview
+    needs: 
+      - branch-sha
+    outputs:
+      pkg-version: ${{ steps.set-version.outputs._PKG_VERSION }}
     steps:
       - name: Set up Node environment
         uses: actions/setup-node@v3
@@ -116,11 +128,10 @@ jobs:
           cd portal
           npm version $(node -p -e "require('./package.json').version")-P$(echo ${{ github.sha }} | cut -c -10)
           echo "_PKG_VERSION=$(node -p -e "require('./package.json').version")" >> "${GITHUB_OUTPUT}"
-          echo "_BRANCH_NAME_SHA=$(echo ${{ github.event.pull_request.head.ref }} | sha256sum | cut -c -10)" >> "${GITHUB_OUTPUT}"
       - name: Build Portal Bridge
         env:
-          PUBLIC_URL: "/${{ steps.set-version.outputs._BRANCH_NAME_SHA }}"
-          VITE_APP_VERSION: ${{ steps.set-version.outputs._BRANCH_NAME_SHA }}
+          PUBLIC_URL: "/${{ needs.branch-sha.outputs.value }}"
+          VITE_APP_VERSION: ${{ needs.branch-sha.outputs.value }}
           VITE_APP_CLUSTER: "mainnet"
         run: |
           npm install -g husky
@@ -142,17 +153,6 @@ jobs:
         with:
           name: preview-connect-build
           path: portal/apps/connect/dist
-      - name: Deploy metadata
-        run: |
-          mkdir deploy-metadata
-          pushd deploy-metadata
-          echo ${{ steps.set-version.outputs._BRANCH_NAME_SHA }} > .branch-sha
-          echo ${{ steps.set-version.outputs._PKG_VERSION }} > .version
-      - name: Upload Deploy metadata
-        uses: actions/upload-artifact@v3
-        with:
-          name: deploy-metadata
-          path: deploy-metadata
 
   publish:
     name: "Publish"
@@ -194,7 +194,10 @@ jobs:
 
   deploy:
     name: "Deploy Preview"
-    needs: publish
+    needs:
+      - publish
+      - branch-sha
+      - connect
     runs-on: "ubuntu-latest"
     concurrency:
       group: ${{ github.ref }}-deploy-preview
@@ -211,26 +214,16 @@ jobs:
         run: |
           git config user.name "xLabs CI"
           git config user.email "devops@xlabs.xyz"
-      - name: Download Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: deploy-metadata
-          path: deploy-metadata
-      - name: Set deploy metadata
-        id: set-version
-        run: |
-          echo "_PKG_VERSION=$(cat deploy-metadata/.version)" >> ${GITHUB_OUTPUT}
-          echo "_BRANCH_NAME_SHA=$(cat deploy-metadata/.branch-sha)" >> ${GITHUB_OUTPUT}
       - name: Trigger a preview Deploy
         run: |
           sleep 30s
-          mkdir -p preview/${{ steps.set-version.outputs._BRANCH_NAME_SHA }}
-          pushd preview/${{ steps.set-version.outputs._BRANCH_NAME_SHA }}
+          mkdir -p preview/${{ needs.branch-sha.outputs.value }}
+          pushd preview/${{ needs.branch-sha.outputs.value }}
           [[ ! -f .latest ]] && touch .latest
           [[ ! -f .artifacts ]] && touch .artifacts
           cat .latest >> .artifacts
-          echo ${{ steps.set-version.outputs._PKG_VERSION }} > .latest
+          echo ${{ needs.connect.outputs.pkg-version }} > .latest
           git add .artifacts .latest
-          git commit -m"Update preview artifacts ${{ steps.set-version.outputs._PKG_VERSION }}"
+          git commit -m"Update preview artifacts ${{ needs.connect.outputs.pkg-version }}"
           git push
-          echo "The preview URL is: ${{ vars.PREVIEW_ROOT_URL }}/${{ steps.set-version.outputs._BRANCH_NAME_SHA }}/" >> ${GITHUB_STEP_SUMMARY}
+          echo "The preview URL is: ${{ vars.PREVIEW_ROOT_URL }}/${{ needs.branch-sha.outputs.value }}/" >> ${GITHUB_STEP_SUMMARY}
