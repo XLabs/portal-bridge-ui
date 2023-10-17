@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Portal is a bridge that offers unlimited transfers across chains for tokens and NFTs wrapped by Wormhole."
+    />
+    <meta property="og:title" content="Portal Token Bridge" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://portalbridge.com" />
+    <meta property="og:image" content="/wormhole.png" />
+    <meta property="og:image:alt" content="Wormhole logo" />
+    <meta
+      property="og:description"
+      content="Portal is a bridge that offers unlimited transfers across chains for tokens and NFTs wrapped by Wormhole."
+    />
+    <meta name="twitter:site" content="@portalbridge_" />
+    <meta name="twitter:creator" content="@portalbridge_" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="apple-touch-icon" href="/logo192.png" />
+
+    <link rel="manifest" href="/manifest.json" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="index.css" rel="stylesheet">
+    <link href="../wormhole-connect/main.css" rel="stylesheet">
+    <title>SUI Token Bridge</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div class="root">
+        <div class="container">
+          <div class="cosmos-banner" id="cosmos-banner" style="display: none;">
+            <div style="text-align: center"><span
+                style="color: white; font-size: 16px; font-family: Poppins; font-weight: 500; line-height: 20.02px; letter-spacing: 0.28px; word-wrap: break-word">Wormhole
+                Gateway is now live on mainnet!</span><span
+                style="color: white; font-size: 16px; font-family: Poppins; font-weight: 700; line-height: 20.02px; letter-spacing: 0.28px; word-wrap: break-word">
+                Bridge your assets to Osmosis today.</span></div>
+            <a class="cosmos-link" href="https://portalbridge.com/cosmos" target="_blank" rel="noopener noreferrer">
+              TRY IT NOW
+            </a>
+          </div>
+          <div class="cctp-banner" id="cctp-banner" style="display: none;">
+            <span>
+              Experience frictionless USDC transfers between Ethereum, Avalanche, Arbitrum, and Optimism with Circle's CCTP.
+            </span>
+            <a class="cctp-link" href="https://portalbridge.com/usdc-bridge" target="_blank" rel="noopener noreferrer">
+              TRY IT NOW
+            </a>
+          </div>
+
+          <header class="header">
+            <div class="header-inner">
+              <a class="logo-link" href="/">
+                <img src="portal_logo_w.svg" alt="Portal" class="logo">
+              </a>
+              <div class="spacer"></div>
+              <div class="links-list">
+                <div class="links-list-inner">
+                  <a class="link" href="/" target="_blank" aria-current="page">
+                    Token Bridge
+                  </a>
+                  <a class="link" href="https://portalbridge.com/usdc-bridge" target="_blank" rel="noopener noreferrer">
+                    USDC
+                  </a>
+                  <a class="link active" href="#" aria-current="page">
+                    Sui
+                  </a>
+                  <a class="link" href="https://portalbridge.com/cosmos" target="_blank" rel="noopener noreferrer">
+                    Cosmos
+                  </a>
+                  <a class="link" href="https://portalbridge.com/docs" target="_blank" rel="noopener noreferrer">
+                    FAQ
+                  </a>
+                  <a class="link" href="https://wormhole.com/" target="_blank" rel="noopener noreferrer">
+                    Wormhole
+                  </a>
+                </div>
+              </div>
+              <div class="help-container">
+                <a class="help-link" tabindex="0" aria-disabled="false" href="https://portalbridge.com/docs" target="_blank" rel="noopener noreferrer" title="View the FAQ">
+                  <span class="help-label">
+                    <svg class="help-icon" focusable="false" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"></path></svg>
+                  </span>
+                  <span class="MuiTouchRipple-root">
+                  </span>
+                </a>
+              </div>
+            </div>
+          </header>
+
+          <div id="wormhole-connect" config='{"bridgeDefaults":{"requiredNetwork":"sui","toNetwork":"sui"},"rpcs":{"wormchain":"https://and76cjzpa.execute-api.us-east-2.amazonaws.com/wormchain/","solana":"https://wormhole.rpcpool.com/","osmosis":"https://and76cjzpa.execute-api.us-east-2.amazonaws.com/osmosis/","ethereum":"https://and76cjzpa.execute-api.us-east-2.amazonaws.com/ethereum/","sui":"https://and76cjzpa.execute-api.us-east-2.amazonaws.com/sui/","aptos":"https://and76cjzpa.execute-api.us-east-2.amazonaws.com/aptos/"},"env":"mainnet","networks":["ethereum","bsc","polygon","avalanche","fantom","celo","moonbeam","goerli","mumbai","fuji","alfajores","moonbasealpha","sui"],"mode":"dark","customTheme":{"background":{"default":"transparent"},"button":{"primary":"#ffffff19","primaryText":"#ffffff","disabled":"#ffffff0F","disabledText":"#ffffff66","action":"#ffffff","actionText":"#17153F","hover":"#ffffff0F"},"font":{"primary":"Poppins, sans-serif","header":"Suisse BP Intl, sans-serif"}}}'></div>
+
+          <div class="footer">
+            <span>
+              Want to embed the Wormhole Connect bridge into your own dapp or website?
+            </span>
+            <span>
+              Do it in as few as three lines of code here: <a class="footer-link" href="https://wormhole.com/connect" target="_blank">https://wormhole.com/connect</a>
+            </span>
+          </div>
+      </div>
+    </div>
+
+    <script src="../wormhole-connect/main.js"></script>
+    <script>
+      // To show Optimism option on SEPT 4th 2023
+      if (new Date() < new Date(2023, 8, 8)) {
+        document.getElementById("cosmos-banner").style.display = "flex";
+        document.getElementById("cctp-banner").style.display = "none";
+  
+      } else {
+        document.getElementById("cosmos-banner").style.display = "none";
+        document.getElementById("cctp-banner").style.display = "flex";
+      }
+    </script>
+  </body>
+</html>
