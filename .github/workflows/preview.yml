@@ -72,6 +72,7 @@ jobs:
       - name: Set Version
         id: set-version
         run: |
+          pushd apps/portal
           npm version $(node -p -e "require('./package.json').version")-P$(echo ${{ github.sha }} | cut -c -10)
       - name: Build
         env:
@@ -134,8 +135,9 @@ jobs:
       - name: Build Portal Bridge
         env:
           PUBLIC_URL: "/${{ needs.branch-sha.outputs.value }}"
-          VITE_APP_VERSION: ${{ needs.branch-sha.outputs.value }}
-          VITE_APP_CLUSTER: "mainnet"
+          VITE_APP_VERSION: ${{ steps.set-version.outputs._PKG_VERSION }}
+          VITE_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
+          VITE_APP_ADVANCE_PATH: "/${{ needs.branch-sha.outputs.value }}/advance"
         run: |
           npm install -g husky
           pushd wormhole-connect
