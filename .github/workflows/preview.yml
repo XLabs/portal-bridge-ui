@@ -122,13 +122,13 @@ jobs:
           path: portal
       - name: Setup Git
         run: |
-          cd portal
+          pushd portal
           git config user.name "xLabs CI"
           git config user.email "devops@xlabs.xyz"
       - name: Set Portal Bridge Version
         id: set-version
         run: |
-          cd portal
+          pushd portal/apps/connect
           npm version $(node -p -e "require('./package.json').version")-P$(echo ${{ github.sha }} | cut -c -10)
           echo "_PKG_VERSION=$(node -p -e "require('./package.json').version")" >> "${GITHUB_OUTPUT}"
       - name: Build Portal Bridge
