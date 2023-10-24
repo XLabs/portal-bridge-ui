@@ -15,7 +15,7 @@ body {
   line-height: 1.43;
   background-size: 120%;
   background-color: #17153f;
-  background-image: url(/static/media/bg.7f578c3eb1b9a700a83d6113bf1579e0.svg);
+  background-image: url(../static/media/bg.7f578c3eb1b9a700a83d6113bf1579e0.svg);
   background-repeat: repeat-y;
   background-position: top center;
   overscroll-behavior-y: none;
@@ -49,14 +49,14 @@ body {
   justify-content: center;
 }
 
-.cosmos-banner {
+.wormholescan-banner {
   box-sizing: inherit;
   width: 100%;
+  height: 56px;
   display: flex;
   padding: 4px 16px;
   font-size: 16px;
-  background: linear-gradient(1deg, #9577f4 0%, #ad55da 28.96%, #ca2ebd 100%);
-  min-height: 56px;
+  background: linear-gradient(86deg, #FF2A57 0%, #FF2A57 28.96%, #0F0C48 100%);
   text-align: center;
   align-items: center;
   font-weight: 500;
@@ -64,12 +64,12 @@ body {
   justify-content: center;
 }
 
-.cosmos-link {
+.wormholescan-link {
   text-align: center;
   box-sizing: inherit;
   margin: 0;
   text-decoration: none;
-  color: #17153f;
+  color: #17153F;
   display: inline-flex;
   padding: 6px 12px;
   font-size: 12px;
@@ -135,7 +135,6 @@ body {
   display: inline-flex;
   align-items: center;
 }
-
 .logo-link:hover {
   text-decoration: none;
 }
@@ -146,7 +145,6 @@ body {
   margin-right: 8px;
   display: inline-block;
 }
-
 .logo:hover {
   filter: contrast(1);
 }
@@ -156,6 +154,140 @@ body {
   width: 100vw;
 }
 
+/* .links-list {} */
+@media (max-width: 599.95px) {
+  .links-list {
+    display: none;
+  }
+
+  .help-container {
+    display: block;
+  }
+}
+
+@media (min-width: 600px) {
+  .links-list {
+    display: flex;
+  }
+
+  .help-container {
+    display: none;
+  }
+}
+
+@font-face {
+  font-family: "Suisse BP Intl";
+  src: url("SuisseBPIntlBold.woff2");
+}
+
+.links-list-inner {
+  display: flex;
+  align-items: center;
+}
+
+.link {
+  margin: 0;
+  text-decoration: none;
+  color: white;
+  font-size: 0.8125rem;
+  font-family:
+    Suisse BP Intl,
+    sans-serif;
+  font-weight: 600;
+  line-height: 1.43;
+  text-underline-offset: 6px;
+  margin-left: 32px;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.active {
+  text-decoration: underline;
+}
+
+/* .help-container {} */
+/* .help-link {} */
+.help-label {
+  color: white;
+}
+.help-icon {
+  fill: currentColor;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  font-size: 1.3928571428571428rem;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.footer-link {
+  color: white;
+  text-decoration: underline;
+}
+
+.footer-link:visited {
+  color: white;
+}
+
+.MuiChip-label {
+  overflow: hidden;
+  white-space: nowrap;
+  padding-left: 12px;
+  padding-right: 12px;
+  text-overflow: ellipsis;
+}
+
+.MuiChip-labelSmall {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.MuiChip-root {
+  color: #fff;
+  border: none;
+  cursor: default;
+  height: 32px;
+  display: inline-flex;
+  outline: 0;
+  padding: 0;
+  font-size: 0.7544642857142857rem;
+  box-sizing: border-box;
+  transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  align-items: center;
+  font-family: 'Poppins', sans-serif;
+  white-space: nowrap;
+  border-radius: 16px;
+  vertical-align: middle;
+  justify-content: center;
+  text-decoration: none;
+  background-color: #616161;
+}
+
+.MuiChip-sizeSmall {
+  height: 24px;
+}
+
+.makeStyles-newTag-17 {
+  left: 142px;
+  color: #E2E1FF;
+  bottom: 24px;
+  position: relative;
+  font-size: 10px;
+  word-wrap: break-word;
+  font-weight: 600;
+  line-height: 24px;
+  background-color: #3B3785;
+}
 .poweredBy {
   font-family: Poppins;
   display: flex;
@@ -252,84 +384,13 @@ body {
   pointer-events: none;
 }
 
-/* .links-list {} */
-@media (max-width: 599.95px) {
-  .links-list {
-    display: none;
+@media (max-width:1279.95px) {
+  .wormholescan-banner {
+    height: auto;
+    padding: 8px;
+    flex-direction: column;
   }
-
-  .help-container {
-    display: block;
+  .wormholescan-banner p {
+    margin: 0px;
   }
-}
-
-@media (min-width: 600px) {
-  .links-list {
-    display: flex;
-  }
-
-  .help-container {
-    display: none;
-  }
-}
-
-@font-face {
-  font-family: "Suisse BP Intl";
-  src: url("SuisseBPIntlBold.woff2");
-}
-
-.links-list-inner {
-  display: flex;
-  align-items: center;
-}
-
-.link {
-  margin: 0;
-  text-decoration: none;
-  color: white;
-  font-size: 0.8125rem;
-  font-family:
-    Suisse BP Intl,
-    sans-serif;
-  font-weight: 600;
-  line-height: 1.43;
-  text-underline-offset: 6px;
-  margin-left: 32px;
-}
-
-.active {
-  text-decoration: underline;
-}
-
-/* .help-container {} */
-/* .help-link {} */
-.help-label {
-  color: white;
-}
-
-.help-icon {
-  fill: currentColor;
-  width: 1em;
-  height: 1em;
-  display: inline-block;
-  font-size: 1.3928571428571428rem;
-  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  flex-shrink: 0;
-  user-select: none;
-}
-
-.footer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.footer-link {
-  color: white;
-  text-decoration: underline;
-}
-
-.footer-link:visited {
-  color: white;
 }

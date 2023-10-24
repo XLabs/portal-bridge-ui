@@ -5,6 +5,8 @@ import {
 } from "@certusone/wormhole-sdk";
 import {
   AppBar,
+  Box,
+  Chip,
   Container,
   Hidden,
   IconButton,
@@ -175,6 +177,17 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
+  newTag: {
+    position: "relative",
+    left: "142px",
+    bottom: "24px",
+    backgroundColor: "#3B3785",
+    color: "#E2E1FF",
+    fontSize: "10px",
+    fontWeight: 600,
+    lineHeight: "24px",
+    wordWrap: "break-word",
+  },
 }));
 
 function App() {
@@ -209,6 +222,17 @@ function App() {
           <div className={classes.spacer} />
           <Hidden implementation="css" xsDown>
             <div style={{ display: "flex", alignItems: "center" }}>
+              <Box>
+                <Chip className={classes.newTag} label="NEW" size="small" />
+                <Link
+                  href="https://wormholescan.io"
+                  target="_blank"
+                  color="inherit"
+                  className={classes.link}
+                >
+                  Wormholescan
+                </Link>
+              </Box>
               <Link
                 component={NavLink}
                 to="/transfer"
