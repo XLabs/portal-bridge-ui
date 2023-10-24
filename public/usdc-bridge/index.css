@@ -15,7 +15,7 @@ body {
   line-height: 1.43;
   background-size: 120%;
   background-color: #17153f;
-  background-image: url(/static/media/bg.7f578c3eb1b9a700a83d6113bf1579e0.svg);
+  background-image: url(../static/media/bg.7f578c3eb1b9a700a83d6113bf1579e0.svg);
   background-repeat: repeat-y;
   background-position: top center;
   overscroll-behavior-y: none;
