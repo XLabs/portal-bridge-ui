@@ -288,6 +288,101 @@ body {
   line-height: 24px;
   background-color: #3B3785;
 }
+.poweredBy {
+  font-family: Poppins;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1vh;
+  gap: 8px;
+  padding-bottom: 40px;
+  font-size: 18px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.poweredBy img {
+  filter: invert(1) brightness(100);
+}
+
+.gradients {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0.9;
+  z-index: -1;
+}
+
+.gradientRight {
+  position: absolute;
+  top: 72px;
+  right: -1000px;
+  width: 1757px;
+  height: 1506px;
+  background: radial-gradient(
+    closest-side at 50% 50%,
+    #ffce00 0%,
+    #ffce0000 100%
+  );
+  opacity: 0.2;
+  transform: matrix(0.87, 0.48, -0.48, 0.87, 0, 0);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.gradientLeft {
+  top: -530px;
+  left: -350px;
+  width: 1379px;
+  height: 1378px;
+  position: absolute;
+  background: radial-gradient(
+    closest-side at 50% 50%,
+    #f44b1b 0%,
+    #f44b1b00 100%
+  );
+  opacity: 0.2;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.gradientLeft2 {
+  bottom: -330px;
+  left: -350px;
+  width: 1379px;
+  height: 1378px;
+  position: absolute;
+  background: radial-gradient(
+    closest-side at 50% 50%,
+    #f44b1b 0%,
+    #f44b1b00 100%
+  );
+  opacity: 0.2;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.gradientRight2 {
+  position: absolute;
+  bottom: -900px;
+  right: -1000px;
+  width: 1757px;
+  height: 1506px;
+  background: radial-gradient(
+    closest-side at 50% 50%,
+    #ffce00 0%,
+    #ffce0000 100%
+  );
+  opacity: 0.24;
+  transform: matrix(0.87, 0.48, -0.48, 0.87, 0, 0);
+  z-index: -1;
+  pointer-events: none;
+}
 
 @media (max-width:1279.95px) {
   .wormholescan-banner {
