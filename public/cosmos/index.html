@@ -35,7 +35,7 @@
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div class="root">
     <div class="container">
-      <div class="wormholescan-banner" id="wormholescan-banner">
+      <div class="wormholescan-banner" id="wormholescan-banner" style="display: none;">
         <p style="color: white; font-size: 16px; font-family: Poppins; font-weight: 700; line-height: 20.02px; letter-spacing: 0.28px; overflow-wrap: break-word;">
           Introducing Wormholescan: &nbsp;</p>
         <p style="color: white; font-size: 16px; font-family: Poppins; font-weight: 500; line-height: 20.02px; letter-spacing: 0.28px; overflow-wrap: break-word;">
@@ -45,7 +45,7 @@
       </div>
       <div class="cctp-banner" id="cctp-banner" style="display: none;">
         <span>
-          Experience frictionless USDC transfers between Ethereum, Avalanche, Arbitrum, and Optimism with Circle's CCTP.
+          Experience frictionless USDC transfers between Ethereum, Avalanche, Optimism, Base and Arbitrum with Circle's CCTP.
         </span>
         <a class="cctp-link" href="https://portalbridge.com/usdc-bridge" target="_blank" rel="noopener noreferrer">
           TRY IT NOW
@@ -118,14 +118,16 @@
 
   <script src="../wormhole-connect/main.js"></script>
   <script>
-    // To show Optimism option on SEPT 4th 2023
-    if (new Date() < new Date(2023, 8, 8)) {
-      document.getElementById("cosmos-banner").style.display = "flex";
-      document.getElementById("cctp-banner").style.display = "none";
-
-    } else {
-      document.getElementById("cosmos-banner").style.display = "none";
+    const now = new Date();
+    const start = new Date(2023, 9, 26);
+    const ends = new Date(2023, 10, 6);
+    // To show CCTP Banner between October 26th and November 6th
+    if (start < now && now < ends) {
+      document.getElementById("wormholescan-banner").style.display = "none";
       document.getElementById("cctp-banner").style.display = "flex";
+    } else {
+      document.getElementById("wormholescan-banner").style.display = "flex";
+      document.getElementById("cctp-banner").style.display = "none";
     }
   </script>
 </body>
