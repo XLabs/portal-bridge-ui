@@ -3,8 +3,12 @@ import type { Theme } from "@material-ui/core/styles";
 import Link from "@material-ui/core/Link";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
-const useStyles = makeStyles<Theme, Pick<Message, "button">>(() => ({
+const useStyles = makeStyles<Theme, Pick<Message, "button">>((theme: Theme) => ({
   bannerLink: {
+    [theme.breakpoints.down("md")]: {
+      marginLeft: "0px",
+      marginTop: theme.spacing(1)
+    },
     display: "inline-flex",
     alignItems: "center",
     borderRadius: 20,

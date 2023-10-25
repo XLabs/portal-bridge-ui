@@ -385,6 +385,13 @@ body {
 }
 
 @media (max-width:1279.95px) {
+  .wormholescan-link {
+    margin-top: 8px;
+    margin-left: 0px;
+  }
+}
+
+@media (max-width:1279.95px) {
   .wormholescan-banner {
     height: auto;
     padding: 8px;
