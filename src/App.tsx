@@ -179,7 +179,7 @@ const useStyles = makeStyles((theme) => ({
   },
   newTag: {
     position: "relative",
-    left: "142px",
+    left: "-10px",
     bottom: "24px",
     backgroundColor: "#3B3785",
     color: "#E2E1FF",
@@ -222,17 +222,6 @@ function App() {
           <div className={classes.spacer} />
           <Hidden implementation="css" xsDown>
             <div style={{ display: "flex", alignItems: "center" }}>
-              <Box>
-                <Chip className={classes.newTag} label="NEW" size="small" />
-                <Link
-                  href="https://wormholescan.io"
-                  target="_blank"
-                  color="inherit"
-                  className={classes.link}
-                >
-                  Wormholescan
-                </Link>
-              </Box>
               <Link
                 component={NavLink}
                 to="/transfer"
@@ -277,15 +266,17 @@ function App() {
               >
                 FAQ
               </Link>
-              <Link
-                href="https://wormhole.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                color="inherit"
-                className={classes.link}
-              >
-                Wormhole
-              </Link>
+              <Box>
+                <Link
+                  href="https://wormholescan.io"
+                  target="_blank"
+                  color="inherit"
+                  className={classes.link}
+                >
+                  Wormholescan
+                </Link>
+                <Chip className={classes.newTag} label="NEW" size="small" />
+              </Box>
             </div>
           </Hidden>
           <Hidden implementation="css" smUp>

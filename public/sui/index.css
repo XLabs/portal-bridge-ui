@@ -278,7 +278,7 @@ body {
 }
 
 .makeStyles-newTag-17 {
-  left: 142px;
+  left: -10px;
   color: #E2E1FF;
   bottom: 24px;
   position: relative;
@@ -290,10 +290,19 @@ body {
 }
 
 @media (max-width:1279.95px) {
+  .wormholescan-link {
+    margin-top: 8px;
+    margin-left: 0px;
+  }
+}
+
+@media (max-width:1279.95px) {
   .wormholescan-banner {
     height: auto;
     padding: 8px;
     flex-direction: column;
+    padding-top: 16px;
+    padding-bottom: 16px;
   }
   .wormholescan-banner p {
     margin: 0px;
