@@ -12,6 +12,8 @@ const useStyles = makeStyles<Theme, Pick<Message, "background">>((theme) => ({
       height: "auto",
       flexDirection: "column",
       padding: theme.spacing(1),
+      paddingTop: theme.spacing(2),
+      paddingBottom: theme.spacing(2),
     },
     textAlign: "center",
     fontWeight: 500,

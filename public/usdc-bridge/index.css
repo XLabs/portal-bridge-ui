@@ -396,6 +396,8 @@ body {
     height: auto;
     padding: 8px;
     flex-direction: column;
+    padding-top: 16px;
+    padding-bottom: 16px;
   }
   .wormholescan-banner p {
     margin: 0px;
