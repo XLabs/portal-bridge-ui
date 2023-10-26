@@ -22,51 +22,12 @@ const messages: Record<string, Message> = {
     },
     content: (
       <>
-        "Experience frictionless USDC transfers between Ethereum, Avalanche,
-        Arbitrum, and Optimism with Circle's CCTP."
+        Experience frictionless USDC transfers between Ethereum, Avalanche,
+        Optimism, Base and Arbitrum with Circle's CCTP.
       </>
     ),
-    start: new Date(2020, 10, 23), // any date in the past would be fine
-  },
-  cosmos: {
-    background:
-      "linear-gradient(1deg, #9577F4 0%, #AD55DA 28.96%, #CA2EBD 100%);",
-    button: {
-      href: `${process.env.PUBLIC_URL}/cosmos`,
-      label: "TRY IT NOW",
-      background: "#17153F",
-    },
-    content: (
-      <>
-        <Typography
-          variant="body1"
-          style={{
-            color: "white",
-            fontSize: 16,
-            fontFamily: "Poppins",
-            fontWeight: 500,
-            letterSpacing: 0.28,
-            wordWrap: "break-word",
-          }}
-        >
-          Wormhole Gateway is now live on mainnet! &nbsp;
-        </Typography>
-        <Typography
-          variant="body1"
-          style={{
-            color: "white",
-            fontSize: 16,
-            fontFamily: "Poppins",
-            fontWeight: 700,
-            letterSpacing: 0.28,
-            wordWrap: "break-word",
-          }}
-        >
-          Bridge your assets to Osmosis today.
-        </Typography>
-      </>
-    ),
-    start: new Date(2023, 8, 8),
+    start: new Date(2023, 9, 26),
+    ends: new Date(2023, 10, 6),
   },
   wormholescan: {
     background:
@@ -108,7 +69,7 @@ const messages: Record<string, Message> = {
         </Typography>
       </>
     ),
-    start: new Date(2023, 9, 20),
+    start: new Date(2023, 9, 20), // any date in the past would be fine
   },
 };
 
