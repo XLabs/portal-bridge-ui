@@ -23,7 +23,7 @@ const messages: Record<string, Message> = {
     content: (
       <>
         Experience frictionless USDC transfers between Ethereum, Avalanche,
-        Arbitrum, and Optimism with Circle's CCTP.
+        Optimism, Base and Arbitrum with Circle's CCTP.
       </>
     ),
     start: new Date(2023, 9, 26),
