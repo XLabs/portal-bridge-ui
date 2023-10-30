@@ -49,4 +49,4 @@ There will be four wallet approval pop-ups when creating a wrapped token on Sola
 
 ![](<../../static/img/Screen Shot 2022-05-19 at 5.20.59 pm.png>)
 
-🎉 You've sucessfully registered your token on the target chain now!&#x20;
+🎉 You've successfully registered your token on the target chain now!&#x20;
