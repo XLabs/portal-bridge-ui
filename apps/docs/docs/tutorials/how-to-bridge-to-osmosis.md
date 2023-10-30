@@ -33,7 +33,7 @@ You will be prompted to sign a transaction from your source chain wallet to init
 
 ### Step 5: Wait for Confirmation
 
-Bridge transactions require a number of confirmations before being finalized on the recipient chain. The time required varies by chain, but for Solana this usually usually takes less than 30 seconds.
+Bridge transactions require a number of confirmations before being finalized on the recipient chain. The time required varies by chain, but for Solana this usually takes less than 30 seconds.
 
 ![Untitled](../../static/img/osmosis-how-to-bridge-5.png)
 
