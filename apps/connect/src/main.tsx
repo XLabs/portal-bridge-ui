@@ -19,19 +19,7 @@ const router = createRouter([
       {
         index: true,
         element: <TokenBridge />,
-      },
-      {
-        path: "/sui",
-        element: <SuiBridge />,
-      },
-      {
-        path: "/cosmos",
-        element: <CosmosBridge />,
-      },
-      {
-        path: "/usdc",
-        element: <USDCBridge />,
-      },
+      }
     ],
   },
 ]);

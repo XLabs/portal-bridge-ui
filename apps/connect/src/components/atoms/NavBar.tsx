@@ -83,36 +83,6 @@ export default function NavBar() {
             <NavLink
               component={NavRouterLink}
               style={({ isActive }) => ({ textDecoration: isActive ? "underline" : "none" })}
-              to="usdc"
-              target="_blank"
-              rel="noopener noreferrer"
-              color="inherit"
-            >
-              USDC
-            </NavLink>
-            <NavLink
-              component={NavRouterLink}
-              style={({ isActive }) => ({ textDecoration: isActive ? "underline" : "none" })}
-              to="sui"
-              target="_blank"
-              rel="noopener noreferrer"
-              color="inherit"
-            >
-              Sui
-            </NavLink>
-            <NavLink
-              component={NavRouterLink}
-              style={({ isActive }) => ({ textDecoration: isActive ? "underline" : "none" })}
-              to="cosmos"
-              target="_blank"
-              rel="noopener noreferrer"
-              color="inherit"
-            >
-              Cosmos
-            </NavLink>
-            <NavLink
-              component={NavRouterLink}
-              style={({ isActive }) => ({ textDecoration: isActive ? "underline" : "none" })}
               to="docs"
               target="_blank"
               rel="noopener noreferrer"
