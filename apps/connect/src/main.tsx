@@ -5,9 +5,6 @@ import ThemeProvider from "@mui/material/styles/ThemeProvider";
 import { RouterProvider, createHashRouter as createRouter } from "react-router-dom";
 import theme from "./theme/portal.ts";
 import TokenBridge from "./routes/token.tsx";
-import SuiBridge from "./routes/sui.tsx";
-import CosmosBridge from "./routes/cosmos.tsx";
-import USDCBridge from "./routes/usdc.tsx";
 import Root from "./routes/root.tsx";
 import Background from "./components/atoms/Background.tsx";
 

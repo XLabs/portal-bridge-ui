@@ -33,3 +33,4 @@ yarn-error.log*
 yalc.lock
 public/wormhole-connect/
 wormhole-connect/node_modules/
+dist/
