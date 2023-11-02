@@ -2,6 +2,7 @@ import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connec
 import ConnectLoader from "../components/ConnectLoader";
 import customTheme from "../theme/connect";
 import mui from '../theme/portal';
+import { useMemo } from "react";
 
 const defaultConfig: WormholeConnectConfig = {
   mode: mui.palette.mode,
@@ -40,12 +41,16 @@ export default function TokenBridge() {
   const query = new URLSearchParams(window.location.search);
   const txHash = query.get("txHash");
   const sourceChain = query.get("sourceChain");
-  const config = {
-    ...defaultConfig,
-    searchTx: {
-      txHash,
-      chainName: sourceChain,
-    },
-  }
+  const config = useMemo(() => {
+    if (txHash && sourceChain) {
+      return {
+        ...defaultConfig,
+        txHash,
+        sourceChain,
+      };
+    } else {
+      return defaultConfig;
+    }
+  }, []);
   return <ConnectLoader config={config} />;
 }
