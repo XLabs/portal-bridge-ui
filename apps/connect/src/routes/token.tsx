@@ -3,12 +3,13 @@ import ConnectLoader from "../components/ConnectLoader";
 import customTheme from "../theme/connect";
 import mui from '../theme/portal';
 
-const config: WormholeConnectConfig = {
+const defaultConfig: WormholeConnectConfig = {
   mode: mui.palette.mode,
   customTheme,
   env: import.meta.env.VITE_APP_CLUSTER || "mainnet",
   pageHeader: "Token Bridge",
   pageSubHeader: "Portal is a bridge that offers unlimited transfers across chains for tokens and NFTs wrapped by Wormhole. Unlike many other bridges, you avoid double wrapping and never have to retrace your steps.",
+  showHamburgerMenu: false,
   moreTokens: {
     href: `${import.meta.env.VITE_APP_ADVANCE_PATH}/#/transfer?sourceChain={:sourceChain}&targetChain={:targetChain}`,
     label: 'More tokens ...',
@@ -35,5 +36,16 @@ const config: WormholeConnectConfig = {
 };
 
 export default function TokenBridge() {
+  // TODO improve parsing and coalesce ChainName/ChainId
+  const query = new URLSearchParams(window.location.search);
+  const txHash = query.get("txHash");
+  const sourceChain = query.get("sourceChain");
+  const config = {
+    ...defaultConfig,
+    searchTx: {
+      txHash,
+      chainName: sourceChain,
+    },
+  }
   return <ConnectLoader config={config} />;
 }
