@@ -3,10 +3,6 @@ name: Portal Bridge [Manual]
 on:
   workflow_dispatch:
     inputs:
-      connect-repository:
-        description: 'connect repository bame'
-        required: true
-        default: 'wormhole-foundation/wormhole-connect'
       connect-branch:
         description: 'connect branch bame'
         required: true
@@ -66,8 +62,8 @@ jobs:
           path: apps/docs/build
   
   portal:
-    name: "Build Portal Bridge (Advance)"
-    runs-on: ubuntu-latest
+    name: "Build Portal Bridge [Advance]"
+    runs-on: "ubuntu-latest"
     concurrency:
       group: ${{ github.ref }}-portal-preview
       cancel-in-progress: true
@@ -78,9 +74,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          repository: ${{ inputs.connect-repository }}
-          ref: ${{ inputs.connect-branch }}
-          path: apps/portal
+          repository: xlabs/portal-bridge-ui
+          ref: ${{ inputs.portal-branch }}
       - name: Set up Node environment
         uses: actions/setup-node@v3
         with:
@@ -90,14 +85,10 @@ jobs:
           git config user.name "xLabs CI"
           git config user.email "devops@xlabs.xyz"
       - name: Install dependencies
-        run: |
-          pushd apps/portal
-          npm install
+        run: npm install
       - name: Set Version
         id: set-version
-        run: |
-          pushd apps/portal
-          npm version $(node -p -e "require('./package.json').version")-P$(echo ${{ github.sha }} | cut -c -10)
+        run: npm version $(node -p -e "require('./package.json').version")-P$(echo ${{ github.sha }} | cut -c -10)
       - name: Build
         env:
           PUBLIC_URL: "/${{ needs.branch-sha.outputs.value }}/advance"
@@ -107,7 +98,6 @@ jobs:
           REACT_APP_COVALENT_API_KEY: ${{ secrets.REACT_APP_COVALENT_API_KEY }}
           REACT_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}
         run: |
-          pushd apps/portal
           pushd public
           npm run set-version
           popd
@@ -117,10 +107,10 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: preview-advance-build
-          path: apps/portal/build
+          path: build
 
   connect:
-    name: "Build Portal Bridge"
+    name: "Build Portal Bridge [Connect]"
     runs-on: "ubuntu-latest"
     concurrency:
       group: ${{ github.ref }}-connect-preview
@@ -138,7 +128,7 @@ jobs:
       - name: Checkout Wormhole Connect
         uses: actions/checkout@v3
         with:
-          repository: ${{ inputs.connect-repository }}
+          repository: wormhole-foundation/wormhole-connect
           ref: ${{ inputs.connect-branch }}
           path: wormhole-connect
       - name: Checkout Portal Bridge
