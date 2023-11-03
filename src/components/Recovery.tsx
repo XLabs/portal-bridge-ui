@@ -73,7 +73,7 @@ import useIsWalletReady from "../hooks/useIsWalletReady";
 import useRelayersAvailable, { Relayer } from "../hooks/useRelayersAvailable";
 import { COLORS } from "../muiTheme";
 import { setRecoveryVaa as setRecoveryNFTVaa } from "../store/nftSlice";
-import { setRecoveryVaa } from "../store/transferSlice";
+import { setRecoveryVaa, setIsTransferWithRelay } from "../store/transferSlice";
 import {
   ALGORAND_TOKEN_BRIDGE_ID,
   CHAINS,
@@ -137,6 +137,8 @@ const NOT_SUPPORTED_VAA_WARNING_MESSAGE = (
     .
   </>
 );
+
+const TransferWithRelay = 3;
 
 const useStyles = makeStyles((theme) => ({
   mainCard: {
@@ -931,14 +933,19 @@ export default function Recovery() {
   useEffect(() => {
     if (recoverySignedVAA) {
       try {
-        const parsedVAA = parseVaa(hexToUint8Array(recoverySignedVAA));
+        const rawVaa = hexToUint8Array(recoverySignedVAA);
+        const parsedVAA = parseVaa(rawVaa);
+        // Transfer with relay
+        if (parsedVAA.payload.readUInt8(0) === TransferWithRelay) {
+          dispatch(setIsTransferWithRelay());
+        }
         setRecoveryParsedVAA(parsedVAA);
       } catch (e) {
         console.error(e);
         setRecoveryParsedVAA(null);
       }
     }
-  }, [recoverySignedVAA]);
+  }, [recoverySignedVAA, dispatch]);
   const parsedPayloadTargetChain = parsedPayload?.targetChain;
   const enableRecovery = recoverySignedVAA && parsedPayloadTargetChain;
   //&& (isNFTTransfer || isTokenBridgeTransfer);

@@ -34,7 +34,7 @@ import algosdk from "algosdk";
 import axios from "axios";
 import { Contract, Signer } from "ethers";
 import { useSnackbar } from "notistack";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlgorandWallet } from "../contexts/AlgorandWalletContext";
 import { useAptosContext } from "../contexts/AptosWalletContext";
@@ -46,6 +46,7 @@ import {
   selectTransferIsRedeeming,
   selectTransferTargetChain,
   selectTransferIsTBTC,
+  selectIsTransferWithRealy,
 } from "../store/selectors";
 import { setIsRedeeming, setRedeemTx } from "../store/transferSlice";
 import { signSendAndConfirmAlgorand } from "../utils/algorand";
@@ -99,6 +100,8 @@ import { fromUint8Array } from "js-base64";
 import { useSeiWallet } from "../contexts/SeiWalletContext";
 import { SeiWallet } from "@xlabs-libs/wallet-aggregator-sei";
 import { calculateFeeForContractExecution } from "../utils/sei";
+import useRedeemWithRelay from "./useRedeemWithRelay";
+import { isChainSupported as isChainSupportedForTransferWithRelay } from "../wormhole-connect/relayer";
 
 async function algo(
   dispatch: any,
@@ -582,8 +585,47 @@ export function useHandleRedeem() {
   const seiAddress = seiWallet?.getAddress();
   const signedVAA = useTransferSignedVAA();
   const isRedeeming = useSelector(selectTransferIsRedeeming);
+
+  // Wormhole Connect transfer with relay (AUTOMATIC trasfer)
+  const isTransferWithRelay = useSelector(selectIsTransferWithRealy);
+  const { completeTransferWithRelay, inProgress, recipit, error } =
+    useRedeemWithRelay({ signer, chain: targetChain });
+  useEffect(() => {
+    setIsRedeeming(inProgress);
+    if (!inProgress && recipit) {
+      enqueueSnackbar(null, {
+        content: <Alert severity="success">Transaction confirmed</Alert>,
+      });
+    }
+    console.debug("completeTransferWithRelay:inProgress", inProgress);
+    console.debug("completeTransferWithRelay:recipit", recipit);
+  }, [inProgress, recipit, enqueueSnackbar]);
+
+  useEffect(() => {
+    enqueueSnackbar(null, {
+      content: <Alert severity="error">{parseError(error)}</Alert>,
+    });
+  }, [error, enqueueSnackbar]);
+
   const handleRedeemClick = useCallback(() => {
-    if (isEVMChain(targetChain) && !!signer && signedVAA) {
+    /**
+     * If is Wormhole Connect tranfer with relay (AUTOMATIC trasfer),
+     * we need to use Relayer contract to complete the transfer, if not
+     * we should use the normal redeem process.
+     *
+     * Transfer with Relay is detected at {@see Redeem}
+     *
+     * The user will no be charged with a relay fee in this case.
+     */
+    if (
+      isEVMChain(targetChain) &&
+      isChainSupportedForTransferWithRelay(targetChain) &&
+      !!signer &&
+      signedVAA &&
+      isTransferWithRelay
+    ) {
+      completeTransferWithRelay();
+    } else if (isEVMChain(targetChain) && !!signer && signedVAA) {
       evm(
         dispatch,
         enqueueSnackbar,
@@ -678,6 +720,8 @@ export function useHandleRedeem() {
     algoWallet,
     seiWallet,
     seiAddress,
+    isTransferWithRelay,
+    completeTransferWithRelay,
   ]);
 
   const handleRedeemNativeClick = useCallback(() => {
