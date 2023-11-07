@@ -179,11 +179,17 @@ function sendTbtcWrapped(
   return tx;
 }
 
-const CANNONICAL_CHAINS: number[] = [CHAIN_ID_POLYGON, CHAIN_ID_OPTIMISM, CHAIN_ID_ARBITRUM, CHAIN_ID_BASE, CHAIN_ID_SOLANA];
+const CANNONICAL_CHAINS: number[] = [
+  CHAIN_ID_POLYGON,
+  CHAIN_ID_OPTIMISM,
+  CHAIN_ID_ARBITRUM,
+  CHAIN_ID_BASE,
+  CHAIN_ID_SOLANA,
+];
 
 const isCanonical = (chainId: number) => {
   return CANNONICAL_CHAINS.includes(chainId);
-}
+};
 
 /**
  * Send tBtc beween gateways allow burn and mint of tBtc
