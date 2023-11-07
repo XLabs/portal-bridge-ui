@@ -14,7 +14,10 @@ import {
   THRESHOLD_TBTC_SOLANA_PROGRAM,
 } from "../../../../utils/consts";
 import {
-  CHAIN_ID_ETH,
+  CHAIN_ID_ARBITRUM,
+  CHAIN_ID_BASE,
+  CHAIN_ID_OPTIMISM,
+  CHAIN_ID_POLYGON,
   CHAIN_ID_SOLANA,
   ChainId,
   SignedVaa,
@@ -174,6 +177,12 @@ function sendTbtcWrapped(
     .accounts(accounts)
     .transaction();
   return tx;
+}
+
+const CANNONICAL_CHAINS: number[] = [CHAIN_ID_POLYGON, CHAIN_ID_OPTIMISM, CHAIN_ID_ARBITRUM, CHAIN_ID_BASE, CHAIN_ID_SOLANA];
+
+const isCanonical = (chainId: number) => {
+  return CANNONICAL_CHAINS.includes(chainId);
 }
 
 /**
@@ -347,7 +356,7 @@ export function newThresholdWormholeGateway(
       new PublicKey(senderToken),
       new PublicKey(wallet.getAddress()!)
     );
-    if (recipientChain === CHAIN_ID_ETH) {
+    if (!isCanonical(recipientChain)) {
       const wrappedAccounts = {
         custodian,
         wrappedTbtcToken,
