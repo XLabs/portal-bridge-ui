@@ -640,18 +640,17 @@ const createNFTParsedTokenAccountFromCovalent = (
   covalent: CovalentData,
   nft_data: CovalentNFTData
 ): NFTParsedTokenAccount => {
+  let amount =
+    nft_data.token_balance == null
+      ? "0"
+      : formatUnits(nft_data.token_balance, covalent.contract_decimals);
   return {
     publicKey: walletAddress,
     mintKey: covalent.contract_address,
-    amount: nft_data.token_balance,
+    amount: nft_data.token_balance == null ? "" : nft_data.token_balance,
     decimals: covalent.contract_decimals,
-    uiAmount: Number(
-      formatUnits(nft_data.token_balance, covalent.contract_decimals)
-    ),
-    uiAmountString: formatUnits(
-      nft_data.token_balance,
-      covalent.contract_decimals
-    ),
+    uiAmount: Number(amount),
+    uiAmountString: amount,
     symbol: covalent.contract_ticker_symbol,
     name: covalent.contract_name,
     logo: covalent.logo_url,
@@ -689,7 +688,7 @@ export type CovalentNFTExternalData = {
 
 export type CovalentNFTData = {
   token_id: string;
-  token_balance: string;
+  token_balance: string | null;
   external_data: CovalentNFTExternalData;
   token_url: string;
 };
