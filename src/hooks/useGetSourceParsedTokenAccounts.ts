@@ -640,7 +640,7 @@ const createNFTParsedTokenAccountFromCovalent = (
   covalent: CovalentData,
   nft_data: CovalentNFTData
 ): NFTParsedTokenAccount => {
-  let amount =
+  const amount =
     nft_data.token_balance == null
       ? "0"
       : formatUnits(nft_data.token_balance, covalent.contract_decimals);
