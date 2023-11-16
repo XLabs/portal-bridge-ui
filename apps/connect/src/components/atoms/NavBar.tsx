@@ -78,17 +78,7 @@ export default function NavBar() {
               to="/"
               color="inherit"
             >
-              Token Bridge
-            </NavLink>
-            <NavLink
-              component={NavRouterLink}
-              style={({ isActive }) => ({ textDecoration: isActive ? "underline" : "none" })}
-              to="docs"
-              target="_blank"
-              rel="noopener noreferrer"
-              color="inherit"
-            >
-              FAQ
+              Home
             </NavLink>
             <NavLink
               to="https://www.wormhole.com/"
