@@ -132,7 +132,7 @@ export default function SmartAddress({
         isAsset ? "token" : "address"
       }/${useableAddress}`
     : chainId === CHAIN_ID_AVAX
-    ? `https://${CLUSTER === "testnet" ? "testnet." : ""}snowtrace.io/${
+    ? `https://${CLUSTER === "testnet" ? "testnet." : ""}avascan.info/blockchain/c/${
         isAsset ? "token" : "address"
       }/${useableAddress}`
     : chainId === CHAIN_ID_OASIS
