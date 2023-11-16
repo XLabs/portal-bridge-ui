@@ -1699,7 +1699,15 @@ export const CELO_MIGRATION_ASSET_MAP = new Map<string, string>(
     ? [
         [
           getAddress("0x122013fd7dF1C6F636a5bb8f03108E876548b455"), // WETH,
-          getAddress("0xCC76FfF95d772C798eaDc6c7E6fA7E0e8b561F64"),
+          getAddress("0x5251afeA1Bd9898D4c11d673f6f3cd516F8987eE"),
+        ],
+        [
+          getAddress("0x90Ca507a5D4458a4C6C6249d186b6dCb02a5BCCd"), // DAI
+          getAddress("0x6dd24146Ea4103e65c7e899Aa9eD35F6a8283Cd1"),
+        ],
+        [
+          getAddress("0xef4229c8c3250C675F21BCefa42f58EfbfF6002a"), // USDC
+          getAddress("0xdd77ADC831120DeB159781B61fd95D82978BCEC3"),
         ],
       ]
     : []
