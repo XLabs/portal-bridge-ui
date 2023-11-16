@@ -1,17 +1,11 @@
 import MuiAppBar from "@mui/material/AppBar";
 import Hidden from "@mui/material/Hidden";
-import IconButton from "@mui/material/IconButton";
-import MuiLink, { LinkProps } from "@mui/material/Link";
-
+import MuiLink from "@mui/material/Link";
+import MuiChip from "@mui/material/Chip";
 import Toolbar from "@mui/material/Toolbar";
-import Tooltip from "@mui/material/Tooltip";
 import styled from "@mui/material/styles/styled";
-import {
-  NavLink as NavRouterLink,
-  NavLinkProps as RouterNavLinkProps,
-} from "react-router-dom";
+import Box from "@mui/material/Box";
 import portal from "../../assets/imgs/logo-white.svg";
-import { HelpOutline } from "@mui/icons-material";
 
 const AppBar = styled(MuiAppBar)(({ theme }) => ({
   background: "transparent",
@@ -24,28 +18,35 @@ const AppBar = styled(MuiAppBar)(({ theme }) => ({
   boxShadow: "none",
 }));
 
-const NavLink = styled(MuiLink)<LinkProps & RouterNavLinkProps>(
-  ({ theme }) => ({
-    ...theme.typography.body2,
-    fontWeight: 600,
-    fontFamily: "Suisse BP Intl, sans-serif",
-    color: "white",
-    marginLeft: theme.spacing(4),
-    textUnderlineOffset: "6px",
-    [theme.breakpoints.down("sm")]: {
-      marginLeft: theme.spacing(2.5),
-    },
-    [theme.breakpoints.down("xs")]: {
-      marginLeft: theme.spacing(1),
-    },
-    ":hover": {
-        textDecoration: "underline"
-    },
-    ".active": {
-        textDecoration: "underline"
-    }
-  })
-);
+const Link = styled(MuiLink)(({ theme }) => ({
+  ...theme.typography.body2,
+  fontWeight: 600,
+  fontFamily: "Suisse BP Intl, sans-serif",
+  color: "white",
+  marginLeft: theme.spacing(4),
+  textUnderlineOffset: "6px",
+  [theme.breakpoints.down("sm")]: {
+    marginLeft: theme.spacing(2.5),
+  },
+  [theme.breakpoints.down("xs")]: {
+    marginLeft: theme.spacing(1),
+  },
+  ":hover": {
+    textDecoration: "underline"
+  },
+}));
+
+const Chip = styled(MuiChip)(() => ({
+  position: "relative",
+  left: "-10px",
+  bottom: "24px",
+  backgroundColor: "#3B3785",
+  color: "#E2E1FF",
+  fontSize: "10px",
+  fontWeight: 600,
+  lineHeight: "24px",
+  wordWrap: "break-word",
+}));
 
 const Logo = styled("img")(({ theme }) => ({
   height: 68,
@@ -66,42 +67,35 @@ export default function NavBar() {
   return (
     <AppBar position="static" color="inherit">
       <Toolbar>
-        <MuiLink component={NavRouterLink} to="/">
+        <MuiLink href="">
           <Logo src={portal} alt="Portal" />
         </MuiLink>
         <Spacer />
         <Hidden implementation="css" xsDown>
           <div style={{ display: "flex", alignItems: "center" }}>
-            <NavLink
-              component={NavRouterLink}
-              style={({ isActive }) => ({ textDecoration: isActive ? "underline" : "none" })}
-              to="/"
+            <Link
+              href=""
               color="inherit"
             >
               Home
-            </NavLink>
-            <NavLink
-              to="https://www.wormhole.com/"
-              target="_blank"
-              rel="noopener noreferrer"
+            </Link>
+            <Link
+              href="usdc-bridge"
               color="inherit"
             >
-              Wormhole
-            </NavLink>
+              USDC
+            </Link>
+            <Box>
+              <Link
+                href="https://wormholescan.io"
+                target="_blank"
+                color="inherit"
+              >
+                Wormholescan
+              </Link>
+              <Chip label="NEW" size="small" />
+            </Box>
           </div>
-        </Hidden>
-        <Hidden implementation="css" smUp>
-          <Tooltip title="View the FAQ">
-            <IconButton
-              component={NavRouterLink}
-              to="docs"
-              target="_blank"
-              rel="noopener noreferrer"
-              size="small"
-            >
-              <HelpOutline />
-            </IconButton>
-          </Tooltip>
         </Hidden>
       </Toolbar>
     </AppBar>

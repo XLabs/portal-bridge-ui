@@ -4,7 +4,7 @@
   "version": "0.2.0",
   "type": "module",
   "scripts": {
-    "dev:usdc-bridge": "vite --config ./vite.usdc-bridge.config.ts",
+    "dev:usdc-bridge": "PUBLIC_URL=\"/usdc-bridge\" vite --config ./vite.usdc-bridge.config.ts",
     "build:usdc-bridge": "tsc && vite build --config ./vite.usdc-bridge.config.ts",
     "dev": "vite",
     "build": "tsc && vite build",
@@ -19,7 +19,6 @@
     "@mui/material": "^5.12.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.16.0",
     "vite-plugin-static-copy": "^0.17.0"
   },
   "devDependencies": {

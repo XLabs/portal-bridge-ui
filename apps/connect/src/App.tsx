@@ -1,17 +1,19 @@
 import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
-import ConnectLoader from "../components/ConnectLoader";
-import customTheme from "../theme/connect";
-import mui from '../theme/portal';
 import { useMemo } from "react";
+import customTheme from "./theme/connect";
+import mui from "./theme/portal";
+import NavBar from "./components/atoms/NavBar";
+import NewsBar from "./components/atoms/NewsBar";
+import messageConfig from "./configs/messages";
+import ConnectLoader from "./components/ConnectLoader";
 
 const defaultConfig: WormholeConnectConfig = {
   ...wormholeConnectConfig,
   mode: mui.palette.mode,
-  customTheme
+  customTheme,
 };
 
-export default function TokenBridge() {
-  // TODO improve parsing and coalesce ChainName/ChainId
+export default function Root() {
   const query = new URLSearchParams(window.location.search);
   const txHash = query.get("txHash");
   const sourceChain = query.get("sourceChain");
@@ -26,5 +28,12 @@ export default function TokenBridge() {
       return defaultConfig;
     }
   }, []);
-  return <ConnectLoader config={config} />;
+  const messages = Object.values(messageConfig);
+  return (
+    <>
+      <NewsBar messages={messages} />
+      <NavBar />
+      <ConnectLoader config={config} />
+    </>
+  );
 }
