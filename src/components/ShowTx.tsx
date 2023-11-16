@@ -89,7 +89,7 @@ export default function ShowTx({
       : chainId === CHAIN_ID_AVAX
       ? `https://${
           CLUSTER === "testnet" ? "testnet." : ""
-        }snowtrace.io/tx/${tx?.id}`
+        }avascan.info/blockchain/c/tx/${tx?.id}`
       : chainId === CHAIN_ID_OASIS
       ? `https://${
           CLUSTER === "testnet" ? "testnet." : ""
