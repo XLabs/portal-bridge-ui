@@ -4,6 +4,8 @@
   "version": "0.2.0",
   "type": "module",
   "scripts": {
+    "dev:usdc-bridge": "vite --config ./vite.usdc-bridge.config.ts",
+    "build:usdc-bridge": "tsc && vite build --config ./vite.usdc-bridge.config.ts",
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",

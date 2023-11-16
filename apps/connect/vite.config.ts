@@ -5,7 +5,20 @@ import { viteStaticCopy } from 'vite-plugin-static-copy'
 // https://vitejs.dev/config/
 export default defineConfig({
   base: process.env.PUBLIC_URL || '/',
-  plugins: [react(), 
+  define: {
+    wormholeConnectConfig: {
+      env: process.env.VITE_APP_CLUSTER || 'mainnet',
+      showHamburgerMenu: false,
+      menu: [
+        {
+          label: 'Advance Tools',
+          href: `${process.env.PUBLIC_URL}/advance-tools`
+        }
+      ]
+    }
+  },
+  plugins: [
+    react(), 
     viteStaticCopy({
       targets: [
         {
@@ -13,5 +26,6 @@ export default defineConfig({
           dest: 'assets/wormhole-connect/'
         }
       ]
-    })],
+    })
+  ],
 })
