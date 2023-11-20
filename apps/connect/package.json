@@ -4,8 +4,10 @@
   "version": "0.2.0",
   "type": "module",
   "scripts": {
-    "dev:usdc-bridge": "PUBLIC_URL=\"/usdc-bridge\" vite --config ./vite.usdc-bridge.config.ts",
+    "dev:usdc-bridge": "vite --config ./vite.usdc-bridge.config.ts",
     "build:usdc-bridge": "tsc && vite build --config ./vite.usdc-bridge.config.ts",
+    "dev:token-bridge": "vite --config ./vite.token-bridge.config.ts",
+    "build:token-bridge": "tsc && vite build --config ./vite.token-bridge.config.ts",
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
