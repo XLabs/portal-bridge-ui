@@ -4,7 +4,8 @@
   "description": "Write index.html redirect files",
   "main": "index.js",
   "scripts": {
-    "prebuild": "shx rm -rf dist",
+    "clean": "shx rm -rf dist && shx rm -rf src/configs/*.json ",
+    "prebuild": "npm run clean && shx mkdir -p dist/{sui,cosmos} ",
     "build": "npm run create:config:all && npm run build:all",
     "create:config:sui": "DOTENV_CONFIG_PATH=./src/configs/sui.env ts-node -r dotenv/config src/index.ts > src/configs/sui.json",
     "create:config:cosmos": "DOTENV_CONFIG_PATH=./src/configs/cosmos.env ts-node -r dotenv/config src/index.ts > src/configs/cosmos.json",
