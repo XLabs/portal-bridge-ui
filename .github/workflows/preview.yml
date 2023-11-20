@@ -57,6 +57,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          repository: xlabs/portal-bridge-ui
+          # TODO replace with the advance tools branch after cutover
+          ref: main
       - name: Set up Node environment
         uses: actions/setup-node@v3
         with:
@@ -66,34 +70,56 @@ jobs:
           git config user.name "xLabs CI"
           git config user.email "devops@xlabs.xyz"
       - name: Install dependencies
-        run: |
-          pushd apps/portal
-          npm install
+        run: npm install
       - name: Set Version
         id: set-version
-        run: |
-          pushd apps/portal
-          npm version $(node -p -e "require('./package.json').version")-P$(echo ${{ github.sha }} | cut -c -10)
+        run: npm version $(node -p -e "require('./package.json').version")-P$(echo ${{ github.sha }} | cut -c -10)
       - name: Build
         env:
-          PUBLIC_URL: "/${{ needs.branch-sha.outputs.value }}/advance"
+          PUBLIC_URL: "/${{ needs.branch-sha.outputs.value }}/advance-tools"
           NODE_OPTIONS: "--max-old-space-size=10240"
           REACT_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
           REACT_APP_SOLANA_API_URL: ${{ vars.REACT_APP_SOLANA_API_URL }}
           REACT_APP_COVALENT_API_KEY: ${{ secrets.REACT_APP_COVALENT_API_KEY }}
           REACT_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}
         run: |
-          pushd apps/portal
-          pushd public
-          npm run set-version
-          popd
           echo 'REACT_APP_VERSION=$npm_package_version' > .env
           npm run build
+          cd build
+          npm run set-version
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: preview-advance-build
-          path: apps/portal/build
+          name: build-advance-tools
+          path: build
+
+  redirects:
+    name: "Build Portal Bridge"
+    runs-on: "ubuntu-latest"
+    concurrency:
+      group: ${{ github.ref }}-redicts-preview
+      cancel-in-progress: true 
+    needs: 
+      - branch-sha
+    steps:
+      - name: Set up Node environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: v18.17.1
+      - name: Checkout Portal Bridge
+        uses: actions/checkout@v3
+      - name: Build Redirects
+        env:
+          PUBLIC_URL: "/${{ needs.branch-sha.outputs.value }}"
+        run: |
+          pushd apps/redirects
+          npm ci
+          npm run build
+      - name: Upload Portal Bridge Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: preview-connect-build
+          path: apps/redirects/dist
 
   connect:
     name: "Build Portal Bridge"
