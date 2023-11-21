@@ -141,41 +141,42 @@ jobs:
       - name: Checkout Wormhole Connect
         uses: actions/checkout@v3
         with:
-          repository: xlabs/wormhole-connect
-          ref: ${{github.event.pull_request.head.ref}}
+          repository: wormhole-foundation/wormhole-connect
+          ref: development
           path: wormhole-connect
-      - name: Checkout Portal Bridge
-        uses: actions/checkout@v3
-        with:
-          path: portal
-      - name: Setup Git
-        run: |
-          pushd portal
-          git config user.name "xLabs CI"
-          git config user.email "devops@xlabs.xyz"
-      - name: Set Portal Bridge Version
-        id: set-version
-        run: |
-          pushd portal/apps/connect
-          npm version $(node -p -e "require('./package.json').version")-P$(echo ${{ github.sha }} | cut -c -10)
-          echo "_PKG_VERSION=$(node -p -e "require('./package.json').version")" >> "${GITHUB_OUTPUT}"
-      - name: Build Portal Bridge
-        env:
-          PUBLIC_URL: "/${{ needs.branch-sha.outputs.value }}"
-          VITE_APP_VERSION: ${{ steps.set-version.outputs._PKG_VERSION }}
-          VITE_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
+      - name: Build Wormhole Connect
         run: |
           npm install -g husky
           pushd wormhole-connect
           npm ci --workspaces --if-present
           npm run build
-          npm link --workspaces --if-present 
-          popd
-          pushd portal/apps/connect
+          npm link --workspaces --if-present
+      - name: Checkout Custom Wormhole Connect Loader
+        uses: actions/checkout@v3
+        with:
+          path: connect-loader
+      - name: Setup Git
+        run: |
+          pushd connect-loader
+          git config user.name "xLabs CI"
+          git config user.email "devops@xlabs.xyz"
+      - name: Set Portal Bridge Version
+        id: set-version
+        run: |
+          pushd connect-loader/apps/connect
+          npm version $(node -p -e "require('./package.json').version")-P$(echo ${{ github.sha }} | cut -c -10)
+          echo "_PKG_VERSION=$(node -p -e "require('./package.json').version")" >> "${GITHUB_OUTPUT}"
+      - name: Build Custom Wormhole Connect Loader
+        env:
+          PUBLIC_URL: "/${{ needs.branch-sha.outputs.value }}"
+          VITE_APP_VERSION: ${{ steps.set-version.outputs._PKG_VERSION }}
+          VITE_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
+        run: |
+          pushd connect-loader/apps/connect
           npm ci
           npm link @wormhole-foundation/wormhole-connect
           echo 'VITE_APP_VERSION=$npm_package_version' > .env
-          npm run build:usdc-bridge
+          npm run build:token-bridge
       - name: Upload Portal Bridge Artifact
         uses: actions/upload-artifact@v3
         with:
@@ -211,8 +212,7 @@ jobs:
           npm ci --workspaces --if-present
           npm run build
           npm link --workspaces --if-present
-
-      - name: Checkout Portal Bridge
+      - name: Checkout Custom Wormhole Connect Loader
         uses: actions/checkout@v3
         with:
           path: connect-loader
@@ -226,12 +226,11 @@ jobs:
         run: |
           pushd connect-loader/apps/connect
           echo "_PKG_VERSION=$(node -p -e "require('./package.json').version")-P$(echo ${{ github.sha }} | cut -c -10)" >> "${GITHUB_OUTPUT}"
-      - name: Build Portal Bridge
+      - name: Build Custom Wormhole Connect Loader
         env:
           PUBLIC_URL: "/${{ needs.branch-sha.outputs.value }}"
           VITE_APP_VERSION: ${{ steps.set-version.outputs._PKG_VERSION }}
           VITE_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
-          VITE_APP_ADVANCE_PATH: "/${{ needs.branch-sha.outputs.value }}/advance-tools"
         run: |
           pushd connect-loader/apps/connect
           npm ci
