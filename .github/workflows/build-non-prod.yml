@@ -101,6 +101,7 @@ jobs:
           PUBLIC_URL: "/${{ needs.branch-sha.outputs.value }}/advance-tools"
           NODE_OPTIONS: "--max-old-space-size=10240"
           GENERATE_SOURCEMAP: false
+          REACT_APP_BASE_URL: "/${{ needs.branch-sha.outputs.value }}"
           REACT_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
           REACT_APP_SOLANA_API_URL: ${{ vars.REACT_APP_SOLANA_API_URL }}
           REACT_APP_COVALENT_API_KEY: ${{ secrets.REACT_APP_COVALENT_API_KEY }}
