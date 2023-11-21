@@ -6,6 +6,7 @@ on:
 
 jobs:
   build:
+    name: "Build Testnet"
     uses: ./.github/workflows/build-non-prod.yml
     with:
       name: testnet
