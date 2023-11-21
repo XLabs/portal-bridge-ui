@@ -14,7 +14,7 @@ export default defineConfig({
     wormholeConnectConfig: {
       ...viteConfig?.define?.wormholeConnectConfig,
       moreNetworks: {
-        href: `${PUBLIC_URL}/advance/#/transfer?sourceChain={:sourceChain}&targetChain={:targetChain}`,
+        href: `${PUBLIC_URL}/advance-tools/#/transfer?sourceChain={:sourceChain}&targetChain={:targetChain}`,
         target: "_blank",
         description: "brief description that should be displayed as tooltip when the user over an more network icon",
         networks: [
@@ -38,13 +38,13 @@ export default defineConfig({
             name: "more",
             label: "More networks",
             showOpenInNewIcon: false,
-            href: `${PUBLIC_URL}/advance/#/transfer`,
+            href: `${PUBLIC_URL}/advance-tools/#/transfer`,
           }
         ]
       },
       moreTokens: {
         label: "More tokens ...",
-        href: `${PUBLIC_URL}/advance/#/transfer?sourceChain={:sourceChain}&targetChain={:targetChain}`,
+        href: `${PUBLIC_URL}/advance-tools/#/transfer?sourceChain={:sourceChain}&targetChain={:targetChain}`,
       }
     }
   }
