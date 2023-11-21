@@ -79,7 +79,6 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "sed -i '/enableWorkerThreads/d' node_modules/terser-webpack-plugin/dist/index.js && react-app-rewired build",
-    "postinstall": "cd wormhole-connect && npm install && cd ..",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "format": "npx prettier --write ./src"

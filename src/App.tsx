@@ -22,8 +22,6 @@ import { HelpOutline } from "@material-ui/icons";
 import { useCallback } from "react";
 import { useHistory, useLocation } from "react-router";
 import {
-  Link as RouterLink,
-  NavLink,
   Redirect,
   Route,
   Switch,
@@ -213,8 +211,7 @@ function App() {
       >
         <Toolbar>
           <Link
-            component={RouterLink}
-            to="/transfer"
+            href={`${process.env.REACT_APP_BASE_URL}`}
             className={classes.brandLink}
           >
             <img src={Portal} alt="Portal" className={classes.wormholeIcon} />
@@ -223,15 +220,14 @@ function App() {
           <Hidden implementation="css" xsDown>
             <div style={{ display: "flex", alignItems: "center" }}>
               <Link
-                component={NavLink}
-                to="/transfer"
+                href={`${process.env.REACT_APP_BASE_URL}`}
                 color="inherit"
                 className={classes.link}
               >
                 Token Bridge
               </Link>
               <Link
-                href={`${process.env.PUBLIC_URL}/usdc-bridge`}
+                href={`${process.env.REACT_APP_BASE_URL}/usdc-bridge/`}
                 target="_blank"
                 rel="noopener noreferrer"
                 color="inherit"
@@ -240,7 +236,7 @@ function App() {
                 USDC
               </Link>
               <Link
-                href={`${process.env.PUBLIC_URL}/sui`}
+                href={`${process.env.REACT_APP_BASE_URL}/?sourceChain=sui`}
                 target="_blank"
                 rel="noopener noreferrer"
                 color="inherit"
@@ -249,7 +245,7 @@ function App() {
                 Sui
               </Link>
               <Link
-                href={`${process.env.PUBLIC_URL}/cosmos`}
+                href={`${process.env.REACT_APP_BASE_URL}/?sourceChain=cosmos`}
                 target="_blank"
                 rel="noopener noreferrer"
                 color="inherit"
@@ -258,7 +254,7 @@ function App() {
                 Cosmos
               </Link>
               <Link
-                href={`${process.env.PUBLIC_URL}/docs`}
+                href={`${process.env.REACT_APP_BASE_URL}/docs`}
                 target="_blank"
                 rel="noopener noreferrer"
                 color="inherit"
