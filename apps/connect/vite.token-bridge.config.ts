@@ -19,7 +19,7 @@ export default defineConfig({
         description: "brief description that should be displayed as tooltip when the user over an more network icon",
         networks: [
           {
-            icon: "data:image/svg+xml,%3Csvg id='Layer_1' data-name='Layer 1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 650 650'%3E%3Cdefs%3E%3Cstyle%3E.cls-1%7Bfill:%23fff;%7D%3C/style%3E%3C/defs%3E%3Ctitle%3EALGO_Logos_190320%3C/title%3E%3Cg id='lINT7W'%3E%3Cpolygon class='cls-1' points='444.18 444.32 406.81 444.32 382.54 354.04 330.36 444.33 288.64 444.33 369.29 304.57 356.31 256.05 247.56 444.36 205.82 444.36 343.64 205.64 380.18 205.64 396.18 264.95 433.88 264.95 408.14 309.71 444.18 444.32'/%3E%3C/g%3E%3C/svg%3E",
+            icon: "data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cmask id='mask0_5964_23764' style='mask-type:alpha' maskUnits='userSpaceOnUse' x='0' y='0' width='80' height='80'%3E%3Crect width='80' height='80' fill='%23D9D9D9'/%3E%3C/mask%3E%3Cg mask='url(%23mask0_5964_23764)'%3E%3Cpath d='M17.1382 72.7516L27.3034 55.1578L37.4598 37.6258L47.5588 20.032L49.2361 17.2424L49.9732 20.032L53.0718 31.6141L49.6024 37.6258L39.4461 55.1578L29.3471 72.7516H41.4853L51.6461 55.1578L56.9118 46.0519L59.3925 55.1578L64.0977 72.7516H75L70.2948 55.1578L65.5852 37.6258L64.3493 33.1015L71.9059 20.032H60.8799L60.5048 18.7299L56.6647 4.35825L56.1703 2.5H45.577L45.3298 2.87077L35.4162 20.032L25.2554 37.6258L15.1608 55.1578L5 72.7516H17.1382Z' fill='white'/%3E%3C/g%3E%3C/svg%3E%0A",
             name: "algorand",
             label: "Algorand",
           },
