@@ -332,6 +332,6 @@ jobs:
           cat .latest >> .artifacts
           echo ${{ needs.token-bridge.outputs.pkg-version }} > .latest
           git add .artifacts .latest
-          git commit -m"Update testnet artifacts ${{ env._PKG_VERSION }}"
+          git commit -m"Update testnet artifacts ${{ needs.token-bridge.outputs.pkg-version }}"
           git push
-          echo "The preview URL is: ${{ vars.PREVIEW_ROOT_URL }}/${{ needs.branch-sha.outputs.value }}/" >> ${GITHUB_STEP_SUMMARY}
+          echo "The testnet URL is: ${{ vars.TESTNET_ROOT_URL }}/${{ needs.branch-sha.outputs.value }}/" >> ${GITHUB_STEP_SUMMARY}
