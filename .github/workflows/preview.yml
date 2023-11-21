@@ -164,7 +164,6 @@ jobs:
           PUBLIC_URL: "/${{ needs.branch-sha.outputs.value }}"
           VITE_APP_VERSION: ${{ steps.set-version.outputs._PKG_VERSION }}
           VITE_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
-          VITE_APP_ADVANCE_PATH: "/${{ needs.branch-sha.outputs.value }}/advance"
         run: |
           npm install -g husky
           pushd wormhole-connect
@@ -175,9 +174,6 @@ jobs:
           pushd portal/apps/connect
           npm ci
           npm link @wormhole-foundation/wormhole-connect
-          pushd public
-          npm run set-version
-          popd
           echo 'VITE_APP_VERSION=$npm_package_version' > .env
           npm run build:usdc-bridge
       - name: Upload Portal Bridge Artifact
@@ -205,50 +201,47 @@ jobs:
       - name: Checkout Wormhole Connect
         uses: actions/checkout@v3
         with:
-          repository: xlabs/wormhole-connect
-          ref: ${{github.event.pull_request.head.ref}}
+          repository: wormhole-foundation/wormhole-connect
+          ref: development
           path: wormhole-connect
-      - name: Checkout Portal Bridge
-        uses: actions/checkout@v3
-        with:
-          path: portal
-      - name: Setup Git
-        run: |
-          pushd portal
-          git config user.name "xLabs CI"
-          git config user.email "devops@xlabs.xyz"
-      - name: Set Portal Bridge Version
-        id: set-version
-        run: |
-          pushd portal/apps/connect
-          npm version $(node -p -e "require('./package.json').version")-P$(echo ${{ github.sha }} | cut -c -10)
-          echo "_PKG_VERSION=$(node -p -e "require('./package.json').version")" >> "${GITHUB_OUTPUT}"
-      - name: Build Portal Bridge
-        env:
-          PUBLIC_URL: "/${{ needs.branch-sha.outputs.value }}"
-          VITE_APP_VERSION: ${{ steps.set-version.outputs._PKG_VERSION }}
-          VITE_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
-          VITE_APP_ADVANCE_PATH: "/${{ needs.branch-sha.outputs.value }}/advance"
+      - name: Build Wormhole Connect
         run: |
           npm install -g husky
           pushd wormhole-connect
           npm ci --workspaces --if-present
           npm run build
-          npm link --workspaces --if-present 
-          popd
-          pushd portal/apps/connect
+          npm link --workspaces --if-present
+
+      - name: Checkout Portal Bridge
+        uses: actions/checkout@v3
+        with:
+          path: connect-loader
+      - name: Setup Git
+        run: |
+          git config user.name "xLabs CI"
+          git config user.email "devops@xlabs.xyz"
+      - name: Set Portal Bridge Version 
+        id: set-version
+        run: |
+          pushd connect-loader/apps/connect
+          echo $(node -p -e "require('./package.json').version")-P$(echo ${{ github.sha }} | cut -c -10) >> "${GITHUB_OUTPUT}"
+      - name: Build Portal Bridge
+        env:
+          PUBLIC_URL: "/${{ needs.branch-sha.outputs.value }}"
+          VITE_APP_VERSION: ${{ steps.set-version.outputs._PKG_VERSION }}
+          VITE_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
+          VITE_APP_ADVANCE_PATH: "/${{ needs.branch-sha.outputs.value }}/advance-tools"
+        run: |
+          pushd connect-loader/apps/connect
           npm ci
           npm link @wormhole-foundation/wormhole-connect
-          pushd public
-          npm run set-version
-          popd
           echo 'VITE_APP_VERSION=$npm_package_version' > .env
           npm run build:token-bridge
       - name: Upload Portal Bridge Artifact
         uses: actions/upload-artifact@v3
         with:
           name: build-token-bridge
-          path: portal/apps/connect/dist
+          path: connect-loader/apps/connect/dist
 
   publish:
     name: "Publish"
@@ -256,6 +249,7 @@ jobs:
       - advance-tools
       - usdc-bridge
       - token-bridge
+      - redirects
       - docs
     runs-on: "ubuntu-latest"
     concurrency:
@@ -288,6 +282,9 @@ jobs:
         with:
           node-version: v16.19.1
           registry-url: https://npm.pkg.github.com
+      - name: Create Package.json
+        run: |
+          jq -n --arg version ${{ needs.token-bridge.outputs.pkg-version }} '{"name": "@xlabs/portal-bridge-ui", "version": $version }' > package.json
       - name: Publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
