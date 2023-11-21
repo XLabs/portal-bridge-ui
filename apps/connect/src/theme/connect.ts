@@ -128,7 +128,7 @@ const customized: Theme = {
         elevation: "none"
     },
     modal: {
-        background: "#0F092C"
+        background: "rgba(15, 9, 44, 1)"
     },
     font: {
         primary: "\"Poppins\", regular",
