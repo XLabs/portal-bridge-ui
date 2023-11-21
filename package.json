@@ -103,6 +103,9 @@
       "last 1 safari version"
     ]
   },
+  "optionalDependencies": {
+    "fsevents": "*"
+  },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@truffle/hdwallet-provider": "^1.4.1",
