@@ -266,6 +266,11 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
+          name: build-usdc-bridge 
+          path: usdc-bridge    
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
           name: build-advance-tools
           path: advance-tools
       - name: Download Artifact
