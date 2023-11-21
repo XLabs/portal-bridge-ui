@@ -12,7 +12,8 @@ export default defineConfig({
       menu: [
         {
           label: 'Advance Tools',
-          href: `${process.env.PUBLIC_URL}/advance-tools`
+          href: `${process.env.PUBLIC_URL}/advance-tools`,
+          order: 1
         }
       ]
     }
