@@ -16,10 +16,10 @@ jobs:
         run: echo "_BRANCH_NAME_SHA=$(echo ${{ github.event.pull_request.head.ref }} | sha256sum | cut -c -10)" >> "${GITHUB_OUTPUT}"
 
   docs:
-    name: "Build Portal Bridge Documentation"
+    name: "Documentation"
     runs-on: "ubuntu-latest"
     concurrency:
-      group: ${{ github.ref }}-portal-docs-preview
+      group: ${{ github.ref }}-docs
     needs: 
       - branch-sha
     steps:
@@ -46,7 +46,7 @@ jobs:
           path: apps/docs/build
   
   advance-tools:
-    name: "Build Portal Bridge (Advance)"
+    name: "Advance Tools"
     runs-on: xlabs-large-runner
     concurrency:
       group: ${{ github.ref }}-advance-tools
@@ -95,7 +95,7 @@ jobs:
           path: build
 
   redirects:
-    name: "Build Portal Bridge"
+    name: "Redirects"
     runs-on: "ubuntu-latest"
     concurrency:
       group: ${{ github.ref }}-redirects
@@ -123,7 +123,7 @@ jobs:
           path: apps/redirects/dist
 
   usdc-bridge:
-    name: "Build USDC Bridge"
+    name: "USDC Bridge"
     runs-on: "ubuntu-latest"
     concurrency:
       group: ${{ github.ref }}-usdc-bridge
@@ -187,10 +187,10 @@ jobs:
           path: portal/apps/connect/dist
         
   token-bridge:
-    name: "Build Portal Bridge"
+    name: "Token Bridge"
     runs-on: "ubuntu-latest"
     concurrency:
-      group: ${{ github.ref }}-connect-preview
+      group: ${{ github.ref }}-token-bridge
       cancel-in-progress: true
     environment: Cloudflare-Preview
     needs: 
