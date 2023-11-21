@@ -225,7 +225,7 @@ jobs:
         id: set-version
         run: |
           pushd connect-loader/apps/connect
-          echo $(node -p -e "require('./package.json').version")-P$(echo ${{ github.sha }} | cut -c -10) >> "${GITHUB_OUTPUT}"
+          echo "_PKG_VERSION=$(node -p -e "require('./package.json').version")-P$(echo ${{ github.sha }} | cut -c -10)" >> "${GITHUB_OUTPUT}"
       - name: Build Portal Bridge
         env:
           PUBLIC_URL: "/${{ needs.branch-sha.outputs.value }}"
