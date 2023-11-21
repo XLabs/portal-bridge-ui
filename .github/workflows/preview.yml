@@ -218,6 +218,7 @@ jobs:
           path: connect-loader
       - name: Setup Git
         run: |
+          pushd connect-loader
           git config user.name "xLabs CI"
           git config user.email "devops@xlabs.xyz"
       - name: Set Portal Bridge Version 
