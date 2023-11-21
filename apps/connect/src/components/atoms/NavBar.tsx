@@ -18,7 +18,11 @@ const AppBar = styled(MuiAppBar)(({ theme }) => ({
   boxShadow: "none",
 }));
 
-const Link = styled(MuiLink)(({ theme }) => ({
+type LinkProps = {
+  active?: boolean;
+}
+
+const Link = styled(MuiLink)<LinkProps>(({ theme, active }) => ({
   ...theme.typography.body2,
   fontWeight: 600,
   fontFamily: "Suisse BP Intl, sans-serif",
@@ -31,6 +35,7 @@ const Link = styled(MuiLink)(({ theme }) => ({
   [theme.breakpoints.down("xs")]: {
     marginLeft: theme.spacing(1),
   },
+  textDecoration: active ? "underline" : "none",
   ":hover": {
     textDecoration: "underline"
   },
@@ -73,18 +78,18 @@ export default function NavBar() {
         <Spacer />
         <Hidden implementation="css" xsDown>
           <div style={{ display: "flex", alignItems: "center" }}>
-            <Link
-              href=""
-              color="inherit"
-            >
-              Home
-            </Link>
-            <Link
-              href="usdc-bridge"
-              color="inherit"
-            >
-              USDC
-            </Link>
+            {
+              navBar.map(({ label, active, href }, idx) =>
+                <Link
+                  key={`${label}_${idx}`}
+                  href={href}
+                  color="inherit"
+                  active={active}
+                >
+                  {label}
+                </Link>
+              )
+            }
             <Box>
               <Link
                 href="https://wormholescan.io"

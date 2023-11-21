@@ -7,6 +7,10 @@ const PUBLIC_URL = viteConfig.base;
 export default defineConfig({
   ...viteConfig,
   define: {
+    navBar: [
+      { label: "Home", active: true, href: `${PUBLIC_URL}/` },
+      { label: "USDC",  href: `${PUBLIC_URL}/usdc-bridge` }
+    ],
     wormholeConnectConfig: {
       ...viteConfig?.define?.wormholeConnectConfig,
       moreNetworks: {

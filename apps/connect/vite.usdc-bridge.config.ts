@@ -1,11 +1,17 @@
 import { defineConfig } from 'vite'
 import viteConfig from './vite.config'
 
+const PUBLIC_URL = viteConfig.base;
+
 // https://vitejs.dev/config/
 export default defineConfig({
   ...viteConfig,
-  base: `${viteConfig.base}/usdc-bridge/`,
+  base: `${PUBLIC_URL}/usdc-bridge/`,
   define: {
+    navBar: [
+      { label: "Home", href: `${PUBLIC_URL}/` },
+      { label: "USDC", active: true, href: `${PUBLIC_URL}/usdc-bridge` }
+    ],
     wormholeConnectConfig: {
       ...viteConfig?.define?.wormholeConnectConfig,
       routes: ["cctpManual", "cctpRelay"],
