@@ -5,50 +5,62 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  # cctp:
-  #   name: "Build USDC Bridge (CCTP)"
-  #   runs-on: "ubuntu-latest"
-  #   concurrency:
-  #     group: ${{ github.ref }}-cctp-testnet
-  #     cancel-in-progress: true
-  #   environment: Cloudflare-Testnet
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v3
-  #       with:
-  #         repository: xlabs/usdc-bridge
-  #         ref: develop
-  #     - name: Set up Node environment
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: v16.19.1
-  #     - name: Install dependencies
-  #       run: npm ci
-  #     - name: Set Version
-  #       run: |
-  #         echo "_BRANCH_NAME_SHA=$(echo ${{ github.event.pull_request.head.ref }} | sha256sum | cut -c -10)" >> "${GITHUB_ENV}"
-  #     - name: Build
-  #       env:
-  #         DEPLOY: "true"
-  #         NEXT_PUBLIC_NETWORK: "testnet"
-  #         NEXT_PUBLIC_BASE_PATH: "/${{ env._BRANCH_NAME_SHA }}/usdc-bridge"
-  #       run: npm run build
-  #     - name: Upload Artifact
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         name: testnet-stable-bridge
-  #         path: out
+  branch-sha:
+    name: Compute Branch Sha
+    runs-on: ubuntu-latest
+    outputs:
+      value: ${{ steps.set-version.outputs._BRANCH_NAME_SHA }}
+    steps:
+      - name: Set Version
+        id: set-version
+        run: echo "_BRANCH_NAME_SHA=$(echo ${{ github.event.pull_request.head.ref }} | sha256sum | cut -c -10)" >> "${GITHUB_OUTPUT}"
 
-  portal:
-    name: "Build Portal Bridge"
-    runs-on: xlabs-large-runner
+  docs:
+    name: "Documentation"
+    runs-on: "ubuntu-latest"
     concurrency:
-      group: ${{ github.ref }}-portal-testnet
-      cancel-in-progress: true
-    environment: Cloudflare-Testnet
+      group: ${{ github.ref }}-docs
+    needs: 
+      - branch-sha
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+      - name: Set up Node environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: v16.19.1
+      - name: Install dependencies
+        run: |
+          pushd apps/docs
+          npm ci
+      - name: Build
+        env:
+          PUBLIC_URL: "/${{ needs.branch-sha.outputs.value }}/docs"
+        run: |
+          pushd apps/docs
+          npm run build
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-docs
+          path: apps/docs/build
+  
+  advance-tools:
+    name: "Advance Tools"
+    runs-on: xlabs-large-runner
+    concurrency:
+      group: ${{ github.ref }}-advance-tools
+      cancel-in-progress: true
+    environment: Cloudflare-Preview
+    needs: 
+      - branch-sha
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          repository: xLabs/portal-bridge-ui
+          # TODO replace with the advance tools branch after cutover
+          ref: main
       - name: Set up Node environment
         uses: actions/setup-node@v3
         with:
@@ -60,49 +72,188 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Set Version
-        run: |
-          npm version $(node -p -e "require('./package.json').version")-T$(echo ${{ github.sha }} | cut -c -10)
-          echo "_PKG_VERSION=$(node -p -e "require('./package.json').version")" >> "${GITHUB_ENV}"
-          echo "_BRANCH_NAME_SHA=$(echo ${{ github.event.pull_request.head.ref }} | sha256sum | cut -c -10)" >> "${GITHUB_ENV}"
+        id: set-version
+        run: npm version $(node -p -e "require('./package.json').version")-T$(echo ${{ github.sha }} | cut -c -10)
       - name: Build
         env:
-          PUBLIC_URL: "/${{ env._BRANCH_NAME_SHA }}"
+          PUBLIC_URL: "/${{ needs.branch-sha.outputs.value }}/advance-tools"
           NODE_OPTIONS: "--max-old-space-size=10240"
-          REACT_APP_CLUSTER: testnet
+          GENERATE_SOURCEMAP: false
+          REACT_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
           REACT_APP_SOLANA_API_URL: ${{ vars.REACT_APP_SOLANA_API_URL }}
           REACT_APP_COVALENT_API_KEY: ${{ secrets.REACT_APP_COVALENT_API_KEY }}
           REACT_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}
         run: |
-          pushd public
-          npm run set-version
-          popd
           echo 'REACT_APP_VERSION=$npm_package_version' > .env
           npm run build
+          cd build
+          npm run set-version
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: testnet-portal-bridge
+          name: build-advance-tools
           path: build
-      - name: Deploy metadata
+
+  redirects:
+    name: "Redirects"
+    runs-on: "ubuntu-latest"
+    concurrency:
+      group: ${{ github.ref }}-redirects
+      cancel-in-progress: true 
+    needs: 
+      - branch-sha
+    steps:
+      - name: Set up Node environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: v18.17.1
+      - name: Checkout Portal Bridge
+        uses: actions/checkout@v3
+      - name: Build Redirects
+        env:
+          PUBLIC_URL: "/${{ needs.branch-sha.outputs.value }}"
         run: |
-          mkdir deploy-metadata
-          pushd deploy-metadata
-          echo ${_BRANCH_NAME_SHA} > .branch-sha
-          echo ${_PKG_VERSION} > .version
-      - name: Upload Deploy metadata
+          pushd apps/redirects
+          npm ci
+          npm run build
+      - name: Upload Portal Bridge Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: testnet-deploy-metadata
-          path: deploy-metadata
+          name: build-redirects
+          path: apps/redirects/dist
+
+  usdc-bridge:
+    name: "USDC Bridge"
+    runs-on: "ubuntu-latest"
+    concurrency:
+      group: ${{ github.ref }}-usdc-bridge
+      cancel-in-progress: true
+    environment: Cloudflare-Preview
+    needs: 
+      - branch-sha
+    outputs:
+      pkg-version: ${{ steps.set-version.outputs._PKG_VERSION }}
+    steps:
+      - name: Set up Node environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: v18.17.1
+      - name: Checkout Wormhole Connect
+        uses: actions/checkout@v3
+        with:
+          repository: wormhole-foundation/wormhole-connect
+          ref: development
+          path: wormhole-connect
+      - name: Build Wormhole Connect
+        run: |
+          npm install -g husky
+          pushd wormhole-connect
+          npm ci --workspaces --if-present
+          npm run build
+          npm link --workspaces --if-present
+      - name: Checkout Custom Wormhole Connect Loader
+        uses: actions/checkout@v3
+        with:
+          path: connect-loader
+      - name: Setup Git
+        run: |
+          pushd connect-loader
+          git config user.name "xLabs CI"
+          git config user.email "devops@xlabs.xyz"
+      - name: Set Portal Bridge Version
+        id: set-version
+        run: |
+          pushd connect-loader/apps/connect
+          npm version $(node -p -e "require('./package.json').version")-T$(echo ${{ github.sha }} | cut -c -10)
+          echo "_PKG_VERSION=$(node -p -e "require('./package.json').version")" >> "${GITHUB_OUTPUT}"
+      - name: Build Custom Wormhole Connect Loader
+        env:
+          PUBLIC_URL: "/${{ needs.branch-sha.outputs.value }}"
+          VITE_APP_VERSION: ${{ steps.set-version.outputs._PKG_VERSION }}
+          VITE_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
+        run: |
+          pushd connect-loader/apps/connect
+          npm ci
+          npm link @wormhole-foundation/wormhole-connect
+          echo 'VITE_APP_VERSION=$npm_package_version' > .env
+          npm run build:usdc-bridge
+      - name: Upload Portal Bridge Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-usdc-bridge
+          path: connect-loader/apps/connect/dist
+        
+  token-bridge:
+    name: "Token Bridge"
+    runs-on: "ubuntu-latest"
+    concurrency:
+      group: ${{ github.ref }}-token-bridge
+      cancel-in-progress: true
+    environment: Cloudflare-Preview
+    needs: 
+      - branch-sha
+    outputs:
+      pkg-version: ${{ steps.set-version.outputs._PKG_VERSION }}
+    steps:
+      - name: Set up Node environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: v18.17.1
+      - name: Checkout Wormhole Connect
+        uses: actions/checkout@v3
+        with:
+          repository: wormhole-foundation/wormhole-connect
+          ref: development
+          path: wormhole-connect
+      - name: Build Wormhole Connect
+        run: |
+          npm install -g husky
+          pushd wormhole-connect
+          npm ci --workspaces --if-present
+          npm run build
+          npm link --workspaces --if-present
+      - name: Checkout Custom Wormhole Connect Loader
+        uses: actions/checkout@v3
+        with:
+          path: connect-loader
+      - name: Setup Git
+        run: |
+          pushd connect-loader
+          git config user.name "xLabs CI"
+          git config user.email "devops@xlabs.xyz"
+      - name: Set Portal Bridge Version 
+        id: set-version
+        run: |
+          pushd connect-loader/apps/connect
+          echo "_PKG_VERSION=$(node -p -e "require('./package.json').version")-T$(echo ${{ github.sha }} | cut -c -10)" >> "${GITHUB_OUTPUT}"
+      - name: Build Custom Wormhole Connect Loader
+        env:
+          PUBLIC_URL: "/${{ needs.branch-sha.outputs.value }}"
+          VITE_APP_VERSION: ${{ steps.set-version.outputs._PKG_VERSION }}
+          VITE_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
+        run: |
+          pushd connect-loader/apps/connect
+          npm ci
+          npm link @wormhole-foundation/wormhole-connect
+          echo 'VITE_APP_VERSION=$npm_package_version' > .env
+          npm run build:token-bridge
+      - name: Upload Portal Bridge Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-token-bridge
+          path: connect-loader/apps/connect/dist
 
   publish:
     name: "Publish"
     needs:
-      - portal
-      # - cctp
+      - advance-tools
+      - usdc-bridge
+      - token-bridge
+      - redirects
+      - docs
     runs-on: "ubuntu-latest"
     concurrency:
-      group: ${{ github.ref }}-publish-testnet
+      group: ${{ github.ref }}-publish
       cancel-in-progress: true
     permissions:
       contents: read
@@ -111,17 +262,39 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
-          name: testnet-portal-bridge
-      # - name: Download Artifact
-      #   uses: actions/download-artifact@v3
-      #   with:
-      #     name: testnet-stable-bridge
-      #     path: usdc-bridge
+          name: build-token-bridge
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build-usdc-bridge 
+          path: usdc-bridge    
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build-advance-tools
+          path: advance-tools
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build-docs
+          path: docs
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build-redirects
       - name: Set up GitHub NPM registry
         uses: actions/setup-node@v3
         with:
-          node-version: v18.17.1
+          node-version: v16.19.1
           registry-url: https://npm.pkg.github.com
+      - name: Create Package.json
+        run: |
+          jq -n --arg version ${{ needs.token-bridge.outputs.pkg-version }} '{"name": "@xlabs/portal-bridge-ui", "version": $version }' > package.json
+      - name: Upload Portal Bridge Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-all
+          path: .
       - name: Publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -129,7 +302,10 @@ jobs:
 
   deploy:
     name: "Deploy Testnet"
-    needs: publish
+    needs:
+      - publish
+      - branch-sha
+      - token-bridge
     runs-on: "ubuntu-latest"
     concurrency:
       group: ${{ github.ref }}-deploy-testnet
@@ -146,25 +322,16 @@ jobs:
         run: |
           git config user.name "xLabs CI"
           git config user.email "devops@xlabs.xyz"
-      - name: Download Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: testnet-deploy-metadata
-          path: deploy-metadata
-      - name: Set deploy metadata
-        run: |
-          echo "_PKG_VERSION=$(cat deploy-metadata/.version)" >> ${GITHUB_ENV}
-          echo "_BRANCH_NAME_SHA=$(cat deploy-metadata/.branch-sha)" >> ${GITHUB_ENV}
       - name: Trigger a testnet Deploy
         run: |
           sleep 30s
-          mkdir -p testnet/${{ env._BRANCH_NAME_SHA }}
-          pushd testnet/${{ env._BRANCH_NAME_SHA }}
+          mkdir -p testnet/${{ needs.branch-sha.outputs.value }}
+          pushd testnet/${{ needs.branch-sha.outputs.value }}
           [[ ! -f .latest ]] && touch .latest
           [[ ! -f .artifacts ]] && touch .artifacts
           cat .latest >> .artifacts
-          echo ${{ env._PKG_VERSION }} > .latest
+          echo ${{ needs.token-bridge.outputs.pkg-version }} > .latest
           git add .artifacts .latest
           git commit -m"Update testnet artifacts ${{ env._PKG_VERSION }}"
           git push
-          echo "The testnet URL is: ${{ vars.TESTNET_ROOT_URL }}/${{ env._BRANCH_NAME_SHA }}/" >> ${GITHUB_STEP_SUMMARY}
+          echo "The preview URL is: ${{ vars.PREVIEW_ROOT_URL }}/${{ needs.branch-sha.outputs.value }}/" >> ${GITHUB_STEP_SUMMARY}
