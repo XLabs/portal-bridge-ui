@@ -3,6 +3,9 @@ import viteConfig from './vite.config'
 
 const PUBLIC_URL = viteConfig.base;
 
+const ADVANCE_TOOLS_HREF = `${PUBLIC_URL}/advance-tools/#/transfer`
+const ADVANCE_TOOLS_HREF_TEMPLATE = `${ADVANCE_TOOLS_HREF}?sourceChain={:sourceChain}&targetChain={:targetChain}`
+
 // https://vitejs.dev/config/
 export default defineConfig({
   ...viteConfig,
@@ -14,7 +17,7 @@ export default defineConfig({
     wormholeConnectConfig: {
       ...viteConfig?.define?.wormholeConnectConfig,
       moreNetworks: {
-        href: `${PUBLIC_URL}/advance-tools/#/transfer?sourceChain={:sourceChain}&targetChain={:targetChain}`,
+        href: ADVANCE_TOOLS_HREF_TEMPLATE,
         target: "_blank",
         description: "Advance Tools offers unlimited transfers across chains for tokens and NFTs wrapped by Wormhole.",
         networks: [
@@ -38,13 +41,13 @@ export default defineConfig({
             name: "more",
             label: "More networks",
             showOpenInNewIcon: false,
-            href: `${PUBLIC_URL}/advance-tools/#/transfer`,
+            href: ADVANCE_TOOLS_HREF,
           }
         ]
       },
       moreTokens: {
         label: "More tokens ...",
-        href: `${PUBLIC_URL}/advance-tools/#/transfer?sourceChain={:sourceChain}&targetChain={:targetChain}`,
+        href: ADVANCE_TOOLS_HREF_TEMPLATE,
       }
     }
   }
