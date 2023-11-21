@@ -4,7 +4,7 @@ import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: process.env.PUBLIC_URL || '/',
+  base: process.env.PUBLIC_URL || '',
   define: {
     wormholeConnectConfig: {
       env: process.env.VITE_APP_CLUSTER || 'mainnet',
