@@ -11,6 +11,8 @@ jobs:
     with:
       name: testnet
       separator: T
+      connect-branch: portal-bridge
+      advance-tools-branch: advance-tools
   deploy:
     name: "Deploy Testnet"
     needs:

@@ -11,6 +11,8 @@ jobs:
     with:
       name: preview
       separator: P
+      connect-branch: portal-bridge
+      advance-tools-branch: advance-tools
   deploy:
     name: "Deploy Preview"
     needs:
