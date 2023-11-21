@@ -176,12 +176,12 @@ jobs:
           npm ci
           npm link @wormhole-foundation/wormhole-connect
           echo 'VITE_APP_VERSION=$npm_package_version' > .env
-          npm run build:token-bridge
+          npm run build:usdc-bridge
       - name: Upload Portal Bridge Artifact
         uses: actions/upload-artifact@v3
         with:
           name: build-usdc-bridge
-          path: portal/apps/connect/dist
+          path: connect-loader/apps/connect/dist
         
   token-bridge:
     name: "Token Bridge"
@@ -277,6 +277,11 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: build-redirects
+      - name: Upload Portal Bridge Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-all
+          path: .
       - name: Set up GitHub NPM registry
         uses: actions/setup-node@v3
         with:
