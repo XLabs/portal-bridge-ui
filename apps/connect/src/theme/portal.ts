@@ -1,7 +1,6 @@
 import createTheme from "@mui/material/styles/createTheme";
 import responsiveFontSizes from "@mui/material/styles/responsiveFontSizes";
 import font from '../assets/fonts/SuisseBPIntlBold.woff2';
-import bg from '../assets/imgs/bg.svg';
 
 const suisse = {
     fontFamily: "Suisse BP Intl",
@@ -78,7 +77,6 @@ const theme = responsiveFontSizes(createTheme({
                 "@font-face": [suisse],
                 body: {
                     overscrollBehaviorY: "none",
-                    backgroundImage: `url(${bg})`,
                     backgroundPosition: "top center",
                     backgroundRepeat: "repeat-y",
                     backgroundSize: "120%",

@@ -1,5 +1,6 @@
 import styled from "@mui/material/styles/styled";
 
+/*
 const GradientRight = styled("div")(({ theme }) => ({
   position: "absolute",
   top: "72px",
@@ -62,8 +63,10 @@ const GradientLeftBottom = styled("div")(({ theme }) => ({
     display: "none",
   },
 }));
+*/
 
 const Container = styled("div")(() => ({
+  color: "#0A0629",
   display: "flex",
   flexDirection: "column",
   minHeight: "100vh",
@@ -79,10 +82,6 @@ export default function Background({
   return (
     <Container>
       {children}
-      <GradientRight />
-      <GradientRightBottom />
-      <GradientLeft />
-      <GradientLeftBottom />
     </Container>
   );
 }
