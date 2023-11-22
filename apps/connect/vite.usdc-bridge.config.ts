@@ -14,6 +14,7 @@ export default defineConfig({
     ],
     wormholeConnectConfig: {
       ...viteConfig?.define?.wormholeConnectConfig,
+      pageHeader: 'USDC Bridge',
       routes: ["cctpManual", "cctpRelay"],
       networks: ["ethereum", "avalanche", "arbitrum", "optimism", "base"],
       tokens: ["USDCeth", "USDCavax", "USDCarbitrum", "USDCoptimism", "USDCbase"],

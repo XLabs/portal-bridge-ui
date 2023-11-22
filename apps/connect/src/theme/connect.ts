@@ -109,8 +109,8 @@ const customized: Theme = {
         primaryText: "#ffffff",
         disabled: "#ffffff0F",
         disabledText: "#ffffff66",
-        action: "rgba(74, 75, 147, 1)",
-        actionText: "#000000",
+        action: "#e47829",
+        actionText: "#ffffff",
         hover: "#ffffff0F"
     },
     options: {

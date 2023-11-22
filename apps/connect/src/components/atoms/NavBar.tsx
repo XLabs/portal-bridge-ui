@@ -24,10 +24,11 @@ type LinkProps = {
 
 const Link = styled(MuiLink)<LinkProps>(({ theme, active }) => ({
   ...theme.typography.body2,
-  fontWeight: 600,
-  fontFamily: "Suisse BP Intl, sans-serif",
-  color: "white",
-  marginLeft: theme.spacing(4),
+  fontSize: "14px",
+  fontWeight: 400,
+  fontFamily: "\"Poppins\", regular",
+  color: "#FFFFFFE6",
+  marginLeft: theme.spacing(7),
   textUnderlineOffset: "6px",
   [theme.breakpoints.down("sm")]: {
     marginLeft: theme.spacing(2.5),
