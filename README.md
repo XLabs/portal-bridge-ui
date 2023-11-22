@@ -20,12 +20,12 @@ export GITHUB_TOKEN=#your github token
 act --artifact-server-path /tmp/act-artifacts -W .github/workflows/preview.yml pull_request -s GITHUB_TOKEN=${GITHUB_TOKEN} -P=xlabs-large-runner=catthehacker/ubuntu:act-latest --container-options "--memory=10G"
 ```
 
-### advance-tools job
+### advanced-tools job
 
 ```shell
 export GITHUB_TOKEN=#your github token
 
-act --artifact-server-path /tmp/act-artifacts -W .github/workflows/preview.yml pull_request -j advance-tools  -s GITHUB_TOKEN=${GITHUB_TOKEN} -P=xlabs-large-runner=catthehacker/ubuntu:act-latest --container-options "--memory=12g"
+act --artifact-server-path /tmp/act-artifacts -W .github/workflows/preview.yml pull_request -j advanced-tools  -s GITHUB_TOKEN=${GITHUB_TOKEN} -P=xlabs-large-runner=catthehacker/ubuntu:act-latest --container-options "--memory=12g"
 ```
 
 ### redirects job

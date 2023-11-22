@@ -12,7 +12,9 @@ jobs:
       name: preview
       separator: P
       connect-branch: portal-bridge
-      advance-tools-branch: advance-tools
+      advanced-tools-branch: advanced-tools
+      environment: Cloudflare-Preview
+    secrets: inherit
   deploy:
     name: "Deploy Preview"
     needs:

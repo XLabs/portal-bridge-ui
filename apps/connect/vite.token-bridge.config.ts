@@ -3,7 +3,7 @@ import viteConfig from './vite.config'
 
 const PUBLIC_URL = viteConfig.base;
 
-const ADVANCE_TOOLS_HREF = `${PUBLIC_URL}/advance-tools/#/transfer`
+const ADVANCE_TOOLS_HREF = `${PUBLIC_URL}/advanced-tools/#/transfer`
 const ADVANCE_TOOLS_HREF_TEMPLATE = `${ADVANCE_TOOLS_HREF}?sourceChain={:sourceChain}&targetChain={:targetChain}`
 
 // https://vitejs.dev/config/

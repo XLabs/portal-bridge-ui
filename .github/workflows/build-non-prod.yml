@@ -13,10 +13,14 @@ on:
             type: string
             required: true
             default: development
-        advance-tools-branch:
+        advanced-tools-branch:
             type: string
             required: true
             default: main
+        environment:
+            type: string
+            required: true
+            default: Cloudflare-Preview
     outputs:
         branch-sha:
             description: "Branch SHA"
@@ -67,13 +71,13 @@ jobs:
           name: build-docs
           path: apps/docs/build
   
-  advance-tools:
+  advanced-tools:
     name: "Advance Tools"
     runs-on: xlabs-large-runner
     concurrency:
-      group: ${{ github.ref }}-${{inputs.name}}-advance-tools
+      group: ${{ github.ref }}-${{inputs.name}}-advanced-tools
       cancel-in-progress: true
-    environment: Cloudflare-Preview
+    environment: ${{inputs.environment}}
     needs: 
       - branch-sha
     steps:
@@ -82,7 +86,7 @@ jobs:
         with:
           repository: xLabs/portal-bridge-ui
           # TODO replace with the advance tools branch after cutover
-          ref: ${{inputs.advance-tools-branch}}
+          ref: ${{inputs.advanced-tools-branch}}
       - name: Set up Node environment
         uses: actions/setup-node@v3
         with:
@@ -98,7 +102,7 @@ jobs:
         run: npm version $(node -p -e "require('./package.json').version")-${{inputs.separator}}$(echo ${{ github.sha }} | cut -c -10)
       - name: Build
         env:
-          PUBLIC_URL: "/${{ needs.branch-sha.outputs.value }}/advance-tools"
+          PUBLIC_URL: "/${{ needs.branch-sha.outputs.value }}/advanced-tools"
           NODE_OPTIONS: "--max-old-space-size=10240"
           GENERATE_SOURCEMAP: false
           REACT_APP_BASE_URL: "/${{ needs.branch-sha.outputs.value }}"
@@ -114,7 +118,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: build-advance-tools
+          name: build-advanced-tools
           path: build
 
   redirects:
@@ -151,7 +155,7 @@ jobs:
     concurrency:
       group: ${{ github.ref }}-${{inputs.name}}-usdc-bridge
       cancel-in-progress: true
-    environment: Cloudflare-Preview
+    environment: ${{inputs.environment}}
     needs: 
       - branch-sha
     outputs:
@@ -212,7 +216,7 @@ jobs:
     concurrency:
       group: ${{ github.ref }}-${{inputs.name}}-token-bridge
       cancel-in-progress: true
-    environment: Cloudflare-Preview
+    environment: ${{inputs.environment}}
     needs: 
       - branch-sha
     outputs:
@@ -269,7 +273,7 @@ jobs:
   publish:
     name: "Publish"
     needs:
-      - advance-tools
+      - advanced-tools
       - usdc-bridge
       - token-bridge
       - redirects
@@ -294,8 +298,8 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
-          name: build-advance-tools
-          path: advance-tools
+          name: build-advanced-tools
+          path: advanced-tools
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:

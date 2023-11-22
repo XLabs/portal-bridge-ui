@@ -11,8 +11,8 @@ export default defineConfig({
       showHamburgerMenu: false,
       menu: [
         {
-          label: 'Advance Tools',
-          href: `${process.env.PUBLIC_URL}/advance-tools`,
+          label: 'Advanced Tools',
+          href: `${process.env.PUBLIC_URL}/advanced-tools`,
           order: 1
         }
       ]
