@@ -44,17 +44,18 @@ const Glow = styled("div")<GlowProps>(
   })
 );
 
-type ElipsisContainerProps = {
+type ElipsisProps = {
   width: number;
   height: number;
   marginTop: number;
   marginLeft: number;
 };
-const ElipsisContainer = styled("div")<ElipsisContainerProps>(
+
+const Elipsis = styled("div")<ElipsisProps>(
   ({ width, height, marginTop, marginLeft }) => ({
     width,
     height,
-    borderColor: "#FFF",
+    borderColor: "rgb(255, 255, 255, 0.5)",
     borderWidth: "0.5px",
     borderStyle: "solid",
     borderRadius: "50%",
@@ -62,29 +63,6 @@ const ElipsisContainer = styled("div")<ElipsisContainerProps>(
     marginLeft: marginLeft,
   })
 );
-
-type ElipsisProps = {
-  children?: JSX.Element;
-} & ElipsisContainerProps;
-
-function Elipsis({
-  width,
-  height,
-  marginTop,
-  marginLeft,
-  children,
-}: ElipsisProps) {
-  return (
-    <ElipsisContainer
-      width={width}
-      height={height}
-      marginTop={marginTop}
-      marginLeft={marginLeft}
-    >
-      {children}
-    </ElipsisContainer>
-  );
-}
 
 type FooterProps = {
     left?: string;
