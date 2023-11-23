@@ -11,7 +11,7 @@ jobs:
       name: prod
       connect-branch: portal-bridge
       advanced-tools-branch: advanced-tools
-      environment: Cloudflare-Page-Deploy
+      environment: Cloudflare-Preview
     secrets: inherit
   deploy:
     name: Trigger Production Deploy 
@@ -21,7 +21,7 @@ jobs:
       cancel-in-progress: true
     needs: 
       - build
-    environment: Cloudflare-Page-Deploy
+    environment: Cloudflare-Preview
     steps:
       - name: Wait package publish to impact
         run: sleep 60s
