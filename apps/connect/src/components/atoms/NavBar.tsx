@@ -18,11 +18,7 @@ const AppBar = styled(MuiAppBar)(({ theme }) => ({
   boxShadow: "none",
 }));
 
-type LinkProps = {
-  active?: boolean;
-}
-
-const Link = styled(MuiLink)<LinkProps>(({ theme, active }) => ({
+const Link = styled(MuiLink)(({ theme }) => ({
   ...theme.typography.body2,
   fontSize: "14px",
   fontWeight: 400,
@@ -36,7 +32,6 @@ const Link = styled(MuiLink)<LinkProps>(({ theme, active }) => ({
   [theme.breakpoints.down("xs")]: {
     marginLeft: theme.spacing(1),
   },
-  textDecoration: active ? "underline" : "none",
   ":hover": {
     textDecoration: "underline"
   },
@@ -85,7 +80,7 @@ export default function NavBar() {
                   key={`${label}_${idx}`}
                   href={href}
                   color="inherit"
-                  active={active}
+                  sx={{ textDecoration: active ? "underline" : "none" }}
                 >
                   {label}
                 </Link>
