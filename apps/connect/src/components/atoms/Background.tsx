@@ -1,5 +1,8 @@
-import { Typography } from "@mui/material";
 import styled from "@mui/material/styles/styled";
+import Glow from "./Glow";
+import Elipsis from "./Elipsis";
+import PoweredBy from "./PoweredBy";
+import Version from "./Version";
 
 const Container = styled("div")(() => ({
   display: "flex",
@@ -9,91 +12,10 @@ const Container = styled("div")(() => ({
   overflow: "hidden"
 }));
 
-type GlowProps = {
-  position: {
-    top?: string;
-    left?: string;
-    bottom?: string;
-    right?: string;
-  };
-  size: {
-    width?: string;
-    height?: string;
-  };
-  background: string;
-};
-
-const Glow = styled("div")<GlowProps>(
-  ({
-    position: { top, left, bottom, right } = {},
-    size: { width, height } = {},
-    background,
-  }) => ({
-    position: "absolute",
-    borderRadius: width,
-    background,
-    backdropFilter: "blur(12px)",
-    width,
-    height,
-    flexShrink: 0,
-    zIndex: -1,
-    top,
-    bottom,
-    left,
-    right,
-  })
-);
-
-type ElipsisProps = {
-  width: number;
-  height: number;
-  marginTop: number;
-  marginLeft: number;
-};
-
-const Elipsis = styled("div")<ElipsisProps>(
-  ({ width, height, marginTop, marginLeft }) => ({
-    width,
-    height,
-    borderColor: "rgb(255, 255, 255, 0.5)",
-    borderWidth: "0.5px",
-    borderStyle: "solid",
-    borderRadius: "50%",
-    marginTop: marginTop,
-    marginLeft: marginLeft,
-  })
-);
-
-type FooterProps = {
-    left?: string;
-    right?: string;
-};
-
-const Footer = styled(Typography)<FooterProps>(({ left, right }) => ({
-  position: "absolute",
-  color: "#C9CAE8",
-  fontFamily: "Poppins",
-  fontSize: "14px",
-  fontStyle: "normal",
-  fontWeight: "600",
-  lineHeight: "18.59px",
-  left,
-  right,
-  bottom: "28px",
-}));
-
-function Version() {
-  return <Footer left="120px">v{import.meta.env.VITE_APP_VERSION || '0.0.0'}</Footer>
-}
-
-function PoweredBy() {
-  return (<Footer right="120px">Powered by xLabs</Footer>)
-}
-
 export default function Background({
   children,
 }: {
-  children: React.ReactNode;
+  children: JSX.Element;
 }) {
   return (
     <Container>

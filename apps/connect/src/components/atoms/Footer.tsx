@@ -1,39 +1,30 @@
 import Typography from "@mui/material/Typography";
 import styled from "@mui/material/styles/styled";
 
-const FooterContainer = styled("footer")(({ theme }) => ({
-  position: "relative",
-  color: "#ffffff",
-  maxWidth: 1100,
-  margin: "0px auto",
-  [theme.breakpoints.up("md")]: {
-    paddingBottom: theme.spacing(12),
+type FooterProps = {
+  left?: string;
+  right?: string;
+};
+
+const Footer = styled(Typography)<FooterProps>(({ theme, left, right }) => ({
+  [theme.breakpoints.down("md")]: {
+    display: "flex",
+    flexGrow: 1,
+    justifyContent: "center",
+    paddingBottom: theme.spacing(2),
   },
+  [theme.breakpoints.up("md")]: {
+    position: "absolute",
+    left,
+    right,
+    bottom: "28px",  
+  },
+  color: "#C9CAE8",
+  fontFamily: "Poppins",
+  fontSize: "14px",
+  fontStyle: "normal",
+  fontWeight: "600",
+  lineHeight: "18.59px",
 }));
 
-const FooterFlex = styled("div")(({ theme }) => ({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  marginLeft: theme.spacing(3.5),
-  marginRight: theme.spacing(3.5),
-  borderTop: "1px solid #585587",
-  paddingTop: theme.spacing(2),
-  [theme.breakpoints.up("md")]: {
-    flexWrap: "wrap",
-    flexDirection: "row",
-    alignItems: "unset",
-  },
-}));
-
-export default function Footer() {
-  return (
-    <FooterContainer>
-      <FooterFlex>
-        <Typography>
-          v{import.meta.env.VITE_APP_VERSION} - {import.meta.env.VITE_APP_CLUSTER}
-        </Typography>
-      </FooterFlex>
-    </FooterContainer>
-  );
-}
+export default Footer;
