@@ -2,7 +2,15 @@ name: Portal Bridge [Release]
 
 on:
   workflow_dispatch:
-
+    inputs:
+      environment:
+        description: 'Environment Name'
+        type: choice
+        options:
+          - 'Cloudflare-Preview'
+          - 'Cloudflare-Page-Deploy'
+        required: true
+        default: 'Cloudflare-Page-Deploy'
 jobs:
   build:
     name: "Build Preview"
@@ -11,7 +19,7 @@ jobs:
       name: prod
       connect-branch: portal-bridge
       advanced-tools-branch: advanced-tools
-      environment: Cloudflare-Preview
+      environment: ${{inputs.environment}}
     secrets: inherit
   deploy:
     name: Trigger Production Deploy 
@@ -21,7 +29,7 @@ jobs:
       cancel-in-progress: true
     needs: 
       - build
-    environment: Cloudflare-Preview
+    environment: ${{inputs.environment}}
     steps:
       - name: Wait package publish to impact
         run: sleep 60s
