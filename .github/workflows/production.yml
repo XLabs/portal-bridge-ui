@@ -13,7 +13,7 @@ on:
         default: 'Cloudflare-Page-Deploy'
 jobs:
   build:
-    name: "Build Preview"
+    name: "Build Release"
     uses: ./.github/workflows/build.yml
     with:
       name: prod

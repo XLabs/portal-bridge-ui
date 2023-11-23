@@ -15,7 +15,7 @@ const Container = styled("div")(() => ({
 export default function Background({
   children,
 }: {
-  children: JSX.Element;
+  children: JSX.Element[];
 }) {
   return (
     <Container>
