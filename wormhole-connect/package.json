@@ -9,7 +9,7 @@
   "author": "xLabs Inc",
   "license": "ISC",
   "devDependencies": {
-    "@wormhole-foundation/wormhole-connect": "0.1.4-beta.0-development",
+    "@wormhole-foundation/wormhole-connect": "0.1.4-beta.1-development",
     "rimraf": "5.0.1"
   }
 }
