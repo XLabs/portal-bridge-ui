@@ -5,17 +5,20 @@ const PUBLIC_URL = viteConfig.base;
 
 const ADVANCE_TOOLS_HREF = `${PUBLIC_URL}/advanced-tools/#/transfer`
 const ADVANCE_TOOLS_HREF_TEMPLATE = `${ADVANCE_TOOLS_HREF}?sourceChain={:sourceChain}&targetChain={:targetChain}`
-
+const USDC_BRIDGE_HREF = `${PUBLIC_URL}/usdc-bridge/`
 // https://vitejs.dev/config/
 export default defineConfig({
   ...viteConfig,
   define: {
     navBar: [
       { label: "Home", active: true, href: `${PUBLIC_URL}/` },
-      { label: "USDC",  href: `${PUBLIC_URL}/usdc-bridge` }
+      { label: "USDC",  href: USDC_BRIDGE_HREF }
     ],
     wormholeConnectConfig: {
       ...viteConfig?.define?.wormholeConnectConfig,
+      cctpWarning: {
+        href: USDC_BRIDGE_HREF
+      },
       moreNetworks: {
         href: ADVANCE_TOOLS_HREF_TEMPLATE,
         target: "_blank",
