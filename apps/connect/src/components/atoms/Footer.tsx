@@ -12,6 +12,7 @@ const Footer = styled(Typography)<FooterProps>(({ theme, left, right }) => ({
     flexGrow: 1,
     justifyContent: "center",
     paddingBottom: theme.spacing(2),
+    alignItems: "flex-end",
   },
   [theme.breakpoints.up("md")]: {
     position: "absolute",

@@ -43,8 +43,10 @@ export default function Root() {
   const messages = Object.values(messageConfig);
   return (
     <>
-      <NewsBar messages={messages} />
-      <NavBar />
+      <div>
+        <NewsBar messages={messages} />
+        <NavBar />
+      </div>
       <ConnectLoader config={config} />
     </>
   );
