@@ -7,8 +7,12 @@ import styled from "@mui/material/styles/styled";
 import Box from "@mui/material/Box";
 import portal from "../../assets/imgs/logo-white.svg";
 import MenuIcon from "@mui/icons-material/Menu";
+import List from "@mui/material/List";
+import MuiListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+
 import { useState } from "react";
-import { List, ListItem, ListItemButton, ListItemText } from "@mui/material";
 
 const AppBar = styled(MuiAppBar)(({ theme }) => ({
   background: "transparent",
@@ -19,6 +23,11 @@ const AppBar = styled(MuiAppBar)(({ theme }) => ({
     maxWidth: 1440,
   },
   boxShadow: "none",
+}));
+
+const ListItem = styled(MuiListItem)(() => ({
+  paddingTop: 0,
+  paddingBottom: 0,
 }));
 
 const Link = styled(MuiLink)(({ theme }) => ({

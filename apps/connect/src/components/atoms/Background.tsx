@@ -1,7 +1,7 @@
 import styled from "@mui/material/styles/styled";
 import Glow from "./Glow";
 import Elipsis from "./Elipsis";
-import PoweredBy from "./PoweredBy";
+import BuiltBy from "./BuiltBy";
 import Version from "./Version";
 
 const Container = styled("div")(() => ({
@@ -28,7 +28,7 @@ export default function Background({
     <Container>
       {children}
       <ContainerFooter>
-      <PoweredBy />
+      <BuiltBy />
       <Version />
       <Glow
         position={{
