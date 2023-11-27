@@ -33,6 +33,7 @@ jobs:
     name: "Deploy Testnet"
     needs:
       - build
+      - branch-sha
     runs-on: "ubuntu-latest"
     concurrency:
       group: ${{ github.ref }}-deploy-testnet
@@ -52,8 +53,8 @@ jobs:
       - name: Trigger a testnet Deploy
         run: |
           sleep 30s
-          mkdir -p testnet/${{ needs.build.outputs.branch-sha }}
-          pushd testnet/${{ needs.build.outputs.branch-sha }}
+          mkdir -p testnet/${{ needs.branch-sha.outputs.value }}
+          pushd testnet/${{ needs.branch-sha.outputs.value }}
           [[ ! -f .latest ]] && touch .latest
           [[ ! -f .artifacts ]] && touch .artifacts
           cat .latest >> .artifacts
@@ -61,4 +62,4 @@ jobs:
           git add .artifacts .latest
           git commit -m"Update testnet artifacts ${{ needs.build.outputs.pkg-version }}"
           git push
-          echo "The testnet URL is: ${{ vars.TESTNET_ROOT_URL }}/${{ needs.build.outputs.branch-sha }}/" >> ${GITHUB_STEP_SUMMARY}
+          echo "The testnet URL is: ${{ vars.TESTNET_ROOT_URL }}/${{ needs.branch-sha.outputs.value }}/" >> ${GITHUB_STEP_SUMMARY}
