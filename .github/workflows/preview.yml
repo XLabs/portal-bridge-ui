@@ -33,6 +33,7 @@ jobs:
     name: "Deploy Preview"
     needs:
       - build
+      - branch-sha
     runs-on: "ubuntu-latest"
     concurrency:
       group: ${{ github.ref }}-deploy-preview
@@ -52,8 +53,8 @@ jobs:
       - name: Trigger a preview Deploy
         run: |
           sleep 30s
-          mkdir -p preview/${{ needs.build.outputs.branch-sha }}
-          pushd preview/${{ needs.build.outputs.branch-sha  }}
+          mkdir -p preview/${{ needs.branch-sha.outputs.value }}
+          pushd preview/${{ needs.branch-sha.outputs.value  }}
           [[ ! -f .latest ]] && touch .latest
           [[ ! -f .artifacts ]] && touch .artifacts
           cat .latest >> .artifacts
@@ -61,4 +62,4 @@ jobs:
           git add .artifacts .latest
           git commit -m"Update preview artifacts ${{ needs.build.outputs.pkg-version }}"
           git push
-          echo "The preview URL is: ${{ vars.PREVIEW_ROOT_URL }}/${{ needs.build.outputs.branch-sha }}/" >> ${GITHUB_STEP_SUMMARY}
+          echo "The preview URL is: ${{ vars.PREVIEW_ROOT_URL }}/${{ needs.branch-sha.outputs.value }}/" >> ${GITHUB_STEP_SUMMARY}
