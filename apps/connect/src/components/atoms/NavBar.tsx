@@ -6,7 +6,7 @@ import Toolbar from "@mui/material/Toolbar";
 import styled from "@mui/material/styles/styled";
 import Box from "@mui/material/Box";
 import portal from "../../assets/imgs/logo-white.svg";
-import MenuIcon from '@mui/icons-material/Menu';
+import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
 import { List, ListItem, ListItemButton, ListItemText } from "@mui/material";
 
@@ -25,7 +25,7 @@ const Link = styled(MuiLink)(({ theme }) => ({
   ...theme.typography.body2,
   fontSize: "14px",
   fontWeight: 400,
-  fontFamily: "\"Poppins\", regular",
+  fontFamily: '"Poppins", regular',
   color: "#FFFFFFE6",
   marginLeft: theme.spacing(7),
   textUnderlineOffset: "6px",
@@ -42,7 +42,7 @@ const Link = styled(MuiLink)(({ theme }) => ({
     marginLeft: theme.spacing(1),
   },
   ":hover": {
-    textDecoration: "underline"
+    textDecoration: "underline",
   },
 }));
 
@@ -73,16 +73,14 @@ const Spacer = styled("div")(() => ({
   width: "100vw",
 }));
 
-const womrholescanButton = <Box>
-  <Link
-    href="https://wormholescan.io"
-    target="_blank"
-    color="inherit"
-  >
-    Wormholescan
-  </Link>
-  <Chip label="NEW" size="small" />
-</Box>;
+const womrholescanButton = (
+  <Box>
+    <Link href="https://wormholescan.io" target="_blank" color="inherit">
+      Wormholescan
+    </Link>
+    <Chip label="NEW" size="small" />
+  </Box>
+);
 
 export default function NavBar() {
   const [openMenu, setOpenMenu] = useState(false);
@@ -95,41 +93,41 @@ export default function NavBar() {
         <Spacer />
         <Hidden implementation="css" smDown>
           <div style={{ display: "flex", alignItems: "center" }}>
-            {
-              navBar.map(({ label, active, href }, idx) =>
-                <Link
-                  key={`${label}_${idx}`}
-                  href={href}
-                  color="inherit"
-                  sx={{ textDecoration: active ? "underline" : "none" }}
-                >
-                  {label}
-                </Link>
-              )
-            }
+            {navBar.map(({ label, active, href }, idx) => (
+              <Link
+                key={`${label}_${idx}`}
+                href={href}
+                color="inherit"
+                sx={{ textDecoration: active ? "underline" : "none" }}
+              >
+                {label}
+              </Link>
+            ))}
             {womrholescanButton}
           </div>
         </Hidden>
         <Hidden implementation="css" smUp>
-          <MenuIcon onClick={() => { setOpenMenu(!openMenu) }} />
+          <MenuIcon
+            onClick={() => {
+              setOpenMenu(!openMenu);
+            }}
+          />
         </Hidden>
       </Toolbar>
-      {openMenu && <Hidden implementation="css" smUp>
-      <List>
-          {
-            navBar.map(({ label, href }, idx) =>
+      {openMenu && (
+        <Hidden implementation="css" smUp>
+          <List>
+            {navBar.map(({ label, href }, idx) => (
               <ListItem key={`${label}_${idx}`}>
                 <ListItemButton component="a" href={href}>
                   <ListItemText primary={label} />
                 </ListItemButton>
               </ListItem>
-            )
-          }
-          <ListItem>
-            {womrholescanButton}
-          </ListItem>
-      </List>
-      </Hidden>}
+            ))}
+            <ListItem>{womrholescanButton}</ListItem>
+          </List>
+        </Hidden>
+      )}
     </AppBar>
   );
 }
