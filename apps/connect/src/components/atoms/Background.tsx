@@ -7,9 +7,16 @@ import Version from "./Version";
 const Container = styled("div")(() => ({
   display: "flex",
   flexDirection: "column",
+  justifyContent: "space-between",
   minHeight: "100vh",
   position: "relative",
   overflow: "hidden"
+}));
+
+const ContainerFooter = styled("div")(() => ({
+  display: "column",
+  flexDirection: "row",
+  alignItems: "flex-end"
 }));
 
 export default function Background({
@@ -20,6 +27,7 @@ export default function Background({
   return (
     <Container>
       {children}
+      <ContainerFooter>
       <PoweredBy />
       <Version />
       <Glow
@@ -68,6 +76,8 @@ export default function Background({
           </Elipsis>
         </Elipsis>
       </Glow>
+    </ContainerFooter>
+      
     </Container>
   );
 }
