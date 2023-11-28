@@ -278,7 +278,7 @@ function App() {
           <Hidden implementation="css" smUp>
             <Tooltip title="View the FAQ">
               <IconButton
-                href="docs"
+                href={`${process.env.REACT_APP_BASE_URL}/docs`}
                 target="_blank"
                 rel="noopener noreferrer"
                 size="small"
