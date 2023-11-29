@@ -655,12 +655,12 @@ const createNFTParsedTokenAccountFromCovalent = (
     logo: covalent.logo_url,
     tokenId: nft_data.token_id,
     uri: nft_data.token_url,
-    animation_url: nft_data.external_data.animation_url,
-    external_url: nft_data.external_data.external_url,
-    image: nft_data.external_data.image,
-    image_256: nft_data.external_data.image_256,
-    nftName: nft_data.external_data.name,
-    description: nft_data.external_data.description,
+    animation_url: nft_data.external_data?.animation_url,
+    external_url: nft_data.external_data?.external_url,
+    image: nft_data.external_data?.image,
+    image_256: nft_data.external_data?.image_256,
+    nftName: nft_data.external_data?.name,
+    description: nft_data.external_data?.description,
   };
 };
 
@@ -688,7 +688,7 @@ export type CovalentNFTExternalData = {
 export type CovalentNFTData = {
   token_id: string;
   token_balance: string | null;
-  external_data: CovalentNFTExternalData;
+  external_data: CovalentNFTExternalData | null;
   token_url: string;
 };
 
