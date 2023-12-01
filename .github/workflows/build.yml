@@ -22,6 +22,7 @@ on:
             default: Cloudflare-Preview
         public-url:
             type: string
+            default: /
     outputs:
         pkg-version:
             description: "NPM Package Version"
