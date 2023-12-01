@@ -18,6 +18,13 @@ jobs:
       - name: Set Version
         id: set-version
         run: echo "_BRANCH_NAME_SHA=$(echo ${{ github.event.workflow_run.head_branch }} | sha256sum | cut -c -10)" >> "${GITHUB_OUTPUT}"
+  debugging:
+    name: debugging
+    runs-on: ubuntu-latest
+    env:
+      EVENT_OBJ:  ${{ toJson(github.event) }}
+    steps:
+        - run: echo $EVENT_OBJ
   build:
     name: "Build Testnet"
     uses: ./.github/workflows/build.yml
