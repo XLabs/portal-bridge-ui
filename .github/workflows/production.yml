@@ -32,20 +32,3 @@ jobs:
       environment: ${{inputs.environment}}
       project-branch: main
     secrets: inherit
-  deploy:
-    name: Trigger Production Deploy 
-    runs-on: ubuntu-latest
-    concurrency:
-      group: ${{ github.ref }}-deploy-release
-      cancel-in-progress: true
-    needs: 
-      - build
-    environment: ${{inputs.environment}}
-    steps:
-      - name: Wait package publish to impact
-        run: sleep 60s
-        shell: bash
-      - name: Trigger deploy
-        env:
-          DEPLOY_HOOK_URL: ${{ secrets.DEPLOY_HOOK_URL }}
-        run: curl -X POST ${DEPLOY_HOOK_URL}
