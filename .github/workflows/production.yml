@@ -30,6 +30,7 @@ jobs:
       connect-branch: ${{inputs.connect-branch}}
       advanced-tools-branch: ${{inputs.advanced-tools-branch}}
       environment: ${{inputs.environment}}
+      project-branch: main
     secrets: inherit
   deploy:
     name: Trigger Production Deploy 
