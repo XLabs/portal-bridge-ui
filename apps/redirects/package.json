@@ -1,0 +1,26 @@
+{
+  "name": "@xlabs-xyz/portal-bridge-redirects",
+  "version": "1.0.0",
+  "description": "Write index.html redirect files",
+  "main": "index.js",
+  "scripts": {
+    "clean": "shx rm -rf dist && shx rm -rf src/configs/*.json ",
+    "prebuild": "npm run clean && shx mkdir -p dist/{sui,cosmos} ",
+    "build": "npm run create:config:all && npm run build:all",
+    "create:config:sui": "DOTENV_CONFIG_PATH=./src/configs/sui.env MAIN=${PUBLIC_URL}/?sourceChain=sui ts-node -r dotenv/config src/index.ts > src/configs/sui.json",
+    "create:config:cosmos": "DOTENV_CONFIG_PATH=./src/configs/cosmos.env MAIN=${PUBLIC_URL}/?sourceChain=cosmos ts-node -r dotenv/config src/index.ts > src/configs/cosmos.json",
+    "create:config:all": "npm run create:config:sui && npm run create:config:cosmos",
+    "build:sui": "shx mkdir -p dist/sui && npx liquidjs --template @./src/template/index.liquid --context @./src/configs/sui.json --output ./dist/sui/index.html",
+    "build:cosmos": "shx mkdir -p dist/cosmos && npx liquidjs --template @./src/template/index.liquid --context @./src/configs/cosmos.json --output ./dist/cosmos/index.html",
+    "build:all": "npm run build:sui && npm run build:cosmos"
+  },
+  "author": "xLabs Inc",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.9.3",
+    "dotenv": "^16.3.1",
+    "liquidjs": "^10.9.4",
+    "shx": "^0.3.4",
+    "ts-node": "^10.9.1"
+  }
+}

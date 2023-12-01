@@ -1,50 +1,46 @@
-# Example Token Bridge UI
+# Folder structure
 
-## Prerequisites
+### [apps/connect](./apps/connect/)
 
-- NodeJS v14+
-- NPM v7.18+
+Portal Bridge with Connect widget
 
-## Install
+### [apps/docs](./apps/docs/)
 
-```bash
-npm ci
+Portal Bridge documentation
+
+## Run Github Actions Locally with Act 
+
+see https://nektosact.com/installation/index.html
+
+### All
+
+```shell
+export GITHUB_TOKEN=#your github token
+
+act --artifact-server-path /tmp/act-artifacts -W .github/workflows/preview.yml pull_request -s GITHUB_TOKEN=${GITHUB_TOKEN} -P=xlabs-large-runner=catthehacker/ubuntu:act-latest --container-options "--memory=10G"
 ```
 
-## Develop
+### advanced-tools job
 
-```bash
-npm start
+```shell
+export GITHUB_TOKEN=#your github token
+
+act --artifact-server-path /tmp/act-artifacts -W .github/workflows/preview.yml pull_request -j advanced-tools  -s GITHUB_TOKEN=${GITHUB_TOKEN} -P=xlabs-large-runner=catthehacker/ubuntu:act-latest --container-options "--memory=12g"
 ```
 
-## Build for local tilt network
+### redirects job
 
-```bash
-npm run build
+```shell
+act --artifact-server-path /tmp/act-artifacts -W .github/workflows/preview.yml pull_request -j redirects
 ```
 
-## Build for testnet
+### usdc-bridge job
 
-```bash
-REACT_APP_CLUSTER=testnet npm run build
+```shell
+act --artifact-server-path /tmp/act-artifacts -W .github/workflows/preview.yml pull_request -j usdc-bridge -s GITHUB_TOKEN=${GITHUB_TOKEN} 
 ```
+### token-bridge job
 
-## Build for mainnet
-
-```bash
-REACT_APP_CLUSTER=mainnet REACT_APP_COVALENT_API_KEY=YOUR_API_KEY REACT_APP_SOLANA_API_URL=YOUR_CUSTOM_RPC npm run build
-```
-
-## Test Server
-
-```bash
-npx serve -s build
-```
-
-## Environment Variables (optional)
-
-Create `.env` from the sample file, then add your Covalent API key:
-
-```bash
-cp .env.sample .env
+```shell
+act --artifact-server-path /tmp/act-artifacts -W .github/workflows/preview.yml pull_request -j token-bridge -s GITHUB_TOKEN=${GITHUB_TOKEN} 
 ```

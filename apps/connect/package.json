@@ -1,0 +1,41 @@
+{
+  "name": "@xlabs/portal-bridge-ui",
+  "private": true,
+  "version": "0.2.1",
+  "type": "module",
+  "scripts": {
+    "dev:usdc-bridge": "vite --config ./vite.usdc-bridge.config.ts",
+    "build:usdc-bridge": "tsc && vite build --config ./vite.usdc-bridge.config.ts",
+    "dev:token-bridge": "vite --config ./vite.token-bridge.config.ts",
+    "build:token-bridge": "tsc && vite build --config ./vite.token-bridge.config.ts",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "prettier": "prettier --check ./src",
+    "postinstall": "npm link @wormhole-foundation/wormhole-connect",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.11",
+    "@mui/material": "^5.12.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "vite-plugin-static-copy": "^0.17.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.7.0",
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vitejs/plugin-react-swc": "^3.3.2",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "prettier": "^3.1.0",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5"
+  }
+}
