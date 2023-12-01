@@ -6,7 +6,6 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 
 export type WormholeLoaderProps = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   config: WormholeConnectConfig;
 };
 

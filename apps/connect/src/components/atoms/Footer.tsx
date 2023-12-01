@@ -18,7 +18,7 @@ const Footer = styled(Typography)<FooterProps>(({ theme, left, right }) => ({
     position: "absolute",
     left,
     right,
-    bottom: "28px",  
+    bottom: "28px",
   },
   color: "#C9CAE8",
   fontFamily: "Poppins",

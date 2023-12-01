@@ -1,4 +1,7 @@
-import type { ChainName, WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
+import type {
+  ChainName,
+  WormholeConnectConfig,
+} from "@wormhole-foundation/wormhole-connect";
 import { useMemo } from "react";
 import customTheme from "./theme/connect";
 import mui from "./theme/portal";
@@ -34,8 +37,8 @@ export default function Root() {
           },
         }),
       bridgeDefaults: {
-        fromNetwork: sourceChain as ChainName || null,
-        toNetwork: targetChain as ChainName || null,
+        fromNetwork: (sourceChain as ChainName) || null,
+        toNetwork: (targetChain as ChainName) || null,
       },
     }),
     [txHash, transactionId, sourceChain, targetChain]
