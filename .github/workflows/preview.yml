@@ -1,8 +1,10 @@
 name: Portal Bridge [Preview]
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
+  workflow_run:
+    workflows: [Code Standard Checks]
+    types:
+      - completed
 
 jobs:
   branch-sha:

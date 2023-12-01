@@ -1,4 +1,4 @@
-name: Code Standards Checks
+name: Code Standard Checks
 
 on: pull_request
 
