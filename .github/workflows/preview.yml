@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Set Version
         id: set-version
-        run: echo "_BRANCH_NAME_SHA=$(echo ${{ github.event.pull_request.head.ref }} | sha256sum | cut -c -10)" >> "${GITHUB_OUTPUT}"
+        run: echo "_BRANCH_NAME_SHA=$(echo ${{ github.event.workflow_run.head_branch }} | sha256sum | cut -c -10)" >> "${GITHUB_OUTPUT}"
   build:
     name: "Build Preview"
     uses: ./.github/workflows/build.yml
@@ -27,7 +27,8 @@ jobs:
       connect-branch: portal-bridge
       advanced-tools-branch: advanced-tools
       environment: Cloudflare-Preview
-      public-url: "${{ needs.branch-sha.outputs.value }}/"
+      public-url: "/${{ needs.branch-sha.outputs.value }}/"
+      project-branch: ${{ github.event.workflow_run.head_branch }}
     secrets: inherit
     needs: 
       - branch-sha
