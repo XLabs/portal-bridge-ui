@@ -2,7 +2,7 @@ name: Portal Bridge [Preview]
 
 on:
   workflow_run:
-    workflows: [Code Standard Checks]
+    workflows: ["Code Standard Checks"]
     types:
       - completed
 
