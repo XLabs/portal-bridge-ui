@@ -1,10 +1,10 @@
 name: Portal Bridge [Preview]
 
-on:
-  workflow_run:
-    workflows: ["Code Standard Checks"]
-    types:
-      - completed
+on: pull_request
+  # workflow_run:
+  #   workflows: ["Code Standard Checks"]
+  #   types:
+  #     - completed
 
 jobs:
   branch-sha:
