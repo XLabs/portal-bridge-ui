@@ -1,10 +1,10 @@
 name: Portal Bridge [Preview]
 
-on:
-  workflow_run:
-    workflows: ["Code Standard Checks"]
-    types:
-      - completed
+on: pull_request
+  # workflow_run:
+  #   workflows: ["Code Standard Checks"]
+  #   types:
+  #     - completed
 
 jobs:
   branch-sha:
@@ -27,7 +27,7 @@ jobs:
       connect-branch: portal-bridge
       advanced-tools-branch: advanced-tools
       environment: Cloudflare-Preview
-      public-url: "/${{ needs.branch-sha.outputs.value }}/"
+      public-url: "/${{ needs.branch-sha.outputs.value }}"
       project-branch: ${{ github.event.workflow_run.head_branch }}
     secrets: inherit
     needs: 
