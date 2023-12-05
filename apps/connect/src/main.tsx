@@ -10,7 +10,7 @@ if (redirects) {
   const matcher = new RegExp(redirects.join("|"));
   const hash = window.location.hash;
   if (matcher.test(hash)) {
-    window.location.href = `${advancedToolsHref}${hash}`;
+    window.location.href = advancedToolsHref+hash;
   }
 }
 
