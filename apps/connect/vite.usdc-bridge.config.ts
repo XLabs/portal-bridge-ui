@@ -10,6 +10,7 @@ export default defineConfig({
   ...viteConfig,
   base: `${PUBLIC_URL}/usdc-bridge/`,
   define: {
+    ...viteConfig?.define,
     navBar: [
       { label: "Home", href: `${PUBLIC_URL}/` },
       { label: "USDC", active: true, href: `${PUBLIC_URL}/usdc-bridge` }

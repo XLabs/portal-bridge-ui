@@ -41,6 +41,7 @@ const TESTNET_MORE_NETWORKS = [ALGORAND, ACALA, MORE];
 export default defineConfig({
   ...viteConfig,
   define: {
+    ...viteConfig?.define,
     navBar: [
       { label: "Home", active: true, href: `${PUBLIC_URL}/` },
       { label: "USDC", href: USDC_BRIDGE_HREF }
