@@ -10,11 +10,10 @@ if (redirects) {
   const matcher = new RegExp(redirects.join("|"));
   const hash = window.location.hash;
   if (matcher.test(hash)) {
-    window.location.href = `${advancedToolsHref}${hash}`
+    window.location.href = `${advancedToolsHref}${hash}`;
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
