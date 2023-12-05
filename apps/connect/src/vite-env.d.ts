@@ -8,9 +8,13 @@ type NavLink = {
   href: string;
 };
 
+type Redirect = {
+  source: string[];
+  target: string;
+};
+
 declare global {
   declare const wormholeConnectConfig: WormholeConnectConfig;
   declare const navBar: NavLink[];
-  declare const redirects: string[];
-  declare const advancedToolsHref: string;
+  declare const redirects: Redirect;
 }

@@ -33,8 +33,8 @@ const MORE = {
   href: ADVANCE_TOOLS_HREF,
 }
 
-const MAINNET_MORE_NETWORKS =  [ALGORAND, ACALA, SEI, MORE];
-const TESTNET_MORE_NETWORKS =  [ALGORAND, ACALA, MORE];
+const MAINNET_MORE_NETWORKS = [ALGORAND, ACALA, SEI, MORE];
+const TESTNET_MORE_NETWORKS = [ALGORAND, ACALA, MORE];
 
 
 // https://vitejs.dev/config/
@@ -45,24 +45,26 @@ export default defineConfig({
       { label: "Home", active: true, href: `${PUBLIC_URL}/` },
       { label: "USDC", href: USDC_BRIDGE_HREF }
     ],
-    advancedToolsHref: ADVANCE_TOOLS_HREF,
-    redirects: [
-      "#/nft",
-      "#/redeem",
-      "#/nft-origin-verifier",
-      "#/token-origin-verifier",
-      "#/register",
-      "#/migrate/Ethereum/:legacyAsset/", 
-      "#/migrate/BinanceSmartChain/:legacyAsset/",
-      "#/migrate/Celo/:legacyAsset/",
-      "#/migrate/Ethereum/",
-      "#/migrate/BinanceSmartChain/",
-      "#/migrate/Celo/",
-      "#/stats",
-      "#/withdraw-tokens-terra",
-      "#/unwrap-native",
-      "#/custody-addresses"
-    ],
+    redirects: {
+      source: [
+        "#/nft",
+        "#/redeem",
+        "#/nft-origin-verifier",
+        "#/token-origin-verifier",
+        "#/register",
+        "#/migrate/Ethereum/:legacyAsset/",
+        "#/migrate/BinanceSmartChain/:legacyAsset/",
+        "#/migrate/Celo/:legacyAsset/",
+        "#/migrate/Ethereum/",
+        "#/migrate/BinanceSmartChain/",
+        "#/migrate/Celo/",
+        "#/stats",
+        "#/withdraw-tokens-terra",
+        "#/unwrap-native",
+        "#/custody-addresses"
+      ],
+      target: ADVANCE_TOOLS_HREF
+    },
     wormholeConnectConfig: {
       ...viteConfig?.define?.wormholeConnectConfig,
       cctpWarning: {

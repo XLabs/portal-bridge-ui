@@ -7,10 +7,9 @@ import Background from "./components/atoms/Background.tsx";
 import App from "./App.tsx";
 
 if (redirects) {
-  const matcher = new RegExp(redirects.join("|"));
-  const hash = window.location.hash;
-  if (matcher.test(hash)) {
-    window.location.href = advancedToolsHref+hash;
+  const matcher = new RegExp(redirects.source.join("|"));
+  if (matcher.test(window.location.hash)) {
+    window.location.href = `${redirects.target}${window.location.hash}`;
   }
 }
 
