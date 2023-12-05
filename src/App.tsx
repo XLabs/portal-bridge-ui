@@ -21,11 +21,7 @@ import {
 import { HelpOutline } from "@material-ui/icons";
 import { useCallback } from "react";
 import { useHistory, useLocation } from "react-router";
-import {
-  Redirect,
-  Route,
-  Switch,
-} from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import Attest from "./components/Attest";
 import Footer from "./components/Footer";
 import HeaderText from "./components/HeaderText";
