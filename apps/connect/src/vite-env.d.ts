@@ -11,4 +11,6 @@ type NavLink = {
 declare global {
   declare const wormholeConnectConfig: WormholeConnectConfig;
   declare const navBar: NavLink[];
+  declare const redirects: string[] | undefined;
+  declare const advancedToolsHref: string;
 }

@@ -3,8 +3,8 @@ import viteConfig from './vite.config'
 
 const PUBLIC_URL = viteConfig.base;
 
-const ADVANCE_TOOLS_HREF = `${PUBLIC_URL}/advanced-tools/#/transfer`
-const ADVANCE_TOOLS_HREF_TEMPLATE = `${ADVANCE_TOOLS_HREF}?sourceChain={:sourceChain}&targetChain={:targetChain}`
+const ADVANCE_TOOLS_HREF = `${PUBLIC_URL}/advanced-tools/`
+const ADVANCE_TOOLS_HREF_TEMPLATE = `${ADVANCE_TOOLS_HREF}#/transfer?sourceChain={:sourceChain}&targetChain={:targetChain}`
 const USDC_BRIDGE_HREF = `${PUBLIC_URL}/usdc-bridge/`
 
 const ALGORAND = {
@@ -44,6 +44,24 @@ export default defineConfig({
     navBar: [
       { label: "Home", active: true, href: `${PUBLIC_URL}/` },
       { label: "USDC", href: USDC_BRIDGE_HREF }
+    ],
+    advancedToolsHref: ADVANCE_TOOLS_HREF,
+    redirects: [
+      "#/nft",
+      "#/redeem",
+      "#/nft-origin-verifier",
+      "#/token-origin-verifier",
+      "#/register",
+      "#/migrate/Ethereum/:legacyAsset/", 
+      "#/migrate/BinanceSmartChain/:legacyAsset/",
+      "#/migrate/Celo/:legacyAsset/",
+      "#/migrate/Ethereum/",
+      "#/migrate/BinanceSmartChain/",
+      "#/migrate/Celo/",
+      "#/stats",
+      "#/withdraw-tokens-terra",
+      "#/unwrap-native",
+      "#/custody-addresses"
     ],
     wormholeConnectConfig: {
       ...viteConfig?.define?.wormholeConnectConfig,
