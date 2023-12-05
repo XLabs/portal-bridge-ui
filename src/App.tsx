@@ -227,7 +227,7 @@ function App() {
                 Token Bridge
               </Link>
               <Link
-                href={`${process.env.REACT_APP_BASE_URL}/usdc-bridge/`}
+                href={`${process.env.REACT_APP_BASE_URL}usdc-bridge/`}
                 target="_blank"
                 rel="noopener noreferrer"
                 color="inherit"
@@ -236,7 +236,7 @@ function App() {
                 USDC
               </Link>
               <Link
-                href={`${process.env.REACT_APP_BASE_URL}/?sourceChain=sui`}
+                href={`${process.env.REACT_APP_BASE_URL}?sourceChain=sui`}
                 target="_blank"
                 rel="noopener noreferrer"
                 color="inherit"
@@ -245,7 +245,7 @@ function App() {
                 Sui
               </Link>
               <Link
-                href={`${process.env.REACT_APP_BASE_URL}/?sourceChain=cosmos`}
+                href={`${process.env.REACT_APP_BASE_URL}?sourceChain=cosmos`}
                 target="_blank"
                 rel="noopener noreferrer"
                 color="inherit"
@@ -254,7 +254,7 @@ function App() {
                 Cosmos
               </Link>
               <Link
-                href={`${process.env.REACT_APP_BASE_URL}/docs`}
+                href={`${process.env.REACT_APP_BASE_URL}docs`}
                 target="_blank"
                 rel="noopener noreferrer"
                 color="inherit"
@@ -278,7 +278,7 @@ function App() {
           <Hidden implementation="css" smUp>
             <Tooltip title="View the FAQ">
               <IconButton
-                href={`${process.env.REACT_APP_BASE_URL}/docs`}
+                href={`${process.env.REACT_APP_BASE_URL}docs`}
                 target="_blank"
                 rel="noopener noreferrer"
                 size="small"
