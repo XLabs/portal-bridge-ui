@@ -223,8 +223,7 @@ function App() {
                 Token Bridge
               </Link>
               <Link
-                href={`${process.env.REACT_APP_BASE_URL}usdc-bridge/`}
-                target="_blank"
+                href={`${process.env.REACT_APP_BASE_URL}/usdc-bridge/`}
                 rel="noopener noreferrer"
                 color="inherit"
                 className={classes.link}
@@ -232,8 +231,7 @@ function App() {
                 USDC
               </Link>
               <Link
-                href={`${process.env.REACT_APP_BASE_URL}?sourceChain=sui`}
-                target="_blank"
+                href={`${process.env.REACT_APP_BASE_URL}/?sourceChain=sui`}
                 rel="noopener noreferrer"
                 color="inherit"
                 className={classes.link}
@@ -241,8 +239,7 @@ function App() {
                 Sui
               </Link>
               <Link
-                href={`${process.env.REACT_APP_BASE_URL}?sourceChain=cosmos`}
-                target="_blank"
+                href={`${process.env.REACT_APP_BASE_URL}/?sourceChain=cosmos`}
                 rel="noopener noreferrer"
                 color="inherit"
                 className={classes.link}
