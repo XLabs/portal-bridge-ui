@@ -18,6 +18,7 @@ const MAINNET_RPCS =  {
 export default defineConfig({
   base: process.env.PUBLIC_URL || '',
   define: {
+    redirects: {},
     wormholeConnectConfig: {
       env: process.env.VITE_APP_CLUSTER || 'mainnet',
       ...(process.env.VITE_APP_CLUSTER === 'mainnet' ? MAINNET_RPCS : {}),

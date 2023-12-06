@@ -1,10 +1,6 @@
 name: Portal Bridge [Preview]
 
 on: pull_request
-  # workflow_run:
-  #   workflows: ["Code Standard Checks"]
-  #   types:
-  #     - completed
 
 jobs:
   branch-sha:
@@ -17,7 +13,7 @@ jobs:
     steps:
       - name: Set Version
         id: set-version
-        run: echo "_BRANCH_NAME_SHA=$(echo ${{ github.event.workflow_run.head_branch }} | sha256sum | cut -c -10)" >> "${GITHUB_OUTPUT}"
+        run: echo "_BRANCH_NAME_SHA=$(echo ${{ github.event.pull_request.head.ref }} | sha256sum | cut -c -10)" >> "${GITHUB_OUTPUT}"
   build:
     name: "Build Preview"
     uses: ./.github/workflows/build.yml
@@ -28,7 +24,7 @@ jobs:
       advanced-tools-branch: advanced-tools
       environment: Cloudflare-Preview
       public-url: "/${{ needs.branch-sha.outputs.value }}"
-      project-branch: ${{ github.event.workflow_run.head_branch }}
+      project-branch: ${{ github.event.pull_request.head.ref }}
     secrets: inherit
     needs: 
       - branch-sha
