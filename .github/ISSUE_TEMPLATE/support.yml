@@ -19,8 +19,8 @@ body:
       required: true
 - type: dropdown
   attributes:
-    label: UI Application
-    description: What is the UI application used to start the operation?
+    label: Bridge Experience
+    description: Which bridging experience did you use?
     options:
       - https://portalbridge.com
       - https://portalbridge.com/advanced-tools
@@ -30,8 +30,8 @@ body:
     required: true
 - type: input
   attributes:
-    label: Other UI Application
-    description: what was the other UI application used?
+    label: Bridge Experience URL
+    description: What is the URL of the other bridging experience you used?
     placeholder: ex. https://hub.injective.network/bridge/
   validations:
     required: false
