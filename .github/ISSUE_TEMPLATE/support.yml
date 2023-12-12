@@ -18,23 +18,23 @@ body:
     - label: I have searched the wiki or docs
       required: true
 - type: dropdown
-    attributes:
-      label: UI Application
-      description: What is the UI application used to start the operation?
-      options:
-        - https://portalbridge.com
-        - https://portalbridge.com/advanced-tools
-        - https://portalbridge.com/usdc-bridge
-        - other
-    validations:
-      required: true
+  attributes:
+    label: UI Application
+    description: What is the UI application used to start the operation?
+    options:
+      - https://portalbridge.com
+      - https://portalbridge.com/advanced-tools
+      - https://portalbridge.com/usdc-bridge
+      - other
+  validations:
+    required: true
 - type: input
-    attributes:
-      label: Other UI Application
-      description: what was the other UI application used?
-      placeholder: ex. https://hub.injective.network/bridge/
-    validations:
-      required: false
+  attributes:
+    label: Other UI Application
+    description: what was the other UI application used?
+    placeholder: ex. https://hub.injective.network/bridge/
+  validations:
+    required: false
 - type: textarea
   attributes:
     label: Operation Details
