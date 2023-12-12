@@ -17,6 +17,18 @@ body:
     options:
     - label: I have searched the wiki or docs
       required: true
+- type: dropdown
+    id: app
+    attributes:
+      label: UI Application
+      description: What is the UI application used to start the operation?
+      options:
+        - https://portalbridge.com
+        - https://portalbridge.com/advanced-tools
+        - https://portalbridge.com/usdc-bridge
+        - other
+    validations:
+      required: true
 - type: textarea
   attributes:
     label: Operation Details
