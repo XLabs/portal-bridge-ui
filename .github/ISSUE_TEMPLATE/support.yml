@@ -17,6 +17,24 @@ body:
     options:
     - label: I have searched the wiki or docs
       required: true
+- type: dropdown
+  attributes:
+    label: Bridge Experience
+    description: Which bridging experience did you use?
+    options:
+      - https://portalbridge.com
+      - https://portalbridge.com/advanced-tools
+      - https://portalbridge.com/usdc-bridge
+      - other
+  validations:
+    required: true
+- type: input
+  attributes:
+    label: Bridge Experience URL
+    description: What is the URL of the other bridging experience you used?
+    placeholder: ex. https://hub.injective.network/bridge/
+  validations:
+    required: false
 - type: textarea
   attributes:
     label: Operation Details
