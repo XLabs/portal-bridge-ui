@@ -20,17 +20,13 @@ export const getInjectiveWallets = () => {
   if (!isValidNetwork) return [];
 
   const network = getInjectiveNetworkName();
-  const networkInfo = getNetworkInfo(network);
+  const networkEndpoints = getNetworkInfo(network);
 
   const opts = {
     networkChainId: getInjectiveNetworkChainId(),
     broadcasterOptions: {
       network,
-      endpoints: {
-        indexerApi: networkInfo.indexerApi,
-        sentryGrpcApi: networkInfo.sentryGrpcApi,
-        sentryHttpApi: networkInfo.sentryHttpApi,
-      },
+      networkEndpoints,
     },
   };
 

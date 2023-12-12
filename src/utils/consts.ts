@@ -797,7 +797,7 @@ export const SEI_DECIMALS = 6;
 
 export const getInjectiveNetworkName = () => {
   if (CLUSTER === "mainnet") {
-    return Network.Mainnet;
+    return Network.MainnetSentry;
   } else if (CLUSTER === "testnet") {
     return Network.TestnetK8s;
   }
