@@ -26,7 +26,7 @@ export const getInjectiveWallets = () => {
     networkChainId: getInjectiveNetworkChainId(),
     broadcasterOptions: {
       network,
-      networkEndpoints
+      networkEndpoints,
     },
   };
 
