@@ -18,7 +18,7 @@ body:
     - label: I have searched the wiki or docs
       required: true
 - type: dropdown
-    id: app
+    id: ui-app
     attributes:
       label: UI Application
       description: What is the UI application used to start the operation?
@@ -29,6 +29,14 @@ body:
         - other
     validations:
       required: true
+- type: input
+    id: other-ui-app
+    attributes:
+      label: Other UI Application
+      description: what was the other UI application used?
+      placeholder: ex. https://hub.injective.network/bridge/
+    validations:
+      required: false
 - type: textarea
   attributes:
     label: Operation Details
