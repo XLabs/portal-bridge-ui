@@ -4,14 +4,14 @@ import {
   SolflareWalletAdapter,
   CloverWalletAdapter,
   Coin98WalletAdapter,
-  //SlopeWalletAdapter,
+  SlopeWalletAdapter,
   SolongWalletAdapter,
   TorusWalletAdapter,
-  //ExodusWalletAdapter,
-  //BackpackWalletAdapter,
+  ExodusWalletAdapter,
+  BackpackWalletAdapter,
   NightlyWalletAdapter,
-  //BloctoWalletAdapter,
-  //BraveWalletAdapter,
+  BloctoWalletAdapter,
+  BraveWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
 import { Connection } from "@solana/web3.js";
 import { CHAIN_ID_SOLANA, Wallet } from "@xlabs-libs/wallet-aggregator-core";
@@ -27,15 +27,16 @@ export const getWrappedWallets = (): Wallet[] => {
   const wallets: SolanaAdapter[] = [
     new PhantomWalletAdapter(),
     new SolflareWalletAdapter(),
-    //new BackpackWalletAdapter(),
+    new BackpackWalletAdapter(),
     new NightlyWalletAdapter(),
     new CloverWalletAdapter(),
     new Coin98WalletAdapter(),
-    //new SlopeWalletAdapter(),
+    new SlopeWalletAdapter(),
     new SolongWalletAdapter(),
     new TorusWalletAdapter(),
-    //new ExodusWalletAdapter(),
-    //new BraveWalletAdapter(),
+    new ExodusWalletAdapter(),
+    new BraveWalletAdapter(),
+    new BloctoWalletAdapter()
   ];
 
   const network =
