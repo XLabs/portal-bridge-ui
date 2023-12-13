@@ -7,7 +7,7 @@ sidebar_position: 4
 
 Users may use the NFT Origin tool to help manually verify the authenticity of an NFT.&#x20;
 
-_Note: The tool only tell you the origin of a NFT which can help you to verify it manually. It will not tell you whether a NFT is a real or fake._&#x20;
+_Note: The tool only tells you the origin of a NFT which can help you to verify it manually. It will not tell you whether a NFT is a real or fake._&#x20;
 
 ## For NFTs sent from Solana -> Ethereum&#x20;
 
