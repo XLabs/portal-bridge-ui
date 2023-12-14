@@ -31,4 +31,5 @@ jobs:
       advanced-tools-branch: ${{inputs.advanced-tools-branch}}
       environment: ${{inputs.environment}}
       project-branch: main
+      public-url: ''
     secrets: inherit
