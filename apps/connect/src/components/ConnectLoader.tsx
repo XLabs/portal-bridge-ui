@@ -30,7 +30,7 @@ export default function ConnectLoader({ config }: WormholeLoaderProps) {
     link.rel = "stylesheet";
     link.href = `assets/wormhole-connect/main.css`;
     if (import.meta.env.VITE_APP_CSS_WC_INTEGRITY_SHA_384) {
-      script.integrity = `sha384-${import.meta.env.VITE_APP_CSS_WC_INTEGRITY_SHA_384}`;
+      link.integrity = `sha384-${import.meta.env.VITE_APP_CSS_WC_INTEGRITY_SHA_384}`;
     }
     document.body.appendChild(script);
     document.head.appendChild(link);
