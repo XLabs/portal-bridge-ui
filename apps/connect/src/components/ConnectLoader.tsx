@@ -22,7 +22,7 @@ export default function ConnectLoader({ config }: WormholeLoaderProps) {
     const script = document.createElement("script");
     script.src = `assets/wormhole-connect/main.js`;
     if (import.meta.env.VITE_APP_JS_WC_INTEGRITY_SHA_384) {
-      script.integrity = `sha384-${import.meta.env.VITE_APP_WC_INTEGRITY_SHA_384}`;
+      script.integrity = `sha384-${import.meta.env.VITE_APP_JS_WC_INTEGRITY_SHA_384}`;
     }
     script.async = true;
     script.onload = () => setLoading(false);
