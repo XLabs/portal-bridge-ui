@@ -36,7 +36,7 @@ export const getWrappedWallets = (): Wallet[] => {
     new TorusWalletAdapter(),
     new ExodusWalletAdapter(),
     new BraveWalletAdapter(),
-    new BloctoWalletAdapter()
+    new BloctoWalletAdapter(),
   ];
 
   const network =
