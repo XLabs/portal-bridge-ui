@@ -207,7 +207,7 @@ function App() {
       >
         <Toolbar>
           <Link
-            href={`${process.env.REACT_APP_BASE_URL}`}
+            href={`${process.env.REACT_APP_BASE_URL}/`}
             className={classes.brandLink}
           >
             <img src={Portal} alt="Portal" className={classes.wormholeIcon} />
@@ -216,7 +216,7 @@ function App() {
           <Hidden implementation="css" xsDown>
             <div style={{ display: "flex", alignItems: "center" }}>
               <Link
-                href={`${process.env.REACT_APP_BASE_URL}`}
+                href={`${process.env.REACT_APP_BASE_URL}/`}
                 color="inherit"
                 className={classes.link}
               >
@@ -247,7 +247,7 @@ function App() {
                 Cosmos
               </Link>
               <Link
-                href={`${process.env.REACT_APP_BASE_URL}docs`}
+                href={`${process.env.REACT_APP_BASE_URL}/docs`}
                 target="_blank"
                 rel="noopener noreferrer"
                 color="inherit"

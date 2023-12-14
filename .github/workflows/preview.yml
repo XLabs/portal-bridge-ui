@@ -98,6 +98,7 @@ jobs:
         env:
           PUBLIC_URL: "/${{ env._BRANCH_NAME_SHA }}"
           NODE_OPTIONS: "--max-old-space-size=10240"
+          REACT_APP_BASE_URL: /${{ env._BRANCH_NAME_SHA }}
           REACT_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
           REACT_APP_SOLANA_API_URL: ${{ vars.REACT_APP_SOLANA_API_URL }}
           REACT_APP_COVALENT_API_KEY: ${{ secrets.REACT_APP_COVALENT_API_KEY }}
