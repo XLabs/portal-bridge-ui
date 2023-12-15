@@ -156,11 +156,14 @@ jobs:
           ref: ${{inputs.connect-branch}}
           path: wormhole-connect
       - name: Build Wormhole Connect
+        id: wormhole-connect
         run: |
           npm install -g husky
           pushd wormhole-connect
           npm ci --workspaces --if-present
           npm run build
+          echo "_JS_SHA_384=$(shasum -b -a 384 wormhole-connect-loader/dist/main.js | awk '{ print $1 }' | xxd -r -p | base64)" >> "${GITHUB_OUTPUT}"
+          echo "_CSS_SHA_384=$(shasum -b -a 384 wormhole-connect-loader/dist/main.css | awk '{ print $1 }' | xxd -r -p | base64)" >> "${GITHUB_OUTPUT}"
           npm link --workspaces --if-present
       - name: Checkout Custom Wormhole Connect Loader
         uses: actions/checkout@v3
@@ -183,6 +186,8 @@ jobs:
           PUBLIC_URL: ${{ inputs.public-url }}
           VITE_APP_VERSION: ${{ steps.set-version.outputs._PKG_VERSION }}
           VITE_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
+          VITE_APP_JS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._JS_SHA_384 }}
+          VITE_APP_CSS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._CSS_SHA_384 }}
         run: |
           pushd connect-loader/apps/connect
           npm ci
@@ -216,11 +221,14 @@ jobs:
           ref: ${{inputs.connect-branch}}
           path: wormhole-connect
       - name: Build Wormhole Connect
+        id: wormhole-connect
         run: |
           npm install -g husky
           pushd wormhole-connect
           npm ci --workspaces --if-present
           npm run build
+          echo "_JS_SHA_384=$(shasum -b -a 384 wormhole-connect-loader/dist/main.js | awk '{ print $1 }' | xxd -r -p | base64)" >> "${GITHUB_OUTPUT}"
+          echo "_CSS_SHA_384=$(shasum -b -a 384 wormhole-connect-loader/dist/main.css | awk '{ print $1 }' | xxd -r -p | base64)" >> "${GITHUB_OUTPUT}"
           npm link --workspaces --if-present
       - name: Checkout Custom Wormhole Connect Loader
         uses: actions/checkout@v3
@@ -242,6 +250,8 @@ jobs:
           PUBLIC_URL: "${{ inputs.public-url }}"
           VITE_APP_VERSION: ${{ steps.set-version.outputs._PKG_VERSION }}
           VITE_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
+          VITE_APP_JS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._JS_SHA_384 }}
+          VITE_APP_CSS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._CSS_SHA_384 }}
         run: |
           pushd connect-loader/apps/connect
           npm ci
