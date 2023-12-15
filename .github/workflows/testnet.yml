@@ -20,7 +20,7 @@ jobs:
     with:
       name: testnet
       separator: T
-      connect-branch: 0.1.6-beta.0-development
+      connect-branch: development@0.1.6-beta.0
       advanced-tools-branch: advanced-tools
       environment: Cloudflare-Testnet
       public-url: "/${{ needs.branch-sha.outputs.value }}"
