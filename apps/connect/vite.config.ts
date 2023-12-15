@@ -15,6 +15,7 @@ const MAINNET_RPCS =  {
   }
 }
 
+const VITE_APP_CLUSTER = process.env.VITE_APP_CLUSTER || 'testnet'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -34,6 +35,9 @@ export default defineConfig({
       env: process.env.VITE_APP_CLUSTER || 'mainnet',
       ...(process.env.VITE_APP_CLUSTER === 'mainnet' ? MAINNET_RPCS : {}),
       showHamburgerMenu: false,
+      explorer: {
+        href: `https://wormholescan.io/#/txs?address={:address}&network=${VITE_APP_CLUSTER}`,
+      },
       menu: [
         {
           label: 'Advanced Tools',
