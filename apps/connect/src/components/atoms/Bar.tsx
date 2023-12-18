@@ -2,7 +2,7 @@ import styled from "@mui/material/styles/styled";
 
 export type BarProps = {
   background: string;
-  children: JSX.Element[] | null;
+  children: JSX.Element | JSX.Element[] | null;
 };
 
 const Container = styled("div")<Pick<BarProps, "background">>(

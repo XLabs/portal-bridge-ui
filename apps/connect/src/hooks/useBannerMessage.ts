@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 export type Message = {
   background: string;
-  button: {
+  button?: {
     href: string;
     label?: string;
     background: string;
