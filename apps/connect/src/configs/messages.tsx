@@ -73,8 +73,7 @@ const messages: Record<string, Message> = {
     ends: new Date(2023, 10, 6),
   },
   solana: {
-    background:
-      "yellow;",
+    background: "yellow;",
     content: (
       <>
         <Typography
@@ -89,7 +88,8 @@ const messages: Record<string, Message> = {
             wordWrap: "break-word",
           }}
         >
-          There are currently delays in relaying to Solana. Please use manual relaying if you need your transfer completed quickly.
+          There are currently delays in relaying to Solana. Please use manual
+          relaying if you need your transfer completed quickly.
         </Typography>
       </>
     ),
