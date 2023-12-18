@@ -70,7 +70,6 @@ const messages: Record<string, Message> = {
       </>
     ),
     start: new Date(2023, 9, 20), // any date in the past would be fine
-    ends: new Date(2023, 10, 6),
   },
   solana: {
     background: "yellow;",
@@ -94,6 +93,7 @@ const messages: Record<string, Message> = {
       </>
     ),
     start: new Date(2023, 11, 17), // any date in the past would be fine
+    ends: new Date(2023, 11, 18), // any date in the past would be fine
   },
 };
 
