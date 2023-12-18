@@ -26,14 +26,16 @@ const Link = styled(MuiLink)<{ backgroundColor: string }>(
 );
 export default function NewsBarButton({ button }: Pick<Message, "button">) {
   return (
-    <Link
-      href={button.href}
-      target="_blank"
-      rel="noopener noreferrer"
-      color="inherit"
-      backgroundColor={button.background}
-    >
-      {button.label || "TRY IT NOW"}
-    </Link>
+    button && (
+      <Link
+        href={button.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        color="inherit"
+        backgroundColor={button.background}
+      >
+        {button.label || "TRY IT NOW"}
+      </Link>
+    )
   );
 }

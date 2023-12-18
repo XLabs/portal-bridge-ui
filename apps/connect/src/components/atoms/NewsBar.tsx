@@ -13,8 +13,10 @@ export default function NewsBar({ messages }: NewsBarProps) {
   return (
     message && (
       <Bar background={message.background}>
-        {message.content}
-        {message.button && <NewBarButton button={message.button} />}
+        <>
+          {message.content}
+          {message.button ? <NewBarButton button={message.button} /> : null}
+        </>
       </Bar>
     )
   );
