@@ -2,7 +2,7 @@ import Typography from "@mui/material/Typography";
 
 export type Message = {
   background: string;
-  button: {
+  button?: {
     href: string;
     label?: string;
     background: string;
@@ -70,6 +70,30 @@ const messages: Record<string, Message> = {
       </>
     ),
     start: new Date(2023, 9, 20), // any date in the past would be fine
+    ends: new Date(2023, 10, 6),
+  },
+  solana: {
+    background:
+      "yellow;",
+    content: (
+      <>
+        <Typography
+          variant="body1"
+          style={{
+            color: "#070528",
+            fontSize: "16px",
+            fontFamily: "Poppins",
+            fontWeight: "700",
+            lineHeight: "20.02px",
+            letterSpacing: "0.28px",
+            wordWrap: "break-word",
+          }}
+        >
+          There are currently delays in relaying to Solana. Please use manual relaying if you need your transfer completed quickly.
+        </Typography>
+      </>
+    ),
+    start: new Date(2023, 11, 17), // any date in the past would be fine
   },
 };
 
