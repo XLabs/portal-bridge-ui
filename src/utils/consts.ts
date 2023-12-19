@@ -1846,7 +1846,7 @@ export const MULTI_CHAIN_TOKENS: MultiChainInfo =
         [CHAIN_ID_POLYGON]: {},
       } as MultiChainInfo);
 
-export const AVAILABLE_MARKETS_URL = "docs/faqs/liquid-markets";
+export const AVAILABLE_MARKETS_URL = "/docs/faqs/liquid-markets";
 
 export const SOLANA_SYSTEM_PROGRAM_ADDRESS = "11111111111111111111111111111111";
 export const FEATURED_MARKETS_JSON_URL =
@@ -1861,9 +1861,9 @@ export const logoOverrides = new Map<string, string>([
 
 export const getHowToAddTokensToWalletUrl = (chainId: ChainId) => {
   if (isEVMChain(chainId)) {
-    return "docs/video-tutorials/how-to-manually-add-tokens-to-your-wallet#metamask";
+    return "/docs/video-tutorials/how-to-manually-add-tokens-to-your-wallet#metamask";
   } else if (isTerraChain(chainId)) {
-    return "docs/video-tutorials/how-to-manually-add-tokens-to-your-wallet#terra-station";
+    return "/docs/video-tutorials/how-to-manually-add-tokens-to-your-wallet#terra-station";
   }
   return "";
 };
