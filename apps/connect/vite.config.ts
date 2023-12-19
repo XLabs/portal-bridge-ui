@@ -20,6 +20,7 @@ export default defineConfig({
   define: {
     redirects: {},
     wormholeConnectConfig: {
+      walletConnectProjectId: process.env.VITE_APP_WALLET_CONNECT_PROJECT_ID || '',
       env: process.env.VITE_APP_CLUSTER || 'mainnet',
       ...(process.env.VITE_APP_CLUSTER === 'mainnet' ? MAINNET_RPCS : {}),
       showHamburgerMenu: false,
