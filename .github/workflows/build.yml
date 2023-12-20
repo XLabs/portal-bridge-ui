@@ -29,7 +29,7 @@ on:
         pkg-version:
             description: "NPM Package Version"
             value: ${{ jobs.token-bridge.outputs.pkg-version }}
-jobs:    
+jobs:
   docs:
     name: "Documentation"
     runs-on: "ubuntu-latest"
@@ -59,7 +59,49 @@ jobs:
         with:
           name: build-docs
           path: apps/docs/build
-  
+
+  rewards-dashboard:
+    name: "Rewards Dashboard"
+    runs-on: "ubuntu-latest"
+    concurrency:
+      group: ${{ github.ref }}-${{inputs.name}}-rewards-dashboard
+      cancel-in-progress: true
+    environment: ${{inputs.environment}}
+    outputs:
+      pkg-version: ${{ steps.set-version.outputs._PKG_VERSION }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.project-branch }}
+      - name: Set up Node environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: v18.17.1
+      - name: Set Rewards Dashboard Version
+        id: set-version
+        run: |
+          pushd apps/rewards-dashboard
+          npm version $(node -p -e "require('./package.json').version")-${{inputs.separator}}$(echo ${{ github.sha }} | cut -c -10)
+      - name: Build Reward Dashboard
+        env:
+          PUBLIC_URL: ${{ inputs.public-url }}/rewards-dashboard
+          VITE_APP_VERSION: ${{ steps.set-version.outputs._PKG_VERSION }}
+          VITE_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
+          VITE_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}
+        run: |
+          pushd apps/rewards-dashboard
+          npm ci
+          echo 'VITE_APP_VERSION=$npm_package_version' > .env
+          echo 'VITE_APP_WALLET_CONNECT_PROJECT_ID=$npm_package_version' > .env
+          npm run build
+      - name: Upload Rewards Dashboard Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-rewards-dashboard
+          path: apps/rewards-dashboard/dist
+
+
   advanced-tools:
     name: "Advance Tools"
     runs-on: xlabs-large-runner
@@ -112,7 +154,7 @@ jobs:
     runs-on: "ubuntu-latest"
     concurrency:
       group: ${{ github.ref }}-${{inputs.name}}-redirects
-      cancel-in-progress: true 
+      cancel-in-progress: true
     steps:
       - name: Set up Node environment
         uses: actions/setup-node@v3
@@ -134,6 +176,7 @@ jobs:
         with:
           name: build-redirects
           path: apps/redirects/dist
+
 
   usdc-bridge:
     name: "USDC Bridge"
@@ -200,7 +243,7 @@ jobs:
         with:
           name: build-usdc-bridge
           path: connect-loader/apps/connect/dist
-        
+
   token-bridge:
     name: "Token Bridge"
     runs-on: "ubuntu-latest"
@@ -241,7 +284,7 @@ jobs:
           pushd connect-loader
           git config user.name "xLabs CI"
           git config user.email "devops@xlabs.xyz"
-      - name: Set Portal Bridge Version 
+      - name: Set Portal Bridge Version
         id: set-version
         run: |
           pushd connect-loader/apps/connect
@@ -272,6 +315,7 @@ jobs:
       - advanced-tools
       - usdc-bridge
       - token-bridge
+      - rewards-dashboard
       - redirects
       - docs
     runs-on: "ubuntu-latest"
@@ -289,8 +333,13 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
-          name: build-usdc-bridge 
-          path: usdc-bridge    
+          name: build-rewards-dashboard
+          path: rewards-dashboard
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build-usdc-bridge
+          path: usdc-bridge
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
