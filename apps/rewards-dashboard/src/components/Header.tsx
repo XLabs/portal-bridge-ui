@@ -79,7 +79,7 @@ export const Header = () => {
             "
             >
               <a
-                href="https://portalbridge.com"
+                href={`${BASE_URL}`}
                 className="text-white text-sm
               hover:cursor-pointer hover:underline hover:underline-offset-8
               "
@@ -87,7 +87,7 @@ export const Header = () => {
                 Home
               </a>
               <a
-                href="https://portalbridge.com/usdc-bridge"
+                href={`${BASE_URL}/usdc-bridge`}
                 className="text-white text-sm
               hover:cursor-pointer hover:underline hover:underline-offset-8
               "
@@ -95,6 +95,7 @@ export const Header = () => {
                 USDC
               </a>
               <a
+                href={`${BASE_URL}/rewards-dashboard`}
                 className="
               text-white text-sm
               underline underline-offset-8
