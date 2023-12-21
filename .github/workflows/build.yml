@@ -85,7 +85,7 @@ jobs:
           npm version $(node -p -e "require('./package.json').version")-${{inputs.separator}}$(echo ${{ github.sha }} | cut -c -10)
       - name: Build Reward Dashboard
         env:
-          PUBLIC_URL: ${{ inputs.public-url }}/rewards-dashboard
+          PUBLIC_URL: "${{ inputs.public-url }}"
           VITE_APP_VERSION: ${{ steps.set-version.outputs._PKG_VERSION }}
           VITE_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
           VITE_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}
