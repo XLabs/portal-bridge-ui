@@ -71,6 +71,11 @@ function Attest() {
           </Link>
         </Typography>
       </Alert>
+      <Alert severity="warning" className={classes.alert}>
+        <Typography variant="body1">
+          Use this feature under your own risk, be sure you understand what are you doing
+        </Typography>
+      </Alert>
       <Stepper activeStep={activeStep} orientation="vertical">
         <Step
           expanded={activeStep >= 0}

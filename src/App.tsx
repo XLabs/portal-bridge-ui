@@ -262,7 +262,7 @@ function App() {
                 className={classes.link}
                 to="register"
               >
-                xAsset
+                Register Token
               </Link>
               <Box>
                 <Link
