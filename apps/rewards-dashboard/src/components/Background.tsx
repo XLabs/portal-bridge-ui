@@ -1,13 +1,14 @@
-import Glow from "../quarks/Glow"
-import Ellipsis from "../quarks/Ellipsis"
+import Glow from "../quarks/Glow";
+import Ellipsis from "../quarks/Ellipsis";
 
-
-export const Background = ({ children }: { children: JSX.Element[] | JSX.Element }) => {
+export const Background = ({
+  children,
+}: {
+  children: JSX.Element[] | JSX.Element;
+}) => {
   return (
     <>
-      <>
-      {children}
-      </>
+      <>{children}</>
       <div>
         <Glow
           position={{
@@ -88,21 +89,26 @@ export const Background = ({ children }: { children: JSX.Element[] | JSX.Element
           background="radial-gradient(50% 50% at 50% 50%, rgba(48, 42, 96, 0.30) 0%, rgba(48, 42, 96, 0.00) 100%)"
         >
           <div className="">
-          <Ellipsis width={1024} height={998} marginTop={80} marginLeft={43}>
-            <Ellipsis width={768} height={768} marginTop={56} marginLeft={81}>
-              <Ellipsis width={594} height={592} marginTop={45} marginLeft={38}>
+            <Ellipsis width={1024} height={998} marginTop={80} marginLeft={43}>
+              <Ellipsis width={768} height={768} marginTop={56} marginLeft={81}>
                 <Ellipsis
-                  width={380}
-                  height={380}
+                  width={594}
+                  height={592}
                   marginTop={45}
-                  marginLeft={46}
-                />
+                  marginLeft={38}
+                >
+                  <Ellipsis
+                    width={380}
+                    height={380}
+                    marginTop={45}
+                    marginLeft={46}
+                  />
+                </Ellipsis>
               </Ellipsis>
             </Ellipsis>
-          </Ellipsis>
           </div>
         </Glow>
-        </div>
+      </div>
     </>
-  )
-}
+  );
+};

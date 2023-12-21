@@ -1,32 +1,33 @@
-import './App.css'
-import { Background } from './components/Background'
-import { Footer } from './components/Footer'
-import { Header } from './components/Header'
-import { DashboardLayout } from './layouts/DashboardLayout'
-import { AppProvider } from './providers'
+import "./App.css";
+import { Background } from "./components/Background";
+import { Footer } from "./components/Footer";
+import { Header } from "./components/Header";
+import { DashboardLayout } from "./layouts/DashboardLayout";
+import { AppProvider } from "./providers";
 
 function App() {
-
   return (
     <>
       <AppProvider>
         <Background>
-          <div className="
+          <div
+            className="
             flex flex-col grow
             justify-between
             overflow-scroll
-            ">
-            <Header/>
+            "
+          >
+            <Header />
             {
               // TODO: routing for different layouts
             }
-            <DashboardLayout/>
-            <Footer/>
+            <DashboardLayout />
+            <Footer />
           </div>
         </Background>
       </AppProvider>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
