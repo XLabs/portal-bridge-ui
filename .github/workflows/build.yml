@@ -178,7 +178,7 @@ jobs:
           path: apps/redirects/dist
 
   wormhole-connect:
-    name: "USDC Bridge"
+    name: "Wormhole Connect"
     runs-on: "ubuntu-latest"
     concurrency:
       group: ${{ github.ref }}-${{inputs.name}}-wormhole-connect
