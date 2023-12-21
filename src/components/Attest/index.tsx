@@ -73,7 +73,8 @@ function Attest() {
       </Alert>
       <Alert severity="warning" className={classes.alert}>
         <Typography variant="body1">
-        Using this feature may have some risks. Ensure a full understanding before proceeding.
+          Using this feature may have some risks. Ensure a full understanding
+          before proceeding.
         </Typography>
       </Alert>
       <Stepper activeStep={activeStep} orientation="vertical">
