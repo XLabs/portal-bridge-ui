@@ -247,7 +247,6 @@ jobs:
         run: |
           npm install -g husky
           pushd wormhole-connect
-          npm ci --workspaces --if-present
           npm link --workspaces --if-present
       - name: Checkout Custom Wormhole Connect Loader
         uses: actions/checkout@v3
@@ -314,7 +313,6 @@ jobs:
         run: |
           npm install -g husky
           pushd wormhole-connect
-          npm ci --workspaces --if-present
           npm link --workspaces --if-present
       - name: Checkout Custom Wormhole Connect Loader
         uses: actions/checkout@v3
