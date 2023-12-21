@@ -1,0 +1,10 @@
+[
+    {
+        "id": "string",
+        "networks": ["solana"],
+        "tokens": ["0x0123456789abcdef0123456789abcdef01234567"],
+        "content": "<h1>string</h1>",
+        "since": "1702569036000",
+        "until": "1703101392000"
+    }
+]

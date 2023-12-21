@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { Parser, useJsonParser } from "./useJsonParser";
 
 export type Message = {
   background: string;
@@ -39,4 +41,39 @@ export default function useBannerMessageConfig(messages: Message[]) {
     setMessage(message || null);
   }, [messages]);
   return message;
+}
+
+export type Banner = {
+  id: string,
+  networks: string[]
+  assets: string[]
+  content: string
+  since: Date
+  until: Date
+};
+
+
+
+async function fetchMessages(location: string = '/banners.json', parse: Parser<Banner[]>) {
+  const response = await fetch(location);
+  return await response.text().then((text) => parse(text));
+}
+
+export function useMessages() {
+  const now = new Date();
+  const parse = useJsonParser<Banner[]>({
+    elements: {
+      properties: {
+        id: { type: "string" },
+        networks: { elements: { type: "string" } },
+        assets: { elements: { type: "string" } },
+        content: { type: "string" },
+        since: { type: "timestamp" },
+        until: { type: "timestamp" },
+      }
+    }
+  });
+  const allMessages = useQuery({ queryKey: ['messages'], queryFn: () => fetchMessages('/banners.json', parse) });
+  const activeMessages = allMessages.data?.filter(({ until }: Banner) => until < now);
+  return activeMessages;
 }
