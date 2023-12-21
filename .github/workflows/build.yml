@@ -210,6 +210,7 @@ jobs:
           echo "_CSS_SHA_384=$(shasum -b -a 384 wormhole-connect-loader/dist/main.css | awk '{ print $1 }' | xxd -r -p | base64)" >> "${GITHUB_OUTPUT}"
           npm link --workspaces --if-present
           rm -rf node_modules wormhole-connect-loader/node_modules wormhole-connect/node_modules sdk/node_modules builder/node_modules
+          popd
           tar -cvf wormhole-connect.tar wormhole-connect
       - name: Upload Wormhole Connect Artifact
         uses: actions/upload-artifact@v3
