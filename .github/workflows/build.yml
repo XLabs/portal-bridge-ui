@@ -390,7 +390,7 @@ jobs:
           registry-url: https://npm.pkg.github.com
       - name: Create Package.json
         run: |
-          jq -n --arg version ${{ needs.token-bridge.outputs.pkg-version }} '{"name": "@xlabs/portal-bridge-ui", "version": $version }' > package.json
+          jq -n --arg version ${{ needs.token-bridge.outputs.pkg-version }} '{"name": "@${{ github.repository }}", "version": $version }' > package.json
       - name: Upload Portal Bridge Artifact
         uses: actions/upload-artifact@v3
         with:
