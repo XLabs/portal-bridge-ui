@@ -177,12 +177,11 @@ jobs:
           name: build-redirects
           path: apps/redirects/dist
 
-
-  usdc-bridge:
+  wormhole-connect:
     name: "USDC Bridge"
     runs-on: "ubuntu-latest"
     concurrency:
-      group: ${{ github.ref }}-${{inputs.name}}-usdc-bridge
+      group: ${{ github.ref }}-${{inputs.name}}-wormhole-connect
       cancel-in-progress: true
     environment: ${{inputs.environment}}
     outputs:
@@ -207,6 +206,40 @@ jobs:
           npm run build
           echo "_JS_SHA_384=$(shasum -b -a 384 wormhole-connect-loader/dist/main.js | awk '{ print $1 }' | xxd -r -p | base64)" >> "${GITHUB_OUTPUT}"
           echo "_CSS_SHA_384=$(shasum -b -a 384 wormhole-connect-loader/dist/main.css | awk '{ print $1 }' | xxd -r -p | base64)" >> "${GITHUB_OUTPUT}"
+          npm link --workspaces --if-present
+      - name: Upload Wormhole Connect Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-wormhole-connect
+          path: wormhole-connect
+
+  usdc-bridge:
+    name: "USDC Bridge"
+    runs-on: "ubuntu-latest"
+    needs:
+     - wormhole-connect
+    concurrency:
+      group: ${{ github.ref }}-${{inputs.name}}-usdc-bridge
+      cancel-in-progress: true
+    environment: ${{inputs.environment}}
+    outputs:
+      pkg-version: ${{ steps.set-version.outputs._PKG_VERSION }}
+    steps:
+      - name: Set up Node environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: v18.17.1
+      - name: Download Wormhole Connect Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build-wormhole-connect
+          path: wormhole-connect
+      - name: Link Wormhole Connect
+        id: wormhole-connect
+        run: |
+          npm install -g husky
+          pushd wormhole-connect
+          npm ci --workspaces --if-present
           npm link --workspaces --if-present
       - name: Checkout Custom Wormhole Connect Loader
         uses: actions/checkout@v3
@@ -258,21 +291,17 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: v18.17.1
-      - name: Checkout Wormhole Connect
-        uses: actions/checkout@v3
+      - name: Download Wormhole Connect Artifact
+        uses: actions/download-artifact@v3
         with:
-          repository: wormhole-foundation/wormhole-connect
-          ref: ${{inputs.connect-branch}}
+          name: build-wormhole-connect
           path: wormhole-connect
-      - name: Build Wormhole Connect
+      - name: Link Wormhole Connect
         id: wormhole-connect
         run: |
           npm install -g husky
           pushd wormhole-connect
           npm ci --workspaces --if-present
-          npm run build
-          echo "_JS_SHA_384=$(shasum -b -a 384 wormhole-connect-loader/dist/main.js | awk '{ print $1 }' | xxd -r -p | base64)" >> "${GITHUB_OUTPUT}"
-          echo "_CSS_SHA_384=$(shasum -b -a 384 wormhole-connect-loader/dist/main.css | awk '{ print $1 }' | xxd -r -p | base64)" >> "${GITHUB_OUTPUT}"
           npm link --workspaces --if-present
       - name: Checkout Custom Wormhole Connect Loader
         uses: actions/checkout@v3
