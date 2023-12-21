@@ -238,10 +238,10 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: build-wormhole-connect
-          path: wormhole-connect.tar
+          path: artifacts
       - name: extract wormhole-connect
         run: |
-          tar -xvf wormhole-connect.tar
+          tar -xvf artifacts/wormhole-connect.tar
       - name: Link Wormhole Connect
         id: wormhole-connect
         run: |
@@ -305,10 +305,10 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: build-wormhole-connect
-          path: wormhole-connect.tar
+          path: artifacts
       - name: extract wormhole-connect
         run: |
-          tar -xvf wormhole-connect.tar
+          tar -xvf artifacts/wormhole-connect.tar
       - name: Link Wormhole Connect
         id: wormhole-connect
         run: |
