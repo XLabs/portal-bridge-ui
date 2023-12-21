@@ -368,6 +368,7 @@ jobs:
           name: build-all
           path: .
       - name: Publish
+        continue-on-error: true
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm publish
