@@ -306,7 +306,7 @@ jobs:
         with:
           name: build-wormhole-connect
           path: artifacts
-      - name: extract wormhole-connect
+      - name: Extract Wormhole Connect Artifact
         run: |
           tar -xvf artifacts/wormhole-connect.tar
       - name: Link Wormhole Connect
