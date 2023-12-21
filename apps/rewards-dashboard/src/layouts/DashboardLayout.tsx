@@ -10,52 +10,7 @@ import {
   TotalBridgedGraphic,
 } from "../quarks/DashboardVectors";
 import { InfoStatWindow, StatWindow } from "../quarks/StatWindow";
-
-const WormholeLogo = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="103"
-    height="104"
-    fill="none"
-    viewBox="0 0 103 104"
-  >
-    <path
-      fill="url(#paint0_radial_2254_3414)"
-      d="M51.5 0C23.067 0 0 23.291 0 52s23.067 52 51.5 52S103 80.709 103 52 79.933 0 51.5 0zm0 74.395c-12.252 0-22.18-10.024-22.18-22.395 0-12.37 9.928-22.395 22.18-22.395 12.252 0 22.18 10.024 22.18 22.395 0 12.37-9.928 22.395-22.18 22.395z"
-    ></path>
-    <defs>
-      <radialGradient
-        id="paint0_radial_2254_3414"
-        cx="0"
-        cy="0"
-        r="1"
-        gradientTransform="matrix(43.1648 0 0 43.5839 51.495 51.993)"
-        gradientUnits="userSpaceOnUse"
-      >
-        <stop offset="0.225" stopColor="#fff"></stop>
-        <stop offset="0.544" stopColor="#fff" stopOpacity="0.44"></stop>
-        <stop offset="0.686" stopColor="#fff" stopOpacity="0.23"></stop>
-        <stop offset="0.857" stopColor="#fff" stopOpacity="0.07"></stop>
-        <stop offset="1" stopColor="#fff" stopOpacity="0"></stop>
-      </radialGradient>
-    </defs>
-  </svg>
-);
-
-const EyeCon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="18"
-    height="12"
-    fill="none"
-    viewBox="0 0 18 12"
-  >
-    <path
-      fill="#fff"
-      d="M15.938 8.2L14.63 6.63l.213-.184c1.455-1.262 2.463-2.931 2.994-4.967a.866.866 0 00-.62-1.055.863.863 0 00-1.054.62c-1.53 5.86-6.993 5.978-7.224 5.981-.236 0-5.71-.118-7.238-5.982a.865.865 0 00-1.674.436c.53 2.034 1.539 3.705 2.994 4.967l.213.184L1.926 8.2a.863.863 0 00.11 1.216.892.892 0 001.218-.11L4.68 7.599l.205.107a9.754 9.754 0 002.937.96l.245.036v2.36c0 .476.39.865.864.865.475 0 .865-.39.865-.864v-2.36l.245-.038a9.795 9.795 0 002.937-.959l.204-.107 1.427 1.709a.889.889 0 001.219.109.862.862 0 00.109-1.216z"
-    ></path>
-  </svg>
-);
+import { PortalLogo } from "../quarks/LogoVectors";
 
 const ConnectedDashboard = () => {
   const [numbersHidden, setNumbersHidden] = useState(false);
@@ -163,7 +118,18 @@ const ConnectedDashboard = () => {
                 setNumbersHidden(!numbersHidden);
               }}
             >
-              <EyeCon />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="12"
+                fill="none"
+                viewBox="0 0 18 12"
+              >
+                <path
+                  fill="#fff"
+                  d="M15.938 8.2L14.63 6.63l.213-.184c1.455-1.262 2.463-2.931 2.994-4.967a.866.866 0 00-.62-1.055.863.863 0 00-1.054.62c-1.53 5.86-6.993 5.978-7.224 5.981-.236 0-5.71-.118-7.238-5.982a.865.865 0 00-1.674.436c.53 2.034 1.539 3.705 2.994 4.967l.213.184L1.926 8.2a.863.863 0 00.11 1.216.892.892 0 001.218-.11L4.68 7.599l.205.107a9.754 9.754 0 002.937.96l.245.036v2.36c0 .476.39.865.864.865.475 0 .865-.39.865-.864v-2.36l.245-.038a9.795 9.795 0 002.937-.959l.204-.107 1.427 1.709a.889.889 0 001.219.109.862.862 0 00.109-1.216z"
+                ></path>
+              </svg>
               <div className="whitespace-pre text-white text-md pl-2">
                 {numbersHidden ? "Show All Numbers" : "Hide All Numbers"}
               </div>
@@ -276,7 +242,7 @@ const DisconnectedDashboard = () => {
         "
       >
         <div className="pb-2">
-          <WormholeLogo />
+          <PortalLogo />
         </div>
         <div className="text-white text-3xl md:text-4xl pb-3">
           Connect your wallet

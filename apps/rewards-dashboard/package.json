@@ -1,18 +1,24 @@
 {
   "name": "rewards-dashboard",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "prebuild": "npm run lingui:extract && npm run lingui:compile",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "prettier": "prettier --check ./src",
-    "preview": "vite preview"
+    "prettier:fix": "prettier ./src -w",
+    "preview": "vite preview",
+    "lingui:extract": "lingui extract",
+    "lingui:compile": "lingui extract"
   },
   "dependencies": {
     "@floating-ui/react": "^0.26.4",
     "@gfxlabs/oku-chains": "^0.0.19",
+    "@lingui/macro": "^4.6.0",
+    "@lingui/react": "^4.6.0",
     "@web3modal/wagmi": "^3.5.0",
     "ethereum-blockies-base64": "^1.0.2",
     "react": "^18.2.0",
@@ -21,6 +27,9 @@
     "wagmi": "^1.4.12"
   },
   "devDependencies": {
+    "@lingui/cli": "^4.6.0",
+    "@lingui/swc-plugin": "^4.0.4",
+    "@lingui/vite-plugin": "^4.6.0",
     "@tailwindcss/typography": "^0.5.10",
     "@types/node": "^20.10.5",
     "@types/react": "^18.2.45",
@@ -33,6 +42,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "postcss": "^8.4.32",
+    "prettier": "^3.1.1",
     "tailwindcss": "^3.4.0",
     "typescript": "^5.3.3",
     "vite": "^5.0.10"

@@ -2,6 +2,49 @@ import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useAccount, useEnsName } from "wagmi";
 import makeBlockie from "ethereum-blockies-base64";
 import { useMemo } from "react";
+import { t } from "@lingui/macro";
+
+export const WalletManager = () => {
+  const { isConnected } = useAccount();
+  const { address } = useAccount();
+  const { data: ensName } = useEnsName({ address, chainId: 1 });
+  const blockie = useMemo(() => {
+    if (address) {
+      return makeBlockie(address);
+    }
+    return undefined;
+  }, [address]);
+  const { open } = useWeb3Modal();
+
+  const text = isConnected
+    ? ensName
+      ? truncateEns(ensName)
+      : address
+        ? truncateAddr(address)
+        : ""
+    : t`CONNECT WALLET`;
+  return (
+    <div
+      className="
+      flex flex-row items-center gap-2 px-4 py-2
+      border border-0.5 border-white
+      bg-white
+      hover:cursor-pointer
+      rounded-full
+      "
+      onClick={() => {
+        open();
+      }}
+    >
+      {blockie ? (
+        <img className="w-4 h-4 rounded-full" src={blockie} />
+      ) : (
+        <LightningIcon />
+      )}
+      <div className="text-black text-xs font-light whitespace-pre">{text}</div>
+    </div>
+  );
+};
 
 const LightningIcon = () => {
   return (
@@ -37,46 +80,4 @@ const truncateAddr = (x?: string) => {
     return x;
   }
   return "";
-};
-
-export const WalletManager = () => {
-  const { isConnected } = useAccount();
-  const { address } = useAccount();
-  const { data: ensName } = useEnsName({ address, chainId: 1 });
-  const blockie = useMemo(() => {
-    if (address) {
-      return makeBlockie(address);
-    }
-    return undefined;
-  }, [address]);
-  const { open } = useWeb3Modal();
-
-  const text = isConnected
-    ? ensName
-      ? truncateEns(ensName)
-      : address
-        ? truncateAddr(address)
-        : ""
-    : "CONNECT WALLET";
-  return (
-    <div
-      className="
-      flex flex-row items-center gap-2 px-4 py-2
-      border border-0.5 border-white
-      bg-white
-      hover:cursor-pointer
-      rounded-full
-      "
-      onClick={() => {
-        open();
-      }}
-    >
-      {blockie ? (
-        <img className="w-4 h-4 rounded-full" src={blockie} />
-      ) : (
-        <LightningIcon />
-      )}
-      <div className="text-black text-xs font-light whitespace-pre">{text}</div>
-    </div>
-  );
 };
