@@ -1,4 +1,3 @@
-
 export function TotalBridgedGraphic() {
   return (
     <svg
@@ -43,9 +42,6 @@ export function TotalBridgedGraphic() {
     </svg>
   );
 }
-
-
-
 
 export function EstimatedApyGraphic() {
   return (
@@ -125,7 +121,6 @@ export function EstimatedApyGraphic() {
   );
 }
 
-
 export function EstimatedRewardsGraphic() {
   return (
     <svg
@@ -189,9 +184,6 @@ export function EstimatedRewardsGraphic() {
     </svg>
   );
 }
-
-
-
 
 export function RewardHistoryGraphic() {
   return (

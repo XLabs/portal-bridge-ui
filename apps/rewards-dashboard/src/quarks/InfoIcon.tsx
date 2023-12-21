@@ -1,4 +1,11 @@
-import { FloatingArrow, arrow, offset, useFloating, useHover, useInteractions } from "@floating-ui/react";
+import {
+  FloatingArrow,
+  arrow,
+  offset,
+  useFloating,
+  useHover,
+  useInteractions,
+} from "@floating-ui/react";
 import { useRef, useState } from "react";
 
 const InfoIcon = () => {
@@ -20,20 +27,19 @@ const InfoIcon = () => {
       ></path>
     </svg>
   );
-}
+};
 
-
-interface InfoHoverProps  {
-  children: JSX.Element
+interface InfoHoverProps {
+  children: JSX.Element;
 }
-export const InfoHover = (props: InfoHoverProps)=>{
+export const InfoHover = (props: InfoHoverProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const arrowRef = useRef(null);
-  const {refs, floatingStyles, context} = useFloating({
+  const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
-    placement:"top",
-    middleware:[
+    placement: "top",
+    middleware: [
       offset(24),
       arrow({
         element: arrowRef,
@@ -41,15 +47,12 @@ export const InfoHover = (props: InfoHoverProps)=>{
     ],
   });
   const hover = useHover(context);
-  const {getReferenceProps, getFloatingProps} = useInteractions([
-    hover,
-  ]);
+  const { getReferenceProps, getFloatingProps } = useInteractions([hover]);
 
   return (
     <>
-      <div
-        ref={refs.setReference} {...getReferenceProps()}>
-        <InfoIcon/>
+      <div ref={refs.setReference} {...getReferenceProps()}>
+        <InfoIcon />
       </div>
       {isOpen && (
         <div
@@ -58,13 +61,10 @@ export const InfoHover = (props: InfoHoverProps)=>{
           className="z-10 bg-[#34356d] rounded-lg p-2"
           {...getFloatingProps()}
         >
-          <FloatingArrow
-            fill="#34356d"
-            ref={arrowRef} context={context}
-          />
+          <FloatingArrow fill="#34356d" ref={arrowRef} context={context} />
           {props.children}
         </div>
       )}
     </>
   );
-}
+};

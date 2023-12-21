@@ -353,6 +353,6 @@ export const Taurus = () => {
       ></path>
     </svg>
   );
-}
+};
 
 export default Taurus;
