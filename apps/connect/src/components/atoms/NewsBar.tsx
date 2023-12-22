@@ -22,11 +22,12 @@ export default function NewsBar({ messages }: NewsBarProps) {
           </>
         </Bar>
       )}
-      {banners && banners.map((banner) => (
-        <Bar background={banner.background} >
-          <div dangerouslySetInnerHTML={{__html: banner.content }} />
-        </Bar>
-      ))}
+      {banners &&
+        banners.map((banner) => (
+          <Bar background={banner.background}>
+            <div dangerouslySetInnerHTML={{ __html: banner.content }} />
+          </Bar>
+        ))}
     </>
   );
 }

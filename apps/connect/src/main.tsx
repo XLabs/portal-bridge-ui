@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import CssBaseline from "@mui/material/CssBaseline";
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
-import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import theme from "./theme/portal.ts";
 import Background from "./components/atoms/Background.tsx";
 import App from "./App.tsx";
