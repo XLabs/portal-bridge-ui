@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import DOMPurify from "dompurify";
 
 export type Message = {
   background: string;
@@ -46,7 +45,16 @@ export default function useBannerMessageConfig(messages: Message[]) {
 export type Banner = {
   id: string;
   background: string;
-  content: string;
+  button?: {
+    href: string;
+    label?: string;
+    background: string;
+  };
+  content: {
+    text: string;
+    color?: string;
+    size?: string;
+  };
   since: Date;
   until: Date;
 };
@@ -57,10 +65,13 @@ function parse(banner: Record<string, any>): Banner {
   const background = banner.background;
   const since = new Date(banner.since);
   const until = new Date(banner.until);
-  const content = DOMPurify.sanitize(banner.content, {
-    USE_PROFILES: { html: true },
-  });
-  return { id, background, since, until, content };
+  const content = {
+    text: banner.content.text,
+    color: banner.content.color,
+    size: banner.content.size,
+  };
+  const button = banner.button;
+  return { id, background, since, until, content, button };
 }
 
 async function fetchMessages(

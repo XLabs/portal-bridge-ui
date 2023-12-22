@@ -2,11 +2,13 @@ import styled from "@mui/material/styles/styled";
 
 export type BarProps = {
   background: string;
+  color?: string;
+  size?: string;
   children: string[] | JSX.Element | JSX.Element[] | null;
 };
 
-const Container = styled("div")<Pick<BarProps, "background">>(
-  ({ theme, background }) => ({
+const Container = styled("div")<BarProps>(
+  ({ theme, background, color, size }) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -21,13 +23,16 @@ const Container = styled("div")<Pick<BarProps, "background">>(
     },
     textAlign: "center",
     fontWeight: 500,
-    fontSize: "16px",
+    color: color || theme.palette.text.primary,
+    fontSize: size || "16px",
     letterSpacing: "0.02em",
     background,
     marginBottom: theme.spacing(0.5),
   })
 );
 
-export default function Bar({ background, children }: BarProps) {
-  return <Container background={background}>{children}</Container>;
+export default function Bar({ background, color, size, children }: BarProps) {
+  return <Container background={background} color={color} size={size}>
+    {children}
+  </Container>;
 }

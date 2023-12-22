@@ -35,24 +35,35 @@ Go to `apps/connect/public/data/banners.json` and add a new item with this forma
 [
     {
         "id": "string",
-        "background":"red",
-        "content": "a red banner",
+        "background": "red",
+        "content": {
+            "text": "Lorem ipsum",
+            "color": "papayawhip",
+            "size": "30px"
+        },
+        "button": {
+            "label": "Click here!",
+            "background": "red",
+            "href": "https://portalbridge.com"
+        },
         "since": "2023-12-22T01:06:52.211Z",
-        "until": "2023-12-23T01:06:52.211Z"
+        "until": "2023-12-25T01:06:52.211Z"
     },
     {
         "id": "string",
-        "background":"yellow",
-        "content": "<h1 color=\"black\" style=\"color: black;\">a yellow banner</h1>",
+        "background": "yellow",
+        "content": {
+            "text": "Lorem ipsum",
+            "color": "white",
+            "size": "15px"
+        },
+        "button": {
+            "label": "Click here!",
+            "background": "green",
+            "href": "https://portalbridge.com"
+        },
         "since": "2023-12-22T01:06:52.211Z",
-        "until": "2023-12-22T01:06:52.211Z"
-    },
-    {
-        "id": "string",
-        "background":"yellow",
-        "content": "<h1 color=\"black\" style=\"color: black;\">a yellow banner</h1>",
-        "since": "2023-12-22T01:06:52.211Z",
-        "until": "2023-12-23T01:06:52.211Z"
+        "until": "2023-12-25T01:06:52.211Z"
     }
 ]
 ```
