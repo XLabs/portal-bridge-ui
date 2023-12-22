@@ -25,3 +25,34 @@ If you are developing a production application, we recommend updating the config
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+
+
+## Create a new banner
+
+Go to `apps/connect/public/data/banners.json` and add a new item with this format:
+
+```
+[
+    {
+        "id": "string",
+        "background":"red",
+        "content": "a red banner",
+        "since": "2023-12-22T01:06:52.211Z",
+        "until": "2023-12-23T01:06:52.211Z"
+    },
+    {
+        "id": "string",
+        "background":"yellow",
+        "content": "<h1 color=\"black\" style=\"color: black;\">a yellow banner</h1>",
+        "since": "2023-12-22T01:06:52.211Z",
+        "until": "2023-12-22T01:06:52.211Z"
+    },
+    {
+        "id": "string",
+        "background":"yellow",
+        "content": "<h1 color=\"black\" style=\"color: black;\">a yellow banner</h1>",
+        "since": "2023-12-22T01:06:52.211Z",
+        "until": "2023-12-23T01:06:52.211Z"
+    }
+]
+```
