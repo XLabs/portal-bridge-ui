@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Parser, useJsonParser } from "./useJsonParser";
+import DOMPurify from 'dompurify';
 
 export type Message = {
   background: string;
@@ -45,35 +45,35 @@ export default function useBannerMessageConfig(messages: Message[]) {
 
 export type Banner = {
   id: string,
-  networks: string[]
-  assets: string[]
+  background: string,
   content: string
   since: Date
   until: Date
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function parse(banner: Record<string, any>): Banner {
+  const id = banner.id;
+  const background = banner.background;
+  const since = new Date(banner.since);
+  const until = new Date(banner.until);
+  const content = DOMPurify.sanitize(banner.content, { USE_PROFILES: { html: true } });
+  return { id, background, since, until, content };
+}
 
-
-async function fetchMessages(location: string = '/banners.json', parse: Parser<Banner[]>) {
+async function fetchMessages(location: string = '/data/banners.json'): Promise<Banner[]> {
   const response = await fetch(location);
-  return await response.text().then((text) => parse(text));
+  if (response.status !== 200) {
+    return [];
+  } else {
+    const json = await response.json();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return json.map((banner: Record<string, any>) => parse(banner));  
+  }
 }
 
 export function useMessages() {
   const now = new Date();
-  const parse = useJsonParser<Banner[]>({
-    elements: {
-      properties: {
-        id: { type: "string" },
-        networks: { elements: { type: "string" } },
-        assets: { elements: { type: "string" } },
-        content: { type: "string" },
-        since: { type: "timestamp" },
-        until: { type: "timestamp" },
-      }
-    }
-  });
-  const allMessages = useQuery({ queryKey: ['messages'], queryFn: () => fetchMessages('/banners.json', parse) });
-  const activeMessages = allMessages.data?.filter(({ until }: Banner) => until < now);
-  return activeMessages;
+  const allMessages = useQuery({ queryKey: ['messages'], queryFn: () => fetchMessages() });
+  return allMessages.data?.filter(({ until, since }: Banner) => (since < now && until > now) );
 }
