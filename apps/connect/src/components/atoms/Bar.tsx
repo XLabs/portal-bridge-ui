@@ -32,7 +32,9 @@ const Container = styled("div")<BarProps>(
 );
 
 export default function Bar({ background, color, size, children }: BarProps) {
-  return <Container background={background} color={color} size={size}>
-    {children}
-  </Container>;
+  return (
+    <Container background={background} color={color} size={size}>
+      {children}
+    </Container>
+  );
 }

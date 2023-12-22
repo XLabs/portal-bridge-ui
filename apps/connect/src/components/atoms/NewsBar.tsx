@@ -14,7 +14,7 @@ export default function NewsBar({ messages }: NewsBarProps) {
   const banners = useMessages();
   return (
     <>
-       {message && (
+      {message && (
         <Bar background={message.background}>
           <>
             {message.content}
@@ -24,8 +24,12 @@ export default function NewsBar({ messages }: NewsBarProps) {
       )}
       {banners &&
         banners.map((banner) => (
-          <Bar background={banner.background} color={banner.content.color || ''} size={banner.content.size || ''}>
-             <>
+          <Bar
+            background={banner.background}
+            color={banner.content.color || ""}
+            size={banner.content.size || ""}
+          >
+            <>
               {banner.content.text}
               {banner.button ? <NewBarButton button={banner.button} /> : null}
             </>
