@@ -25,3 +25,45 @@ If you are developing a production application, we recommend updating the config
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+
+
+## Create a new banner
+
+Go to `apps/connect/public/data/banners.json` and add a new item with this format:
+
+```
+[
+    {
+        "id": "string",
+        "background": "red",
+        "content": {
+            "text": "Lorem ipsum",
+            "color": "papayawhip",
+            "size": "30px"
+        },
+        "button": {
+            "label": "Click here!",
+            "background": "red",
+            "href": "https://portalbridge.com"
+        },
+        "since": "2023-12-22T01:06:52.211Z",
+        "until": "2023-12-25T01:06:52.211Z"
+    },
+    {
+        "id": "string",
+        "background": "yellow",
+        "content": {
+            "text": "Lorem ipsum",
+            "color": "white",
+            "size": "15px"
+        },
+        "button": {
+            "label": "Click here!",
+            "background": "green",
+            "href": "https://portalbridge.com"
+        },
+        "since": "2023-12-22T01:06:52.211Z",
+        "until": "2023-12-25T01:06:52.211Z"
+    }
+]
+```
