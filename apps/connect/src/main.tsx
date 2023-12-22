@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import CssBaseline from "@mui/material/CssBaseline";
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 import theme from "./theme/portal.ts";
 import Background from "./components/atoms/Background.tsx";
 import App from "./App.tsx";
@@ -13,13 +14,17 @@ if (redirects && redirects?.source?.length > 0) {
   }
 }
 
+const client = new QueryClient();
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <Background>
-        <CssBaseline />
-        <App />
-      </Background>
+      <QueryClientProvider client={client}>
+        <Background>
+          <CssBaseline />
+          <App />
+        </Background>
+      </QueryClientProvider>
     </ThemeProvider>
   </React.StrictMode>
 );
