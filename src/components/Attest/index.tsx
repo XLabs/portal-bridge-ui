@@ -1,9 +1,12 @@
 import {
   Container,
+  Link,
   Step,
   StepButton,
   StepContent,
   Stepper,
+  Typography,
+  makeStyles,
 } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import { useEffect } from "react";
@@ -26,7 +29,14 @@ import SourcePreview from "./SourcePreview";
 import Target from "./Target";
 import TargetPreview from "./TargetPreview";
 
+const useStyles = makeStyles((theme) => ({
+  alert: {
+    marginBottom: theme.spacing(2),
+  },
+}));
+
 function Attest() {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const activeStep = useSelector(selectAttestActiveStep);
   const isSending = useSelector(selectAttestIsSending);
@@ -46,9 +56,26 @@ function Attest() {
   return (
     <Container maxWidth="md">
       <HeaderText white>Token Registration</HeaderText>
-      <Alert severity="info">
-        This form allows you to register a token on a new foreign chain. Tokens
-        must be registered before they can be transferred.
+      <Alert severity="info" className={classes.alert}>
+        <Typography variant="body1">
+          This form allows you to register a token on a new foreign chain.
+          Tokens must be registered before they can be transferred.
+        </Typography>
+        <Typography variant="body2">
+          Check our tutorial{" "}
+          <Link
+            target="_blank"
+            href="https://portalbridge.com/docs/tutorials/how-to-do-token-register/"
+          >
+            here
+          </Link>
+        </Typography>
+      </Alert>
+      <Alert severity="warning" className={classes.alert}>
+        <Typography variant="body1">
+          Using this feature may have some risks. Ensure a full understanding
+          before proceeding.
+        </Typography>
       </Alert>
       <Stepper activeStep={activeStep} orientation="vertical">
         <Step

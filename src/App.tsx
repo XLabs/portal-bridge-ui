@@ -21,7 +21,7 @@ import {
 import { HelpOutline } from "@material-ui/icons";
 import { useCallback } from "react";
 import { useHistory, useLocation } from "react-router";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch, Link as RouterLink } from "react-router-dom";
 import Attest from "./components/Attest";
 import Footer from "./components/Footer";
 import HeaderText from "./components/HeaderText";
@@ -254,6 +254,15 @@ function App() {
                 className={classes.link}
               >
                 FAQ
+              </Link>
+              <Link
+                component={RouterLink}
+                rel="noopener noreferrer"
+                color="inherit"
+                className={classes.link}
+                to="register"
+              >
+                Register Token
               </Link>
               <Box>
                 <Link
