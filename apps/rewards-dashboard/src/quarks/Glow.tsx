@@ -22,6 +22,7 @@ export const Glow = ({
   return (
     <div
       style={{
+        overflowY:"hidden",
         position: "absolute",
         borderRadius: width,
         background,
