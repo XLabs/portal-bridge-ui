@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import  { resolve } from 'path'
+import { lingui } from "@lingui/vite-plugin";
 
 const PUBLIC_URL = process.env.PUBLIC_URL || ""
 
@@ -16,7 +17,12 @@ export default defineConfig({
       { label: "Wormholescan", href: `https://wormholescan.io` }
     ]
   },
-  plugins: [react()],
+  plugins: [
+    react({
+      plugins: [["@lingui/swc-plugin", {}]],
+    }),
+    lingui(),
+  ],
   build: {
     rollupOptions: {
       input: {
