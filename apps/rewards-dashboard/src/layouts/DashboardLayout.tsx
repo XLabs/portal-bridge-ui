@@ -11,8 +11,30 @@ import {
 import { InfoStatWindow, StatWindow } from "../quarks/StatWindow";
 import { PortalLogo } from "../quarks/LogoVectors";
 import { Trans, t } from "@lingui/macro";
+import { useWalletInfo } from "../hooks/useWalletInfo";
+import { useQuery } from "@tanstack/react-query";
+import { WAC_URL } from "../constants";
+
+interface DashboardQueryResult {
+  user: string
+  bridged_amount: number
+  usdc_held: number
+  ausdc_held: number
+  cusdc_held: number
+  pending_rewards: number
+}
+
+export interface OverviewQueryResult {
+  total_bridged: number
+  estimated_rewards: number
+  rewards_earned: number
+}
+
+
 
 const ConnectedDashboard = () => {
+  const {address} = useWalletInfo()
+
   const [numbersHidden, setNumbersHidden] = useState(false);
 
   const [totalBridged, setTotalBridged] = useState<number | undefined>(
@@ -32,23 +54,46 @@ const ConnectedDashboard = () => {
   const [accruedRewards, setAccruedRewards] = useState<number | undefined>(
     undefined
   );
+  const { data:overview } = useQuery<OverviewQueryResult>({
+    queryKey: ["overview"],
+    staleTime: 5000,
+    queryFn: async () => {
+      return fetch(`${WAC_URL}/overview`)
+      .then((res) => {
+        return res.json()
+      })
+    }
+  })
+  const { data:userInfo } = useQuery<DashboardQueryResult>({
+    queryKey: [address],
+    enabled: !!address,
+    staleTime: 5000,
+    queryFn: async () => {
+      return fetch(`${WAC_URL}/usersummary?address=${address}`)
+      .then((res) => {
+        return res.json()
+      })
+    }
+  })
 
-  const fillExampleValues = () => {
-    setTotalBridged(73255155);
-    setEstimatedRewards(15477);
-    setHistoryRewardsEarned(18025);
-    setUSDCBridged(1558);
-    setUSDCHeld(63758);
-    setAUSDCHeld(1558);
-    setCUSDCHeld(142);
-    setAccruedRewards(69420);
-  };
-  fillExampleValues;
-  useEffect(() => {
-    setTimeout(() => {
-      fillExampleValues();
-    }, 1000);
-  }, []);
+  useEffect(()=>{
+    if(!userInfo) {
+      return
+    }
+    setUSDCBridged(userInfo.bridged_amount)
+    setUSDCHeld(userInfo.usdc_held)
+    setAUSDCHeld(userInfo.ausdc_held)
+    setCUSDCHeld(userInfo.cusdc_held)
+    setAccruedRewards(userInfo.pending_rewards)
+  }, [userInfo])
+  useEffect(()=>{
+    if(!overview) {
+      return
+    }
+    setTotalBridged(overview.total_bridged)
+    setEstimatedRewards(overview.estimated_rewards)
+    setHistoryRewardsEarned(overview.rewards_earned)
+  }, [overview])
 
   const maybeHide = (x?: number) => {
     if (numbersHidden == true) {
@@ -102,7 +147,7 @@ const ConnectedDashboard = () => {
         >
           <div className="flex flex-col sm:flex-row md:items-center w-full text-start justify-between gap-4">
             <h3 className="whitespace-pre text-white text-4xl">
-              <Trans> Dashboard Header </Trans>
+              <Trans>Connected Dashboard Header </Trans>
             </h3>
             <div
               className="flex flex-row items-center hover:cursor-pointer"

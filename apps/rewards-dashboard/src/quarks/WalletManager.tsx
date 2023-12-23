@@ -1,19 +1,10 @@
 import { useWeb3Modal } from "@web3modal/wagmi/react";
-import { useAccount, useEnsName } from "wagmi";
-import makeBlockie from "ethereum-blockies-base64";
-import { useMemo } from "react";
 import { t } from "@lingui/macro";
+import { useWalletInfo } from "../hooks/useWalletInfo";
 
 export const WalletManager = () => {
-  const { isConnected } = useAccount();
-  const { address } = useAccount();
-  const { data: ensName } = useEnsName({ address, chainId: 1 });
-  const blockie = useMemo(() => {
-    if (address) {
-      return makeBlockie(address);
-    }
-    return undefined;
-  }, [address]);
+
+  const {isConnected, ensName, address, blockie} = useWalletInfo()
   const { open } = useWeb3Modal();
 
   const text = isConnected

@@ -14,7 +14,7 @@ function App() {
             className="
             flex flex-col grow
             justify-between
-            overflow-scroll
+            overflow-scroll scrollbar-hide
             "
           >
             <Header />

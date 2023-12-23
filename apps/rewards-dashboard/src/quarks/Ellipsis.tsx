@@ -15,7 +15,7 @@ export const Ellipsis = ({
 }: EllipsisProps) => {
   return (
     <div
-      className="absolute"
+      className="absolute scrollbar-hide overflow-hidden"
       style={{
         width,
         height,
