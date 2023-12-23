@@ -60,7 +60,7 @@ msgid "cUSDC Held Value Tooltip"
 msgstr "CHANGE ME"
 
 #: src/layouts/DashboardLayout.tsx:105
-msgid "Dashboard Header"
+msgid "Connected Dashboard Header"
 msgstr "CHANGE ME"
 
 #: src/layouts/DashboardLayout.tsx:219

@@ -102,7 +102,7 @@ const ConnectedDashboard = () => {
         >
           <div className="flex flex-col sm:flex-row md:items-center w-full text-start justify-between gap-4">
             <h3 className="whitespace-pre text-white text-4xl">
-              <Trans> Dashboard Header </Trans>
+              <Trans>Connected Dashboard Header </Trans>
             </h3>
             <div
               className="flex flex-row items-center hover:cursor-pointer"
