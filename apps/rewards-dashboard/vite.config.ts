@@ -9,6 +9,12 @@ export default defineConfig({
   base: `${PUBLIC_URL}/rewards-dashboard`,
   define: {
     "BASE_URL": `"${PUBLIC_URL}"`,
+    navBar: [
+      { label: "Home", href: `${PUBLIC_URL}/` },
+      { label: "USDC", href: `${PUBLIC_URL}/usdc-bridge` },
+      { label: "Rewards",active: true, href: `${PUBLIC_URL}/rewards-dashboard` },
+      { label: "Wormholescan", href: `https://wormholescan.io` }
+    ]
   },
   plugins: [react()],
   build: {

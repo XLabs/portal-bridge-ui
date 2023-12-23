@@ -3,6 +3,7 @@
 import { CiMenuBurger } from "react-icons/ci";
 import { WalletManager } from "../quarks/WalletManager";
 import { useState } from "react";
+import { MobileNavItem, NavItem } from "../quarks/NavItem";
 
 const WormholeLogo = () => (
   <svg
@@ -78,52 +79,22 @@ export const Header = () => {
             py-8
             "
             >
-              <a
-                href={`${BASE_URL}/`}
-                className="text-white text-sm
-              hover:cursor-pointer hover:underline hover:underline-offset-8
-              "
-              >
-                Home
-              </a>
-              <a
-                href={`${BASE_URL}/usdc-bridge`}
-                className="text-white text-sm
-              hover:cursor-pointer hover:underline hover:underline-offset-8
-              "
-              >
-                USDC
-              </a>
-              <a
-                href={`${BASE_URL}/rewards-dashboard`}
-                className="
-              text-white text-sm
-              underline underline-offset-8
-              hover:cursor-pointer
-              whitespace-nowrap
-              "
-              >
-                ARB Rewards
-              </a>
-              <a
-                href="https://wormholescan.io"
-                target="_blank"
-                className="
-              text-white text-sm
-              hover:cursor-pointer hover:underline hover:underline-offset-8
-              "
-              >
-                Wormholescan
-              </a>
+              {navBar.map((x, idx) => {
+                return (
+                  <>
+                    <NavItem key={idx} item={x} />
+                  </>
+                );
+              })}
               <WalletManager />
             </div>
           </div>
           <div
             className="
-          md:hidden
-          flex flex-row items-center px-4
-          hover:cursor-pointer
-          "
+            md:hidden
+            flex flex-row items-center px-4
+            hover:cursor-pointer
+            "
             onClick={() => {
               setShowMenu(!showMenu);
             }}
@@ -131,55 +102,19 @@ export const Header = () => {
             <CiMenuBurger className="w-5 h-5 stroke-white stroke-1" />
           </div>
         </div>
-        <div className={`${showMenu ? "" : "hidden"} md:hidden pb-8`}>
-          <div className="flex flex-col text-start">
-            <a
-              href={`${BASE_URL}/`}
-              className="text-white
-              hover:cursor-pointer
-              hover:bg-white hover:bg-opacity-10 duration-200
-              pb-3
-              pl-4 ml-2
-              "
-            >
-              Home
-            </a>
-            <a
-              href={`${BASE_URL}/usdc-bridge`}
-              className="text-white
-              hover:cursor-pointer
-              hover:bg-white hover:bg-opacity-10 duration-200
-              py-3
-              pl-4 ml-2
-              "
-            >
-              USDC
-            </a>
-            <a
-              href={`${BASE_URL}/rewards-dashboard`}
-              className="text-white
-              hover:cursor-pointer
-              hover:bg-white hover:bg-opacity-10 duration-200
-              py-3
-              pl-4 ml-2
-              "
-            >
-              ARB Rewards
-            </a>
-            <a
-              href="https://wormholescan.com"
-              target="_blank"
-              className="
-              text-white
-              hover:cursor-pointer hover:underline hover:underline-offset-8
-              py-3
-              pl-4 ml-2
-              "
-            >
-              Wormholescan
-            </a>
+        {showMenu && (
+          <div className={` md:hidden pb-8 duration-200`}>
+            <div className="flex flex-col text-start">
+              {navBar.map((x, idx) => {
+                return (
+                  <>
+                    <MobileNavItem key={idx} item={x} />
+                  </>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </>
   );
