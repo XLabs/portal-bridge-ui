@@ -4,21 +4,18 @@ import { WalletManager } from "../quarks/WalletManager";
 import { FaArrowRight } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import {
-  EstimatedApyGraphic,
   EstimatedRewardsGraphic,
   RewardHistoryGraphic,
   TotalBridgedGraphic,
 } from "../quarks/DashboardVectors";
 import { InfoStatWindow, StatWindow } from "../quarks/StatWindow";
 import { PortalLogo } from "../quarks/LogoVectors";
+import { Trans, t } from "@lingui/macro";
 
 const ConnectedDashboard = () => {
   const [numbersHidden, setNumbersHidden] = useState(false);
 
   const [totalBridged, setTotalBridged] = useState<number | undefined>(
-    undefined
-  );
-  const [estimatedAPY, setEstimatedApy] = useState<number | undefined>(
     undefined
   );
   const [estimatedRewards, setEstimatedRewards] = useState<number | undefined>(
@@ -32,20 +29,19 @@ const ConnectedDashboard = () => {
   const [usdcHeld, setUSDCHeld] = useState<number | undefined>(undefined);
   const [cusdcHeld, setCUSDCHeld] = useState<number | undefined>(undefined);
   const [ausdcHeld, setAUSDCHeld] = useState<number | undefined>(undefined);
-  const [unclaimedRewards, setUnclaimedRewards] = useState<number | undefined>(
+  const [accruedRewards, setAccruedRewards] = useState<number | undefined>(
     undefined
   );
 
   const fillExampleValues = () => {
     setTotalBridged(73255155);
-    setEstimatedApy(780);
     setEstimatedRewards(15477);
     setHistoryRewardsEarned(18025);
     setUSDCBridged(1558);
     setUSDCHeld(63758);
     setAUSDCHeld(1558);
     setCUSDCHeld(142);
-    setUnclaimedRewards(69420);
+    setAccruedRewards(69420);
   };
   fillExampleValues;
   useEffect(() => {
@@ -61,10 +57,6 @@ const ConnectedDashboard = () => {
     return x;
   };
 
-  const formatPercent = (x?: number) => {
-    x = maybeHide(x);
-    return x !== undefined ? `${x}%` : undefined;
-  };
   const formatInteger = (x?: number) => {
     x = maybeHide(x);
     return x !== undefined ? Math.floor(x).toLocaleString() : undefined;
@@ -78,16 +70,16 @@ const ConnectedDashboard = () => {
         pb-16
         "
       >
-        <div
+        <h1
           className="
           text-white
           text-4xl
           md:text-5xl
           "
         >
-          ARB Rewards Dashboard
-        </div>
-        <div
+          <Trans>Connected Dashboard Title</Trans>
+        </h1>
+        <h2
           className="
           text-white
           md:text-md
@@ -96,8 +88,8 @@ const ConnectedDashboard = () => {
           md:pb-8
           "
         >
-          TODO: Some copy to be written here about USDC staking & arb rewards
-        </div>
+          <Trans>Connected Dashboard Subtitle</Trans>
+        </h2>
       </div>
       <div className="flex flex-col lg:flex-row gap-8 w-full max-w-screen-xl">
         <div
@@ -108,10 +100,10 @@ const ConnectedDashboard = () => {
           grow
           "
         >
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
-            <div className="whitespace-pre text-white text-4xl">
-              My ARB Rewards
-            </div>
+          <div className="flex flex-col sm:flex-row md:items-center w-full text-start justify-between gap-4">
+            <h3 className="whitespace-pre text-white text-4xl">
+              <Trans> Dashboard Header </Trans>
+            </h3>
             <div
               className="flex flex-row items-center hover:cursor-pointer"
               onClick={() => {
@@ -131,7 +123,7 @@ const ConnectedDashboard = () => {
                 ></path>
               </svg>
               <div className="whitespace-pre text-white text-md pl-2">
-                {numbersHidden ? "Show All Numbers" : "Hide All Numbers"}
+                {numbersHidden ? t`Hide Number Text` : t`Show Number Text`}
               </div>
             </div>
           </div>
@@ -142,83 +134,58 @@ const ConnectedDashboard = () => {
             <div className="flex flex-col gap-4">
               <div className="flex flex-col md:flex-row gap-4">
                 <InfoStatWindow
-                  header="Bridged"
+                  header={t`Bridged Header`}
                   value={formatInteger(usdcBridged)}
                   unit="USDC"
-                  infoElement={
-                    <div>
-                      This is the amount of <b>CCTP USDC</b> you have bridged to
-                      your wallet on <b>Arbitrum One</b>.
-                    </div>
-                  }
+                  infoElement={<Trans>Bridged Window Tooltip</Trans>}
                 />
                 <InfoStatWindow
-                  header="Held"
+                  header={t`USDC Held Header`}
                   value={formatInteger(usdcHeld)}
                   unit="USDC"
-                  infoElement={
-                    <div>
-                      This is the amount of <b>CCTP USDC</b> you are holding in
-                      your wallet on <b>Arbitrum One</b>.
-                    </div>
-                  }
+                  infoElement={<Trans>USDC Held Window Tooltip</Trans>}
                 />
               </div>
               <div className="flex flex-col md:flex-row gap-4">
                 <InfoStatWindow
-                  header="Held Value"
+                  header={t`aUSDC Held Value Header`}
                   value={formatInteger(ausdcHeld)}
                   unit="aUSDC"
-                  infoElement={
-                    <div>
-                      This is the <b>USDC value</b> of the <b>CCTP aUSDC</b> you
-                      are holding in your wallet on <b>Arbitrum One</b>.
-                    </div>
-                  }
+                  infoElement={<Trans>aUSDC Held Value Tooltip</Trans>}
                 />
                 <InfoStatWindow
-                  header="Held Value"
+                  header={t`cUSDC Held Value`}
                   value={formatInteger(cusdcHeld)}
                   unit="cUSDC"
-                  infoElement={
-                    <div>
-                      This is the <b>USDC value</b> of the <b>CCTP cUSDC</b> you
-                      are holding in your wallet on <b>Arbitrum One</b>.
-                    </div>
-                  }
+                  infoElement={<Trans>cUSDC Held Value Tooltip</Trans>}
                 />
               </div>
               <div className="">
                 <InfoStatWindow
-                  header="Unclaimed Rewards"
-                  value={formatInteger(unclaimedRewards)}
-                  unit="USDC"
+                  header={t`Accrued Rewards Header`}
+                  value={formatInteger(accruedRewards)}
+                  unit="ARB"
+                  infoElement={<Trans>Accrued Rewards Tooltip</Trans>}
                 />
               </div>
             </div>
           </div>
         </div>
         <div className="flex flex-col gap-5">
-          {/* total bridged */}
           <StatWindow
-            header="Total Bridged"
+            header={t`Staking Power Header`}
             value={formatInteger(totalBridged)}
-            unit="USDC"
+            unit=""
             graphic={<TotalBridgedGraphic />}
           />
           <StatWindow
-            header="Estimated APY"
-            value={formatPercent(estimatedAPY)}
-            graphic={<EstimatedApyGraphic />}
-          />
-          <StatWindow
-            header="Estimated Rewards"
+            header={t`Estimated Rewards Header`}
             value={formatInteger(estimatedRewards)}
             unit="ARB"
             graphic={<EstimatedRewardsGraphic />}
           />
           <StatWindow
-            header="History of Rewards Earned"
+            header={t`History of Rewards Earned Header`}
             value={formatInteger(historyRewardsEarned)}
             unit="ARB"
             graphic={<RewardHistoryGraphic />}
@@ -245,15 +212,14 @@ const DisconnectedDashboard = () => {
           <PortalLogo />
         </div>
         <div className="text-white text-3xl md:text-4xl pb-3">
-          Connect your wallet
+          <Trans>Disconnect Wallet Dashboard Title</Trans>
         </div>
         <div className="flex flex-col items-center pb-8 w-5/6 md:w-1/1 ">
           <div className="text-white text-sm md:text-base w-1/1">
-            Get up to 5% APY by bridging your USDC to the Arbitrum network until
-            March 29th.
+            <Trans>Disconnect Wallet Dashboard Subtitle One</Trans>
           </div>
           <div className="text-white text-sm md:text-base 2-1/1">
-            Deposit native USDC in AAVE or Compound to earn additional rewards.
+            <Trans>Disconnect Wallet Dashboard Subtitle Two</Trans>
           </div>
         </div>
         <WalletManager />
@@ -278,7 +244,7 @@ const DisconnectedDashboard = () => {
         >
           <Taurus />
           <div className="text-white text-2xl font-light">
-            How Rewards Work?
+            <Trans>Bottom Banner Header</Trans>
           </div>
         </div>
         <div>
@@ -287,7 +253,9 @@ const DisconnectedDashboard = () => {
             target="_blank"
             className="flex flex-row items-center gap-3"
           >
-            <div className="text-white text-sm">Learn More</div>
+            <div className="text-white text-sm">
+              <Trans>Bottom Banner Link</Trans>
+            </div>
             <FaArrowRight className="fill-white" />
           </a>
         </div>

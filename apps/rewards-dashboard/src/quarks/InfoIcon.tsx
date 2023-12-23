@@ -7,6 +7,7 @@ import {
   useInteractions,
 } from "@floating-ui/react";
 import { useRef, useState } from "react";
+import { useBreakpointQuery } from "../hooks/useBreakpoint";
 
 const InfoIcon = () => {
   return (
@@ -33,6 +34,7 @@ interface InfoHoverProps {
   children: JSX.Element;
 }
 export const InfoHover = (props: InfoHoverProps) => {
+  const bp = useBreakpointQuery("lg");
   const [isOpen, setIsOpen] = useState(false);
   const arrowRef = useRef(null);
   const { refs, floatingStyles, context } = useFloating({
@@ -40,7 +42,7 @@ export const InfoHover = (props: InfoHoverProps) => {
     onOpenChange: setIsOpen,
     placement: "top",
     middleware: [
-      offset(24),
+      offset({ mainAxis: 28, crossAxis: bp ? 0 : -60 }),
       arrow({
         element: arrowRef,
       }),
@@ -51,14 +53,14 @@ export const InfoHover = (props: InfoHoverProps) => {
 
   return (
     <>
-      <div ref={refs.setReference} {...getReferenceProps()}>
+      <div className="h-fit" ref={refs.setReference} {...getReferenceProps()}>
         <InfoIcon />
       </div>
       {isOpen && (
         <div
           ref={refs.setFloating}
           style={floatingStyles}
-          className="z-10 bg-[#34356d] rounded-lg p-2"
+          className="bg-[#34356d] rounded-lg p-2 max-w-48"
           {...getFloatingProps()}
         >
           <FloatingArrow fill="#34356d" ref={arrowRef} context={context} />

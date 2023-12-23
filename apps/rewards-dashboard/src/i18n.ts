@@ -1,11 +1,10 @@
 import { i18n } from "@lingui/core";
 
 export const locales = {
-  foobar: "Placeholder",
   en: "English",
 };
 
-export const defaultLocale = "foobar";
+export const defaultLocale = "en";
 
 /**
  * We do a dynamic import of just the catalog that we need
