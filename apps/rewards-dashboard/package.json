@@ -19,6 +19,7 @@
     "@gfxlabs/oku-chains": "^0.0.19",
     "@lingui/macro": "^4.6.0",
     "@lingui/react": "^4.6.0",
+    "@uidotdev/usehooks": "^2.4.1",
     "@web3modal/wagmi": "^3.5.0",
     "ethereum-blockies-base64": "^1.0.2",
     "react": "^18.2.0",

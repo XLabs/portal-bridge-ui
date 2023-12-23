@@ -26,9 +26,9 @@ export const StatWindow = (props: StatWindowProps) => {
         className="flex flex-col pr-8 gap-2
       "
       >
-        <div className="text-white text-start whitespace-pre text-sm">
+        <h4 className="text-white text-start whitespace-pre text-sm">
           {header}
-        </div>
+        </h4>
         <div className="flex flex-row items-end grow">
           {value ? (
             <div className="text-white whitespace-pre text-start font-bold text-2xl">
@@ -39,7 +39,7 @@ export const StatWindow = (props: StatWindowProps) => {
               className="
                 w-full
                 animate-pulse
-                h-3 bg-gray-600 rounded-full grow
+                my-2 h-4 bg-gray-600 rounded-full grow
         "
             />
           )}
@@ -82,9 +82,9 @@ export const InfoStatWindow = (props: InfoStatWindowProps) => {
       "
       >
         <div className="flex flex-row justify-between">
-          <div className="text-white text-start whitespace-pre text-sm">
+          <h4 className="text-white text-start whitespace-pre text-sm">
             {header}
-          </div>
+          </h4>
         </div>
         <div className="flex flex-row items-end">
           {value ? (
@@ -96,7 +96,7 @@ export const InfoStatWindow = (props: InfoStatWindowProps) => {
               className="
                 animate-pulse
                 w-fill
-                my-1
+                my-2
                 h-4 bg-gray-600 rounded-full grow
         "
             />

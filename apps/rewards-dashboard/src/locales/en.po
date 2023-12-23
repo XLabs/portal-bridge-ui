@@ -13,6 +13,179 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/layouts/DashboardLayout.tsx:185
+#~ msgid "Accrued Rewards"
+#~ msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:165
+msgid "Accrued Rewards Header"
+msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:168
+msgid "Accrued Rewards Tooltip"
+msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:80
+#~ msgid "ARB Rewards Dashboard"
+#~ msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:151
+msgid "aUSDC Held Value Header"
+msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:154
+msgid "aUSDC Held Value Tooltip"
+msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:247
+msgid "Bottom Banner Header"
+msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:257
+msgid "Bottom Banner Link"
+msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:137
+#~ msgid "Bridged"
+#~ msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:137
+msgid "Bridged Header"
+msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:140
+msgid "Bridged Window Tooltip"
+msgstr ""
+
 #: src/quarks/WalletManager.tsx:25
 msgid "CONNECT WALLET"
+msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:240
+#~ msgid "Connect your wallet"
+#~ msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:91
+msgid "Connected Dashboard Subtitle"
+msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:80
+msgid "Connected Dashboard Title"
+msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:157
+msgid "cUSDC Held Value"
+msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:160
+msgid "cUSDC Held Value Tooltip"
+msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:105
+msgid "Dashboard Header"
+msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:219
+msgid "Disconnect Wallet Dashboard Subtitle One"
+msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:222
+msgid "Disconnect Wallet Dashboard Subtitle Two"
+msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:215
+msgid "Disconnect Wallet Dashboard Title"
+msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:207
+#~ msgid "Estimated Rewards"
+#~ msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:182
+msgid "Estimated Rewards Header"
+msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:244
+#~ msgid "First copy describing the rewards program, bridging USDC"
+#~ msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:148
+#~ msgid "Held"
+#~ msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:161
+#: src/layouts/DashboardLayout.tsx:172
+#~ msgid "Held Value"
+#~ msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:126
+msgid "Hide Number Text"
+msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:213
+#~ msgid "History of Rewards Earned"
+#~ msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:188
+msgid "History of Rewards Earned Header"
+msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:276
+#~ msgid "How Rewards Work?"
+#~ msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:286
+#~ msgid "Learn More"
+#~ msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:105
+#~ msgid "My ARB Rewards"
+#~ msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:249
+#~ msgid "Second copy describing the rewards program, aave and compound."
+#~ msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:126
+msgid "Show Number Text"
+msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:91
+#~ msgid "Some flavour text about the reward program"
+#~ msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:201
+#~ msgid "Staking Power"
+#~ msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:176
+msgid "Staking Power Header"
+msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:165
+#~ msgid "This is the <0>USDC value</0> of the <1>CCTP aUSDC</1> you are holding in your wallet on <2>Arbitrum One</2>."
+#~ msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:176
+#~ msgid "This is the <0>USDC value</0> of the <1>CCTP cUSDC</1> you are holding in your wallet on <2>Arbitrum One</2>."
+#~ msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:152
+#~ msgid "This is the amount of <0>CCTP USDC</0> you are holding in your wallet on <1>Arbitrum One</1>."
+#~ msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:141
+#~ msgid "This is the amount of <0>CCTP USDC</0> you have bridged to your wallet on <1>Arbitrum One</1>."
+#~ msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:189
+#~ msgid "This is the amount of rewards you have accrued in the current payout period"
+#~ msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:143
+msgid "USDC Held Header"
+msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:146
+msgid "USDC Held Window Tooltip"
 msgstr ""
