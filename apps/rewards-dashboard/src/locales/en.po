@@ -9,96 +9,96 @@ msgstr ""
 
 #: src/layouts/DashboardLayout.tsx:165
 msgid "Accrued Rewards Header"
-msgstr ""
+msgstr "CHANGE ME"
 
 #: src/layouts/DashboardLayout.tsx:168
 msgid "Accrued Rewards Tooltip"
-msgstr ""
+msgstr "CHANGE ME"
 
 #: src/layouts/DashboardLayout.tsx:151
 msgid "aUSDC Held Value Header"
-msgstr ""
+msgstr "CHANGE ME"
 
 #: src/layouts/DashboardLayout.tsx:154
 msgid "aUSDC Held Value Tooltip"
-msgstr ""
+msgstr "CHANGE ME"
 
 #: src/layouts/DashboardLayout.tsx:247
 msgid "Bottom Banner Header"
-msgstr ""
+msgstr "CHANGE ME"
 
 #: src/layouts/DashboardLayout.tsx:257
 msgid "Bottom Banner Link"
-msgstr ""
+msgstr "CHANGE ME"
 
 #: src/layouts/DashboardLayout.tsx:137
 msgid "Bridged Header"
-msgstr ""
+msgstr "CHANGE ME"
 
 #: src/layouts/DashboardLayout.tsx:140
 msgid "Bridged Window Tooltip"
-msgstr ""
+msgstr "CHANGE ME"
 
 #: src/quarks/WalletManager.tsx:25
 msgid "CONNECT WALLET"
-msgstr ""
+msgstr "CHANGE ME"
 
 #: src/layouts/DashboardLayout.tsx:91
 msgid "Connected Dashboard Subtitle"
-msgstr ""
+msgstr "CHANGE ME"
 
 #: src/layouts/DashboardLayout.tsx:80
 msgid "Connected Dashboard Title"
-msgstr ""
+msgstr "CHANGE ME"
 
 #: src/layouts/DashboardLayout.tsx:157
 msgid "cUSDC Held Value"
-msgstr ""
+msgstr "CHANGE ME"
 
 #: src/layouts/DashboardLayout.tsx:160
 msgid "cUSDC Held Value Tooltip"
-msgstr ""
+msgstr "CHANGE ME"
 
 #: src/layouts/DashboardLayout.tsx:105
 msgid "Dashboard Header"
-msgstr ""
+msgstr "CHANGE ME"
 
 #: src/layouts/DashboardLayout.tsx:219
 msgid "Disconnect Wallet Dashboard Subtitle One"
-msgstr ""
+msgstr "CHANGE ME"
 
 #: src/layouts/DashboardLayout.tsx:222
 msgid "Disconnect Wallet Dashboard Subtitle Two"
-msgstr ""
+msgstr "CHANGE ME"
 
 #: src/layouts/DashboardLayout.tsx:215
 msgid "Disconnect Wallet Dashboard Title"
-msgstr ""
+msgstr "CHANGE ME"
 
 #: src/layouts/DashboardLayout.tsx:182
 msgid "Estimated Rewards Header"
-msgstr ""
+msgstr "CHANGE ME"
 
 #: src/layouts/DashboardLayout.tsx:126
 msgid "Hide Number Text"
-msgstr ""
+msgstr "CHANGE ME"
 
 #: src/layouts/DashboardLayout.tsx:188
 msgid "History of Rewards Earned Header"
-msgstr ""
+msgstr "CHANGE ME"
 
 #: src/layouts/DashboardLayout.tsx:126
 msgid "Show Number Text"
-msgstr ""
+msgstr "CHANGE ME"
 
 #: src/layouts/DashboardLayout.tsx:176
 msgid "Staking Power Header"
-msgstr ""
+msgstr "CHANGE ME"
 
 #: src/layouts/DashboardLayout.tsx:143
 msgid "USDC Held Header"
-msgstr ""
+msgstr "CHANGE ME"
 
 #: src/layouts/DashboardLayout.tsx:146
 msgid "USDC Held Window Tooltip"
-msgstr ""
+msgstr "CHANGE ME"
