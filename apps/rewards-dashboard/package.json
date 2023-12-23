@@ -10,7 +10,7 @@
     "prettier": "prettier --check ./src",
     "prettier:fix": "prettier ./src -w",
     "preview": "vite preview",
-    "messages:extract": "lingui extract"
+    "lingui:extract": "lingui extract"
   },
   "dependencies": {
     "@floating-ui/react": "^0.26.4",
