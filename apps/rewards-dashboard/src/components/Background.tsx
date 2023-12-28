@@ -10,7 +10,7 @@ export const Background = ({
     <div className="overflow-y-scroll scrollbar-hide">
       <>{children}</>
     </div>
-    <div className="">
+    <div className="scrollbar-hide">
       <Glow
         position={{
           top: "-661px",
@@ -89,7 +89,7 @@ export const Background = ({
         }}
         background="radial-gradient(50% 50% at 50% 50%, rgba(48, 42, 96, 0.30) 0%, rgba(48, 42, 96, 0.00) 100%)"
       >
-        <div className="">
+        <div className="scrollbar-hide">
           <Ellipsis width={1024} height={998} marginTop={80} marginLeft={43}>
             <Ellipsis width={768} height={768} marginTop={56} marginLeft={81}>
               <Ellipsis
