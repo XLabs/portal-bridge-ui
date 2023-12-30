@@ -169,14 +169,14 @@ export const METAMASK_CHAIN_PARAMETERS: {
     chainName: "Avalanche Fuji Testnet",
     nativeCurrency: { name: "Avalanche", symbol: "AVAX", decimals: 18 },
     rpcUrls: ["https://api.avax-test.network/ext/bc/C/rpc"],
-    blockExplorerUrls: ["https://testnet.avascan.info/blockchain/c/"],
+    blockExplorerUrls: ["https://testnet.snowtrace.io/"],
   },
   43114: {
     chainId: "0xa86a",
     chainName: "Avalanche C-Chain",
     nativeCurrency: { name: "Avalanche", symbol: "AVAX", decimals: 18 },
     rpcUrls: ["https://api.avax.network/ext/bc/C/rpc"],
-    blockExplorerUrls: ["https://avascan.info/blockchain/c/"],
+    blockExplorerUrls: ["https://snowtrace.io/"],
   },
   80001: {
     chainId: "0x13881",
