@@ -429,14 +429,14 @@ export default function NFTOriginVerifier() {
                   </Button>
                 ) : originInfo.chainId === CHAIN_ID_AVAX ? (
                   <Button
-                    href={`https://avascan.info/blockchain/c/token/${readableAddress}?a=${originInfo.tokenId}`}
+                    href={`https://snowtrace.io/token/${readableAddress}?a=${originInfo.tokenId}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     startIcon={<Launch />}
                     className={classes.viewButton}
                     variant="outlined"
                   >
-                    View on Avascan
+                    View on Snowtrace
                   </Button>
                 ) : originInfo.chainId === CHAIN_ID_AURORA ? (
                   <Button

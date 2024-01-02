@@ -594,7 +594,7 @@ export const getExplorerName = (chainId: ChainId) =>
     : chainId === CHAIN_ID_POLYGON
     ? "Polygonscan"
     : chainId === CHAIN_ID_AVAX
-    ? "Avascan"
+    ? "Snowtrace"
     : chainId === CHAIN_ID_ALGORAND
     ? "AlgoExplorer"
     : chainId === CHAIN_ID_FANTOM
