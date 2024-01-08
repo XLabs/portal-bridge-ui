@@ -57,7 +57,7 @@ const ConnectedDashboard = () => {
   const { data:overview } = useQuery<OverviewQueryResult>({
     queryKey: ["overview"],
     staleTime: 5000,
-    queryFn: async () => {
+    queryFn: () => {
       return fetch(`${WAC_URL}/overview`)
       .then((res) => {
         return res.json()
@@ -68,7 +68,7 @@ const ConnectedDashboard = () => {
     queryKey: [address],
     enabled: !!address,
     staleTime: 5000,
-    queryFn: async () => {
+    queryFn: () => {
       return fetch(`${WAC_URL}/usersummary?address=${address}`)
       .then((res) => {
         return res.json()
