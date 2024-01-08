@@ -153,6 +153,7 @@ jobs:
       - name: Build Rewards Dashboard
         env:
           PUBLIC_URL: ${{ inputs.public-url }}
+          VITE_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}
         run: |
           pushd apps/rewards-dashboard
           npm ci
