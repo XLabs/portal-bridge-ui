@@ -12,7 +12,7 @@ function App() {
         <Background>
           <div
             className="
-            flex flex-col grow
+            flex flex-col grow h-full
             justify-between
             overflow-scroll scrollbar-hide
             "

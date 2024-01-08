@@ -7,7 +7,7 @@ export const Background = ({
   children: JSX.Element[] | JSX.Element;
 }) => {
   return (<>
-    <div className="overflow-y-scroll scrollbar-hide">
+    <div className="overflow-y-scroll scrollbar-hide h-full">
       <>{children}</>
     </div>
     <div className="scrollbar-hide">
