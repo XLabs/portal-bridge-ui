@@ -9,7 +9,7 @@ msgstr ""
 
 #: src/layouts/DashboardLayout.tsx:165
 msgid "Accrued Rewards Header"
-msgstr "Accuring ARB Rewards"
+msgstr "Accruing ARB Rewards"
 
 #: src/layouts/DashboardLayout.tsx:168
 msgid "Accrued Rewards Tooltip"
