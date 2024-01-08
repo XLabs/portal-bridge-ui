@@ -12,7 +12,7 @@ const CHAINS_LIST = [arbitrum, mainnet];
 const envProjectId = process.env.VITE_APP_WALLET_CONNECT_PROJECT_ID;
 const projectId = envProjectId
   ? envProjectId
-  : "5d718b8042515a6ef726a5ae58baca91";
+  : "dummy-wc-key";
 
 // TODO:
 const metadata = {

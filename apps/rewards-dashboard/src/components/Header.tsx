@@ -1,5 +1,3 @@
-//import { useWeb3Modal } from "@web3modal/wagmi/react"
-
 import { CiMenuBurger } from "react-icons/ci";
 import { WalletManager } from "../quarks/WalletManager";
 import { useState } from "react";
@@ -19,14 +17,15 @@ export const Header = () => {
         items-center
         "
         >
-          <div
+          <a
             className="
           flex flex-row gap-2
           items-center
           "
+            href={navBar[0].href}
           >
             <PortalLogoWithText />
-          </div>
+          </a>
           <div
             className="
           collapse md:visible
