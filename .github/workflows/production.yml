@@ -32,4 +32,5 @@ jobs:
       environment: ${{inputs.environment}}
       project-branch: main
       public-url: ''
+      wac-url: "https://wac.gfx.xyz"
     secrets: inherit
