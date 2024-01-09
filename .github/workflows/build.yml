@@ -22,6 +22,9 @@ on:
             default: Cloudflare-Preview
         public-url:
             type: string
+        wac-url:
+            type: string
+            default: "https://wac.staging.gfx.town"
         project-branch:
             type: string
             default: main
@@ -153,6 +156,7 @@ jobs:
       - name: Build Rewards Dashboard
         env:
           PUBLIC_URL: ${{ inputs.public-url }}
+          VITE_WAC_URL: ${{ inputs.wac-url }}
           VITE_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}
         run: |
           pushd apps/rewards-dashboard
