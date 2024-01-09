@@ -14,11 +14,10 @@ const projectId = envProjectId
   ? envProjectId
   : "dummy-wc-key";
 
-// TODO:
 const metadata = {
   name: "Wormhole USDC rewards ",
   description: "Wormhole USDC Rewards",
-  //url: `https://portalbridge.com${BASE_URL ? BASE_URL : ""}`,
+  url: import.meta.env.VITE_APP_DOMAIN || 'portalbridge.com',
   icons: [`https://portalbridge.com/favicon.ico`],
 };
 const theseChains = [...CHAINS_LIST];

@@ -22,6 +22,9 @@ on:
             default: Cloudflare-Preview
         public-url:
             type: string
+        app-domain:
+            type: string
+            default: "portalbridge.com"
         wac-url:
             type: string
             default: "https://wac.staging.gfx.town"
@@ -158,6 +161,7 @@ jobs:
           PUBLIC_URL: ${{ inputs.public-url }}
           VITE_WAC_URL: ${{ inputs.wac-url }}
           VITE_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}
+          VITE_APP_DOMAIN: ${{ inputs.app-domain }}
         run: |
           pushd apps/rewards-dashboard
           npm ci

@@ -26,6 +26,7 @@ jobs:
       public-url: "/${{ needs.branch-sha.outputs.value }}"
       wac-url: "https://wac.gfx.xyz"
       project-branch: ${{ github.event.pull_request.head.ref }}
+      app-domain: preview.portalbridge.com
     secrets: inherit
     needs: 
       - branch-sha

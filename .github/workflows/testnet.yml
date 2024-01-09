@@ -25,6 +25,7 @@ jobs:
       environment: Cloudflare-Testnet
       public-url: "/${{ needs.branch-sha.outputs.value }}"
       project-branch: ${{ github.event.pull_request.head.ref }}
+      app-domain: testnet.portalbridge.com
     secrets: inherit
     needs: 
       - branch-sha
