@@ -9,7 +9,7 @@ import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { arbitrum, mainnet } from "@gfxlabs/oku-chains";
 const CHAINS_LIST = [arbitrum, mainnet];
 
-const envProjectId = process.env.VITE_APP_WALLET_CONNECT_PROJECT_ID;
+const envProjectId = import.meta.env.VITE_APP_WALLET_CONNECT_PROJECT_ID;
 const projectId = envProjectId
   ? envProjectId
   : "dummy-wc-key";
