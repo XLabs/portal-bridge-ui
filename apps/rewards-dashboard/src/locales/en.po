@@ -1,0 +1,104 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2023-12-22 23:10-0600\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#: src/layouts/DashboardLayout.tsx:165
+msgid "Accrued Rewards Header"
+msgstr "Accruing ARB Rewards"
+
+#: src/layouts/DashboardLayout.tsx:168
+msgid "Accrued Rewards Tooltip"
+msgstr "The estimated amount of ARB you have earned that has not been paid out."
+
+#: src/layouts/DashboardLayout.tsx:151
+msgid "aUSDC Held Value Header"
+msgstr "aUSDC Balance"
+
+#: src/layouts/DashboardLayout.tsx:154
+msgid "aUSDC Held Value Tooltip"
+msgstr "Aave v3 USDC account balance."
+
+#: src/layouts/DashboardLayout.tsx:247
+msgid "Bottom Banner Header"
+msgstr "How rewards work?"
+
+#: src/layouts/DashboardLayout.tsx:257
+msgid "Bottom Banner Link"
+msgstr "Learn more"
+
+#: src/layouts/DashboardLayout.tsx:137
+msgid "Bridged Header"
+msgstr "Total USDC bridged"
+
+#: src/layouts/DashboardLayout.tsx:140
+msgid "Bridged Window Tooltip"
+msgstr "The total amount of canonical USDC you bridged in via CCTP."
+
+#: src/quarks/WalletManager.tsx:25
+msgid "CONNECT WALLET"
+msgstr "Connect Wallet"
+
+#: src/layouts/DashboardLayout.tsx:91
+msgid "Connected Dashboard Subtitle"
+msgstr "Get up to 5% rewards by bridging your USDC to Arbitrum"
+
+#: src/layouts/DashboardLayout.tsx:80
+msgid "Connected Dashboard Title"
+msgstr "ARB Rewards Dashboard"
+
+#: src/layouts/DashboardLayout.tsx:157
+msgid "cUSDC Held Value"
+msgstr "cUSDC Balance"
+
+#: src/layouts/DashboardLayout.tsx:160
+msgid "cUSDC Held Value Tooltip"
+msgstr "Compound v3 USDC account balance."
+
+#: src/layouts/DashboardLayout.tsx:105
+msgid "Connected Dashboard Header"
+msgstr "My ARB Rewards"
+
+#: src/layouts/DashboardLayout.tsx:219
+msgid "Disconnect Wallet Dashboard Subtitle One"
+msgstr "Claim ARB rewards by bridging your USDC to Arbitrum."
+
+#: src/layouts/DashboardLayout.tsx:222
+msgid "Disconnect Wallet Dashboard Subtitle Two"
+msgstr "Supporting Aave and Compound USDC deposits."
+
+#: src/layouts/DashboardLayout.tsx:215
+msgid "Disconnect Wallet Dashboard Title"
+msgstr "Arbitrum USDC Rewards Dashboard"
+
+#: src/layouts/DashboardLayout.tsx:182
+msgid "Estimated Rewards Header"
+msgstr "Total Projected Rewards"
+
+#: src/layouts/DashboardLayout.tsx:126
+msgid "Hide Number Text"
+msgstr "Show Numbers"
+
+#: src/layouts/DashboardLayout.tsx:188
+msgid "History of Rewards Earned Header"
+msgstr "Total ARB Earned"
+
+#: src/layouts/DashboardLayout.tsx:126
+msgid "Show Number Text"
+msgstr "Hide Numbers"
+
+#: src/layouts/DashboardLayout.tsx:176
+msgid "Staking Power Header"
+msgstr "Total USDC Bridged"
+
+#: src/layouts/DashboardLayout.tsx:143
+msgid "USDC Held Header"
+msgstr "USDC Balance"
+
+#: src/layouts/DashboardLayout.tsx:146
+msgid "USDC Held Window Tooltip"
+msgstr "The amount of canonical USDC held in your account."
