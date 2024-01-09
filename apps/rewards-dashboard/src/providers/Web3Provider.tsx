@@ -18,7 +18,7 @@ const projectId = envProjectId
 const metadata = {
   name: "Wormhole USDC rewards ",
   description: "Wormhole USDC Rewards",
-  //url: `https://portalbridge.com${BASE_URL ? BASE_URL : ""}`,
+  url: 'https://portalbridge.com/rewards-dashboard',
   icons: [`https://portalbridge.com/favicon.ico`],
 };
 const theseChains = [...CHAINS_LIST];
