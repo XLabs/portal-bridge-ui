@@ -805,7 +805,7 @@ export const getInjectiveNetworkName = () => {
 };
 export const getInjectiveNetwork = () => {
   if (CLUSTER === "mainnet") {
-    return Network.Mainnet;
+    return Network.MainnetSentry;
   } else if (CLUSTER === "testnet") {
     return Network.TestnetK8s;
   }
@@ -814,7 +814,7 @@ export const getInjectiveNetwork = () => {
 
 export const getInjectiveNetworkInfo = () => {
   if (CLUSTER === "mainnet") {
-    return getNetworkInfo(Network.Mainnet);
+    return getNetworkInfo(Network.MainnetSentry);
   } else if (CLUSTER === "testnet") {
     return getNetworkInfo(Network.TestnetK8s);
   }
