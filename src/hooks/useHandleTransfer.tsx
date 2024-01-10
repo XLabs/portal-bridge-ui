@@ -32,6 +32,7 @@ import {
   transferFromSolana,
   transferFromTerra,
   transferFromXpla,
+  transferFromAptos,
   transferNativeSol,
   uint8ArrayToHex,
   transferFromSui,
@@ -40,7 +41,6 @@ import {
   CHAIN_ID_POLYGON,
   tryNativeToUint8Array,
 } from "@certusone/wormhole-sdk";
-import { transferTokens } from "@certusone/wormhole-sdk/lib/esm/aptos/api/tokenBridge";
 import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk/lib/esm";
 import { Alert } from "@material-ui/lab";
 import { Connection } from "@solana/web3.js";
@@ -272,19 +272,17 @@ async function aptos(
     const transferAmountParsed = baseAmountParsed.add(feeParsed);
 
     const additionalPayload = maybeAdditionalPayload();
-    if (additionalPayload?.payload) {
-      throw new Error("Transfer with payload is unsupported on Aptos");
-    }
 
-    const transferPayload = transferTokens(
+    const transferPayload = transferFromAptos(
       tokenBridgeAddress,
       tokenAddress,
       transferAmountParsed.toString(),
       recipientChain,
-      recipientAddress,
-      feeParsed.toString(),
-      createNonce().readUInt32LE(0)
+      additionalPayload?.receivingContract || recipientAddress,
+      additionalPayload?.payload ? undefined : createNonce().readUInt32LE(0).toString(),
+      additionalPayload?.payload
     );
+
     const hash = await waitForSignAndSubmitTransaction(transferPayload, wallet);
     dispatch(setTransferTx({ id: hash, block: 1 }));
     enqueueSnackbar(null, {
