@@ -617,15 +617,13 @@ export const getExplorerName = (chainId: ChainId) =>
 export const WORMHOLE_RPC_HOSTS =
   CLUSTER === "mainnet"
     ? [
-        "https://wormhole-v2-mainnet-api.certus.one",
-        "https://wormhole.inotel.ro",
+        "https://api.wormholescan.io", // Explorer offers a guardian equivalent endpoint for fetching VAAs
         "https://wormhole-v2-mainnet-api.mcf.rocks",
         "https://wormhole-v2-mainnet-api.chainlayer.network",
         "https://wormhole-v2-mainnet-api.staking.fund",
-        "https://wormhole-v2-mainnet.01node.com",
       ]
     : CLUSTER === "testnet"
-    ? ["https://wormhole-v2-testnet-api.certus.one"]
+    ? ["https://api.testnet.wormholescan.io"]
     : ["http://localhost:7071"];
 export const ETH_NETWORK_CHAIN_ID =
   CLUSTER === "mainnet" ? 1 : CLUSTER === "testnet" ? 5 : 1337;

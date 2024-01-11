@@ -279,7 +279,9 @@ async function aptos(
       transferAmountParsed.toString(),
       recipientChain,
       additionalPayload?.receivingContract || recipientAddress,
-      additionalPayload?.payload ? undefined : createNonce().readUInt32LE(0).toString(),
+      additionalPayload?.payload
+        ? undefined
+        : createNonce().readUInt32LE(0).toString(),
       additionalPayload?.payload
     );
 
