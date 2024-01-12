@@ -18,6 +18,14 @@ const MAINNET_RPCS =  {
 // https://vitejs.dev/config/
 export default defineConfig({
   base: process.env.PUBLIC_URL || '',
+  build: {
+    rollupOptions: {
+      output: {
+        entryFileNames: 'pb-[name].js',
+        assetFileNames: 'pb-[name]-[hash][extname]',
+      },
+    },
+  },
   define: {
     redirects: {},
     wormholeConnectConfig: {
@@ -39,8 +47,20 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         {
-          src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/*',
+          src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/index.js',
           dest: 'assets/wormhole-connect/'
+        },
+        {
+          src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/main.js',
+          dest: 'assets/wormhole-connect/'
+        },
+        {
+          src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/main.css',
+          dest: 'assets/wormhole-connect/'
+        },
+        {
+          src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/assets/*',
+          dest: 'assets/'
         }
       ]
     })
