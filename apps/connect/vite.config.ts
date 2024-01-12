@@ -60,7 +60,7 @@ export default defineConfig({
         },
         {
           src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/assets/*',
-          dest: 'assets/'
+          dest: 'assets/wormhole-connect/assets'
         }
       ]
     })

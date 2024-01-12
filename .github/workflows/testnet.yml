@@ -20,7 +20,7 @@ jobs:
     with:
       name: testnet
       separator: T
-      connect-branch: portal-bridge
+      connect-branch: development
       advanced-tools-branch: advanced-tools
       environment: Cloudflare-Testnet
       public-url: "/${{ needs.branch-sha.outputs.value }}"
