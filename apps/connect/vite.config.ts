@@ -47,19 +47,19 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         {
-          src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/index.js',
+          src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/*.js',
           dest: 'assets/wormhole-connect/'
         },
         {
-          src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/main.js',
+          src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/*.css',
           dest: 'assets/wormhole-connect/'
         },
         {
-          src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/main.css',
-          dest: 'assets/wormhole-connect/'
+          src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/assets/*.js',
+          dest: 'assets/wormhole-connect/assets'
         },
         {
-          src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/assets/*',
+          src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/assets/*.css',
           dest: 'assets/wormhole-connect/assets'
         }
       ]
