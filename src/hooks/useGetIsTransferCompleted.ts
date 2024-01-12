@@ -36,7 +36,6 @@ import {
   getEvmChainId,
   getTokenBridgeAddressForChain,
   SOLANA_HOST,
-  getTerraGasPricesUrl,
   getTerraConfig,
   NEAR_TOKEN_BRIDGE_ACCOUNT,
   XPLA_LCD_CLIENT_CONFIG,
