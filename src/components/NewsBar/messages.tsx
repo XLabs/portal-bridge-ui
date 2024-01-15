@@ -30,13 +30,13 @@ const messages: Record<string, Message> = {
             wordWrap: "break-word",
           }}
         >
-          Native ETH transfers now live across Eth, Arb, Base, OP, Polygon, and BNB! <Link href="https://wormhole.com/wormhole-launches-native-token-transfers-starting-with-native-eth-and-wsteth-across-7-evm-chains/" target="_blank">Read more here</Link> 
+          Native ETH transfers now live across Eth, Arb, Base, OP, Polygon, BNB. <Link href="https://wormhole.com/wormhole-launches-native-token-transfers-starting-with-native-eth-and-wsteth-across-7-evm-chains/" target="_blank">Read more here</Link> 
           <br />
-          or get started below! Want to integrate into your own Dapps? <Link href="https://docs.wormhole.com/wormhole/quick-start/wh-connect" target="_blank">Find out more here</Link>.
+          or get started below. Want to integrate into your own Dapps? <Link href="https://docs.wormhole.com/wormhole/quick-start/wh-connect" target="_blank">Find out more here</Link>.
         </Typography>
       </>
     ),
-    start: new Date("2024-01-15T11:00:00-05:00"), // any date in the past would be fine
+    start: new Date("2024-01-17T11:00:00-05:00"), // any date in the past would be fine
   },
   cctp: {
     background: "linear-gradient(20deg, #f44b1b 0%, #eeb430 100%);",
