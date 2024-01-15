@@ -10,7 +10,8 @@ const MAINNET_RPCS =  {
     ethereum: "https://and76cjzpa.execute-api.us-east-2.amazonaws.com/ethereum/",
     sui: "https://and76cjzpa.execute-api.us-east-2.amazonaws.com/sui/",
     aptos: "https://and76cjzpa.execute-api.us-east-2.amazonaws.com/aptos/",
-    kujira: "https://and76cjzpa.execute-api.us-east-2.amazonaws.com/kujira/"
+    kujira: "https://and76cjzpa.execute-api.us-east-2.amazonaws.com/kujira/",
+    evmos: "https://and76cjzpa.execute-api.us-east-2.amazonaws.com/evmos/"
   }
 }
 
