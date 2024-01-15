@@ -36,7 +36,6 @@ import {
   getEvmChainId,
   getTokenBridgeAddressForChain,
   SOLANA_HOST,
-  getTerraGasPricesUrl,
   getTerraConfig,
   NEAR_TOKEN_BRIDGE_ACCOUNT,
   XPLA_LCD_CLIENT_CONFIG,
@@ -141,8 +140,7 @@ export default function useGetIsTransferCompleted(
             transferCompleted = await getIsTransferCompletedTerra(
               getTokenBridgeAddressForChain(targetChain),
               signedVAA,
-              lcdClient,
-              getTerraGasPricesUrl(targetChain)
+              lcdClient
             );
           } catch (error) {
             console.error(error);
