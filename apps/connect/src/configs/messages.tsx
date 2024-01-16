@@ -1,3 +1,4 @@
+import { Link } from "@mui/material";
 import Typography from "@mui/material/Typography";
 
 export type Message = {
@@ -13,6 +14,44 @@ export type Message = {
 };
 
 const messages: Record<string, Message> = {
+  eth: {
+    background:
+      "linear-gradient(90deg, rgba(6,132,249,1) 0%, rgba(0,120,232,1) 48%, rgba(0,0,0,1) 100%);",
+    content: (
+      <>
+        <Typography
+          variant="body1"
+          style={{
+            color: "white",
+            fontSize: "16px",
+            fontFamily: "Poppins",
+            fontWeight: "500",
+            lineHeight: "20.02px",
+            letterSpacing: "0.28px",
+            wordWrap: "break-word",
+          }}
+        >
+          Native ETH transfers now live across Eth, Arb, Base, OP, Polygon, BNB.{" "}
+          <Link
+            href="https://wormhole.com/wormhole-launches-native-token-transfers-starting-with-native-eth-and-wsteth-across-7-evm-chains/"
+            target="_blank"
+          >
+            Read more here
+          </Link>
+          <br />
+          or get started below. Want to integrate into your own Dapps?{" "}
+          <Link
+            href="https://docs.wormhole.com/wormhole/quick-start/wh-connect"
+            target="_blank"
+          >
+            Find out more here
+          </Link>
+          .
+        </Typography>
+      </>
+    ),
+    start: new Date("2024-01-17T11:00:00-05:00"), // any date in the past would be fine
+  },
   cctp: {
     background: "linear-gradient(20deg, #f44b1b 0%, #eeb430 100%);",
     button: {
