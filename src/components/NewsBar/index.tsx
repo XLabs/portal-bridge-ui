@@ -11,7 +11,7 @@ export default function NewsBar() {
     message && (
       <Bar background={message.background}>
         {message.content}
-        <NewBarButton button={message.button} />
+        {message.button ? <NewBarButton button={message.button} /> : <></>}
       </Bar>
     )
   );

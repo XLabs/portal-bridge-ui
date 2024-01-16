@@ -15,7 +15,7 @@ const useStyles = makeStyles<Theme, Pick<Message, "button">>(
       borderRadius: 20,
       padding: "6px 12px",
       backgroundColor: "white",
-      color: ({ button }) => button.background,
+      color: ({ button }) => button?.background,
       marginLeft: "8px",
       fontSize: "12px",
       letterSpacing: "0.08em",
@@ -32,13 +32,13 @@ export default function NewsBarButton({ button }: Pick<Message, "button">) {
   const classes = useStyles({ button });
   return (
     <Link
-      href={button.href}
+      href={button?.href}
       target="_blank"
       rel="noopener noreferrer"
       color="inherit"
       className={classes.bannerLink}
     >
-      {button.label || "TRY IT NOW"}
+      {button?.label || "TRY IT NOW"}
     </Link>
   );
 }
