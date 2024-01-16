@@ -31,7 +31,8 @@ const messages: Record<string, Message> = {
             wordWrap: "break-word",
           }}
         >
-          Native ETH transfers now live across Eth, Arb, Base, OP, Polygon, BNB, and Avax.{" "}
+          Native ETH transfers now live across Eth, Arb, Base, OP, Polygon, BNB,
+          and Avax.{" "}
           <Link
             href="https://wormhole.com/wormhole-launches-native-token-transfers-starting-with-native-eth-and-wsteth-across-7-evm-chains/"
             target="_blank"
