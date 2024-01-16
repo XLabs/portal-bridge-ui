@@ -31,7 +31,7 @@ const messages: Record<string, Message> = {
             wordWrap: "break-word",
           }}
         >
-          Native ETH transfers now live across Eth, Arb, Base, OP, Polygon, BNB.{" "}
+          Native ETH transfers now live across Eth, Arb, Base, OP, Polygon, BNB, and Avax.{" "}
           <Link
             href="https://wormhole.com/wormhole-launches-native-token-transfers-starting-with-native-eth-and-wsteth-across-7-evm-chains/"
             target="_blank"
@@ -50,7 +50,7 @@ const messages: Record<string, Message> = {
         </Typography>
       </>
     ),
-    start: new Date("2024-01-17T11:00:00-05:00"), // any date in the past would be fine
+    start: new Date("2024-01-17T10:00:00-05:00"), // any date in the past would be fine
   },
   cctp: {
     background: "linear-gradient(20deg, #f44b1b 0%, #eeb430 100%);",
