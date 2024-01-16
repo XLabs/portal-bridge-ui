@@ -16,7 +16,7 @@ export type Message = {
 const messages: Record<string, Message> = {
   eth: {
     background:
-      "linear-gradient(90deg, rgba(6,132,249,1) 0%, rgba(0,120,232,1) 48%, rgba(0,0,0,1) 100%);",
+      "linear-gradient(90deg, rgba(6, 132, 249, 0.74) 1.32%, rgba(6, 132, 249, 0.00) 108.28%);",
     content: (
       <>
         <Typography
@@ -36,6 +36,10 @@ const messages: Record<string, Message> = {
           <Link
             href="https://wormhole.com/wormhole-launches-native-token-transfers-starting-with-native-eth-and-wsteth-across-7-evm-chains/"
             target="_blank"
+            style={{
+              color: "#2A99FF",
+              textDecoration: "underline",
+            }}
           >
             Read more here
           </Link>
@@ -44,6 +48,10 @@ const messages: Record<string, Message> = {
           <Link
             href="https://docs.wormhole.com/wormhole/quick-start/wh-connect"
             target="_blank"
+            style={{
+              color: "#2A99FF",
+              textDecoration: "underline",
+            }}
           >
             Find out more here
           </Link>
