@@ -1933,6 +1933,9 @@ export const ACALA_RELAYER_URL =
 export const ACALA_RELAY_URL = `${ACALA_RELAYER_URL}/relay`;
 export const ACALA_SHOULD_RELAY_URL = `${ACALA_RELAYER_URL}/shouldRelay`;
 
+export const GOVERNOR_WHITEPAPER_URL =
+  "https://github.com/wormhole-foundation/wormhole/blob/main/whitepapers/0007_governor.md";
+
 export const getChainShortName = (chainId: ChainId) => {
   return chainId === CHAIN_ID_BSC ? "BSC" : CHAINS_BY_ID[chainId]?.name;
 };
