@@ -2,16 +2,31 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 
-const MAINNET_RPCS =  {
+const rpcs = (chains: string[], template: (chain: string) => string) => chains.map((chain: string) => ({ [chain]: template(chain) })).reduce((acc, cur) => ({ ...acc, ...cur }), {});
+const asRpcHost = (chain: string) => `https://and76cjzpa.execute-api.us-east-2.amazonaws.com/${chain}/`;
+const chains = [
+  "wormchain",
+  "osmosis",
+  "ethereum",
+  "sui",
+  "aptos",
+  "kujira",
+  "evmos",
+  "bsc",
+  "polygon",
+  "avalanche",
+  "fantom",
+  "celo",
+  "moonbeam",
+  "base",
+  "arbitrum",
+  "optimism"
+]
+
+const MAINNET_RPCS = {
   rpcs: {
-    wormchain: "https://and76cjzpa.execute-api.us-east-2.amazonaws.com/wormchain/",
+    ...rpcs(chains, asRpcHost),
     solana: "https://wormhole.rpcpool.com/",
-    osmosis: "https://and76cjzpa.execute-api.us-east-2.amazonaws.com/osmosis/",
-    ethereum: "https://and76cjzpa.execute-api.us-east-2.amazonaws.com/ethereum/",
-    sui: "https://and76cjzpa.execute-api.us-east-2.amazonaws.com/sui/",
-    aptos: "https://and76cjzpa.execute-api.us-east-2.amazonaws.com/aptos/",
-    kujira: "https://and76cjzpa.execute-api.us-east-2.amazonaws.com/kujira/",
-    evmos: "https://and76cjzpa.execute-api.us-east-2.amazonaws.com/evmos/"
   }
 }
 
