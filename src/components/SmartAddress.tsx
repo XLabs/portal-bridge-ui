@@ -190,7 +190,9 @@ export default function SmartAddress({
           : "phoenix-1"
       }/address/${useableAddress}`
     : chainId === CHAIN_ID_ALGORAND
-    ? `https://${CLUSTER === "testnet" ? "testnet." : ""}explorer.perawallet.app/${
+    ? `https://${
+        CLUSTER === "testnet" ? "testnet." : ""
+      }explorer.perawallet.app/${
         isAsset ? "asset" : "address"
       }/${useableAddress}`
     : chainId === CHAIN_ID_NEAR
