@@ -145,7 +145,7 @@ export default function ShowTx({
       : chainId === CHAIN_ID_ALGORAND
       ? `https://${
           CLUSTER === "testnet" ? "testnet." : ""
-        }algoexplorer.io/tx/${tx?.id}`
+        }explorer.perawallet.app/tx/${tx?.id}`
       : chainId === CHAIN_ID_NEAR
       ? `https://explorer.${
           CLUSTER === "testnet" ? "testnet." : ""
