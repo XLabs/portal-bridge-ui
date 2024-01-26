@@ -75,12 +75,12 @@ export default defineConfig({
           dest: 'assets/wormhole-connect/'
         },
         {
-          src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/assets/*.js',
-          dest: 'assets/wormhole-connect/assets'
+          src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/*.svg',
+          dest: 'assets/wormhole-connect/'
         },
         {
-          src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/assets/*.css',
-          dest: 'assets/wormhole-connect/assets'
+          src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/*.png',
+          dest: 'assets/wormhole-connect/'
         }
       ]
     })

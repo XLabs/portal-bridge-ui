@@ -1,5 +1,4 @@
 import type {
-  ChainName,
   WormholeConnectConfig,
 } from "@wormhole-foundation/wormhole-connect";
 import { useMemo } from "react";
@@ -26,19 +25,19 @@ export default function Root() {
         sourceChain && {
           searchTx: {
             txHash,
-            sourceChain,
+            chainName: sourceChain,
           },
         }),
       ...(transactionId &&
         sourceChain && {
           searchTx: {
             txHash: transactionId,
-            sourceChain,
+            chainName: sourceChain,
           },
         }),
       bridgeDefaults: {
-        fromNetwork: (sourceChain as ChainName) || null,
-        toNetwork: (targetChain as ChainName) || null,
+        fromNetwork: sourceChain || null,
+        toNetwork: targetChain || null,
       },
     }),
     [txHash, transactionId, sourceChain, targetChain]
@@ -50,6 +49,7 @@ export default function Root() {
         <NewsBar messages={messages} />
         <NavBar />
       </div>
+      {console.log(config)}
       <ConnectLoader config={config} />
     </>
   );
