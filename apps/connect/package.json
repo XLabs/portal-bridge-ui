@@ -1,7 +1,7 @@
 {
   "name": "@xlabs/portal-bridge-ui",
   "private": true,
-  "version": "0.2.7",
+  "version": "0.2.8",
   "type": "module",
   "scripts": {
     "dev:usdc-bridge": "vite --config ./vite.usdc-bridge.config.ts",
