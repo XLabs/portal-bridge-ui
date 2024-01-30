@@ -1,7 +1,7 @@
 import {
   CHAIN_ID_BSC,
   CHAIN_ID_ETH,
-//  CHAIN_ID_TERRA,
+  //  CHAIN_ID_TERRA,
   CHAIN_ID_AURORA,
 } from "@certusone/wormhole-sdk";
 // import { terra } from "@certusone/wormhole-sdk";
