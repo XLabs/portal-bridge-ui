@@ -27,8 +27,8 @@ const PANDLE_MESSAGE =
   "Pandle transfers are limited to Ethereum to BSC and BSC to Ethereum.";
 const AuroraMessage =
   "As a precautionary measure, Wormhole Network and Portal have paused Aurora support temporarily.";
-const TERRA_CLASSIC_MESSAGE =
-  "Transfers of native tokens to Terra Classic have been temporarily paused.";
+/*const TERRA_CLASSIC_MESSAGE =
+  "Transfers of native tokens to Terra Classic have been temporarily paused.";*/
 
 const transferRules: Rule[] = [
   {
@@ -44,14 +44,14 @@ const transferRules: Rule[] = [
       source === CHAIN_ID_AURORA || target === CHAIN_ID_AURORA,
     text: AuroraMessage,
     disableTransfer: true,
-  },
+  }/*,
   {
     id: "terra-classic-native",
     predicate: ({ target, token }: PredicateArgs) =>
       target === CHAIN_ID_TERRA && terra.isNativeDenom(token),
     text: TERRA_CLASSIC_MESSAGE,
     disableTransfer: true,
-  },
+  }*/,
 ];
 
 export default transferRules;
