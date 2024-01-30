@@ -21,7 +21,7 @@ jobs:
       name: preview
       separator: P
       connect-branch: development
-      advanced-tools-branch: advanced-tools
+      advanced-tools-branch: feat/enable-wrapped-to-native-transfer-to-terra-classic
       environment: Cloudflare-Preview
       public-url: "/${{ needs.branch-sha.outputs.value }}"
       wac-url: "https://wac.gfx.xyz"
