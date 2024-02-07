@@ -345,7 +345,8 @@ jobs:
       - name: Create Package.json
         run: |
           jq -n --arg version ${{ needs.token-bridge.outputs.pkg-version }} '{"name": "@xlabs/portal-bridge-ui", "version": $version }' > package.json
-          gzip -k -9 assets/wormhole-connect/main.js
+          gzip -N -9 assets/wormhole-connect/main.js
+          mv assets/wormhole-connect/main.js.gz assets/wormhole-connect/main.js
       - name: Upload Portal Bridge Artifact
         uses: actions/upload-artifact@v3
         with:
