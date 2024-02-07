@@ -97,7 +97,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: build-advanced-tools
-          path: build
+          path: apps/advanced-tools/build
 
   redirects:
     name: "Redirects"
@@ -158,8 +158,6 @@ jobs:
         with:
           name: build-rewards-dashboard
           path: apps/rewards-dashboard/dist
-
-  
 
   usdc-bridge:
     name: "USDC Bridge"
