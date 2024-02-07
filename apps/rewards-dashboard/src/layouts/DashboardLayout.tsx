@@ -22,6 +22,7 @@ interface DashboardQueryResult {
   ausdc_held: number
   cusdc_held: number
   pending_rewards: number
+  moo_cusdc_held: number
 }
 
 export interface OverviewQueryResult {
@@ -51,6 +52,7 @@ const ConnectedDashboard = () => {
   const [usdcHeld, setUSDCHeld] = useState<number | undefined>(undefined);
   const [cusdcHeld, setCUSDCHeld] = useState<number | undefined>(undefined);
   const [ausdcHeld, setAUSDCHeld] = useState<number | undefined>(undefined);
+  const [mooHeld, setMooHeld] = useState<number|undefined>(undefined);
   const [accruedRewards, setAccruedRewards] = useState<number | undefined>(
     undefined
   );
@@ -85,6 +87,7 @@ const ConnectedDashboard = () => {
     setAUSDCHeld(userInfo.ausdc_held)
     setCUSDCHeld(userInfo.cusdc_held)
     setAccruedRewards(userInfo.pending_rewards)
+    setMooHeld(userInfo.moo_cusdc_held)
   }, [userInfo])
   useEffect(()=>{
     if(!overview) {
@@ -203,6 +206,12 @@ const ConnectedDashboard = () => {
                   value={formatInteger(cusdcHeld)}
                   unit="cUSDC"
                   infoElement={<Trans>cUSDC Held Value Tooltip</Trans>}
+                />
+                <InfoStatWindow
+                  header={t`Beefy cUSDC Balance`}
+                  value={formatInteger(mooHeld)}
+                  unit="cUSDC"
+                  infoElement={<Trans>Beefy Finance cUSDC Held Value Tooltip</Trans>}
                 />
               </div>
               <div className="">
