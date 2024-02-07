@@ -12,10 +12,6 @@ on:
             type: string
             required: true
             default: development
-        advanced-tools-branch:
-            type: string
-            required: true
-            default: main
         environment:
             type: string
             required: true
@@ -74,24 +70,14 @@ jobs:
       cancel-in-progress: true
     environment: ${{inputs.environment}}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          repository: xLabs/portal-bridge-ui
-          ref: ${{inputs.advanced-tools-branch}}
       - name: Set up Node environment
         uses: actions/setup-node@v3
         with:
           node-version: v18.17.1
-      - name: Setup Git
-        run: |
-          git config user.name "xLabs CI"
-          git config user.email "devops@xlabs.xyz"
-      - name: Install dependencies
-        run: npm ci
-      - name: Set Version
-        id: set-version
-        run: npm version $(node -p -e "require('./package.json').version")-${{inputs.separator}}$(echo ${{ github.sha }} | cut -c -10)
+      - name: Checkout Advance Tools
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.project-branch }}
       - name: Build
         env:
           PUBLIC_URL: "${{ inputs.public-url }}/advanced-tools"
@@ -103,10 +89,10 @@ jobs:
           REACT_APP_COVALENT_API_KEY: ${{ secrets.REACT_APP_COVALENT_API_KEY }}
           REACT_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}
         run: |
+          pushd apps/advanced-tools
           echo 'REACT_APP_VERSION=$npm_package_version' > .env
+          npm ci
           npm run build
-          cd build
-          npm run set-version
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
@@ -140,6 +126,7 @@ jobs:
         with:
           name: build-redirects
           path: apps/redirects/dist
+  
   rewards-dashboard:
     name: "Rewards Dashboard"
     runs-on: "ubuntu-latest"
@@ -171,7 +158,9 @@ jobs:
         with:
           name: build-rewards-dashboard
           path: apps/rewards-dashboard/dist
+
   
+
   usdc-bridge:
     name: "USDC Bridge"
     runs-on: "ubuntu-latest"
