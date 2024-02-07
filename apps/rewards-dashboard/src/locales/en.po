@@ -37,11 +37,11 @@ msgstr "Beefy Vault"
 msgid "Beefy Finance cUSDC Held Value Tooltip"
 msgstr "Beefy.Finance cUSDC Vault Balance."
 
-#: src/layouts/DashboardLayout.tsx:301
+#: src/layouts/DashboardLayout.tsx:302
 msgid "Bottom Banner Header"
 msgstr "How rewards work?"
 
-#: src/layouts/DashboardLayout.tsx:311
+#: src/layouts/DashboardLayout.tsx:312
 msgid "Bottom Banner Link"
 msgstr "Learn more"
 
@@ -77,15 +77,15 @@ msgstr "cUSDC Balance"
 msgid "cUSDC Held Value Tooltip"
 msgstr "Compound v3 USDC account balance."
 
-#: src/layouts/DashboardLayout.tsx:273
+#: src/layouts/DashboardLayout.tsx:274
 msgid "Disconnect Wallet Dashboard Subtitle One"
 msgstr "Claim ARB rewards by bridging your USDC to Arbitrum."
 
-#: src/layouts/DashboardLayout.tsx:276
+#: src/layouts/DashboardLayout.tsx:277
 msgid "Disconnect Wallet Dashboard Subtitle Two"
 msgstr "Supporting Aave and Compound USDC deposits."
 
-#: src/layouts/DashboardLayout.tsx:269
+#: src/layouts/DashboardLayout.tsx:270
 msgid "Disconnect Wallet Dashboard Title"
 msgstr "Arbitrum USDC Rewards Dashboard"
 
@@ -100,6 +100,10 @@ msgstr "Show Numbers"
 #: src/layouts/DashboardLayout.tsx:242
 msgid "History of Rewards Earned Header"
 msgstr "Total ARB Earned"
+
+#: src/layouts/DashboardLayout.tsx:246
+msgid "History of Rewards Earned Tooltip"
+msgstr "A minimum of 1 ARB will be paid out. Outstanding rewards below 1 ARB will roll over to the next week."
 
 #: src/layouts/DashboardLayout.tsx:174
 msgid "Show Number Text"

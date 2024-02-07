@@ -3,8 +3,7 @@ import { t } from "@lingui/macro";
 import { useWalletInfo } from "../hooks/useWalletInfo";
 
 export const WalletManager = () => {
-
-  const {isConnected, ensName, address, blockie} = useWalletInfo()
+  const { isConnected, ensName, address, blockie } = useWalletInfo();
   const { open } = useWeb3Modal();
 
   const text = isConnected

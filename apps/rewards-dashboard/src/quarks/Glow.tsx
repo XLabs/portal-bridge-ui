@@ -23,7 +23,7 @@ export const Glow = ({
     <div
       className="scrollbar-hide"
       style={{
-        overflowY:"hidden",
+        overflowY: "hidden",
         position: "absolute",
         borderRadius: width,
         background,
