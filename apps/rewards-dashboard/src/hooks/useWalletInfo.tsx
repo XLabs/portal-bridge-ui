@@ -18,5 +18,5 @@ export const useWalletInfo = () => {
     isConnected,
     ensName,
     blockie,
-  }
-}
+  };
+};

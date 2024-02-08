@@ -5,12 +5,13 @@ interface StatWindowProps {
   value?: string;
   unit?: string;
   graphic?: JSX.Element;
+  infoElement?: JSX.Element;
 }
 
 const WindowBackground = "bg-[#44457D] bg-opacity-30 backdrop-blur-lg";
 
 export const StatWindow = (props: StatWindowProps) => {
-  const { unit, graphic, value, header } = props;
+  const { unit, graphic, value, header, infoElement } = props;
   return (
     <div
       className={`
@@ -24,11 +25,20 @@ export const StatWindow = (props: StatWindowProps) => {
     >
       <div
         className="flex flex-col pr-8 gap-2
-      "
+        "
       >
-        <h4 className="text-white text-start whitespace-pre text-sm">
-          {header}
-        </h4>
+        <div className="flex flex-row items-center gap-2">
+          <h4 className="text-white text-start whitespace-pre text-sm">
+            {header}
+          </h4>
+          {infoElement ? (
+            <InfoHover>
+              <div className="prose text-[10px] text-white">{infoElement}</div>
+            </InfoHover>
+          ) : (
+            <></>
+          )}
+        </div>
         <div className="flex flex-row items-end grow">
           {value ? (
             <div className="text-white whitespace-pre text-start font-bold text-2xl">
@@ -37,10 +47,10 @@ export const StatWindow = (props: StatWindowProps) => {
           ) : (
             <div
               className="
-                w-full
-                animate-pulse
-                my-2 h-4 bg-gray-600 rounded-full grow
-        "
+              w-full
+              animate-pulse
+              my-2 h-4 bg-gray-600 rounded-full grow
+              "
             />
           )}
           {value && unit ? (
@@ -68,18 +78,18 @@ export const InfoStatWindow = (props: InfoStatWindowProps) => {
   return (
     <div
       className={`
-    flex flex-row flex-1
-    ${WindowBackground}
-    rounded-lg
-    pl-7
-    pr-4
-    py-4
-    justify-between
-    `}
+        flex flex-row flex-1
+        ${WindowBackground}
+        rounded-lg
+        pl-7
+        pr-4
+        py-4
+        justify-between
+        `}
     >
       <div
         className="flex flex-col pr-8 w-full
-      "
+        "
       >
         <div className="flex flex-row justify-between">
           <h4 className="text-white text-start whitespace-pre text-sm">
@@ -94,11 +104,11 @@ export const InfoStatWindow = (props: InfoStatWindowProps) => {
           ) : (
             <div
               className="
-                animate-pulse
-                w-fill
-                my-2
-                h-4 bg-gray-600 rounded-full grow
-        "
+              animate-pulse
+              w-fill
+              my-2
+              h-4 bg-gray-600 rounded-full grow
+              "
             />
           )}
           {value && unit ? (

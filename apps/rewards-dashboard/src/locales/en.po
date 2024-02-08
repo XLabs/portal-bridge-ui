@@ -6,99 +6,117 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
 
-#: src/layouts/DashboardLayout.tsx:165
+#: src/layouts/DashboardLayout.tsx:219
 msgid "Accrued Rewards Header"
 msgstr "Accruing ARB Rewards"
 
-#: src/layouts/DashboardLayout.tsx:168
+#: src/layouts/DashboardLayout.tsx:222
 msgid "Accrued Rewards Tooltip"
 msgstr "The estimated amount of ARB you have earned that has not been paid out."
 
-#: src/layouts/DashboardLayout.tsx:151
+#: src/layouts/DashboardLayout.tsx:199
 msgid "aUSDC Held Value Header"
 msgstr "aUSDC Balance"
 
-#: src/layouts/DashboardLayout.tsx:154
+#: src/layouts/DashboardLayout.tsx:202
 msgid "aUSDC Held Value Tooltip"
 msgstr "Aave v3 USDC account balance."
 
-#: src/layouts/DashboardLayout.tsx:247
+#: src/layouts/DashboardLayout.tsx:211
+msgid "Beefy cUSDC Balance"
+msgstr "Beefy Vault"
+
+#: src/layouts/DashboardLayout.tsx:214
+msgid "Beefy Finance cUSDC Held Value Tooltip"
+msgstr "Beefy.Finance cUSDC Vault Balance."
+
+#: src/layouts/DashboardLayout.tsx:302
 msgid "Bottom Banner Header"
 msgstr "How rewards work?"
 
-#: src/layouts/DashboardLayout.tsx:257
+#: src/layouts/DashboardLayout.tsx:312
 msgid "Bottom Banner Link"
 msgstr "Learn more"
 
-#: src/layouts/DashboardLayout.tsx:137
+#: src/layouts/DashboardLayout.tsx:185
 msgid "Bridged Header"
 msgstr "Total USDC bridged"
 
-#: src/layouts/DashboardLayout.tsx:140
+#: src/layouts/DashboardLayout.tsx:188
 msgid "Bridged Window Tooltip"
 msgstr "The total amount of canonical USDC you bridged in via CCTP."
 
-#: src/quarks/WalletManager.tsx:25
+#: src/quarks/WalletManager.tsx:16
 msgid "CONNECT WALLET"
 msgstr "Connect Wallet"
 
-#: src/layouts/DashboardLayout.tsx:91
-msgid "Connected Dashboard Subtitle"
-msgstr "Get up to 5% rewards by bridging your USDC to Arbitrum"
-
-#: src/layouts/DashboardLayout.tsx:80
-msgid "Connected Dashboard Title"
-msgstr "ARB Rewards Dashboard"
-
-#: src/layouts/DashboardLayout.tsx:157
-msgid "cUSDC Held Value"
-msgstr "cUSDC Balance"
-
-#: src/layouts/DashboardLayout.tsx:160
-msgid "cUSDC Held Value Tooltip"
-msgstr "Compound v3 USDC account balance."
-
-#: src/layouts/DashboardLayout.tsx:105
+#: src/layouts/DashboardLayout.tsx:153
 msgid "Connected Dashboard Header"
 msgstr "My ARB Rewards"
 
-#: src/layouts/DashboardLayout.tsx:219
+#: src/layouts/DashboardLayout.tsx:139
+msgid "Connected Dashboard Subtitle"
+msgstr "Get up to 5% rewards by bridging your USDC to Arbitrum"
+
+#: src/layouts/DashboardLayout.tsx:128
+msgid "Connected Dashboard Title"
+msgstr "ARB Rewards Dashboard"
+
+#: src/layouts/DashboardLayout.tsx:205
+msgid "cUSDC Held Value"
+msgstr "cUSDC Balance"
+
+#: src/layouts/DashboardLayout.tsx:208
+msgid "cUSDC Held Value Tooltip"
+msgstr "Compound v3 USDC account balance."
+
+#: src/layouts/DashboardLayout.tsx:274
 msgid "Disconnect Wallet Dashboard Subtitle One"
 msgstr "Claim ARB rewards by bridging your USDC to Arbitrum."
 
-#: src/layouts/DashboardLayout.tsx:222
+#: src/layouts/DashboardLayout.tsx:277
 msgid "Disconnect Wallet Dashboard Subtitle Two"
 msgstr "Supporting Aave and Compound USDC deposits."
 
-#: src/layouts/DashboardLayout.tsx:215
+#: src/layouts/DashboardLayout.tsx:270
 msgid "Disconnect Wallet Dashboard Title"
 msgstr "Arbitrum USDC Rewards Dashboard"
 
-#: src/layouts/DashboardLayout.tsx:182
+#: src/layouts/DashboardLayout.tsx:236
 msgid "Estimated Rewards Header"
 msgstr "Total Projected Rewards"
 
-#: src/layouts/DashboardLayout.tsx:126
+#: src/layouts/DashboardLayout.tsx:174
 msgid "Hide Number Text"
 msgstr "Show Numbers"
 
-#: src/layouts/DashboardLayout.tsx:188
+#: src/layouts/DashboardLayout.tsx:242
 msgid "History of Rewards Earned Header"
 msgstr "Total ARB Earned"
 
-#: src/layouts/DashboardLayout.tsx:126
+#: src/layouts/DashboardLayout.tsx:246
+msgid "History of Rewards Earned Tooltip"
+msgstr "A minimum of 1 ARB will be paid out. Outstanding rewards below 1 ARB will roll over to the next week."
+
+#: src/layouts/DashboardLayout.tsx:174
 msgid "Show Number Text"
 msgstr "Hide Numbers"
 
-#: src/layouts/DashboardLayout.tsx:176
+#: src/layouts/DashboardLayout.tsx:230
 msgid "Staking Power Header"
 msgstr "Total USDC Bridged"
 
-#: src/layouts/DashboardLayout.tsx:143
+#: src/layouts/DashboardLayout.tsx:191
 msgid "USDC Held Header"
 msgstr "USDC Balance"
 
-#: src/layouts/DashboardLayout.tsx:146
+#: src/layouts/DashboardLayout.tsx:194
 msgid "USDC Held Window Tooltip"
 msgstr "The amount of canonical USDC held in your account."

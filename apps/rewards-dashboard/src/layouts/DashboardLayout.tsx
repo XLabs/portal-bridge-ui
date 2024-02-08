@@ -16,24 +16,23 @@ import { useQuery } from "@tanstack/react-query";
 import { WAC_URL } from "../constants";
 
 interface DashboardQueryResult {
-  user: string
-  bridged_amount: number
-  usdc_held: number
-  ausdc_held: number
-  cusdc_held: number
-  pending_rewards: number
+  user: string;
+  bridged_amount: number;
+  usdc_held: number;
+  ausdc_held: number;
+  cusdc_held: number;
+  pending_rewards: number;
+  moo_cusdc_held: number;
 }
 
 export interface OverviewQueryResult {
-  total_bridged: number
-  estimated_rewards: number
-  rewards_earned: number
+  total_bridged: number;
+  estimated_rewards: number;
+  rewards_earned: number;
 }
 
-
-
 const ConnectedDashboard = () => {
-  const {address} = useWalletInfo()
+  const { address } = useWalletInfo();
 
   const [numbersHidden, setNumbersHidden] = useState(false);
 
@@ -51,49 +50,49 @@ const ConnectedDashboard = () => {
   const [usdcHeld, setUSDCHeld] = useState<number | undefined>(undefined);
   const [cusdcHeld, setCUSDCHeld] = useState<number | undefined>(undefined);
   const [ausdcHeld, setAUSDCHeld] = useState<number | undefined>(undefined);
+  const [mooHeld, setMooHeld] = useState<number | undefined>(undefined);
   const [accruedRewards, setAccruedRewards] = useState<number | undefined>(
     undefined
   );
-  const { data:overview } = useQuery<OverviewQueryResult>({
+  const { data: overview } = useQuery<OverviewQueryResult>({
     queryKey: ["overview"],
     staleTime: 5000,
     queryFn: () => {
-      return fetch(`${WAC_URL}/overview`)
-      .then((res) => {
-        return res.json()
-      })
-    }
-  })
-  const { data:userInfo } = useQuery<DashboardQueryResult>({
+      return fetch(`${WAC_URL}/overview`).then((res) => {
+        return res.json();
+      });
+    },
+  });
+  const { data: userInfo } = useQuery<DashboardQueryResult>({
     queryKey: [address],
     enabled: !!address,
     staleTime: 5000,
     queryFn: () => {
-      return fetch(`${WAC_URL}/usersummary?address=${address}`)
-      .then((res) => {
-        return res.json()
-      })
-    }
-  })
+      return fetch(`${WAC_URL}/usersummary?address=${address}`).then((res) => {
+        return res.json();
+      });
+    },
+  });
 
-  useEffect(()=>{
-    if(!userInfo) {
-      return
+  useEffect(() => {
+    if (!userInfo) {
+      return;
     }
-    setUSDCBridged(userInfo.bridged_amount)
-    setUSDCHeld(userInfo.usdc_held)
-    setAUSDCHeld(userInfo.ausdc_held)
-    setCUSDCHeld(userInfo.cusdc_held)
-    setAccruedRewards(userInfo.pending_rewards)
-  }, [userInfo])
-  useEffect(()=>{
-    if(!overview) {
-      return
+    setUSDCBridged(userInfo.bridged_amount);
+    setUSDCHeld(userInfo.usdc_held);
+    setAUSDCHeld(userInfo.ausdc_held);
+    setCUSDCHeld(userInfo.cusdc_held);
+    setAccruedRewards(userInfo.pending_rewards);
+    setMooHeld(userInfo.moo_cusdc_held);
+  }, [userInfo]);
+  useEffect(() => {
+    if (!overview) {
+      return;
     }
-    setTotalBridged(overview.total_bridged)
-    setEstimatedRewards(overview.estimated_rewards)
-    setHistoryRewardsEarned(overview.rewards_earned)
-  }, [overview])
+    setTotalBridged(overview.total_bridged);
+    setEstimatedRewards(overview.estimated_rewards);
+    setHistoryRewardsEarned(overview.rewards_earned);
+  }, [overview]);
 
   const maybeHide = (x?: number) => {
     if (numbersHidden == true) {
@@ -204,6 +203,14 @@ const ConnectedDashboard = () => {
                   unit="cUSDC"
                   infoElement={<Trans>cUSDC Held Value Tooltip</Trans>}
                 />
+                <InfoStatWindow
+                  header={t`Beefy cUSDC Balance`}
+                  value={formatInteger(mooHeld)}
+                  unit="cUSDC"
+                  infoElement={
+                    <Trans>Beefy Finance cUSDC Held Value Tooltip</Trans>
+                  }
+                />
               </div>
               <div className="">
                 <InfoStatWindow
@@ -234,6 +241,7 @@ const ConnectedDashboard = () => {
             value={formatInteger(historyRewardsEarned)}
             unit="ARB"
             graphic={<RewardHistoryGraphic />}
+            infoElement={<Trans>History of Rewards Earned Tooltip</Trans>}
           />
         </div>
       </div>
