@@ -18,30 +18,20 @@ const defaultConfig: WormholeConnectConfig = {
 };
 
 export default function Root() {
-  const { txHash, transactionId, sourceChain, targetChain } = useQueryParams();
+  const { txHash, sourceChain, targetChain } = useQueryParams();
   const config = useMemo(
     () => ({
       ...defaultConfig,
-      ...(txHash &&
-        sourceChain && {
-          searchTx: {
-            txHash,
-            sourceChain,
-          },
-        }),
-      ...(transactionId &&
-        sourceChain && {
-          searchTx: {
-            txHash: transactionId,
-            sourceChain,
-          },
-        }),
+      searchTx: {
+        ...(txHash && { txHash }),
+        ...(sourceChain && { chainName: sourceChain as ChainName }),
+      },
       bridgeDefaults: {
-        fromNetwork: (sourceChain as ChainName) || null,
-        toNetwork: (targetChain as ChainName) || null,
+        ...(sourceChain && { fromNetwork: sourceChain as ChainName }),
+        ...(targetChain && { toNetwork: targetChain as ChainName }),
       },
     }),
-    [txHash, transactionId, sourceChain, targetChain]
+    [txHash, sourceChain, targetChain]
   );
   const messages = Object.values(messageConfig);
   return (
