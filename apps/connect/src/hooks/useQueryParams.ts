@@ -1,9 +1,10 @@
-import { ChainName, coalesceChainName, isChain } from '@certusone/wormhole-sdk';
+import { ChainName, coalesceChainName, isChain } from "@certusone/wormhole-sdk";
 import { useMemo } from "react";
 
-const isNumber = (str: string) => typeof str === 'string' && str.length > 0 && !isNaN(Number(str))
+const isNumber = (str: string) =>
+  typeof str === "string" && str.length > 0 && !isNaN(Number(str));
 
-function getChainValue(query: URLSearchParams, key: string): ChainName | null{
+function getChainValue(query: URLSearchParams, key: string): ChainName | null {
   const sourceChain = query.get(key);
   if (sourceChain && isChain(sourceChain)) {
     return coalesceChainName(sourceChain);
@@ -18,7 +19,7 @@ function getChainValue(query: URLSearchParams, key: string): ChainName | null{
 
 function getTxHash(query: URLSearchParams): string | null {
   const txHash = query.get("txHash");
-  const transactionId =  query.get("transactionId");
+  const transactionId = query.get("transactionId");
   if (txHash) {
     return txHash;
   } else if (transactionId) {
@@ -29,8 +30,14 @@ function getTxHash(query: URLSearchParams): string | null {
 
 export function useQueryParams() {
   const query = useMemo(() => new URLSearchParams(window.location.search), []);
-  const sourceChain = useMemo(() => getChainValue(query, "sourceChain"), [query]);
-  const targetChain = useMemo(() => getChainValue(query, "targetChain"), [query]);
+  const sourceChain = useMemo(
+    () => getChainValue(query, "sourceChain"),
+    [query]
+  );
+  const targetChain = useMemo(
+    () => getChainValue(query, "targetChain"),
+    [query]
+  );
   const txHash = useMemo(() => getTxHash(query), [query]);
   return {
     txHash,
