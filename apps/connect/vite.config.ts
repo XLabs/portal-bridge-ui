@@ -43,6 +43,11 @@ export default defineConfig({
       },
     },
   },
+  resolve: {
+    alias: [
+      { find: '@certusone/wormhole-sdk', replacement: "@certusone/wormhole-sdk/lib/cjs/utils/consts.js" }
+    ]
+  },
   define: {
     redirects: {},
     wormholeConnectConfig: {
