@@ -96,7 +96,7 @@ export default function NavBar() {
   return (
     <AppBar position="static" color="inherit">
       <Toolbar>
-        <MuiLink href={`${import.meta.env.BASE_URL}/`}>
+        <MuiLink href={import.meta.env.BASE_URL}>
           <Logo src={portal} alt="Portal" />
         </MuiLink>
         <Spacer />
