@@ -27,6 +27,9 @@ const MAINNET_RPCS = {
   rpcs: {
     ...rpcs(chains, asRpcHost),
     solana: "https://wormhole.rpcpool.com/",
+  },
+  rest: {
+    osmosis: "https://and76cjzpa.execute-api.us-east-2.amazonaws.com/osmosis-rest/",
   }
 }
 
