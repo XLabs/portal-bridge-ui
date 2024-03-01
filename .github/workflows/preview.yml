@@ -20,7 +20,7 @@ jobs:
     with:
       name: preview
       separator: P
-      connect-branch: bugs/osmosis-rest-endpoint-option
+      connect-branch: bugs/downgrade-cosmos-wallet-aggregator-version
       advanced-tools-branch: advanced-tools
       environment: Cloudflare-Preview
       public-url: ""
