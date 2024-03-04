@@ -1,6 +1,9 @@
 name: Portal Bridge [Testnet]
 
-on: pull_request
+on: 
+  pull_request:
+    paths:
+      - '!apps/token-list/**'
 
 jobs:
   branch-sha:
