@@ -200,8 +200,8 @@ jobs:
           npm ci --workspaces --if-present
           sed -i -e 's|vite build",|vite build --base=${{inputs.public-url}}/assets/wormhole-connect/",|g' wormhole-connect/package.json
           npm run build
-          echo "_JS_SHA_384=$(shasum -b -a 384 wormhole-connect-loader/dist/main.js | awk '{ print $1 }' | xxd -r -p | base64)" >> "${GITHUB_OUTPUT}"
-          echo "_CSS_SHA_384=$(shasum -b -a 384 wormhole-connect-loader/dist/main.css | awk '{ print $1 }' | xxd -r -p | base64)" >> "${GITHUB_OUTPUT}"
+          echo "_JS_SHA_384=$(shasum -b -a 384 wormhole-connect/dist/main.js | awk '{ print $1 }' | xxd -r -p | base64)" >> "${GITHUB_OUTPUT}"
+          echo "_CSS_SHA_384=$(shasum -b -a 384 wormhole-connect/dist/main.css | awk '{ print $1 }' | xxd -r -p | base64)" >> "${GITHUB_OUTPUT}"
           npm link --workspaces --if-present
       - name: Checkout Custom Wormhole Connect Loader
         uses: actions/checkout@v3
@@ -267,8 +267,8 @@ jobs:
           npm ci --workspaces --if-present
           sed -i -e 's|vite build",|vite build --base=${{inputs.public-url}}/assets/wormhole-connect/",|g' wormhole-connect/package.json
           npm run build
-          echo "_JS_SHA_384=$(shasum -b -a 384 wormhole-connect-loader/dist/main.js | awk '{ print $1 }' | xxd -r -p | base64)" >> "${GITHUB_OUTPUT}"
-          echo "_CSS_SHA_384=$(shasum -b -a 384 wormhole-connect-loader/dist/main.css | awk '{ print $1 }' | xxd -r -p | base64)" >> "${GITHUB_OUTPUT}"
+          echo "_JS_SHA_384=$(shasum -b -a 384 wormhole-connect/dist/main.js | awk '{ print $1 }' | xxd -r -p | base64)" >> "${GITHUB_OUTPUT}"
+          echo "_CSS_SHA_384=$(shasum -b -a 384 wormhole-connect/dist/main.css | awk '{ print $1 }' | xxd -r -p | base64)" >> "${GITHUB_OUTPUT}"
           npm link --workspaces --if-present
       - name: Checkout Custom Wormhole Connect Loader
         uses: actions/checkout@v3
