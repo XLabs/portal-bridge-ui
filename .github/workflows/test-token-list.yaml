@@ -1,0 +1,20 @@
+name: Test Token List 
+
+on:
+  pull_request:
+    paths: 
+      - 'apps/token-list/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/token-list
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: npm ci
+      - run: npm test

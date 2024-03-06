@@ -1,6 +1,9 @@
 name: Code Standard Checks
 
-on: pull_request
+on: 
+  pull_request:
+    paths:
+      - '!apps/token-list/**'
 
 jobs:
   linter:
