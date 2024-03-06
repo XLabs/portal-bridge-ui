@@ -1,5 +1,6 @@
-import type { Theme } from "@wormhole-foundation/wormhole-connect";
-const customized: Theme = {
+import type { ExtendedTheme } from "@wormhole-foundation/wormhole-connect";
+const customized: ExtendedTheme = {
+  mode: 'dark',
   primary: {
     50: "#fafafa",
     100: "#f5f5f5",
