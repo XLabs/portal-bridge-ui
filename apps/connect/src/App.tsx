@@ -8,8 +8,9 @@ import mui from "./theme/portal";
 import NavBar from "./components/atoms/NavBar";
 import NewsBar from "./components/atoms/NewsBar";
 import messageConfig from "./configs/messages";
-import ConnectLoader from "./components/ConnectLoader";
+//import ConnectLoader from "./components/ConnectLoader";
 import { useQueryParams } from "./hooks/useQueryParams";
+import WormholeBridge from '@wormhole-foundation/wormhole-connect';
 
 const defaultConfig: WormholeConnectConfig = {
   ...wormholeConnectConfig,
@@ -40,7 +41,8 @@ export default function Root() {
         <NewsBar messages={messages} />
         <NavBar />
       </div>
-      <ConnectLoader config={config} />
+      {/* <ConnectLoader config={config} /> */}
+      <WormholeBridge config={config}/>
     </>
   );
 }
