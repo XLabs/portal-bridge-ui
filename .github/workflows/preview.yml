@@ -23,7 +23,7 @@ jobs:
     with:
       name: preview
       separator: P
-      connect-branch: development@0.3.0-beta.1
+      connect-branch: development
       advanced-tools-branch: advanced-tools
       environment: Cloudflare-Preview
       public-url: ""
