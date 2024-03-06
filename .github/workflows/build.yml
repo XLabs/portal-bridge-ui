@@ -186,12 +186,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: v18.17.1
-      - name: Checkout Wormhole Connect
-        uses: actions/checkout@v3
-        with:
-          repository: wormhole-foundation/wormhole-connect
-          ref: ${{inputs.connect-branch}}
-          path: wormhole-connect
+      # - name: Checkout Wormhole Connect
+      #   uses: actions/checkout@v3
+      #   with:
+      #     repository: wormhole-foundation/wormhole-connect
+      #     ref: ${{inputs.connect-branch}}
+      #     path: wormhole-connect
       # - name: Build Wormhole Connect
       #   id: wormhole-connect
       #   run: |
@@ -251,12 +251,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: v18.17.1
-      - name: Checkout Wormhole Connect
-        uses: actions/checkout@v3
-        with:
-          repository: wormhole-foundation/wormhole-connect
-          ref: ${{inputs.connect-branch}}
-          path: wormhole-connect
+      # - name: Checkout Wormhole Connect
+      #   uses: actions/checkout@v3
+      #   with:
+      #     repository: wormhole-foundation/wormhole-connect
+      #     ref: ${{inputs.connect-branch}}
+      #     path: wormhole-connect
       # - name: Build Wormhole Connect
       #   id: wormhole-connect
       #   run: |
