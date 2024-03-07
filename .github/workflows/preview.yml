@@ -26,7 +26,7 @@ jobs:
       connect-branch: development
       advanced-tools-branch: advanced-tools
       environment: Cloudflare-Preview
-      public-url: "/${{ needs.branch-sha.outputs.value }}"
+      public-url: ""
       wac-url: "https://wac.gfx.xyz"
       project-branch: ${{ github.event.pull_request.head.ref }}
       app-domain: preview.portalbridge.com
