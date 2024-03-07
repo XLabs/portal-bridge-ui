@@ -8,6 +8,8 @@ import Box from "@mui/material/Box";
 export type WormholeLoaderProps = {
   config: WormholeConnectConfig;
 };
+
+
 const SpinnerContainer = styled(Box)(() => ({
   margin: 10,
   display: "flex",
