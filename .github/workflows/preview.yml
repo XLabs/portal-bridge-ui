@@ -3,9 +3,10 @@ name: Portal Bridge [Preview]
 on: 
   pull_request:
     branches:
-      - '*'
+      - '**'
       - '!main'
     paths:
+      - '**'
       - '!apps/token-list/**'
 
 jobs:
