@@ -21,7 +21,7 @@ const { VITE_APP_JS_WC_INTEGRITY_SHA_384, VITE_APP_CSS_WC_INTEGRITY_SHA_384 } =
 
 export default function ConnectLoader({ config }: WormholeLoaderProps) {
   const [loading, setLoading] = useState(true);
-
+  console.log('hi')
   useEffect(() => {
     const script = document.createElement("script");
     script.src = `assets/wormhole-connect/main.js`;
