@@ -2,8 +2,8 @@ name: Package Clean Up
 
 on:
   pull_request:
-    paths:
-      - '!apps/token-list/**'
+#    paths:
+#      - '!apps/token-list/**'
     types: [closed]
 
 jobs:
