@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
-import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 const rpcs = (chains: string[], template: (chain: string) => string) => chains.map((chain: string) => ({ [chain]: template(chain) })).reduce((acc, cur) => ({ ...acc, ...cur }), {});
 const asRpcHost = (chain: string) => `https://and76cjzpa.execute-api.us-east-2.amazonaws.com/${chain}/`;
