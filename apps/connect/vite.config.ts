@@ -38,7 +38,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        entryFileNames: 'pb-[name].js',
+        entryFileNames: 'pb-[name]-[hash].js',
         assetFileNames: 'pb-[name]-[hash][extname]',
       },
     },
