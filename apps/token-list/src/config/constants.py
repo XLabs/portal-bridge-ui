@@ -20,6 +20,7 @@ CHAIN_IDS_TO_NAMES = OrderedDict([
   (16, 'moonbeam'),
   (18, 'terra2'),
   (19, 'injective'),
+  (21, 'sui'),
   (22, 'aptos'),
   (23, 'arbitrum'),
   (24, 'optimism'),
@@ -50,6 +51,7 @@ SOURCE_INFO = OrderedDict([
   ('xpla', ('XPLA', 'xp', "https://explorer.xpla.io/", "https://explorer.xpla.io/mainnet/address/xpla137w0wfch2dfmz7jl2ap8pcmswasj8kg06ay4dtjzw7tzkn77ufxqfw7acv")),
   ('optimism', ('Optimism', 'op', "https://optimistic.etherscan.io/", "https://optimistic.etherscan.io/token/0x94b008aa00579c1307b0ef2c499ad98a8ce58e58")),
   ('arbitrum', ('Arbitrum', 'ab', "https://arbiscan.io/", "https://arbiscan.io/token/0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9")),
+  ('sui', ('Sui', 'su', "https://suiexplorer.com/", "https://suiexplorer.com/object/0xc57508ee0d4595e5a8728974a4a93a787d38f339757230d441e895422c07aba9")),
   ('aptos', ('Aptos', 'ap', "https://explorer.aptoslabs.com/", "https://explorer.aptoslabs.com/account/0x576410486a2da45eee6c949c995670112ddf2fbeedab20350d506328eefc9d4f")),
   ('base', ('Base', 'ba', "https://basescan.org/", "https://basescan.org/address/0x8d2de8d2f73f1f4cab472ac9a881c9b123c79627")),
 ])

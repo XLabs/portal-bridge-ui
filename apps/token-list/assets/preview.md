@@ -22,10 +22,19 @@ by source chain:
 * [XPLA](#source-chain-xpla)
 * [Optimism](#source-chain-optimism)
 * [Arbitrum](#source-chain-arbitrum)
+* [Sui](#source-chain-sui)
 * [Aptos](#source-chain-aptos)
 * [Base](#source-chain-base)
 
 ## source chain: Solana
+### DUST
+![DUST](DUST_wh.png)
+![DUST](DUST_wh_small.png)
+
+```
+https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/DUST_wh.png
+```
+
 ### PYTH
 ![PYTH](PYTH_wh.png)
 ![PYTH](PYTH_wh_small.png)
@@ -1246,6 +1255,16 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ## source chain: Injective
 
 ## source chain: Aptos
+
+## source chain: Sui
+### SCA
+![SCA](SCA_wh.png)
+![SCA](SCA_wh_small.png)
+
+```
+https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/SCA_wh.png
+```
+
 
 ## source chain: Arbitrum
 ### TBTC
