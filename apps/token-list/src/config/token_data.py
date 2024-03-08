@@ -10,6 +10,8 @@ TOKENS = {
       "coingeckoId": "dust-token",
       "logo": "https://gateway.pinata.cloud/ipfs/Qmb5qNLPhR8fJaz5MN1W55iSCXdNgMMSdWn94Z9oiFjw3o",
       "markets": {
+      },
+      "destinations": {
           "eth": {
               "address": "0xb5b1b659da79a2507c27aad509f15b4874edc0cc",
               "decimals": 9
@@ -19,7 +21,6 @@ TOKENS = {
               "decimals": 9
           }
       },
-      "destinations": {},
       "sourceDecimals": 9
     },
     "PYTH": {
@@ -3161,10 +3162,12 @@ TOKENS = {
     "SCA": {
       "symbol": "SCA",
       "name": "Scallop",
-      "markets": {},
       "sourceAddress": "0x7016aae72cfc67f2fadf55769c0a7dd54291a583b63051a5ed71081cce836ac6::sca::SCA",
       "coingeckoId": "scallop-2",
       "logo": "https://assets.coingecko.com/coins/images/34648/standard/sca.png?1705592307",
+      "markets": {
+          "sol": []
+      },
       "destinations": {
         "sol": {
           "address": "3C9wF1D3bBju844a8UvrW2EmBfWjBc6Y8RXaz3T2h59Q",

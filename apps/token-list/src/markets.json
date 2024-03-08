@@ -316,12 +316,6 @@
             "uniswap"
           ]
         },
-        "DUSTawucrTsGU8hcqRdHDCbuYhCPADMLM2VcCb8VnFnQ": {
-          "markets": {
-            "address": "0xb5b1b659da79a2507c27aad509f15b4874edc0cc",
-            "decimals": 9
-          }
-        },
         "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263": {
           "markets": [
             "uniswap",
@@ -461,12 +455,6 @@
           "markets": [
             "threshold"
           ]
-        },
-        "DUSTawucrTsGU8hcqRdHDCbuYhCPADMLM2VcCb8VnFnQ": {
-          "markets": {
-            "address": "0x4987a49c253c38b3259092e9aac10ec0c7ef7542",
-            "decimals": 9
-          }
         },
         "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263": {
           "markets": [
@@ -1575,7 +1563,11 @@
       "9": {}
     },
     "21": {
-      "1": {},
+      "1": {
+        "0x7016aae72cfc67f2fadf55769c0a7dd54291a583b63051a5ed71081cce836ac6::sca::SCA": {
+          "markets": []
+        }
+      },
       "10": {},
       "11": {},
       "12": {},
@@ -4493,6 +4485,10 @@
         "logo": "https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/LUA_wh.png",
         "symbol": "LUA"
       },
+      "0xb5b1b659da79a2507c27aad509f15b4874edc0cc": {
+        "logo": "https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/DUST_wh.png",
+        "symbol": "DUST"
+      },
       "0xbb0e17ef65f82ab018d8edd776e8dd940327b28b": {
         "logo": "https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/AXSet_wh.png",
         "symbol": "AXSet"
@@ -5045,6 +5041,10 @@
       "0x4318cb63a2b8edf2de971e2f17f77097e499459d": {
         "logo": "https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/USDCet_wh.png",
         "symbol": "USDCet"
+      },
+      "0x4987a49c253c38b3259092e9aac10ec0c7ef7542": {
+        "logo": "https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/DUST_wh.png",
+        "symbol": "DUST"
       },
       "0x576cf361711cd940cd9c397bb98c4c896cbd38de": {
         "logo": "https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/USDCso_wh.png",
