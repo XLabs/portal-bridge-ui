@@ -14,4 +14,4 @@ def get_logo_path(name, wormhole=True):
 
 
 def get_logo_raw_url(name):
-  return 'https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/%s_wh.png' % name
+  return 'https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/%s_wh.png' % name
