@@ -13,8 +13,6 @@ import WormholeBridge from "@wormhole-foundation/wormhole-connect";
 
 const defaultConfig: WormholeConnectConfig = {
   ...wormholeConnectConfig,
-  mode: mui.palette.mode,
-  customTheme,
 };
 
 export default function Root() {
@@ -40,7 +38,7 @@ export default function Root() {
         <NewsBar messages={messages} />
         <NavBar />
       </div>
-      <WormholeBridge config={config} />
+      <WormholeBridge config={config} theme={customTheme} />
     </>
   );
 }
