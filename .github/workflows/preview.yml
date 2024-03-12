@@ -33,37 +33,16 @@ jobs:
     secrets: inherit
     needs: 
       - branch-sha
-  deploy:
-    name: "Deploy Preview"
+  summary:
+    name: "Summary"
     needs:
       - build
       - branch-sha
     runs-on: "ubuntu-latest"
     concurrency:
-      group: ${{ github.ref }}-deploy-preview
+      group: ${{ github.ref }}-summary-preview
       cancel-in-progress: true
-    permissions:
-      contents: write
-    environment: Cloudflare-Preview
     steps:
-      - name: Checkout preview branch
-        uses: actions/checkout@v3
-        with:
-          ref: preview
-      - name: Setup Git
+      - name: Write Summary
         run: |
-          git config user.name "xLabs CI"
-          git config user.email "devops@xlabs.xyz"
-      - name: Trigger a preview Deploy
-        run: |
-          sleep 30s
-          mkdir -p preview/${{ needs.branch-sha.outputs.value }}
-          pushd preview/${{ needs.branch-sha.outputs.value  }}
-          [[ ! -f .latest ]] && touch .latest
-          [[ ! -f .artifacts ]] && touch .artifacts
-          cat .latest >> .artifacts
-          echo ${{ needs.build.outputs.pkg-version }} > .latest
-          git add .artifacts .latest
-          git commit -m"Update preview artifacts ${{ needs.build.outputs.pkg-version }}"
-          git push
-          echo "The preview URL is: ${{ vars.PREVIEW_ROOT_URL }}/${{ needs.branch-sha.outputs.value }}/" >> ${GITHUB_STEP_SUMMARY}
+          echo "The preview URL is: ${{ vars.PREVIEW_ROOT_URL }}/${{ needs.branch-sha.outputs.value }}/" - ${{ needs.build.outputs.pkg-version }}>> ${GITHUB_STEP_SUMMARY}
