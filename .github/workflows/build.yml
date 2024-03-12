@@ -1,5 +1,5 @@
 name: Build Non Prod
-
+# echo "$(date -u)-production@0.2.7" | shasum -b -a 384 | awk '{ print $1 }'
 on:
   workflow_call:
     inputs:
@@ -35,7 +35,16 @@ on:
         pkg-version:
             description: "NPM Package Version"
             value: ${{ jobs.token-bridge.outputs.pkg-version }}
-jobs:    
+jobs:
+  wc-build-hash:
+    name: "WC Build Hash"
+    runs-on: "ubuntu-latest"
+    outputs:
+      hash: ${{ steps.build-hash.outputs._BUILD_HASH }}
+    steps:
+      - name: Build Hash
+        id: build-hash
+        run: echo "_BUILD_HASH=wc-$(echo "${{github.ref}}-${{inputs.connect-branch}}" | shasum -b -a 384 | awk '{ print $1 }' | cut -c -10)" >> "${GITHUB_OUTPUT}"
   docs:
     name: "Documentation"
     runs-on: "ubuntu-latest"
@@ -65,7 +74,6 @@ jobs:
         with:
           name: build-docs
           path: apps/docs/build
-  
   advanced-tools:
     name: "Advance Tools"
     runs-on: xlabs-large-runner
@@ -112,7 +120,6 @@ jobs:
         with:
           name: build-advanced-tools
           path: build
-
   redirects:
     name: "Redirects"
     runs-on: "ubuntu-latest"
@@ -171,9 +178,10 @@ jobs:
         with:
           name: build-rewards-dashboard
           path: apps/rewards-dashboard/dist
-  
   usdc-bridge:
     name: "USDC Bridge"
+    needs: 
+      - wc-build-hash
     runs-on: "ubuntu-latest"
     concurrency:
       group: ${{ github.ref }}-${{inputs.name}}-usdc-bridge
@@ -198,7 +206,7 @@ jobs:
           npm install -g husky
           pushd wormhole-connect
           npm ci --workspaces --if-present
-          sed -i -e 's|vite build",|vite build --base=${{inputs.public-url}}/assets/wormhole-connect/",|g' wormhole-connect/package.json
+          sed -i -e 's|vite build",|vite build --base=${{inputs.public-url}}/assets/${{needs.wc-build-hash.outputs.hash}}/",|g' wormhole-connect/package.json
           npm run build
           echo "_JS_SHA_384=$(shasum -b -a 384 wormhole-connect-loader/dist/main.js | awk '{ print $1 }' | xxd -r -p | base64)" >> "${GITHUB_OUTPUT}"
           echo "_CSS_SHA_384=$(shasum -b -a 384 wormhole-connect-loader/dist/main.css | awk '{ print $1 }' | xxd -r -p | base64)" >> "${GITHUB_OUTPUT}"
@@ -222,9 +230,9 @@ jobs:
       - name: Build Custom Wormhole Connect Loader
         env:
           PUBLIC_URL: ${{ inputs.public-url }}
+          VITE_APP_WC_ASSETS_HASH: ${{needs.wc-build-hash.outputs.hash}}
           VITE_APP_VERSION: ${{ steps.set-version.outputs._PKG_VERSION }}
           VITE_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
-          VITE_APP_WORMHOLE_CONNECT_VERSION: ${{ inputs.connect-branch }}
           VITE_APP_JS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._JS_SHA_384 }}
           VITE_APP_CSS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._CSS_SHA_384 }}
           VITE_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}
@@ -242,6 +250,8 @@ jobs:
         
   token-bridge:
     name: "Token Bridge"
+    needs: 
+      - wc-build-hash
     runs-on: "ubuntu-latest"
     concurrency:
       group: ${{ github.ref }}-${{inputs.name}}-token-bridge
@@ -266,7 +276,7 @@ jobs:
           npm install -g husky
           pushd wormhole-connect
           npm ci --workspaces --if-present
-          sed -i -e 's|vite build",|vite build --base=${{inputs.public-url}}/assets/wormhole-connect/",|g' wormhole-connect/package.json
+          sed -i -e 's|vite build",|vite build --base=${{inputs.public-url}}/assets/${{needs.wc-build-hash.outputs.hash}}/",|g' wormhole-connect/package.json
           npm run build
           echo "_JS_SHA_384=$(shasum -b -a 384 wormhole-connect-loader/dist/main.js | awk '{ print $1 }' | xxd -r -p | base64)" >> "${GITHUB_OUTPUT}"
           echo "_CSS_SHA_384=$(shasum -b -a 384 wormhole-connect-loader/dist/main.css | awk '{ print $1 }' | xxd -r -p | base64)" >> "${GITHUB_OUTPUT}"
@@ -289,9 +299,9 @@ jobs:
       - name: Build Custom Wormhole Connect Loader
         env:
           PUBLIC_URL: "${{ inputs.public-url }}"
+          VITE_APP_WC_ASSETS_HASH: ${{needs.wc-build-hash.outputs.hash}}
           VITE_APP_VERSION: ${{ steps.set-version.outputs._PKG_VERSION }}
           VITE_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
-          VITE_APP_WORMHOLE_CONNECT_VERSION: ${{ inputs.connect-branch }}
           VITE_APP_JS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._JS_SHA_384 }}
           VITE_APP_CSS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._CSS_SHA_384 }}
           VITE_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}

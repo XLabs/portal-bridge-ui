@@ -1,12 +1,8 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
-import { createHash } from 'crypto'
 
-const __WORMHOLE_CONNECT_LOCATION_HASH__ = `wc-${createHash('sha384')
-  .update(process.env.VITE_APP_WORMHOLE_CONNECT_VERSION || 'lastest')
-  .digest('hex')
-  .substring(0, 8)}`
+const { VITE_APP_WC_ASSETS_HASH = 'latest'} = process.env
 
 const rpcs = (chains: string[], template: (chain: string) => string) => chains.map((chain: string) => ({ [chain]: template(chain) })).reduce((acc, cur) => ({ ...acc, ...cur }), {});
 const asRpcHost = (chain: string) => `https://and76cjzpa.execute-api.us-east-2.amazonaws.com/${chain}/`;
@@ -55,7 +51,6 @@ export default defineConfig({
     ]
   },
   define: {
-    __WORMHOLE_CONNECT_HASH__: JSON.stringify(__WORMHOLE_CONNECT_LOCATION_HASH__),
     redirects: {},
     wormholeConnectConfig: {
       walletConnectProjectId: process.env.VITE_APP_WALLET_CONNECT_PROJECT_ID || '',
@@ -80,19 +75,19 @@ export default defineConfig({
       targets: [
         {
           src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/*.js',
-          dest: `assets/${__WORMHOLE_CONNECT_LOCATION_HASH__}/`
+          dest: `assets/${VITE_APP_WC_ASSETS_HASH}/`
         },
         {
           src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/*.css',
-          dest: `assets/${__WORMHOLE_CONNECT_LOCATION_HASH__}/`
+          dest: `assets/${VITE_APP_WC_ASSETS_HASH}/`
         },
         {
           src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/assets/*.js',
-          dest: `assets/${__WORMHOLE_CONNECT_LOCATION_HASH__}/assets`
+          dest: `assets/${VITE_APP_WC_ASSETS_HASH}/assets`
         },
         {
           src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/assets/*.css',
-          dest: `assets/${__WORMHOLE_CONNECT_LOCATION_HASH__}/assets`
+          dest: `assets/${VITE_APP_WC_ASSETS_HASH}/assets`
         }
       ]
     })
