@@ -32,6 +32,10 @@ const MAINNET_RPCS = {
 
 const VITE_APP_CLUSTER = process.env.VITE_APP_CLUSTER || 'testnet'
 
+const __WORMHOLE_CONNECT_HASH__ = ["wc", process.env.VITE_APP_WORMHOLE_CONNECT_VERSION, `${Date.now()}`]
+  .map((v) => v?.trim())
+  .join('-') || 'latest';
+
 // https://vitejs.dev/config/
 export default defineConfig({
   base: process.env.PUBLIC_URL || '',
@@ -49,6 +53,7 @@ export default defineConfig({
     ]
   },
   define: {
+    __WORMHOLE_CONNECT_HASH__: JSON.stringify(__WORMHOLE_CONNECT_HASH__),
     redirects: {},
     wormholeConnectConfig: {
       walletConnectProjectId: process.env.VITE_APP_WALLET_CONNECT_PROJECT_ID || '',
@@ -73,19 +78,19 @@ export default defineConfig({
       targets: [
         {
           src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/*.js',
-          dest: 'assets/wormhole-connect/'
+          dest: `assets/${__WORMHOLE_CONNECT_HASH__}/`
         },
         {
           src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/*.css',
-          dest: 'assets/wormhole-connect/'
+          dest: `assets/${__WORMHOLE_CONNECT_HASH__}/`
         },
         {
           src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/assets/*.js',
-          dest: 'assets/wormhole-connect/assets'
+          dest: `assets/${__WORMHOLE_CONNECT_HASH__}/assets`
         },
         {
           src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/assets/*.css',
-          dest: 'assets/wormhole-connect/assets'
+          dest: `assets/${__WORMHOLE_CONNECT_HASH__}/assets`
         }
       ]
     })

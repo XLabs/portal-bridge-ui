@@ -224,6 +224,7 @@ jobs:
           PUBLIC_URL: ${{ inputs.public-url }}
           VITE_APP_VERSION: ${{ steps.set-version.outputs._PKG_VERSION }}
           VITE_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
+          VITE_APP_WORMHOLE_CONNECT_VERSION: ${{ inputs.connect-branch }}
           VITE_APP_JS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._JS_SHA_384 }}
           VITE_APP_CSS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._CSS_SHA_384 }}
           VITE_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}
@@ -290,6 +291,7 @@ jobs:
           PUBLIC_URL: "${{ inputs.public-url }}"
           VITE_APP_VERSION: ${{ steps.set-version.outputs._PKG_VERSION }}
           VITE_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
+          VITE_APP_WORMHOLE_CONNECT_VERSION: ${{ inputs.connect-branch }}
           VITE_APP_JS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._JS_SHA_384 }}
           VITE_APP_CSS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._CSS_SHA_384 }}
           VITE_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}
@@ -358,7 +360,7 @@ jobs:
       - name: Create Package.json
         run: |
           jq -n --arg version ${{ needs.token-bridge.outputs.pkg-version }} '{"name": "@xlabs/portal-bridge-ui", "version": $version }' > package.json
-          gzip -k -9 assets/wormhole-connect/main.js
+          gzip -k -9 $(find assets -type d -name 'wc-*')/main.js
       - name: Upload Portal Bridge Artifact
         uses: actions/upload-artifact@v3
         with:
