@@ -17,4 +17,5 @@ declare global {
   declare const wormholeConnectConfig: WormholeConnectConfig;
   declare const navBar: NavLink[];
   declare const redirects: Redirect;
+  declare const __WORMHOLE_CONNECT_HASH__: string;
 }

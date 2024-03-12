@@ -15,6 +15,8 @@ const SpinnerContainer = styled(Box)(() => ({
   justifyContent: "center",
 }));
 
+const wormholeConnectHash = __WORMHOLE_CONNECT_HASH__;
+
 const { VITE_APP_JS_WC_INTEGRITY_SHA_384, VITE_APP_CSS_WC_INTEGRITY_SHA_384 } =
   import.meta.env;
 
@@ -23,7 +25,7 @@ export default function ConnectLoader({ config }: WormholeLoaderProps) {
 
   useEffect(() => {
     const script = document.createElement("script");
-    script.src = `assets/wormhole-connect/main.js`;
+    script.src = `assets/${wormholeConnectHash}/main.js`;
     script.type = "module";
     if (VITE_APP_JS_WC_INTEGRITY_SHA_384) {
       script.integrity = `sha384-${VITE_APP_JS_WC_INTEGRITY_SHA_384}`;
@@ -32,7 +34,7 @@ export default function ConnectLoader({ config }: WormholeLoaderProps) {
     script.onload = () => setLoading(false);
     const link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href = `assets/wormhole-connect/main.css`;
+    link.href = `assets/${wormholeConnectHash}/main.css`;
     if (VITE_APP_CSS_WC_INTEGRITY_SHA_384) {
       link.integrity = `sha384-${VITE_APP_CSS_WC_INTEGRITY_SHA_384}`;
     }
