@@ -15,8 +15,11 @@ const SpinnerContainer = styled(Box)(() => ({
   justifyContent: "center",
 }));
 
-const { VITE_APP_JS_WC_INTEGRITY_SHA_384, VITE_APP_CSS_WC_INTEGRITY_SHA_384, VITE_APP_WC_ASSETS_HASH } =
-  import.meta.env;
+const {
+  VITE_APP_JS_WC_INTEGRITY_SHA_384,
+  VITE_APP_CSS_WC_INTEGRITY_SHA_384,
+  VITE_APP_WC_ASSETS_HASH,
+} = import.meta.env;
 
 export default function ConnectLoader({ config }: WormholeLoaderProps) {
   const [loading, setLoading] = useState(true);
