@@ -23,7 +23,7 @@ export default function ConnectLoader({ config }: WormholeLoaderProps) {
 
   useEffect(() => {
     const script = document.createElement("script");
-    script.src = `assets/wormhole-connect/main.js`;
+    script.src = `assets/wormhole-connect/main.js?id=${VITE_APP_JS_WC_INTEGRITY_SHA_384}`;
     script.type = "module";
     /*if (VITE_APP_JS_WC_INTEGRITY_SHA_384) {
       script.integrity = `sha384-${VITE_APP_JS_WC_INTEGRITY_SHA_384}`;
@@ -34,6 +34,8 @@ export default function ConnectLoader({ config }: WormholeLoaderProps) {
     link.rel = "stylesheet";
     link.href = `assets/wormhole-connect/main.css`;
     /*if (VITE_APP_CSS_WC_INTEGRITY_SHA_384) {
+    link.href = `assets/wormhole-connect/main.css?id=${VITE_APP_CSS_WC_INTEGRITY_SHA_384}`;
+    if (VITE_APP_CSS_WC_INTEGRITY_SHA_384) {
       link.integrity = `sha384-${VITE_APP_CSS_WC_INTEGRITY_SHA_384}`;
     }*/
     document.body.appendChild(script);

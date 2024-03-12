@@ -1,9 +1,9 @@
 {
-  "name": "@wormhole-foundation/wormhole-token-list",
+  "name": "@xlabs/token-list",
   "version": "0.0.1",
   "description": "A token list for featured markets",
-  "homepage": "https://wormholenetwork.com",
-  "repository": "https://github.com/wormhole-foundation/wormhole-token-list",
+  "homepage": "https://portalbridge.com",
+  "repository": "https://github.com/xlabs/portal-bridge-ui",
   "scripts": {
     "test": "jest --config jestconfig.json --verbose",
     "gen": "python3 src/gen.py",
