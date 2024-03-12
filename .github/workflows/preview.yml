@@ -39,6 +39,7 @@ jobs:
       - build
       - branch-sha
     runs-on: "ubuntu-latest"
+    environment: Cloudflare-Preview
     concurrency:
       group: ${{ github.ref }}-summary-preview
       cancel-in-progress: true
