@@ -1,6 +1,12 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
+import { createHash } from 'crypto'
+
+const __WORMHOLE_CONNECT_LOCATION_HASH__ = createHash('sha384')
+  .update(process.env.VITE_APP_WORMHOLE_CONNECT_VERSION || 'lastest')
+  .digest('hex')
+  .substring(0, 8);
 
 const rpcs = (chains: string[], template: (chain: string) => string) => chains.map((chain: string) => ({ [chain]: template(chain) })).reduce((acc, cur) => ({ ...acc, ...cur }), {});
 const asRpcHost = (chain: string) => `https://and76cjzpa.execute-api.us-east-2.amazonaws.com/${chain}/`;
@@ -32,10 +38,6 @@ const MAINNET_RPCS = {
 
 const VITE_APP_CLUSTER = process.env.VITE_APP_CLUSTER || 'testnet'
 
-const __WORMHOLE_CONNECT_HASH__ = ["wc", process.env.VITE_APP_WORMHOLE_CONNECT_VERSION, `${Date.now()}`]
-  .map((v) => v?.trim())
-  .join('-') || 'latest';
-
 // https://vitejs.dev/config/
 export default defineConfig({
   base: process.env.PUBLIC_URL || '',
@@ -53,7 +55,7 @@ export default defineConfig({
     ]
   },
   define: {
-    __WORMHOLE_CONNECT_HASH__: JSON.stringify(__WORMHOLE_CONNECT_HASH__),
+    __WORMHOLE_CONNECT_HASH__: JSON.stringify(__WORMHOLE_CONNECT_LOCATION_HASH__),
     redirects: {},
     wormholeConnectConfig: {
       walletConnectProjectId: process.env.VITE_APP_WALLET_CONNECT_PROJECT_ID || '',
@@ -78,19 +80,19 @@ export default defineConfig({
       targets: [
         {
           src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/*.js',
-          dest: `assets/${__WORMHOLE_CONNECT_HASH__}/`
+          dest: `assets/${__WORMHOLE_CONNECT_LOCATION_HASH__}/`
         },
         {
           src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/*.css',
-          dest: `assets/${__WORMHOLE_CONNECT_HASH__}/`
+          dest: `assets/${__WORMHOLE_CONNECT_LOCATION_HASH__}/`
         },
         {
           src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/assets/*.js',
-          dest: `assets/${__WORMHOLE_CONNECT_HASH__}/assets`
+          dest: `assets/${__WORMHOLE_CONNECT_LOCATION_HASH__}/assets`
         },
         {
           src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/assets/*.css',
-          dest: `assets/${__WORMHOLE_CONNECT_HASH__}/assets`
+          dest: `assets/${__WORMHOLE_CONNECT_LOCATION_HASH__}/assets`
         }
       ]
     })
