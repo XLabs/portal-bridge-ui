@@ -32,7 +32,9 @@ const MAINNET_RPCS = {
 
 const VITE_APP_CLUSTER = process.env.VITE_APP_CLUSTER || 'testnet'
 
-const __WORMHOLE_CONNECT_HASH__ = `wc-${process.env.VITE_APP_WORMHOLE_CONNECT_VERSION?.trim()}-${Date.now()}` || 'latest'
+const __WORMHOLE_CONNECT_HASH__ = ["wc", process.env.VITE_APP_WORMHOLE_CONNECT_VERSION, `${Date.now()}`]
+  .map((v) => v?.trim())
+  .join('-') || 'latest';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -51,7 +53,7 @@ export default defineConfig({
     ]
   },
   define: {
-    __WORMHOLE_CONNECT_HASH__,
+    __WORMHOLE_CONNECT_HASH__: JSON.stringify(__WORMHOLE_CONNECT_HASH__),
     redirects: {},
     wormholeConnectConfig: {
       walletConnectProjectId: process.env.VITE_APP_WALLET_CONNECT_PROJECT_ID || '',
