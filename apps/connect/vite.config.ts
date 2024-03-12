@@ -3,10 +3,10 @@ import react from '@vitejs/plugin-react-swc'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 import { createHash } from 'crypto'
 
-const __WORMHOLE_CONNECT_LOCATION_HASH__ = createHash('sha384')
+const __WORMHOLE_CONNECT_LOCATION_HASH__ = `wc-${createHash('sha384')
   .update(process.env.VITE_APP_WORMHOLE_CONNECT_VERSION || 'lastest')
   .digest('hex')
-  .substring(0, 8);
+  .substring(0, 8)}`
 
 const rpcs = (chains: string[], template: (chain: string) => string) => chains.map((chain: string) => ({ [chain]: template(chain) })).reduce((acc, cur) => ({ ...acc, ...cur }), {});
 const asRpcHost = (chain: string) => `https://and76cjzpa.execute-api.us-east-2.amazonaws.com/${chain}/`;
