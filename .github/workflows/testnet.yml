@@ -23,7 +23,7 @@ jobs:
     with:
       name: testnet
       separator: T
-      connect-branch: development
+      connect-branch: production@0.2.7
       advanced-tools-branch: advanced-tools
       environment: Cloudflare-Testnet
       public-url: "/${{ needs.branch-sha.outputs.value }}"
@@ -32,37 +32,18 @@ jobs:
     secrets: inherit
     needs: 
       - branch-sha
-  deploy:
-    name: "Deploy Testnet"
+  summary:
+    name: "Summary"
     needs:
       - build
       - branch-sha
     runs-on: "ubuntu-latest"
+    environment: Cloudflare-Preview
     concurrency:
-      group: ${{ github.ref }}-deploy-testnet
+      group: ${{ github.ref }}-summary-preview
       cancel-in-progress: true
-    permissions:
-      contents: write
-    environment: Cloudflare-Testnet
     steps:
-      - name: Checkout testnet branch
-        uses: actions/checkout@v3
-        with:
-          ref: testnet
-      - name: Setup Git
+      - name: Write Summary
         run: |
-          git config user.name "xLabs CI"
-          git config user.email "devops@xlabs.xyz"
-      - name: Trigger a testnet Deploy
-        run: |
-          sleep 30s
-          mkdir -p testnet/${{ needs.branch-sha.outputs.value }}
-          pushd testnet/${{ needs.branch-sha.outputs.value }}
-          [[ ! -f .latest ]] && touch .latest
-          [[ ! -f .artifacts ]] && touch .artifacts
-          cat .latest >> .artifacts
-          echo ${{ needs.build.outputs.pkg-version }} > .latest
-          git add .artifacts .latest
-          git commit -m"Update testnet artifacts ${{ needs.build.outputs.pkg-version }}"
-          git push
-          echo "The testnet URL is: ${{ vars.TESTNET_ROOT_URL }}/${{ needs.branch-sha.outputs.value }}/" >> ${GITHUB_STEP_SUMMARY}
+          echo "The preview URL is: ${{ vars.TESTNET_ROOT_URL }}/${{ needs.branch-sha.outputs.value }}/" - ${{ needs.build.outputs.pkg-version }}>> ${GITHUB_STEP_SUMMARY}
+    
