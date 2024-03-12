@@ -4,7 +4,6 @@ import type {
 } from "@wormhole-foundation/wormhole-connect";
 import { useMemo } from "react";
 import customTheme from "./theme/connect";
-import mui from "./theme/portal";
 import NavBar from "./components/atoms/NavBar";
 import NewsBar from "./components/atoms/NewsBar";
 import messageConfig from "./configs/messages";
