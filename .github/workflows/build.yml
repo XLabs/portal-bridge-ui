@@ -44,7 +44,7 @@ jobs:
     steps:
       - name: Build Hash
         id: build-hash
-        run: echo "_BUILD_HASH=wc-$(echo "${{github.ref}}-${{inputs.connect-branch}}" | shasum -b -a 384 | awk '{ print $1 }' | cut -c -10)" >> "${GITHUB_OUTPUT}"
+        run: echo "_BUILD_HASH=wc-$(echo "${{github.sha}}-${{inputs.connect-branch}}" | shasum -b -a 384 | awk '{ print $1 }' | cut -c -10)" >> "${GITHUB_OUTPUT}"
   docs:
     name: "Documentation"
     runs-on: "ubuntu-latest"
@@ -226,7 +226,7 @@ jobs:
         run: |
           pushd connect-loader/apps/connect
           npm version $(node -p -e "require('./package.json').version")-${{inputs.separator}}$(echo ${{ github.sha }} | cut -c -10)
-          echo "_PKG_VERSION=$(node -p -e "require('./package.json').version")-${{inputs.separator}}$(echo "${{github.ref}}-${{inputs.connect-branch}}" | shasum -b -a 384 | awk '{ print $1 }' | cut -c -10)" >> "${GITHUB_OUTPUT}"
+          echo "_PKG_VERSION=$(node -p -e "require('./package.json').version")-${{inputs.separator}}$(echo "${{github.sha}}-${{inputs.connect-branch}}" | shasum -b -a 384 | awk '{ print $1 }' | cut -c -10)" >> "${GITHUB_OUTPUT}"
       - name: Build Custom Wormhole Connect Loader
         env:
           PUBLIC_URL: ${{ inputs.public-url }}
@@ -295,7 +295,8 @@ jobs:
         id: set-version
         run: |
           pushd connect-loader/apps/connect
-          echo "_PKG_VERSION=$(node -p -e "require('./package.json').version")-${{inputs.separator}}$(echo "${{github.ref}}-${{inputs.connect-branch}}" | shasum -b -a 384 | awk '{ print $1 }' | cut -c -10)" >> "${GITHUB_OUTPUT}"
+          npm version $(node -p -e "require('./package.json').version")-${{inputs.separator}}$(echo ${{ github.sha }} | cut -c -10)
+          echo "_PKG_VERSION=$(node -p -e "require('./package.json').version")-${{inputs.separator}}$(echo "${{github.sha}}-${{inputs.connect-branch}}" | shasum -b -a 384 | awk '{ print $1 }' | cut -c -10)" >> "${GITHUB_OUTPUT}"
       - name: Build Custom Wormhole Connect Loader
         env:
           PUBLIC_URL: "${{ inputs.public-url }}"
