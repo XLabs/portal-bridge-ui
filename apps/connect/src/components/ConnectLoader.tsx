@@ -23,7 +23,7 @@ export default function ConnectLoader({ config }: WormholeLoaderProps) {
 
   useEffect(() => {
     const script = document.createElement("script");
-    // script.src = `assets/wormhole-connect/main.js?id=${VITE_APP_JS_WC_INTEGRITY_SHA_384}`;
+    // script.src = `assets/wormhole-connect/main.js`;
     script.type = "module";
     /*if (VITE_APP_JS_WC_INTEGRITY_SHA_384) {
       script.integrity = `sha384-${VITE_APP_JS_WC_INTEGRITY_SHA_384}`;
