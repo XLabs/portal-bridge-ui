@@ -3,6 +3,26 @@ TOKENS = {
   # 1. Solana native
   ###################
   "sol": {
+    "DUST": {
+      "symbol": "DUST",
+      "name": "DUST Protocol",
+      "sourceAddress": "DUSTawucrTsGU8hcqRdHDCbuYhCPADMLM2VcCb8VnFnQ",
+      "coingeckoId": "dust-token",
+      "logo": "https://gateway.pinata.cloud/ipfs/Qmb5qNLPhR8fJaz5MN1W55iSCXdNgMMSdWn94Z9oiFjw3o",
+      "markets": {
+      },
+      "destinations": {
+          "eth": {
+              "address": "0xb5b1b659da79a2507c27aad509f15b4874edc0cc",
+              "decimals": 9
+          },
+          "matic": {
+              "address": "0x4987a49c253c38b3259092e9aac10ec0c7ef7542",
+              "decimals": 9
+          }
+      },
+      "sourceDecimals": 9
+    },
     "PYTH": {
       "symbol": "PYTH",
       "name": "Pyth Network",
@@ -1262,6 +1282,10 @@ TOKENS = {
       "coingeckoId": "chainlink",
       "logo": "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/2wpTofQ8SkACrkZWrZDjXPitYa8AwWgX8AfxdeBRRVLX/logo.png",
       "destinations": {
+        "algorand": {
+          "address": "1200094857",
+          "decimals": 8  
+        },
         "sol": {
           "address": "2wpTofQ8SkACrkZWrZDjXPitYa8AwWgX8AfxdeBRRVLX",
           "decimals": 8
@@ -1860,6 +1884,10 @@ TOKENS = {
         "avax": {
           "address": "0xB24CA28D4e2742907115fECda335b40dbda07a4C",
           "decimals": 6
+        },
+        "klaytn": {
+            "address": "0x608792deb376cce1c9fa4d0e6b7b44f507cffa6a",
+            "decimals": 6
         },
         "matic": {
           "address": "0x4318cb63a2b8edf2de971e2f17f77097e499459d",
@@ -3126,6 +3154,28 @@ TOKENS = {
   # 22. Aptos native
   #################
   "aptos": {
+  },
+  #################
+  # 21. Sui native
+  #################
+  "sui": {
+    "SCA": {
+      "symbol": "SCA",
+      "name": "Scallop",
+      "sourceAddress": "0x7016aae72cfc67f2fadf55769c0a7dd54291a583b63051a5ed71081cce836ac6::sca::SCA",
+      "coingeckoId": "scallop-2",
+      "logo": "https://assets.coingecko.com/coins/images/34648/standard/sca.png?1705592307",
+      "markets": {
+          "sol": []
+      },
+      "destinations": {
+        "sol": {
+          "address": "3C9wF1D3bBju844a8UvrW2EmBfWjBc6Y8RXaz3T2h59Q",
+          "decimals": 8
+        }
+      },
+      "sourceDecimals": 9
+    }
   },
   #################
   # 23. Arbitrum native

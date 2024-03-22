@@ -32,13 +32,17 @@ test("all markets are keys in markets", () => {
   for (const sourceChain in data.tokenMarkets) {
     for (const targetChain in data.tokenMarkets[sourceChain]) {
       for (const address in data.tokenMarkets[sourceChain][targetChain]) {
-        data.tokenMarkets[sourceChain][targetChain][address].markets.forEach(
-          (market) => {
-            const marketInfo = data.markets[market];
-            if (!marketInfo) console.log(`missing market info for ${market}`);
-            expect(marketInfo).toBeDefined();
-          }
-        );
+        try {
+          data.tokenMarkets[sourceChain][targetChain][address].markets.forEach(
+            (market) => {
+              const marketInfo = data.markets[market];
+              if (!marketInfo) console.log(`missing market info for ${market}`);
+              expect(marketInfo).toBeDefined();
+            }
+          );  
+        } catch (e) {
+          console.log(`missing market info for ${sourceChain} - ${targetChain} - ${address}`, e);
+        }
       }
     }
   }

@@ -22,16 +22,25 @@ by source chain:
 * [XPLA](#source-chain-xpla)
 * [Optimism](#source-chain-optimism)
 * [Arbitrum](#source-chain-arbitrum)
+* [Sui](#source-chain-sui)
 * [Aptos](#source-chain-aptos)
 * [Base](#source-chain-base)
 
 ## source chain: Solana
+### DUST
+![DUST](DUST_wh.png)
+![DUST](DUST_wh_small.png)
+
+```
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/DUST_wh.png
+```
+
 ### PYTH
 ![PYTH](PYTH_wh.png)
 ![PYTH](PYTH_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/PYTH_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/PYTH_wh.png
 ```
 
 ### RAY
@@ -39,7 +48,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![RAY](RAY_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/RAY_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/RAY_wh.png
 ```
 
 ### SBR
@@ -47,7 +56,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![SBR](SBR_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/SBR_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/SBR_wh.png
 ```
 
 ### SOL
@@ -55,7 +64,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![SOL](SOL_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/SOL_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/SOL_wh.png
 ```
 
 ### SRMso
@@ -63,7 +72,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![SRMso](SRMso_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/SRMso_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/SRMso_wh.png
 ```
 
 ### TBTC
@@ -71,7 +80,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![TBTC](TBTC_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/TBTC_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/TBTC_wh.png
 ```
 
 ### USDCso
@@ -79,7 +88,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![USDCso](USDCso_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/USDCso_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/USDCso_wh.png
 ```
 
 ### USDTso
@@ -87,7 +96,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![USDTso](USDTso_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/USDTso_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/USDTso_wh.png
 ```
 
 ### mSOL
@@ -95,7 +104,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![mSOL](mSOL_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/mSOL_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/mSOL_wh.png
 ```
 
 ### ZBC
@@ -103,7 +112,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![ZBC](ZBC_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/ZBC_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/ZBC_wh.png
 ```
 
 ### XTAG
@@ -111,7 +120,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![XTAG](XTAG_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/XTAG_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/XTAG_wh.png
 ```
 
 ### KING
@@ -119,7 +128,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![KING](KING_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/KING_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/KING_wh.png
 ```
 
 ### BONK
@@ -127,7 +136,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![BONK](BONK_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/BONK_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/BONK_wh.png
 ```
 
 
@@ -137,7 +146,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![1INCH](1INCH_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/1INCH_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/1INCH_wh.png
 ```
 
 ### 1SOL
@@ -145,7 +154,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![1SOL](1SOL_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/1SOL_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/1SOL_wh.png
 ```
 
 ### AAVE
@@ -153,7 +162,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![AAVE](AAVE_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/AAVE_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/AAVE_wh.png
 ```
 
 ### AKRO
@@ -161,7 +170,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![AKRO](AKRO_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/AKRO_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/AKRO_wh.png
 ```
 
 ### ALEPH
@@ -169,7 +178,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![ALEPH](ALEPH_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/ALEPH_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/ALEPH_wh.png
 ```
 
 ### ALICE
@@ -177,7 +186,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![ALICE](ALICE_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/ALICE_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/ALICE_wh.png
 ```
 
 ### AMP
@@ -185,7 +194,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![AMP](AMP_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/AMP_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/AMP_wh.png
 ```
 
 ### AMPL
@@ -193,7 +202,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![AMPL](AMPL_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/AMPL_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/AMPL_wh.png
 ```
 
 ### ANKR
@@ -201,7 +210,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![ANKR](ANKR_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/ANKR_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/ANKR_wh.png
 ```
 
 ### AUDIO
@@ -209,7 +218,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![AUDIO](AUDIO_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/AUDIO_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/AUDIO_wh.png
 ```
 
 ### AXSet
@@ -217,7 +226,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![AXSet](AXSet_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/AXSet_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/AXSet_wh.png
 ```
 
 ### BAT
@@ -225,7 +234,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![BAT](BAT_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/BAT_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/BAT_wh.png
 ```
 
 ### BKN
@@ -233,7 +242,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![BKN](BKN_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/BKN_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/BKN_wh.png
 ```
 
 ### BNT
@@ -241,7 +250,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![BNT](BNT_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/BNT_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/BNT_wh.png
 ```
 
 ### BUSDet
@@ -249,7 +258,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![BUSDet](BUSDet_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/BUSDet_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/BUSDet_wh.png
 ```
 
 ### CEL
@@ -257,7 +266,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![CEL](CEL_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/CEL_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/CEL_wh.png
 ```
 
 ### CHZ
@@ -265,7 +274,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![CHZ](CHZ_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/CHZ_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/CHZ_wh.png
 ```
 
 ### CHAI
@@ -273,7 +282,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![CHAI](CHAI_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/CHAI_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/CHAI_wh.png
 ```
 
 ### COMP
@@ -281,7 +290,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![COMP](COMP_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/COMP_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/COMP_wh.png
 ```
 
 ### CREAM
@@ -289,7 +298,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![CREAM](CREAM_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/CREAM_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/CREAM_wh.png
 ```
 
 ### CRO
@@ -297,7 +306,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![CRO](CRO_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/CRO_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/CRO_wh.png
 ```
 
 ### CRV
@@ -305,7 +314,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![CRV](CRV_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/CRV_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/CRV_wh.png
 ```
 
 ### CVX
@@ -313,7 +322,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![CVX](CVX_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/CVX_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/CVX_wh.png
 ```
 
 ### DAI
@@ -321,7 +330,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![DAI](DAI_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/DAI_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/DAI_wh.png
 ```
 
 ### DEXE
@@ -329,7 +338,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![DEXE](DEXE_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/DEXE_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/DEXE_wh.png
 ```
 
 ### DIMO
@@ -337,7 +346,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![DIMO](DIMO_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/DIMO_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/DIMO_wh.png
 ```
 
 ### DYDX
@@ -345,7 +354,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![DYDX](DYDX_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/DYDX_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/DYDX_wh.png
 ```
 
 ### ELON
@@ -353,7 +362,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![ELON](ELON_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/ELON_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/ELON_wh.png
 ```
 
 ### ENJ
@@ -361,7 +370,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![ENJ](ENJ_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/ENJ_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/ENJ_wh.png
 ```
 
 ### ENS
@@ -369,7 +378,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![ENS](ENS_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/ENS_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/ENS_wh.png
 ```
 
 ### ETH
@@ -377,7 +386,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![ETH](ETH_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/ETH_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/ETH_wh.png
 ```
 
 ### ETHIX
@@ -385,7 +394,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![ETHIX](ETHIX_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/ETHIX_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/ETHIX_wh.png
 ```
 
 ### EURC
@@ -393,7 +402,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![EURC](EURC_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/EURC_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/EURC_wh.png
 ```
 
 ### FRAX
@@ -401,7 +410,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![FRAX](FRAX_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/FRAX_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/FRAX_wh.png
 ```
 
 ### FRONT
@@ -409,7 +418,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![FRONT](FRONT_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/FRONT_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/FRONT_wh.png
 ```
 
 ### FTMet
@@ -417,7 +426,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![FTMet](FTMet_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/FTMet_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/FTMet_wh.png
 ```
 
 ### FTT
@@ -425,7 +434,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![FTT](FTT_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/FTT_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/FTT_wh.png
 ```
 
 ### FXS
@@ -433,7 +442,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![FXS](FXS_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/FXS_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/FXS_wh.png
 ```
 
 ### GALA
@@ -441,7 +450,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![GALA](GALA_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/GALA_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/GALA_wh.png
 ```
 
 ### GRT
@@ -449,7 +458,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![GRT](GRT_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/GRT_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/GRT_wh.png
 ```
 
 ### GT
@@ -457,7 +466,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![GT](GT_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/GT_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/GT_wh.png
 ```
 
 ### HBTC
@@ -465,7 +474,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![HBTC](HBTC_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/HBTC_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/HBTC_wh.png
 ```
 
 ### HGET
@@ -473,7 +482,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![HGET](HGET_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/HGET_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/HGET_wh.png
 ```
 
 ### HXRO
@@ -481,7 +490,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![HXRO](HXRO_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/HXRO_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/HXRO_wh.png
 ```
 
 ### HUSD
@@ -489,7 +498,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![HUSD](HUSD_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/HUSD_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/HUSD_wh.png
 ```
 
 ### ICE
@@ -497,7 +506,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![ICE](ICE_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/ICE_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/ICE_wh.png
 ```
 
 ### ILV
@@ -505,7 +514,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![ILV](ILV_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/ILV_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/ILV_wh.png
 ```
 
 ### KEEP
@@ -513,7 +522,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![KEEP](KEEP_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/KEEP_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/KEEP_wh.png
 ```
 
 ### KIN
@@ -521,7 +530,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![KIN](KIN_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/KIN_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/KIN_wh.png
 ```
 
 ### KP3R
@@ -529,7 +538,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![KP3R](KP3R_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/KP3R_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/KP3R_wh.png
 ```
 
 ### LDO
@@ -537,7 +546,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![LDO](LDO_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/LDO_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/LDO_wh.png
 ```
 
 ### LINK
@@ -545,7 +554,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![LINK](LINK_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/LINK_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/LINK_wh.png
 ```
 
 ### LRC
@@ -553,7 +562,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![LRC](LRC_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/LRC_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/LRC_wh.png
 ```
 
 ### LUA
@@ -561,7 +570,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![LUA](LUA_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/LUA_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/LUA_wh.png
 ```
 
 ### MANA
@@ -569,7 +578,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![MANA](MANA_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/MANA_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/MANA_wh.png
 ```
 
 ### MATH
@@ -577,7 +586,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![MATH](MATH_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/MATH_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/MATH_wh.png
 ```
 
 ### MATICet
@@ -585,7 +594,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![MATICet](MATICet_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/MATICet_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/MATICet_wh.png
 ```
 
 ### MIMet
@@ -593,7 +602,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![MIMet](MIMet_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/MIMet_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/MIMet_wh.png
 ```
 
 ### NXM
@@ -601,7 +610,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![NXM](NXM_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/NXM_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/NXM_wh.png
 ```
 
 ### ORION
@@ -609,7 +618,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![ORION](ORION_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/ORION_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/ORION_wh.png
 ```
 
 ### PAXG
@@ -617,7 +626,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![PAXG](PAXG_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/PAXG_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/PAXG_wh.png
 ```
 
 ### PENDLE
@@ -625,7 +634,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![PENDLE](PENDLE_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/PENDLE_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/PENDLE_wh.png
 ```
 
 ### PERP
@@ -633,7 +642,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![PERP](PERP_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/PERP_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/PERP_wh.png
 ```
 
 ### PEOPLE
@@ -641,7 +650,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![PEOPLE](PEOPLE_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/PEOPLE_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/PEOPLE_wh.png
 ```
 
 ### RGT
@@ -649,7 +658,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![RGT](RGT_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/RGT_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/RGT_wh.png
 ```
 
 ### RPL
@@ -657,7 +666,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![RPL](RPL_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/RPL_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/RPL_wh.png
 ```
 
 ### RSR
@@ -665,7 +674,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![RSR](RSR_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/RSR_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/RSR_wh.png
 ```
 
 ### SAND
@@ -673,7 +682,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![SAND](SAND_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/SAND_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/SAND_wh.png
 ```
 
 ### SHIB
@@ -681,7 +690,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![SHIB](SHIB_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/SHIB_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/SHIB_wh.png
 ```
 
 ### SLP
@@ -689,7 +698,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![SLP](SLP_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/SLP_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/SLP_wh.png
 ```
 
 ### SPX6900
@@ -697,7 +706,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![SPX6900](SPX6900_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/SPX6900_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/SPX6900_wh.png
 ```
 
 ### SNX
@@ -705,7 +714,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![SNX](SNX_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/SNX_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/SNX_wh.png
 ```
 
 ### SOS
@@ -713,7 +722,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![SOS](SOS_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/SOS_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/SOS_wh.png
 ```
 
 ### SPELL
@@ -721,7 +730,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![SPELL](SPELL_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/SPELL_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/SPELL_wh.png
 ```
 
 ### SRMet
@@ -729,7 +738,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![SRMet](SRMet_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/SRMet_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/SRMet_wh.png
 ```
 
 ### SWAG
@@ -737,7 +746,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![SWAG](SWAG_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/SWAG_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/SWAG_wh.png
 ```
 
 ### SXP
@@ -745,7 +754,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![SXP](SXP_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/SXP_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/SXP_wh.png
 ```
 
 ### SUSHI
@@ -753,7 +762,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![SUSHI](SUSHI_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/SUSHI_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/SUSHI_wh.png
 ```
 
 ### T
@@ -761,7 +770,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![T](T_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/T_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/T_wh.png
 ```
 
 ### TBTC
@@ -769,7 +778,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![TBTC](TBTC_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/TBTC_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/TBTC_wh.png
 ```
 
 ### TOKE
@@ -777,7 +786,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![TOKE](TOKE_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/TOKE_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/TOKE_wh.png
 ```
 
 ### TRIBE
@@ -785,7 +794,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![TRIBE](TRIBE_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/TRIBE_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/TRIBE_wh.png
 ```
 
 ### UBXT
@@ -793,7 +802,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![UBXT](UBXT_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/UBXT_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/UBXT_wh.png
 ```
 
 ### UFO
@@ -801,7 +810,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![UFO](UFO_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/UFO_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/UFO_wh.png
 ```
 
 ### UNI
@@ -809,7 +818,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![UNI](UNI_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/UNI_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/UNI_wh.png
 ```
 
 ### USDCet
@@ -817,7 +826,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![USDCet](USDCet_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/USDCet_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/USDCet_wh.png
 ```
 
 ### USDK
@@ -825,7 +834,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![USDK](USDK_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/USDK_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/USDK_wh.png
 ```
 
 ### USDTet
@@ -833,7 +842,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![USDTet](USDTet_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/USDTet_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/USDTet_wh.png
 ```
 
 ### WBTC
@@ -841,7 +850,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![WBTC](WBTC_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/WBTC_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/WBTC_wh.png
 ```
 
 ### XCAD
@@ -849,7 +858,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![XCAD](XCAD_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/XCAD_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/XCAD_wh.png
 ```
 
 ### YFI
@@ -857,7 +866,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![YFI](YFI_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/YFI_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/YFI_wh.png
 ```
 
 ### YGG
@@ -865,7 +874,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![YGG](YGG_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/YGG_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/YGG_wh.png
 ```
 
 ### ZRX
@@ -873,7 +882,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![ZRX](ZRX_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/ZRX_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/ZRX_wh.png
 ```
 
 ### agEUR
@@ -881,7 +890,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![agEUR](agEUR_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/agEUR_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/agEUR_wh.png
 ```
 
 ### gOHM
@@ -889,7 +898,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![gOHM](gOHM_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/gOHM_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/gOHM_wh.png
 ```
 
 ### ibBTC
@@ -897,7 +906,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![ibBTC](ibBTC_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/ibBTC_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/ibBTC_wh.png
 ```
 
 ### bETH
@@ -905,7 +914,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![bETH](bETH_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/bETH_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/bETH_wh.png
 ```
 
 ### wstETH
@@ -913,7 +922,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![wstETH](wstETH_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/wstETH_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/wstETH_wh.png
 ```
 
 ### stETH
@@ -921,7 +930,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![stETH](stETH_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/stETH_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/stETH_wh.png
 ```
 
 ### SD
@@ -929,7 +938,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![SD](SD_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/SD_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/SD_wh.png
 ```
 
 ### HOOD
@@ -937,7 +946,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![HOOD](HOOD_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/HOOD_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/HOOD_wh.png
 ```
 
 ### USDEBT
@@ -945,7 +954,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![USDEBT](USDEBT_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/USDEBT_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/USDEBT_wh.png
 ```
 
 
@@ -955,7 +964,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![UST](UST_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/UST_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/UST_wh.png
 ```
 
 ### LUNA
@@ -963,7 +972,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![LUNA](LUNA_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/LUNA_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/LUNA_wh.png
 ```
 
 ### aUST
@@ -971,7 +980,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![aUST](aUST_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/aUST_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/aUST_wh.png
 ```
 
 
@@ -981,7 +990,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![BNB](BNB_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/BNB_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/BNB_wh.png
 ```
 
 ### BUSDbs
@@ -989,7 +998,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![BUSDbs](BUSDbs_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/BUSDbs_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/BUSDbs_wh.png
 ```
 
 ### CAKE
@@ -997,7 +1006,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![CAKE](CAKE_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/CAKE_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/CAKE_wh.png
 ```
 
 ### USDCbs
@@ -1005,7 +1014,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![USDCbs](USDCbs_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/USDCbs_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/USDCbs_wh.png
 ```
 
 ### USDTbs
@@ -1013,7 +1022,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![USDTbs](USDTbs_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/USDTbs_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/USDTbs_wh.png
 ```
 
 ### WOM
@@ -1021,7 +1030,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![WOM](WOM_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/WOM_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/WOM_wh.png
 ```
 
 ### QUO
@@ -1029,7 +1038,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![QUO](QUO_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/QUO_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/QUO_wh.png
 ```
 
 ### MGP
@@ -1037,7 +1046,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![MGP](MGP_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/MGP_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/MGP_wh.png
 ```
 
 ### WMX
@@ -1045,7 +1054,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![WMX](WMX_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/WMX_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/WMX_wh.png
 ```
 
 ### UNW
@@ -1053,7 +1062,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![UNW](UNW_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/UNW_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/UNW_wh.png
 ```
 
 
@@ -1063,7 +1072,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![DAIpo](DAIpo_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/DAIpo_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/DAIpo_wh.png
 ```
 
 ### MATICpo
@@ -1071,7 +1080,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![MATICpo](MATICpo_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/MATICpo_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/MATICpo_wh.png
 ```
 
 ### QUICK
@@ -1079,7 +1088,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![QUICK](QUICK_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/QUICK_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/QUICK_wh.png
 ```
 
 ### TBTC
@@ -1087,7 +1096,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![TBTC](TBTC_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/TBTC_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/TBTC_wh.png
 ```
 
 ### USDCpo
@@ -1095,7 +1104,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![USDCpo](USDCpo_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/USDCpo_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/USDCpo_wh.png
 ```
 
 ### USDTpo
@@ -1103,7 +1112,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![USDTpo](USDTpo_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/USDTpo_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/USDTpo_wh.png
 ```
 
 ### WOM
@@ -1111,7 +1120,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![WOM](WOM_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/WOM_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/WOM_wh.png
 ```
 
 
@@ -1121,7 +1130,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![AVAX](AVAX_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/AVAX_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/AVAX_wh.png
 ```
 
 ### JOE
@@ -1129,7 +1138,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![JOE](JOE_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/JOE_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/JOE_wh.png
 ```
 
 ### USDCeav
@@ -1137,7 +1146,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![USDCeav](USDCeav_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/USDCeav_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/USDCeav_wh.png
 ```
 
 ### USDTeav
@@ -1145,7 +1154,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![USDTeav](USDTeav_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/USDTeav_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/USDTeav_wh.png
 ```
 
 ### USDCav
@@ -1153,7 +1162,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![USDCav](USDCav_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/USDCav_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/USDCav_wh.png
 ```
 
 ### USDTav
@@ -1161,7 +1170,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![USDTav](USDTav_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/USDTav_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/USDTav_wh.png
 ```
 
 
@@ -1171,7 +1180,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![ROSE](ROSE_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/ROSE_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/ROSE_wh.png
 ```
 
 
@@ -1185,7 +1194,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![FTM](FTM_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/FTM_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/FTM_wh.png
 ```
 
 
@@ -1201,7 +1210,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![cUSD](cUSD_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/cUSD_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/cUSD_wh.png
 ```
 
 ### cEUR
@@ -1209,7 +1218,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![cEUR](cEUR_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/cEUR_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/cEUR_wh.png
 ```
 
 ### celo
@@ -1217,7 +1226,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![celo](celo_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/celo_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/celo_wh.png
 ```
 
 
@@ -1227,7 +1236,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![SWEAT](SWEAT_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/SWEAT_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/SWEAT_wh.png
 ```
 
 
@@ -1237,7 +1246,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![WELL](WELL_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/WELL_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/WELL_wh.png
 ```
 
 
@@ -1247,13 +1256,23 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 
 ## source chain: Aptos
 
+## source chain: Sui
+### SCA
+![SCA](SCA_wh.png)
+![SCA](SCA_wh_small.png)
+
+```
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/SCA_wh.png
+```
+
+
 ## source chain: Arbitrum
 ### TBTC
 ![TBTC](TBTC_wh.png)
 ![TBTC](TBTC_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/TBTC_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/TBTC_wh.png
 ```
 
 
@@ -1263,7 +1282,7 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![TBTC](TBTC_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/TBTC_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/TBTC_wh.png
 ```
 
 
@@ -1275,6 +1294,6 @@ https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/a
 ![TBTC](TBTC_wh_small.png)
 
 ```
-https://raw.githubusercontent.com/wormhole-foundation/wormhole-token-list/main/assets/TBTC_wh.png
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/TBTC_wh.png
 ```
 

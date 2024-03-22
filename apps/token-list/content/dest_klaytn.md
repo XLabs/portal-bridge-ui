@@ -1,0 +1,9 @@
+
+Known tokens (wormholed to Klaytn)
+===================================
+_See [by_dest.csv](by_dest.csv) ([raw](https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/content/by_dest.csv)) for a superset of this data in csv._
+
+  
+| img                                                                                                           | symbol   | name                                                                      | address                                                                                                                  |   decimals | origin   | sourceAddress                                                                                                         |   sourceDecimals | symbol   |
+|:--------------------------------------------------------------------------------------------------------------|:---------|:--------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------|-----------:|:---------|:----------------------------------------------------------------------------------------------------------------------|-----------------:|:-----------------|
+| ![USDCet](https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/USDCet_wh.png) | USDCet   | [USD Coin (Portal from Ethereum)](http://coingecko.com/en/coins/usd-coin) | [0x608792deb376cce1c9fa4d0e6b7b44f507cffa6a](https://scope.klaytn.com//token/0x608792deb376cce1c9fa4d0e6b7b44f507cffa6a) |          6 | ethereum | [0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48](https://etherscan.io/address/0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48) |                6 | USDCet           |
