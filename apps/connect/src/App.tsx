@@ -8,7 +8,7 @@ import NavBar from "./components/atoms/NavBar";
 import NewsBar from "./components/atoms/NewsBar";
 import messageConfig from "./configs/messages";
 import { useQueryParams } from "./hooks/useQueryParams";
-import WormholeBridge from "@wormhole-foundation/wormhole-connect";
+import WormholeConnect from "@wormhole-foundation/wormhole-connect";
 
 const defaultConfig: WormholeConnectConfig = {
   ...wormholeConnectConfig,
@@ -37,7 +37,7 @@ export default function Root() {
         <NewsBar messages={messages} />
         <NavBar />
       </div>
-      <WormholeBridge config={config} theme={customTheme} />
+      <WormholeConnect config={config} theme={customTheme} />
     </>
   );
 }
