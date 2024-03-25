@@ -12,15 +12,11 @@ on:
         required: true
         default: 'Cloudflare-Page-Deploy'
       connect-branch:
-        description: 'Branch Name'
+        description: 'Wormhole Connect Branch/Tag Name'
         type: string
         required: true
-        default: 'portal-bridge'
-      advanced-tools-branch:
-        description: 'Branch Name'
-        type: string
-        required: true
-        default: 'advanced-tools'
+        default: 'development'
+
 jobs:
   build:
     name: "Build Release"
@@ -28,7 +24,6 @@ jobs:
     with:
       name: prod
       connect-branch: ${{inputs.connect-branch}}
-      advanced-tools-branch: ${{inputs.advanced-tools-branch}}
       environment: ${{inputs.environment}}
       project-branch: main
       public-url: ''

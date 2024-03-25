@@ -1,0 +1,7 @@
+{
+    "name": "@xlabs/portal-bridge-ui",
+    "version": "0.0.0",
+    "scripts": {
+        "set-version": "npm version $(cd .. && node --print 'require(\"./package.json\").version')"
+    }
+}
