@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
-import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 const rpcs = (chains: string[], template: (chain: string) => string) => chains.map((chain: string) => ({ [chain]: template(chain) })).reduce((acc, cur) => ({ ...acc, ...cur }), {});
 const asRpcHost = (chain: string) => `https://and76cjzpa.execute-api.us-east-2.amazonaws.com/${chain}/`;
@@ -68,26 +67,6 @@ export default defineConfig({
     }
   },
   plugins: [
-    react(),
-    viteStaticCopy({
-      targets: [
-        {
-          src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/*.js',
-          dest: 'assets/wormhole-connect/'
-        },
-        {
-          src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/*.css',
-          dest: 'assets/wormhole-connect/'
-        },
-        {
-          src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/assets/*.js',
-          dest: 'assets/wormhole-connect/assets'
-        },
-        {
-          src: 'node_modules/@wormhole-foundation/wormhole-connect/dist/assets/*.css',
-          dest: 'assets/wormhole-connect/assets'
-        }
-      ]
-    })
+    react()
   ],
 })
