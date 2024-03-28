@@ -1,5 +1,7 @@
-import type { Theme } from "@wormhole-foundation/wormhole-connect";
-const customized: Theme = {
+import { WormholeConnectPartialTheme } from "@wormhole-foundation/wormhole-connect";
+
+const customized: WormholeConnectPartialTheme = {
+  mode: "dark",
   primary: {
     50: "#fafafa",
     100: "#f5f5f5",

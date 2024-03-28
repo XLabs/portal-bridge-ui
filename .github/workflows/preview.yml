@@ -23,7 +23,7 @@ jobs:
     with:
       name: preview
       separator: P
-      connect-branch: production@0.2.7
+      # connect-branch: development
       advanced-tools-branch: advanced-tools
       environment: Cloudflare-Preview
       public-url: "/${{ needs.branch-sha.outputs.value }}"

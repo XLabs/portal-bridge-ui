@@ -4,9 +4,9 @@
     "background": "yellow",
     "content": {
       "color": "black",
-      "text": "We are currently experiencing congestion on Solana due to an ecosystem event. Transactions to Solana may experience longer processing times."
+      "text": "Solana is currently experiencing congestion. Transactions to Solana may experience delays."
     },
     "since": "2024-01-30T01:00:00-05:00",
-    "until": "2024-01-31T17:00:00-05:00"
+    "until": "2024-04-25T17:00:00-05:00"
   }
 ]
