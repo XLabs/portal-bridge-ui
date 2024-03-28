@@ -11,7 +11,7 @@ on:
         connect-branch:
             type: string
             required: true
-            default: development
+            default: production@0.2.7
         advanced-tools-branch:
             type: string
             required: true
