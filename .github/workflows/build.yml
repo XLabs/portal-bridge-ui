@@ -8,10 +8,10 @@ on:
             required: true
         separator:
             type: string
-        connect-branch:
-            type: string
-            required: true
-            default: development
+        # connect-branch:
+        #     type: string
+        #     required: true
+        #     default: development
         advanced-tools-branch:
             type: string
             required: true
