@@ -2,8 +2,8 @@ import { defineConfig } from 'vite'
 import viteConfig from './vite.config'
 
 const PUBLIC_URL = viteConfig.base;
-const TESTNET_NETWORKS = ['goerli', 'fuji', 'arbitrumgoerli', 'optimismgoerli', 'basegoerli', "mumbai"];
-const MAINNET_NETWORKS = ["ethereum", "avalanche", "arbitrum", "optimism", "base", "polygon"];
+const TESTNET_NETWORKS = ['goerli', 'fuji', 'arbitrumgoerli', 'optimismgoerli', 'basegoerli', "mumbai", "solana"];
+const MAINNET_NETWORKS = ["ethereum", "avalanche", "arbitrum", "optimism", "base", "polygon", "solana"];
 
 // https://vitejs.dev/config/
 export default defineConfig({
