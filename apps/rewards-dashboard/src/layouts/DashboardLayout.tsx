@@ -320,7 +320,6 @@ const DisconnectedDashboard = () => {
 export const DashboardLayout = () => {
   const { isConnected } = useAccount();
   return (
-
     <div
       className="
       flex flex-col

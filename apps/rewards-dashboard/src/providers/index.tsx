@@ -6,7 +6,7 @@ import { PropsWithChildren } from "react";
 const queryClient = new QueryClient();
 
 export const AppProvider = (props: PropsWithChildren<{}>) => {
-  const {children} = props
+  const { children } = props;
   return (
     <>
       <LocaleProvider>

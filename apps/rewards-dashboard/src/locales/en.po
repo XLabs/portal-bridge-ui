@@ -105,9 +105,14 @@ msgstr "Total ARB Earned"
 msgid "History of Rewards Earned Tooltip"
 msgstr "A minimum of 1 ARB will be paid out. Outstanding rewards below 1 ARB will roll over to the next week."
 
-#: src/App.tsx:27
+#: src/App.tsx:34
 msgid "Rewards Ended Information"
-msgstr "Thank you everyone who participated.\nThe Wormhole USDC Arbitrum STIP has completed.\nAll ARB rewards have been sent.\nPlease check back for future programs.\n"
+msgstr ""
+"Thank you everyone who participated.\n"
+"The Wormhole USDC Arbitrum STIP has completed.\n"
+"All ARB rewards have been sent.\n"
+"Please check back for future programs.\n"
+""
 
 #: src/layouts/DashboardLayout.tsx:170
 msgid "Show Number Text"
