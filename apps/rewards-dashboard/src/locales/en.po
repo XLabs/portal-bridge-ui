@@ -105,7 +105,11 @@ msgstr "Total ARB Earned"
 msgid "History of Rewards Earned Tooltip"
 msgstr "A minimum of 1 ARB will be paid out. Outstanding rewards below 1 ARB will roll over to the next week."
 
-#: src/App.tsx:34
+#: src/App.tsx:25
+msgid "Program Completed"
+msgstr "Program Completed"
+
+#: src/App.tsx:40
 msgid "Rewards Ended Information"
 msgstr ""
 "Thank you everyone who participated.\n"

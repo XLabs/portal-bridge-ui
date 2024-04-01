@@ -21,8 +21,8 @@ function App() {
               <div className="w-96 h-40 bg-[#262b5a] z-10 rounded-3xl border border-1 border-gray-500">
                 <div className="flex flex-col gap-4">
                   <div className="flex flex-row justify-between text-gray-300 py-1 justify-center border-b border-gray-500 ">
-                    <div className="flex flex-row items-center grow justify-center text-white">
-                      Program Ended
+                    <div className="flex flex-row items-center grow justify-center text-white pl-5">
+                      <Trans>Program Completed</Trans>
                     </div>
                     <div className="flex flex-row items-center justify-center">
                       <a
