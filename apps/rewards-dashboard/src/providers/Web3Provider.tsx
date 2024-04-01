@@ -7,6 +7,7 @@ import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { arbitrum, mainnet } from "@gfxlabs/oku-chains";
+import { PropsWithChildren } from "react";
 const CHAINS_LIST = [arbitrum, mainnet];
 
 const envProjectId = import.meta.env.VITE_APP_WALLET_CONNECT_PROJECT_ID;
@@ -70,6 +71,6 @@ createWeb3Modal({
   },
 });
 
-export const Web3Provider = (props: { children: JSX.Element }) => {
+export const Web3Provider = (props: PropsWithChildren<{}>) => {
   return <WagmiConfig config={wagmiConfig}>{props.children}</WagmiConfig>;
 };
