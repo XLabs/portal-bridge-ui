@@ -206,6 +206,28 @@ export default defineConfig({
               decimals: 5,
             },
           },
+        },
+        W: {
+          key: 'W',
+          symbol: 'W',
+          nativeChain: 'solana',
+          tokenId: {
+            chain: 'solana',
+            address: '85VBFQZC9TZkfaptBWjvUw7YbZjy52A6mjtPGjstQAmQ',
+          },
+          icon: "https://assets.coingecko.com/coins/images/35087/standard/womrhole_logo_full_color_rgb_2000px_72ppi_fb766ac85a.png?1708688954",
+          coinGeckoId: 'wormhole',
+          color: '#282591',
+          decimals: {
+            default: 6,
+          },
+          foreignAssets: {
+            osmosis: {
+              address:
+                'ibc/AC6EE43E608B5A7EEE460C960480BC1C3708010E32B2071C429DA259836E10C3',
+              decimals: 6,
+            },
+          },
         }
       }
     }
