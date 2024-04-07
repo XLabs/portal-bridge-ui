@@ -47,6 +47,8 @@ import { useSolanaWallet } from "../contexts/SolanaWalletContext";
 import { setCreateTx, setIsCreating } from "../store/attestSlice";
 import {
   selectAttestIsCreating,
+  selectAttestSourceAsset,
+  selectAttestSourceChain,
   selectAttestTargetChain,
   selectTerraFeeDenom,
 } from "../store/selectors";
@@ -111,6 +113,7 @@ import {
 } from "../utils/sei";
 import { useSeiWallet } from "../contexts/SeiWalletContext";
 import { SeiWallet } from "@xlabs-libs/wallet-aggregator-sei";
+import { queryWormchain, isCosmosChain } from "../utils/cosmos";
 
 // TODO: replace with SDK method -
 export async function updateWrappedOnSui(
@@ -678,6 +681,51 @@ async function sui(
   }
 }
 
+async function cosmos(
+  dispatch: any,
+  enqueueSnackbar: any,
+  signedVAA: Uint8Array,
+  foreignAddress: string | null | undefined,
+  sourceChain: ChainId,
+  sourceChainAddress: string,
+) {
+  dispatch(setIsCreating(true));
+  let tries = 0;
+  const interval = setInterval(async () => {
+    try {
+      if(tries <= 30) {
+        tries++;
+        const txs = await queryWormchain(sourceChainAddress, sourceChain);
+        console.log('txs', txs)
+        if (txs.length === 0) {
+          return null;
+        }
+        if (txs.length > 1) {
+          throw new Error('Multiple transactions found');
+        }
+        
+        dispatch(
+          setCreateTx({
+            id: txs[0].hash,
+            block: 0,
+          })
+        );
+        enqueueSnackbar(null, {
+          content: <Alert severity="success">Transaction confirmed</Alert>,
+        });
+      } else {
+        clearInterval(interval);
+      }
+    } catch (e) {
+      console.error(e);
+      enqueueSnackbar(null, {
+        content: <Alert severity="error">{parseError(e)}</Alert>,
+      });
+      dispatch(setIsCreating(false));
+    }
+  }, 1500);
+}
+
 export function useHandleCreateWrapped(
   shouldUpdate: boolean,
   foreignAddress: string | null | undefined
@@ -685,6 +733,8 @@ export function useHandleCreateWrapped(
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const targetChain = useSelector(selectAttestTargetChain);
+  const sourceChain = useSelector(selectAttestSourceChain);
+  const sourceAsset = useSelector(selectAttestSourceAsset);
   const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
   const signedVAA = useAttestSignedVAA();
   const isCreating = useSelector(selectAttestIsCreating);
@@ -795,6 +845,11 @@ export function useHandleCreateWrapped(
       !!signedVAA
     ) {
       sui(dispatch, enqueueSnackbar, suiWallet, signedVAA, foreignAddress);
+    } else if (
+      isCosmosChain(targetChain as any) &&
+      !!signedVAA
+    ) {
+      cosmos(dispatch, enqueueSnackbar, signedVAA, foreignAddress, sourceChain, sourceAsset);
     } else {
       // enqueueSnackbar(
       //   "Creating wrapped tokens on this chain is not yet supported",
@@ -827,6 +882,8 @@ export function useHandleCreateWrapped(
     suiWallet,
     seiWallet,
     seiAddress,
+    sourceAsset,
+    sourceChain,
   ]);
   return useMemo(
     () => ({

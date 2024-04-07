@@ -11,7 +11,7 @@ import {
   selectAttestSourceChain,
   selectAttestTargetChain,
 } from "../../store/selectors";
-import { CHAINS, CHAINS_BY_ID } from "../../utils/consts";
+import { ATTEST_CHAINS, CHAINS_BY_ID } from "../../utils/consts";
 import ButtonWithLoader from "../ButtonWithLoader";
 import ChainSelect from "../ChainSelect";
 import KeyAndBalance from "../KeyAndBalance";
@@ -29,7 +29,7 @@ function Target() {
   const dispatch = useDispatch();
   const sourceChain = useSelector(selectAttestSourceChain);
   const chains = useMemo(
-    () => CHAINS.filter((c) => c.id !== sourceChain),
+    () => ATTEST_CHAINS.filter((c) => c.id !== sourceChain),
     [sourceChain]
   );
   const targetChain = useSelector(selectAttestTargetChain);
