@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@certusone/wormhole-sdk": "^0.10.9",
+    "@cosmjs/cosmwasm-stargate": "^0.32.3",
+    "@cosmjs/tendermint-rpc": "^0.32.3",
     "@injectivelabs/networks": "^1.14.4",
     "@injectivelabs/sdk-ts": "^1.14.4",
     "@injectivelabs/ts-types": "^1.14.4",

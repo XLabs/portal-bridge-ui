@@ -30,6 +30,7 @@ import {
   parseAttestMetaVaa,
   createWrappedOnSui,
   CHAIN_ID_SEI,
+  CHAIN_ID_POLYGON,
 } from "@certusone/wormhole-sdk";
 
 import { Alert } from "@material-ui/lab";
@@ -684,18 +685,22 @@ async function sui(
 async function cosmos(
   dispatch: any,
   enqueueSnackbar: any,
-  signedVAA: Uint8Array,
+  //signedVAA?: Uint8Array,
   foreignAddress: string | null | undefined,
   sourceChain: ChainId,
   sourceChainAddress: string,
 ) {
   dispatch(setIsCreating(true));
   let tries = 0;
+  debugger
   const interval = setInterval(async () => {
     try {
-      if(tries <= 30) {
+      if(tries <= 2) {
         tries++;
-        const txs = await queryWormchain(sourceChainAddress, sourceChain);
+
+        // ONLY FOR TEST
+        const txs = await queryWormchain('0x2598c30330d5771ae9f983979209486ae26de875', CHAIN_ID_POLYGON);
+        //const txs = await queryWormchain(sourceChainAddress, sourceChain);
         console.log('txs', txs)
         if (txs.length === 0) {
           return null;
@@ -715,7 +720,8 @@ async function cosmos(
         });
       } else {
         clearInterval(interval);
-      }
+          dispatch(setIsCreating(false));
+        }
     } catch (e) {
       console.error(e);
       enqueueSnackbar(null, {
@@ -750,6 +756,7 @@ export function useHandleCreateWrapped(
   const seiWallet = useSeiWallet();
   const seiAddress = seiWallet?.getAddress();
   const handleCreateClick = useCallback(() => {
+    debugger
     if (isEVMChain(targetChain) && !!signer && !!signedVAA) {
       evm(
         dispatch,
@@ -846,10 +853,10 @@ export function useHandleCreateWrapped(
     ) {
       sui(dispatch, enqueueSnackbar, suiWallet, signedVAA, foreignAddress);
     } else if (
-      isCosmosChain(targetChain as any) &&
-      !!signedVAA
+      isCosmosChain(targetChain as any) /*&&
+      !!signedVAA*/
     ) {
-      cosmos(dispatch, enqueueSnackbar, signedVAA, foreignAddress, sourceChain, sourceAsset);
+      cosmos(dispatch, enqueueSnackbar, /*signedVAA || undefined,*/ foreignAddress, sourceChain, sourceAsset);
     } else {
       // enqueueSnackbar(
       //   "Creating wrapped tokens on this chain is not yet supported",

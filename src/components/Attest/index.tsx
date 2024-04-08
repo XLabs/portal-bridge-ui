@@ -108,7 +108,9 @@ function Attest() {
             {activeStep === 2 ? <Send /> : <SendPreview />}
           </StepContent>
         </Step>
-        <Step expanded={activeStep >= 3}>
+        {/* ONLY FOR TEST */}
+        {/* <Step expanded={activeStep >= 3}> */}
+        <Step expanded={activeStep >= 2}>
           <StepButton
             onClick={() => dispatch(setStep(3))}
             disabled={!isSendComplete}
