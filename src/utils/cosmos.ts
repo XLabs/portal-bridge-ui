@@ -40,7 +40,7 @@ export async function queryWormchain(token: string, chainId: ChainId) {
   console.log(`ExternalTokenId { bytes: [${bytes.join(', ')}] }`)
   const res = await client.searchTx([
       { key: 'wasm.action', value: 'register_asset' },
-      { key: 'wasm.token_chain', value: `${chainId}` }, // source chain
+      { key: 'wasm.token_chain', value: `${chainId}` },
       { key: 'wasm._contract_address', value: 'wormhole1466nf3zuxpya8q9emxukd7vftaf6h4psr0a07srl5zw74zh84yjq4lyjmh' },
       //{ key: 'wasm._contract_address', value: WORMCHAIN_CONTRACTS.token_bridge },
       { key: 'wasm.token_address', value: `ExternalTokenId { bytes: [${bytes.join(', ')}] }` }
