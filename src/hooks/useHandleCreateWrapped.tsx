@@ -698,8 +698,8 @@ async function cosmos(
         tries++;
 
         // ONLY FOR TEST
-        const txs = await queryWormchain('85VBFQZC9TZkfaptBWjvUw7YbZjy52A6mjtPGjstQAmQ', CHAIN_ID_SOLANA);
-        //const txs = await queryWormchain(sourceChainAddress, sourceChain);
+        // const txs = await queryWormchain('85VBFQZC9TZkfaptBWjvUw7YbZjy52A6mjtPGjstQAmQ', CHAIN_ID_SOLANA);
+        const txs = await queryWormchain(sourceChainAddress, sourceChain);
         console.log('txs', txs)
         if (txs.length === 0) {
           return null;
