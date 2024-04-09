@@ -693,7 +693,7 @@ async function cosmos(
   let tries = 0;
   const interval = setInterval(async () => {
     try {
-      if (tries <= 2) {
+      if (tries <= 5) {
         tries++;
         // ONLY FOR TEST
         // const txs = await queryWormchain('85VBFQZC9TZkfaptBWjvUw7YbZjy52A6mjtPGjstQAmQ', CHAIN_ID_SOLANA);
@@ -727,7 +727,7 @@ async function cosmos(
       });
       dispatch(setIsCreating(false));
     }
-  }, 1500);
+  }, 3500);
 }
 
 export function useHandleCreateWrapped(
