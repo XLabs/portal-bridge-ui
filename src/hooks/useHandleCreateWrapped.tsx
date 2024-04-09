@@ -30,7 +30,6 @@ import {
   parseAttestMetaVaa,
   createWrappedOnSui,
   CHAIN_ID_SEI,
-  CHAIN_ID_POLYGON,
 } from "@certusone/wormhole-sdk";
 
 import { Alert } from "@material-ui/lab";
