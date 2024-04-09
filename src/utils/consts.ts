@@ -1635,7 +1635,7 @@ export const ACA_DECIMALS = 12;
 
 export const WKLAY_ADDRESS =
   CLUSTER === "mainnet"
-    ? "0xe4f05a66ec68b54a58b17c22107b02e0232cc817" //tokoen
+    ? "0xe4f05a66ec68b54a58b17c22107b02e0232cc817"
     : CLUSTER === "testnet"
     ? "0x762ac6e8183db5a8e912a66fcc1a09f5a7ac96a9"
     : "0xDDb64fE46a91D46ee29420539FC25FD07c5FEa3E";
