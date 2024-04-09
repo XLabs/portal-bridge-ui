@@ -454,29 +454,27 @@ export const COSMOS_CHAIN_ID_MAINNET: Record<string, string> = {
   [CHAIN_ID_EVMOS]: "evmos_9001-2",
 };
 export const COSMOS_CHAIN_ID = {
-  ...(CLUSTER === "mainnet" ? 
-  COSMOS_CHAIN_ID_MAINNET : 
-  COSMOS_CHAIN_ID_TESTNET)
+  ...(CLUSTER === "mainnet"
+    ? COSMOS_CHAIN_ID_MAINNET
+    : COSMOS_CHAIN_ID_TESTNET),
 } as const;
 
 export type DenomsById = { [key in ChainId]: string };
 const MAINNET_NATIVE_DENOMS: DenomsById = {
-  [CHAIN_ID_OSMOSIS]: 'uosmo',
-  [CHAIN_ID_WORMCHAIN]: 'uworm',
-  [CHAIN_ID_TERRA2]: 'uluna',
-  [CHAIN_ID_COSMOSHUB]: 'uatom',
-  [CHAIN_ID_EVMOS]: 'aevmos',
-  [CHAIN_ID_KUJIRA]: 'ukuji',
+  [CHAIN_ID_OSMOSIS]: "uosmo",
+  [CHAIN_ID_WORMCHAIN]: "uworm",
+  [CHAIN_ID_TERRA2]: "uluna",
+  [CHAIN_ID_COSMOSHUB]: "uatom",
+  [CHAIN_ID_EVMOS]: "aevmos",
+  [CHAIN_ID_KUJIRA]: "ukuji",
 } as DenomsById;
 const TESTNET_NATIVE_DENOMS: DenomsById = {
   ...MAINNET_NATIVE_DENOMS,
-  [CHAIN_ID_EVMOS]: 'atevmos',
+  [CHAIN_ID_EVMOS]: "atevmos",
 } as DenomsById;
 
 export const NATIVE_DENOMS = {
-  ...(CLUSTER === "mainnet" ? 
-  MAINNET_NATIVE_DENOMS : 
-  TESTNET_NATIVE_DENOMS)
+  ...(CLUSTER === "mainnet" ? MAINNET_NATIVE_DENOMS : TESTNET_NATIVE_DENOMS),
 } as const;
 
 export const ATTEST_CHAINS: ChainInfo[] = CHAINS.concat(COSMOS_CHAINS);
@@ -572,26 +570,26 @@ export const THRESHOLD_ARBITER_FEE = 0;
 export const THRESHOLD_NONCE = 0;
 
 export const WORMCHAIN_CONTRACTS_MAINNET = {
-  core: 'wormhole1ufs3tlq4umljk0qfe8k5ya0x6hpavn897u2cnf9k0en9jr7qarqqaqfk2j',
+  core: "wormhole1ufs3tlq4umljk0qfe8k5ya0x6hpavn897u2cnf9k0en9jr7qarqqaqfk2j",
   token_bridge:
-    'wormhole1466nf3zuxpya8q9emxukd7vftaf6h4psr0a07srl5zw74zh84yjq4lyjmh',
+    "wormhole1466nf3zuxpya8q9emxukd7vftaf6h4psr0a07srl5zw74zh84yjq4lyjmh",
   ibcShimContract:
-    'wormhole14ejqjyq8um4p3xfqj74yld5waqljf88fz25yxnma0cngspxe3les00fpjx',
+    "wormhole14ejqjyq8um4p3xfqj74yld5waqljf88fz25yxnma0cngspxe3les00fpjx",
 };
 
 export const WORMCHAIN_CONTRACTS_TESTNET = {
-  core: 'wormhole16jzpxp0e8550c9aht6q9svcux30vtyyyyxv5w2l2djjra46580wsazcjwp',
+  core: "wormhole16jzpxp0e8550c9aht6q9svcux30vtyyyyxv5w2l2djjra46580wsazcjwp",
   token_bridge:
-    'wormhole1aaf9r6s7nxhysuegqrxv0wpm27ypyv4886medd3mrkrw6t4yfcnst3qpex',
+    "wormhole1aaf9r6s7nxhysuegqrxv0wpm27ypyv4886medd3mrkrw6t4yfcnst3qpex",
   ibcShimContract:
-    'wormhole1ctnjk7an90lz5wjfvr3cf6x984a8cjnv8dpmztmlpcq4xteaa2xs9pwmzk',
+    "wormhole1ctnjk7an90lz5wjfvr3cf6x984a8cjnv8dpmztmlpcq4xteaa2xs9pwmzk",
 };
 
 export const WORMCHAIN_CONTRACTS = {
   ...(CLUSTER === "mainnet"
     ? WORMCHAIN_CONTRACTS_MAINNET
     : WORMCHAIN_CONTRACTS_TESTNET),
-} as const
+} as const;
 
 // TRM screening chain names map with wormhole chain ids
 // https://documentation.trmlabs.com/tag/Supported-Blockchain-List
@@ -1637,7 +1635,7 @@ export const ACA_DECIMALS = 12;
 
 export const WKLAY_ADDRESS =
   CLUSTER === "mainnet"
-    ? "0xe4f05a66ec68b54a58b17c22107b02e0232cc817"//tokoen
+    ? "0xe4f05a66ec68b54a58b17c22107b02e0232cc817" //tokoen
     : CLUSTER === "testnet"
     ? "0x762ac6e8183db5a8e912a66fcc1a09f5a7ac96a9"
     : "0xDDb64fE46a91D46ee29420539FC25FD07c5FEa3E";

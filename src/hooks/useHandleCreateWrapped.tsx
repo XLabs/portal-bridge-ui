@@ -684,30 +684,28 @@ async function sui(
 async function cosmos(
   dispatch: any,
   enqueueSnackbar: any,
-  //signedVAA?: Uint8Array,
+  signedVAA: Uint8Array,
   foreignAddress: string | null | undefined,
   sourceChain: ChainId,
-  sourceChainAddress: string,
+  sourceChainAddress: string
 ) {
   dispatch(setIsCreating(true));
   let tries = 0;
-  debugger
   const interval = setInterval(async () => {
     try {
-      if(tries <= 2) {
+      if (tries <= 2) {
         tries++;
-
         // ONLY FOR TEST
         // const txs = await queryWormchain('85VBFQZC9TZkfaptBWjvUw7YbZjy52A6mjtPGjstQAmQ', CHAIN_ID_SOLANA);
         const txs = await queryWormchain(sourceChainAddress, sourceChain);
-        console.log('txs', txs)
+        console.log("txs", txs);
         if (txs.length === 0) {
           return null;
         }
         if (txs.length > 1) {
-          throw new Error('Multiple transactions found');
+          throw new Error("Multiple transactions found");
         }
-        
+
         clearInterval(interval);
         dispatch(
           setCreateTx({
@@ -756,7 +754,6 @@ export function useHandleCreateWrapped(
   const seiWallet = useSeiWallet();
   const seiAddress = seiWallet?.getAddress();
   const handleCreateClick = useCallback(() => {
-    debugger
     if (isEVMChain(targetChain) && !!signer && !!signedVAA) {
       evm(
         dispatch,
@@ -852,11 +849,15 @@ export function useHandleCreateWrapped(
       !!signedVAA
     ) {
       sui(dispatch, enqueueSnackbar, suiWallet, signedVAA, foreignAddress);
-    } else if (
-      isCosmosChain(targetChain as any) /*&&
-      !!signedVAA*/
-    ) {
-      cosmos(dispatch, enqueueSnackbar, /*signedVAA || undefined,*/ foreignAddress, sourceChain, sourceAsset);
+    } else if (isCosmosChain(targetChain as any) && !!signedVAA) {
+      cosmos(
+        dispatch,
+        enqueueSnackbar,
+        signedVAA,
+        foreignAddress,
+        sourceChain,
+        sourceAsset
+      );
     } else {
       // enqueueSnackbar(
       //   "Creating wrapped tokens on this chain is not yet supported",
