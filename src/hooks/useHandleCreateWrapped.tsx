@@ -699,7 +699,7 @@ async function cosmos(
         tries++;
 
         // ONLY FOR TEST
-        const txs = await queryWormchain('0x2598c30330d5771ae9f983979209486ae26de875', CHAIN_ID_POLYGON);
+        const txs = await queryWormchain('85VBFQZC9TZkfaptBWjvUw7YbZjy52A6mjtPGjstQAmQ', CHAIN_ID_SOLANA);
         //const txs = await queryWormchain(sourceChainAddress, sourceChain);
         console.log('txs', txs)
         if (txs.length === 0) {
@@ -709,10 +709,11 @@ async function cosmos(
           throw new Error('Multiple transactions found');
         }
         
+        clearInterval(interval);
         dispatch(
           setCreateTx({
             id: txs[0].hash,
-            block: 0,
+            block: txs[0].height,
           })
         );
         enqueueSnackbar(null, {
@@ -720,8 +721,8 @@ async function cosmos(
         });
       } else {
         clearInterval(interval);
-          dispatch(setIsCreating(false));
-        }
+        dispatch(setIsCreating(false));
+      }
     } catch (e) {
       console.error(e);
       enqueueSnackbar(null, {
