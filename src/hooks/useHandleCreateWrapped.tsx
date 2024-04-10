@@ -691,21 +691,18 @@ async function cosmos(
 ) {
   dispatch(setIsCreating(true));
   let tries = 0;
+  let messageShow = false;
   const interval = setInterval(async () => {
     try {
       if (tries <= 5) {
         tries++;
-        // ONLY FOR TEST
-        // const txs = await queryWormchain('85VBFQZC9TZkfaptBWjvUw7YbZjy52A6mjtPGjstQAmQ', CHAIN_ID_SOLANA);
         const txs = await queryWormchain(sourceChainAddress, sourceChain);
-        console.log("txs", txs);
         if (txs.length === 0) {
           return null;
         }
         if (txs.length > 1) {
           throw new Error("Multiple transactions found");
         }
-
         clearInterval(interval);
         dispatch(
           setCreateTx({
@@ -713,9 +710,12 @@ async function cosmos(
             block: txs[0].height,
           })
         );
-        enqueueSnackbar(null, {
-          content: <Alert severity="success">Transaction confirmed</Alert>,
-        });
+        if (!messageShow) {
+          messageShow = true;
+          enqueueSnackbar(null, {
+            content: <Alert severity="success">Transaction confirmed</Alert>,
+          });
+        }
       } else {
         clearInterval(interval);
         dispatch(setIsCreating(false));

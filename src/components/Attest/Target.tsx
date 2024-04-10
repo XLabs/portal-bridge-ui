@@ -16,6 +16,7 @@ import ButtonWithLoader from "../ButtonWithLoader";
 import ChainSelect from "../ChainSelect";
 import KeyAndBalance from "../KeyAndBalance";
 import LowBalanceWarning from "../LowBalanceWarning";
+import { isCosmosChain } from "../../utils/cosmos";
 
 const useStyles = makeStyles((theme) => ({
   alert: {
@@ -56,18 +57,21 @@ function Target() {
         chains={chains}
       />
       <KeyAndBalance chainId={targetChain} />
-      <Alert severity="info" variant="outlined" className={classes.alert}>
-        <Typography>
-          You will have to pay transaction fees on{" "}
-          {CHAINS_BY_ID[targetChain].name} to attest this token.{" "}
-        </Typography>
-        {isEVMChain(targetChain) && (
-          <GasEstimateSummary
-            methodType="createWrapped"
-            chainId={targetChain}
-          />
-        )}
-      </Alert>
+      {/* In the case of cosmos chain target no fees are required */}
+      {!isCosmosChain(targetChain) && (
+        <Alert severity="info" variant="outlined" className={classes.alert}>
+          <Typography>
+            You will have to pay transaction fees on{" "}
+            {CHAINS_BY_ID[targetChain].name} to attest this token.{" "}
+          </Typography>
+          {isEVMChain(targetChain) && (
+            <GasEstimateSummary
+              methodType="createWrapped"
+              chainId={targetChain}
+            />
+          )}
+        </Alert>
+      )}
       <LowBalanceWarning chainId={targetChain} />
       <ButtonWithLoader
         disabled={!isTargetComplete}
