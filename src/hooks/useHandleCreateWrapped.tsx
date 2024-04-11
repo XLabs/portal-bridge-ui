@@ -695,20 +695,20 @@ async function cosmos(
   let messageShow = false;
   let timer = 3500;
   function changeTimer() {
-      timer = timer * 1.2;
+    timer = timer * 1.2;
   }
   let interval: NodeJS.Timeout | undefined;
   const resetTimer = () => {
     clearTimeout(interval);
     changeTimer();
     interval = setTimeout(query, timer);
-  }
+  };
   const query = async () => {
     try {
       if (tries <= nTries) {
         tries++;
         const txs = await queryWormchain(sourceChainAddress, sourceChain);
-        
+
         if (txs.length === 0) {
           resetTimer();
           if (tries > nTries) {
@@ -736,8 +736,8 @@ async function cosmos(
             content: <Alert severity="success">Transaction confirmed</Alert>,
           });
         }
-      resetTimer();
-    } else {
+        resetTimer();
+      } else {
         dispatch(setIsCreating(false));
       }
     } catch (e) {
