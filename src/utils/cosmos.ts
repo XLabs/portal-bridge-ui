@@ -44,8 +44,7 @@ export async function getCosmWasmClient(): Promise<CosmWasmClient> {
 export async function queryWormchain(token: string, chainId: ChainId) {
   const client = await getCosmWasmClient();
   const bytes = Array.from(tryNativeToUint8Array(token, chainId));
-  console.log(bytes);
-  console.log(`ExternalTokenId { bytes: [${bytes.join(", ")}] }`);
+
   const res = await client.searchTx([
     { key: "wasm.action", value: "register_asset" },
     { key: "wasm.token_chain", value: `${chainId}` },
@@ -58,7 +57,7 @@ export async function queryWormchain(token: string, chainId: ChainId) {
   return res;
 }
 
-export const isCosmosChain = (chain: ChainId) => {
+export const isGatewayCosmosChain = (chain: ChainId) => {
   return (
     chain === CHAIN_ID_KUJIRA ||
     chain === CHAIN_ID_OSMOSIS ||

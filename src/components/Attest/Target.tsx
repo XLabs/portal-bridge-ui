@@ -16,7 +16,7 @@ import ButtonWithLoader from "../ButtonWithLoader";
 import ChainSelect from "../ChainSelect";
 import KeyAndBalance from "../KeyAndBalance";
 import LowBalanceWarning from "../LowBalanceWarning";
-import { isCosmosChain } from "../../utils/cosmos";
+import { isGatewayCosmosChain } from "../../utils/cosmos";
 
 const useStyles = makeStyles((theme) => ({
   alert: {
@@ -58,7 +58,7 @@ function Target() {
       />
       <KeyAndBalance chainId={targetChain} />
       {/* In the case of cosmos chain target no fees are required */}
-      {!isCosmosChain(targetChain) && (
+      {!isGatewayCosmosChain(targetChain) && (
         <Alert severity="info" variant="outlined" className={classes.alert}>
           <Typography>
             You will have to pay transaction fees on{" "}

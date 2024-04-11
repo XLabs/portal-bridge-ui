@@ -113,7 +113,7 @@ import {
 } from "../utils/sei";
 import { useSeiWallet } from "../contexts/SeiWalletContext";
 import { SeiWallet } from "@xlabs-libs/wallet-aggregator-sei";
-import { queryWormchain, isCosmosChain } from "../utils/cosmos";
+import { queryWormchain, isGatewayCosmosChain } from "../utils/cosmos";
 
 // TODO: replace with SDK method -
 export async function updateWrappedOnSui(
@@ -691,19 +691,39 @@ async function cosmos(
 ) {
   dispatch(setIsCreating(true));
   let tries = 0;
+  const nTries = 5;
   let messageShow = false;
-  const interval = setInterval(async () => {
+  let timer = 3500;
+  function changeTimer() {
+      timer = timer * 1.2;
+  }
+  let interval: NodeJS.Timeout | undefined;
+  const resetTimer = () => {
+    clearTimeout(interval);
+    changeTimer();
+    interval = setTimeout(query, timer);
+  }
+  const query = async () => {
     try {
-      if (tries <= 5) {
+      if (tries <= nTries) {
         tries++;
         const txs = await queryWormchain(sourceChainAddress, sourceChain);
+        
         if (txs.length === 0) {
-          return null;
+          resetTimer();
+          if (tries > nTries) {
+            throw new Error("Transaction not found");
+          }
+          return;
         }
         if (txs.length > 1) {
-          throw new Error("Multiple transactions found");
+          resetTimer();
+          if (tries > nTries) {
+            throw new Error("Multiple transactions found");
+          }
+          return;
         }
-        clearInterval(interval);
+        clearTimeout(interval);
         dispatch(
           setCreateTx({
             id: txs[0].hash,
@@ -716,8 +736,8 @@ async function cosmos(
             content: <Alert severity="success">Transaction confirmed</Alert>,
           });
         }
-      } else {
-        clearInterval(interval);
+      resetTimer();
+    } else {
         dispatch(setIsCreating(false));
       }
     } catch (e) {
@@ -726,8 +746,10 @@ async function cosmos(
         content: <Alert severity="error">{parseError(e)}</Alert>,
       });
       dispatch(setIsCreating(false));
+      resetTimer();
     }
-  }, 3500);
+  };
+  await query();
 }
 
 export function useHandleCreateWrapped(
@@ -849,7 +871,7 @@ export function useHandleCreateWrapped(
       !!signedVAA
     ) {
       sui(dispatch, enqueueSnackbar, suiWallet, signedVAA, foreignAddress);
-    } else if (isCosmosChain(targetChain as any) && !!signedVAA) {
+    } else if (isGatewayCosmosChain(targetChain as any) && !!signedVAA) {
       cosmos(
         dispatch,
         enqueueSnackbar,
