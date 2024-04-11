@@ -716,13 +716,6 @@ async function cosmos(
           }
           return;
         }
-        if (txs.length > 1) {
-          resetTimer();
-          if (tries > nTries) {
-            throw new Error("Multiple transactions found");
-          }
-          return;
-        }
         clearTimeout(interval);
         dispatch(
           setCreateTx({
