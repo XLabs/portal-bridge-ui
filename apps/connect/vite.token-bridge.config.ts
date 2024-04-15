@@ -123,7 +123,7 @@ const TESTNET_TOKEN_CONFIG: WormholeConnectConfig = {
               type: 'wormhole',
             },
           ],
-          solanaQuoter: undefined, // TODO: add
+          solanaQuoter: 'Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ',
         },
         {
           chainName: 'sepolia',
