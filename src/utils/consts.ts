@@ -1958,7 +1958,7 @@ export const AVAILABLE_MARKETS_URL = "/docs/faqs/liquid-markets";
 
 export const SOLANA_SYSTEM_PROGRAM_ADDRESS = "11111111111111111111111111111111";
 export const FEATURED_MARKETS_JSON_URL =
-  "https://raw.githubusercontent.com/certusone/wormhole-token-list/main/src/markets.json";
+  "https://raw.githubusercontent.com/XLabs/portal-bridge-ui/main/apps/token-list/src/markets.json";
 
 export const logoOverrides = new Map<string, string>([
   [
