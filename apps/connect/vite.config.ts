@@ -1,5 +1,18 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
+import { readFileSync } from 'fs'
+import { resolve } from 'path'
+
+function readPackageVersion(packageName: string): { version: string } {
+  try {
+    const packageJsonFile = resolve(import.meta.dirname, 'node_modules', packageName, 'package.json');
+    return JSON.parse(readFileSync(packageJsonFile, 'utf-8'))
+  } catch (e) {
+    return { version: undefined }
+  }
+}
+
+const wcPackageJson = readPackageVersion('@wormhole-foundation/wormhole-connect')
 
 const rpcs = (chains: string[], template: (chain: string) => string) => chains.map((chain: string) => ({ [chain]: template(chain) })).reduce((acc, cur) => ({ ...acc, ...cur }), {});
 const asRpcHost = (chain: string) => `https://and76cjzpa.execute-api.us-east-2.amazonaws.com/${chain}/`;
@@ -48,6 +61,16 @@ export default defineConfig({
     ]
   },
   define: {
+    versions: [
+      {
+        appName: 'Portal Bridge',
+        version: process.env.npm_package_version || '0.0.0'
+      },
+      {
+        appName: 'Wormhole Connect',
+        version: wcPackageJson.version
+      }
+    ],
     redirects: {},
     wormholeConnectConfig: {
       walletConnectProjectId: process.env.VITE_APP_WALLET_CONNECT_PROJECT_ID || '',
