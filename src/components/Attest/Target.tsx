@@ -11,11 +11,12 @@ import {
   selectAttestSourceChain,
   selectAttestTargetChain,
 } from "../../store/selectors";
-import { CHAINS, CHAINS_BY_ID } from "../../utils/consts";
+import { ATTEST_CHAINS, CHAINS_BY_ID } from "../../utils/consts";
 import ButtonWithLoader from "../ButtonWithLoader";
 import ChainSelect from "../ChainSelect";
 import KeyAndBalance from "../KeyAndBalance";
 import LowBalanceWarning from "../LowBalanceWarning";
+import { isGatewayCosmosChain } from "../../utils/cosmos";
 
 const useStyles = makeStyles((theme) => ({
   alert: {
@@ -29,7 +30,7 @@ function Target() {
   const dispatch = useDispatch();
   const sourceChain = useSelector(selectAttestSourceChain);
   const chains = useMemo(
-    () => CHAINS.filter((c) => c.id !== sourceChain),
+    () => ATTEST_CHAINS.filter((c) => c.id !== sourceChain),
     [sourceChain]
   );
   const targetChain = useSelector(selectAttestTargetChain);
@@ -56,18 +57,21 @@ function Target() {
         chains={chains}
       />
       <KeyAndBalance chainId={targetChain} />
-      <Alert severity="info" variant="outlined" className={classes.alert}>
-        <Typography>
-          You will have to pay transaction fees on{" "}
-          {CHAINS_BY_ID[targetChain].name} to attest this token.{" "}
-        </Typography>
-        {isEVMChain(targetChain) && (
-          <GasEstimateSummary
-            methodType="createWrapped"
-            chainId={targetChain}
-          />
-        )}
-      </Alert>
+      {/* In the case of cosmos chain target no fees are required */}
+      {!isGatewayCosmosChain(targetChain) && (
+        <Alert severity="info" variant="outlined" className={classes.alert}>
+          <Typography>
+            You will have to pay transaction fees on{" "}
+            {CHAINS_BY_ID[targetChain].name} to attest this token.{" "}
+          </Typography>
+          {isEVMChain(targetChain) && (
+            <GasEstimateSummary
+              methodType="createWrapped"
+              chainId={targetChain}
+            />
+          )}
+        </Alert>
+      )}
       <LowBalanceWarning chainId={targetChain} />
       <ButtonWithLoader
         disabled={!isTargetComplete}

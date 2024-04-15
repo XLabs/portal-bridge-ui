@@ -23,6 +23,7 @@ import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 import { useTerraWallet } from "../contexts/TerraWalletContext";
 import { useSuiWallet } from "../contexts/SuiWalletContext";
 import { useSeiWallet } from "../contexts/SeiWalletContext";
+import { isGatewayCosmosChain } from "../utils/cosmos";
 
 const createWalletStatus = (
   isReady: boolean,
@@ -130,6 +131,9 @@ function useIsWalletReady(
           undefined
         );
       }
+    }
+    if (isGatewayCosmosChain(chainId)) {
+      return createWalletStatus(true, undefined);
     }
 
     return createWalletStatus(false, "Wallet not connected", undefined);
