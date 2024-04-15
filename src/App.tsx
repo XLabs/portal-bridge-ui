@@ -50,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
       width: "100%",
       maxWidth: 1440,
     },
+    zIndex: 50,
   },
   spacer: {
     flex: 1,
@@ -102,6 +103,7 @@ const useStyles = makeStyles((theme) => ({
   betaBanner: {
     backgroundColor: "rgba(0,0,0,0.75)",
     padding: theme.spacing(1, 0),
+    zIndex: 50,
   },
   wormholeIcon: {
     height: 68,
