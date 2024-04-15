@@ -22,5 +22,5 @@ declare global {
   declare const wormholeConnectConfig: WormholeConnectConfig;
   declare const navBar: NavLink[];
   declare const redirects: Redirect;
-  declare const versions: Version[]
+  declare const versions: Version[];
 }
