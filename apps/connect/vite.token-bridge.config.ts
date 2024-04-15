@@ -55,7 +55,7 @@ const TESTNET_TOKEN_CONFIG: WormholeConnectConfig = {
     },
     Wsepolia: {
       key: 'Wsepolia',
-      symbol: 'W',
+      symbol: 'Ws',
       nativeChain: 'sepolia',
       tokenId: {
         chain: 'sepolia',
@@ -69,7 +69,7 @@ const TESTNET_TOKEN_CONFIG: WormholeConnectConfig = {
     },
     Warbitrum_sepolia: {
       key: 'Warbitrum_sepolia',
-      symbol: 'W',
+      symbol: 'Ws',
       nativeChain: 'arbitrum_sepolia',
       tokenId: {
         chain: 'arbitrum_sepolia',
@@ -83,7 +83,7 @@ const TESTNET_TOKEN_CONFIG: WormholeConnectConfig = {
     },
     Wbase_sepolia: {
       key: 'Wbase_sepolia',
-      symbol: 'W',
+      symbol: 'Ws',
       nativeChain: 'base_sepolia',
       tokenId: {
         chain: 'base_sepolia',
@@ -97,7 +97,7 @@ const TESTNET_TOKEN_CONFIG: WormholeConnectConfig = {
     },
     Woptimism_sepolia: {
       key: 'Woptimism_sepolia',
-      symbol: 'W',
+      symbol: 'Ws',
       nativeChain: 'optimism_sepolia',
       tokenId: {
         chain: 'optimism_sepolia',
@@ -149,22 +149,22 @@ const TESTNET_TOKEN_CONFIG: WormholeConnectConfig = {
         },
         {
           chainName: 'base_sepolia',
-          address: '0x27F9Fdd3eaD5aA9A5D827Ca860Be28442A1e7582',
+          address: '0x8b9E328bE1b1Bc7501B413d04EBF7479B110775c',
           tokenKey: 'Wbase_sepolia',
           transceivers: [
             {
-              address: '0xeCF0496DE01e9Aa4ADB50ae56dB550f52003bdB7',
+              address: '0x149987472333cD48ac6D28293A338a1EEa6Be7EE',
               type: 'wormhole',
             },
           ],
         },
         {
           chainName: 'optimism_sepolia',
-          address: '0x8b9E328bE1b1Bc7501B413d04EBF7479B110775c',
+          address: '0x27F9Fdd3eaD5aA9A5D827Ca860Be28442A1e7582',
           tokenKey: 'Woptimism_sepolia',
           transceivers: [
             {
-              address: '0x149987472333cD48ac6D28293A338a1EEa6Be7EE',
+              address: '0xeCF0496DE01e9Aa4ADB50ae56dB550f52003bdB7',
               type: 'wormhole',
             },
           ],
