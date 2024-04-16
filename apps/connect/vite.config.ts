@@ -64,7 +64,7 @@ export default defineConfig({
     versions: [
       {
         appName: 'Portal Bridge',
-        version: process.env.npm_package_version || '0.0.0'
+        version: process.env.VITE_APP_VERSION || '0.0.0'
       },
       {
         appName: 'Wormhole Connect',
