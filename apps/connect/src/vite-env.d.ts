@@ -13,8 +13,14 @@ type Redirect = {
   target: string;
 };
 
+type Version = {
+  version: string;
+  appName: string;
+};
+
 declare global {
   declare const wormholeConnectConfig: WormholeConnectConfig;
   declare const navBar: NavLink[];
   declare const redirects: Redirect;
+  declare const versions: Version[];
 }
