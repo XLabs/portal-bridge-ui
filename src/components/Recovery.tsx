@@ -38,7 +38,7 @@ import {
   CHAIN_ID_SUI,
   getForeignAssetSui,
 } from "@certusone/wormhole-sdk";
-import { repairVaa } from "@certusone/wormhole-sdk/lib/esm/utils/repairVaa";
+import { repairVaa } from "../utils/repairVaa";
 import {
   Accordion,
   AccordionDetails,
@@ -167,30 +167,30 @@ async function fetchSignedVAA(
     WORMHOLE_RPC_HOSTS.length
   );
 
-  const gs3 =
+  const GUARDIAN_SET =
     CLUSTER === "mainnet"
       ? {
-          index: 3,
+          index: 4,
           keys: [
-            "0x58CC3AE5C097b213cE3c81979e1B9f9570746AA5",
-            "0xfF6CB952589BDE862c25Ef4392132fb9D4A42157",
-            "0x114De8460193bdf3A2fCf81f86a09765F4762fD1",
-            "0x107A0086b32d7A0977926A205131d8731D39cbEB",
-            "0x8C82B2fd82FaeD2711d59AF0F2499D16e726f6b2",
-            "0x11b39756C042441BE6D8650b69b54EbE715E2343",
-            "0x54Ce5B4D348fb74B958e8966e2ec3dBd4958a7cd",
-            "0x15e7cAF07C4e3DC8e7C469f92C8Cd88FB8005a20",
-            "0x74a3bf913953D695260D88BC1aA25A4eeE363ef0",
-            "0x000aC0076727b35FBea2dAc28fEE5cCB0fEA768e",
-            "0xAF45Ced136b9D9e24903464AE889F5C8a723FC14",
-            "0xf93124b7c738843CBB89E864c862c38cddCccF95",
-            "0xD2CC37A4dc036a8D232b48f62cDD4731412f4890",
-            "0xDA798F6896A3331F64b48c12D1D57Fd9cbe70811",
-            "0x71AA1BE1D36CaFE3867910F99C09e347899C19C3",
-            "0x8192b6E7387CCd768277c17DAb1b7a5027c0b3Cf",
-            "0x178e21ad2E77AE06711549CFBB1f9c7a9d8096e8",
-            "0x5E1487F35515d02A92753504a8D75471b9f49EdB",
-            "0x6FbEBc898F403E4773E95feB15E80C9A99c8348d",
+            "0x5893b5a76c3f739645648885bdccc06cd70a3cd3",
+            "0xff6cb952589bde862c25ef4392132fb9d4a42157",
+            "0x114de8460193bdf3a2fcf81f86a09765f4762fd1",
+            "0x107a0086b32d7a0977926a205131d8731d39cbeb",
+            "0x8c82b2fd82faed2711d59af0f2499d16e726f6b2",
+            "0x11b39756c042441be6d8650b69b54ebe715e2343",
+            "0x54ce5b4d348fb74b958e8966e2ec3dbd4958a7cd",
+            "0x15e7caf07c4e3dc8e7c469f92c8cd88fb8005a20",
+            "0x74a3bf913953d695260d88bc1aa25a4eee363ef0",
+            "0x000ac0076727b35fbea2dac28fee5ccb0fea768e",
+            "0xaf45ced136b9d9e24903464ae889f5c8a723fc14",
+            "0xf93124b7c738843cbb89e864c862c38cddcccf95",
+            "0xd2cc37a4dc036a8d232b48f62cdd4731412f4890",
+            "0xda798f6896a3331f64b48c12d1d57fd9cbe70811",
+            "0x71aa1be1d36cafe3867910f99c09e347899c19c3",
+            "0x8192b6e7387ccd768277c17dab1b7a5027c0b3cf",
+            "0x178e21ad2e77ae06711549cfbb1f9c7a9d8096e8",
+            "0x5e1487f35515d02a92753504a8d75471b9f49edb",
+            "0x6fbebc898f403e4773e95feb15e80c9a99c8348d",
           ],
           expiry: 0,
         }
@@ -200,7 +200,7 @@ async function fetchSignedVAA(
           expiry: 0,
         };
 
-  const vaa = vaaBytes ? repairVaa(uint8ArrayToHex(vaaBytes), gs3) : undefined;
+  const vaa = vaaBytes ? repairVaa(uint8ArrayToHex(vaaBytes), GUARDIAN_SET) : undefined;
   return {
     vaa,
     isPending,
