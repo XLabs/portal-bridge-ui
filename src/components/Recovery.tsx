@@ -200,7 +200,9 @@ async function fetchSignedVAA(
           expiry: 0,
         };
 
-  const vaa = vaaBytes ? repairVaa(uint8ArrayToHex(vaaBytes), GUARDIAN_SET) : undefined;
+  const vaa = vaaBytes
+    ? repairVaa(uint8ArrayToHex(vaaBytes), GUARDIAN_SET)
+    : undefined;
   return {
     vaa,
     isPending,
