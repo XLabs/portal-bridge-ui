@@ -42,6 +42,8 @@ import {
   hexToNativeAssetString,
   cosmos,
   CHAIN_ID_COSMOSHUB,
+  CHAIN_ID_SCROLL,
+  CHAIN_ID_BLAST,
 } from "@certusone/wormhole-sdk";
 import { clusterApiUrl } from "@solana/web3.js";
 import { getAddress } from "ethers/lib/utils";
@@ -53,6 +55,7 @@ import arbitrumIcon from "../icons/arbitrum.svg";
 import auroraIcon from "../icons/aurora.svg";
 import avaxIcon from "../icons/avax.svg";
 import baseIcon from "../icons/base.svg";
+import blastIcon from "../icons/blast.svg";
 import bscIcon from "../icons/bsc.svg";
 import celoIcon from "../icons/celo.svg";
 import ethIcon from "../icons/eth.svg";
@@ -64,6 +67,7 @@ import neonIcon from "../icons/neon.svg";
 import oasisIcon from "../icons/oasis-network-rose-logo.svg";
 import optimismIcon from "../icons/optimism.svg";
 import polygonIcon from "../icons/polygon.svg";
+import scrollIcon from "../icons/scroll.svg";
 import solanaIcon from "../icons/solana.svg";
 import suiIcon from "../icons/sui.svg";
 import terraIcon from "../icons/terra.svg";
@@ -133,6 +137,11 @@ export const CHAINS: ChainInfo[] =
           logo: baseIcon,
         },
         {
+          id: CHAIN_ID_BLAST,
+          name: "Blast",
+          logo: blastIcon,
+        },
+        {
           id: CHAIN_ID_BSC,
           name: "BNB Chain",
           logo: bscIcon,
@@ -191,6 +200,11 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_POLYGON,
           name: "Polygon",
           logo: polygonIcon,
+        },
+        {
+          id: CHAIN_ID_SCROLL,
+          name: "Scroll",
+          logo: scrollIcon,
         },
         {
           id: CHAIN_ID_SEI,
@@ -1233,21 +1247,21 @@ export const NEON_BRIDGE_ADDRESS = getAddress(
   CLUSTER === "mainnet"
     ? "0x0000000000000000000000000000000000000000"
     : CLUSTER === "testnet"
-    ? CONTRACTS.TESTNET.neon.core
+    ? CONTRACTS.TESTNET.neon.core!
     : "0xC89Ce4735882C9F0f0FE26686c53074E09B0D550"
 );
 export const NEON_NFT_BRIDGE_ADDRESS = getAddress(
   CLUSTER === "mainnet"
     ? "0x0000000000000000000000000000000000000000"
     : CLUSTER === "testnet"
-    ? CONTRACTS.TESTNET.neon.nft_bridge
+    ? CONTRACTS.TESTNET.neon.nft_bridge!
     : "0x26b4afb60d6c903165150c6f0aa14f8016be4aec"
 );
 export const NEON_TOKEN_BRIDGE_ADDRESS = getAddress(
   CLUSTER === "mainnet"
     ? "0x0000000000000000000000000000000000000000"
     : CLUSTER === "testnet"
-    ? CONTRACTS.TESTNET.neon.token_bridge
+    ? CONTRACTS.TESTNET.neon.token_bridge!
     : "0x0290FB167208Af455bB137780163b7B7a9a10C16"
 );
 export const MOONBEAM_BRIDGE_ADDRESS = getAddress(
