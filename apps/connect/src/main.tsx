@@ -9,16 +9,21 @@ import App from "./App.tsx";
 
 // OPENTELEMETRY CONFIG INIT
 
-import { registerInstrumentations } from '@opentelemetry/instrumentation';
-import { SimpleSpanProcessor, TracerConfig, WebTracerProvider, Span, ReadableSpan } from '@opentelemetry/sdk-trace-web';
-import { ZoneContextManager } from '@opentelemetry/context-zone';
-import { Resource } from '@opentelemetry/resources';
-import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
+import { registerInstrumentations } from "@opentelemetry/instrumentation";
+import {
+  SimpleSpanProcessor,
+  TracerConfig,
+  WebTracerProvider,
+  Span,
+  ReadableSpan,
+} from "@opentelemetry/sdk-trace-web";
+import { ZoneContextManager } from "@opentelemetry/context-zone";
+import { Resource } from "@opentelemetry/resources";
+import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
 import { Context } from "@opentelemetry/api";
 import { UserInteractionInstrumentation } from "@opentelemetry/instrumentation-user-interaction";
 
 class MixpanelSpanProcessor extends SimpleSpanProcessor {
-
   onStart(span: Span, context: Context): void {
     //console.log('MixpanelSpanProcessor onStart', span, context);
     super.onStart(span, context);
@@ -26,19 +31,17 @@ class MixpanelSpanProcessor extends SimpleSpanProcessor {
 }
 
 class MixpanelExporter extends OTLPTraceExporter {
-  constructor(config?: any) {
-    super(config);
-  }
-
+  
   convert(spans: ReadableSpan[]): any {
     // Must convert this in different types of span depending on the event
-    const mixpanelSpan = spans.map(span => {
+    const mixpanelSpan = spans.map((span) => {
       return {
         event: span.name,
         properties: {
           time: span.startTime[0],
           distinct_id: "91304156-cafc-4673-a237-623d1129c801", // TODO generate userId per session
-          $insert_id: span.spanContext().spanId || "91304156-cafc-4673-a237-623d1129c801", // TODO generate a unique id per span
+          $insert_id:
+            span.spanContext().spanId || "91304156-cafc-4673-a237-623d1129c801", // TODO generate a unique id per span
           "target.id": span.attributes["target.id"],
           "target.data-testid": span.attributes["target.data-testid"],
           ip: span.attributes.ip || "136.24.0.114", // TODO get the real ip
@@ -50,27 +53,27 @@ class MixpanelExporter extends OTLPTraceExporter {
           status: span.status,
           resource: span.resource,
         },
-      }
-    })
-    console.log('MixpanelExporter convert', mixpanelSpan);
+      };
+    });
+    console.log("MixpanelExporter convert", mixpanelSpan);
     return mixpanelSpan;
   }
 }
 
 const providerConfig: TracerConfig = {
   resource: new Resource({
-    "service.name": 'portal-bridge',
+    "service.name": "portal-bridge",
   }),
 };
 
 const provider = new WebTracerProvider(providerConfig);
 const mixpanelExporter = new MixpanelExporter({
-  url: 'https://api.mixpanel.com/import?strict=1&project_id=3285009', // TODO replace with real project id
+  url: "https://api.mixpanel.com/import?strict=1&project_id=3285009", // TODO replace with real project id
   headers: {
-    Authorization: 'Basic NzQxMzYwNWY0MTVhNzY1ODM1NDE3YzlmZmU4ZmY3MDI6', // TODO replace with real token
-    accept: 'application/json',
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Headers': '*',
+    Authorization: "Basic NzQxMzYwNWY0MTVhNzY1ODM1NDE3YzlmZmU4ZmY3MDI6", // TODO replace with real token
+    accept: "application/json",
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Headers": "*",
   },
 });
 // we will use ConsoleSpanExporter to check the generated spans in dev console
@@ -88,35 +91,40 @@ let previousTimestamp = 0;
 registerInstrumentations({
   instrumentations: [
     new UserInteractionInstrumentation({
-      eventNames: ['click'],
+      eventNames: ["click"],
       shouldPreventSpanCreation: (_, element, span) => {
         // prevent span creation if the element has a specific attribute
-        // @ts-ignore
+        // @ts-expect-error target_element is not a standard attribute
         const targetElement = span.attributes.target_element;
         if (targetElement && !allowedElements.has(targetElement)) return true;
 
-        // @ts-ignore
+        // @ts-expect-error target_xpath is not a standard attribute
         const targetElementXPath = span.attributes.target_xpath;
         const timestamp = new Date().getTime();
-        // To avoid the multiple click event in react 
+        // To avoid the multiple click event in react
         // https://github.com/open-telemetry/opentelemetry-js-contrib/issues/1368#issuecomment-2002452694
         // and use a timestamp to avoid loss events with the case that the user click multiple times in the same element
-        if (previousTargetedElementXPath == targetElementXPath && previousTimestamp >= timestamp - 100) return true;
+        if (
+          previousTargetedElementXPath == targetElementXPath &&
+          previousTimestamp >= timestamp - 100
+        )
+          return true;
         else {
           previousTargetedElementXPath = targetElementXPath;
           previousTimestamp = timestamp;
         }
-        span.setAttribute('target.id', element.id);
-        span.setAttribute('target.data-testid', element.getAttribute('data-testid') || '');
+        span.setAttribute("target.id", element.id);
+        span.setAttribute(
+          "target.data-testid",
+          element.getAttribute("data-testid") || ""
+        );
         return false;
-
-      }
+      },
     }),
   ],
 });
 
 // END OPENTELEMETRY CONFIG
-
 
 if (redirects && redirects?.source?.length > 0) {
   const matcher = new RegExp(redirects.source.join("|"));
