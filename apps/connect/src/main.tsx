@@ -16,12 +16,20 @@ import {
   WebTracerProvider,
   Span,
   ReadableSpan,
+  ConsoleSpanExporter,
 } from "@opentelemetry/sdk-trace-web";
 import { ZoneContextManager } from "@opentelemetry/context-zone";
 import { Resource } from "@opentelemetry/resources";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
 import { Context } from "@opentelemetry/api";
 import { UserInteractionInstrumentation } from "@opentelemetry/instrumentation-user-interaction";
+import { OTLPExporterError } from "@opentelemetry/otlp-exporter-base";
+import mixpanel, { Dict } from "mixpanel-browser";
+
+mixpanel.init("7413605f415a765835417c9ffe8ff702", {
+  ignore_dnt: true,
+  debug: true,
+});
 
 class MixpanelSpanProcessor extends SimpleSpanProcessor {
   onStart(span: Span, context: Context): void {
@@ -31,7 +39,6 @@ class MixpanelSpanProcessor extends SimpleSpanProcessor {
 }
 
 class MixpanelExporter extends OTLPTraceExporter {
-  
   convert(spans: ReadableSpan[]): any {
     // Must convert this in different types of span depending on the event
     const mixpanelSpan = spans.map((span) => {
@@ -55,8 +62,25 @@ class MixpanelExporter extends OTLPTraceExporter {
         },
       };
     });
-    console.log("MixpanelExporter convert", mixpanelSpan);
     return mixpanelSpan;
+  }
+  send(
+    objects: ReadableSpan[],
+    onSuccess: () => void,
+    onError: (error: OTLPExporterError) => void
+  ): void {
+    const mixpanelSpan = this.convert(objects);
+    console.log("MixpanelExporter send", mixpanelSpan);
+    try {
+      mixpanelSpan.forEach(
+        (span: { event: string; properties: Dict | undefined }) => {
+          mixpanel.track(span.event, span.properties);
+        }
+      );
+      onSuccess();
+    } catch (error) {
+      onError(error as OTLPExporterError);
+    }
   }
 }
 
@@ -73,11 +97,10 @@ const mixpanelExporter = new MixpanelExporter({
     Authorization: "Basic NzQxMzYwNWY0MTVhNzY1ODM1NDE3YzlmZmU4ZmY3MDI6", // TODO replace with real token
     accept: "application/json",
     "Content-Type": "application/json",
-    "Access-Control-Allow-Headers": "*",
   },
 });
 // we will use ConsoleSpanExporter to check the generated spans in dev console
-//provider.addSpanProcessor(new MixpanelSpanProcessor(new MixpanelExporter()));
+provider.addSpanProcessor(new MixpanelSpanProcessor(new ConsoleSpanExporter()));
 provider.addSpanProcessor(new MixpanelSpanProcessor(mixpanelExporter));
 // custome processor and exporter?
 provider.register({
