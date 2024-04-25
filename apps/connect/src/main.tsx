@@ -6,6 +6,7 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import theme from "./theme/portal.ts";
 import Background from "./components/atoms/Background.tsx";
 import App from "./App.tsx";
+import { OpenTelemetryProvider } from "./providers/telemetry.tsx";
 
 
 if (redirects && redirects?.source?.length > 0) {
@@ -21,10 +22,12 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={client}>
-        <Background>
-          <CssBaseline />
-          <App />
-        </Background>
+        <OpenTelemetryProvider>
+          <Background>
+            <CssBaseline />
+            <App />
+          </Background>
+        </OpenTelemetryProvider>
       </QueryClientProvider>
     </ThemeProvider>
   </React.StrictMode>
