@@ -6,7 +6,7 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import theme from "./theme/portal.ts";
 import Background from "./components/atoms/Background.tsx";
 import App from "./App.tsx";
-import { OpenTelemetryProvider } from "./providers/telemetry.tsx";
+import { OpenTelemetryContext, tracer } from "./providers/telemetry.ts";
 
 if (redirects && redirects?.source?.length > 0) {
   const matcher = new RegExp(redirects.source.join("|"));
@@ -21,12 +21,12 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={client}>
-        <OpenTelemetryProvider>
+        <OpenTelemetryContext.Provider value={{ tracer }}>
           <Background>
             <CssBaseline />
             <App />
           </Background>
-        </OpenTelemetryProvider>
+        </OpenTelemetryContext.Provider>
       </QueryClientProvider>
     </ThemeProvider>
   </React.StrictMode>

@@ -53,7 +53,7 @@ const tracerProvider = new WebTracerProvider({
 });
 const TRACER = `tracer://${APP_NAME}`;
 
-const tracer = tracerProvider.getTracer(TRACER);
+export const tracer = tracerProvider.getTracer(TRACER);
 
 mixpanel.init("fdaf35ef8f838559e248a71c80ff1626", {
   ignore_dnt: true,
@@ -153,17 +153,6 @@ export const eventHandler = (e: WormholeConnectEvent) => {
   if (e.type === "transfer.error" || e.type === "transfer.redeem.success") {
     span = provider.getTracer(TRACER).startSpan("transfer / redeem error");
   }
-};
-
-// Provider component
-export const OpenTelemetryProvider = ({
-  children,
-}: OpenTelemetryProviderProps) => {
-  return (
-    <OpenTelemetryContext.Provider value={{ tracer }}>
-      {children}
-    </OpenTelemetryContext.Provider>
-  );
 };
 
 // Custom hook to use the OpenTelemetry context
