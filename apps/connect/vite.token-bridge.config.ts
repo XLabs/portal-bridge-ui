@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import viteConfig from './vite.config'
+import type { WormholeConnectConfig } from '@wormhole-foundation/wormhole-connect'
 
 const PUBLIC_URL = viteConfig.base;
 
@@ -35,6 +36,404 @@ const MORE = {
 
 const MAINNET_MORE_NETWORKS = [ALGORAND, ACALA, SEI, MORE];
 const TESTNET_MORE_NETWORKS = [ALGORAND, ACALA, MORE];
+
+const TESTNET_TOKEN_CONFIG: WormholeConnectConfig = {
+  tokensConfig: {
+    Wsolana: {
+      key: 'Wsolana',
+      symbol: 'W',
+      nativeChain: 'solana',
+      tokenId: {
+        chain: 'solana',
+        address: 'EetppHswYvV1jjRWoQKC1hejdeBDHR9NNzNtCyRQfrrQ',
+      },
+      icon: 'https://assets.coingecko.com/coins/images/35087/standard/womrhole_logo_full_color_rgb_2000px_72ppi_fb766ac85a.png?1708688954',
+      coinGeckoId: 'wormhole',
+      decimals: {
+        default: 6,
+      },
+    },
+    Wsepolia: {
+      key: 'Wsepolia',
+      symbol: 'Ws',
+      nativeChain: 'sepolia',
+      tokenId: {
+        chain: 'sepolia',
+        address: '0x738141EFf659625F2eAD4feECDfCD94155C67f18',
+      },
+      icon: 'https://assets.coingecko.com/coins/images/35087/standard/womrhole_logo_full_color_rgb_2000px_72ppi_fb766ac85a.png?1708688954',
+      coinGeckoId: 'wormhole',
+      decimals: {
+        default: 18,
+      },
+    },
+    Warbitrum_sepolia: {
+      key: 'Warbitrum_sepolia',
+      symbol: 'Ws',
+      nativeChain: 'arbitrum_sepolia',
+      tokenId: {
+        chain: 'arbitrum_sepolia',
+        address: '0x395D3C74232D12916ecA8952BA352b4d27818035',
+      },
+      icon: 'https://assets.coingecko.com/coins/images/35087/standard/womrhole_logo_full_color_rgb_2000px_72ppi_fb766ac85a.png?1708688954',
+      coinGeckoId: 'wormhole',
+      decimals: {
+        default: 18,
+      },
+    },
+    Wbase_sepolia: {
+      key: 'Wbase_sepolia',
+      symbol: 'Ws',
+      nativeChain: 'base_sepolia',
+      tokenId: {
+        chain: 'base_sepolia',
+        address: '0x1d30E78B7C7fbbcef87ae6e97B5389b2e470CA4a',
+      },
+      icon: 'https://assets.coingecko.com/coins/images/35087/standard/womrhole_logo_full_color_rgb_2000px_72ppi_fb766ac85a.png?1708688954',
+      coinGeckoId: 'wormhole',
+      decimals: {
+        default: 18,
+      },
+    },
+    Woptimism_sepolia: {
+      key: 'Woptimism_sepolia',
+      symbol: 'Ws',
+      nativeChain: 'optimism_sepolia',
+      tokenId: {
+        chain: 'optimism_sepolia',
+        address: '0xdDFeABcCf2063CD66f53a1218e23c681Ba6e7962',
+      },
+      icon: 'https://assets.coingecko.com/coins/images/35087/standard/womrhole_logo_full_color_rgb_2000px_72ppi_fb766ac85a.png?1708688954',
+      coinGeckoId: 'wormhole',
+      decimals: {
+        default: 18,
+      },
+    },
+  },
+  nttGroups: {
+    W: {
+      nttManagers: [
+        {
+          chainName: 'solana',
+          address: 'NTtAaoDJhkeHeaVUHnyhwbPNAN6WgBpHkHBTc6d7vLK',
+          tokenKey: 'Wsolana',
+          transceivers: [
+            {
+              address: 'NTtAaoDJhkeHeaVUHnyhwbPNAN6WgBpHkHBTc6d7vLK',
+              type: 'wormhole',
+            },
+          ],
+          solanaQuoter: 'Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ',
+        },
+        {
+          chainName: 'sepolia',
+          address: '0x06413c42e913327Bc9a08B7C1E362BAE7C0b9598',
+          tokenKey: 'Wsepolia',
+          transceivers: [
+            {
+              address: '0x649fF7B32C2DE771043ea105c4aAb2D724497238',
+              type: 'wormhole',
+            },
+          ],
+        },
+        {
+          chainName: 'arbitrum_sepolia',
+          address: '0xCeC6FB4F352bf3DC2b95E1c41831E4D2DBF9a35D',
+          tokenKey: 'Warbitrum_sepolia',
+          transceivers: [
+            {
+              address: '0xfA42603152E4f133F5F3DA610CDa91dF5821d8bc',
+              type: 'wormhole',
+            },
+          ],
+        },
+        {
+          chainName: 'base_sepolia',
+          address: '0x8b9E328bE1b1Bc7501B413d04EBF7479B110775c',
+          tokenKey: 'Wbase_sepolia',
+          transceivers: [
+            {
+              address: '0x149987472333cD48ac6D28293A338a1EEa6Be7EE',
+              type: 'wormhole',
+            },
+          ],
+        },
+        {
+          chainName: 'optimism_sepolia',
+          address: '0x27F9Fdd3eaD5aA9A5D827Ca860Be28442A1e7582',
+          tokenKey: 'Woptimism_sepolia',
+          transceivers: [
+            {
+              address: '0xeCF0496DE01e9Aa4ADB50ae56dB550f52003bdB7',
+              type: 'wormhole',
+            },
+          ],
+        },
+      ],
+    },
+  },
+}
+
+const MAINNET_TOKEN_CONFIG: WormholeConnectConfig = {
+  tokensConfig: {
+    "USDC.e": {
+      key: 'USDC.e',
+      symbol: 'USDC.e',
+      nativeChain: 'polygon',
+      tokenId: {
+        chain: 'polygon',
+        address: '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174',
+      },
+      icon: "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' data-name='86977684-12db-4850-8f30-233a7c267d11' width='2000' height='2000' viewBox='0 0 2000 2000' style='max-height: 100%25%3b max-width: 100%25%3b'%3e%3cpath fill='%232775ca' d='M1000 2000c554.17 0 1000-445.83 1000-1000S1554.17 0 1000 0 0 445.83 0 1000s445.83 1000 1000 1000z'%3e%3c/path%3e%3cpath fill='white' d='M1275 1158.33c0-145.83-87.5-195.83-262.5-216.66-125-16.67-150-50-150-108.34s41.67-95.83 125-95.83c75 0 116.67 25 137.5 87.5 4.17 12.5 16.67 20.83 29.17 20.83h66.66c16.67 0 29.17-12.5 29.17-29.16v-4.17c-16.67-91.67-91.67-162.5-187.5-170.83v-100c0-16.67-12.5-29.17-33.33-33.34h-62.5c-16.67 0-29.17 12.5-33.34 33.34v95.83c-125 16.67-204.16 100-204.16 204.17 0 137.5 83.33 191.66 258.33 212.5 116.67 20.83 154.17 45.83 154.17 112.5s-58.34 112.5-137.5 112.5c-108.34 0-145.84-45.84-158.34-108.34-4.16-16.66-16.66-25-29.16-25h-70.84c-16.66 0-29.16 12.5-29.16 29.17v4.17c16.66 104.16 83.33 179.16 220.83 200v100c0 16.66 12.5 29.16 33.33 33.33h62.5c16.67 0 29.17-12.5 33.34-33.33v-100c125-20.84 208.33-108.34 208.33-220.84z'%3e%3c/path%3e%3cpath fill='white' d='M787.5 1595.83c-325-116.66-491.67-479.16-370.83-800 62.5-175 200-308.33 370.83-370.83 16.67-8.33 25-20.83 25-41.67V325c0-16.67-8.33-29.17-25-33.33-4.17 0-12.5 0-16.67 4.16-395.83 125-612.5 545.84-487.5 941.67 75 233.33 254.17 412.5 487.5 487.5 16.67 8.33 33.34 0 37.5-16.67 4.17-4.16 4.17-8.33 4.17-16.66v-58.34c0-12.5-12.5-29.16-25-37.5zm441.67-1300c-16.67-8.33-33.34 0-37.5 16.67-4.17 4.17-4.17 8.33-4.17 16.67v58.33c0 16.67 12.5 33.33 25 41.67 325 116.66 491.67 479.16 370.83 800-62.5 175-200 308.33-370.83 370.83-16.67 8.33-25 20.83-25 41.67V1700c0 16.67 8.33 29.17 25 33.33 4.17 0 12.5 0 16.67-4.16 395.83-125 612.5-545.84 487.5-941.67-75-237.5-258.34-416.67-487.5-491.67z'%3e%3c/path%3e%3c/svg%3e",
+      coinGeckoId: 'bridged-usdc-polygon-pos-bridge',
+      color: '#FC8E03',
+      decimals: {
+        default: 6,
+      },
+      foreignAssets: {
+        ethereum: {
+          address: '0x566957eF80F9fd5526CD2BEF8BE67035C0b81130',
+          decimals: 6,
+        },
+        bsc: {
+          address: '0x672147dD47674757C457eB155BAA382cc10705Dd',
+          decimals: 6,
+        },
+        avalanche: {
+          address: '0x543672E9CBEC728CBBa9C3Ccd99ed80aC3607FA8',
+          decimals: 6,
+        },
+        sui: {
+          address:
+            '0xcf72ec52c0f8ddead746252481fb44ff6e8485a39b803825bde6b00d77cdb0bb::coin::COIN',
+          decimals: 6,
+        },
+        aptos: {
+          address:
+            '0xc7160b1c2415d19a88add188ec726e62aab0045f0aed798106a2ef2994a9101e::coin::T',
+          decimals: 6,
+        },
+        arbitrum: {
+          address: '0x9A3Fba8a0870Fb9765023681DAa5390C7919C916',
+          decimals: 6,
+        },
+        fantom: {
+          address: '0x6e0e8cf6Ad151e1260A4D398faaEDFC450A9f00a',
+          decimals: 6,
+        },
+        base: {
+          address: '0x59f4f969dd3A91A943651C9625E96822DC84Ef94',
+          decimals: 6,
+        },
+        celo: {
+          address: '0x0E21B5BdFb6eDBa7d903a610d4DE2F8c72586017',
+          decimals: 6,
+        },
+      },
+    },
+    BONK: {
+      key: 'BONK',
+      symbol: 'BONK',
+      nativeChain: 'solana',
+      tokenId: {
+        chain: 'solana',
+        address: 'DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263',
+      },
+      icon: "https://quei6zhlcfsxdfyes577gy7bkxmuz7qqakyt72xlbkyh7fysmoza.arweave.net/hQiPZOsRZXGXBJd_82PhVdlM_hACsT_q6wqwf5cSY7I",
+      coinGeckoId: 'bonk',
+      color: '#FC8E03',
+      decimals: {
+        default: 5,
+      },
+      foreignAssets: {
+        ethereum: {
+          address: '0x1151CB3d861920e07a38e03eEAd12C32178567F6',
+          decimals: 5,
+        },
+        bsc: {
+          address: '0xA697e272a73744b343528C3Bc4702F2565b2F422',
+          decimals: 5,
+        },
+        polygon: {
+          address: '0xe5B49820e5A1063F6F4DdF851327b5E8B2301048',
+          decimals: 5,
+        },
+        avalanche: {
+          address: '0xC07C98a93591504584738e4569928DDb3b9f12A7',
+          decimals: 5,
+        },
+        sui: {
+          address:
+            '0x6907963ca849faff0957b9a8269a7a07065e3def2eef49cc33b50ab946ea5a9f::coin::COIN',
+          decimals: 5,
+        },
+        aptos: {
+          address:
+            '0x2a90fae71afc7460ee42b20ee49a9c9b29272905ad71fef92fbd8b3905a24b56::coin::T',
+          decimals: 5,
+        },
+        arbitrum: {
+          address: '0x09199d9A5F4448D0848e4395D065e1ad9c4a1F74',
+          decimals: 5,
+        },
+        wormchain: {
+          address:
+            'wormhole10qt8wg0n7z740ssvf3urmvgtjhxpyp74hxqvqt7z226gykuus7eq9mpu8u',
+          decimals: 5,
+        },
+        osmosis: {
+          address:
+            'ibc/CA3733CB0071F480FAE8EF0D9C3D47A49C6589144620A642BBE0D59A293D110E',
+          decimals: 5,
+        },
+        fantom: {
+          address: '0x3fEcdF1248fe7642d29f879a75CFC0339659ab93',
+          decimals: 5,
+        },
+        base: {
+          address: '0xDF1Cf211D38E7762c9691Be4D779A441a17A6cFC',
+          decimals: 5,
+        },
+        celo: {
+          address: '0x3fc50bc066aE2ee280876EeefADfdAbF6cA02894',
+          decimals: 5,
+        },
+      },
+    },
+    Wsolana: {
+      key: 'Wsolana',
+      symbol: 'W',
+      nativeChain: 'solana',
+      tokenId: {
+        chain: 'solana',
+        address: '85VBFQZC9TZkfaptBWjvUw7YbZjy52A6mjtPGjstQAmQ',
+      },
+      icon: 'https://assets.coingecko.com/coins/images/35087/standard/womrhole_logo_full_color_rgb_2000px_72ppi_fb766ac85a.png?1708688954',
+      coinGeckoId: 'wormhole',
+      decimals: {
+        default: 6,
+      },
+    },
+    Wethereum: {
+      key: 'Wethereum',
+      symbol: 'W',
+      nativeChain: 'ethereum',
+      tokenId: {
+        chain: 'ethereum',
+        address: '0xB0fFa8000886e57F86dd5264b9582b2Ad87b2b91',
+      },
+      icon: 'https://assets.coingecko.com/coins/images/35087/standard/womrhole_logo_full_color_rgb_2000px_72ppi_fb766ac85a.png?1708688954',
+      coinGeckoId: 'wormhole',
+      decimals: {
+        default: 18,
+      },
+    },
+    Warbitrum: {
+      key: 'Warbitrum',
+      symbol: 'W',
+      nativeChain: 'arbitrum',
+      tokenId: {
+        chain: 'arbitrum',
+        address: '0xB0fFa8000886e57F86dd5264b9582b2Ad87b2b91',
+      },
+      icon: 'https://assets.coingecko.com/coins/images/35087/standard/womrhole_logo_full_color_rgb_2000px_72ppi_fb766ac85a.png?1708688954',
+      coinGeckoId: 'wormhole',
+      decimals: {
+        default: 18,
+      },
+    },
+    Woptimism: {
+      key: 'Woptimism',
+      symbol: 'W',
+      nativeChain: 'optimism',
+      tokenId: {
+        chain: 'optimism',
+        address: '0xB0fFa8000886e57F86dd5264b9582b2Ad87b2b91',
+      },
+      icon: 'https://assets.coingecko.com/coins/images/35087/standard/womrhole_logo_full_color_rgb_2000px_72ppi_fb766ac85a.png?1708688954',
+      coinGeckoId: 'wormhole',
+      decimals: {
+        default: 18,
+      },
+    },
+    Wbase: {
+      key: 'Wbase',
+      symbol: 'W',
+      nativeChain: 'base',
+      tokenId: {
+        chain: 'base',
+        address: '0xB0fFa8000886e57F86dd5264b9582b2Ad87b2b91',
+      },
+      icon: 'https://assets.coingecko.com/coins/images/35087/standard/womrhole_logo_full_color_rgb_2000px_72ppi_fb766ac85a.png?1708688954',
+      coinGeckoId: 'wormhole',
+      decimals: {
+        default: 18,
+      },
+    },
+  },
+  nttGroups: {
+    W: {
+      nttManagers: [
+        {
+          chainName: 'solana',
+          address: 'NTtAaoDJhkeHeaVUHnyhwbPNAN6WgBpHkHBTc6d7vLK',
+          tokenKey: 'Wsolana',
+          transceivers: [
+            {
+              address: 'NTtAaoDJhkeHeaVUHnyhwbPNAN6WgBpHkHBTc6d7vLK',
+              type: 'wormhole',
+            },
+          ],
+          solanaQuoter: 'Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ',
+        },
+        {
+          chainName: 'ethereum',
+          address: '0xc072B1AEf336eDde59A049699Ef4e8Fa9D594A48',
+          tokenKey: 'Wethereum',
+          transceivers: [
+            {
+              address: '0xDb55492d7190D1baE8ACbE03911C4E3E7426870c',
+              type: 'wormhole',
+            },
+          ],
+        },
+        {
+          chainName: 'arbitrum',
+          address: '0x5333d0AcA64a450Add6FeF76D6D1375F726CB484',
+          tokenKey: 'Warbitrum',
+          transceivers: [
+            {
+              address: '0xD1a8AB69e00266e8B791a15BC47514153A5045a6',
+              type: 'wormhole',
+            },
+          ],
+        },
+        {
+          chainName: 'optimism',
+          address: '0x1a4F1a790f23Ffb9772966cB6F36dCd658033e13',
+          tokenKey: 'Woptimism',
+          transceivers: [
+            {
+              address: '0x9bD8b7b527CA4e6738cBDaBdF51C22466756073d',
+              type: 'wormhole',
+            },
+          ],
+        },
+        {
+          chainName: 'base',
+          address: '0x5333d0AcA64a450Add6FeF76D6D1375F726CB484',
+          tokenKey: 'Wbase',
+          transceivers: [
+            {
+              address: '0xD1a8AB69e00266e8B791a15BC47514153A5045a6',
+              type: 'wormhole',
+            },
+          ],
+        },
+      ],
+    },
+  },
+}
 
 
 // https://vitejs.dev/config/
@@ -81,132 +480,7 @@ export default defineConfig({
         label: "More tokens ...",
         href: ADVANCE_TOOLS_HREF_TEMPLATE,
       },
-      tokensConfig: {
-        "USDC.e": {
-          key: 'USDC.e',
-          symbol: 'USDC.e',
-          nativeChain: 'polygon',
-          tokenId: {
-            chain: 'polygon',
-            address: '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174',
-          },
-          icon: "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' data-name='86977684-12db-4850-8f30-233a7c267d11' width='2000' height='2000' viewBox='0 0 2000 2000' style='max-height: 100%25%3b max-width: 100%25%3b'%3e%3cpath fill='%232775ca' d='M1000 2000c554.17 0 1000-445.83 1000-1000S1554.17 0 1000 0 0 445.83 0 1000s445.83 1000 1000 1000z'%3e%3c/path%3e%3cpath fill='white' d='M1275 1158.33c0-145.83-87.5-195.83-262.5-216.66-125-16.67-150-50-150-108.34s41.67-95.83 125-95.83c75 0 116.67 25 137.5 87.5 4.17 12.5 16.67 20.83 29.17 20.83h66.66c16.67 0 29.17-12.5 29.17-29.16v-4.17c-16.67-91.67-91.67-162.5-187.5-170.83v-100c0-16.67-12.5-29.17-33.33-33.34h-62.5c-16.67 0-29.17 12.5-33.34 33.34v95.83c-125 16.67-204.16 100-204.16 204.17 0 137.5 83.33 191.66 258.33 212.5 116.67 20.83 154.17 45.83 154.17 112.5s-58.34 112.5-137.5 112.5c-108.34 0-145.84-45.84-158.34-108.34-4.16-16.66-16.66-25-29.16-25h-70.84c-16.66 0-29.16 12.5-29.16 29.17v4.17c16.66 104.16 83.33 179.16 220.83 200v100c0 16.66 12.5 29.16 33.33 33.33h62.5c16.67 0 29.17-12.5 33.34-33.33v-100c125-20.84 208.33-108.34 208.33-220.84z'%3e%3c/path%3e%3cpath fill='white' d='M787.5 1595.83c-325-116.66-491.67-479.16-370.83-800 62.5-175 200-308.33 370.83-370.83 16.67-8.33 25-20.83 25-41.67V325c0-16.67-8.33-29.17-25-33.33-4.17 0-12.5 0-16.67 4.16-395.83 125-612.5 545.84-487.5 941.67 75 233.33 254.17 412.5 487.5 487.5 16.67 8.33 33.34 0 37.5-16.67 4.17-4.16 4.17-8.33 4.17-16.66v-58.34c0-12.5-12.5-29.16-25-37.5zm441.67-1300c-16.67-8.33-33.34 0-37.5 16.67-4.17 4.17-4.17 8.33-4.17 16.67v58.33c0 16.67 12.5 33.33 25 41.67 325 116.66 491.67 479.16 370.83 800-62.5 175-200 308.33-370.83 370.83-16.67 8.33-25 20.83-25 41.67V1700c0 16.67 8.33 29.17 25 33.33 4.17 0 12.5 0 16.67-4.16 395.83-125 612.5-545.84 487.5-941.67-75-237.5-258.34-416.67-487.5-491.67z'%3e%3c/path%3e%3c/svg%3e",
-          coinGeckoId: 'bridged-usdc-polygon-pos-bridge',
-          color: '#FC8E03',
-          decimals: {
-            default: 6,
-          },
-          foreignAssets: {
-            ethereum: {
-              address: '0x566957eF80F9fd5526CD2BEF8BE67035C0b81130',
-              decimals: 6,
-            },
-            bsc: {
-              address: '0x672147dD47674757C457eB155BAA382cc10705Dd',
-              decimals: 6,
-            },
-            avalanche: {
-              address: '0x543672E9CBEC728CBBa9C3Ccd99ed80aC3607FA8',
-              decimals: 6,
-            },
-            sui: {
-              address:
-                '0xcf72ec52c0f8ddead746252481fb44ff6e8485a39b803825bde6b00d77cdb0bb::coin::COIN',
-              decimals: 6,
-            },
-            aptos: {
-              address:
-                '0xc7160b1c2415d19a88add188ec726e62aab0045f0aed798106a2ef2994a9101e::coin::T',
-              decimals: 6,
-            },
-            arbitrum: {
-              address: '0x9A3Fba8a0870Fb9765023681DAa5390C7919C916',
-              decimals: 6,
-            },
-            fantom: {
-              address: '0x6e0e8cf6Ad151e1260A4D398faaEDFC450A9f00a',
-              decimals: 6,
-            },
-            base: {
-              address: '0x59f4f969dd3A91A943651C9625E96822DC84Ef94',
-              decimals: 6,
-            },
-            celo: {
-              address: '0x0E21B5BdFb6eDBa7d903a610d4DE2F8c72586017',
-              decimals: 6,
-            },
-          },
-        },
-        BONK: {
-          key: 'BONK',
-          symbol: 'BONK',
-          nativeChain: 'solana',
-          tokenId: {
-            chain: 'solana',
-            address: 'DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263',
-          },
-          icon: "https://quei6zhlcfsxdfyes577gy7bkxmuz7qqakyt72xlbkyh7fysmoza.arweave.net/hQiPZOsRZXGXBJd_82PhVdlM_hACsT_q6wqwf5cSY7I",
-          coinGeckoId: 'bonk',
-          color: '#FC8E03',
-          decimals: {
-            default: 5,
-          },
-          foreignAssets: {
-            ethereum: {
-              address: '0x1151CB3d861920e07a38e03eEAd12C32178567F6',
-              decimals: 5,
-            },
-            bsc: {
-              address: '0xA697e272a73744b343528C3Bc4702F2565b2F422',
-              decimals: 5,
-            },
-            polygon: {
-              address: '0xe5B49820e5A1063F6F4DdF851327b5E8B2301048',
-              decimals: 5,
-            },
-            avalanche: {
-              address: '0xC07C98a93591504584738e4569928DDb3b9f12A7',
-              decimals: 5,
-            },
-            sui: {
-              address:
-                '0x6907963ca849faff0957b9a8269a7a07065e3def2eef49cc33b50ab946ea5a9f::coin::COIN',
-              decimals: 5,
-            },
-            aptos: {
-              address:
-                '0x2a90fae71afc7460ee42b20ee49a9c9b29272905ad71fef92fbd8b3905a24b56::coin::T',
-              decimals: 5,
-            },
-            arbitrum: {
-              address: '0x09199d9A5F4448D0848e4395D065e1ad9c4a1F74',
-              decimals: 5,
-            },
-            wormchain: {
-              address:
-                'wormhole10qt8wg0n7z740ssvf3urmvgtjhxpyp74hxqvqt7z226gykuus7eq9mpu8u',
-              decimals: 5,
-            },
-            osmosis: {
-              address:
-                'ibc/CA3733CB0071F480FAE8EF0D9C3D47A49C6589144620A642BBE0D59A293D110E',
-              decimals: 5,
-            },
-            fantom: {
-              address: '0x3fEcdF1248fe7642d29f879a75CFC0339659ab93',
-              decimals: 5,
-            },
-            base: {
-              address: '0xDF1Cf211D38E7762c9691Be4D779A441a17A6cFC',
-              decimals: 5,
-            },
-            celo: {
-              address: '0x3fc50bc066aE2ee280876EeefADfdAbF6cA02894',
-              decimals: 5,
-            },
-          },
-        }
-      }
+      ...(process.env.VITE_APP_CLUSTER === 'mainnet' ? MAINNET_TOKEN_CONFIG : TESTNET_TOKEN_CONFIG)
     }
   }
 })
