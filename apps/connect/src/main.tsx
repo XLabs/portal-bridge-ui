@@ -8,7 +8,6 @@ import Background from "./components/atoms/Background.tsx";
 import App from "./App.tsx";
 import { OpenTelemetryProvider } from "./providers/telemetry.tsx";
 
-
 if (redirects && redirects?.source?.length > 0) {
   const matcher = new RegExp(redirects.source.join("|"));
   if (matcher.test(window.location.hash)) {
