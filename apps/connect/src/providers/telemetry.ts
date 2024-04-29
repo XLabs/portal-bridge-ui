@@ -57,7 +57,9 @@ export const tracer = tracerProvider.getTracer(TRACER);
 
 mixpanel.init("fdaf35ef8f838559e248a71c80ff1626", {
   ignore_dnt: true,
-});
+  ip: false,
+  debug: true,
+}); // TODO remove $device_id
 
 class MixpanelExporter extends OTLPTraceExporter {
   convertMixpanel(spans: ReadableSpan[]): MixpanelSpan[] {
@@ -66,9 +68,7 @@ class MixpanelExporter extends OTLPTraceExporter {
         event: span.name,
         properties: {
           time: span.startTime[0],
-          URL: span.attributes["http.url"],
-          attributes: span.attributes,
-          events: span.events,
+          ...span.attributes,
         },
       };
     });
@@ -111,47 +111,92 @@ provider.register({
 });
 
 let span: Span;
+let lastChain: string;
 // Send the event to the opentelemetry
 export const eventHandler = (e: WormholeConnectEvent) => {
+  console.log("eventHandler", e);
+  // Ignore the load event
+  if (e.type === "load") return;
+
   // Start the trace when the event is load
-  if (e.type === "load") {
-    span = provider.getTracer(TRACER).startSpan("transfer / redeem error");
-    return;
-  }
+  span = provider.getTracer(TRACER).startSpan(e.type);
+
+  // Wallet connect information
+  // TODO improve wallet.connect event in connect, many events are sent
   if (e.type === "wallet.connect") {
     const side = e.details.side;
     span.setAttributes({
       [`wallet-${side}`]: e.details.wallet,
       [`chain-${side}`]: e.details.chain,
     });
-    return;
-  }
-  // Convert WormholeConnectEvent to Attributes
-  const attributes: Attributes = {};
-  Object.keys(e).forEach((field) => {
-    if (Object.prototype.hasOwnProperty.call(e, field)) {
-      if (field !== "type") {
-        /* eslint-disable @typescript-eslint/no-explicit-any */
-        const data = (e as any)[field];
-        for (const key in data) {
-          if (Object.prototype.hasOwnProperty.call(data, key)) {
-            const value = data[key];
-            attributes[`${field}-${key}`] =
-              typeof value === "object" ? JSON.stringify(value) : value;
-          }
-        }
-      }
+    const chain = `${e.details.chain}-${side}`;
+    if (lastChain !== chain) {
+      span?.end();
     }
-  });
-  span?.addEvent(e.type, attributes);
+    lastChain = chain;
+  } else {
+    // Convert WormholeConnectEvent to Attributes
+    const attributes: Attributes = {};
 
-  // End the trace when the event is transfer.error
-  if (e.type === "transfer.error") {
+    attributes["fromChain"] = e.details.fromChain;
+    attributes["toChain"] = e.details.toChain;
+    attributes["fromTokenSymbol"] = e.details.fromToken?.symbol;
+    attributes["fromTokenAddress"] =
+      typeof e.details.fromToken?.tokenId === "object"
+        ? e.details.fromToken?.tokenId.address
+        : "native";
+    attributes["toTokenSymbol"] = e.details.toToken?.symbol;
+    attributes["toTokenAddress"] =
+      typeof e.details.toToken?.tokenId === "object"
+        ? e.details.toToken?.tokenId.address
+        : "native";
+
+    let routeName;
+    switch (e.details.route) {
+      case "bridge":
+        routeName = "Manual Bridge";
+        break;
+      case "relay":
+        routeName = "Relayer";
+        break;
+      case "ethBridge":
+        routeName = "Eth Bridge";
+        break;
+      case "wstETHBridge":
+        routeName = "wstETH Bridge";
+        break;
+      case "cctpManual":
+        routeName = "CCTP Manual";
+        break;
+      case "cctpRelay":
+        routeName = "CCTP Relayer";
+        break;
+      case "tbtc":
+        routeName = "TBTC";
+        break;
+      case "cosmosGateway":
+        routeName = "Cosmos Gateway";
+        break;
+      case "nttManual":
+        routeName = "NTT Manual";
+        break;
+      case "nttRelay":
+        routeName = "NTT Relayer";
+        break;
+
+      default:
+        routeName = "Manual Bridge";
+        break;
+    }
+    attributes["route"] = routeName;
+
+    if (e.type === "transfer.error") {
+      attributes["error-type"] = e.error.type || "unknown";
+    }
+
+    // Transfer event information
+    span.setAttributes(attributes);
     span?.end();
-  }
-  // Reset the span to start a new trace
-  if (e.type === "transfer.error" || e.type === "transfer.redeem.success") {
-    span = provider.getTracer(TRACER).startSpan("transfer / redeem error");
   }
 };
 
