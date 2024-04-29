@@ -190,7 +190,7 @@ export const eventHandler = (e: WormholeConnectEvent) => {
     }
     attributes["route"] = routeName;
 
-    if (e.type === "transfer.error") {
+    if (e.type === "transfer.error" || e.type === "transfer.redeem.error") {
       attributes["error-type"] = e.error.type || "unknown";
     }
 
