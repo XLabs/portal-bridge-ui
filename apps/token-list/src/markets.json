@@ -3703,6 +3703,10 @@
         "logo": "https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/USDTeav_wh.png",
         "symbol": "USDTeav"
       },
+      "B41suXe9UdQhJhx3sTAK2fEcr86McPfBJfhz5k5prvTJ": {
+        "logo": "https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/wPOKT_wh.png",
+        "symbol": "wPOKT"
+      },
       "BCsFXYm81iqXyYmrLKgAp3AePcgLHnirb8FjTs6sjM7U": {
         "logo": "https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/SPELL_wh.png",
         "symbol": "SPELL"
@@ -4292,6 +4296,10 @@
       "0x5fab9761d60419C9eeEbe3915A8FA1ed7e8d2E1B": {
         "logo": "https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/DIMO_wh.png",
         "symbol": "DIMO"
+      },
+      "0x67f4c72a50f8df6487720261e188f2abe83f57d7": {
+        "logo": "https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/wPOKT_wh.png",
+        "symbol": "wPOKT"
       },
       "0x6b175474e89094c44da98b954eedeac495271d0f": {
         "logo": "https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/DAI_wh.png",

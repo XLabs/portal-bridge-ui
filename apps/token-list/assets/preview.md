@@ -845,6 +845,14 @@ https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/as
 https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/USDTet_wh.png
 ```
 
+### wPOKT
+![wPOKT](wPOKT_wh.png)
+![wPOKT](wPOKT_wh_small.png)
+
+```
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/wPOKT_wh.png
+```
+
 ### WBTC
 ![WBTC](WBTC_wh.png)
 ![WBTC](WBTC_wh_small.png)

@@ -1977,6 +1977,21 @@ TOKENS = {
       },
       "sourceDecimals": 6
     },
+    "wPOKT": {
+      "symbol": "wPOKT",
+      "name": "Wrapped Pocket (Portal)",
+      "sourceAddress": "0x67f4c72a50f8df6487720261e188f2abe83f57d7",
+      "coingeckoId": "pocket-network", # or wrapped-pokt
+      "markets": {
+      },
+      "destinations": {
+        "sol": {
+          "address": "B41suXe9UdQhJhx3sTAK2fEcr86McPfBJfhz5k5prvTJ",
+          "decimals": 6
+        }
+      },
+      "sourceDecimals": 6
+    },
     "WBTC": {
       "symbol": "WBTC",
       "name": "Wrapped BTC (Portal)",
