@@ -12,8 +12,6 @@ import {
 import mixpanel, { Dict } from "mixpanel-browser";
 import { OTLPExporterError } from "@opentelemetry/otlp-exporter-base";
 import { createContext, useContext } from "react";
-import { WormholeConnectEvent } from "../../../../../wormhole-connect/wormhole-connect/lib/src/telemetry/types";
-
 export type OpenTelemetryContextType = {
   tracer: Tracer;
 };
@@ -113,7 +111,8 @@ provider.register({
 let span: Span;
 let lastChain: string;
 // Send the event to the opentelemetry
-export const eventHandler = (e: WormholeConnectEvent) => {
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+export const eventHandler = (e: any) => {
   console.log("eventHandler", e);
   // Ignore the load event
   if (e.type === "load") return;
