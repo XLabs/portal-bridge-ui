@@ -122,7 +122,6 @@ export const eventHandler = (e: WormholeConnectEvent) => {
   span = provider.getTracer(TRACER).startSpan(e.type);
 
   // Wallet connect information
-  // TODO improve wallet.connect event in connect, many events are sent
   if (e.type === "wallet.connect") {
     const side = e.details.side;
     span.setAttributes({
