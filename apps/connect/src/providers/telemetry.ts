@@ -40,7 +40,7 @@ const APP_NAME =
 let sessionId = localStorage.getItem("session.id");
 if (!sessionId) {
   const newSessionId = crypto.randomUUID();
-  localStorage.setItem("session.id", JSON.stringify(sessionId));
+  localStorage.setItem("session.id", JSON.stringify(newSessionId));
   sessionId = newSessionId;
 }
 const tracerProvider = new WebTracerProvider({
