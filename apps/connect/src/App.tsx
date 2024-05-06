@@ -9,9 +9,11 @@ import NewsBar from "./components/atoms/NewsBar";
 import messageConfig from "./configs/messages";
 import { useQueryParams } from "./hooks/useQueryParams";
 import WormholeConnect from "@wormhole-foundation/wormhole-connect";
+import { eventHandler } from "./providers/telemetry";
 
 const defaultConfig: WormholeConnectConfig = {
   ...wormholeConnectConfig,
+  eventHandler: eventHandler,
 };
 
 export default function Root() {
