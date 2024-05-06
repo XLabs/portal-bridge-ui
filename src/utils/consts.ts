@@ -787,9 +787,9 @@ export const OPTIMISM_NETWORK_CHAIN_ID =
   CLUSTER === "mainnet" ? 10 : CLUSTER === "testnet" ? 420 : 1381;
 export const BASE_NETWORK_CHAIN_ID =
   CLUSTER === "mainnet" ? 8453 : CLUSTER === "testnet" ? 84531 : 1381;
-export const SCROLL_NETWORK_CHAIN_ID = 
+export const SCROLL_NETWORK_CHAIN_ID =
   CLUSTER === "mainnet" ? 534352 : CLUSTER === "testnet" ? 534351 : 1381;
-export const BLAST_NETWORK_CHAIN_ID = 
+export const BLAST_NETWORK_CHAIN_ID =
   CLUSTER === "mainnet" ? 81457 : CLUSTER === "testnet" ? 168587773 : 1381;
 
 export const getEvmChainId = (chainId: ChainId) =>
