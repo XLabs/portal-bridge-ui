@@ -78,7 +78,6 @@ class MixpanelExporter extends OTLPTraceExporter {
     onError: (error: OTLPExporterError) => void
   ): void {
     const mixpanelSpan = this.convertMixpanel(objects);
-    console.log("MixpanelExporter send", mixpanelSpan);
     try {
       mixpanel.identify(localStorage.getItem("session.id") || "");
       mixpanelSpan.forEach(
@@ -113,7 +112,6 @@ let lastChain: string;
 // Send the event to the opentelemetry
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 export const eventHandler = (e: any) => {
-  console.log("eventHandler", e);
   // Ignore the load event
   if (e.type === "load") return;
 
