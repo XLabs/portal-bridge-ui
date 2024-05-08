@@ -33,6 +33,7 @@ import {
   CELO_MIGRATION_ASSET_MAP,
   CHAINS,
   CLUSTER,
+  DISABLED_CHAINS,
   ETH_MIGRATION_ASSET_MAP,
 } from "../../utils/consts";
 import ButtonWithLoader from "../ButtonWithLoader";
@@ -79,14 +80,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Source() {
+  const chains = useMemo(
+    () => CHAINS.filter((c) => !DISABLED_CHAINS.includes(c.id)),
+    []
+  );
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
   const sourceChain = useSelector(selectTransferSourceChain);
   const targetChain = useSelector(selectTransferTargetChain);
   const targetChainOptions = useMemo(
-    () => CHAINS.filter((c) => c.id !== sourceChain),
-    [sourceChain]
+    () => chains.filter((c) => c.id !== sourceChain),
+    [sourceChain, chains]
   );
   const parsedTokenAccount = useSelector(
     selectTransferSourceParsedTokenAccount
@@ -209,7 +214,7 @@ function Source() {
             value={sourceChain}
             onChange={handleSourceChange}
             disabled={shouldLockFields}
-            chains={CHAINS}
+            chains={chains}
           />
         </div>
         <div className={classes.chainSelectArrow}>

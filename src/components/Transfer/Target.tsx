@@ -27,7 +27,7 @@ import {
   selectTransferTargetParsedTokenAccount,
 } from "../../store/selectors";
 import { incrementStep, setTargetChain } from "../../store/transferSlice";
-import { CHAINS, CLUSTER } from "../../utils/consts";
+import { CHAINS, CLUSTER, DISABLED_CHAINS } from "../../utils/consts";
 import { getEmitterAddressNear } from "../../utils/near";
 import ButtonWithLoader from "../ButtonWithLoader";
 import ChainSelect from "../ChainSelect";
@@ -143,7 +143,7 @@ function Target() {
         value={targetChain}
         onChange={handleTargetChange}
         disabled={true}
-        chains={chains}
+        chains={chains.filter((c) => !DISABLED_CHAINS.includes(c.id))}
       />
       <KeyAndBalance chainId={targetChain} />
       {readableTargetAddress ? (

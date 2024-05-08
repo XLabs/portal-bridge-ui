@@ -55,7 +55,6 @@ import arbitrumIcon from "../icons/arbitrum.svg";
 import auroraIcon from "../icons/aurora.svg";
 import avaxIcon from "../icons/avax.svg";
 import baseIcon from "../icons/base.svg";
-import blastIcon from "../icons/blast.svg";
 import bscIcon from "../icons/bsc.svg";
 import celoIcon from "../icons/celo.svg";
 import ethIcon from "../icons/eth.svg";
@@ -98,6 +97,12 @@ export interface ChainInfo {
   name: string;
   logo: string;
 }
+
+export const DISABLED_CHAINS: Array<Partial<ChainId>> = [
+  CHAIN_ID_BLAST,
+  CHAIN_ID_SCROLL,
+];
+
 export const CHAINS: ChainInfo[] =
   CLUSTER === "mainnet"
     ? [
@@ -135,11 +140,6 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_BASE,
           name: "Base",
           logo: baseIcon,
-        },
-        {
-          id: CHAIN_ID_BLAST,
-          name: "Blast",
-          logo: blastIcon,
         },
         {
           id: CHAIN_ID_BSC,
@@ -333,6 +333,11 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_POLYGON,
           name: "Polygon",
           logo: polygonIcon,
+        },
+        {
+          id: CHAIN_ID_SCROLL,
+          name: "Scroll",
+          logo: scrollIcon,
         },
         {
           id: CHAIN_ID_SEI,
