@@ -100,8 +100,9 @@ export interface ChainInfo {
 }
 
 export const DISABLED_CHAINS: Array<Partial<ChainId>> = [
-  CHAIN_ID_BLAST, CHAIN_ID_SCROLL
-]
+  CHAIN_ID_BLAST,
+  CHAIN_ID_SCROLL,
+];
 
 export const CHAINS: ChainInfo[] =
   CLUSTER === "mainnet"

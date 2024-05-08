@@ -1032,7 +1032,11 @@ export default function Recovery() {
           onChange={handleSourceChainChange}
           fullWidth
           margin="normal"
-          chains={isNFT ? CHAINS_WITH_NFT_SUPPORT : CHAINS.filter((c) => !DISABLED_CHAINS.includes(c.id))}
+          chains={
+            isNFT
+              ? CHAINS_WITH_NFT_SUPPORT
+              : CHAINS.filter((c) => !DISABLED_CHAINS.includes(c.id))
+          }
         />
         {isEVMChain(recoverySourceChain) ||
         recoverySourceChain === CHAIN_ID_NEAR ? (

@@ -80,7 +80,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Source() {
-  const chains = useMemo(() => CHAINS.filter((c) => !DISABLED_CHAINS.includes(c.id)), []);
+  const chains = useMemo(
+    () => CHAINS.filter((c) => !DISABLED_CHAINS.includes(c.id)),
+    []
+  );
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
