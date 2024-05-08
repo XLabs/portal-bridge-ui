@@ -33,8 +33,7 @@ const chains = [
   "base",
   "arbitrum",
   "optimism",
-  "scroll",
-  "blast"
+  "scroll"
 ]
 
 const MAINNET_RPCS = {
