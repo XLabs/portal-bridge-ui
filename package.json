@@ -3,7 +3,7 @@
   "version": "0.1.92",
   "private": true,
   "dependencies": {
-    "@certusone/wormhole-sdk": "^0.10.14",
+    "@certusone/wormhole-sdk": "^0.10.15",
     "@cosmjs/cosmwasm-stargate": "^0.32.3",
     "@cosmjs/tendermint-rpc": "^0.32.3",
     "@injectivelabs/networks": "^1.14.4",
