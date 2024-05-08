@@ -13,7 +13,11 @@ import { eventHandler } from "./providers/telemetry";
 
 const defaultConfig: WormholeConnectConfig = {
   ...wormholeConnectConfig,
-  eventHandler: window.location.origin.includes('preview') || window.location.origin.includes('testnet') ? eventHandler : undefined,
+  eventHandler:
+    window.location.origin.includes("preview") ||
+    window.location.origin.includes("testnet")
+      ? eventHandler
+      : undefined,
 };
 
 export default function Root() {
