@@ -98,6 +98,11 @@ export interface ChainInfo {
   name: string;
   logo: string;
 }
+
+export const DISABLED_CHAINS: Array<Partial<ChainId>> = [
+  CHAIN_ID_BLAST, CHAIN_ID_SCROLL
+]
+
 export const CHAINS: ChainInfo[] =
   CLUSTER === "mainnet"
     ? [
@@ -135,11 +140,6 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_BASE,
           name: "Base",
           logo: baseIcon,
-        },
-        {
-          id: CHAIN_ID_BLAST,
-          name: "Blast",
-          logo: blastIcon,
         },
         {
           id: CHAIN_ID_BSC,
@@ -333,6 +333,11 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_POLYGON,
           name: "Polygon",
           logo: polygonIcon,
+        },
+        {
+          id: CHAIN_ID_SCROLL,
+          name: "Scroll",
+          logo: scrollIcon,
         },
         {
           id: CHAIN_ID_SEI,

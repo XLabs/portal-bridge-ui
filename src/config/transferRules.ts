@@ -44,14 +44,7 @@ const transferRules: Rule[] = [
       source === CHAIN_ID_AURORA || target === CHAIN_ID_AURORA,
     text: AuroraMessage,
     disableTransfer: true,
-  } /*,
-  {
-    id: "terra-classic-native",
-    predicate: ({ target, token }: PredicateArgs) =>
-      target === CHAIN_ID_TERRA && terra.isNativeDenom(token),
-    text: TERRA_CLASSIC_MESSAGE,
-    disableTransfer: true,
-  }*/,
+  },
 ];
 
 export default transferRules;

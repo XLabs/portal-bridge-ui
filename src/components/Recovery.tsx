@@ -93,6 +93,7 @@ import {
   getWalletAddressNative,
   CLUSTER,
   ALGORAND_INDEXER,
+  DISABLED_CHAINS,
 } from "../utils/consts";
 import { getSignedVAAWithRetry } from "../utils/getSignedVAAWithRetry";
 import {
@@ -1031,7 +1032,7 @@ export default function Recovery() {
           onChange={handleSourceChainChange}
           fullWidth
           margin="normal"
-          chains={isNFT ? CHAINS_WITH_NFT_SUPPORT : CHAINS}
+          chains={isNFT ? CHAINS_WITH_NFT_SUPPORT : CHAINS.filter((c) => !DISABLED_CHAINS.includes(c.id))}
         />
         {isEVMChain(recoverySourceChain) ||
         recoverySourceChain === CHAIN_ID_NEAR ? (
