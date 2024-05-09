@@ -32,7 +32,8 @@ const chains = [
   "moonbeam",
   "base",
   "arbitrum",
-  "optimism"
+  "optimism",
+  "scroll"
 ]
 
 const MAINNET_RPCS = {
