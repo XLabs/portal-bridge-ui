@@ -56,6 +56,7 @@ import auroraIcon from "../icons/aurora.svg";
 import avaxIcon from "../icons/avax.svg";
 import baseIcon from "../icons/base.svg";
 import bscIcon from "../icons/bsc.svg";
+import blastIcon from "../icons/blast.svg";
 import celoIcon from "../icons/celo.svg";
 import ethIcon from "../icons/eth.svg";
 import fantomIcon from "../icons/fantom.svg";
@@ -145,6 +146,11 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_BSC,
           name: "BNB Chain",
           logo: bscIcon,
+        },
+        {
+          id: CHAIN_ID_BLAST,
+          name: "Blast",
+          logo: blastIcon,
         },
         {
           id: CHAIN_ID_CELO,
