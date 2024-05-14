@@ -150,7 +150,7 @@ export const CHAINS: ChainInfo[] =
         {
           id: CHAIN_ID_BLAST,
           name: "Blast",
-          logo: blastIcon
+          logo: blastIcon,
         },
         {
           id: CHAIN_ID_CELO,
