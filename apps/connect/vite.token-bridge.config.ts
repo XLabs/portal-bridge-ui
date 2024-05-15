@@ -470,7 +470,7 @@ export default defineConfig({
       cctpWarning: {
         href: USDC_BRIDGE_HREF
       },
-      networks: [...chains],
+      networks: [...chains, "solana", "injective", "klaytn"],
       moreNetworks: {
         href: ADVANCE_TOOLS_HREF_TEMPLATE,
         target: "_blank",
