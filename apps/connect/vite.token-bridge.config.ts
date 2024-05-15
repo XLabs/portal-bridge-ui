@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite'
-import viteConfig from './vite.config'
+import viteConfig, { chains } from './vite.config'
 import type { WormholeConnectConfig } from '@wormhole-foundation/wormhole-connect'
 
 const PUBLIC_URL = viteConfig.base;
@@ -470,6 +470,7 @@ export default defineConfig({
       cctpWarning: {
         href: USDC_BRIDGE_HREF
       },
+      networks: [...chains],
       moreNetworks: {
         href: ADVANCE_TOOLS_HREF_TEMPLATE,
         target: "_blank",
