@@ -1,7 +1,7 @@
 import { ChainId, toChainId } from "@certusone/wormhole-sdk";
 import { ChainName } from "@wormhole-foundation/wormhole-connect";
 import { createContext, useContext } from "react";
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 let topCorridors: any;
 export interface Corridor {
   fromChain: ChainName;
@@ -20,14 +20,14 @@ export interface ValidateTransferResult {
 }
 
 export type ValidateTransferHandler = (
-  transferDetails: ExtendedTransferDetails,
+  transferDetails: ExtendedTransferDetails
 ) => Promise<ValidateTransferResult>;
 
 export enum WarningLiquidMarkets {
   NO_WARNING,
-  MANUALLY_WARNED_CORRIDOR = 'Manually Warned Corridor',
-  RARE_CORRIDOR = 'Rare Corridor',
-  NEW_CORRIDOR = 'New Corridor',
+  MANUALLY_WARNED_CORRIDOR = "Manually Warned Corridor",
+  RARE_CORRIDOR = "Rare Corridor",
+  NEW_CORRIDOR = "New Corridor",
 }
 export interface ValidateTransferResult {
   isValid: boolean;
@@ -37,7 +37,6 @@ export interface ValidateTransferResult {
 export type LiquidMarketsWarningContextType = {
   warningType: WarningLiquidMarkets;
   corridor?: Corridor;
-
 };
 export const warningType = WarningLiquidMarkets.NO_WARNING;
 export const LiquidMarketsWarningContext =
@@ -86,7 +85,7 @@ export interface TokenDetails {
         address: string;
         chain: string;
       }
-    | 'native';
+    | "native";
 }
 
 export interface TransferDetails {
@@ -101,31 +100,43 @@ export interface ExtendedTransferDetails extends TransferDetails {
   toWalletAddress: string;
 }
 // let dexPools: any;
-/* eslint-disable @typescript-eslint/no-explicit-any */
-export const validateTransfer = async (e: ExtendedTransferDetails): Promise<LiquidMarketsWarningContextType> => {
+export const validateTransfer = async (
+  e: ExtendedTransferDetails
+): Promise<LiquidMarketsWarningContextType> => {
   console.log("transfer.initiate", e);
 
-    // Manually warned corridor
-    /*const warnedCorridors = await fetchCorridors();
+  // Manually warned corridor
+  /*const warnedCorridors = await fetchCorridors();
     warnedCorridors.forEach((corridor) => {
       if (e.fromChain === corridor.fromChain && e.toChain === corridor.toChain && e.toToken.tokenId === corridor.toToken) {
         return { warningType: WarningLiquidMarkets.MANUALLY_WARNED_CORRIDOR, corridor };
       }
     });*/
 
-    if (!topCorridors) {
-      topCorridors = await (await fetch("https://api.staging.wormscan.io/api/v1/top-100-corridors")).json();
-    }
-    const fromChainId = toChainId(e.fromChain);
-    const receiverChainId = toChainId(e.toChain);
+  if (!topCorridors) {
+    topCorridors = await (
+      await fetch("https://api.staging.wormscan.io/api/v1/top-100-corridors")
+    ).json();
+  }
+  const fromChainId = toChainId(e.fromChain);
+  const receiverChainId = toChainId(e.toChain);
 
-    const isTopCorridor = topCorridors?.corridors.find((corridor: { emitter_chain: number; token_chain: number; token_address: string | { address: string; chain: string; }; }) => fromChainId === corridor.emitter_chain && receiverChainId === corridor.token_chain && e.toToken.tokenId === corridor.token_address);
-    if (isTopCorridor) {
-      return { warningType: WarningLiquidMarkets.NO_WARNING };
-    }
+  const isTopCorridor = topCorridors?.corridors.find(
+    (corridor: {
+      emitter_chain: number;
+      token_chain: number;
+      token_address: string | { address: string; chain: string };
+    }) =>
+      fromChainId === corridor.emitter_chain &&
+      receiverChainId === corridor.token_chain &&
+      e.toToken.tokenId === corridor.token_address
+  );
+  if (isTopCorridor) {
+    return { warningType: WarningLiquidMarkets.NO_WARNING };
+  }
 
-    // Rare corridor
-    /*if (!dexPools) {
+  // Rare corridor
+  /*if (!dexPools) {
       // TODO translate symbol to chain name key like: ethereum -> eth  or bsc -> bsc
       // TODO change to actual API
       dexPools = await (await fetch(`https://arkham-api?chain=${e.toChain}&address=${e.toToken.tokenId}` )).json();
@@ -140,16 +151,24 @@ export const validateTransfer = async (e: ExtendedTransferDetails): Promise<Liqu
         }
       }
     }*/
-    // Manually allowed corridor
-    // if (https://api.staging.wormscan.io/api/v1/top-100-corridors) {
-    // return;
-    // }
+  // Manually allowed corridor
+  // if (https://api.staging.wormscan.io/api/v1/top-100-corridors) {
+  // return;
+  // }
 
-
-  return { warningType: WarningLiquidMarkets.MANUALLY_WARNED_CORRIDOR, corridor: {
-    fromChain: e.fromChain,
-    toChain: e.toChain,
-    fromToken: typeof e.fromToken.tokenId === 'string' ? e.fromToken.tokenId : e.fromToken.tokenId.address,
-    toToken: typeof e.toToken.tokenId === 'string' ? e.toToken.tokenId : e.toToken.tokenId.address
-  } };
-}
+  return {
+    warningType: WarningLiquidMarkets.MANUALLY_WARNED_CORRIDOR,
+    corridor: {
+      fromChain: e.fromChain,
+      toChain: e.toChain,
+      fromToken:
+        typeof e.fromToken.tokenId === "string"
+          ? e.fromToken.tokenId
+          : e.fromToken.tokenId.address,
+      toToken:
+        typeof e.toToken.tokenId === "string"
+          ? e.toToken.tokenId
+          : e.toToken.tokenId.address,
+    },
+  };
+};

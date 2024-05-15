@@ -1,4 +1,4 @@
-import { createSvgIcon } from '@mui/material';
+import { createSvgIcon } from "@mui/material";
 
 const CloseIcon = createSvgIcon(
   <path
@@ -6,7 +6,7 @@ const CloseIcon = createSvgIcon(
     fill="currentColor"
     fillOpacity="0.9"
   />,
-  'Close',
+  "Close"
 );
 
 export default CloseIcon;

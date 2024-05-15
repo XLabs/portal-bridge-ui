@@ -7,7 +7,15 @@ interface ChainIconProps {
 const ChainIcon = ({ chain }: ChainIconProps) => {
   const chainIcon = toChainNameIcon(chain);
   const icon = chainToIcon(chainIcon);
-  return icon ? <img src={icon} alt={chain} height="20px" width="20px" style={{verticalAlign: 'sub'}}/> : null
+  return icon ? (
+    <img
+      src={icon}
+      alt={chain}
+      height="20px"
+      width="20px"
+      style={{ verticalAlign: "sub" }}
+    />
+  ) : null;
 };
 
 export default ChainIcon;
