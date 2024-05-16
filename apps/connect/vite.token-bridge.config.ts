@@ -231,6 +231,27 @@ const MAINNET_TOKEN_CONFIG: WormholeConnectConfig = {
         },
       },
     },
+    ONDO: {
+      key: 'ONDO',
+      symbol: 'ONDO',
+      nativeChain: 'ethereum',
+      tokenId: {
+        chain: 'ethereum',
+        address: '0xfaba6f8e4a5e8ab82f62fe7c39859fa577269be3'
+      },
+      icon: "https://etherscan.io/token/images/ondofinance_32.png",
+      coinGeckoId: 'ondo',
+      color:  '#FFD700',
+      decimals: {
+        default: 18,
+      },
+      foreignAssets: {
+        solana: {
+          address: 'FTHeEN2xtXrSkrza9fHUVjdu193K4VyxV95EjAFEhzJk',
+          decimals: 8,
+        },
+      }
+    },
     BONK: {
       key: 'BONK',
       symbol: 'BONK',
