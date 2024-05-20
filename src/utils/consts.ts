@@ -1876,7 +1876,7 @@ export const getTerraFCDBaseUrl = (chainId: TerraChainId) =>
   CLUSTER === "mainnet"
     ? chainId === CHAIN_ID_TERRA2
       ? "https://phoenix-fcd.terra.dev"
-      : "https://columbus-fcd.terra.dev"
+      : "https://terra-classic-fcd.publicnode.com"
     : CLUSTER === "testnet"
     ? chainId === CHAIN_ID_TERRA2
       ? "https://pisco-fcd.terra.dev"
