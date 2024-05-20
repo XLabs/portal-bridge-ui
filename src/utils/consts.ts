@@ -855,7 +855,7 @@ export const getTerraConfig = (chainId: TerraChainId) => {
     ? {
         URL:
           chainId === CHAIN_ID_TERRA2
-            ? "https://phoenix-lcd.terra.dev"
+            ? "https://lcd-terra.tfl.foundation"
             : "https://terra-classic-lcd.publicnode.com",
         chainID: chainId === CHAIN_ID_TERRA2 ? "phoenix-1" : "columbus-5",
         name: "mainnet",
@@ -1876,7 +1876,7 @@ export const getTerraFCDBaseUrl = (chainId: TerraChainId) =>
   CLUSTER === "mainnet"
     ? chainId === CHAIN_ID_TERRA2
       ? "https://phoenix-fcd.terra.dev"
-      : "https://columbus-fcd.terra.dev"
+      : "https://terra-classic-fcd.publicnode.com"
     : CLUSTER === "testnet"
     ? chainId === CHAIN_ID_TERRA2
       ? "https://pisco-fcd.terra.dev"
