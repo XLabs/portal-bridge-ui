@@ -64,7 +64,7 @@ const messages: Record<string, Message> = {
   cctp: {
     background: "linear-gradient(20deg, #f44b1b 0%, #eeb430 100%);",
     button: {
-      href: `${import.meta.env.PUBLIC_URL}/usdc-bridge`,
+      href: `${import.meta.env.PUBLIC_URL}/usdc-transfer`,
       label: "TRY IT NOW",
       background: "#F47B48",
     },

@@ -24,7 +24,7 @@ body:
     options:
       - https://portalbridge.com
       - https://portalbridge.com/advanced-tools
-      - https://portalbridge.com/usdc-bridge
+      - https://portalbridge.com/usdc-transfer
       - other
   validations:
     required: true
