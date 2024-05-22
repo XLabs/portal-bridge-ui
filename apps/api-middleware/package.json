@@ -1,0 +1,31 @@
+{
+  "name": "@xlabs/api-middleware",
+  "version": "1.0.0",
+  "description": "API Middleware for Portal Bridge",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --platform=node --target=node16 --outfile=dist/index.js",
+    "start": "npx tsx src/index.ts",
+    "test": "jest",
+    "package": "docker build -f .docker/Dockerfile -t xlabs/api-middleware .",
+    "deploy": "docker push xlabs/api-middleware"
+  },
+  "keywords": [
+    "API",
+    "Middleware"
+  ],
+  "author": "xLabs",
+  "license": "MIT",
+  "dependencies": {
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.12.12",
+    "dotenv": "^16.4.5",
+    "esbuild": "^0.21.3",
+    "express": "^4.19.2",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
+    "tsx": "^4.10.5",
+    "typescript": "^5.4.5"
+  }
+}
