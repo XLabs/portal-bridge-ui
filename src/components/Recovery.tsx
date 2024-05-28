@@ -37,6 +37,7 @@ import {
   uint8ArrayToHex,
   CHAIN_ID_SUI,
   getForeignAssetSui,
+  CHAIN_ID_SCROLL,
 } from "@certusone/wormhole-sdk";
 import { repairVaa } from "../utils/repairVaa";
 import {
@@ -126,6 +127,7 @@ import { getSeiWasmClient, parseRawLog, searchInLogs } from "../utils/sei";
 import { useVaaVerifier } from "../hooks/useVaaVerifier";
 import ChainWarningMessage from "./ChainWarningMessage";
 import { useDeepLinkRecoveryParams } from "../hooks/useDeepLinkRecoveryParams";
+import { setSignedVAAHex, setTargetChain } from "../store/attestSlice";
 
 const NOT_SUPPORTED_VAA_WARNING_MESSAGE = (
   <>
@@ -585,7 +587,7 @@ export default function Recovery() {
     useState(false);
   const [recoverySourceTxError, setRecoverySourceTxError] = useState("");
   const [recoverySignedVAA, setRecoverySignedVAA] = useState("");
-  const { isNFTTransfer, isTokenBridgeTransfer } =
+  const { isNFTTransfer, isTokenBridgeTransfer, isTokenBridgetAttest } =
     useVaaVerifier(recoverySignedVAA);
   const [recoveryParsedVAA, setRecoveryParsedVAA] = useState<ParsedVaa | null>(
     null
@@ -943,12 +945,20 @@ export default function Recovery() {
     }
   }, [recoverySignedVAA]);
   const parsedPayloadTargetChain = parsedPayload?.targetChain;
-  const enableRecovery = recoverySignedVAA && parsedPayloadTargetChain;
+  const enableRecovery = isTokenBridgetAttest || (recoverySignedVAA && parsedPayloadTargetChain);
   //&& (isNFTTransfer || isTokenBridgeTransfer);
 
   const handleRecoverClickBase = useCallback(
     (useRelayer: boolean) => {
-      if (enableRecovery && recoverySignedVAA && parsedPayloadTargetChain) {
+      if (isTokenBridgetAttest) {
+        dispatch(setTargetChain(CHAIN_ID_SCROLL));
+        dispatch(setSignedVAAHex(recoverySignedVAA));
+        push("/register");
+      } else if (
+        enableRecovery &&
+        recoverySignedVAA &&
+        parsedPayloadTargetChain
+      ) {
         // TODO: make recovery reducer
         if (isNFT) {
           dispatch(
@@ -991,6 +1001,7 @@ export default function Recovery() {
       parsedPayloadTargetChain,
       parsedPayload,
       isNFT,
+      isTokenBridgetAttest,
       push,
     ]
   );
@@ -1073,7 +1084,7 @@ export default function Recovery() {
           </>
         )}
         {recoverySignedVAA !== "" &&
-          !(isNFTTransfer || isTokenBridgeTransfer) && (
+          !(isNFTTransfer || isTokenBridgeTransfer || isTokenBridgetAttest) && (
             <ChainWarningMessage>
               {NOT_SUPPORTED_VAA_WARNING_MESSAGE}
             </ChainWarningMessage>

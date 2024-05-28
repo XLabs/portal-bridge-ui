@@ -235,6 +235,7 @@ async function evm(
       chainId === CHAIN_ID_KLAYTN
         ? { gasPrice: (await signer.getGasPrice()).toString() }
         : {};
+    debugger;
     const receipt = await attestFromEth(
       getTokenBridgeAddressForChain(chainId),
       signer,
@@ -691,6 +692,8 @@ export function useHandleAttest() {
   const suiWallet = useSuiWallet();
   const disabled = !isTargetComplete || isSending || isSendComplete;
   const handleAttestClick = useCallback(() => {
+    debugger;
+    console.log("sourceChain", sourceChain);
     if (isEVMChain(sourceChain) && !!signer) {
       evm(dispatch, enqueueSnackbar, signer, sourceAsset, sourceChain);
     } else if (sourceChain === CHAIN_ID_SOLANA && !!solanaWallet && !!solPK) {

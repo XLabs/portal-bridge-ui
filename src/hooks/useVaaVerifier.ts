@@ -95,6 +95,19 @@ export function useVaaVerifier(hexVaa: string) {
     [vaa]
   );
   const payloadType = useMemo(() => getPayloadType(vaa?.payload), [vaa]);
+  const isTokenBridgetAttest = useMemo(
+    () =>
+      itWasEmittedFrom(
+        vaaEmitterAddress,
+        vaaEmitterChain,
+        getTokenBridgeAddressForChain
+      ) &&
+      isItASupportedType(
+        payloadType,
+        VAAType.ATTEST,
+      ),
+    [vaaEmitterAddress, vaaEmitterChain, payloadType]
+  );
   const isTokenBridgeTransfer = useMemo(
     () =>
       itWasEmittedFrom(
@@ -124,5 +137,6 @@ export function useVaaVerifier(hexVaa: string) {
     payloadType,
     isTokenBridgeTransfer,
     isNFTTransfer,
+    isTokenBridgetAttest
   };
 }
