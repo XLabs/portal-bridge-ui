@@ -23,7 +23,7 @@ jobs:
     with:
       name: preview
       separator: P
-      advanced-tools-branch: feature/xlayer-attest
+      advanced-tools-branch: advanced-tools
       environment: Cloudflare-Preview
       public-url: "/${{ needs.branch-sha.outputs.value }}"
       wac-url: "https://wac.gfx.xyz"
