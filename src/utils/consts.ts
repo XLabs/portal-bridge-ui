@@ -44,6 +44,7 @@ import {
   CHAIN_ID_COSMOSHUB,
   CHAIN_ID_SCROLL,
   CHAIN_ID_BLAST,
+  CHAIN_ID_XLAYER,
 } from "@certusone/wormhole-sdk";
 import { clusterApiUrl } from "@solana/web3.js";
 import { getAddress } from "ethers/lib/utils";
@@ -84,6 +85,7 @@ import { getNetworkInfo, Network } from "@injectivelabs/networks";
 import { ChainId as InjectiveChainId } from "@injectivelabs/ts-types";
 import { ChainConfiguration } from "@sei-js/react";
 import { Connection } from "@mysten/sui.js";
+import { chainToIcon } from "@wormhole-foundation/sdk-icons";
 
 export type Cluster = "devnet" | "testnet" | "mainnet";
 export const CLUSTER: Cluster =
@@ -102,6 +104,7 @@ export interface ChainInfo {
 export const DISABLED_CHAINS: Array<Partial<ChainId>> = [
   CHAIN_ID_BLAST,
   CHAIN_ID_SCROLL,
+  CHAIN_ID_XLAYER,
 ];
 
 export const CHAINS: ChainInfo[] =
@@ -211,6 +214,11 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_SCROLL,
           name: "Scroll",
           logo: scrollIcon,
+        },
+        {
+          id: CHAIN_ID_XLAYER,
+          name: "X Layer",
+          logo: chainToIcon("Xlayer"),
         },
         {
           id: CHAIN_ID_SEI,
@@ -344,6 +352,11 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_SCROLL,
           name: "Scroll",
           logo: scrollIcon,
+        },
+        {
+          id: CHAIN_ID_XLAYER,
+          name: "X Layer",
+          logo: chainToIcon("Xlayer"),
         },
         {
           id: CHAIN_ID_SEI,
@@ -802,6 +815,8 @@ export const SCROLL_NETWORK_CHAIN_ID =
   CLUSTER === "mainnet" ? 534352 : CLUSTER === "testnet" ? 534351 : 1381;
 export const BLAST_NETWORK_CHAIN_ID =
   CLUSTER === "mainnet" ? 81457 : CLUSTER === "testnet" ? 168587773 : 1381;
+export const XLAYER_NETWORK_CHAIN_ID =
+  CLUSTER === "mainnet" ? 196 : CLUSTER === "testnet" ? 195 : 1381;
 
 export const getEvmChainId = (chainId: ChainId) =>
   chainId === CHAIN_ID_ETH
@@ -840,6 +855,8 @@ export const getEvmChainId = (chainId: ChainId) =>
     ? SCROLL_NETWORK_CHAIN_ID
     : chainId === CHAIN_ID_BLAST
     ? BLAST_NETWORK_CHAIN_ID
+    : chainId === CHAIN_ID_XLAYER
+    ? XLAYER_NETWORK_CHAIN_ID
     : undefined;
 export const SOLANA_HOST = process.env.REACT_APP_SOLANA_API_URL
   ? process.env.REACT_APP_SOLANA_API_URL
