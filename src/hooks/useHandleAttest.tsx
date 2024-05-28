@@ -691,7 +691,6 @@ export function useHandleAttest() {
   const suiWallet = useSuiWallet();
   const disabled = !isTargetComplete || isSending || isSendComplete;
   const handleAttestClick = useCallback(() => {
-    console.log("sourceChain", sourceChain);
     if (isEVMChain(sourceChain) && !!signer) {
       evm(dispatch, enqueueSnackbar, signer, sourceAsset, sourceChain);
     } else if (sourceChain === CHAIN_ID_SOLANA && !!solanaWallet && !!solPK) {
