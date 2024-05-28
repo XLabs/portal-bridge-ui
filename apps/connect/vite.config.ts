@@ -33,7 +33,8 @@ export const chains = [
   "base",
   "arbitrum",
   "optimism",
-  "scroll"
+  "scroll",
+  "xlayer"
 ]
 
 const MAINNET_RPCS = {
