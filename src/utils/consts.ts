@@ -85,7 +85,7 @@ import { getNetworkInfo, Network } from "@injectivelabs/networks";
 import { ChainId as InjectiveChainId } from "@injectivelabs/ts-types";
 import { ChainConfiguration } from "@sei-js/react";
 import { Connection } from "@mysten/sui.js";
-import { chainToIcon } from '@wormhole-foundation/sdk-icons';
+import { chainToIcon } from "@wormhole-foundation/sdk-icons";
 
 export type Cluster = "devnet" | "testnet" | "mainnet";
 export const CLUSTER: Cluster =
@@ -218,7 +218,7 @@ export const CHAINS: ChainInfo[] =
         {
           id: CHAIN_ID_XLAYER,
           name: "X Layer",
-          logo: chainToIcon('Xlayer'),
+          logo: chainToIcon("Xlayer"),
         },
         {
           id: CHAIN_ID_SEI,
@@ -356,7 +356,7 @@ export const CHAINS: ChainInfo[] =
         {
           id: CHAIN_ID_XLAYER,
           name: "X Layer",
-          logo: chainToIcon('Xlayer'),
+          logo: chainToIcon("Xlayer"),
         },
         {
           id: CHAIN_ID_SEI,
