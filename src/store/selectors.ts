@@ -42,7 +42,8 @@ export const selectAttestIsSendComplete = (state: RootState) =>
 export const selectAttestIsCreateComplete = (state: RootState) =>
   !!selectAttestCreateTx(state);
 export const selectAttestShouldLockFields = (state: RootState) =>
-  (selectAttestIsSending(state) || selectAttestIsSendComplete(state)) && !selectAttestIsRecovery(state);
+  (selectAttestIsSending(state) || selectAttestIsSendComplete(state)) &&
+  !selectAttestIsRecovery(state);
 
 /*
  * NFT

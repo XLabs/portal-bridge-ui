@@ -44,7 +44,7 @@ function Attest() {
   const isSendComplete = useSelector(selectAttestIsSendComplete);
   const isCreating = useSelector(selectAttestIsCreating);
   const isCreateComplete = useSelector(selectAttestIsCreateComplete);
-  const isRecovery = useSelector(selectAttestIsRecovery)
+  const isRecovery = useSelector(selectAttestIsRecovery);
   const preventNavigation =
     (isSending || isSendComplete || isCreating) && !isCreateComplete;
   useEffect(() => {
@@ -99,7 +99,13 @@ function Attest() {
             2. Target
           </StepButton>
           <StepContent>
-            {((activeStep === 1 || isRecovery) && !isCreating && !isCreateComplete) ? <Target /> : <TargetPreview />}
+            {(activeStep === 1 || isRecovery) &&
+            !isCreating &&
+            !isCreateComplete ? (
+              <Target />
+            ) : (
+              <TargetPreview />
+            )}
           </StepContent>
         </Step>
         <Step expanded={activeStep >= 2} disabled={isSendComplete}>

@@ -126,7 +126,11 @@ import { getSeiWasmClient, parseRawLog, searchInLogs } from "../utils/sei";
 import { useVaaVerifier } from "../hooks/useVaaVerifier";
 import ChainWarningMessage from "./ChainWarningMessage";
 import { useDeepLinkRecoveryParams } from "../hooks/useDeepLinkRecoveryParams";
-import { setIsRecovery, setSignedVAAHex, setSourceChain } from "../store/attestSlice";
+import {
+  setIsRecovery,
+  setSignedVAAHex,
+  setSourceChain,
+} from "../store/attestSlice";
 
 const NOT_SUPPORTED_VAA_WARNING_MESSAGE = (
   <>
@@ -944,7 +948,8 @@ export default function Recovery() {
     }
   }, [recoverySignedVAA]);
   const parsedPayloadTargetChain = parsedPayload?.targetChain;
-  const enableRecovery = isTokenBridgetAttest || (recoverySignedVAA && parsedPayloadTargetChain);
+  const enableRecovery =
+    isTokenBridgetAttest || (recoverySignedVAA && parsedPayloadTargetChain);
   //&& (isNFTTransfer || isTokenBridgeTransfer);
 
   const handleRecoverClickBase = useCallback(
@@ -1002,6 +1007,7 @@ export default function Recovery() {
       parsedPayload,
       isNFT,
       isTokenBridgetAttest,
+      recoverySourceChain,
       push,
     ]
   );
