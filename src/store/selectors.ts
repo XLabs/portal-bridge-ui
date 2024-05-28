@@ -29,6 +29,8 @@ export const selectAttestIsSending = (state: RootState) =>
   state.attest.isSending;
 export const selectAttestIsCreating = (state: RootState) =>
   state.attest.isCreating;
+export const selectAttestIsRecovery = (state: RootState) =>
+  state.attest.isRecovery;
 export const selectAttestCreateTx = (state: RootState) => state.attest.createTx;
 export const selectAttestIsSourceComplete = (state: RootState) =>
   !!state.attest.sourceChain && !!state.attest.sourceAsset;
@@ -40,7 +42,8 @@ export const selectAttestIsSendComplete = (state: RootState) =>
 export const selectAttestIsCreateComplete = (state: RootState) =>
   !!selectAttestCreateTx(state);
 export const selectAttestShouldLockFields = (state: RootState) =>
-  selectAttestIsSending(state) || selectAttestIsSendComplete(state);
+  (selectAttestIsSending(state) || selectAttestIsSendComplete(state)) &&
+  !selectAttestIsRecovery(state);
 
 /*
  * NFT
