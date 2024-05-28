@@ -1417,17 +1417,20 @@ export const getNFTBridgeAddressForChain = (chainId: ChainId) =>
       ? "TESTNET"
       : "DEVNET"
   ][coalesceChainName(chainId)].nft_bridge || "";
-export const getTokenBridgeAddressForChain = (chainId: ChainId) =>
-  CLUSTER === "mainnet" && chainId === CHAIN_ID_SUI
-    ? "0xc57508ee0d4595e5a8728974a4a93a787d38f339757230d441e895422c07aba9"
-    : CONTRACTS[
-        CLUSTER === "mainnet"
-          ? "MAINNET"
-          : CLUSTER === "testnet"
-          ? "TESTNET"
-          : "DEVNET"
-      ][coalesceChainName(chainId)].token_bridge || "";
-
+export const getTokenBridgeAddressForChain = (chainId: ChainId) => {
+  if (CLUSTER === "mainnet" && chainId === CHAIN_ID_SUI) {
+    return "0xc57508ee0d4595e5a8728974a4a93a787d38f339757230d441e895422c07aba9"
+  } else {
+    const env = CLUSTER === "mainnet"
+    ? "MAINNET"
+    : CLUSTER === "testnet"
+    ? "TESTNET"
+    : "DEVNET"; 
+    const CONTRACTS_MAP = CONTRACTS[env]
+    const contracts = CONTRACTS_MAP[coalesceChainName(chainId)];
+    return contracts?.token_bridge || "";
+  }
+}
 export const COVALENT_API_KEY = process.env.REACT_APP_COVALENT_API_KEY
   ? process.env.REACT_APP_COVALENT_API_KEY
   : "";
