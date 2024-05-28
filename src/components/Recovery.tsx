@@ -127,7 +127,7 @@ import { getSeiWasmClient, parseRawLog, searchInLogs } from "../utils/sei";
 import { useVaaVerifier } from "../hooks/useVaaVerifier";
 import ChainWarningMessage from "./ChainWarningMessage";
 import { useDeepLinkRecoveryParams } from "../hooks/useDeepLinkRecoveryParams";
-import { setSignedVAAHex, setTargetChain } from "../store/attestSlice";
+import { setIsRecovery, setSignedVAAHex, setSourceChain } from "../store/attestSlice";
 
 const NOT_SUPPORTED_VAA_WARNING_MESSAGE = (
   <>
@@ -951,7 +951,8 @@ export default function Recovery() {
   const handleRecoverClickBase = useCallback(
     (useRelayer: boolean) => {
       if (isTokenBridgetAttest) {
-        dispatch(setTargetChain(CHAIN_ID_SCROLL));
+        dispatch(setSourceChain(recoverySourceChain));
+        dispatch(setIsRecovery(true));
         dispatch(setSignedVAAHex(recoverySignedVAA));
         push("/register");
       } else if (
