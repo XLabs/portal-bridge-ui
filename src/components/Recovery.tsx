@@ -37,7 +37,6 @@ import {
   uint8ArrayToHex,
   CHAIN_ID_SUI,
   getForeignAssetSui,
-  CHAIN_ID_SCROLL,
 } from "@certusone/wormhole-sdk";
 import { repairVaa } from "../utils/repairVaa";
 import {

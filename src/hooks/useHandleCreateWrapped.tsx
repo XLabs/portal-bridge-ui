@@ -262,7 +262,6 @@ async function evm(
   shouldUpdate: boolean
 ) {
   dispatch(setIsCreating(true));
-  console.log(chainId, signedVAA, shouldUpdate, getTokenBridgeAddressForChain(chainId))
   try {
     // Karura and Acala need gas params for contract deploys
     // Klaytn requires specifying gasPrice
@@ -287,7 +286,7 @@ async function evm(
           signedVAA,
           overrides
         );
-    console.log(receipt, )
+  
     dispatch(
       setCreateTx({ id: receipt.transactionHash, block: receipt.blockNumber })
     );
