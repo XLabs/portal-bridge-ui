@@ -19,7 +19,7 @@ export default defineConfig({
     wormholeConnectConfig: {
       ...viteConfig?.define?.wormholeConnectConfig,
       pageHeader: {
-        text: 'USDC Bridge',
+        text: 'USDC Transfer',
         align: 'center'
       },
       routes: ["cctpManual", "cctpRelay"],
