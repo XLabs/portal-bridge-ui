@@ -8,12 +8,12 @@ const MAINNET_NETWORKS = ["ethereum", "avalanche", "arbitrum", "optimism", "base
 // https://vitejs.dev/config/
 export default defineConfig({
   ...viteConfig,
-  base: `${PUBLIC_URL}/usdc-bridge/`,
+  base: `${PUBLIC_URL}/usdc-transfer/`,
   define: {
     ...viteConfig?.define,
     navBar: [
       { label: "Home", href: `${PUBLIC_URL}/` },
-      { label: "USDC", active: true, href: `${PUBLIC_URL}/usdc-bridge` },
+      { label: "USDC", active: true, href: `${PUBLIC_URL}/usdc-transfer` },
       { label: "Rewards", href: `${PUBLIC_URL}/rewards-dashboard` }
     ],
     wormholeConnectConfig: {

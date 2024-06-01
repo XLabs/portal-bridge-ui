@@ -326,7 +326,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: build-usdc-bridge 
-          path: usdc-bridge    
+          path: usdc-transfer    
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
