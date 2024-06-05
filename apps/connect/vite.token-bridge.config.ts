@@ -370,6 +370,34 @@ const MAINNET_TOKEN_CONFIG: WormholeConnectConfig = {
         default: 18,
       },
     },
+    osETHethereum: {
+      key: 'osETHethereum',
+      symbol: 'osETH',
+      nativeChain: 'ethereum',
+      tokenId: {
+        chain: 'ethereum',
+        address: '0xf1C9acDc66974dFB6dEcB12aA385b9cD01190E38',
+      },
+      icon: 'https://coin-images.coingecko.com/coins/images/33117/large/Frame_27513839.png?1700732599',
+      coinGeckoId: 'stakewise-staked-eth',
+      decimals: {
+        default: 18,
+      },
+    },
+    osETHarbitrum: {
+      key: 'osETHarbitrum',
+      symbol: 'osETH',
+      nativeChain: 'arbitrum',
+      tokenId: {
+        chain: 'arbitrum',
+        address: '0xf7d4e7273E5015C96728A6b02f31C505eE184603',
+      },
+      icon: 'https://coin-images.coingecko.com/coins/images/33117/large/Frame_27513839.png?1700732599',
+      coinGeckoId: 'stakewise-staked-eth',
+      decimals: {
+        default: 18,
+      },
+    },
   },
   nttGroups: {
     W: {
@@ -432,7 +460,34 @@ const MAINNET_TOKEN_CONFIG: WormholeConnectConfig = {
         },
       ],
     },
+    osETH: {
+      nttManagers: [
+        {
+          chainName: 'ethereum',
+          address: '0x896b78fd7e465fb22e80c34ff8f1c5f62fa2c009',
+          tokenKey: 'osETHethereum',
+          transceivers: [
+            {
+              address: '0xAAFE766B966219C2f3F4271aB8D0Ff1883147AB6',
+              type: 'wormhole',
+            },
+          ],
+        },
+        {
+          chainName: 'arbitrum',
+          address: '0x485F6Ac6a3B97690910C1546842FfE0629582aD3',
+          tokenKey: 'osETHarbitrum',
+          transceivers: [
+            {
+              address: '0xAf7ae721070c25dF97043381509DBc042e65736F',
+              type: 'wormhole',
+            },
+          ],
+        }
+      ]
+    }
   },
+
 }
 
 
