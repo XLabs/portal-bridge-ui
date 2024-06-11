@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite'
-import viteConfig, { chains } from './vite.config'
+import viteConfig, { chains, testnetChains } from './vite.config'
 import type { WormholeConnectConfig } from '@wormhole-foundation/wormhole-connect'
 
 const PUBLIC_URL = viteConfig.base;
@@ -38,6 +38,7 @@ const MAINNET_MORE_NETWORKS = [ALGORAND, ACALA, SEI, MORE];
 const TESTNET_MORE_NETWORKS = [ALGORAND, ACALA, MORE];
 
 const TESTNET_TOKEN_CONFIG: WormholeConnectConfig = {
+  env: 'testnet',
   tokensConfig: {
     Wsolana: {
       key: 'Wsolana',
@@ -109,6 +110,38 @@ const TESTNET_TOKEN_CONFIG: WormholeConnectConfig = {
         default: 18,
       },
     },
+    wstETHsepolia: {
+      key: "wstETHsepolia",
+      symbol: "wstETH (NTT)",
+      nativeChain: "sepolia",
+      tokenId: {
+        chain: "sepolia",
+        address: "0xB82381A3fBD3FaFA77B3a7bE693342618240067b"
+      },
+      icon: "https://assets.coingecko.com/coins/images/18834/standard/wstETH.png",
+      coinGeckoId: "wrapped-steth",
+      color: "#3AA3FF",
+      decimals: {
+        default: 8,
+        Ethereum: 18
+      }
+    },
+    wstETHbsc: {
+      key: "wstETHbsc",
+      symbol: "wstETH (NTT)",
+      nativeChain: "bsc",
+      tokenId: {
+        chain: "bsc",
+        address: "0x0B15635FCF5316EdFD2a9A0b0dC3700aeA4D09E6"
+      },
+      icon: "https://assets.coingecko.com/coins/images/18834/standard/wstETH.png",
+      coinGeckoId: "wrapped-steth",
+      color: "#3AA3FF",
+      decimals: {
+        default: 8,
+        Ethereum: 18
+      }
+    }
   },
   nttGroups: {
     W: {
@@ -171,6 +204,32 @@ const TESTNET_TOKEN_CONFIG: WormholeConnectConfig = {
         },
       ],
     },
+    wstETH: {
+      nttManagers: [
+        {
+          chainName: "sepolia",
+          address: "0x8B715EAf61A7DdF61C67d5D46687c796D1f47146",
+          tokenKey: "wstETHsepolia",
+          transceivers: [
+            {
+              address: "0xF2bc73502283fcaC4b047dfE45366d8744daaC5B",
+              type: "wormhole"
+            }
+          ]
+        },
+        {
+          chainName: "bsc",
+          address: "0x66Cb5a992570EF01b522Bc59A056a64A84Bd0aAa",
+          tokenKey: "wstETHbsc",
+          transceivers: [
+            {
+              address: "0x3a84364d27Ed3D16022Da0f603f3E0F74826c707",
+              type: "wormhole"
+            }
+          ]
+        }
+      ]
+    }
   },
 }
 
@@ -525,7 +584,7 @@ export default defineConfig({
       cctpWarning: {
         href: USDC_BRIDGE_HREF
       },
-      networks: [...chains, "solana", "injective", "klaytn"],
+      networks: [...(process.env.VITE_APP_CLUSTER === 'mainnet' ? chains : testnetChains), "solana", "injective", "klaytn"],
       moreNetworks: {
         href: ADVANCE_TOOLS_HREF_TEMPLATE,
         target: "_blank",
