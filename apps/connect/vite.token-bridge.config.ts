@@ -595,6 +595,7 @@ export default defineConfig({
         label: "More tokens ...",
         href: ADVANCE_TOOLS_HREF_TEMPLATE,
       },
+      routes: ["nttRelay"],
       ...(process.env.VITE_APP_CLUSTER === 'mainnet' ? MAINNET_TOKEN_CONFIG : TESTNET_TOKEN_CONFIG)
     }
   }
