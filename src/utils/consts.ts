@@ -45,6 +45,7 @@ import {
   CHAIN_ID_SCROLL,
   CHAIN_ID_BLAST,
   CHAIN_ID_XLAYER,
+  CHAIN_ID_MANTLE,
 } from "@certusone/wormhole-sdk";
 import { clusterApiUrl } from "@solana/web3.js";
 import { getAddress } from "ethers/lib/utils";
@@ -105,6 +106,7 @@ export const DISABLED_CHAINS: Array<Partial<ChainId>> = [
   CHAIN_ID_BLAST,
   CHAIN_ID_SCROLL,
   CHAIN_ID_XLAYER,
+  CHAIN_ID_MANTLE,
 ];
 
 export const CHAINS: ChainInfo[] =
@@ -219,6 +221,11 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_XLAYER,
           name: "X Layer",
           logo: chainToIcon("Xlayer"),
+        },
+        {
+          id: CHAIN_ID_MANTLE,
+          name: "Mantle",
+          logo: chainToIcon("Mantle"),
         },
         {
           id: CHAIN_ID_SEI,
@@ -357,6 +364,11 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_XLAYER,
           name: "X Layer",
           logo: chainToIcon("Xlayer"),
+        },
+        {
+          id: CHAIN_ID_MANTLE,
+          name: "Mantle",
+          logo: chainToIcon("Mantle"),
         },
         {
           id: CHAIN_ID_SEI,
@@ -817,6 +829,8 @@ export const BLAST_NETWORK_CHAIN_ID =
   CLUSTER === "mainnet" ? 81457 : CLUSTER === "testnet" ? 168587773 : 1381;
 export const XLAYER_NETWORK_CHAIN_ID =
   CLUSTER === "mainnet" ? 196 : CLUSTER === "testnet" ? 195 : 1381;
+export const MANTLE_NETWORK_CHAIN_ID =
+  CLUSTER === "mainnet" ? 5000 : CLUSTER === "testnet" ? 5001 : 1381;
 
 export const getEvmChainId = (chainId: ChainId) =>
   chainId === CHAIN_ID_ETH
@@ -857,6 +871,8 @@ export const getEvmChainId = (chainId: ChainId) =>
     ? BLAST_NETWORK_CHAIN_ID
     : chainId === CHAIN_ID_XLAYER
     ? XLAYER_NETWORK_CHAIN_ID
+    : chainId === CHAIN_ID_MANTLE
+    ? MANTLE_NETWORK_CHAIN_ID
     : undefined;
 export const SOLANA_HOST = process.env.REACT_APP_SOLANA_API_URL
   ? process.env.REACT_APP_SOLANA_API_URL
