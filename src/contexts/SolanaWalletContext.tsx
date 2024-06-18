@@ -311,7 +311,7 @@ export async function transferFromSolana(
   const { blockhash } = await connection.getLatestBlockhash(commitment);
   transaction.recentBlockhash = blockhash;
   transaction.feePayer = new PublicKey(payerAddress);
-  await addComputeBudget(connection!, transaction);
+  //await addComputeBudget(connection!, transaction);
   transaction.partialSign(message);
   return transaction;
 }
