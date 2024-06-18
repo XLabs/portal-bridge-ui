@@ -9,7 +9,6 @@ import {
   isEVMChain,
   parseNFTPayload,
   parseVaa,
-  postVaaSolanaWithRetry,
   CHAIN_ID_APTOS,
 } from "@certusone/wormhole-sdk";
 import {
@@ -36,7 +35,6 @@ import {
   ACALA_HOST,
   getNFTBridgeAddressForChain,
   KARURA_HOST,
-  MAX_VAA_UPLOAD_RETRIES_SOLANA,
   SOLANA_HOST,
   SOL_BRIDGE_ADDRESS,
   SOL_NFT_BRIDGE_ADDRESS,
@@ -44,7 +42,7 @@ import {
 import { getKaruraGasParams } from "../utils/karura";
 import { getMetadataAddress } from "../utils/metaplex";
 import parseError from "../utils/parseError";
-import { signSendAndConfirm } from "../utils/solana";
+import { postVaa, signSendAndConfirm } from "../utils/solana";
 import useNFTSignedVAA from "./useNFTSignedVAA";
 import { waitForSignAndSubmitTransaction } from "../utils/aptos";
 import { useAptosContext } from "../contexts/AptosWalletContext";
@@ -109,13 +107,12 @@ async function solana(
     const claimInfo = await connection.getAccountInfo(claimAddress);
     let txid;
     if (!claimInfo) {
-      await postVaaSolanaWithRetry(
+      await postVaa(
         connection,
         wallet.signTransaction.bind(wallet),
         SOL_BRIDGE_ADDRESS,
         payerAddress,
-        Buffer.from(signedVAA),
-        MAX_VAA_UPLOAD_RETRIES_SOLANA
+        Buffer.from(signedVAA)
       );
       // TODO: how do we retry in between these steps
       const transaction = await redeemOnSolana(

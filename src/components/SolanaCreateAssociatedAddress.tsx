@@ -10,8 +10,9 @@ import { Button, Typography } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
-  Token,
   TOKEN_PROGRAM_ID,
+  createAssociatedTokenAccountInstruction,
+  getAssociatedTokenAddress,
 } from "@solana/spl-token";
 import { Connection, PublicKey, Transaction } from "@solana/web3.js";
 import { useSnackbar } from "notistack";
@@ -50,11 +51,12 @@ export function useAssociatedAccountExistsState(
       const connection = new Connection(SOLANA_HOST, "confirmed");
       const mintPublicKey = new PublicKey(mintAddress);
       const payerPublicKey = new PublicKey(solPK); // currently assumes the wallet is the owner
-      const associatedAddress = await Token.getAssociatedTokenAddress(
-        ASSOCIATED_TOKEN_PROGRAM_ID,
-        TOKEN_PROGRAM_ID,
+      const associatedAddress = await getAssociatedTokenAddress(
         mintPublicKey,
-        payerPublicKey
+        payerPublicKey,
+        undefined,
+        TOKEN_PROGRAM_ID,
+        ASSOCIATED_TOKEN_PROGRAM_ID
       );
       const match = associatedAddress.toString() === readableTargetAddress;
       if (match) {
@@ -103,11 +105,12 @@ export default function SolanaCreateAssociatedAddress({
       const connection = new Connection(SOLANA_HOST, "confirmed");
       const mintPublicKey = new PublicKey(mintAddress);
       const payerPublicKey = new PublicKey(solPK); // currently assumes the wallet is the owner
-      const associatedAddress = await Token.getAssociatedTokenAddress(
-        ASSOCIATED_TOKEN_PROGRAM_ID,
-        TOKEN_PROGRAM_ID,
+      const associatedAddress = await getAssociatedTokenAddress(
         mintPublicKey,
-        payerPublicKey
+        payerPublicKey,
+        undefined,
+        TOKEN_PROGRAM_ID,
+        ASSOCIATED_TOKEN_PROGRAM_ID
       );
       const match = associatedAddress.toString() === readableTargetAddress;
       if (match) {
@@ -116,13 +119,13 @@ export default function SolanaCreateAssociatedAddress({
         if (!associatedAddressInfo) {
           setIsCreating(true);
           const transaction = new Transaction().add(
-            await Token.createAssociatedTokenAccountInstruction(
-              ASSOCIATED_TOKEN_PROGRAM_ID,
-              TOKEN_PROGRAM_ID,
-              mintPublicKey,
+            await createAssociatedTokenAccountInstruction(
+              payerPublicKey, // payer
               associatedAddress,
               payerPublicKey, // owner
-              payerPublicKey // payer
+              mintPublicKey,
+              TOKEN_PROGRAM_ID,
+              ASSOCIATED_TOKEN_PROGRAM_ID
             )
           );
           const { blockhash } = await connection.getRecentBlockhash();
@@ -224,23 +227,24 @@ export function SolanaCreateAssociatedAddressAlternate() {
       const connection = new Connection(SOLANA_HOST, "confirmed");
       const mintPublicKey = new PublicKey(targetAsset);
       const payerPublicKey = new PublicKey(solPK); // currently assumes the wallet is the owner
-      const associatedAddress = await Token.getAssociatedTokenAddress(
-        ASSOCIATED_TOKEN_PROGRAM_ID,
-        TOKEN_PROGRAM_ID,
+      const associatedAddress = await getAssociatedTokenAddress(
         mintPublicKey,
-        payerPublicKey
+        payerPublicKey,
+        undefined,
+        TOKEN_PROGRAM_ID,
+        ASSOCIATED_TOKEN_PROGRAM_ID
       );
       const match = associatedAddress.toString() === base58TargetAddress;
       if (match) {
         try {
           const transaction = new Transaction().add(
-            await Token.createAssociatedTokenAccountInstruction(
-              ASSOCIATED_TOKEN_PROGRAM_ID,
-              TOKEN_PROGRAM_ID,
-              mintPublicKey,
+            await createAssociatedTokenAccountInstruction(
+              payerPublicKey, // payer
               associatedAddress,
               payerPublicKey, // owner
-              payerPublicKey // payer
+              mintPublicKey,
+              TOKEN_PROGRAM_ID,
+              ASSOCIATED_TOKEN_PROGRAM_ID
             )
           );
           const { blockhash } = await connection.getRecentBlockhash();

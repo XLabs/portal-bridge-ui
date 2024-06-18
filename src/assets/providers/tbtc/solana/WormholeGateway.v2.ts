@@ -29,7 +29,8 @@ import * as tokenBridge from "@certusone/wormhole-sdk/lib/esm/solana/tokenBridge
 import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
-  Token,
+  createAssociatedTokenAccountInstruction,
+  getAssociatedTokenAddress,
   TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
 
@@ -232,23 +233,24 @@ export function newThresholdWormholeGateway(
     const wrappedTbtcMint = new PublicKey(
       custodianData.wrappedTbtcMint as string
     );
-    const recipientTokenKey = await Token.getAssociatedTokenAddress(
-      ASSOCIATED_TOKEN_PROGRAM_ID,
-      TOKEN_PROGRAM_ID,
+    const recipientTokenKey = await getAssociatedTokenAddress(
       tbtcMint,
-      recipient
+      recipient,
+      undefined,
+      TOKEN_PROGRAM_ID,
+      ASSOCIATED_TOKEN_PROGRAM_ID
     );
     const transaction = new Transaction();
     const recipientToken = await connection.getAccountInfo(recipientTokenKey);
     console.log(recipientToken, recipientTokenKey.toBase58());
     if (!recipientToken) {
-      const recipientTokenAtaIx = Token.createAssociatedTokenAccountInstruction(
-        ASSOCIATED_TOKEN_PROGRAM_ID,
-        TOKEN_PROGRAM_ID,
-        tbtcMint,
+      const recipientTokenAtaIx = createAssociatedTokenAccountInstruction(
+        recipient, // payer
         recipientTokenKey,
         recipient, // owner
-        recipient // payer
+        tbtcMint,
+        TOKEN_PROGRAM_ID,
+        ASSOCIATED_TOKEN_PROGRAM_ID
       );
       transaction.add(recipientTokenAtaIx);
     }
@@ -256,11 +258,12 @@ export function newThresholdWormholeGateway(
       TOKEN_BRIDGE_PROGRAM_ID,
       wrappedTbtcMint
     );
-    const recipientWrappedToken = await Token.getAssociatedTokenAddress(
-      ASSOCIATED_TOKEN_PROGRAM_ID,
-      TOKEN_PROGRAM_ID,
+    const recipientWrappedToken = await getAssociatedTokenAddress(
       wrappedTbtcMint,
-      recipient
+      recipient,
+      undefined,
+      TOKEN_PROGRAM_ID,
+      ASSOCIATED_TOKEN_PROGRAM_ID
     );
     const accounts = {
       payer: new PublicKey(wallet.getAddress()!),
@@ -356,11 +359,12 @@ export function newThresholdWormholeGateway(
       recipient: recipientAddress,
       nonce: 0,
     };
-    const associatedTokenAccount = await Token.getAssociatedTokenAddress(
-      ASSOCIATED_TOKEN_PROGRAM_ID,
-      TOKEN_PROGRAM_ID,
+    const associatedTokenAccount = await getAssociatedTokenAddress(
       new PublicKey(senderToken),
-      new PublicKey(wallet.getAddress()!)
+      new PublicKey(wallet.getAddress()!),
+      undefined,
+      TOKEN_PROGRAM_ID,
+      ASSOCIATED_TOKEN_PROGRAM_ID
     );
     if (!isCanonical(recipientChain)) {
       const wrappedAccounts = {
