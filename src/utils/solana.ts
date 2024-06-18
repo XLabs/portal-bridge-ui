@@ -16,7 +16,7 @@ import {
   SignatureResult,
 } from "@solana/web3.js";
 import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
-import { addComputeBudget } from "./computeBudget";
+//import { addComputeBudget } from "./computeBudget";
 export declare type SignTransaction = (
   transaction: Transaction
 ) => Promise<Transaction>;
@@ -116,7 +116,7 @@ export async function postVaa(
 
   for (const unsignedTransaction of unsignedTransactions) {
     unsignedTransaction.feePayer = new PublicKey(payer);
-    await addComputeBudget(connection, unsignedTransaction, [], 0.75, 1, true);
+    //await addComputeBudget(connection, unsignedTransaction, [], 0.75, 1, true);
   }
 
   const verifySignatures = async (transaction: Transaction) =>
@@ -143,7 +143,7 @@ export async function postVaa(
   }
 
   //While the signature_set is used to create the final instruction, it doesn't need to sign it.
-  await addComputeBudget(connection, postVaaTransaction, [], 0.75, 1, true);
+  //await addComputeBudget(connection, postVaaTransaction, [], 0.75, 1, true);
   output.push(
     await signSendAndConfirmTransaction(
       connection,

@@ -96,7 +96,7 @@ import { fromUint8Array } from "js-base64";
 import { useSeiWallet } from "../contexts/SeiWalletContext";
 import { SeiWallet } from "@xlabs-libs/wallet-aggregator-sei";
 import { calculateFeeForContractExecution } from "../utils/sei";
-import { addComputeBudget } from "../utils/computeBudget";
+//import { addComputeBudget } from "../utils/computeBudget";
 import { redeemAndUnwrapOnSolana } from "../utils/redeemAndUnwrap";
 
 async function algo(
@@ -470,7 +470,7 @@ async function solana(
             signedVAA
           );
 
-      if (!isNative) await addComputeBudget(connection!, transaction);
+      //if (!isNative) await addComputeBudget(connection!, transaction);
       const txid = await signSendAndConfirm(wallet, transaction);
       // TODO: didn't want to make an info call we didn't need, can we get the block without it by modifying the above call?
       dispatch(setRedeemTx({ id: txid, block: 1 }));
