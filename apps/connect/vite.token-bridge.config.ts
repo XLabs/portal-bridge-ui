@@ -176,6 +176,47 @@ const TESTNET_TOKEN_CONFIG: WormholeConnectConfig = {
 
 const MAINNET_TOKEN_CONFIG: WormholeConnectConfig = {
   tokensConfig: {
+    WOM: {
+      key: "WOM",
+      symbol: "WOM",
+      nativeChain: 'bsc',
+      tokenId: {
+        chain: 'bsc',
+        address: '0xad6742a35fb341a9cc6ad674738dd8da98b94fb1',
+      },
+      icon: "https://assets.coingecko.com/coins/images/26946/standard/Wombat_Token.png?1696526001",
+      coinGeckoId: "wombat-exchange",
+      decimals: {
+        default: 18
+      },
+      //Ehtereum, Avalanche, Base, Scroll, Optimism, Arbitrum, BNB Chain
+      foreignAssets: {
+        ethereum: {
+          address: "0xc0B314a8c08637685Fc3daFC477b92028c540CFB",
+          decimals: 18
+        },
+        avalanche: {
+          address: "0xa15E4544D141aa98C4581a1EA10Eb9048c3b3382",
+          decimals: 18
+        },
+        base: {
+          address: "0xD9541B08B375D58ae104EC247d7443D2D7235D64",
+          decimals: 18
+        },
+        scroll: {
+          address: "0x1a7aD8A6171A1EA84DD1E6d649cbd616189660D9",
+          decimals: 18
+        },
+        optimism: {
+          address: "0xD2612B256F6f76feA8C6fbca0BF3166D0d13a668",
+          decimals: 18
+        },
+        arbitrum: {
+          address: "0x7B5EB3940021Ec0e8e463D5dBB4B7B09a89DDF96",
+          decimals: 18
+        }
+      }
+    },
     "USDC.e": {
       key: 'USDC.e',
       symbol: 'USDC.e',
