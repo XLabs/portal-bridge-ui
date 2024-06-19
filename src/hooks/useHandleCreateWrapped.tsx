@@ -65,6 +65,7 @@ import {
   SOL_BRIDGE_ADDRESS,
   SOL_TOKEN_BRIDGE_ADDRESS,
   getBridgeAddressForChain,
+  MAX_VAA_UPLOAD_RETRIES_SOLANA,
 } from "../utils/consts";
 import { getKaruraGasParams } from "../utils/karura";
 import {
@@ -439,7 +440,8 @@ async function solana(
       wallet.signTransaction.bind(wallet),
       SOL_BRIDGE_ADDRESS,
       payerAddress,
-      Buffer.from(signedVAA)
+      Buffer.from(signedVAA),
+      { maxRetries: MAX_VAA_UPLOAD_RETRIES_SOLANA }
     );
     const transaction = shouldUpdate
       ? await updateWrappedOnSolana(

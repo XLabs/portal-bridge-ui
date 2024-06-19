@@ -38,6 +38,7 @@ import {
   SOLANA_HOST,
   SOL_BRIDGE_ADDRESS,
   SOL_NFT_BRIDGE_ADDRESS,
+  MAX_VAA_UPLOAD_RETRIES_SOLANA,
 } from "../utils/consts";
 import { getKaruraGasParams } from "../utils/karura";
 import { getMetadataAddress } from "../utils/metaplex";
@@ -112,7 +113,8 @@ async function solana(
         wallet.signTransaction.bind(wallet),
         SOL_BRIDGE_ADDRESS,
         payerAddress,
-        Buffer.from(signedVAA)
+        Buffer.from(signedVAA),
+        { maxRetries: MAX_VAA_UPLOAD_RETRIES_SOLANA }
       );
       // TODO: how do we retry in between these steps
       const transaction = await redeemOnSolana(

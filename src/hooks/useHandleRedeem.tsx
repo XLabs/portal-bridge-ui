@@ -64,6 +64,7 @@ import {
   getBridgeAddressForChain,
   THRESHOLD_GATEWAYS,
   SEI_TRANSLATOR,
+  MAX_VAA_UPLOAD_RETRIES_SOLANA,
 } from "../utils/consts";
 import {
   makeNearAccount,
@@ -439,7 +440,8 @@ async function solana(
       wallet.signTransaction.bind(wallet),
       SOL_BRIDGE_ADDRESS,
       payerAddress,
-      Buffer.from(signedVAA)
+      Buffer.from(signedVAA),
+      { maxRetries: MAX_VAA_UPLOAD_RETRIES_SOLANA }
     );
     console.log('postVaa')
     if (isTbtc) {
