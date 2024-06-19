@@ -51,7 +51,7 @@ import {
   createInitializeAccountInstruction,
   getMinimumBalanceForRentExemptAccount,
 } from "@solana/spl-token";
-//import { addComputeBudget } from "../utils/computeBudget";
+import { addComputeBudget } from "../utils/computeBudget";
 
 export const getWrappedWallets = (): Wallet[] => {
   const wallets: SolanaAdapter[] = [
@@ -205,7 +205,7 @@ export async function transferNativeSol(
     tokenBridgeTransferIx,
     closeAccountIx
   );
-  //await addComputeBudget(connection!, transaction);
+  await addComputeBudget(connection!, transaction);
   transaction.partialSign(message, ancillaryKeypair);
   return transaction;
 }
@@ -311,7 +311,7 @@ export async function transferFromSolana(
   const { blockhash } = await connection.getLatestBlockhash(commitment);
   transaction.recentBlockhash = blockhash;
   transaction.feePayer = new PublicKey(payerAddress);
-  //await addComputeBudget(connection!, transaction);
+  await addComputeBudget(connection!, transaction);
   transaction.partialSign(message);
   return transaction;
 }

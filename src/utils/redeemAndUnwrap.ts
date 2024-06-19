@@ -23,7 +23,7 @@ import {
   Transaction,
 } from "@solana/web3.js";
 import { createCompleteTransferNativeInstruction } from "@certusone/wormhole-sdk/lib/esm/solana/tokenBridge";
-//import { addComputeBudget } from "./computeBudget";
+import { addComputeBudget } from "./computeBudget";
 
 // This is taken from SDKv1 and adds a budget before partial signing
 // Setting the budget after partial signing will result in a
@@ -103,7 +103,7 @@ export async function redeemAndUnwrapOnSolana(
     closeAccountIx
   );
   // Set the compute budget before signing
-  //await addComputeBudget(connection, transaction, undefined, 0.9, 500_000);
+  await addComputeBudget(connection, transaction, undefined, 0.9, 500_000);
   transaction.partialSign(ancillaryKeypair);
   return transaction;
 }
