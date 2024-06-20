@@ -118,7 +118,7 @@ export async function postVaa(
     unsignedTransaction.feePayer = new PublicKey(payer);
     await addComputeBudget(connection, unsignedTransaction, [], 0.75, 1, true);
   }
-  console.log("verifySignatures");
+
   const verifySignatures = async (transaction: Transaction) =>
     signSendAndConfirmTransaction(
       connection,
@@ -143,10 +143,8 @@ export async function postVaa(
     }
   }
 
-  console.log("verifySignatures", output);
   //While the signature_set is used to create the final instruction, it doesn't need to sign it.
   await addComputeBudget(connection, postVaaTransaction, [], 0.75, 1, true);
-  console.log("postVaaTransaction");
   output.push(
     await signSendAndConfirmTransaction(
       connection,
@@ -156,7 +154,7 @@ export async function postVaa(
       options
     )
   );
-  console.log("postVaaTransaction", output);
+
   return output;
 }
 
