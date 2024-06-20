@@ -39,6 +39,7 @@ const TESTNET_MORE_NETWORKS = [ALGORAND, ACALA, MORE];
 // https://vitejs.dev/config/
 export default defineConfig({
   ...viteConfig,
+  base: `${PUBLIC_URL}/w-bridge/`,
   define: {
     ...viteConfig?.define,
     navBar: [
