@@ -113,7 +113,6 @@ let lastChain: string;
 // Send the event to the opentelemetry
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 export const eventHandler = (e: any) => {
-  console.log("eventHandler", e);
   // Ignore the load event
   if (e.type === "load") return;
 
