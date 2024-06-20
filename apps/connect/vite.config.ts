@@ -16,7 +16,7 @@ const wcPackageJson = readPackageVersion('@wormhole-foundation/wormhole-connect'
 
 const rpcs = (chains: string[], template: (chain: string) => string) => chains.map((chain: string) => ({ [chain]: template(chain) })).reduce((acc, cur) => ({ ...acc, ...cur }), {});
 const asRpcHost = (chain: string) => `https://and76cjzpa.execute-api.us-east-2.amazonaws.com/${chain}/`;
-const chains = [
+export const chains = [
   "wormchain",
   "osmosis",
   "ethereum",
@@ -32,7 +32,10 @@ const chains = [
   "moonbeam",
   "base",
   "arbitrum",
-  "optimism"
+  "optimism",
+  "scroll",
+  "xlayer",
+  "mantle"
 ]
 
 const MAINNET_RPCS = {
