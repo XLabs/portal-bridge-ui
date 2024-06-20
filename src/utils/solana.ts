@@ -14,12 +14,7 @@ import {
   ConfirmOptions,
   RpcResponseAndContext,
   SignatureResult,
-  Commitment,
-  TransactionExpiredBlockheightExceededError,
-  VersionedTransactionResponse,
-  BlockhashWithExpiryBlockHeight,
 } from "@solana/web3.js";
-import promiseRetry from "promise-retry";
 import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 import { addComputeBudget } from "./computeBudget";
 export declare type SignTransaction = (
@@ -107,7 +102,7 @@ export async function postVaa(
   vaa: Buffer,
   options?: ConfirmOptions,
   asyncVerifySignatures: boolean = true
-): Promise<void> {
+): Promise<TransactionSignatureAndResponse[]> {
   const { unsignedTransactions, signers } =
     await createPostSignedVaaTransactions(
       connection,
@@ -134,15 +129,6 @@ export async function postVaa(
     );
 
   const output = [];
-  /*const txs = await sendAndConfirmTransactionsWithRetry(
-    connection,
-    modifySignTransaction(signTransaction, ...signers),
-    payer.toString(),
-    unsignedTransactions,
-    options?.maxRetries,
-    options?.commitment
-  );
-  output.push(...txs);*/
 
   if (asyncVerifySignatures) {
     const verified = await Promise.all(
@@ -171,47 +157,9 @@ export async function postVaa(
     )
   );
   console.log('postVaaTransaction', output);
-  //return output;
+  return output;
 }
 
-export async function sendAndConfirmTransactionsWithRetry(
-  connection: Connection,
-  signTransaction: SignTransaction,
-  payer: string,
-  unsignedTransactions: Transaction[],
-  maxRetries = 0,
-  commitment: Commitment = 'finalized',
-): Promise<TransactionSignatureAndResponse[]> {
-  if (unsignedTransactions.length === 0) {
-    return Promise.reject('No transactions provided to send.');
-  }
-
-  let currentRetries = 0;
-  const output= [];
-  for (const transaction of unsignedTransactions) {
-    while (currentRetries <= maxRetries) {
-      try {
-        const result = await signSendAndConfirmTransaction(
-          connection,
-          payer,
-          signTransaction,
-          transaction,
-          {commitment, maxRetries},
-        );
-        output.push(result);
-        break;
-      } catch (e) {
-        console.error(e);
-        ++currentRetries;
-      }
-    }
-    if (currentRetries > maxRetries) {
-      return Promise.reject('Reached the maximum number of retries.');
-    }
-  }
-
-  return Promise.resolve(output);
-}
 /**
  * The transactions provided to this function should be ready to send.
  * This function will do the following:
@@ -246,16 +194,7 @@ export async function signSendAndConfirmTransaction(
     RpcResponseAndContext<SignatureResult>
   > | null = null;
   let confirmedTx: RpcResponseAndContext<SignatureResult> | null = null;
-  // const result = await transactionSenderAndConfirmationWaiter({
-  //   connection,
-  //   serializedTransaction: signedSerialized,
-  //   blockhashWithExpiryBlockHeight: {
-  //     blockhash,
-  //     lastValidBlockHeight,
-  //   },
-  // }
-  // )
-  // return result;
+
   let signature = await connection.sendRawTransaction(
     signedSerialized,
     sendOptions
@@ -296,108 +235,4 @@ export async function signSendAndConfirmTransaction(
     signature,
     response: confirmedTx,
   };
-}
-
-
-type TransactionSenderAndConfirmationWaiterArgs = {
-  connection: Connection;
-  serializedTransaction: Buffer;
-  blockhashWithExpiryBlockHeight: BlockhashWithExpiryBlockHeight;
-};
-
-const SEND_OPTIONS = {
-  skipPreflight: true,
-};
-
-  export const wait = (time: number) =>
-    new Promise((resolve) => setTimeout(resolve, time));
-
-export async function transactionSenderAndConfirmationWaiter({
-  connection,
-  serializedTransaction,
-  blockhashWithExpiryBlockHeight,
-}: TransactionSenderAndConfirmationWaiterArgs): Promise<VersionedTransactionResponse | null> {
-  const txid = await connection.sendRawTransaction(
-    serializedTransaction,
-    SEND_OPTIONS
-  );
-
-  const controller = new AbortController();
-  const abortSignal = controller.signal;
-  const abortableResender = async () => {
-    while (true) {
-      await wait(2_000);
-      if (abortSignal.aborted) return;
-      try {
-        await connection.sendRawTransaction(
-          serializedTransaction,
-          SEND_OPTIONS
-        );
-      } catch (e) {
-        console.warn(`Failed to resend transaction: ${e}`);
-      }
-    }
-  };
-
-  try {
-    abortableResender();
-    const lastValidBlockHeight =
-      blockhashWithExpiryBlockHeight.lastValidBlockHeight - 150;
-
-    // this would throw TransactionExpiredBlockheightExceededError
-    await Promise.race([
-      connection.confirmTransaction(
-        {
-          ...blockhashWithExpiryBlockHeight,
-          lastValidBlockHeight,
-          signature: txid,
-          abortSignal,
-        },
-        "confirmed"
-      ),
-      new Promise(async (resolve) => {
-        // in case ws socket died
-        while (!abortSignal.aborted) {
-          await wait(2_000);
-          const tx = await connection.getSignatureStatus(txid, {
-            searchTransactionHistory: false,
-          });
-          if (tx?.value?.confirmationStatus === "confirmed") {
-            resolve(tx);
-          }
-        }
-      }),
-    ]);
-  } catch (e) {
-    if (e instanceof TransactionExpiredBlockheightExceededError) {
-      console.log("TransactionExpiredBlockheightExceededError", e);
-      // we consume this error and getTransaction would return null
-      return null;
-    } else {
-      // invalid state from web3.js
-      throw e;
-    }
-  } finally {
-    controller.abort();
-  }
-
-  // in case rpc is not synced yet, we add some retries
-  const response = promiseRetry(
-    async (retry) => {
-      const response = await connection.getTransaction(txid, {
-        commitment: "confirmed",
-        maxSupportedTransactionVersion: 0,
-      });
-      if (!response) {
-        retry(response);
-      }
-      return response;
-    },
-    {
-      retries: 5,
-      minTimeout: 1e3,
-    }
-  );
-
-  return response;
 }
