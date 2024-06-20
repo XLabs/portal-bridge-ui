@@ -51,11 +51,12 @@ export async function determineComputeBudget(
 
     if (simulateResponse.value.err) {
       console.error(
-        `Error simulating Solana transaction:`, simulateResponse.value.err
+        `Error simulating Solana transaction:`,
+        simulateResponse.value.err
       );
       if (throwOnSimulateError) {
         throw new Error(
-          `Error simulating Solana transaction: ${(simulateResponse.value.err).toString()}`,
+          `Error simulating Solana transaction: ${simulateResponse.value.err.toString()}`
         );
       }
     }

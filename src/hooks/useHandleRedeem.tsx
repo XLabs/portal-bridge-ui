@@ -443,7 +443,7 @@ async function solana(
       Buffer.from(signedVAA),
       { maxRetries: MAX_VAA_UPLOAD_RETRIES_SOLANA }
     );
-    console.log('postVaa')
+    console.log("postVaa");
     if (isTbtc) {
       const tbtcGateway = newThresholdWormholeGateway(connection, wallet);
       const transaction = await tbtcGateway.receiveTbtc(
@@ -472,7 +472,7 @@ async function solana(
             payerAddress,
             signedVAA
           );
-      console.log('redeem')
+      console.log("redeem");
 
       if (!isNative) await addComputeBudget(connection!, transaction);
       const txid = await signSendAndConfirm(wallet, transaction);
