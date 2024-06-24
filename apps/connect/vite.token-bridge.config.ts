@@ -176,9 +176,9 @@ const TESTNET_TOKEN_CONFIG: WormholeConnectConfig = {
 
 const MAINNET_TOKEN_CONFIG: WormholeConnectConfig = {
   tokensConfig: {
-    "$ETHFIethereum": {
-      key: "$ETHFIethereum",
-      symbol: "$ETHFI",
+    "ETHFIethereum": {
+      key: "ETHFIethereum",
+      symbol: "ETHFI",
       nativeChain: 'ethereum',
       tokenId: {
         chain: 'ethereum',
@@ -191,9 +191,9 @@ const MAINNET_TOKEN_CONFIG: WormholeConnectConfig = {
         Ethereum: 18
       },
     },
-    "$ETHFIarbitrum": {
+    "ETHFIarbitrum": {
       key: "$ETHFIarbitrum",
-      symbol: "$ETHFI",
+      symbol: "ETHFI",
       nativeChain: 'arbitrum',
       tokenId: {
         chain: 'arbitrum',
@@ -557,12 +557,12 @@ const MAINNET_TOKEN_CONFIG: WormholeConnectConfig = {
         }
       ]
     },
-    "$ETHFI": {
+    "ETHFI": {
       nttManagers: [
         {
           chainName: 'ethereum',
           address: '0x344169Cc4abE9459e77bD99D13AA8589b55b6174',
-          tokenKey: '$ETHFIethereum',
+          tokenKey: 'ETHFIethereum',
           transceivers: [
             {
               address: '0x3bf4AebcaD920447c5fdD6529239Ab3922ce2186',
@@ -573,7 +573,7 @@ const MAINNET_TOKEN_CONFIG: WormholeConnectConfig = {
         {
           chainName: 'arbitrum',
           address: '0x90A82462258F79780498151EF6f663f1D4BE4E3b',
-          tokenKey: '$ETHFIarbitrum',
+          tokenKey: 'ETHFIarbitrum',
           transceivers: [
             {
               address: '0x4386e36B96D437b0F1C04A35E572C10C6627d88a',
