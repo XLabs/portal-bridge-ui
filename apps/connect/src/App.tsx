@@ -2,7 +2,7 @@ import type {
   ChainName,
   WormholeConnectConfig,
 } from "@wormhole-foundation/wormhole-connect";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import customTheme from "./theme/connect";
 import NavBar from "./components/atoms/NavBar";
 import NewsBar from "./components/atoms/NewsBar";
@@ -33,6 +33,9 @@ export default function Root() {
     [txHash, sourceChain, targetChain]
   );
   const messages = Object.values(messageConfig);
+  useEffect(() => {
+    localStorage.setItem('Connect Config', JSON.stringify(config, null, 2));
+  }, [config]); 
   return (
     <>
       <div>

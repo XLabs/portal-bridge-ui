@@ -182,12 +182,12 @@ const MAINNET_TOKEN_CONFIG: WormholeConnectConfig = {
       nativeChain: 'ethereum',
       tokenId: {
         chain: 'ethereum',
-        address: '0x7189fb5B6504bbfF6a852B13B7B82a3c118fDc27',
+        address: '0xfe0c30065b384f05761f15d0cc899d4f9f9cc0eb',
       },
       icon: "https://assets.coingecko.com/coins/images/35958/standard/etherfi.jpeg?1710254562",
       coinGeckoId: "ether-fi",
       decimals: {
-        default: 8,
+        default: 18,
         Ethereum: 18
       },
     },
@@ -196,14 +196,14 @@ const MAINNET_TOKEN_CONFIG: WormholeConnectConfig = {
       symbol: "$ETHFI",
       nativeChain: 'arbitrum',
       tokenId: {
-        chain: 'ethereum',
-        address: '0xfe0c30065b384f05761f15d0cc899d4f9f9cc0eb',
+        chain: 'arbitrum',
+        address: '0x7189fb5B6504bbfF6a852B13B7B82a3c118fDc27',
       },
       icon: "https://assets.coingecko.com/coins/images/35958/standard/etherfi.jpeg?1710254562",
       coinGeckoId: "ether-fi",
       decimals: {
-        default: 8,
-        Ethereum: 18
+        default: 18,
+        Arbitrum: 18
       },
     },
     WOM: {
