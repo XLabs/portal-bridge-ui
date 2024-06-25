@@ -20,7 +20,8 @@ const defaultConfig: WormholeConnectConfig = {
 };
 
 export default function Root() {
-  const { txHash, sourceChain, targetChain, token, requiredNetwork } = useQueryParams();
+  const { txHash, sourceChain, targetChain, token, requiredNetwork } =
+    useQueryParams();
 
   const config = useMemo(
     () => ({
@@ -33,7 +34,9 @@ export default function Root() {
         ...(sourceChain && { fromNetwork: sourceChain as ChainName }),
         ...(targetChain && { toNetwork: targetChain as ChainName }),
         ...(token && { token: token as string }),
-        ...(requiredNetwork && { requiredNetwork: requiredNetwork as ChainName }),
+        ...(requiredNetwork && {
+          requiredNetwork: requiredNetwork as ChainName,
+        }),
       },
     }),
     [txHash, sourceChain, targetChain, token, requiredNetwork]
