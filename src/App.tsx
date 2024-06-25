@@ -6,7 +6,6 @@ import {
 import {
   AppBar,
   Box,
-  Chip,
   Container,
   Hidden,
   IconButton,
@@ -225,6 +224,15 @@ function App() {
                 Token Bridge
               </Link>
               <Link
+                href="https://www.tally.xyz/gov/wormhole"
+                target="_blank"
+                rel="noopener noreferrer"
+                color="inherit"
+                className={classes.link}
+              >
+                Staking
+              </Link>
+              <Link
                 href={`${process.env.REACT_APP_BASE_URL}/usdc-bridge/`}
                 rel="noopener noreferrer"
                 color="inherit"
@@ -275,7 +283,7 @@ function App() {
                 >
                   Wormholescan
                 </Link>
-                <Chip className={classes.newTag} label="NEW" size="small" />
+                {/* <Chip className={classes.newTag} label="NEW" size="small" /> */}
               </Box>
             </div>
           </Hidden>
