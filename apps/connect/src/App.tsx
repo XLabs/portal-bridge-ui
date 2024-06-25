@@ -33,12 +33,12 @@ export default function Root() {
     ...defaultConfig?.tokensConfig,
   };
   if (allTokens) {
-    const tokenParam = Object.entries(allTokens).find(
+    const tokenParam = Object.values(allTokens).find(
       (config) =>
-        config[1]?.tokenId?.address === asset || config[1]?.key === asset
+        config?.tokenId?.address === asset || config?.key === asset
     );
     if (tokenParam) {
-      tokenKey = tokenParam[1].key;
+      tokenKey = tokenParam.key;
     }
   }
   const config = useMemo(
