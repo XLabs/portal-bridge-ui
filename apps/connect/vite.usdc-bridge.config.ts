@@ -13,8 +13,8 @@ export default defineConfig({
     ...viteConfig?.define,
     navBar: [
       { label: "Home", href: `${PUBLIC_URL}/` },
-      { label: "USDC", active: true, href: `${PUBLIC_URL}/usdc-bridge` },
       { label: "Staking", href: "https://www.tally.xyz/gov/wormhole", isBlank: true },
+      { label: "USDC", active: true, href: `${PUBLIC_URL}/usdc-bridge` },
     ],
     wormholeConnectConfig: {
       ...viteConfig?.define?.wormholeConnectConfig,
