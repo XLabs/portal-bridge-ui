@@ -283,7 +283,6 @@ function App() {
                 >
                   Wormholescan
                 </Link>
-                {/* <Chip className={classes.newTag} label="NEW" size="small" /> */}
               </Box>
             </div>
           </Hidden>
