@@ -60,6 +60,7 @@ const messages: Record<string, Message> = {
       </>
     ),
     start: new Date("2024-01-17T10:00:00-05:00"), // any date in the past would be fine
+    ends: new Date("2024-06-20T10:00:00-05:00"), 
   },
   cctp: {
     background: "linear-gradient(20deg, #f44b1b 0%, #eeb430 100%);",
@@ -118,6 +119,7 @@ const messages: Record<string, Message> = {
       </>
     ),
     start: new Date(2023, 9, 20), // any date in the past would be fine
+    ends: new Date(2023, 9, 20), // any date in the past would be fine
   },
   solana: {
     background: "yellow;",

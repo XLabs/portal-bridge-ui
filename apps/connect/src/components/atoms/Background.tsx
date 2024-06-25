@@ -2,7 +2,6 @@ import styled from "@mui/material/styles/styled";
 import Glow from "./Glow";
 import Elipsis from "./Elipsis";
 import BuiltBy from "./BuiltBy";
-import Version from "./Version";
 
 const Container = styled("div")(() => ({
   display: "flex",
@@ -25,7 +24,6 @@ export default function Background({ children }: { children: JSX.Element[] }) {
       {children}
       <ContainerFooter>
         <BuiltBy />
-        <Version />
         <Glow
           position={{
             top: "-661px",

@@ -35,6 +35,9 @@ export default function Root() {
   const messages = Object.values(messageConfig);
   return (
     <>
+      {versions.map(({ appName, version }, idx) => (
+        <meta name={appName} content={version} key={`${appName}-${version}-${idx}`} />
+      ))}
       <div>
         <NewsBar messages={messages} />
         <NavBar />
