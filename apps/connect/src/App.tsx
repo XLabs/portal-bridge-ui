@@ -34,8 +34,7 @@ export default function Root() {
   };
   if (allTokens) {
     const tokenParam = Object.values(allTokens).find(
-      (config) =>
-        config?.tokenId?.address === asset || config?.key === asset
+      (config) => config?.tokenId?.address === asset || config?.key === asset
     );
     if (tokenParam) {
       tokenKey = tokenParam.key;
