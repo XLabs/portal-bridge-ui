@@ -13,11 +13,15 @@ import { eventHandler } from "./providers/telemetry";
 
 const defaultConfig: WormholeConnectConfig = {
   ...wormholeConnectConfig,
-  ...((window.location.origin.includes("preview") || window.location.origin.includes("testnet")) && { eventHandler: eventHandler,})
+  ...((window.location.origin.includes("preview") ||
+    window.location.origin.includes("testnet")) && {
+    eventHandler: eventHandler,
+  }),
 };
 
 export default function Root() {
-  const { txHash, sourceChain, targetChain } = useQueryParams();
+  const { txHash, sourceChain, targetChain, token, requiredNetwork } = useQueryParams();
+
   const config = useMemo(
     () => ({
       ...defaultConfig,
@@ -28,15 +32,21 @@ export default function Root() {
       bridgeDefaults: {
         ...(sourceChain && { fromNetwork: sourceChain as ChainName }),
         ...(targetChain && { toNetwork: targetChain as ChainName }),
+        ...(token && { token: token as string }),
+        ...(requiredNetwork && { requiredNetwork: requiredNetwork as ChainName }),
       },
     }),
-    [txHash, sourceChain, targetChain]
+    [txHash, sourceChain, targetChain, token, requiredNetwork]
   );
   const messages = Object.values(messageConfig);
   return (
     <>
       {versions.map(({ appName, version }, idx) => (
-        <meta name={appName} content={version} key={`${appName}-${version}-${idx}`} />
+        <meta
+          name={appName}
+          content={version}
+          key={`${appName}-${version}-${idx}`}
+        />
       ))}
       <div>
         <NewsBar messages={messages} />
