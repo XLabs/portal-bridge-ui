@@ -48,12 +48,12 @@ export function useQueryParams() {
     [query]
   );
   const txHash = useMemo(() => getTxHash(query), [query]);
-  const token = useMemo(() => getTokenValue(query, "token"), [query]);
+  const asset = useMemo(() => getTokenValue(query, "asset"), [query]);
   return {
     txHash,
     sourceChain,
     targetChain,
-    token,
+    asset,
     requiredNetwork,
   };
 }
