@@ -22,7 +22,15 @@ const defaultConfig: WormholeConnectConfig = {
 export default function Root() {
   const { txHash, sourceChain, targetChain, token, requiredNetwork } =
     useQueryParams();
-
+  let tokenKey = token;
+  if (defaultConfig?.tokensConfig) {
+    const tokenParam = Object.entries(defaultConfig?.tokensConfig).find(
+      (config) => config[1].tokenId.address === token
+    );
+    if (tokenParam) {
+      tokenKey = tokenParam[1].key;
+    }
+  }
   const config = useMemo(
     () => ({
       ...defaultConfig,
@@ -33,14 +41,15 @@ export default function Root() {
       bridgeDefaults: {
         ...(sourceChain && { fromNetwork: sourceChain as ChainName }),
         ...(targetChain && { toNetwork: targetChain as ChainName }),
-        ...(token && { token: token as string }),
+        ...(tokenKey && { token: tokenKey as string }),
         ...(requiredNetwork && {
           requiredNetwork: requiredNetwork as ChainName,
         }),
       },
     }),
-    [txHash, sourceChain, targetChain, token, requiredNetwork]
+    [txHash, sourceChain, targetChain, tokenKey, requiredNetwork]
   );
+
   const messages = Object.values(messageConfig);
   return (
     <>
