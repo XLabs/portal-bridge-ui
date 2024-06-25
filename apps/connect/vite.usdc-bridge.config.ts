@@ -14,7 +14,7 @@ export default defineConfig({
     navBar: [
       { label: "Home", href: `${PUBLIC_URL}/` },
       { label: "USDC", active: true, href: `${PUBLIC_URL}/usdc-bridge` },
-      { label: "Rewards", href: `${PUBLIC_URL}/rewards-dashboard` }
+      { label: "Staking", href: "https://www.tally.xyz/gov/wormhole", isBlank: true },
     ],
     wormholeConnectConfig: {
       ...viteConfig?.define?.wormholeConnectConfig,

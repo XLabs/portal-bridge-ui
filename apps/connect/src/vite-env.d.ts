@@ -6,6 +6,7 @@ type NavLink = {
   label: string;
   active?: boolean;
   href: string;
+  isBlank?: boolean;
 };
 
 type Redirect = {
