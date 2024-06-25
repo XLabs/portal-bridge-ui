@@ -26,7 +26,7 @@ import {
   CHAIN_ID_BASE,
 } from "@certusone/wormhole-sdk";
 import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk/lib/esm";
-import { Button, makeStyles, Typography, Chip } from "@material-ui/core";
+import { Button, makeStyles, Typography } from "@material-ui/core";
 import { Transaction } from "../store/transferSlice";
 import { CLUSTER, getExplorerName, getWormholescanLink } from "../utils/consts";
 
@@ -225,7 +225,6 @@ export default function ShowTx({
             >
               View on Wormholescan
             </Button>
-            <Chip className={classes.newTag} label="NEW!" size="small" />
           </div>
         )}
       </div>
