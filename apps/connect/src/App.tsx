@@ -45,8 +45,8 @@ export default function Root() {
 
   const messages = Object.values(messageConfig);
   useEffect(() => {
-    localStorage.setItem('Connect Config', JSON.stringify(config, null, 2));
-  }, [config]); 
+    localStorage.setItem("Connect Config", JSON.stringify(config, null, 2));
+  }, [config]);
   return (
     <>
       {versions.map(({ appName, version }, idx) => (
