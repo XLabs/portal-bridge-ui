@@ -20,9 +20,6 @@ function getFormatedAsset(asset: string | null): string | null {
 }
 
 export function useFormatAssetParam(asset: string | null) {
-  const formatedAsset = useMemo(
-    () => getFormatedAsset(asset),
-    [asset]
-  );
+  const formatedAsset = useMemo(() => getFormatedAsset(asset), [asset]);
   return formatedAsset;
 }
