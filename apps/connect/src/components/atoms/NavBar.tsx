@@ -1,7 +1,6 @@
 import MuiAppBar from "@mui/material/AppBar";
 import Hidden from "@mui/material/Hidden";
 import MuiLink from "@mui/material/Link";
-import MuiChip from "@mui/material/Chip";
 import Toolbar from "@mui/material/Toolbar";
 import styled from "@mui/material/styles/styled";
 import Box from "@mui/material/Box";
@@ -55,17 +54,17 @@ const Link = styled(MuiLink)(({ theme }) => ({
   },
 }));
 
-const Chip = styled(MuiChip)(() => ({
-  position: "relative",
-  left: "-10px",
-  bottom: "24px",
-  backgroundColor: "#3B3785",
-  color: "#E2E1FF",
-  fontSize: "10px",
-  fontWeight: 600,
-  lineHeight: "24px",
-  wordWrap: "break-word",
-}));
+// const Chip = styled(MuiChip)(() => ({
+//   position: "relative",
+//   left: "-10px",
+//   bottom: "24px",
+//   backgroundColor: "#3B3785",
+//   color: "#E2E1FF",
+//   fontSize: "10px",
+//   fontWeight: 600,
+//   lineHeight: "24px",
+//   wordWrap: "break-word",
+// }));
 
 const Logo = styled("img")(({ theme }) => ({
   height: 68,
@@ -82,12 +81,12 @@ const Spacer = styled("div")(() => ({
   width: "100vw",
 }));
 
+// const chipNew = <Chip label="NEW" size="small" />; // TODO: Add back when needed
 const womrholescanButton = (
   <Box>
     <Link href="https://wormholescan.io" target="_blank" color="inherit">
       Wormholescan
     </Link>
-    <Chip label="NEW" size="small" />
   </Box>
 );
 
@@ -102,12 +101,13 @@ export default function NavBar() {
         <Spacer />
         <Hidden implementation="css" smDown>
           <div style={{ display: "flex", alignItems: "center" }}>
-            {navBar.map(({ label, active, href }, idx) => (
+            {navBar.map(({ label, active, href, isBlank }, idx) => (
               <Link
                 key={`${label}_${idx}`}
                 href={href}
                 color="inherit"
                 sx={{ textDecoration: active ? "underline" : "none" }}
+                target={isBlank ? "_blank" : "_self"}
               >
                 {label}
               </Link>

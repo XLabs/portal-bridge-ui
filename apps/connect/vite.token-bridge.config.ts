@@ -595,7 +595,8 @@ export default defineConfig({
     ...viteConfig?.define,
     navBar: [
       { label: "Home", active: true, href: `${PUBLIC_URL}/` },
-      { label: "USDC", href: USDC_BRIDGE_HREF }
+      { label: "Staking", href: "https://www.tally.xyz/gov/wormhole", isBlank: true },
+      { label: "USDC", href: USDC_BRIDGE_HREF },
     ],
     redirects: {
       source: [

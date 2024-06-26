@@ -17,6 +17,11 @@ function getChainValue(query: URLSearchParams, key: string): ChainName | null {
   return null;
 }
 
+function getTokenValue(query: URLSearchParams, key: string): string | null {
+  const token = query.get(key);
+  return token && token.length > 0 ? token : null;
+}
+
 function getTxHash(query: URLSearchParams): string | null {
   const txHash = query.get("txHash");
   const transactionId = query.get("transactionId");
@@ -38,10 +43,17 @@ export function useQueryParams() {
     () => getChainValue(query, "targetChain"),
     [query]
   );
+  const requiredNetwork = useMemo(
+    () => getChainValue(query, "requiredNetwork"),
+    [query]
+  );
   const txHash = useMemo(() => getTxHash(query), [query]);
+  const asset = useMemo(() => getTokenValue(query, "asset"), [query]);
   return {
     txHash,
     sourceChain,
     targetChain,
+    asset,
+    requiredNetwork,
   };
 }
