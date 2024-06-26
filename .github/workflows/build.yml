@@ -361,11 +361,6 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
-          name: build-rewards-dashboard
-          path: rewards-dashboard
-      - name: Download Artifact
-        uses: actions/download-artifact@v3
-        with:
           name: build-redirects
       - name: Set up GitHub NPM registry
         uses: actions/setup-node@v3
