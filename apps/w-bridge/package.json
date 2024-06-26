@@ -4,8 +4,6 @@
   "version": "0.2.15",
   "type": "module",
   "scripts": {
-    "dev:usdc-bridge": "vite --config ./vite.usdc-bridge.config.ts",
-    "build:usdc-bridge": "tsc && vite build --config ./vite.usdc-bridge.config.ts",
     "dev:token-bridge": "vite --config ./vite.token-bridge.config.ts",
     "build:token-bridge": "tsc && vite build --config ./vite.token-bridge.config.ts",
     "dev": "vite",
@@ -21,7 +19,7 @@
     "@mui/icons-material": "^5.14.11",
     "@mui/material": "^5.12.1",
     "@tanstack/react-query": "^5.14.2",
-    "@wormhole-foundation/wormhole-connect": "file:./wormhole-foundation-wormhole-connect-0.3.7.tgz",
+    "@wormhole-foundation/wormhole-connect": "file:./wormhole-foundation-wormhole-connect-0.3.7-SquadX.tgz",
     "dompurify": "^3.0.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

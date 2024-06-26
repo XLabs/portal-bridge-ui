@@ -76,16 +76,6 @@ export default defineConfig({
         href: USDC_BRIDGE_HREF
       },
       networks: [...chains],
-      moreNetworks: {
-        href: ADVANCE_TOOLS_HREF_TEMPLATE,
-        target: "_blank",
-        description: "Advance Tools offers unlimited transfers across chains for tokens and NFTs wrapped by Wormhole.",
-        networks: process.env.VITE_APP_CLUSTER === 'mainnet' ? MAINNET_MORE_NETWORKS : TESTNET_MORE_NETWORKS,
-      },
-      moreTokens: {
-        label: "More tokens ...",
-        href: ADVANCE_TOOLS_HREF_TEMPLATE,
-      },
       routes: ["nttRelay"],
       tokensConfig: {
         "Wsolana": {
