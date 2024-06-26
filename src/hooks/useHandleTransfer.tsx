@@ -29,11 +29,9 @@ import {
   transferFromEth,
   transferFromEthNative,
   transferFromInjective,
-  transferFromSolana,
   transferFromTerra,
   transferFromXpla,
   transferFromAptos,
-  transferNativeSol,
   uint8ArrayToHex,
   transferFromSui,
   CHAIN_ID_SUI,
@@ -55,7 +53,11 @@ import { useAlgorandWallet } from "../contexts/AlgorandWalletContext";
 import { useAptosContext } from "../contexts/AptosWalletContext";
 import { useEthereumProvider } from "../contexts/EthereumProviderContext";
 import { useNearContext } from "../contexts/NearWalletContext";
-import { useSolanaWallet } from "../contexts/SolanaWalletContext";
+import {
+  transferFromSolana,
+  transferNativeSol,
+  useSolanaWallet,
+} from "../contexts/SolanaWalletContext";
 import {
   selectTerraFeeDenom,
   selectTransferAmount,

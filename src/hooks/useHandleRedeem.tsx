@@ -9,8 +9,6 @@ import {
   CHAIN_ID_XPLA,
   isEVMChain,
   isTerraChain,
-  postVaaSolanaWithRetry,
-  redeemAndUnwrapOnSolana,
   redeemOnAlgorand,
   redeemOnEth,
   redeemOnEthNative,
@@ -59,7 +57,6 @@ import {
   ALGORAND_HOST,
   ALGORAND_TOKEN_BRIDGE_ID,
   getTokenBridgeAddressForChain,
-  MAX_VAA_UPLOAD_RETRIES_SOLANA,
   NEAR_TOKEN_BRIDGE_ACCOUNT,
   SOLANA_HOST,
   SOL_BRIDGE_ADDRESS,
@@ -67,6 +64,7 @@ import {
   getBridgeAddressForChain,
   THRESHOLD_GATEWAYS,
   SEI_TRANSLATOR,
+  MAX_VAA_UPLOAD_RETRIES_SOLANA,
 } from "../utils/consts";
 import {
   makeNearAccount,
@@ -74,7 +72,7 @@ import {
   signAndSendTransactions,
 } from "../utils/near";
 import parseError from "../utils/parseError";
-import { signSendAndConfirm } from "../utils/solana";
+import { postVaa, signSendAndConfirm } from "../utils/solana";
 import { postWithFees } from "../utils/terra";
 import useTransferSignedVAA from "./useTransferSignedVAA";
 import { postWithFeesXpla } from "../utils/xpla";
@@ -99,6 +97,8 @@ import { fromUint8Array } from "js-base64";
 import { useSeiWallet } from "../contexts/SeiWalletContext";
 import { SeiWallet } from "@xlabs-libs/wallet-aggregator-sei";
 import { calculateFeeForContractExecution } from "../utils/sei";
+import { addComputeBudget } from "../utils/computeBudget";
+import { redeemAndUnwrapOnSolana } from "../utils/redeemAndUnwrap";
 
 async function algo(
   dispatch: any,
@@ -435,14 +435,15 @@ async function solana(
     // will create to notice the user up front
     // we could call createPostSignedVaaTransactions to create fake txs
     // and read the length of the array
-    await postVaaSolanaWithRetry(
+    await postVaa(
       connection,
       wallet.signTransaction.bind(wallet),
       SOL_BRIDGE_ADDRESS,
       payerAddress,
       Buffer.from(signedVAA),
-      MAX_VAA_UPLOAD_RETRIES_SOLANA
+      { maxRetries: MAX_VAA_UPLOAD_RETRIES_SOLANA }
     );
+
     if (isTbtc) {
       const tbtcGateway = newThresholdWormholeGateway(connection, wallet);
       const transaction = await tbtcGateway.receiveTbtc(
@@ -471,6 +472,8 @@ async function solana(
             payerAddress,
             signedVAA
           );
+
+      if (!isNative) await addComputeBudget(connection!, transaction);
       const txid = await signSendAndConfirm(wallet, transaction);
       // TODO: didn't want to make an info call we didn't need, can we get the block without it by modifying the above call?
       dispatch(setRedeemTx({ id: txid, block: 1 }));

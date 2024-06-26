@@ -19,7 +19,6 @@ import {
   createWrappedTypeOnAptos,
   isEVMChain,
   isTerraChain,
-  postVaaSolanaWithRetry,
   TerraChainId,
   updateWrappedOnEth,
   updateWrappedOnInjective,
@@ -61,12 +60,12 @@ import {
   ALGORAND_TOKEN_BRIDGE_ID,
   getTokenBridgeAddressForChain,
   KARURA_HOST,
-  MAX_VAA_UPLOAD_RETRIES_SOLANA,
   NEAR_TOKEN_BRIDGE_ACCOUNT,
   SOLANA_HOST,
   SOL_BRIDGE_ADDRESS,
   SOL_TOKEN_BRIDGE_ADDRESS,
   getBridgeAddressForChain,
+  MAX_VAA_UPLOAD_RETRIES_SOLANA,
 } from "../utils/consts";
 import { getKaruraGasParams } from "../utils/karura";
 import {
@@ -76,7 +75,7 @@ import {
 } from "../utils/near";
 import { postWithFeesXpla } from "../utils/xpla";
 import parseError from "../utils/parseError";
-import { signSendAndConfirm } from "../utils/solana";
+import { postVaa, signSendAndConfirm } from "../utils/solana";
 import { postWithFees } from "../utils/terra";
 import useAttestSignedVAA from "./useAttestSignedVAA";
 import { broadcastInjectiveTx } from "../utils/injective";
@@ -436,13 +435,13 @@ async function solana(
       throw new Error("wallet.signTransaction is undefined");
     }
     const connection = new Connection(SOLANA_HOST, "confirmed");
-    await postVaaSolanaWithRetry(
+    await postVaa(
       connection,
       wallet.signTransaction.bind(wallet),
       SOL_BRIDGE_ADDRESS,
       payerAddress,
       Buffer.from(signedVAA),
-      MAX_VAA_UPLOAD_RETRIES_SOLANA
+      { maxRetries: MAX_VAA_UPLOAD_RETRIES_SOLANA }
     );
     const transaction = shouldUpdate
       ? await updateWrappedOnSolana(

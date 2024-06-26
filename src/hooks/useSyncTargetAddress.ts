@@ -15,7 +15,7 @@ import {
 import { arrayify, zeroPad } from "@ethersproject/bytes";
 import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
-  Token,
+  getAssociatedTokenAddress,
   TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
 import { PublicKey } from "@solana/web3.js";
@@ -109,13 +109,13 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
         // otherwise, use the associated token account (which we create in the case it doesn't exist)
         (async () => {
           try {
-            const associatedTokenAccount =
-              await Token.getAssociatedTokenAddress(
-                ASSOCIATED_TOKEN_PROGRAM_ID,
-                TOKEN_PROGRAM_ID,
-                new PublicKey(targetAsset), // this might error
-                new PublicKey(solPK)
-              );
+            const associatedTokenAccount = await getAssociatedTokenAddress(
+              new PublicKey(targetAsset), // this might error
+              new PublicKey(solPK),
+              undefined,
+              TOKEN_PROGRAM_ID,
+              ASSOCIATED_TOKEN_PROGRAM_ID
+            );
             if (!cancelled) {
               dispatch(
                 setTargetAddressHex(
