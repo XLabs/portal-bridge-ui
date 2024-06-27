@@ -22,7 +22,7 @@ const defaultConfig: WormholeConnectConfig = {
   isRouteSupportedHandler: async (td: any) => {
     // Disable manual NTT for Lido wstETH
     if (
-      td.route === 'NttManual' &&
+      td.route === 'nttManual' &&
       td.fromToken.tokenId !== 'native' &&
       (td.fromToken.tokenId.address ===
         '0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0' ||
