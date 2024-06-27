@@ -11,6 +11,10 @@ import { useQueryParams } from "./hooks/useQueryParams";
 import { useFormatAssetParam } from "./hooks/useFormatAssetParam";
 import WormholeConnect from "@wormhole-foundation/wormhole-connect";
 import { eventHandler } from "./providers/telemetry";
+import { useRoutes } from "react-router-dom";
+import PrivacyPolicies from "./components/pages/PrivacyPolicy";
+import { PrivacyPolicyPath, USDCPath } from "./utils/constants";
+import Banner from "./components/atoms/Banner";
 
 const defaultConfig: WormholeConnectConfig = {
   ...wormholeConnectConfig,
@@ -47,6 +51,16 @@ export default function Root() {
   useEffect(() => {
     localStorage.setItem("Connect Config", JSON.stringify(config, null, 2));
   }, [config]);
+
+  const Connect = <>
+    <WormholeConnect config={config} theme={customTheme} />
+    <Banner />
+  </>
+  const routes = useRoutes([
+    { path: '/', element: Connect },
+    { path: USDCPath, element: Connect },
+    { path: PrivacyPolicyPath, element: <PrivacyPolicies /> },
+]);
   return (
     <>
       {versions.map(({ appName, version }, idx) => (
@@ -60,7 +74,7 @@ export default function Root() {
         <NewsBar messages={messages} />
         <NavBar />
       </div>
-      <WormholeConnect config={config} theme={customTheme} />
+      {routes}
     </>
   );
 }
