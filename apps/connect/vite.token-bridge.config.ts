@@ -176,6 +176,36 @@ const TESTNET_TOKEN_CONFIG: WormholeConnectConfig = {
 
 const MAINNET_TOKEN_CONFIG: WormholeConnectConfig = {
   tokensConfig: {
+    "ETHFIethereum": {
+      key: "ETHFIethereum",
+      symbol: "ETHFI",
+      nativeChain: 'ethereum',
+      tokenId: {
+        chain: 'ethereum',
+        address: '0xfe0c30065b384f05761f15d0cc899d4f9f9cc0eb',
+      },
+      icon: "https://assets.coingecko.com/coins/images/35958/standard/etherfi.jpeg?1710254562",
+      coinGeckoId: "ether-fi",
+      decimals: {
+        default: 18,
+        Ethereum: 18
+      },
+    },
+    "ETHFIarbitrum": {
+      key: "ETHFIarbitrum",
+      symbol: "ETHFI",
+      nativeChain: 'arbitrum',
+      tokenId: {
+        chain: 'arbitrum',
+        address: '0x7189fb5B6504bbfF6a852B13B7B82a3c118fDc27',
+      },
+      icon: "https://assets.coingecko.com/coins/images/35958/standard/etherfi.jpeg?1710254562",
+      coinGeckoId: "ether-fi",
+      decimals: {
+        default: 18,
+        Arbitrum: 18
+      },
+    },
     WOM: {
       key: "WOM",
       symbol: "WOM",
@@ -527,6 +557,32 @@ const MAINNET_TOKEN_CONFIG: WormholeConnectConfig = {
         }
       ]
     },
+    "ETHFI": {
+      nttManagers: [
+        {
+          chainName: 'ethereum',
+          address: '0x344169Cc4abE9459e77bD99D13AA8589b55b6174',
+          tokenKey: 'ETHFIethereum',
+          transceivers: [
+            {
+              address: '0x3bf4AebcaD920447c5fdD6529239Ab3922ce2186',
+              type: 'wormhole',
+            },
+          ],
+        },
+        {
+          chainName: 'arbitrum',
+          address: '0x90A82462258F79780498151EF6f663f1D4BE4E3b',
+          tokenKey: 'ETHFIarbitrum',
+          transceivers: [
+            {
+              address: '0x4386e36B96D437b0F1C04A35E572C10C6627d88a',
+              type: 'wormhole',
+            },
+          ],
+        }
+      ]
+    }
   },
 
 }
