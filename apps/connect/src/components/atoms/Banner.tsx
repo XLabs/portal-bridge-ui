@@ -1,8 +1,8 @@
-import { Button, styled } from '@mui/material';
-import { useState } from 'react';
-import { PrivacyPolicyPath } from '../../utils/constants';
+import { Button, styled } from "@mui/material";
+import { useState } from "react";
+import { PrivacyPolicyPath } from "../../utils/constants";
 import cookie from "../../assets/imgs/cookie.svg";
-import { Link } from '../../utils/styles';
+import { Link } from "../../utils/styles";
 
 const BannerContainer = styled("div")(({ theme }) => ({
   display: "flex",
@@ -15,7 +15,7 @@ const BannerContainer = styled("div")(({ theme }) => ({
   zIndex: 100,
   [theme.breakpoints.down("sm")]: {
     bottom: 75,
-  }
+  },
 }));
 
 const Content = styled("div")(({ theme }) => ({
@@ -60,10 +60,13 @@ const Banner = () => {
       <Content>
         <img src={cookie} alt="cookie" />
         <div>
-        This website is designed to enhance your experience. By continuing to use this site, you consent to our {" "}
-        <Link href={PrivacyPolicyPath}>Privacy Policy</Link>
+          This website is designed to enhance your experience. By continuing to
+          use this site, you consent to our{" "}
+          <Link href={PrivacyPolicyPath}>Privacy Policy</Link>
         </div>
-        <CloseButton variant="contained" onClick={() => setShowBanner(false)}>Close</CloseButton>
+        <CloseButton variant="contained" onClick={() => setShowBanner(false)}>
+          Close
+        </CloseButton>
       </Content>
     </BannerContainer>
   );

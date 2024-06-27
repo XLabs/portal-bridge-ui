@@ -12,7 +12,7 @@ import { useFormatAssetParam } from "./hooks/useFormatAssetParam";
 import WormholeConnect from "@wormhole-foundation/wormhole-connect";
 import { eventHandler } from "./providers/telemetry";
 import { useRoutes } from "react-router-dom";
-import PrivacyPolicies from "./components/pages/PrivacyPolicy";
+import PrivacyPolicy from "./components/pages/PrivacyPolicy";
 import { PrivacyPolicyPath, USDCPath } from "./utils/constants";
 import Banner from "./components/atoms/Banner";
 
@@ -52,15 +52,17 @@ export default function Root() {
     localStorage.setItem("Connect Config", JSON.stringify(config, null, 2));
   }, [config]);
 
-  const Connect = <>
-    <WormholeConnect config={config} theme={customTheme} />
-    <Banner />
-  </>
+  const Connect = (
+    <>
+      <WormholeConnect config={config} theme={customTheme} />
+      <Banner />
+    </>
+  );
   const routes = useRoutes([
-    { path: '/', element: Connect },
+    { path: "/", element: Connect },
     { path: USDCPath, element: Connect },
-    { path: PrivacyPolicyPath, element: <PrivacyPolicies /> },
-]);
+    { path: PrivacyPolicyPath, element: <PrivacyPolicy /> },
+  ]);
   return (
     <>
       {versions.map(({ appName, version }, idx) => (
