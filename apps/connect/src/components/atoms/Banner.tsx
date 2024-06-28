@@ -25,7 +25,7 @@ const Content = styled("div")(({ theme }) => ({
   position: "fixed",
   padding: 10,
   backgroundColor: "#070528",
-  gap: 18,
+  gap: 20,
   borderRadius: 12,
   margin: 26,
   mixBlendMode: "normal",
@@ -51,8 +51,24 @@ const CloseButton = styled(Button)(() => ({
 const Banner = () => {
   const [showBanner, setShowBanner] = useState(true);
 
-  if (!showBanner) {
-    // TODO this data could be stored in a cookie or localstorage?
+  const isNewOrExpired = () => {
+    const cache = localStorage.getItem("showPrivacyPolicy");
+    const expirationDate = new Date(Number(cache)).getTime() + (7 * 24 * 60 * 60 * 1000);
+    const today = new Date().getTime();
+    if (!cache || expirationDate < today) {
+      return true;
+    }
+    return false;
+  }
+  const handleClose = () => {
+    setShowBanner(false);
+    if (isNewOrExpired()) {
+      const today =  new Date();
+      localStorage.setItem("showPrivacyPolicy", today.getTime().toString());
+    }
+  };
+
+  if (!isNewOrExpired() || !showBanner) {
     return null;
   }
   return (
@@ -64,7 +80,7 @@ const Banner = () => {
           use this site, you consent to our{" "}
           <Link href={PrivacyPolicyPath}>Privacy Policy</Link>
         </div>
-        <CloseButton variant="contained" onClick={() => setShowBanner(false)}>
+        <CloseButton variant="contained" onClick={() => handleClose()}>
           Close
         </CloseButton>
       </Content>
