@@ -23,7 +23,7 @@ const TableItem = styled("div")(() => ({
     color: "white",
     borderLeft: "3px solid white",
     fontWeight: 600,
-  }
+  },
 }));
 
 const Title = styled("p")(() => ({
@@ -47,10 +47,10 @@ export default function TableOfContent() {
   useEffect(() => {
     console.log("TableOfContent", document.querySelectorAll("H2"));
     const titles = Array.from(document.querySelectorAll("H2"))
-    .filter((el) => !!el.children[0].textContent)
-    .map((el) => {
-      return { title: el.children[0].textContent, active: false, id: el.id };
-    });
+      .filter((el) => !!el.children[0].textContent)
+      .map((el) => {
+        return { title: el.children[0].textContent, active: false, id: el.id };
+      });
     setTableOfContent(titles);
   }, []);
   const updateActive = (idx: number) => {
@@ -58,23 +58,27 @@ export default function TableOfContent() {
       if (index === idx) {
         item.active = true;
         setTimeout(() => {
-        //document.querySelector(`#${item.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
-        const el = document.querySelector(`#${item.id}`) as HTMLElement;
-        window.scroll({top: el?.offsetTop || 0, behavior: 'smooth'});
-      }, 100);
+          //document.querySelector(`#${item.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+          const el = document.querySelector(`#${item.id}`) as HTMLElement;
+          window.scroll({ top: el?.offsetTop || 0, behavior: "smooth" });
+        }, 100);
       } else {
         item.active = false;
       }
       return item;
     });
     setTableOfContent(newTableOfContent);
-  }
+  };
   return (
     <div>
       <Title>TABLE OF CONTENTS</Title>
       <TableContainer>
         {tableOfContent.map((item, idx) => (
-          <TableItem style={item.active ? activeItem : {}} key={idx} onClick={() => updateActive(idx)}>
+          <TableItem
+            style={item.active ? activeItem : {}}
+            key={idx}
+            onClick={() => updateActive(idx)}
+          >
             {item.title}
           </TableItem>
         ))}

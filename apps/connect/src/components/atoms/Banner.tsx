@@ -53,17 +53,18 @@ const Banner = () => {
 
   const isNewOrExpired = () => {
     const cache = localStorage.getItem("showPrivacyPolicy");
-    const expirationDate = new Date(Number(cache)).getTime() + (7 * 24 * 60 * 60 * 1000);
+    const expirationDate =
+      new Date(Number(cache)).getTime() + 7 * 24 * 60 * 60 * 1000;
     const today = new Date().getTime();
     if (!cache || expirationDate < today) {
       return true;
     }
     return false;
-  }
+  };
   const handleClose = () => {
     setShowBanner(false);
     if (isNewOrExpired()) {
-      const today =  new Date();
+      const today = new Date();
       localStorage.setItem("showPrivacyPolicy", today.getTime().toString());
     }
   };
