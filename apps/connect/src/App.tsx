@@ -13,13 +13,12 @@ import WormholeConnect from "@wormhole-foundation/wormhole-connect";
 import { eventHandler } from "./providers/telemetry";
 import { useRoutes } from "react-router-dom";
 import PrivacyPolicy from "./components/pages/PrivacyPolicy";
-import { PrivacyPolicyPath, USDCPath } from "./utils/constants";
+import { PrivacyPolicyPath, USDCPath, isPreview } from "./utils/constants";
 import Banner from "./components/atoms/Banner";
 
 const defaultConfig: WormholeConnectConfig = {
   ...wormholeConnectConfig,
-  ...((window.location.origin.includes("preview") ||
-    window.location.origin.includes("testnet")) && {
+  ...(isPreview && {
     eventHandler: eventHandler,
   }),
 };
@@ -58,10 +57,11 @@ export default function Root() {
       <Banner />
     </>
   );
+  const path = isPreview ? window.location.pathname.split('/')[0] : "";
   const routes = useRoutes([
-    { path: "/", element: Connect },
-    { path: USDCPath, element: Connect },
-    { path: PrivacyPolicyPath, element: <PrivacyPolicy /> },
+    { path: `/${path}`, element: Connect },
+    { path: `${path}${USDCPath}`, element: Connect },
+    { path: `${path}${PrivacyPolicyPath}`, element: <PrivacyPolicy /> },
   ]);
   return (
     <>

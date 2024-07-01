@@ -76,7 +76,6 @@ const PrivacyPolicy = () => {
   const navigate = useNavigate();
   return (
     <Container>
-      <TableOfContent />
       <ContentContainer>
         <TitleContainer>
           <GoBackButton onClick={() => navigate(-1)}>
@@ -595,6 +594,7 @@ const PrivacyPolicy = () => {
           </div>
         </ol>
       </ContentContainer>
+      <TableOfContent />
     </Container>
   );
 };
