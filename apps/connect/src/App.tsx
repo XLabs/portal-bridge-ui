@@ -57,7 +57,7 @@ export default function Root() {
       <Banner />
     </>
   );
-  const path = isPreview ? window.location.pathname.split('/')[0] : "";
+  const path = isPreview ? window.location.pathname.split("/")[0] : "";
   const routes = useRoutes([
     { path: `/${path}`, element: Connect },
     { path: `${path}${USDCPath}`, element: Connect },
