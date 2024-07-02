@@ -274,6 +274,14 @@ function App() {
               >
                 Register Token
               </Link>
+              <Link
+                href={`${process.env.REACT_APP_BASE_URL}/#/privacy-policy/`}
+                rel="noopener noreferrer"
+                color="inherit"
+                className={classes.link}
+              >
+                Privacy Policy
+              </Link>
               <Box>
                 <Link
                   href="https://wormholescan.io"
