@@ -469,9 +469,9 @@ const MAINNET_TOKEN_CONFIG: WormholeConnectConfig = {
         default: 18,
       },
     },
-    wstETHbsc: {
-      key: 'wstETHbsc',
-      symbol: 'wstETHbsc',
+    'wstETH ': {
+      key: 'wstETH ',
+      symbol: 'wstETH ',
       nativeChain: 'bsc',
       tokenId: {
         chain: 'bsc',
@@ -574,7 +574,7 @@ const MAINNET_TOKEN_CONFIG: WormholeConnectConfig = {
       ]
     },
     Lido_wstETH: {
-      displayName: 'Native Token Transfers (NTT) - Lido Bridge',
+      displayName: 'NTT - Lido Bridge',
       nttManagers: [
         {
           chainName: 'ethereum',
@@ -590,7 +590,7 @@ const MAINNET_TOKEN_CONFIG: WormholeConnectConfig = {
         {
           chainName: 'bsc',
           address: '0x6981F5621691CBfE3DdD524dE71076b79F0A0278',
-          tokenKey: 'wstETHbsc',
+          tokenKey: 'wstETH ',
           transceivers: [
             {
               address: '0xbe3F7e06872E0dF6CD7FF35B7aa4Bb1446DC9986',
