@@ -275,7 +275,7 @@ function App() {
                 Register Token
               </Link>
               <Link
-                href={`${process.env.REACT_APP_BASE_URL}/privacy-policy/`}
+                href={`${process.env.REACT_APP_BASE_URL}/#/privacy-policy/`}
                 rel="noopener noreferrer"
                 color="inherit"
                 className={classes.link}
