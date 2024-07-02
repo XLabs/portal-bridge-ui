@@ -91,7 +91,7 @@ export default defineConfig({
         },
         {
           label: 'Privacy Policy',
-          href: `${process.env.PUBLIC_URL}/privacy-policy/`,
+          href: `${process.env.PUBLIC_URL}/#/privacy-policy/`,
         }
       ]
     }

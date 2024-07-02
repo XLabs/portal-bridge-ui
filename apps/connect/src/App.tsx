@@ -57,11 +57,11 @@ export default function Root() {
       <Banner />
     </>
   );
-  const path = /*isPreview ? window.location.pathname.split("/")[1] :*/ "";
+
   const routes = useRoutes([
-    { path: `/${path}`, element: Connect },
-    { path: `${path}${USDCPath}`, element: Connect },
-    { path: `${path}${PrivacyPolicyPath}`, element: <PrivacyPolicy /> },
+    { path: `/`, element: Connect },
+    { path: `${USDCPath}`, element: Connect },
+    { path: `${PrivacyPolicyPath}`, element: <PrivacyPolicy /> },
   ]);
   return (
     <>

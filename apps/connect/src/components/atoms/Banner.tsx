@@ -3,6 +3,7 @@ import { useState } from "react";
 import { PrivacyPolicyPath } from "../../utils/constants";
 import cookie from "../../assets/imgs/cookie.svg";
 import { Link } from "../../utils/styles";
+import { Link as RouterLink } from "react-router-dom";
 
 const BannerContainer = styled("div")(({ theme }) => ({
   display: "flex",
@@ -79,7 +80,9 @@ const Banner = () => {
         <div>
           This website is designed to enhance your experience. By continuing to
           use this site, you consent to our{" "}
-          <Link href={PrivacyPolicyPath}>Privacy Policy</Link>
+          <Link component={RouterLink} to={PrivacyPolicyPath}>
+            Privacy Policy
+          </Link>
         </div>
         <CloseButton variant="contained" onClick={() => handleClose()}>
           Close
