@@ -7,6 +7,7 @@ import theme from "./theme/portal.ts";
 import Background from "./components/atoms/Background.tsx";
 import App from "./App.tsx";
 import { OpenTelemetryContext, tracer } from "./providers/telemetry.ts";
+import { HashRouter } from "react-router-dom";
 
 if (redirects && redirects?.source?.length > 0) {
   const matcher = new RegExp(redirects.source.join("|"));
@@ -24,7 +25,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <OpenTelemetryContext.Provider value={{ tracer }}>
           <Background>
             <CssBaseline />
-            <App />
+            <HashRouter>
+              <App />
+            </HashRouter>
           </Background>
         </OpenTelemetryContext.Provider>
       </QueryClientProvider>
