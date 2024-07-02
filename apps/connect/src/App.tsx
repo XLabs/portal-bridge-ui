@@ -18,6 +18,21 @@ const defaultConfig: WormholeConnectConfig = {
     window.location.origin.includes("testnet")) && {
     eventHandler: eventHandler,
   }),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  isRouteSupportedHandler: async (td: any) => {
+    // Disable manual NTT for Lido wstETH
+    if (
+      td.route === "nttManual" &&
+      td.fromToken.tokenId !== "native" &&
+      (td.fromToken.tokenId.address ===
+        "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0" ||
+        td.fromToken.tokenId.address ===
+          "0x26c5e01524d2E6280A48F2c50fF6De7e52E9611C")
+    ) {
+      return false;
+    }
+    return true;
+  },
 };
 
 export default function Root() {
