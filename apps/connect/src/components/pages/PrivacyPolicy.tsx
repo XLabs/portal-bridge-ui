@@ -96,12 +96,12 @@ const PrivacyPolicy = () => {
           respect your privacy and comply with any applicable laws and
           regulations regarding any personal information we may collect about
           you, including across our website, portalbridge.com, and other sites
-          we own and operate (collectively, the “<b>Platform</b>”). This Privacy Policy
-          (the "<b>Policy</b>") outlines the data collection, processing, and
-          management practices of the Company in relation to services provided
-          on the Platform (the “<b>Services</b>”). By using our Platform, you agree to
-          the collection, use, and disclosure of your personal information in
-          accordance with this Policy.
+          we own and operate (collectively, the “<b>Platform</b>”). This Privacy
+          Policy (the "<b>Policy</b>") outlines the data collection, processing,
+          and management practices of the Company in relation to services
+          provided on the Platform (the “<b>Services</b>”). By using our
+          Platform, you agree to the collection, use, and disclosure of your
+          personal information in accordance with this Policy.
         </P>
         <P>
           In the event our Platform contains links to third-party sites and
