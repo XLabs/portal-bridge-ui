@@ -25,7 +25,7 @@ const Content = styled("div")(({ theme }) => ({
   alignItems: "center",
   position: "fixed",
   padding: 10,
-  backgroundColor: "#070528",
+  backgroundColor: "#1b1939",
   gap: 20,
   borderRadius: 12,
   margin: 26,
