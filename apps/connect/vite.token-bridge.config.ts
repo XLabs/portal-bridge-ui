@@ -574,7 +574,7 @@ const MAINNET_TOKEN_CONFIG: WormholeConnectConfig = {
       ]
     },
     Lido_wstETH: {
-      displayName: 'NTT - Lido Bridge',
+      displayName: 'NTT: Wormhole + Axelar',
       nttManagers: [
         {
           chainName: 'ethereum',
