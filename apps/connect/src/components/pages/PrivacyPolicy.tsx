@@ -1,6 +1,6 @@
 import { Button, Container as MuiContainer, styled } from "@mui/material";
 import arrow from "../../assets/imgs/arrow.svg";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Link } from "../../utils/styles";
 import TableOfContent from "../atoms/TableOfContent";
 
@@ -74,11 +74,14 @@ const Container = styled("div")(({ theme }) => ({
 
 const PrivacyPolicy = () => {
   const navigate = useNavigate();
+  const { state } = useLocation();
+  const from = state?.from || "/";
+
   return (
     <Container>
       <ContentContainer>
         <TitleContainer>
-          <GoBackButton onClick={() => navigate(-1)}>
+          <GoBackButton onClick={() => navigate(from)}>
             <img src={arrow} alt="arrow" />
           </GoBackButton>
           <H1>Privacy Policies</H1>
