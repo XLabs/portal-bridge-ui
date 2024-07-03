@@ -13,7 +13,7 @@ import WormholeConnect from "@wormhole-foundation/wormhole-connect";
 import { eventHandler } from "./providers/telemetry";
 import { useRoutes } from "react-router-dom";
 import PrivacyPolicy from "./components/pages/PrivacyPolicy";
-import { PrivacyPolicyPath, USDCPath, isPreview } from "./utils/constants";
+import { PrivacyPolicyPath, isPreview } from "./utils/constants";
 import Banner from "./components/atoms/Banner";
 
 const defaultConfig: WormholeConnectConfig = {
@@ -57,11 +57,9 @@ export default function Root() {
       <Banner />
     </>
   );
-
   const routes = useRoutes([
     { path: `/`, element: Connect },
-    { path: `${USDCPath}`, element: Connect },
-    { path: `${PrivacyPolicyPath}`, element: <PrivacyPolicy /> },
+    { path: PrivacyPolicyPath, element: <PrivacyPolicy /> },
   ]);
   return (
     <>
