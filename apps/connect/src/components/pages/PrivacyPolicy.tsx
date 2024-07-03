@@ -72,6 +72,11 @@ const Container = styled("div")(({ theme }) => ({
   },
 }));
 
+const UL = styled("ul")(() => ({
+  fontSize: 14,
+  lineHeight: "20px",
+}));
+
 const PrivacyPolicy = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -134,14 +139,14 @@ const PrivacyPolicy = () => {
                 will be relevant to providing that Service and include some or
                 all of the following non-personally identifiable data:
               </P>
-              <ul>
+              <UL>
                 <li>Your public blockchain wallet address;</li>
                 <li>Amount of any asset involved in a transaction; and</li>
                 <li>
                   Any additional information required for verification or
                   participation in the Service offered.
                 </li>
-              </ul>
+              </UL>
               <P>
                 We may also collect personal information from you when you
                 communicate with us, such as your name, email address, and any
@@ -175,7 +180,7 @@ const PrivacyPolicy = () => {
                 providers, and our business partners use these cookies and other
                 similar technologies to process information, which may include:
               </P>
-              <ul>
+              <UL>
                 <li>IP address;</li>
                 <li>the type of computer or mobile device you are using;</li>
                 <li>platform type (like Apple iOS or Android);</li>
@@ -198,7 +203,7 @@ const PrivacyPolicy = () => {
                   what your current progress is in our Services and the date and
                   time of activity.
                 </li>
-              </ul>
+              </UL>
             </div>
           </ol>
 
@@ -213,7 +218,7 @@ const PrivacyPolicy = () => {
               legitimate reason for doing so. Most commonly, we will use your
               personal data in the following circumstances:
             </P>
-            <ul>
+            <UL>
               <li>
                 Provide our Services and create accounts in those Services
               </li>
@@ -253,7 +258,7 @@ const PrivacyPolicy = () => {
                 obligations, resolving any disputes we may have, and to
                 administer our agreements with third parties
               </li>
-            </ul>
+            </UL>
           </div>
 
           <H2 id="section3">
@@ -272,7 +277,7 @@ const PrivacyPolicy = () => {
               personal data and to treat it in accordance with the law.
             </P>
             <P>We may disclose personal information to:</P>
-            <ul>
+            <UL>
               <li>a parent, subsidiary, or affiliate of the Company</li>
               <li>
                 third-party service providers for the purpose of enabling them
@@ -304,7 +309,7 @@ const PrivacyPolicy = () => {
                 an entity that buys, or to which we transfer all or
                 substantially all of our assets and business
               </li>
-            </ul>
+            </UL>
           </div>
           <H2 id="section4">
             <TitleItem>SECURITY OF YOUR PERSONAL INFORMATION</TitleItem>
