@@ -88,6 +88,10 @@ export default defineConfig({
           label: 'Advanced Tools',
           href: `${process.env.PUBLIC_URL}/advanced-tools/`,
           order: 1
+        },
+        {
+          label: 'Privacy Policy',
+          href: `${process.env.PUBLIC_URL}/#/privacy-policy/`,
         }
       ]
     }

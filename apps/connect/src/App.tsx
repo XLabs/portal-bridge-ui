@@ -11,11 +11,14 @@ import { useQueryParams } from "./hooks/useQueryParams";
 import { useFormatAssetParam } from "./hooks/useFormatAssetParam";
 import WormholeConnect from "@wormhole-foundation/wormhole-connect";
 import { eventHandler } from "./providers/telemetry";
+import { useRoutes } from "react-router-dom";
+import PrivacyPolicy from "./components/pages/PrivacyPolicy";
+import { PrivacyPolicyPath, isPreview } from "./utils/constants";
+import Banner from "./components/atoms/Banner";
 
 const defaultConfig: WormholeConnectConfig = {
   ...wormholeConnectConfig,
-  ...((window.location.origin.includes("preview") ||
-    window.location.origin.includes("testnet")) && {
+  ...(isPreview && {
     eventHandler: eventHandler,
   }),
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -62,6 +65,17 @@ export default function Root() {
   useEffect(() => {
     localStorage.setItem("Connect Config", JSON.stringify(config, null, 2));
   }, [config]);
+
+  const Connect = (
+    <>
+      <WormholeConnect config={config} theme={customTheme} />
+      <Banner />
+    </>
+  );
+  const routes = useRoutes([
+    { path: `/`, element: Connect },
+    { path: PrivacyPolicyPath, element: <PrivacyPolicy /> },
+  ]);
   return (
     <>
       {versions.map(({ appName, version }, idx) => (
@@ -75,7 +89,7 @@ export default function Root() {
         <NewsBar messages={messages} />
         <NavBar />
       </div>
-      <WormholeConnect config={config} theme={customTheme} />
+      {routes}
     </>
   );
 }

@@ -15,6 +15,7 @@ export default defineConfig({
       { label: "Home", href: `${PUBLIC_URL}/` },
       { label: "Staking", href: "https://www.tally.xyz/gov/wormhole", isBlank: true },
       { label: "USDC", active: true, href: `${PUBLIC_URL}/usdc-bridge` },
+      { label: "Privacy Policy", href: `${PUBLIC_URL}/privacy-policy` },
     ],
     wormholeConnectConfig: {
       ...viteConfig?.define?.wormholeConnectConfig,
