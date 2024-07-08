@@ -603,7 +603,7 @@ const MAINNET_TOKEN_CONFIG: WormholeConnectConfig = {
       nativeChain: 'ethereum',
       tokenId: {
         chain: 'ethereum',
-        address: '0x0b3f868e0be5597d5db7feb59e1cadbb0fdda50a',
+        address: '0x64d0f55Cd8C7133a9D7102b13987235F486F2224',
       },
       icon: 'https://assets.coingecko.com/coins/images/2117/standard/YJUrRy7r_400x400.png?1696503083',
       coinGeckoId: 'swissborg',
@@ -621,34 +621,6 @@ const MAINNET_TOKEN_CONFIG: WormholeConnectConfig = {
       },
       icon: 'https://assets.coingecko.com/coins/images/2117/standard/YJUrRy7r_400x400.png?1696503083',
       coinGeckoId: 'swissborg',
-      decimals: {
-        default: 18,
-      },
-    },
-    Stakewiseethereum: {
-      key: 'Stakewiseethereum',
-      symbol: 'SWISE',
-      nativeChain: 'ethereum',
-      tokenId: {
-        chain: 'ethereum',
-        address: '0x0b3f868e0be5597d5db7feb59e1cadbb0fdda50a',
-      },
-      icon: 'https://assets.coingecko.com/coins/images/15044/standard/stakewise200.png?1696514703',
-      coinGeckoId: 'swissborg',
-      decimals: {
-        default: 18,
-      },
-    },
-    Stakewisearbitrum: {
-      key: 'Stakewisearbitrum',
-      symbol: 'SWISE',
-      nativeChain: 'arbitrum',
-      tokenId: {
-        chain: 'arbitrum',
-        address: '0xf7d4e7273E5015C96728A6b02f31C505eE184603',
-      },
-      icon: 'https://assets.coingecko.com/coins/images/15044/standard/stakewise200.png?1696514703',
-      coinGeckoId: 'stakewise',
       decimals: {
         default: 18,
       },
@@ -729,7 +701,7 @@ const MAINNET_TOKEN_CONFIG: WormholeConnectConfig = {
       nativeChain: 'arbitrum',
       tokenId: {
         chain: 'arbitrum',
-        address: '0x93FA0B88C0C78e45980Fa74cdd87469311b7B3E4',
+        address: '0x05AEa20947A9A376eF50218633BB0a5A05d40A0C',
       },
       icon: 'https://assets.coingecko.com/coins/images/37156/standard/cheese_icon_500x500.png?1713499473',
       coinGeckoId: 'cheese-2',
@@ -1019,32 +991,6 @@ const MAINNET_TOKEN_CONFIG: WormholeConnectConfig = {
         },
       ]
     },
-    Stakewise: {
-      nttManagers: [
-        {
-          chainName: 'ethereum',
-          address: '0x896b78fd7e465fb22e80c34ff8f1c5f62fa2c009',
-          tokenKey: 'Stakewiseethereum',
-          transceivers: [
-            {
-              address: '0xAAFE766B966219C2f3F4271aB8D0Ff1883147AB6',
-              type: 'wormhole',
-            },
-          ],
-        },
-        {
-          chainName: 'arbitrum',
-          address: '0x485F6Ac6a3B97690910C1546842FfE0629582aD3',
-          tokenKey: 'Stakewisearbitrum',
-          transceivers: [
-            {
-              address: '0xAf7ae721070c25dF97043381509DBc042e65736F',
-              type: 'wormhole',
-            },
-          ],
-        },
-      ]
-    },
     Agora: {
       nttManagers: [
         {
@@ -1111,23 +1057,23 @@ const MAINNET_TOKEN_CONFIG: WormholeConnectConfig = {
     Cheese: {
       nttManagers: [
         {
-          chainName: 'ethereum',
+          chainName: 'arbitrum',
           address: '0xfC843c4B402634a8Fc02137AAa7942474e043d72',
-          tokenKey: 'Cheeseethereum',
+          tokenKey: 'Cheesearbitrum',
           transceivers: [
             {
-              address: '0x6eB0d287A539AAB2eB962De550Fe5dDA29b0fe52',
+              address: '0x33D2E8093143a317234cB070C2BB6A641dDeFA4d',
               type: 'wormhole',
             },
           ],
         },
         {
           chainName: 'solana',
-          address: 'NttADdCvGLUhukNyePei9CkmHoe6S9xjqgqfQv51PQg',
+          address: 'NTtxeqz2XjMnpcEoWMqb6pz84zHweJRYWyzmsmmW49E',
           tokenKey: 'Cheesesolana',
           transceivers: [
             {
-              address: '0x33D2E8093143a317234cB070C2BB6A641dDeFA4d',
+              address: 'AoUmFKEGhsfnJSny6fMDF3JMgyEgjoG4yAk8YFGbfp6c',
               type: 'wormhole',
             },
           ],
@@ -1139,7 +1085,7 @@ const MAINNET_TOKEN_CONFIG: WormholeConnectConfig = {
         {
           chainName: 'fantom',
           address: '0x68dB2f05Aa2d77DEf981fd2be32661340c9222FB',
-          tokenKey: 'USDC.e',
+          tokenKey: 'USDCfantom',
           transceivers: [
             {
               address: '0x8b47f02E7E20174C76Af910adc0Ad8A4B0342f4c',
@@ -1150,7 +1096,7 @@ const MAINNET_TOKEN_CONFIG: WormholeConnectConfig = {
         {
           chainName: 'ethereum',
           address: '0xeBdCe9a913d9400EE75ef31Ce8bd34462D01a1c1',
-          tokenKey: 'USDC.e',
+          tokenKey: 'USDCeth',
           transceivers: [
             {
               address: '0x55f7820357FA17A1ECb48E959D5E637bFF956d6F',
