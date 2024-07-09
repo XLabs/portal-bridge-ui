@@ -18,11 +18,11 @@ import { WAC_URL } from "../constants";
 interface DashboardQueryResult {
   user: string;
   bridged_amount: number;
-  usdc_held: number;
-  ausdc_held: number;
-  cusdc_held: number;
+  wsteth_held: number;
+  aave_wsteth_held: number;
+  exactly_wsteth_held: number;
   pending_rewards: number;
-  moo_cusdc_held: number;
+  earned_rewards: number;
 }
 
 export interface OverviewQueryResult {
@@ -46,11 +46,10 @@ const ConnectedDashboard = () => {
     number | undefined
   >(undefined);
 
-  const [usdcBridged, setUSDCBridged] = useState<number | undefined>(undefined);
-  const [usdcHeld, setUSDCHeld] = useState<number | undefined>(undefined);
-  const [cusdcHeld, setCUSDCHeld] = useState<number | undefined>(undefined);
-  const [ausdcHeld, setAUSDCHeld] = useState<number | undefined>(undefined);
-  const [mooHeld, setMooHeld] = useState<number | undefined>(undefined);
+  const [wstetehBridged, setWstetehBridged] = useState<number | undefined>(undefined);
+  const [wstethHeld, setWstethHeld] = useState<number | undefined>(undefined);
+  const [exactlyWstethHeld, setExactlyWstethHeld] = useState<number | undefined>(undefined);
+  const [aaveWstethHeld, setAaveWstethHeld] = useState<number | undefined>(undefined);
   const [accruedRewards, setAccruedRewards] = useState<number | undefined>(
     undefined
   );
@@ -78,12 +77,11 @@ const ConnectedDashboard = () => {
     if (!userInfo) {
       return;
     }
-    setUSDCBridged(userInfo.bridged_amount);
-    setUSDCHeld(userInfo.usdc_held);
-    setAUSDCHeld(userInfo.ausdc_held);
-    setCUSDCHeld(userInfo.cusdc_held);
+    setWstetehBridged(userInfo.bridged_amount);
+    setWstethHeld(userInfo.wsteth_held);
+    setAaveWstethHeld(userInfo.aave_wsteth_held);
+    setExactlyWstethHeld(userInfo.exactly_wsteth_held);
     setAccruedRewards(userInfo.pending_rewards);
-    setMooHeld(userInfo.moo_cusdc_held);
   }, [userInfo]);
   useEffect(() => {
     if (!overview) {
@@ -179,44 +177,36 @@ const ConnectedDashboard = () => {
               <div className="flex flex-col md:flex-row gap-4">
                 <InfoStatWindow
                   header={t`Bridged Header`}
-                  value={formatInteger(usdcBridged)}
-                  unit="USDC"
+                  value={formatInteger(wstetehBridged)}
+                  unit="WSTETH"
                   infoElement={<Trans>Bridged Window Tooltip</Trans>}
                 />
                 <InfoStatWindow
-                  header={t`USDC Held Header`}
-                  value={formatInteger(usdcHeld)}
-                  unit="USDC"
-                  infoElement={<Trans>USDC Held Window Tooltip</Trans>}
+                  header={t`WSTETH Held Header`}
+                  value={formatInteger(wstethHeld)}
+                  unit="WSTETH"
+                  infoElement={<Trans>WSTETH Held Window Tooltip</Trans>}
                 />
               </div>
               <div className="flex flex-col md:flex-row gap-4">
                 <InfoStatWindow
-                  header={t`aUSDC Held Value Header`}
-                  value={formatInteger(ausdcHeld)}
-                  unit="aUSDC"
-                  infoElement={<Trans>aUSDC Held Value Tooltip</Trans>}
+                  header={t`Aave WSTETH Held Value Header`}
+                  value={formatInteger(aaveWstethHeld)}
+                  unit="aWSTETH"
+                  infoElement={<Trans>Aave WSTETH Held Value Tooltip</Trans>}
                 />
                 <InfoStatWindow
-                  header={t`cUSDC Held Value`}
-                  value={formatInteger(cusdcHeld)}
-                  unit="cUSDC"
-                  infoElement={<Trans>cUSDC Held Value Tooltip</Trans>}
-                />
-                <InfoStatWindow
-                  header={t`Beefy cUSDC Balance`}
-                  value={formatInteger(mooHeld)}
-                  unit="cUSDC"
-                  infoElement={
-                    <Trans>Beefy Finance cUSDC Held Value Tooltip</Trans>
-                  }
+                  header={t`Exactly WSTETH Held Value`}
+                  value={formatInteger(exactlyWstethHeld)}
+                  unit="eWSTETH"
+                  infoElement={<Trans>Exactly WSTETH Held Value Tooltip</Trans>}
                 />
               </div>
               <div className="">
                 <InfoStatWindow
                   header={t`Accrued Rewards Header`}
                   value={formatInteger(accruedRewards)}
-                  unit="ARB"
+                  unit="OP"
                   infoElement={<Trans>Accrued Rewards Tooltip</Trans>}
                 />
               </div>
