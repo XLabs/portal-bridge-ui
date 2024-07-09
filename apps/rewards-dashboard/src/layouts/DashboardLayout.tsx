@@ -292,7 +292,7 @@ const DisconnectedDashboard = () => {
         </div>
         <div>
           <a
-            href="https://forum.arbitrum.foundation/t/wormhole-final-stip-round-1/16617"
+            href="https://x.com/WormholeFdn/status/1788999096566677769"
             target="_blank"
             className="flex flex-row items-center gap-3"
           >
