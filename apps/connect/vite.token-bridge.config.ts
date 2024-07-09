@@ -566,7 +566,7 @@ const MAINNET_TOKEN_CONFIG: WormholeConnectConfig = {
       icon: 'https://assets.coingecko.com/coins/images/38154/standard/weatherxm-network-logo.png?1716668976',
       coinGeckoId: 'weatherxm-network',
       decimals: {
-        default: 18,
+        default: 9,
       },
     },
     JitoSOLsolana: {
@@ -580,7 +580,7 @@ const MAINNET_TOKEN_CONFIG: WormholeConnectConfig = {
       icon: 'https://assets.coingecko.com/coins/images/28046/standard/JitoSOL-200.png?1696527060',
       coinGeckoId: 'jito-staked-sol',
       decimals: {
-        default: 18,
+        default: 9,
       },
     },
     JitoSOLarbitrum: {
@@ -622,7 +622,7 @@ const MAINNET_TOKEN_CONFIG: WormholeConnectConfig = {
       icon: 'https://assets.coingecko.com/coins/images/2117/standard/YJUrRy7r_400x400.png?1696503083',
       coinGeckoId: 'swissborg',
       decimals: {
-        default: 18,
+        default: 9,
       },
     },
     Agoraethereum: {
@@ -650,7 +650,7 @@ const MAINNET_TOKEN_CONFIG: WormholeConnectConfig = {
       icon: 'https://assets.coingecko.com/coins/images/38230/standard/agora-avatar-black.png?1716828738',
       coinGeckoId: 'agorahub',
       decimals: {
-        default: 18,
+        default: 9,
       },
     },
     XBorgethereum: {
@@ -692,7 +692,7 @@ const MAINNET_TOKEN_CONFIG: WormholeConnectConfig = {
       icon: 'https://www.xborg.com/images/logo.svg',
       coinGeckoId: '',
       decimals: {
-        default: 18,
+        default: 9,
       },
     },
     Cheesearbitrum: {
@@ -720,7 +720,7 @@ const MAINNET_TOKEN_CONFIG: WormholeConnectConfig = {
       icon: 'https://assets.coingecko.com/coins/images/37156/standard/cheese_icon_500x500.png?1713499473',
       coinGeckoId: 'cheese-2',
       decimals: {
-        default: 18,
+        default: 6,
       },
     },
   },
