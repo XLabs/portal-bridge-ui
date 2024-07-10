@@ -99,9 +99,9 @@ const ConnectedDashboard = () => {
     return x;
   };
 
-  const formatInteger = (x?: number) => {
+  const formatInteger = (x?: number, decimals?: number) => {
     x = maybeHide(x);
-    return x !== undefined ? Math.floor(x).toLocaleString() : undefined;
+    return x !== undefined ? (x === 0 ? "0" : x.toFixed(decimals).toLocaleString()) : undefined;
   };
 
   return (
@@ -177,13 +177,13 @@ const ConnectedDashboard = () => {
               <div className="flex flex-col md:flex-row gap-4">
                 <InfoStatWindow
                   header={t`Bridged Header`}
-                  value={formatInteger(wstetehBridged)}
+                  value={formatInteger(wstetehBridged, 6)}
                   unit="WSTETH"
                   infoElement={<Trans>Bridged Window Tooltip</Trans>}
                 />
                 <InfoStatWindow
                   header={t`WSTETH Held Header`}
-                  value={formatInteger(wstethHeld)}
+                  value={formatInteger(wstethHeld, 6)}
                   unit="WSTETH"
                   infoElement={<Trans>WSTETH Held Window Tooltip</Trans>}
                 />
@@ -191,13 +191,13 @@ const ConnectedDashboard = () => {
               <div className="flex flex-col md:flex-row gap-4">
                 <InfoStatWindow
                   header={t`Aave WSTETH Held Value Header`}
-                  value={formatInteger(aaveWstethHeld)}
+                  value={formatInteger(aaveWstethHeld, 6)}
                   unit="aWSTETH"
                   infoElement={<Trans>Aave WSTETH Held Value Tooltip</Trans>}
                 />
                 <InfoStatWindow
                   header={t`Exactly WSTETH Held Value`}
-                  value={formatInteger(exactlyWstethHeld)}
+                  value={formatInteger(exactlyWstethHeld, 6)}
                   unit="eWSTETH"
                   infoElement={<Trans>Exactly WSTETH Held Value Tooltip</Trans>}
                 />
@@ -205,7 +205,7 @@ const ConnectedDashboard = () => {
               <div className="">
                 <InfoStatWindow
                   header={t`Accrued Rewards Header`}
-                  value={formatInteger(accruedRewards)}
+                  value={formatInteger(accruedRewards, 6)}
                   unit="OP"
                   infoElement={<Trans>Accrued Rewards Tooltip</Trans>}
                 />
