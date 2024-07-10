@@ -6,16 +6,16 @@ import { publicProvider } from "wagmi/providers/public";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
-import { arbitrum, mainnet } from "@gfxlabs/oku-chains";
+import {mainnet, optimism} from "@gfxlabs/oku-chains";
 import { PropsWithChildren } from "react";
-const CHAINS_LIST = [arbitrum, mainnet];
+const CHAINS_LIST = [optimism, mainnet];
 
 const envProjectId = import.meta.env.VITE_APP_WALLET_CONNECT_PROJECT_ID;
 const projectId = envProjectId ? envProjectId : "dummy-wc-key";
 
 const metadata = {
-  name: "Wormhole USDC rewards ",
-  description: "Wormhole USDC Rewards",
+  name: "Wormhole WSTETH rewards ",
+  description: "Wormhole WSTETH Rewards",
   url: import.meta.env.VITE_APP_DOMAIN || "portalbridge.com",
   icons: [`https://portalbridge.com/favicon.ico`],
 };
@@ -27,8 +27,8 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
     jsonRpcProvider({
       rpc: (chain) => {
         const a = {
-          [arbitrum.id]: {
-            http: "https://rpc.ankr.com/arbitrum",
+          [optimism.id]: {
+            http: "https://rpc.ankr.com/optimism",
           },
         }[chain.id];
         return a ? a : null;
