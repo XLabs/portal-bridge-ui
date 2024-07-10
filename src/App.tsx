@@ -233,6 +233,13 @@ function App() {
                 Staking
               </Link>
               <Link
+                href={`${process.env.REACT_APP_BASE_URL}/rewards-dashboard/`}
+                color="inherit"
+                className={classes.link}
+              >
+                Rewards
+              </Link>
+              <Link
                 href={`${process.env.REACT_APP_BASE_URL}/usdc-bridge/`}
                 rel="noopener noreferrer"
                 color="inherit"
