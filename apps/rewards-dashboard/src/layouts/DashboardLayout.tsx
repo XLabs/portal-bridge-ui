@@ -223,13 +223,13 @@ const ConnectedDashboard = () => {
           <StatWindow
             header={t`Estimated Rewards Header`}
             value={formatInteger(estimatedRewards)}
-            unit="ARB"
+            unit="OP"
             graphic={<EstimatedRewardsGraphic />}
           />
           <StatWindow
             header={t`History of Rewards Earned Header`}
             value={formatInteger(historyRewardsEarned)}
-            unit="ARB"
+            unit="OP"
             graphic={<RewardHistoryGraphic />}
             infoElement={<Trans>History of Rewards Earned Tooltip</Trans>}
           />
