@@ -21,12 +21,12 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={client}>
-          <Background>
-            <CssBaseline />
-            <HashRouter>
-              <App />
-            </HashRouter>
-          </Background>
+        <Background>
+          <CssBaseline />
+          <HashRouter>
+            <App />
+          </HashRouter>
+        </Background>
       </QueryClientProvider>
     </ThemeProvider>
   </React.StrictMode>

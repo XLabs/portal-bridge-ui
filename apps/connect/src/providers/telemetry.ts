@@ -4,7 +4,6 @@ mixpanel.init("fdaf35ef8f838559e248a71c80ff1626", {
   ignore_dnt: true,
   ip: false,
   debug: true,
-  
 });
 
 let sessionId = localStorage.getItem("session.id");
@@ -37,13 +36,13 @@ export const eventHandler = (e: any) => {
     span = {
       ...span,
       properties: {
-      [`wallet-${side}`]: e.details.wallet,
-      [`chain-${side}`]: e.details.chain,
+        [`wallet-${side}`]: e.details.wallet,
+        [`chain-${side}`]: e.details.chain,
       },
     };
     const chain = `${e.details.chain}-${side}`;
     if (lastChain !== chain) {
-      sendEvent(span)
+      sendEvent(span);
     }
     lastChain = chain;
   } else {
@@ -113,6 +112,6 @@ export const eventHandler = (e: any) => {
         ...attributes,
       },
     };
-    sendEvent(span)
+    sendEvent(span);
   }
 };
