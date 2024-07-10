@@ -1,41 +1,11 @@
-import { Tracer, Span, Attributes, Context } from "@opentelemetry/api";
-import { ZoneContextManager } from "@opentelemetry/context-zone";
-import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
-import { Resource } from "@opentelemetry/resources";
-import {
-  SimpleSpanProcessor,
-  WebTracerProvider,
-  ReadableSpan,
-  TracerConfig,
-  Span as SpanSdk,
-} from "@opentelemetry/sdk-trace-web";
-import mixpanel, { Dict } from "mixpanel-browser";
-import { OTLPExporterError } from "@opentelemetry/otlp-exporter-base";
-import { createContext, useContext } from "react";
-export type OpenTelemetryContextType = {
-  tracer: Tracer;
-};
+import mixpanel from "mixpanel-browser";
 
-export type OpenTelemetryProviderProps = {
-  children: JSX.Element;
-};
-
-export const OpenTelemetryContext =
-  createContext<OpenTelemetryContextType | null>(null);
-
-class MixpanelSpanProcessor extends SimpleSpanProcessor {
-  onStart(span: SpanSdk, context: Context): void {
-    super.onStart(span, context);
-  }
-}
-
-interface MixpanelSpan {
-  event: string;
-  properties: Dict | undefined;
-}
-
-const APP_NAME =
-  import.meta.env.VITE_APP_NAME || "portal-bridge/wormhole-connect";
+mixpanel.init("fdaf35ef8f838559e248a71c80ff1626", {
+  ignore_dnt: true,
+  ip: false,
+  debug: true,
+  
+});
 
 let sessionId = localStorage.getItem("session.id");
 if (!sessionId) {
@@ -43,97 +13,42 @@ if (!sessionId) {
   localStorage.setItem("session.id", JSON.stringify(newSessionId));
   sessionId = newSessionId;
 }
-const tracerProvider = new WebTracerProvider({
-  resource: new Resource({
-    ["service.name"]: APP_NAME,
-    ["session.id"]: sessionId,
-  }),
-});
-const TRACER = `tracer://${APP_NAME}`;
 
-export const tracer = tracerProvider.getTracer(TRACER);
-
-mixpanel.init("fdaf35ef8f838559e248a71c80ff1626", {
-  ignore_dnt: true,
-  ip: false,
-  debug: true,
-}); // TODO remove $device_id
-
-class MixpanelExporter extends OTLPTraceExporter {
-  convertMixpanel(spans: ReadableSpan[]): MixpanelSpan[] {
-    const mixpanelSpan = spans.map((span) => {
-      return {
-        event: span.name,
-        properties: {
-          time: span.startTime[0],
-          ...span.attributes,
-        },
-      };
-    });
-    return mixpanelSpan;
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+const sendEvent = (e: any) => {
+  try {
+    mixpanel.identify(localStorage.getItem("session.id") || ""); // TODO fix errAnonDistinctIdAssignedAlready error https://docs.mixpanel.com/docs/tracking-methods/id-management/identifying-users
+    mixpanel.track(e.event, e.properties);
+  } catch (error) {
+    console.error(error);
   }
-  send(
-    objects: ReadableSpan[],
-    onSuccess: () => void,
-    onError: (error: OTLPExporterError) => void
-  ): void {
-    const mixpanelSpan = this.convertMixpanel(objects);
-    console.log("MixpanelExporter send", mixpanelSpan);
-    try {
-      mixpanel.identify(localStorage.getItem("session.id") || "");
-      mixpanelSpan.forEach(
-        (span: { event: string; properties: Dict | undefined }) => {
-          mixpanel.track(span.event, span.properties);
-        }
-      );
-      onSuccess();
-    } catch (error) {
-      onError(error as OTLPExporterError);
-    }
-  }
-}
-
-const providerConfig: TracerConfig = {
-  resource: new Resource({
-    "service.name": "portal-bridge",
-  }),
 };
-
-const provider = new WebTracerProvider(providerConfig);
-
-// we will use ConsoleSpanExporter to check the generated spans in dev console
-//provider.addSpanProcessor(new MixpanelSpanProcessor(new ConsoleSpanExporter()));
-provider.addSpanProcessor(new MixpanelSpanProcessor(new MixpanelExporter()));
-provider.register({
-  contextManager: new ZoneContextManager(),
-});
-
-let span: Span;
 let lastChain: string;
-// Send the event to the opentelemetry
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 export const eventHandler = (e: any) => {
   // Ignore the load event
   if (e.type === "load") return;
 
   // Start the trace when the event is load
-  span = provider.getTracer(TRACER).startSpan(e.type);
-
+  let span = { event: e.type, properties: e.details };
   // Wallet connect information
   if (e.type === "wallet.connect") {
     const side = e.details.side;
-    span.setAttributes({
+    span = {
+      ...span,
+      properties: {
       [`wallet-${side}`]: e.details.wallet,
       [`chain-${side}`]: e.details.chain,
-    });
+      },
+    };
     const chain = `${e.details.chain}-${side}`;
     if (lastChain !== chain) {
-      span?.end();
+      sendEvent(span)
     }
     lastChain = chain;
   } else {
     // Convert WormholeConnectEvent to Attributes
-    const attributes: Attributes = {};
+    const attributes: { [key: string]: string } = {};
 
     attributes["fromChain"] = e.details.fromChain;
     attributes["toChain"] = e.details.toChain;
@@ -192,18 +107,12 @@ export const eventHandler = (e: any) => {
     }
 
     // Transfer event information
-    span.setAttributes(attributes);
-    span?.end();
+    span = {
+      ...span,
+      properties: {
+        ...attributes,
+      },
+    };
+    sendEvent(span)
   }
-};
-
-// Custom hook to use the OpenTelemetry context
-export const useOpenTelemetry = () => {
-  const context = useContext(OpenTelemetryContext);
-  if (context === null) {
-    throw new Error(
-      "useOpenTelemetry must be used within a OpenTelemetryProvider"
-    );
-  }
-  return context;
 };
