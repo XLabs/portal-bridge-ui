@@ -596,6 +596,7 @@ export default defineConfig({
     navBar: [
       { label: "Home", active: true, href: `${PUBLIC_URL}/` },
       { label: "Staking", href: "https://www.tally.xyz/gov/wormhole", isBlank: true },
+      { label: "Rewards", href: `${PUBLIC_URL}/rewards-dashboard/` , isBlank: true },
       { label: "USDC", href: USDC_BRIDGE_HREF },
     ],
     redirects: {
