@@ -84,7 +84,11 @@ const Spacer = styled("div")(() => ({
 // const chipNew = <Chip label="NEW" size="small" />; // TODO: Add back when needed
 const womrholescanButton = (
   <Box>
-    <Link href="https://wormholescan.io" target="_blank" color="inherit">
+    <Link
+      href={`https://wormholescan.io${wormholeConnectConfig.env === "testnet" ? "/#/?network=TESTNET" : ""}`}
+      target="_blank"
+      color="inherit"
+    >
       Wormholescan
     </Link>
   </Box>
