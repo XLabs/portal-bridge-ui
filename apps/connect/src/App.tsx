@@ -13,14 +13,12 @@ import WormholeConnect from "@wormhole-foundation/wormhole-connect";
 import { eventHandler } from "./providers/telemetry";
 import { useRoutes } from "react-router-dom";
 import PrivacyPolicy from "./components/pages/PrivacyPolicy";
-import { PrivacyPolicyPath, isPreview } from "./utils/constants";
+import { PrivacyPolicyPath } from "./utils/constants";
 import Banner from "./components/atoms/Banner";
 
 const defaultConfig: WormholeConnectConfig = {
   ...wormholeConnectConfig,
-  ...(isPreview && {
-    eventHandler: eventHandler,
-  }),
+  eventHandler: eventHandler,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   isRouteSupportedHandler: async (td: any) => {
     // Disable manual NTT for Lido wstETH

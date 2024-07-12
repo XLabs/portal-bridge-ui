@@ -1,22 +1,15 @@
 import mixpanel from "mixpanel-browser";
+import { isPreview } from "../utils/constants";
 
 mixpanel.init("fdaf35ef8f838559e248a71c80ff1626", {
   ignore_dnt: true,
   ip: false,
-  debug: true,
+  debug: isPreview,
 });
-
-let sessionId = localStorage.getItem("session.id");
-if (!sessionId) {
-  const newSessionId = crypto.randomUUID();
-  localStorage.setItem("session.id", JSON.stringify(newSessionId));
-  sessionId = newSessionId;
-}
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 const sendEvent = (e: any) => {
   try {
-    mixpanel.identify(localStorage.getItem("session.id") || ""); // TODO fix errAnonDistinctIdAssignedAlready error https://docs.mixpanel.com/docs/tracking-methods/id-management/identifying-users
     mixpanel.track(e.event, e.properties);
   } catch (error) {
     console.error(error);
@@ -100,9 +93,10 @@ export const eventHandler = (e: any) => {
         break;
     }
     attributes["route"] = routeName;
-
     if (e.type === "transfer.error" || e.type === "transfer.redeem.error") {
+      console.log("Error", e.error?.original);
       attributes["error-type"] = e.error.type || "unknown";
+      attributes["error-message"] = e.error?.original?.message || "";
     }
 
     // Transfer event information
