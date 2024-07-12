@@ -73,8 +73,8 @@ export default function Root() {
     </>
   );
   const routes = useRoutes([
-    { path: `/`, element: Connect },
     { path: PrivacyPolicyPath, element: <PrivacyPolicy /> },
+    { path: "*", element: Connect },
   ]);
   return (
     <>

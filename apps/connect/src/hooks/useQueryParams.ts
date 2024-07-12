@@ -34,7 +34,16 @@ function getTxHash(query: URLSearchParams): string | null {
 }
 
 export function useQueryParams() {
-  const query = useMemo(() => new URLSearchParams(window.location.search), []);
+  const query = useMemo(
+    () =>
+      new URLSearchParams(
+        window.location.href.substring(
+          window.location.href.indexOf("?"),
+          window.location.href.length
+        )
+      ),
+    []
+  );
   const sourceChain = useMemo(
     () => getChainValue(query, "sourceChain"),
     [query]
