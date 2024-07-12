@@ -30,7 +30,7 @@ export default function useBannerMessageConfig(messages: Message[]) {
   const [message, setMessage] = useState<Message | null>(null);
   useEffect(() => {
     const now = new Date();
-    const message = messages
+    const message = [...messages]
       .sort(criteria)
       .find(
         (message) =>

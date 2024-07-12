@@ -2,7 +2,7 @@ import type {
   ChainName,
   WormholeConnectConfig,
 } from "@wormhole-foundation/wormhole-connect";
-import { useEffect, useMemo } from "react";
+import { ComponentProps, useEffect, useMemo } from "react";
 import customTheme from "./theme/connect";
 import NavBar from "./components/atoms/NavBar";
 import NewsBar from "./components/atoms/NewsBar";
@@ -42,7 +42,7 @@ export default function Root() {
   const { txHash, sourceChain, targetChain, asset, requiredNetwork } =
     useQueryParams();
   const tokenKey = useFormatAssetParam(asset);
-  const config = useMemo(
+  const config: ComponentProps<typeof WormholeConnect>["config"] = useMemo(
     () => ({
       ...defaultConfig,
       searchTx: {

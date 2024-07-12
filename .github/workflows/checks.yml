@@ -18,7 +18,7 @@ jobs:
       - name: Install dependencies
         working-directory: ./apps/connect
         run: npm ci
-      - name: Run prettier
+      - name: Run linter
         working-directory: ./apps/connect
         run: npm run lint
   prettier:
@@ -36,3 +36,18 @@ jobs:
       - name: Run prettier
         working-directory: ./apps/connect
         run: npm run prettier
+  test:
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Set up Node environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: v18.17.1
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        working-directory: ./apps/connect
+        run: npm ci
+      - name: Run tests
+        working-directory: ./apps/connect
+        run: npm run test
