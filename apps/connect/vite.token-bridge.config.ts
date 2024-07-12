@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import viteConfig, { chains } from './vite.config'
 import type { WormholeConnectConfig } from '@wormhole-foundation/wormhole-connect'
+import { resolve } from 'path';
 
 const PUBLIC_URL = viteConfig.base;
 const ADVANCE_TOOLS_HREF = `${PUBLIC_URL}/advanced-tools/`
@@ -634,6 +635,13 @@ const MAINNET_TOKEN_CONFIG: WormholeConnectConfig = {
 // https://vitejs.dev/config/
 export default defineConfig({
   ...viteConfig,
+  resolve: {
+    ...viteConfig.resolve,
+    alias: [
+      ...(viteConfig.resolve?.alias as any || []),
+      { find: '@env', replacement: resolve(__dirname, `./src/env/token-bridge.${process.env.VITE_APP_CLUSTER === 'mainnet' ? 'mainnet' : 'testnet'}.ts`) }
+    ]
+  },
   define: {
     ...viteConfig?.define,
     navBar: [

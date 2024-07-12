@@ -16,6 +16,9 @@ import PrivacyPolicy from "./components/pages/PrivacyPolicy";
 import { PrivacyPolicyPath, isPreview, isProduction } from "./utils/constants";
 import Banner from "./components/atoms/Banner";
 
+import * as ENV from "@env";
+console.log("THIS IS THE ENVVVVV_______", ENV);
+
 const defaultConfig: WormholeConnectConfig = {
   ...wormholeConnectConfig,
   ...((isPreview || isProduction) && {
