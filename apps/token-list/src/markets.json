@@ -3543,6 +3543,10 @@
         "logo": "https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/SLP_wh.png",
         "symbol": "SLP"
       },
+      "4k1634D3jyZVxPLFU9zLnaWccTwrCLBrPXAoNtkYVYRC": {
+        "logo": "https://github.com/XLabs/portal-bridge-ui/assets/20446095/8113f852-15a0-4b23-bcd5-bc32999f13b6",
+        "symbol": "EMC"
+      },
       "4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R": {
         "logo": "https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/RAY_wh.png",
         "symbol": "RAY"
@@ -3611,9 +3615,17 @@
         "logo": "https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/CRV_wh.png",
         "symbol": "CRV"
       },
+      "7hdeo5QciUF8S2vfsx6uRJkdNVADBU3DDcXW4zjDcMin": {
+        "logo": "https://github.com/XLabs/portal-bridge-ui/assets/20446095/214043c7-f2f5-4626-8ab4-f9c0ef0ba0e6",
+        "symbol": "wWAM"
+      },
       "7vfCXTUXx5WJV5JADk17DUJ4ksgau7utNKj4b963voxs": {
         "logo": "https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/ETH_wh.png",
         "symbol": "ETH"
+      },
+      "85aM5XJhdDeUw4MbGKM56zmWnsRyh76zUVut97uPjiCg": {
+        "logo": "https://github.com/XLabs/portal-bridge-ui/assets/20446095/4481e786-5e1c-45d4-9201-374da5596de1",
+        "symbol": "DAO"
       },
       "8FU95xFJhUUkyyCLU13HSzDLs7oC4QZdXQHL6SCeab36": {
         "logo": "https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/UNI_wh.png",
@@ -3622,6 +3634,10 @@
       "8UJbtpsEubDVkY53rk7d61hNYKkvouicczB2XmuwiG4g": {
         "logo": "https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/ILV_wh.png",
         "symbol": "ILV"
+      },
+      "8Wqbst4qAN2FqBCCh5gdXq2WJ7vTNWEY4oNLrpUg7Tya": {
+        "logo": "https://github.com/XLabs/portal-bridge-ui/assets/20446095/fd9a50b1-7031-4b9a-a354-e3abca2dac8c",
+        "symbol": "MDT"
       },
       "8cTNUtcV2ueC3royJ642uRnvTxorJAWLZc58gxAo7y56": {
         "logo": "https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/SNX_wh.png",
@@ -3643,9 +3659,17 @@
         "logo": "https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/PERP_wh.png",
         "symbol": "PERP"
       },
+      "9HGziACBczM3VorD3B6ZYtj6BA595jq8erzsSVtUNo6N": {
+        "logo": "https://github.com/XLabs/portal-bridge-ui/assets/20446095/e7a64f61-3d53-4fcf-b120-7e46fa119bfe",
+        "symbol": "QUACK"
+      },
       "9LzCMqDgTKYz9Drzqnpgee3SGa89up3a247ypMj2xrqM": {
         "logo": "https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/AUDIO_wh.png",
         "symbol": "AUDIO"
+      },
+      "9dzSzFvPsKDoY2gdWErsuz2H1o4tbzvgBhrNZ9cvkD2j": {
+        "logo": "https://github.com/XLabs/portal-bridge-ui/assets/20446095/b180131a-28ba-481a-bb27-369ffe20f735",
+        "symbol": "SDEX"
       },
       "9gP2kCy3wA1ctvYWQk75guqXuHfrEomqydHLtcTCqiLa": {
         "logo": "https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/BNB_wh.png",
@@ -3807,6 +3831,10 @@
         "logo": "https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/USDCso_wh.png",
         "symbol": "USDCso"
       },
+      "ERWNqRejMisqmzTjon7peJhfCXLEGNS2Yo1tgMQN5aiG": {
+        "logo": "https://github.com/XLabs/portal-bridge-ui/assets/20446095/9141de46-8ff3-4c5b-bbeb-87631465d635",
+        "symbol": "stTAO"
+      },
       "EXExWvT6VyYxEjFzF5BrUxt5GZMPVZnd48y3iWrRefMq": {
         "logo": "https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/ENJ_wh.png",
         "symbol": "ENJ"
@@ -3879,6 +3907,10 @@
         "logo": "https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/LRC_wh.png",
         "symbol": "LRC"
       },
+      "HEmgGwgn6naqNatkU9ST2wHa4X9HRMmxE7qE8vWuV7L2": {
+        "logo": "https://github.com/XLabs/portal-bridge-ui/assets/20446095/297015bc-2d7e-4fba-a79b-dd2ad25d3733",
+        "symbol": "IRL"
+      },
       "HGsLG4PnZ28L8A4R5nPqKgZd86zUUdmfnkTRnuFJ5dAX": {
         "logo": "https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/GRT_wh.png",
         "symbol": "GRT"
@@ -3912,8 +3944,8 @@
         "symbol": "AXSet"
       },
       "J3NKxxXZcnNiMjKw9hYb2K4LUxgwB6t1FtPtQVsv3KFr": {
-        "logo": "https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/SPX6900_wh.png",
-        "symbol": "SPX6900"
+        "logo": "https://github.com/XLabs/portal-bridge-ui/assets/20446095/a451e791-be79-4fb6-a248-2f765f5ede12",
+        "symbol": "SPX"
       },
       "J8LKx7pr9Zxh9nMhhT7X3EBmj5RzuhFrHKyJAe2F2i9S": {
         "logo": "https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/CAKE_wh.png",
@@ -5004,6 +5036,10 @@
         "logo": "https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/MATICpo_wh.png",
         "symbol": "MATICpo"
       },
+      "0xcf32c644fed4FeFF94017a10B2882Bf71eE740dD": {
+        "logo": "https://github.com/XLabs/portal-bridge-ui/assets/20446095/f2293277-9b06-4911-aa55-a80d2d189d67",
+        "symbol": "wBRAWL"
+      },
       "0xd63CDf02853D759831550fAe7dF8FFfE0B317b39": {
         "logo": "https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/SRMet_wh.png",
         "symbol": "SRMet"
@@ -5081,6 +5117,10 @@
       "0x9cd6746665D9557e1B9a775819625711d0693439": {
         "logo": "https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/LUNA_wh.png",
         "symbol": "LUNA"
+      },
+      "0xD979c468a68062e7bdff4Ba6DF7842DfD3492E0f": {
+        "logo": "https://github.com/XLabs/portal-bridge-ui/assets/20446095/378f648e-a981-49fb-a25a-ac1685d3d20c",
+        "symbol": "BBL"
       },
       "0xE6469Ba6D2fD6130788E0eA9C0a0515900563b59": {
         "logo": "https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/UST_wh.png",
@@ -5199,6 +5239,10 @@
       "0xc7198437980c041c805a1edcba50c1ce5db95118": {
         "logo": "https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/USDTeav_wh.png",
         "symbol": "USDTeav"
+      },
+      "0xd44E4Dc8bdF7C1c62CfDBb182022097BA42Ac6bC": {
+        "logo": "https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/BKN_wh.png",
+        "symbol": "BKN"
       },
       "0xf2f13f0B7008ab2FA4A2418F4ccC3684E49D20Eb": {
         "logo": "https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/MATICpo_wh.png",
