@@ -1,11 +1,16 @@
 import mixpanel from "mixpanel-browser";
-import { isPreview } from "../utils/constants";
+import { isPreview, isProduction } from "../utils/constants";
 
-mixpanel.init("fdaf35ef8f838559e248a71c80ff1626", {
-  ignore_dnt: true,
-  ip: false,
-  debug: isPreview,
-});
+mixpanel.init(
+  isProduction
+    ? "a5bb05fa95759da34eac66cd9444790b"
+    : "fdaf35ef8f838559e248a71c80ff1626",
+  {
+    ignore_dnt: true,
+    ip: false,
+    debug: isPreview,
+  }
+);
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 const sendEvent = (e: any) => {
