@@ -11,8 +11,11 @@ export const mergeDeep = <T>(
   if (!shouldLoop) return (isTruthy(b) ? b : a) as T;
   const keyList = Array.from(new Set([...Object.keys(a!), ...Object.keys(b!)]));
 
-  return keyList.reduce((total, key) => {
-    total[key] = mergeDeep((a as any)[key], (b as any)[key], isTruthy);
-    return total;
-  }, {} as any) as T;
+  return keyList.reduce(
+    (total, key) => ({
+      ...total,
+      [key]: mergeDeep((a as any)[key], (b as any)[key], isTruthy),
+    }),
+    {} as T
+  ) as T;
 };
