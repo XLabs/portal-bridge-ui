@@ -12,6 +12,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 
 import { useState } from "react";
+import { ENV } from "@env";
 
 const AppBar = styled(MuiAppBar)(({ theme }) => ({
   background: "transparent",
@@ -85,7 +86,7 @@ const Spacer = styled("div")(() => ({
 const womrholescanButton = (
   <Box>
     <Link
-      href={`https://wormholescan.io${wormholeConnectConfig.env === "testnet" ? "/#/?network=TESTNET" : ""}`}
+      href={`https://wormholescan.io${ENV.wormholeConnectConfig.env === "testnet" ? "/#/?network=TESTNET" : ""}`}
       target="_blank"
       color="inherit"
     >
@@ -105,7 +106,7 @@ export default function NavBar() {
         <Spacer />
         <Hidden implementation="css" smDown>
           <div style={{ display: "flex", alignItems: "center" }}>
-            {navBar.map(({ label, active, href, isBlank }, idx) => (
+            {ENV.navBar.map(({ label, active, href, isBlank }, idx) => (
               <Link
                 key={`${label}_${idx}`}
                 href={href}
@@ -130,7 +131,7 @@ export default function NavBar() {
       {openMenu && (
         <Hidden implementation="css" smUp>
           <List>
-            {navBar.map(({ label, href }, idx) => (
+            {ENV.navBar.map(({ label, href }, idx) => (
               <ListItem key={`${label}_${idx}`}>
                 <ListItemButton component="a" href={href}>
                   <ListItemText primary={label} />

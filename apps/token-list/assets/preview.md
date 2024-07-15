@@ -139,6 +139,78 @@ https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/as
 https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/BONK_wh.png
 ```
 
+### IRL
+![IRL](IRL_wh.png)
+![IRL](IRL_wh_small.png)
+
+```
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/IRL_wh.png
+```
+
+### QUACK
+![QUACK](QUACK_wh.png)
+![QUACK](QUACK_wh_small.png)
+
+```
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/QUACK_wh.png
+```
+
+### SDEX
+![SDEX](SDEX_wh.png)
+![SDEX](SDEX_wh_small.png)
+
+```
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/SDEX_wh.png
+```
+
+### stTAO
+![stTAO](stTAO_wh.png)
+![stTAO](stTAO_wh_small.png)
+
+```
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/stTAO_wh.png
+```
+
+### MDT
+![MDT](MDT_wh.png)
+![MDT](MDT_wh_small.png)
+
+```
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/MDT_wh.png
+```
+
+### wWAM
+![wWAM](wWAM_wh.png)
+![wWAM](wWAM_wh_small.png)
+
+```
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/wWAM_wh.png
+```
+
+### EMC
+![EMC](EMC_wh.png)
+![EMC](EMC_wh_small.png)
+
+```
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/EMC_wh.png
+```
+
+### DAO
+![DAO](DAO_wh.png)
+![DAO](DAO_wh_small.png)
+
+```
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/DAO_wh.png
+```
+
+### SPX
+![SPX](SPX_wh.png)
+![SPX](SPX_wh_small.png)
+
+```
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/SPX_wh.png
+```
+
 
 ## source chain: Ethereum
 ### 1INCH
@@ -1065,6 +1137,14 @@ https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/as
 https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/UNW_wh.png
 ```
 
+### wBRAWL
+![wBRAWL](wBRAWL_wh.png)
+![wBRAWL](wBRAWL_wh_small.png)
+
+```
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/wBRAWL_wh.png
+```
+
 
 ## source chain: Polygon
 ### DAIpo
@@ -1123,6 +1203,14 @@ https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/as
 https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/WOM_wh.png
 ```
 
+### BBL
+![BBL](BBL_wh.png)
+![BBL](BBL_wh_small.png)
+
+```
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/BBL_wh.png
+```
+
 
 ## source chain: Avalanche
 ### AVAX
@@ -1171,6 +1259,14 @@ https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/as
 
 ```
 https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/USDTav_wh.png
+```
+
+### BKN
+![BKN](BKN_wh.png)
+![BKN](BKN_wh_small.png)
+
+```
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/BKN_wh.png
 ```
 
 
@@ -1295,5 +1391,13 @@ https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/as
 
 ```
 https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/TBTC_wh.png
+```
+
+### SPX
+![SPX](SPX_wh.png)
+![SPX](SPX_wh_small.png)
+
+```
+https://raw.githubusercontent.com/xlabs/portal-bridge-ui/main/apps/token-list/assets/SPX_wh.png
 ```
 

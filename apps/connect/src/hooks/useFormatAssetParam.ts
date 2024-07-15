@@ -1,12 +1,13 @@
+import { ENV } from "@env";
 import { MAINNET, TESTNET } from "@wormhole-foundation/wormhole-connect";
 import { useMemo } from "react";
 
 const tokensList =
-  wormholeConnectConfig.env === "mainnet" ? MAINNET.tokens : TESTNET.tokens;
+  ENV.wormholeConnectConfig.env === "mainnet" ? MAINNET.tokens : TESTNET.tokens;
 function getFormatedAsset(asset: string | null): string | null {
   const allTokens = {
     ...tokensList,
-    ...wormholeConnectConfig?.tokensConfig,
+    ...ENV.wormholeConnectConfig?.tokensConfig,
   };
   if (allTokens && asset) {
     const tokenParam = Object.values(allTokens).find(

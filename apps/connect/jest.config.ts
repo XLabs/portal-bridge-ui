@@ -10,4 +10,7 @@ export default {
   transform: {
     ".(ts|tsx)": "ts-jest",
   },
+  moduleNameMapper: {
+    "@env": "<rootDir>/src/env/index.ts"
+  },
 } as Config;

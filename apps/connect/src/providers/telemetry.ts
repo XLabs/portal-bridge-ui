@@ -21,6 +21,22 @@ const sendEvent = (e: any) => {
   }
 };
 let lastChain: string;
+
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+const getErrorMessage = (error: any) => {
+  let message = "";
+  if (error?.code) {
+    message += `Code: ${error.code} `;
+  }
+  if (error?.name) {
+    message += `Name: ${error.name} `;
+  }
+  if (error?.message) {
+    message += `Message: ${error.message}`;
+  }
+  return message;
+};
+
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 export const eventHandler = (e: any) => {
   // Ignore the load event
@@ -99,9 +115,8 @@ export const eventHandler = (e: any) => {
     }
     attributes["route"] = routeName;
     if (e.type === "transfer.error" || e.type === "transfer.redeem.error") {
-      console.log("Error", e.error?.original);
       attributes["error-type"] = e.error.type || "unknown";
-      attributes["error-message"] = e.error?.original?.message || "";
+      attributes["error-message"] = getErrorMessage(e.error?.original);
     }
 
     // Transfer event information
