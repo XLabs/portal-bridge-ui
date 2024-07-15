@@ -30,11 +30,9 @@ export const chains = [
   "mantle",
 ];
 
-const MAINNET_RPCS = {
-  rpcs: {
-    ...rpcs(chains, asRpcHost),
-    solana: "https://wormhole.rpcpool.com/",
-  },
+export const MAINNET_RPCS = {
+  ...rpcs(chains, asRpcHost),
+  solana: "https://wormhole.rpcpool.com/",
 };
 
 export const PUBLIC_URL = envVars.PUBLIC_URL || "";
@@ -53,8 +51,8 @@ export const versions: Env["versions"] = [
 export const wormholeConnectConfigCommon: Partial<WormholeConnectConfig> = {
   walletConnectProjectId: envVars.VITE_APP_WALLET_CONNECT_PROJECT_ID || "",
 
-  env: envVars.VITE_APP_CLUSTER || "mainnet",
-  ...(envVars.VITE_APP_CLUSTER === "mainnet" ? MAINNET_RPCS : {}),
+  env: envVars.VITE_APP_CLUSTER || "testnet",
+  rpcs: {},
   showHamburgerMenu: false,
   explorer: {
     href: `https://wormholescan.io/#/txs?address={:address}&network=${envVars.VITE_APP_CLUSTER || "testnet"}`,
