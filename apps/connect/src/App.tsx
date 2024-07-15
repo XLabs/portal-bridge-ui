@@ -15,12 +15,10 @@ import { useRoutes } from "react-router-dom";
 import PrivacyPolicy from "./components/pages/PrivacyPolicy";
 import { PrivacyPolicyPath, isPreview, isProduction } from "./utils/constants";
 import Banner from "./components/atoms/Banner";
-
-import * as ENV from "@env";
-console.log("THIS IS THE ENVVVVV_______", ENV);
+import { ENV } from "@env";
 
 const defaultConfig: WormholeConnectConfig = {
-  ...wormholeConnectConfig,
+  ...ENV.wormholeConnectConfig,
   ...((isPreview || isProduction) && {
     eventHandler: eventHandler,
   }),
@@ -81,7 +79,7 @@ export default function Root() {
   ]);
   return (
     <>
-      {versions.map(({ appName, version }, idx) => (
+      {ENV.versions.map(({ appName, version }, idx) => (
         <meta
           name={appName}
           content={version}

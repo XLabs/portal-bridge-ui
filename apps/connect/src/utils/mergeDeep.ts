@@ -1,7 +1,8 @@
+/* eslint @typescript-eslint/no-explicit-any: 0 */
 import { isObject } from "./isObject";
 
 /** deep merges args with a condition per node returning a new instance */
-export const mergeTruthy = <T>(
+export const mergeDeep = <T>(
   a: Partial<T>,
   b: Partial<T>,
   isTruthy = (arg: any) => ![null, undefined].includes(arg)
@@ -11,7 +12,7 @@ export const mergeTruthy = <T>(
   const keyList = Array.from(new Set([...Object.keys(a!), ...Object.keys(b!)]));
 
   return keyList.reduce((total, key) => {
-    total[key] = mergeTruthy(a[key], b[key], isTruthy);
+    total[key] = mergeDeep((a as any)[key], (b as any)[key], isTruthy);
     return total;
-  }, {}) as T;
+  }, {} as any) as T;
 };
