@@ -308,7 +308,7 @@ export const ENV: Env = {
         },
         "wstETH ": {
           key: "wstETH ",
-          symbol: "wstETH ",
+          symbol: "wstETH",
           nativeChain: "bsc",
           tokenId: {
             chain: "bsc",
