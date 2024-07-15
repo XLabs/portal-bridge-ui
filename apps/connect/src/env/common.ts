@@ -1,5 +1,6 @@
 import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
 import packageJson from "../../package.json";
+import { envVars } from "./env-vars";
 
 const rpcs = (chains: string[], template: (chain: string) => string) =>
   chains
@@ -36,12 +37,12 @@ const MAINNET_RPCS = {
   },
 };
 
-export const PUBLIC_URL = import.meta.env.PUBLIC_URL || "";
+export const PUBLIC_URL = envVars.PUBLIC_URL || "";
 
 export const versions: Env["versions"] = [
   {
     appName: "Portal Bridge",
-    version: `v${import.meta.env.VITE_APP_VERSION || "0.0.0"}`,
+    version: `v${envVars.VITE_APP_VERSION || "0.0.0"}`,
   },
   {
     appName: "Wormhole Connect",
@@ -51,23 +52,23 @@ export const versions: Env["versions"] = [
 
 export const wormholeConnectConfigCommon: Partial<WormholeConnectConfig> = {
   walletConnectProjectId:
-    import.meta.env.VITE_APP_WALLET_CONNECT_PROJECT_ID || "",
+    envVars.VITE_APP_WALLET_CONNECT_PROJECT_ID || "",
 
-  env: import.meta.env.VITE_APP_CLUSTER || "mainnet",
-  ...(import.meta.env.VITE_APP_CLUSTER === "mainnet" ? MAINNET_RPCS : {}),
+  env: envVars.VITE_APP_CLUSTER || "mainnet",
+  ...(envVars.VITE_APP_CLUSTER === "mainnet" ? MAINNET_RPCS : {}),
   showHamburgerMenu: false,
   explorer: {
-    href: `https://wormholescan.io/#/txs?address={:address}&network=${import.meta.env.VITE_APP_CLUSTER || "testnet"}`,
+    href: `https://wormholescan.io/#/txs?address={:address}&network=${envVars.VITE_APP_CLUSTER || "testnet"}`,
   },
   menu: [
     {
       label: "Advanced Tools",
-      href: `${import.meta.env.PUBLIC_URL}/advanced-tools/`,
+      href: `${envVars.PUBLIC_URL}/advanced-tools/`,
       order: 1,
     },
     {
       label: "Privacy Policy",
-      href: `${import.meta.env.PUBLIC_URL}/#/privacy-policy/`,
+      href: `${envVars.PUBLIC_URL}/#/privacy-policy/`,
     },
   ],
 };
