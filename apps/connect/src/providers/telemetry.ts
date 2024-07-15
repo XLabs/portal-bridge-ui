@@ -35,7 +35,7 @@ const getErrorMessage = (error: any) => {
     message += `Message: ${error.message}`;
   }
   return message;
-}
+};
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 export const eventHandler = (e: any) => {
