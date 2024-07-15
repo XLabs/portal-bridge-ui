@@ -51,8 +51,7 @@ export const versions: Env["versions"] = [
 ];
 
 export const wormholeConnectConfigCommon: Partial<WormholeConnectConfig> = {
-  walletConnectProjectId:
-    envVars.VITE_APP_WALLET_CONNECT_PROJECT_ID || "",
+  walletConnectProjectId: envVars.VITE_APP_WALLET_CONNECT_PROJECT_ID || "",
 
   env: envVars.VITE_APP_CLUSTER || "mainnet",
   ...(envVars.VITE_APP_CLUSTER === "mainnet" ? MAINNET_RPCS : {}),

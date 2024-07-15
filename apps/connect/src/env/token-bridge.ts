@@ -1,5 +1,11 @@
 import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
-import { chains, Env, PUBLIC_URL, versions, wormholeConnectConfigCommon } from "./common";
+import {
+  chains,
+  Env,
+  PUBLIC_URL,
+  versions,
+  wormholeConnectConfigCommon,
+} from "./common";
 
 type MoreChainDefinition = NonNullable<
   WormholeConnectConfig["moreNetworks"]
