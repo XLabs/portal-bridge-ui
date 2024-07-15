@@ -12,7 +12,7 @@ describe("useFormatAssetParam", () => {
     expect(result.current).toEqual(null);
   });
 
-  it("should get a formatted asset ussing an address", () => {
+  it("should get a formatted asset using an address", () => {
     const { result } = renderHook(() =>
       useFormatAssetParam("0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6")
     );

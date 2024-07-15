@@ -5,6 +5,6 @@ import { TextEncoder, TextDecoder } from "util";
 Object.assign(global, {
   TextDecoder,
   TextEncoder,
-  navBar: [],
-  wormholeConnectConfig: {},
 });
+
+jest.mock("./src/env/env-vars.ts", () => ({ envVars: process.env }));
