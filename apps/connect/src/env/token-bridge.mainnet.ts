@@ -54,7 +54,8 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/26946/standard/Wombat_Token.png?1696526001",
           coinGeckoId: "wombat-exchange",
           decimals: {
-            default: 18,
+            Ethereum: 18,
+            default: 8,
           },
           //Ehtereum, Avalanche, Base, Scroll, Optimism, Arbitrum, BNB Chain
           foreignAssets: {
@@ -219,7 +220,9 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/35087/standard/womrhole_logo_full_color_rgb_2000px_72ppi_fb766ac85a.png?1708688954",
           coinGeckoId: "wormhole",
           decimals: {
-            default: 6,
+            Ethereum: 18,
+            default: 8,
+            Solana: 6,
           },
         },
         Wethereum: {
@@ -233,7 +236,9 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/35087/standard/womrhole_logo_full_color_rgb_2000px_72ppi_fb766ac85a.png?1708688954",
           coinGeckoId: "wormhole",
           decimals: {
-            default: 18,
+            Ethereum: 18,
+            default: 8,
+            Solana: 6,
           },
         },
         Warbitrum: {
@@ -247,7 +252,9 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/35087/standard/womrhole_logo_full_color_rgb_2000px_72ppi_fb766ac85a.png?1708688954",
           coinGeckoId: "wormhole",
           decimals: {
-            default: 18,
+            Ethereum: 18,
+            default: 8,
+            Solana: 6,
           },
         },
         Woptimism: {
@@ -261,7 +268,9 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/35087/standard/womrhole_logo_full_color_rgb_2000px_72ppi_fb766ac85a.png?1708688954",
           coinGeckoId: "wormhole",
           decimals: {
-            default: 18,
+            Ethereum: 18,
+            default: 8,
+            Solana: 6,
           },
         },
         Wbase: {
@@ -275,7 +284,9 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/35087/standard/womrhole_logo_full_color_rgb_2000px_72ppi_fb766ac85a.png?1708688954",
           coinGeckoId: "wormhole",
           decimals: {
-            default: 18,
+            Ethereum: 18,
+            default: 8,
+            Solana: 6,
           },
         },
         osETHethereum: {

@@ -23,7 +23,9 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/35087/standard/womrhole_logo_full_color_rgb_2000px_72ppi_fb766ac85a.png?1708688954",
           coinGeckoId: "wormhole",
           decimals: {
-            default: 6,
+            Ethereum: 18,
+            default: 8,
+            Solana: 6
           },
         },
         Wsepolia: {
