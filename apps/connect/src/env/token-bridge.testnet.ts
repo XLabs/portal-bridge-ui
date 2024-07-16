@@ -25,7 +25,7 @@ export const ENV: Env = {
           decimals: {
             Ethereum: 18,
             default: 8,
-            Solana: 6
+            Solana: 6,
           },
         },
         Wsepolia: {
