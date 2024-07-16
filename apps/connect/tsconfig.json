@@ -23,9 +23,9 @@
 
     "baseUrl": ".",
     "paths": {
-      "@env": ["./src/env/index.ts"],
+      "@env": ["./src/env/index.ts"]
     }
   },
   "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

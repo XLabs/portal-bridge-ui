@@ -1,8 +1,9 @@
 import NewBarButton from "./NewsBarButton";
-import useBannerMessageConfig, {
-  useMessages,
+import {
+  useBannerMessageConfig,
   type Message,
-} from "../../hooks/useBannerMessage";
+} from "../../hooks/useBannerMessageConfig";
+import { useMessages } from "../../hooks/useMessages";
 import Bar from "./Bar";
 
 export type NewsBarProps = {
