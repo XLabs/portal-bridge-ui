@@ -42,8 +42,6 @@ const getErrorMessage = (error: any) => {
   return message;
 };
 
-
-
 export const eventHandler = (e: WormholeConnectEvent) => {
   // Ignore the load event
   if (e.type === "load") return;
