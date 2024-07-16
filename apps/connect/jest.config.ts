@@ -10,9 +10,9 @@ export default {
   transform: {
     ".(ts|tsx)": "ts-jest",
   },
-  transformIgnorePatterns: ["node_modules/(?!(jest-)?uuid)"],
   moduleNameMapper: {
     "@env": "<rootDir>/src/env/index.ts",
+    "uuid": require.resolve('uuid'),
   },
   collectCoverageFrom: [
     "<rootDir>/src/**/*.{ts,tsx,js,jsx}",

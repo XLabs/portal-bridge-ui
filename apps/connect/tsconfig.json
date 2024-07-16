@@ -6,7 +6,6 @@
     "module": "ESNext",
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "allowJs": true,
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -24,9 +23,9 @@
 
     "baseUrl": ".",
     "paths": {
-      "@env": ["./src/env/index.ts"],
+      "@env": ["./src/env/index.ts"]
     }
   },
   "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

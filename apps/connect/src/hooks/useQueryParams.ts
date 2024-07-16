@@ -4,10 +4,14 @@ import { useMemo } from "react";
 function getChainValue(query: URLSearchParams, key: string): ChainName | null {
   const sourceChain = query.get(key);
   if (sourceChain) {
-    if (isChain(sourceChain)) return coalesceChainName(sourceChain);
+    if (isChain(sourceChain)) {
+      return coalesceChainName(sourceChain);
+    }
 
     const chainId = Number(sourceChain);
-    if (isChain(chainId)) return coalesceChainName(chainId);
+    if (isChain(chainId)) {
+      return coalesceChainName(chainId);
+    }
   }
   return null;
 }

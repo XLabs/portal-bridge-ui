@@ -1,5 +1,10 @@
 import mixpanel from "mixpanel-browser";
 import { isPreview, isProduction } from "../utils/constants";
+import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
+
+export type WormholeConnectEvent = Parameters<
+  NonNullable<WormholeConnectConfig["eventHandler"]>
+>[0];
 
 mixpanel.init(
   isProduction
@@ -37,13 +42,14 @@ const getErrorMessage = (error: any) => {
   return message;
 };
 
-/* eslint-disable  @typescript-eslint/no-explicit-any */
-export const eventHandler = (e: any) => {
+
+
+export const eventHandler = (e: WormholeConnectEvent) => {
   // Ignore the load event
   if (e.type === "load") return;
 
   // Start the trace when the event is load
-  let span = { event: e.type, properties: e.details };
+  let span = { event: e.type, properties: e.details as unknown };
   // Wallet connect information
   if (e.type === "wallet.connect") {
     const side = e.details.side;
