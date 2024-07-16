@@ -28,9 +28,7 @@ describe("useBannerMessageConfig", () => {
   });
 
   it("should get as a first priority a message that has no start date and ends in the future", () => {
-    const { result } = renderHook(() =>
-      useBannerMessageConfig(messages)
-    );
+    const { result } = renderHook(() => useBannerMessageConfig(messages));
     expect(result.current).toEqual(messages[2]);
   });
 
