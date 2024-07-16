@@ -17,7 +17,6 @@ export interface Banner {
   until: Date;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const parse = (banner: Record<string, any>): Banner => {
   const id = banner.id;
   const background = banner.background;
@@ -38,7 +37,6 @@ const fetchMessages = async (
   const response = await fetch(location);
   if (response.status !== 200) return [];
   const json = await response.json();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return json.map((banner: Record<string, any>) => parse(banner));
 };
 

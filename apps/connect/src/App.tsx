@@ -22,7 +22,6 @@ const defaultConfig: WormholeConnectConfig = {
   ...((isPreview || isProduction) && {
     eventHandler,
   }),
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   isRouteSupportedHandler: async (td: any) => {
     // Disable manual NTT for Lido wstETH
     if (

@@ -17,7 +17,6 @@ mixpanel.init(
   }
 );
 
-/* eslint-disable  @typescript-eslint/no-explicit-any */
 const sendEvent = (e: any) => {
   try {
     mixpanel.track(e.event, e.properties);
@@ -25,111 +24,74 @@ const sendEvent = (e: any) => {
     console.error(error);
   }
 };
-let lastChain: string;
 
-/* eslint-disable  @typescript-eslint/no-explicit-any */
 const getErrorMessage = (error: any) => {
-  let message = "";
-  if (error?.code) {
-    message += `Code: ${error.code} `;
-  }
-  if (error?.name) {
-    message += `Name: ${error.name} `;
-  }
-  if (error?.message) {
-    message += `Message: ${error.message}`;
-  }
-  return message;
+  return [
+    !!error?.code && `Code: ${error.code}`,
+    !!error?.name && `Name: ${error.name}`,
+    !!error?.message && `Message: ${error.message}`,
+  ]
+    .filter(Boolean)
+    .join(" ");
 };
 
+let lastChain: string;
 export const eventHandler = (e: WormholeConnectEvent) => {
   // Ignore the load event
   if (e.type === "load") return;
 
   // Start the trace when the event is load
-  let span = { event: e.type, properties: e.details as unknown };
+  const span = { event: e.type, properties: e.details as unknown };
   // Wallet connect information
   if (e.type === "wallet.connect") {
     const side = e.details.side;
-    span = {
-      ...span,
-      properties: {
-        [`wallet-${side}`]: e.details.wallet,
-        [`chain-${side}`]: e.details.chain,
-      },
-    };
     const chain = `${e.details.chain}-${side}`;
     if (lastChain !== chain) {
-      sendEvent(span);
+      sendEvent({
+        ...span,
+        properties: {
+          [`wallet-${side}`]: e.details.wallet,
+          [`chain-${side}`]: e.details.chain,
+        },
+      });
     }
     lastChain = chain;
-  } else {
-    // Convert WormholeConnectEvent to Attributes
-    const attributes: { [key: string]: string } = {};
-
-    attributes["fromChain"] = e.details.fromChain;
-    attributes["toChain"] = e.details.toChain;
-    attributes["fromTokenSymbol"] = e.details.fromToken?.symbol;
-    attributes["fromTokenAddress"] =
-      typeof e.details.fromToken?.tokenId === "object"
-        ? e.details.fromToken?.tokenId.address
-        : "native";
-    attributes["toTokenSymbol"] = e.details.toToken?.symbol;
-    attributes["toTokenAddress"] =
-      typeof e.details.toToken?.tokenId === "object"
-        ? e.details.toToken?.tokenId.address
-        : "native";
-
-    let routeName;
-    switch (e.details.route) {
-      case "bridge":
-        routeName = "Manual Bridge";
-        break;
-      case "relay":
-        routeName = "Relayer";
-        break;
-      case "ethBridge":
-        routeName = "Eth Bridge";
-        break;
-      case "wstETHBridge":
-        routeName = "wstETH Bridge";
-        break;
-      case "cctpManual":
-        routeName = "CCTP Manual";
-        break;
-      case "cctpRelay":
-        routeName = "CCTP Relayer";
-        break;
-      case "tbtc":
-        routeName = "TBTC";
-        break;
-      case "cosmosGateway":
-        routeName = "Cosmos Gateway";
-        break;
-      case "nttManual":
-        routeName = "NTT Manual";
-        break;
-      case "nttRelay":
-        routeName = "NTT Relayer";
-        break;
-
-      default:
-        routeName = "Manual Bridge";
-        break;
-    }
-    attributes["route"] = routeName;
-    if (e.type === "transfer.error" || e.type === "transfer.redeem.error") {
-      attributes["error-type"] = e.error.type || "unknown";
-      attributes["error-message"] = getErrorMessage(e.error?.original);
-    }
-
-    // Transfer event information
-    span = {
-      ...span,
-      properties: {
-        ...attributes,
-      },
-    };
-    sendEvent(span);
+    return;
   }
+  const getTokenAddress = (token: typeof e.details.fromToken): string =>
+    typeof token?.tokenId === "object" ? token.tokenId.address : "native";
+
+  // Convert WormholeConnectEvent to Attributes
+  const isTransferError =
+    e.type === "transfer.error" || e.type === "transfer.redeem.error";
+  const attributes: { [key: string]: string } = {
+    fromChain: e.details.fromChain,
+    toChain: e.details.toChain,
+    fromTokenSymbol: e.details.fromToken?.symbol,
+    fromTokenAddress: getTokenAddress(e.details.fromToken),
+    toTokenSymbol: e.details.toToken?.symbol,
+    toTokenAddress: getTokenAddress(e.details.toToken),
+    route:
+      {
+        bridge: "Manual Bridge",
+        relay: "Relayer",
+        ethBridge: "Eth Bridge",
+        wstETHBridge: "wstETH Bridge",
+        cctpManual: "CCTP Manual",
+        cctpRelay: "CCTP Relayer",
+        tbtc: "TBTC",
+        cosmosGateway: "Cosmos Gateway",
+        nttManual: "NTT Manual",
+        nttRelay: "NTT Relayer",
+      }[e.details.route] || "Manual Bridge",
+    ...(isTransferError
+      ? {
+          "error-type": e.error.type || "unknown",
+          "error-message": getErrorMessage(e.error?.original),
+        }
+      : {}),
+  };
+
+  // Transfer event information
+  sendEvent({ ...span, properties: { ...attributes } });
 };
