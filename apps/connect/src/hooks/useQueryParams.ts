@@ -1,36 +1,24 @@
 import { ChainName, coalesceChainName, isChain } from "@certusone/wormhole-sdk";
 import { useMemo } from "react";
 
-const isNumber = (str: string) =>
-  typeof str === "string" && str.length > 0 && !isNaN(Number(str));
-
 function getChainValue(query: URLSearchParams, key: string): ChainName | null {
   const sourceChain = query.get(key);
-  if (sourceChain && isChain(sourceChain)) {
-    return coalesceChainName(sourceChain);
-  } else if (sourceChain && isNumber(sourceChain)) {
+  if (sourceChain) {
+    if (isChain(sourceChain)) return coalesceChainName(sourceChain);
+
     const chainId = Number(sourceChain);
-    if (isChain(chainId)) {
-      return coalesceChainName(chainId);
-    }
+    if (isChain(chainId)) return coalesceChainName(chainId);
   }
   return null;
 }
 
 function getTokenValue(query: URLSearchParams, key: string): string | null {
   const token = query.get(key);
-  return token && token.length > 0 ? token : null;
+  return !!token!?.length ? token : null;
 }
 
 function getTxHash(query: URLSearchParams): string | null {
-  const txHash = query.get("txHash");
-  const transactionId = query.get("transactionId");
-  if (txHash) {
-    return txHash;
-  } else if (transactionId) {
-    return transactionId;
-  }
-  return null;
+  return query.get("txHash") || query.get("transactionId") || null;
 }
 
 export function useQueryParams() {
@@ -42,27 +30,17 @@ export function useQueryParams() {
           window.location.href.length
         )
       ),
-    []
+    [window.location.href]
   );
-  const sourceChain = useMemo(
-    () => getChainValue(query, "sourceChain"),
+
+  return useMemo(
+    () => ({
+      txHash: getTxHash(query),
+      sourceChain: getChainValue(query, "sourceChain"),
+      targetChain: getChainValue(query, "targetChain"),
+      asset: getTokenValue(query, "asset"),
+      requiredNetwork: getChainValue(query, "requiredNetwork"),
+    }),
     [query]
   );
-  const targetChain = useMemo(
-    () => getChainValue(query, "targetChain"),
-    [query]
-  );
-  const requiredNetwork = useMemo(
-    () => getChainValue(query, "requiredNetwork"),
-    [query]
-  );
-  const txHash = useMemo(() => getTxHash(query), [query]);
-  const asset = useMemo(() => getTokenValue(query, "asset"), [query]);
-  return {
-    txHash,
-    sourceChain,
-    targetChain,
-    asset,
-    requiredNetwork,
-  };
 }

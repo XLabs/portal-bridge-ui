@@ -20,7 +20,7 @@ import { ENV } from "@env";
 const defaultConfig: WormholeConnectConfig = {
   ...ENV.wormholeConnectConfig,
   ...((isPreview || isProduction) && {
-    eventHandler: eventHandler,
+    eventHandler,
   }),
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   isRouteSupportedHandler: async (td: any) => {
