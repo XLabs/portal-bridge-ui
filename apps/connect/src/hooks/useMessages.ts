@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-export type Banner = {
+export interface Banner {
   id: string;
   background: string;
   button?: {
@@ -15,10 +15,10 @@ export type Banner = {
   };
   since: Date;
   until: Date;
-};
+}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function parse(banner: Record<string, any>): Banner {
+const parse = (banner: Record<string, any>): Banner => {
   const id = banner.id;
   const background = banner.background;
   const since = new Date(banner.since);
@@ -30,19 +30,19 @@ function parse(banner: Record<string, any>): Banner {
   };
   const button = banner.button;
   return { id, background, since, until, content, button };
-}
+};
 
-async function fetchMessages(
+const fetchMessages = async (
   location: string = "/data/banners.json"
-): Promise<Banner[]> {
+): Promise<Banner[]> => {
   const response = await fetch(location);
   if (response.status !== 200) return [];
   const json = await response.json();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return json.map((banner: Record<string, any>) => parse(banner));
-}
+};
 
-export function useMessages() {
+export const useMessages = () => {
   const now = new Date();
   const allMessages = useQuery({
     queryKey: ["messages"],
@@ -51,4 +51,4 @@ export function useMessages() {
   return allMessages.data?.filter(
     ({ until, since }: Banner) => since < now && until > now
   );
-}
+};
