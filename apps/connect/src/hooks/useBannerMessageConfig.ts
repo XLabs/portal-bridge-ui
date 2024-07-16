@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useMemo } from "react";
 
-export type Message = {
+export interface Message {
   background: string;
   button?: {
     href: string;
@@ -8,26 +8,21 @@ export type Message = {
     background: string;
   };
   content: JSX.Element;
-  start: Date;
+  start?: Date;
   ends?: Date;
-};
+}
 
-function criteria(left: Message, right: Message) {
+const criteria = (left: Message, right: Message): number => {
   if (left.start && right.start) {
     return right.start.getTime() - left.start.getTime();
   }
-  if (left.start) {
-    return 1;
-  }
-  if (right.start) {
-    return -1;
-  }
+  if (left.start) return 1;
+  if (right.start) return -1;
   return 0;
-}
+};
 
-export function useBannerMessageConfig(messages: Message[]) {
-  const [message, setMessage] = useState<Message | null>(null);
-  useEffect(() => {
+export const useBannerMessageConfig = (messages: Message[]): Message | null => {
+  return useMemo(() => {
     const now = new Date();
     const message = [...messages]
       .sort(criteria)
@@ -36,7 +31,6 @@ export function useBannerMessageConfig(messages: Message[]) {
           (!message.start || message.start < now) &&
           (!message.ends || message.ends > now)
       );
-    setMessage(message || null);
+    return message || null;
   }, [messages]);
-  return message;
-}
+};

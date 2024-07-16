@@ -36,13 +36,10 @@ async function fetchMessages(
   location: string = "/data/banners.json"
 ): Promise<Banner[]> {
   const response = await fetch(location);
-  if (response.status !== 200) {
-    return [];
-  } else {
-    const json = await response.json();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return json.map((banner: Record<string, any>) => parse(banner));
-  }
+  if (response.status !== 200) return [];
+  const json = await response.json();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return json.map((banner: Record<string, any>) => parse(banner));
 }
 
 export function useMessages() {

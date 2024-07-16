@@ -10,9 +10,7 @@ export default {
   transform: {
     ".(ts|tsx)": "ts-jest",
   },
-  transformIgnorePatterns: [
-    'node_modules/(?!(jest-)?uuid)'
-  ],
+  transformIgnorePatterns: ["node_modules/(?!(jest-)?uuid)"],
   moduleNameMapper: {
     "@env": "<rootDir>/src/env/index.ts",
   },
@@ -20,6 +18,8 @@ export default {
     "<rootDir>/src/**/*.{ts,tsx,js,jsx}",
     "!<rootDir>/src/**/*.d.ts",
     "!<rootDir>/src/main.tsx",
+    "!<rootDir>/src/utils/constants.ts",
+    "!<rootDir>/src/utils/styles.ts",
     "!<rootDir>/src/env/**/*.*",
     "!<rootDir>/src/theme/**/*.*",
   ],
