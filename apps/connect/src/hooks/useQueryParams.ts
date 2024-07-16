@@ -14,7 +14,7 @@ function getChainValue(query: URLSearchParams, key: string): ChainName | null {
 
 function getTokenValue(query: URLSearchParams, key: string): string | null {
   const token = query.get(key);
-  return !!token!?.length ? token : null;
+  return token?.length ? token : null;
 }
 
 function getTxHash(query: URLSearchParams): string | null {
@@ -30,7 +30,7 @@ export function useQueryParams() {
           window.location.href.length
         )
       ),
-    [window.location.href]
+    []
   );
 
   return useMemo(
