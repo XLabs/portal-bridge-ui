@@ -60,6 +60,7 @@
     "ts-jest": "^29.2.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.0.2",
-    "vite": "^5"
+    "vite": "^5",
+    "vite-plugin-html": "^3.2.2"
   }
 }

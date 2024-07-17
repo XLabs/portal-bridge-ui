@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import viteConfig from "./vite.config";
 import { resolve } from "path";
+import { createHtmlPlugin } from "vite-plugin-html";
 
 const PUBLIC_URL = viteConfig.base;
 
@@ -10,7 +11,7 @@ export default defineConfig({
   resolve: {
     ...viteConfig.resolve,
     alias: [
-      ...((viteConfig.resolve?.alias as NonNullable<[]>) || []),
+      ...((viteConfig.resolve?.alias as []) || []),
       {
         find: "@env",
         replacement: resolve(
@@ -22,4 +23,28 @@ export default defineConfig({
   },
   base: `${PUBLIC_URL}/usdc-bridge/`,
   define: {},
+  plugins: [
+    ...(viteConfig.plugins as []),
+    createHtmlPlugin({
+      inject: {
+        tags: [
+          {
+            injectTo: "head-prepend",
+            tag: "title",
+            children: "Portal USDC Bridge",
+          },
+          {
+            injectTo: "head-prepend",
+            tag: "meta",
+            attrs: { "og:title": "Portal USDC Bridge" },
+          },
+          {
+            injectTo: "head-prepend",
+            tag: "meta",
+            attrs: { "og:url": "https://portalbridge.com/usdc-bridge" },
+          },
+        ],
+      },
+    }),
+  ],
 });
