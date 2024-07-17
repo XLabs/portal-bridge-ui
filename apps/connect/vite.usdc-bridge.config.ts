@@ -43,6 +43,24 @@ export default defineConfig({
             tag: "meta",
             attrs: { "og:url": "https://portalbridge.com/usdc-bridge" },
           },
+          {
+            injectTo: "head-prepend",
+            tag: "meta",
+            attrs: {
+              name: "description",
+              content:
+                "Convert some USDC to ETH, AVAX, BASE, OP or ARB and use it as gas to pay for transaction fees on the destination network.",
+            },
+          },
+          {
+            injectTo: "head-prepend",
+            tag: "meta",
+            attrs: {
+              property: "og:description",
+              content:
+                "Convert some USDC to ETH, AVAX, BASE, OP or ARB and use it as gas to pay for transaction fees on the destination network.",
+            },
+          },
         ],
       },
     }),

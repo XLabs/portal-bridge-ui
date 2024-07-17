@@ -40,6 +40,24 @@ export default defineConfig({
             tag: "meta",
             attrs: { "og:url": "https://portalbridge.com" },
           },
+          {
+            injectTo: "head-prepend",
+            tag: "meta",
+            attrs: {
+              name: "description",
+              content:
+                "Portal is a bridge that offers unlimited transfers across chains for tokens and NFTs wrapped by Wormhole.",
+            },
+          },
+          {
+            injectTo: "head-prepend",
+            tag: "meta",
+            attrs: {
+              property: "og:description",
+              content:
+                "Portal is a bridge that offers unlimited transfers across chains for tokens and NFTs wrapped by Wormhole.",
+            },
+          },
         ],
       },
     }),
