@@ -2,7 +2,7 @@ import type {
   ChainName,
   WormholeConnectConfig,
 } from "@wormhole-foundation/wormhole-connect";
-import { useEffect, useMemo } from "react";
+import { ComponentProps, useEffect, useMemo } from "react";
 import customTheme from "./theme/connect";
 import NavBar from "./components/atoms/NavBar";
 import NewsBar from "./components/atoms/NewsBar";
@@ -13,15 +13,15 @@ import WormholeConnect from "@wormhole-foundation/wormhole-connect";
 import { eventHandler } from "./providers/telemetry";
 import { useRoutes } from "react-router-dom";
 import PrivacyPolicy from "./components/pages/PrivacyPolicy";
-import { PrivacyPolicyPath, isPreview } from "./utils/constants";
+import { PrivacyPolicyPath, isPreview, isProduction } from "./utils/constants";
 import Banner from "./components/atoms/Banner";
+import { ENV } from "@env";
 
 const defaultConfig: WormholeConnectConfig = {
-  ...wormholeConnectConfig,
-  ...(isPreview && {
-    eventHandler: eventHandler,
+  ...ENV.wormholeConnectConfig,
+  ...((isPreview || isProduction) && {
+    eventHandler,
   }),
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   isRouteSupportedHandler: async (td: any) => {
     // Disable manual NTT for Lido wstETH
     if (
@@ -42,7 +42,7 @@ export default function Root() {
   const { txHash, sourceChain, targetChain, asset, requiredNetwork } =
     useQueryParams();
   const tokenKey = useFormatAssetParam(asset);
-  const config = useMemo(
+  const config: ComponentProps<typeof WormholeConnect>["config"] = useMemo(
     () => ({
       ...defaultConfig,
       searchTx: {
@@ -73,12 +73,12 @@ export default function Root() {
     </>
   );
   const routes = useRoutes([
-    { path: `/`, element: Connect },
     { path: PrivacyPolicyPath, element: <PrivacyPolicy /> },
+    { path: "*", element: Connect },
   ]);
   return (
     <>
-      {versions.map(({ appName, version }, idx) => (
+      {ENV.versions.map(({ appName, version }, idx) => (
         <meta
           name={appName}
           content={version}
