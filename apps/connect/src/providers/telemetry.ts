@@ -65,8 +65,8 @@ export const eventHandler = (e: WormholeConnectEvent) => {
   const isTransferError =
     e.type === "transfer.error" || e.type === "transfer.redeem.error";
   const attributes: { [key: string]: string } = {
-    fromChain: e.details.fromChain,
-    toChain: e.details.toChain,
+    fromChain: e.details.fromChain.toString(),
+    toChain: e.details.toChain.toString(),
     fromTokenSymbol: e.details.fromToken?.symbol,
     fromTokenAddress: getTokenAddress(e.details.fromToken),
     toTokenSymbol: e.details.toToken?.symbol,
@@ -83,6 +83,7 @@ export const eventHandler = (e: WormholeConnectEvent) => {
         cosmosGateway: "Cosmos Gateway",
         nttManual: "NTT Manual",
         nttRelay: "NTT Relayer",
+        usdtBridge: "USDT Bridge",
       }[e.details.route] || "Manual Bridge",
     ...(isTransferError
       ? {
