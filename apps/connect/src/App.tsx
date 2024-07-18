@@ -1,7 +1,4 @@
-import type {
-  ChainName,
-  WormholeConnectConfig,
-} from "@wormhole-foundation/wormhole-connect";
+import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
 import { ComponentProps, useEffect, useMemo } from "react";
 import customTheme from "./theme/connect";
 import NavBar from "./components/atoms/NavBar";
@@ -39,26 +36,25 @@ const defaultConfig: WormholeConnectConfig = {
 };
 
 export default function Root() {
-  const { txHash, sourceChain, targetChain, asset, requiredNetwork } =
+  const { txHash, sourceChain, targetChain, asset, requiredNetwork, route } =
     useQueryParams();
-  const tokenKey = useFormatAssetParam(asset);
+  const token = useFormatAssetParam(asset);
   const config: ComponentProps<typeof WormholeConnect>["config"] = useMemo(
     () => ({
       ...defaultConfig,
       searchTx: {
         ...(txHash && { txHash }),
-        ...(sourceChain && { chainName: sourceChain as ChainName }),
+        ...(sourceChain && { chainName: sourceChain }),
       },
       bridgeDefaults: {
-        ...(sourceChain && { fromNetwork: sourceChain as ChainName }),
-        ...(targetChain && { toNetwork: targetChain as ChainName }),
-        ...(tokenKey && { token: tokenKey as string }),
-        ...(requiredNetwork && {
-          requiredNetwork: requiredNetwork as ChainName,
-        }),
+        ...(sourceChain && { fromNetwork: sourceChain }),
+        ...(targetChain && { toNetwork: targetChain }),
+        ...(token && { token }),
+        ...(requiredNetwork && { requiredNetwork }),
       },
+      ...(route && { routes: [route] }),
     }),
-    [txHash, sourceChain, targetChain, tokenKey, requiredNetwork]
+    [txHash, sourceChain, targetChain, token, requiredNetwork, route]
   );
 
   const messages = Object.values(messageConfig);
