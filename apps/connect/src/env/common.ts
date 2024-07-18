@@ -44,7 +44,7 @@ export const versions: Env["versions"] = [
   },
   {
     appName: "Wormhole Connect",
-    version: `v${packageJson.version}`,
+    version: `v${packageJson.dependencies["@wormhole-foundation/wormhole-connect"]}`,
   },
 ];
 
