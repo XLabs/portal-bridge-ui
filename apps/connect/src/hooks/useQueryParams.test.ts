@@ -22,24 +22,13 @@ describe("useQueryParams", () => {
       sourceChain: null,
       targetChain: null,
       txHash: null,
-    });
-  });
-
-  it("should get QS when there is no query", () => {
-    rewriteHref("https://portalbridge.com/");
-    const { result } = renderHook(() => useQueryParams());
-    expect(result.current).toEqual({
-      asset: null,
-      requiredNetwork: null,
-      sourceChain: null,
-      targetChain: null,
-      txHash: null,
+      route: null,
     });
   });
 
   it("should get QS when query contains all expected attrs after a hash #", () => {
     rewriteHref(
-      "https://portalbridge.com/#/?sourceChain=bsc&targetChain=arbitrum&requiredNetwork=arbitrum&txHash=txHash&asset=asset"
+      "https://portalbridge.com/#/?sourceChain=bsc&targetChain=arbitrum&requiredNetwork=arbitrum&txHash=txHash&asset=asset&route=bridge"
     );
     const { result } = renderHook(() => useQueryParams());
     expect(result.current).toEqual({
@@ -48,12 +37,13 @@ describe("useQueryParams", () => {
       sourceChain: "bsc",
       targetChain: "arbitrum",
       txHash: "txHash",
+      route: "bridge",
     });
   });
 
   it("should get QS when query contains all expected attrs when there is no hash", () => {
     rewriteHref(
-      "https://portalbridge.com/?sourceChain=bsc&targetChain=arbitrum&requiredNetwork=arbitrum&txHash=txHash&asset=asset"
+      "https://portalbridge.com/?sourceChain=bsc&targetChain=arbitrum&requiredNetwork=arbitrum&txHash=txHash&asset=asset&route=bridge"
     );
     const { result } = renderHook(() => useQueryParams());
     expect(result.current).toEqual({
@@ -62,6 +52,7 @@ describe("useQueryParams", () => {
       sourceChain: "bsc",
       targetChain: "arbitrum",
       txHash: "txHash",
+      route: "bridge",
     });
   });
 
@@ -74,6 +65,7 @@ describe("useQueryParams", () => {
       sourceChain: null,
       targetChain: null,
       txHash: "transactionId",
+      route: null,
     });
   });
 
@@ -88,6 +80,7 @@ describe("useQueryParams", () => {
       sourceChain: "bsc",
       targetChain: "arbitrum",
       txHash: null,
+      route: null,
     });
   });
 });

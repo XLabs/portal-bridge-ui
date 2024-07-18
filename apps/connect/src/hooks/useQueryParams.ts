@@ -1,7 +1,10 @@
 import { ChainName, coalesceChainName, isChain } from "@certusone/wormhole-sdk";
 import { useMemo } from "react";
 
-function getChainValue(query: URLSearchParams, key: string): ChainName | null {
+const getChainValue = (
+  query: URLSearchParams,
+  key: string
+): ChainName | null => {
   const sourceChain = query.get(key);
   if (sourceChain) {
     if (isChain(sourceChain)) {
@@ -14,18 +17,22 @@ function getChainValue(query: URLSearchParams, key: string): ChainName | null {
     }
   }
   return null;
-}
+};
 
-function getTokenValue(query: URLSearchParams, key: string): string | null {
+const getTokenValue = (query: URLSearchParams, key: string): string | null => {
   const token = query.get(key);
   return token?.length ? token : null;
-}
+};
 
-function getTxHash(query: URLSearchParams): string | null {
+const getTxHash = (query: URLSearchParams): string | null => {
   return query.get("txHash") || query.get("transactionId") || null;
-}
+};
 
-export function useQueryParams() {
+const getRoute = (query: URLSearchParams): string | null => {
+  return query.get("route") || null;
+};
+
+export const useQueryParams = () => {
   const query = useMemo(
     () =>
       new URLSearchParams(
@@ -44,7 +51,8 @@ export function useQueryParams() {
       targetChain: getChainValue(query, "targetChain"),
       asset: getTokenValue(query, "asset"),
       requiredNetwork: getChainValue(query, "requiredNetwork"),
+      route: getRoute(query),
     }),
     [query]
   );
-}
+};
