@@ -60,12 +60,12 @@ export const wormholeConnectConfigCommon: Partial<WormholeConnectConfig> = {
   menu: [
     {
       label: "Advanced Tools",
-      href: `${envVars.PUBLIC_URL}/advanced-tools/`,
+      href: `${PUBLIC_URL}/advanced-tools/`,
       order: 1,
     },
     {
       label: "Privacy Policy",
-      href: `${envVars.PUBLIC_URL}/#/privacy-policy/`,
+      href: `${PUBLIC_URL}/#/privacy-policy/`,
     },
   ],
 };
