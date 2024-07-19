@@ -11,11 +11,6 @@ on:
           - 'Cloudflare-Page-Deploy'
         required: true
         default: 'Cloudflare-Page-Deploy'
-      # connect-branch:
-      #   description: 'Branch Name'
-      #   type: string
-      #   required: true
-      #   default: 'portal-bridge'
       advanced-tools-branch:
         description: 'Branch Name'
         type: string
@@ -27,7 +22,6 @@ jobs:
     uses: ./.github/workflows/build.yml
     with:
       name: prod
-      # connect-branch: ${{inputs.connect-branch}}
       advanced-tools-branch: ${{inputs.advanced-tools-branch}}
       environment: ${{inputs.environment}}
       project-branch: main

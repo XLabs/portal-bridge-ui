@@ -1,9 +1,7 @@
-name: Portal Bridge [Preview]
+name: Portal Bridge [Preview/Testnet] feature branch
 
 on: 
   pull_request:
-#    paths:
-#      - '!apps/token-list/**'
 
 jobs:
   branch-sha:
@@ -18,7 +16,7 @@ jobs:
         id: set-version
         run: echo "_BRANCH_NAME_SHA=$(echo ${{ github.event.pull_request.head.ref }} | sha256sum | cut -c -10)" >> "${GITHUB_OUTPUT}"
   build:
-    name: "Build Preview"
+    name: "Build Preview/Testnet"
     uses: ./.github/workflows/build.yml
     with:
       name: preview
@@ -41,28 +39,9 @@ jobs:
     concurrency:
       group: ${{ github.ref }}-deploy-preview
       cancel-in-progress: true
-    permissions:
-      contents: write
-    environment: Cloudflare-Preview
     steps:
-      - name: Checkout preview branch
-        uses: actions/checkout@v3
-        with:
-          ref: preview
-      - name: Setup Git
+      - name: Deploy Info
         run: |
-          git config user.name "xLabs CI"
-          git config user.email "devops@xlabs.xyz"
-      - name: Trigger a preview Deploy
-        run: |
-          sleep 30s
-          mkdir -p preview/${{ needs.branch-sha.outputs.value }}
-          pushd preview/${{ needs.branch-sha.outputs.value  }}
-          [[ ! -f .latest ]] && touch .latest
-          [[ ! -f .artifacts ]] && touch .artifacts
-          cat .latest >> .artifacts
-          echo ${{ needs.build.outputs.pkg-version }} > .latest
-          git add .artifacts .latest
-          git commit -m"Update preview artifacts ${{ needs.build.outputs.pkg-version }}"
-          git push
-          echo "The preview URL is: ${{ vars.PREVIEW_ROOT_URL }}/${{ needs.branch-sha.outputs.value }}/" >> ${GITHUB_STEP_SUMMARY}
+          echo "Branch SHA: ${{ needs.branch-sha.outputs.value }}" >> ${GITHUB_STEP_SUMMARY}
+          echo "The preview URL is: https://preview.portalbridge.com/${{ needs.branch-sha.outputs.value }}/" >> ${GITHUB_STEP_SUMMARY}
+          echo "The testnet URL is: https://testnet.portalbridge.com/${{ needs.branch-sha.outputs.value }}/" >> ${GITHUB_STEP_SUMMARY}
