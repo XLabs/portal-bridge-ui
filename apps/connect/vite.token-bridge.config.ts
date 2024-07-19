@@ -14,7 +14,7 @@ export default defineConfig({
         find: "@env",
         replacement: resolve(
           __dirname,
-          `./src/env/token-bridge.${process.env.VITE_APP_CLUSTER === "mainnet" ? "mainnet" : "testnet"}.ts`
+          `./src/env/token-bridge.ts`
         ),
       },
     ],
