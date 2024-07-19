@@ -13,6 +13,21 @@ export const ENV: Env = {
         networks: [ALGORAND, ACALA, SEI, MORE],
       } as WormholeConnectConfig["moreNetworks"],
       tokensConfig: {
+        WIF: {
+          key: "WIF",
+          symbol: "WIF",
+          nativeChain: "solana",
+          tokenId: {
+            chain: "solana",
+            address: "EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm",
+          },
+          icon: "https://bafkreibk3covs5ltyqxa272uodhculbr6kea6betidfwy3ajsav2vjzyum.ipfs.nftstorage.link",
+          coinGeckoId: "dogwifcoin",
+          color: "",
+          decimals: {
+            default: 6,
+          },
+        },
         ETHFIethereum: {
           key: "ETHFIethereum",
           symbol: "ETHFI",
