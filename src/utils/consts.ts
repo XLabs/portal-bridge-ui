@@ -2244,3 +2244,9 @@ export const getWormholescanLink = (tx: string) => {
     process.env.REACT_APP_CLUSTER === "mainnet" ? "MAINNET" : "TESTNET"
   }`;
 };
+
+export const getTxFromVaaApiRef = (vaaID: string) => {
+  return `https://api.${
+    process.env.REACT_APP_CLUSTER === "mainnet" ? "" : "testnet."
+  }wormholescan.io/api/v1/operations/${vaaID}`;
+};
