@@ -35,7 +35,7 @@ export const MAINNET_RPCS = {
   solana: "https://wormhole.rpcpool.com/",
 };
 
-export const PUBLIC_URL = envVars.PUBLIC_URL || "";
+export const PUBLIC_URL = envVars.VITE_PUBLIC_URL || envVars.PUBLIC_URL || "";
 
 export const versions: Env["versions"] = [
   {
