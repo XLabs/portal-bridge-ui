@@ -7,18 +7,27 @@ import messageConfig from "./configs/messages";
 import { useQueryParams } from "./hooks/useQueryParams";
 import { useFormatAssetParam } from "./hooks/useFormatAssetParam";
 import WormholeConnect from "@wormhole-foundation/wormhole-connect";
-import { eventHandler } from "./providers/telemetry";
+import { eventHandler, type WormholeConnectEvent } from "./providers/telemetry";
 import { useRoutes } from "react-router-dom";
 import PrivacyPolicy from "./components/pages/PrivacyPolicy";
 import { PrivacyPolicyPath, isPreview, isProduction } from "./utils/constants";
 import Banner from "./components/atoms/Banner";
 import { ENV } from "@env";
+import { clearUrl, pushResumeUrl } from "./navs/navs";
 
 const defaultConfig: WormholeConnectConfig = {
   ...ENV.wormholeConnectConfig,
-  ...((isPreview || isProduction) && {
-    eventHandler,
-  }),
+
+  eventHandler: (e: WormholeConnectEvent) => {
+    if (isPreview || isProduction) {
+      // Send the event to Mixpanel
+      eventHandler(e);
+    }
+    // Update the URL when a transfer starts with a permlink
+    pushResumeUrl(e);
+    // Clear the URL when a transfer is successful
+    clearUrl(e);
+  },
   isRouteSupportedHandler: async (td: any) => {
     // Disable manual NTT for Lido wstETH
     if (
