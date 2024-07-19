@@ -1,4 +1,4 @@
-import { WormholeConnectEvent } from "src/providers/telemetry";
+import { WormholeConnectEvent } from "../providers/telemetry";
 
 enum TransferEvents {
   START = "transfer.start",
