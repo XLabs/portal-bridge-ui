@@ -1,4 +1,4 @@
-import { ENV as ENV_BASE } from "./usdc-bridge";
+import { ENV as ENV_BASE } from "./usdc-bridge.common";
 import { mergeDeep } from "../utils/mergeDeep";
 import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
 import { Env } from "./common";

@@ -8,10 +8,6 @@ on:
             required: true
         separator:
             type: string
-        # connect-branch:
-        #     type: string
-        #     required: true
-        #     default: development
         advanced-tools-branch:
             type: string
             required: true
@@ -186,22 +182,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: v18.17.1
-      # - name: Checkout Wormhole Connect
-      #   uses: actions/checkout@v3
-      #   with:
-      #     repository: wormhole-foundation/wormhole-connect
-      #     ref: ${{inputs.connect-branch}}
-      #     path: wormhole-connect
-      # - name: Build Wormhole Connect
-      #   id: wormhole-connect
-      #   run: |
-      #     npm install -g husky
-      #     pushd wormhole-connect
-      #     npm ci --workspaces --if-present
-      #     sed -i -e 's|vite build",|vite build --base=${{inputs.public-url}}/assets/wormhole-connect/",|g' wormhole-connect/package.json
-      #     npm run build
-      #     echo "_JS_SHA_384=$(shasum -b -a 384 wormhole-connect/dist/main.js | awk '{ print $1 }' | xxd -r -p | base64)" >> "${GITHUB_OUTPUT}"
-      #     echo "_CSS_SHA_384=$(shasum -b -a 384 wormhole-connect/dist/main.css | awk '{ print $1 }' | xxd -r -p | base64)" >> "${GITHUB_OUTPUT}"
       - name: Checkout Custom Wormhole Connect Loader
         uses: actions/checkout@v3
         with:
@@ -224,8 +204,6 @@ jobs:
           VITE_PUBLIC_URL: ${{ inputs.public-url }}
           VITE_APP_VERSION: ${{ steps.set-version.outputs._PKG_VERSION }}
           VITE_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
-          # VITE_APP_JS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._JS_SHA_384 }}
-          # VITE_APP_CSS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._CSS_SHA_384 }}
           VITE_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}
         run: |
           pushd connect-loader/apps/connect
@@ -252,22 +230,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: v18.17.1
-      # - name: Checkout Wormhole Connect
-      #   uses: actions/checkout@v3
-      #   with:
-      #     repository: wormhole-foundation/wormhole-connect
-      #     ref: ${{inputs.connect-branch}}
-      #     path: wormhole-connect
-      # - name: Build Wormhole Connect
-      #   id: wormhole-connect
-      #   run: |
-      #     npm install -g husky
-      #     pushd wormhole-connect
-      #     npm ci --workspaces --if-present
-      #     sed -i -e 's|vite build",|vite build --base=${{inputs.public-url}}/assets/wormhole-connect/",|g' wormhole-connect/package.json
-      #     npm run build
-      #     echo "_JS_SHA_384=$(shasum -b -a 384 wormhole-connect/dist/main.js | awk '{ print $1 }' | xxd -r -p | base64)" >> "${GITHUB_OUTPUT}"
-      #     echo "_CSS_SHA_384=$(shasum -b -a 384 wormhole-connect/dist/main.css | awk '{ print $1 }' | xxd -r -p | base64)" >> "${GITHUB_OUTPUT}"
       - name: Checkout Custom Wormhole Connect Loader
         uses: actions/checkout@v3
         with:
@@ -289,8 +251,6 @@ jobs:
           VITE_PUBLIC_URL: ${{ inputs.public-url }}
           VITE_APP_VERSION: ${{ steps.set-version.outputs._PKG_VERSION }}
           VITE_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
-          # VITE_APP_JS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._JS_SHA_384 }}
-          # VITE_APP_CSS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._CSS_SHA_384 }}
           VITE_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}
         run: |
           pushd connect-loader/apps/connect

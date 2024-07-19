@@ -1,4 +1,4 @@
-import { ALGORAND, ACALA, MORE, ENV as ENV_BASE } from "./token-bridge";
+import { ALGORAND, ACALA, MORE, ENV as ENV_BASE } from "./token-bridge.common";
 import { mergeDeep } from "../utils/mergeDeep";
 import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
 import { Env } from "./common";

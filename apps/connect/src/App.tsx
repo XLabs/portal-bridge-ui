@@ -12,8 +12,10 @@ import { useRoutes } from "react-router-dom";
 import PrivacyPolicy from "./components/pages/PrivacyPolicy";
 import { PrivacyPolicyPath, isPreview, isProduction } from "./utils/constants";
 import Banner from "./components/atoms/Banner";
-import { ENV } from "@env";
+import { MAINNET_ENV, TESTNET_ENV } from "@env";
 import { clearUrl, pushResumeUrl } from "./navs/navs";
+
+const ENV = (isPreview || isProduction) ? MAINNET_ENV : TESTNET_ENV;
 
 const defaultConfig: WormholeConnectConfig = {
   ...ENV.wormholeConnectConfig,
