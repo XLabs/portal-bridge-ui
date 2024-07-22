@@ -43,6 +43,7 @@ class Telemetry {
       ignore_dnt: true,
       ip: false,
       debug: isPreview,
+      track_pageview: true,
     });
     this.hasInitiated = true;
     this.log("init");
