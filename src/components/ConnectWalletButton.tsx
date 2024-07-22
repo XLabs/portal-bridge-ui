@@ -14,6 +14,7 @@ import { CLUSTER } from "../utils/consts";
 import { getIsSanctioned } from "../utils/sanctions";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
+import { telemetry } from "../utils/telemetry";
 
 const ConnectWalletButton = ({ chainId }: { chainId: ChainId }) => {
   const wallet = useWallet(chainId as any);
@@ -48,6 +49,7 @@ const ConnectWalletButton = ({ chainId }: { chainId: ChainId }) => {
           );
         } else {
           changeWallet(w);
+          telemetry.on.connect(w);
           setError(undefined);
         }
       } catch (err: any) {

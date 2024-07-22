@@ -71,6 +71,7 @@ import {
   selectTransferSourceAsset,
   selectTransferSourceChain,
   selectTransferSourceParsedTokenAccount,
+  selectTransferTargetAddressHex,
   selectTransferTargetChain,
 } from "../store/selectors";
 import {
@@ -146,6 +147,7 @@ import {
 import { useSeiWallet } from "../contexts/SeiWalletContext";
 import { SeiWallet } from "@xlabs-libs/wallet-aggregator-sei";
 import { SuiTransactionBlockResponse } from "@mysten/sui.js";
+import { telemetry, TelemetryTxEvent } from "../utils/telemetry";
 
 type AdditionalPayloadOverride = {
   receivingContract: Uint8Array;
@@ -250,6 +252,7 @@ async function algo(
     );
   } catch (e) {
     handleError(e, enqueueSnackbar, dispatch);
+    throw e;
   }
 }
 
@@ -309,6 +312,7 @@ async function aptos(
       content: <Alert severity="error">{parseError(e)}</Alert>,
     });
     dispatch(setIsSending(false));
+    throw e;
   }
 }
 
@@ -456,6 +460,7 @@ async function evm(
     );
   } catch (e) {
     handleError(e, enqueueSnackbar, dispatch);
+    throw e;
   }
 }
 
@@ -528,6 +533,7 @@ async function near(
     );
   } catch (e) {
     handleError(e, enqueueSnackbar, dispatch);
+    throw e;
   }
 }
 
@@ -586,6 +592,7 @@ async function xpla(
     );
   } catch (e) {
     handleError(e, enqueueSnackbar, dispatch);
+    throw e;
   }
 }
 
@@ -705,6 +712,7 @@ async function solana(
   } catch (e) {
     console.trace(e);
     handleError(e, enqueueSnackbar, dispatch);
+    throw e;
   }
 }
 
@@ -767,6 +775,7 @@ async function terra(
     );
   } catch (e) {
     handleError(e, enqueueSnackbar, dispatch);
+    throw e;
   }
 }
 
@@ -825,6 +834,7 @@ async function injective(
     );
   } catch (e) {
     handleError(e, enqueueSnackbar, dispatch);
+    throw e;
   }
 }
 
@@ -931,6 +941,7 @@ async function sei(
   } catch (e) {
     console.log(">>>>", e);
     handleError(e, enqueueSnackbar, dispatch);
+    throw e;
   }
 }
 
@@ -1020,6 +1031,7 @@ async function sui(
     );
   } catch (e) {
     handleError(e, enqueueSnackbar, dispatch);
+    throw e;
   }
 }
 
@@ -1033,6 +1045,7 @@ export function useHandleTransfer() {
   const amount = useSelector(selectTransferAmount);
   const targetChain = useSelector(selectTransferTargetChain);
   const targetAddress = useTransferTargetAddressHex();
+  const targetAddressHex = useSelector(selectTransferTargetAddressHex);
   const isTargetComplete = useSelector(selectTransferIsTargetComplete);
   const isSending = useSelector(selectTransferIsSending);
   const isSendComplete = useSelector(selectTransferIsSendComplete);
@@ -1105,230 +1118,249 @@ export function useHandleTransfer() {
 
   const handleTransferClick = useCallback(() => {
     console.log("Transfer clicked");
+    const telemetryProps: TelemetryTxEvent = {
+      fromChainId: sourceChain,
+      toChainId: targetChain,
+      fromTokenSymbol: sourceAsset,
+      toTokenSymbol: undefined,
+      fromTokenAddress: undefined,
+      toTokenAddress: isNative ? "native" : targetAddressHex,
+      route: undefined,
+    };
+    telemetry.on.transferInit(telemetryProps);
     // TODO: we should separate state for transaction vs fetching vaa
-    if (
-      isEVMChain(sourceChain) &&
-      !!signer &&
-      !!sourceAsset &&
-      decimals !== undefined &&
-      !!targetAddress
-    ) {
-      evm(
-        dispatch,
-        enqueueSnackbar,
-        signer,
-        sourceAsset,
-        decimals,
-        amount,
-        targetChain,
-        targetAddress,
-        isNative,
-        sourceChain,
-        isTBTC,
-        maybeAdditionalPayload,
-        relayerFee
-      );
-    } else if (
-      sourceChain === CHAIN_ID_SOLANA &&
-      !!solanaWallet &&
-      !!solPK &&
-      !!sourceAsset &&
-      !!sourceTokenPublicKey &&
-      !!targetAddress &&
-      decimals !== undefined
-    ) {
-      solana(
-        dispatch,
-        enqueueSnackbar,
-        solanaWallet,
-        solPK,
-        sourceTokenPublicKey,
-        sourceAsset,
-        amount,
-        decimals,
-        targetChain,
-        targetAddress,
-        isNative,
-        maybeAdditionalPayload,
-        isTBTC,
-        originAsset,
-        originChain,
-        relayerFee
-      );
-    } else if (
-      isTerraChain(sourceChain) &&
-      !!terraWallet &&
-      !!sourceAsset &&
-      decimals !== undefined &&
-      !!targetAddress
-    ) {
-      terra(
-        dispatch,
-        enqueueSnackbar,
-        terraWallet,
-        sourceAsset,
-        amount,
-        decimals,
-        targetChain,
-        targetAddress,
-        terraFeeDenom,
-        sourceChain,
-        maybeAdditionalPayload,
-        relayerFee
-      );
-    } else if (
-      sourceChain === CHAIN_ID_SEI &&
-      seiWallet &&
-      seiAddress &&
-      !!sourceAsset &&
-      decimals !== undefined &&
-      !!targetAddress
-    ) {
-      sei(
-        dispatch,
-        enqueueSnackbar,
-        seiWallet,
-        sourceAsset,
-        amount,
-        decimals,
-        targetChain,
-        targetAddress,
-        maybeAdditionalPayload,
-        relayerFee
-      );
-    } else if (
-      sourceChain === CHAIN_ID_XPLA &&
-      !!xplaWallet &&
-      !!sourceAsset &&
-      decimals !== undefined &&
-      !!targetAddress
-    ) {
-      xpla(
-        dispatch,
-        enqueueSnackbar,
-        xplaWallet,
-        sourceAsset,
-        amount,
-        decimals,
-        targetChain,
-        targetAddress,
-        maybeAdditionalPayload,
-        relayerFee
-      );
-    } else if (
-      sourceChain === CHAIN_ID_ALGORAND &&
-      algoAccount &&
-      !!sourceAsset &&
-      decimals !== undefined &&
-      !!targetAddress
-    ) {
-      algo(
-        dispatch,
-        enqueueSnackbar,
-        algoWallet,
-        sourceAsset,
-        decimals,
-        amount,
-        targetChain,
-        targetAddress,
-        sourceChain,
-        maybeAdditionalPayload,
-        relayerFee
-      );
-    } else if (
-      sourceChain === CHAIN_ID_NEAR &&
-      nearAccountId &&
-      wallet &&
-      !!sourceAsset &&
-      decimals !== undefined &&
-      !!targetAddress
-    ) {
-      near(
-        dispatch,
-        enqueueSnackbar,
-        wallet,
-        nearAccountId,
-        sourceAsset,
-        decimals,
-        amount,
-        targetChain,
-        targetAddress,
-        sourceChain,
-        maybeAdditionalPayload,
-        relayerFee
-      );
-    } else if (
-      sourceChain === CHAIN_ID_APTOS &&
-      aptosAddress &&
-      !!sourceAsset &&
-      decimals !== undefined &&
-      !!targetAddress
-    ) {
-      aptos(
-        dispatch,
-        enqueueSnackbar,
-        sourceAsset,
-        decimals,
-        amount,
-        targetChain,
-        targetAddress,
-        sourceChain,
-        aptosWallet!,
-        maybeAdditionalPayload,
-        relayerFee
-      );
-    } else if (
-      sourceChain === CHAIN_ID_INJECTIVE &&
-      injWallet &&
-      injAddress &&
-      !!sourceAsset &&
-      decimals !== undefined &&
-      !!targetAddress
-    ) {
-      injective(
-        dispatch,
-        enqueueSnackbar,
-        injWallet,
-        injAddress,
-        sourceAsset,
-        amount,
-        decimals,
-        targetChain,
-        targetAddress,
-        maybeAdditionalPayload,
-        relayerFee
-      );
-    } else if (
-      sourceChain === CHAIN_ID_SUI &&
-      suiWallet?.isConnected() &&
-      suiWallet.getAddress() &&
-      !!sourceAsset &&
-      decimals !== undefined &&
-      !!targetAddress
-    ) {
-      sui(
-        dispatch,
-        enqueueSnackbar,
-        suiWallet,
-        sourceAsset,
-        amount,
-        decimals,
-        targetChain,
-        targetAddress,
-        maybeAdditionalPayload,
-        relayerFee
-      );
+    try {
+      if (
+        isEVMChain(sourceChain) &&
+        !!signer &&
+        !!sourceAsset &&
+        decimals !== undefined &&
+        !!targetAddress
+      ) {
+        evm(
+          dispatch,
+          enqueueSnackbar,
+          signer,
+          sourceAsset,
+          decimals,
+          amount,
+          targetChain,
+          targetAddress,
+          isNative,
+          sourceChain,
+          isTBTC,
+          maybeAdditionalPayload,
+          relayerFee
+        );
+      } else if (
+        sourceChain === CHAIN_ID_SOLANA &&
+        !!solanaWallet &&
+        !!solPK &&
+        !!sourceAsset &&
+        !!sourceTokenPublicKey &&
+        !!targetAddress &&
+        decimals !== undefined
+      ) {
+        solana(
+          dispatch,
+          enqueueSnackbar,
+          solanaWallet,
+          solPK,
+          sourceTokenPublicKey,
+          sourceAsset,
+          amount,
+          decimals,
+          targetChain,
+          targetAddress,
+          isNative,
+          maybeAdditionalPayload,
+          isTBTC,
+          originAsset,
+          originChain,
+          relayerFee
+        );
+      } else if (
+        isTerraChain(sourceChain) &&
+        !!terraWallet &&
+        !!sourceAsset &&
+        decimals !== undefined &&
+        !!targetAddress
+      ) {
+        terra(
+          dispatch,
+          enqueueSnackbar,
+          terraWallet,
+          sourceAsset,
+          amount,
+          decimals,
+          targetChain,
+          targetAddress,
+          terraFeeDenom,
+          sourceChain,
+          maybeAdditionalPayload,
+          relayerFee
+        );
+      } else if (
+        sourceChain === CHAIN_ID_SEI &&
+        seiWallet &&
+        seiAddress &&
+        !!sourceAsset &&
+        decimals !== undefined &&
+        !!targetAddress
+      ) {
+        sei(
+          dispatch,
+          enqueueSnackbar,
+          seiWallet,
+          sourceAsset,
+          amount,
+          decimals,
+          targetChain,
+          targetAddress,
+          maybeAdditionalPayload,
+          relayerFee
+        );
+      } else if (
+        sourceChain === CHAIN_ID_XPLA &&
+        !!xplaWallet &&
+        !!sourceAsset &&
+        decimals !== undefined &&
+        !!targetAddress
+      ) {
+        xpla(
+          dispatch,
+          enqueueSnackbar,
+          xplaWallet,
+          sourceAsset,
+          amount,
+          decimals,
+          targetChain,
+          targetAddress,
+          maybeAdditionalPayload,
+          relayerFee
+        );
+      } else if (
+        sourceChain === CHAIN_ID_ALGORAND &&
+        algoAccount &&
+        !!sourceAsset &&
+        decimals !== undefined &&
+        !!targetAddress
+      ) {
+        algo(
+          dispatch,
+          enqueueSnackbar,
+          algoWallet,
+          sourceAsset,
+          decimals,
+          amount,
+          targetChain,
+          targetAddress,
+          sourceChain,
+          maybeAdditionalPayload,
+          relayerFee
+        );
+      } else if (
+        sourceChain === CHAIN_ID_NEAR &&
+        nearAccountId &&
+        wallet &&
+        !!sourceAsset &&
+        decimals !== undefined &&
+        !!targetAddress
+      ) {
+        near(
+          dispatch,
+          enqueueSnackbar,
+          wallet,
+          nearAccountId,
+          sourceAsset,
+          decimals,
+          amount,
+          targetChain,
+          targetAddress,
+          sourceChain,
+          maybeAdditionalPayload,
+          relayerFee
+        );
+      } else if (
+        sourceChain === CHAIN_ID_APTOS &&
+        aptosAddress &&
+        !!sourceAsset &&
+        decimals !== undefined &&
+        !!targetAddress
+      ) {
+        aptos(
+          dispatch,
+          enqueueSnackbar,
+          sourceAsset,
+          decimals,
+          amount,
+          targetChain,
+          targetAddress,
+          sourceChain,
+          aptosWallet!,
+          maybeAdditionalPayload,
+          relayerFee
+        );
+      } else if (
+        sourceChain === CHAIN_ID_INJECTIVE &&
+        injWallet &&
+        injAddress &&
+        !!sourceAsset &&
+        decimals !== undefined &&
+        !!targetAddress
+      ) {
+        injective(
+          dispatch,
+          enqueueSnackbar,
+          injWallet,
+          injAddress,
+          sourceAsset,
+          amount,
+          decimals,
+          targetChain,
+          targetAddress,
+          maybeAdditionalPayload,
+          relayerFee
+        );
+      } else if (
+        sourceChain === CHAIN_ID_SUI &&
+        suiWallet?.isConnected() &&
+        suiWallet.getAddress() &&
+        !!sourceAsset &&
+        decimals !== undefined &&
+        !!targetAddress
+      ) {
+        sui(
+          dispatch,
+          enqueueSnackbar,
+          suiWallet,
+          sourceAsset,
+          amount,
+          decimals,
+          targetChain,
+          targetAddress,
+          maybeAdditionalPayload,
+          relayerFee
+        );
+      }
+    } catch (error) {
+      telemetry.on.error({ ...telemetryProps, error });
     }
   }, [
     sourceChain,
-    signer,
+    targetChain,
     sourceAsset,
+    isNative,
+    targetAddressHex,
+    signer,
     decimals,
     targetAddress,
     solanaWallet,
     solPK,
     sourceTokenPublicKey,
     terraWallet,
+    seiWallet,
+    seiAddress,
     xplaWallet,
     algoAccount,
     nearAccountId,
@@ -1340,18 +1372,14 @@ export function useHandleTransfer() {
     dispatch,
     enqueueSnackbar,
     amount,
-    targetChain,
-    isNative,
+    isTBTC,
+    maybeAdditionalPayload,
     relayerFee,
     originAsset,
     originChain,
     terraFeeDenom,
     algoWallet,
     aptosWallet,
-    maybeAdditionalPayload,
-    isTBTC,
-    seiWallet,
-    seiAddress,
   ]);
   return useMemo(
     () => ({
