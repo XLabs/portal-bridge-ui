@@ -122,7 +122,9 @@ class Telemetry {
     connect: this.lazyInitWrap(this.onConnect),
     transferInit: this.lazyInitWrap(this.onTransfer("transfer.initiate")),
     transferStart: this.lazyInitWrap(this.onTransfer("transfer.start")),
-    transferSuccess: this.lazyInitWrap(this.onTransfer("transfer.reedem.success")),
+    transferSuccess: this.lazyInitWrap(
+      this.onTransfer("transfer.reedem.success")
+    ),
     error: this.lazyInitWrap(this.onError),
   };
 }
