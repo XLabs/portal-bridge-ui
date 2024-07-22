@@ -13,11 +13,14 @@ interface TelemetryTxCommon {
   toTokenSymbol?: string;
   fromTokenAddress?: string;
   toTokenAddress?: string;
-  route?: string;
+  route: string;
   error?: any;
 }
 
-export type TelemetryTxEvent = Omit<TelemetryTxCommon, "fromChain" | "toChain">;
+export type TelemetryTxEvent = Omit<
+  TelemetryTxCommon,
+  "fromChain" | "toChain" | "route"
+>;
 type TelemetryTxTrackingProps = Omit<
   TelemetryTxCommon,
   "fromChainId" | "toChainId"
@@ -78,7 +81,7 @@ class Telemetry {
       toTokenSymbol: event.toTokenSymbol,
       fromTokenAddress: event.fromTokenAddress,
       toTokenAddress: event.toTokenAddress,
-      route: event.route,
+      route: "Manual Bridge",
     } as TelemetryTxTrackingProps;
   };
 

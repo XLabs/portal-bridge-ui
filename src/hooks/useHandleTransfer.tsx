@@ -206,7 +206,10 @@ async function algo(
   recipientAddress: Uint8Array,
   chainId: ChainId,
   maybeAdditionalPayload: MaybeAdditionalPayloadFn,
-  relayerFee?: string
+  relayerFee?: string,
+  onError?: (error: any) => void,
+  onStart?: () => void,
+  onSuccess?: () => void
 ) {
   dispatch(setIsSending(true));
   try {
@@ -231,6 +234,7 @@ async function algo(
       feeParsed.toBigInt(),
       additionalPayload?.payload
     );
+    onStart?.();
     const result = await signSendAndConfirmAlgorand(wallet, algodClient, txs);
     const sequence = parseSequenceFromLogAlgorand(result);
     dispatch(
@@ -252,7 +256,7 @@ async function algo(
     );
   } catch (e) {
     handleError(e, enqueueSnackbar, dispatch);
-    throw e;
+    onError?.(e);
   }
 }
 
@@ -267,7 +271,10 @@ async function aptos(
   chainId: ChainId,
   wallet: AptosWallet,
   maybeAdditionalPayload: MaybeAdditionalPayloadFn,
-  relayerFee?: string
+  relayerFee?: string,
+  onError?: (error: any) => void,
+  onStart?: () => void,
+  onSuccess?: () => void
 ) {
   dispatch(setIsSending(true));
   const tokenBridgeAddress = getTokenBridgeAddressForChain(CHAIN_ID_APTOS);
@@ -290,6 +297,7 @@ async function aptos(
       additionalPayload?.payload
     );
 
+    onStart?.();
     const hash = await waitForSignAndSubmitTransaction(transferPayload, wallet);
     dispatch(setTransferTx({ id: hash, block: 1 }));
     enqueueSnackbar(null, {
@@ -312,7 +320,7 @@ async function aptos(
       content: <Alert severity="error">{parseError(e)}</Alert>,
     });
     dispatch(setIsSending(false));
-    throw e;
+    onError?.(e);
   }
 }
 
@@ -344,7 +352,10 @@ async function evm(
   chainId: ChainId,
   isTBTC: boolean,
   maybeAdditionalPayload: MaybeAdditionalPayloadFn,
-  relayerFee?: string
+  relayerFee?: string,
+  onError?: (error: any) => void,
+  onStart?: () => void,
+  onSuccess?: () => void
 ) {
   dispatch(setIsSending(true));
   try {
@@ -395,6 +406,7 @@ async function evm(
         overrides
       );
 
+      onStart?.();
       receipt = await tx.wait();
     } else {
       const baseAmountParsed = parseUnits(amount, decimals);
@@ -407,6 +419,7 @@ async function evm(
           : {};
 
       const additionalPayload = maybeAdditionalPayload();
+      onStart?.();
       receipt = isNative
         ? await transferFromEthNative(
             getTokenBridgeAddressForChain(chainId),
@@ -460,7 +473,7 @@ async function evm(
     );
   } catch (e) {
     handleError(e, enqueueSnackbar, dispatch);
-    throw e;
+    onError?.(e);
   }
 }
 
@@ -476,7 +489,10 @@ async function near(
   recipientAddress: Uint8Array,
   chainId: ChainId,
   maybeAdditionalPayload: MaybeAdditionalPayloadFn,
-  relayerFee?: string
+  relayerFee?: string,
+  onError?: (error: any) => void,
+  onStart?: () => void,
+  onSuccess?: () => void
 ) {
   dispatch(setIsSending(true));
   try {
@@ -512,6 +528,7 @@ async function near(
               ? uint8ArrayToHex(additionalPayload.payload)
               : undefined
           );
+    onStart?.();
     const receipt = await signAndSendTransactions(account, wallet, msgs);
     const sequence = parseSequenceFromLogNear(receipt);
     dispatch(
@@ -533,7 +550,7 @@ async function near(
     );
   } catch (e) {
     handleError(e, enqueueSnackbar, dispatch);
-    throw e;
+    onError?.(e);
   }
 }
 
@@ -547,7 +564,10 @@ async function xpla(
   targetChain: ChainId,
   targetAddress: Uint8Array,
   maybeAdditionalPayload: MaybeAdditionalPayloadFn,
-  relayerFee?: string
+  relayerFee?: string,
+  onError?: (error: any) => void,
+  onStart?: () => void,
+  onSuccess?: () => void
 ) {
   dispatch(setIsSending(true));
   try {
@@ -567,6 +587,7 @@ async function xpla(
       additionalPayload?.payload
     );
 
+    onStart?.();
     const result = await postWithFeesXpla(
       wallet,
       msgs,
@@ -592,7 +613,7 @@ async function xpla(
     );
   } catch (e) {
     handleError(e, enqueueSnackbar, dispatch);
-    throw e;
+    onError?.(e);
   }
 }
 
@@ -612,7 +633,10 @@ async function solana(
   isTBTC: boolean,
   originAddressStr?: string,
   originChain?: ChainId,
-  relayerFee?: string
+  relayerFee?: string,
+  onError?: (error: any) => void,
+  onStart?: () => void,
+  onSuccess?: () => void
 ) {
   dispatch(setIsSending(true));
   try {
@@ -634,6 +658,7 @@ async function solana(
         fromAddress,
         mintAddress
       );
+      onStart?.();
       const txid = await signSendAndConfirm(wallet, transaction);
       enqueueSnackbar(null, {
         content: <Alert severity="success">Transaction confirmed</Alert>,
@@ -686,6 +711,7 @@ async function solana(
             additionalPayload?.payload
           );
       const transaction = await promise;
+      onStart?.();
       const txid = await signSendAndConfirm(wallet, transaction);
       enqueueSnackbar(null, {
         content: <Alert severity="success">Transaction confirmed</Alert>,
@@ -712,7 +738,7 @@ async function solana(
   } catch (e) {
     console.trace(e);
     handleError(e, enqueueSnackbar, dispatch);
-    throw e;
+    onError?.(e);
   }
 }
 
@@ -728,7 +754,10 @@ async function terra(
   feeDenom: string,
   chainId: TerraChainId,
   maybeAdditionalPayload: MaybeAdditionalPayloadFn,
-  relayerFee?: string
+  relayerFee?: string,
+  onError?: (error: any) => void,
+  onStart?: () => void,
+  onSuccess?: () => void
 ) {
   dispatch(setIsSending(true));
   try {
@@ -747,7 +776,7 @@ async function terra(
       feeParsed.toString(),
       additionalPayload?.payload
     );
-
+    onStart?.();
     const result = await postWithFees(
       wallet,
       msgs,
@@ -775,7 +804,7 @@ async function terra(
     );
   } catch (e) {
     handleError(e, enqueueSnackbar, dispatch);
-    throw e;
+    onError?.(e);
   }
 }
 
@@ -790,7 +819,10 @@ async function injective(
   targetChain: ChainId,
   targetAddress: Uint8Array,
   maybeAdditionalPayload: MaybeAdditionalPayloadFn,
-  relayerFee?: string
+  relayerFee?: string,
+  onError?: (error: any) => void,
+  onStart?: () => void,
+  onSuccess?: () => void
 ) {
   dispatch(setIsSending(true));
   try {
@@ -810,6 +842,7 @@ async function injective(
       feeParsed.toString(),
       additionalPayload?.payload
     );
+    onStart?.();
     const tx = await broadcastInjectiveTx(
       wallet,
       walletAddress,
@@ -834,7 +867,7 @@ async function injective(
     );
   } catch (e) {
     handleError(e, enqueueSnackbar, dispatch);
-    throw e;
+    onError?.(e);
   }
 }
 
@@ -848,7 +881,10 @@ async function sei(
   targetChain: ChainId,
   targetAddress: Uint8Array,
   maybeAdditionalPayload: MaybeAdditionalPayloadFn,
-  relayerFee?: string
+  relayerFee?: string,
+  onError?: (error: any) => void,
+  onStart?: () => void,
+  onSuccess?: () => void
 ) {
   dispatch(setIsSending(true));
   try {
@@ -910,6 +946,7 @@ async function sei(
       "Wormhole - Complete Transfer"
     );
 
+    onStart?.();
     const tx = await wallet.executeMultiple({
       instructions,
       fee,
@@ -941,7 +978,7 @@ async function sei(
   } catch (e) {
     console.log(">>>>", e);
     handleError(e, enqueueSnackbar, dispatch);
-    throw e;
+    onError?.(e);
   }
 }
 
@@ -955,7 +992,10 @@ async function sui(
   targetChain: ChainId,
   targetAddress: Uint8Array,
   maybeAdditionalPayload: MaybeAdditionalPayloadFn,
-  relayerFee?: string
+  relayerFee?: string,
+  onError?: (error: any) => void,
+  onStart?: () => void,
+  onSuccess?: () => void
 ) {
   dispatch(setIsSending(true));
   try {
@@ -991,6 +1031,7 @@ async function sui(
       undefined,
       wallet.getAddress()!
     );
+    onStart?.();
     const response = (
       await wallet.signAndSendTransaction({
         transactionBlock: tx,
@@ -1031,7 +1072,7 @@ async function sui(
     );
   } catch (e) {
     handleError(e, enqueueSnackbar, dispatch);
-    throw e;
+    onError?.(e);
   }
 }
 
@@ -1125,226 +1166,260 @@ export function useHandleTransfer() {
       toTokenSymbol: undefined,
       fromTokenAddress: undefined,
       toTokenAddress: isNative ? "native" : targetAddressHex,
-      route: undefined,
     };
     telemetry.on.transferInit(telemetryProps);
-    // TODO: we should separate state for transaction vs fetching vaa
-    try {
-      if (
-        isEVMChain(sourceChain) &&
-        !!signer &&
-        !!sourceAsset &&
-        decimals !== undefined &&
-        !!targetAddress
-      ) {
-        evm(
-          dispatch,
-          enqueueSnackbar,
-          signer,
-          sourceAsset,
-          decimals,
-          amount,
-          targetChain,
-          targetAddress,
-          isNative,
-          sourceChain,
-          isTBTC,
-          maybeAdditionalPayload,
-          relayerFee
-        );
-      } else if (
-        sourceChain === CHAIN_ID_SOLANA &&
-        !!solanaWallet &&
-        !!solPK &&
-        !!sourceAsset &&
-        !!sourceTokenPublicKey &&
-        !!targetAddress &&
-        decimals !== undefined
-      ) {
-        solana(
-          dispatch,
-          enqueueSnackbar,
-          solanaWallet,
-          solPK,
-          sourceTokenPublicKey,
-          sourceAsset,
-          amount,
-          decimals,
-          targetChain,
-          targetAddress,
-          isNative,
-          maybeAdditionalPayload,
-          isTBTC,
-          originAsset,
-          originChain,
-          relayerFee
-        );
-      } else if (
-        isTerraChain(sourceChain) &&
-        !!terraWallet &&
-        !!sourceAsset &&
-        decimals !== undefined &&
-        !!targetAddress
-      ) {
-        terra(
-          dispatch,
-          enqueueSnackbar,
-          terraWallet,
-          sourceAsset,
-          amount,
-          decimals,
-          targetChain,
-          targetAddress,
-          terraFeeDenom,
-          sourceChain,
-          maybeAdditionalPayload,
-          relayerFee
-        );
-      } else if (
-        sourceChain === CHAIN_ID_SEI &&
-        seiWallet &&
-        seiAddress &&
-        !!sourceAsset &&
-        decimals !== undefined &&
-        !!targetAddress
-      ) {
-        sei(
-          dispatch,
-          enqueueSnackbar,
-          seiWallet,
-          sourceAsset,
-          amount,
-          decimals,
-          targetChain,
-          targetAddress,
-          maybeAdditionalPayload,
-          relayerFee
-        );
-      } else if (
-        sourceChain === CHAIN_ID_XPLA &&
-        !!xplaWallet &&
-        !!sourceAsset &&
-        decimals !== undefined &&
-        !!targetAddress
-      ) {
-        xpla(
-          dispatch,
-          enqueueSnackbar,
-          xplaWallet,
-          sourceAsset,
-          amount,
-          decimals,
-          targetChain,
-          targetAddress,
-          maybeAdditionalPayload,
-          relayerFee
-        );
-      } else if (
-        sourceChain === CHAIN_ID_ALGORAND &&
-        algoAccount &&
-        !!sourceAsset &&
-        decimals !== undefined &&
-        !!targetAddress
-      ) {
-        algo(
-          dispatch,
-          enqueueSnackbar,
-          algoWallet,
-          sourceAsset,
-          decimals,
-          amount,
-          targetChain,
-          targetAddress,
-          sourceChain,
-          maybeAdditionalPayload,
-          relayerFee
-        );
-      } else if (
-        sourceChain === CHAIN_ID_NEAR &&
-        nearAccountId &&
-        wallet &&
-        !!sourceAsset &&
-        decimals !== undefined &&
-        !!targetAddress
-      ) {
-        near(
-          dispatch,
-          enqueueSnackbar,
-          wallet,
-          nearAccountId,
-          sourceAsset,
-          decimals,
-          amount,
-          targetChain,
-          targetAddress,
-          sourceChain,
-          maybeAdditionalPayload,
-          relayerFee
-        );
-      } else if (
-        sourceChain === CHAIN_ID_APTOS &&
-        aptosAddress &&
-        !!sourceAsset &&
-        decimals !== undefined &&
-        !!targetAddress
-      ) {
-        aptos(
-          dispatch,
-          enqueueSnackbar,
-          sourceAsset,
-          decimals,
-          amount,
-          targetChain,
-          targetAddress,
-          sourceChain,
-          aptosWallet!,
-          maybeAdditionalPayload,
-          relayerFee
-        );
-      } else if (
-        sourceChain === CHAIN_ID_INJECTIVE &&
-        injWallet &&
-        injAddress &&
-        !!sourceAsset &&
-        decimals !== undefined &&
-        !!targetAddress
-      ) {
-        injective(
-          dispatch,
-          enqueueSnackbar,
-          injWallet,
-          injAddress,
-          sourceAsset,
-          amount,
-          decimals,
-          targetChain,
-          targetAddress,
-          maybeAdditionalPayload,
-          relayerFee
-        );
-      } else if (
-        sourceChain === CHAIN_ID_SUI &&
-        suiWallet?.isConnected() &&
-        suiWallet.getAddress() &&
-        !!sourceAsset &&
-        decimals !== undefined &&
-        !!targetAddress
-      ) {
-        sui(
-          dispatch,
-          enqueueSnackbar,
-          suiWallet,
-          sourceAsset,
-          amount,
-          decimals,
-          targetChain,
-          targetAddress,
-          maybeAdditionalPayload,
-          relayerFee
-        );
-      }
-    } catch (error) {
+
+    const onError = (error: any) => {
       telemetry.on.error({ ...telemetryProps, error });
+    };
+
+    const onStart = () => telemetry.on.transferStart(telemetryProps);
+    const onSuccess = () => telemetry.on.transferSuccess(telemetryProps);
+
+    // TODO: we should separate state for transaction vs fetching vaa
+
+    if (
+      isEVMChain(sourceChain) &&
+      !!signer &&
+      !!sourceAsset &&
+      decimals !== undefined &&
+      !!targetAddress
+    ) {
+      evm(
+        dispatch,
+        enqueueSnackbar,
+        signer,
+        sourceAsset,
+        decimals,
+        amount,
+        targetChain,
+        targetAddress,
+        isNative,
+        sourceChain,
+        isTBTC,
+        maybeAdditionalPayload,
+        relayerFee,
+        onError,
+        onStart,
+        onSuccess
+      );
+    } else if (
+      sourceChain === CHAIN_ID_SOLANA &&
+      !!solanaWallet &&
+      !!solPK &&
+      !!sourceAsset &&
+      !!sourceTokenPublicKey &&
+      !!targetAddress &&
+      decimals !== undefined
+    ) {
+      solana(
+        dispatch,
+        enqueueSnackbar,
+        solanaWallet,
+        solPK,
+        sourceTokenPublicKey,
+        sourceAsset,
+        amount,
+        decimals,
+        targetChain,
+        targetAddress,
+        isNative,
+        maybeAdditionalPayload,
+        isTBTC,
+        originAsset,
+        originChain,
+        relayerFee,
+        onError,
+        onStart,
+        onSuccess
+      );
+    } else if (
+      isTerraChain(sourceChain) &&
+      !!terraWallet &&
+      !!sourceAsset &&
+      decimals !== undefined &&
+      !!targetAddress
+    ) {
+      terra(
+        dispatch,
+        enqueueSnackbar,
+        terraWallet,
+        sourceAsset,
+        amount,
+        decimals,
+        targetChain,
+        targetAddress,
+        terraFeeDenom,
+        sourceChain,
+        maybeAdditionalPayload,
+        relayerFee,
+        onError,
+        onStart,
+        onSuccess
+      );
+    } else if (
+      sourceChain === CHAIN_ID_SEI &&
+      seiWallet &&
+      seiAddress &&
+      !!sourceAsset &&
+      decimals !== undefined &&
+      !!targetAddress
+    ) {
+      sei(
+        dispatch,
+        enqueueSnackbar,
+        seiWallet,
+        sourceAsset,
+        amount,
+        decimals,
+        targetChain,
+        targetAddress,
+        maybeAdditionalPayload,
+        relayerFee,
+        onError,
+        onStart,
+        onSuccess
+      );
+    } else if (
+      sourceChain === CHAIN_ID_XPLA &&
+      !!xplaWallet &&
+      !!sourceAsset &&
+      decimals !== undefined &&
+      !!targetAddress
+    ) {
+      xpla(
+        dispatch,
+        enqueueSnackbar,
+        xplaWallet,
+        sourceAsset,
+        amount,
+        decimals,
+        targetChain,
+        targetAddress,
+        maybeAdditionalPayload,
+        relayerFee,
+        onError,
+        onStart,
+        onSuccess
+      );
+    } else if (
+      sourceChain === CHAIN_ID_ALGORAND &&
+      algoAccount &&
+      !!sourceAsset &&
+      decimals !== undefined &&
+      !!targetAddress
+    ) {
+      algo(
+        dispatch,
+        enqueueSnackbar,
+        algoWallet,
+        sourceAsset,
+        decimals,
+        amount,
+        targetChain,
+        targetAddress,
+        sourceChain,
+        maybeAdditionalPayload,
+        relayerFee,
+        onError,
+        onStart,
+        onSuccess
+      );
+    } else if (
+      sourceChain === CHAIN_ID_NEAR &&
+      nearAccountId &&
+      wallet &&
+      !!sourceAsset &&
+      decimals !== undefined &&
+      !!targetAddress
+    ) {
+      near(
+        dispatch,
+        enqueueSnackbar,
+        wallet,
+        nearAccountId,
+        sourceAsset,
+        decimals,
+        amount,
+        targetChain,
+        targetAddress,
+        sourceChain,
+        maybeAdditionalPayload,
+        relayerFee,
+        onError,
+        onStart,
+        onSuccess
+      );
+    } else if (
+      sourceChain === CHAIN_ID_APTOS &&
+      aptosAddress &&
+      !!sourceAsset &&
+      decimals !== undefined &&
+      !!targetAddress
+    ) {
+      aptos(
+        dispatch,
+        enqueueSnackbar,
+        sourceAsset,
+        decimals,
+        amount,
+        targetChain,
+        targetAddress,
+        sourceChain,
+        aptosWallet!,
+        maybeAdditionalPayload,
+        relayerFee,
+        onError,
+        onStart,
+        onSuccess
+      );
+    } else if (
+      sourceChain === CHAIN_ID_INJECTIVE &&
+      injWallet &&
+      injAddress &&
+      !!sourceAsset &&
+      decimals !== undefined &&
+      !!targetAddress
+    ) {
+      injective(
+        dispatch,
+        enqueueSnackbar,
+        injWallet,
+        injAddress,
+        sourceAsset,
+        amount,
+        decimals,
+        targetChain,
+        targetAddress,
+        maybeAdditionalPayload,
+        relayerFee,
+        onError,
+        onStart,
+        onSuccess
+      );
+    } else if (
+      sourceChain === CHAIN_ID_SUI &&
+      suiWallet?.isConnected() &&
+      suiWallet.getAddress() &&
+      !!sourceAsset &&
+      decimals !== undefined &&
+      !!targetAddress
+    ) {
+      sui(
+        dispatch,
+        enqueueSnackbar,
+        suiWallet,
+        sourceAsset,
+        amount,
+        decimals,
+        targetChain,
+        targetAddress,
+        maybeAdditionalPayload,
+        relayerFee,
+        onError,
+        onStart,
+        onSuccess
+      );
     }
   }, [
     sourceChain,
