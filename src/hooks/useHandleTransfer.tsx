@@ -208,8 +208,7 @@ async function algo(
   maybeAdditionalPayload: MaybeAdditionalPayloadFn,
   relayerFee?: string,
   onError?: (error: any) => void,
-  onStart?: () => void,
-  onSuccess?: () => void
+  onStart?: () => void
 ) {
   dispatch(setIsSending(true));
   try {
@@ -273,8 +272,7 @@ async function aptos(
   maybeAdditionalPayload: MaybeAdditionalPayloadFn,
   relayerFee?: string,
   onError?: (error: any) => void,
-  onStart?: () => void,
-  onSuccess?: () => void
+  onStart?: () => void
 ) {
   dispatch(setIsSending(true));
   const tokenBridgeAddress = getTokenBridgeAddressForChain(CHAIN_ID_APTOS);
@@ -354,8 +352,7 @@ async function evm(
   maybeAdditionalPayload: MaybeAdditionalPayloadFn,
   relayerFee?: string,
   onError?: (error: any) => void,
-  onStart?: () => void,
-  onSuccess?: () => void
+  onStart?: () => void
 ) {
   dispatch(setIsSending(true));
   try {
@@ -491,8 +488,7 @@ async function near(
   maybeAdditionalPayload: MaybeAdditionalPayloadFn,
   relayerFee?: string,
   onError?: (error: any) => void,
-  onStart?: () => void,
-  onSuccess?: () => void
+  onStart?: () => void
 ) {
   dispatch(setIsSending(true));
   try {
@@ -566,8 +562,7 @@ async function xpla(
   maybeAdditionalPayload: MaybeAdditionalPayloadFn,
   relayerFee?: string,
   onError?: (error: any) => void,
-  onStart?: () => void,
-  onSuccess?: () => void
+  onStart?: () => void
 ) {
   dispatch(setIsSending(true));
   try {
@@ -635,8 +630,7 @@ async function solana(
   originChain?: ChainId,
   relayerFee?: string,
   onError?: (error: any) => void,
-  onStart?: () => void,
-  onSuccess?: () => void
+  onStart?: () => void
 ) {
   dispatch(setIsSending(true));
   try {
@@ -756,8 +750,7 @@ async function terra(
   maybeAdditionalPayload: MaybeAdditionalPayloadFn,
   relayerFee?: string,
   onError?: (error: any) => void,
-  onStart?: () => void,
-  onSuccess?: () => void
+  onStart?: () => void
 ) {
   dispatch(setIsSending(true));
   try {
@@ -821,8 +814,7 @@ async function injective(
   maybeAdditionalPayload: MaybeAdditionalPayloadFn,
   relayerFee?: string,
   onError?: (error: any) => void,
-  onStart?: () => void,
-  onSuccess?: () => void
+  onStart?: () => void
 ) {
   dispatch(setIsSending(true));
   try {
@@ -883,8 +875,7 @@ async function sei(
   maybeAdditionalPayload: MaybeAdditionalPayloadFn,
   relayerFee?: string,
   onError?: (error: any) => void,
-  onStart?: () => void,
-  onSuccess?: () => void
+  onStart?: () => void
 ) {
   dispatch(setIsSending(true));
   try {
@@ -994,8 +985,7 @@ async function sui(
   maybeAdditionalPayload: MaybeAdditionalPayloadFn,
   relayerFee?: string,
   onError?: (error: any) => void,
-  onStart?: () => void,
-  onSuccess?: () => void
+  onStart?: () => void
 ) {
   dispatch(setIsSending(true));
   try {
@@ -1174,7 +1164,6 @@ export function useHandleTransfer() {
     };
 
     const onStart = () => telemetry.on.transferStart(telemetryProps);
-    const onSuccess = () => telemetry.on.transferSuccess(telemetryProps);
 
     // TODO: we should separate state for transaction vs fetching vaa
 
@@ -1200,8 +1189,7 @@ export function useHandleTransfer() {
         maybeAdditionalPayload,
         relayerFee,
         onError,
-        onStart,
-        onSuccess
+        onStart
       );
     } else if (
       sourceChain === CHAIN_ID_SOLANA &&
@@ -1230,8 +1218,7 @@ export function useHandleTransfer() {
         originChain,
         relayerFee,
         onError,
-        onStart,
-        onSuccess
+        onStart
       );
     } else if (
       isTerraChain(sourceChain) &&
@@ -1254,8 +1241,7 @@ export function useHandleTransfer() {
         maybeAdditionalPayload,
         relayerFee,
         onError,
-        onStart,
-        onSuccess
+        onStart
       );
     } else if (
       sourceChain === CHAIN_ID_SEI &&
@@ -1277,8 +1263,7 @@ export function useHandleTransfer() {
         maybeAdditionalPayload,
         relayerFee,
         onError,
-        onStart,
-        onSuccess
+        onStart
       );
     } else if (
       sourceChain === CHAIN_ID_XPLA &&
@@ -1299,8 +1284,7 @@ export function useHandleTransfer() {
         maybeAdditionalPayload,
         relayerFee,
         onError,
-        onStart,
-        onSuccess
+        onStart
       );
     } else if (
       sourceChain === CHAIN_ID_ALGORAND &&
@@ -1322,8 +1306,7 @@ export function useHandleTransfer() {
         maybeAdditionalPayload,
         relayerFee,
         onError,
-        onStart,
-        onSuccess
+        onStart
       );
     } else if (
       sourceChain === CHAIN_ID_NEAR &&
@@ -1347,8 +1330,7 @@ export function useHandleTransfer() {
         maybeAdditionalPayload,
         relayerFee,
         onError,
-        onStart,
-        onSuccess
+        onStart
       );
     } else if (
       sourceChain === CHAIN_ID_APTOS &&
@@ -1370,8 +1352,7 @@ export function useHandleTransfer() {
         maybeAdditionalPayload,
         relayerFee,
         onError,
-        onStart,
-        onSuccess
+        onStart
       );
     } else if (
       sourceChain === CHAIN_ID_INJECTIVE &&
@@ -1394,8 +1375,7 @@ export function useHandleTransfer() {
         maybeAdditionalPayload,
         relayerFee,
         onError,
-        onStart,
-        onSuccess
+        onStart
       );
     } else if (
       sourceChain === CHAIN_ID_SUI &&
@@ -1417,8 +1397,7 @@ export function useHandleTransfer() {
         maybeAdditionalPayload,
         relayerFee,
         onError,
-        onStart,
-        onSuccess
+        onStart
       );
     }
   }, [
