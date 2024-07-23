@@ -407,6 +407,87 @@ TOKENS = {
       },
       "sourceDecimals": 5
     },
+    "IRL": {
+      "symbol": "IRL",
+      "name": "Rebase GG IRL",
+      "sourceAddress": "HEmgGwgn6naqNatkU9ST2wHa4X9HRMmxE7qE8vWuV7L2",
+      "coingeckoId": "rebase-gg-irl",
+      "logo": "https://github.com/XLabs/portal-bridge-ui/assets/20446095/297015bc-2d7e-4fba-a79b-dd2ad25d3733",
+      "markets": {},
+      "destinations": {},
+    },
+    "QUACK": {
+      "symbol": "QUACK",
+      "name": "QUACK",
+      "sourceAddress": "9HGziACBczM3VorD3B6ZYtj6BA595jq8erzsSVtUNo6N",
+      "coingeckoId": "quack",
+      "logo": "https://github.com/XLabs/portal-bridge-ui/assets/20446095/e7a64f61-3d53-4fcf-b120-7e46fa119bfe",
+      "markets": {},
+      "destinations": {},
+    },
+    "SDEX": {
+      "symbol": "SDEX",
+      "name": "SmarDex",
+      "sourceAddress": "9dzSzFvPsKDoY2gdWErsuz2H1o4tbzvgBhrNZ9cvkD2j",
+      "coingeckoId": "smardex",
+      "logo": "https://github.com/XLabs/portal-bridge-ui/assets/20446095/b180131a-28ba-481a-bb27-369ffe20f735",
+      "markets": {},
+      "destinations": {},
+    },
+    "stTAO": {
+      "symbol": "stTAO",
+      "name": "Tensorplex Staked TAO",
+      "sourceAddress": "ERWNqRejMisqmzTjon7peJhfCXLEGNS2Yo1tgMQN5aiG",
+      "coingeckoId": "tensorplex-staked-tao",
+      "logo": "https://github.com/XLabs/portal-bridge-ui/assets/20446095/9141de46-8ff3-4c5b-bbeb-87631465d635",
+      "markets": {},
+      "destinations": {},
+    },
+    "MDT": {
+      "symbol": "MDT",
+      "name": "Measurable Data",
+      "sourceAddress": "8Wqbst4qAN2FqBCCh5gdXq2WJ7vTNWEY4oNLrpUg7Tya",
+      "coingeckoId": "measurable-data-token",
+      "logo": "https://github.com/XLabs/portal-bridge-ui/assets/20446095/fd9a50b1-7031-4b9a-a354-e3abca2dac8c",
+      "markets": {},
+      "destinations": {},
+    },
+    "wWAM": {
+      "symbol": "wWAM",
+      "name": "Wam",
+      "sourceAddress": "7hdeo5QciUF8S2vfsx6uRJkdNVADBU3DDcXW4zjDcMin",
+      "coingeckoId": "wam",
+      "logo": "https://github.com/XLabs/portal-bridge-ui/assets/20446095/214043c7-f2f5-4626-8ab4-f9c0ef0ba0e6",
+      "markets": {},
+      "destinations": {},
+    },
+    "EMC": {
+      "symbol": "EMC",
+      "name": "Edge Matrix Computing",
+      "sourceAddress": "4k1634D3jyZVxPLFU9zLnaWccTwrCLBrPXAoNtkYVYRC",
+      "coingeckoId": "edge-matrix-computing",
+      "logo": "https://github.com/XLabs/portal-bridge-ui/assets/20446095/8113f852-15a0-4b23-bcd5-bc32999f13b6",
+      "markets": {},
+      "destinations": {},
+    },
+    "DAO": {
+      "symbol": "DAO",
+      "name": "DAO Maker",
+      "sourceAddress": "85aM5XJhdDeUw4MbGKM56zmWnsRyh76zUVut97uPjiCg",
+      "coingeckoId": "dao-maker",
+      "logo": "https://github.com/XLabs/portal-bridge-ui/assets/20446095/4481e786-5e1c-45d4-9201-374da5596de1",
+      "markets": {},
+      "destinations": {},
+    },
+    "SPX": {
+      "symbol": "SPX",
+      "name": "SPX6900",
+      "sourceAddress": "J3NKxxXZcnNiMjKw9hYb2K4LUxgwB6t1FtPtQVsv3KFr",
+      "coingeckoId": "spx6900",
+      "logo": "https://github.com/XLabs/portal-bridge-ui/assets/20446095/a451e791-be79-4fb6-a248-2f765f5ede12",
+      "markets": {},
+      "destinations": {},
+    },
   },
   #####################
   # 2. Ethereum native
@@ -608,7 +689,7 @@ TOKENS = {
       "markets": {
         "eth": ["uniswap"]
       },
-      "logo": "https://etherscan.io/token/images/brickken_32.png",
+      "logo": "https://github.com/XLabs/portal-bridge-ui/assets/20446095/0eecab46-fb68-4c1a-bc86-a84394d01355",
       "destinations": {
         "bsc": {
           "address": "0x0e28bC9B03971E95acF9ae1326E51ecF9C55B498",
@@ -1587,25 +1668,25 @@ TOKENS = {
       },
       "sourceDecimals": 0
     },
-      "SPX6900": {
-            "symbol": "SPX",
-            "name": "SPX6900",
-            "sourceAddress": "0xe0f63a424a4439cbe457d80e4f4b51ad25b2c56c",
-            "coingeckoId": "spx6900",
-            "logo": "https://assets.coingecko.com/coins/images/31401/standard/sticker_%281%29.jpg?1702371083",
-            "markets": {"eth": ["uniswap"], "sol": ["raydium"], "base": ["uniswap"]},
-            "destinations": {
-                "sol": {
-                    "address": "J3NKxxXZcnNiMjKw9hYb2K4LUxgwB6t1FtPtQVsv3KFr",
-                    "decimals": 8,
-                },
-                "base":{
-                  "address": "0x50dA645f148798F68EF2d7dB7C1CB22A6819bb2C",
+    "SPX6900": {
+          "symbol": "SPX",
+          "name": "SPX6900",
+          "sourceAddress": "0xe0f63a424a4439cbe457d80e4f4b51ad25b2c56c",
+          "coingeckoId": "spx6900",
+          "logo": "https://assets.coingecko.com/coins/images/31401/standard/sticker_%281%29.jpg?1702371083",
+          "markets": {"eth": ["uniswap"], "sol": ["raydium"], "base": ["uniswap"]},
+          "destinations": {
+              "sol": {
+                  "address": "J3NKxxXZcnNiMjKw9hYb2K4LUxgwB6t1FtPtQVsv3KFr",
                   "decimals": 8,
-                }
-            },
-            "sourceDecimals": 8,
-        },
+              },
+              "base":{
+                "address": "0x50dA645f148798F68EF2d7dB7C1CB22A6819bb2C",
+                "decimals": 8,
+              }
+          },
+          "sourceDecimals": 8,
+      },
     "SNX": {
       "symbol": "SNX",
       "name": "Synthetix Network Token (Portal)",
@@ -2634,7 +2715,16 @@ TOKENS = {
         }
       },
       "sourceDecimals": 18
-    }
+    },
+    "wBRAWL": {
+      "symbol": "wBRAWL",
+      "name": "BitBrawl",
+      "sourceAddress": "0xcf32c644fed4FeFF94017a10B2882Bf71eE740dD",
+      "coingeckoId": "bitbrawl",
+      "logo": "https://github.com/XLabs/portal-bridge-ui/assets/20446095/f2293277-9b06-4911-aa55-a80d2d189d67",
+      "markets": {},
+      "destinations": {},
+    },
   },
   #####################
   # 5. Polygon native
@@ -2814,7 +2904,16 @@ TOKENS = {
         }
       },
       "sourceDecimals": 18
-    }
+    },
+    "BBL": {
+      "symbol": "BBL",
+      "name": "Beoble",
+      "sourceAddress": "0xD979c468a68062e7bdff4Ba6DF7842DfD3492E0f",
+      "coingeckoId": "beoble",
+      "logo": "https://github.com/XLabs/portal-bridge-ui/assets/20446095/378f648e-a981-49fb-a25a-ac1685d3d20c",
+      "markets": {},
+      "destinations": {},
+    },
   },
   #####################
   # 6. Avalanche native
@@ -2876,8 +2975,7 @@ TOKENS = {
       },
       "sourceDecimals": 18
     },
-
-# USDC.e
+    # USDC.e
     "USDCeav": {
       "symbol": "USDCeav",
       "name": "USD.e Coin (Portal from Avalanche)",
@@ -2906,7 +3004,7 @@ TOKENS = {
       },
       "sourceDecimals": 6
     },
-# USDT.e
+    # USDT.e
     "USDTeav": {
       "symbol": "USDTeav",
       "name": "Tether USD.e (Portal from Avalanche)",
@@ -2933,7 +3031,7 @@ TOKENS = {
       },
       "sourceDecimals": 6
     },
-#USDC
+    #USDC
     "USDCav": {
       "symbol": "USDCav",
       "name": "USD Coin (Portal from Avalanche)",
@@ -2950,7 +3048,7 @@ TOKENS = {
       },
       "sourceDecimals": 6
     },
-#USDT
+    #USDT
     "USDTav": {
       "symbol": "USDTav",
       "name": "Tether USD (Portal from Avalanche)",
@@ -2965,6 +3063,15 @@ TOKENS = {
       },
       "sourceDecimals": 6
     },
+    "BKN": {
+    "symbol": "BKN",
+    "name": "Brickken",
+    "sourceAddress": "0xd44E4Dc8bdF7C1c62CfDBb182022097BA42Ac6bC",
+    "coingeckoId": "brickken",
+    "markets": {},
+    "logo": "https://github.com/XLabs/portal-bridge-ui/assets/20446095/c59c329e-9d01-4cd3-b4a7-4a87c348b0e3",
+    "destinations": {},
+  },
   },
   #################
   # 7. Oasis native
@@ -3305,6 +3412,15 @@ TOKENS = {
         }
       },
       "sourceDecimals": 18
-    }
-  }
+    },
+    "SPX": {
+      "symbol": "SPX",
+      "name": "SPX6900",
+      "sourceAddress": "0x50dA645f148798F68EF2d7dB7C1CB22A6819bb2C",
+      "coingeckoId": "spx6900",
+      "logo": "https://github.com/XLabs/portal-bridge-ui/assets/20446095/e69f9701-9218-4691-84f4-94b8510e43e3",
+      "markets": {},
+      "destinations": {},
+    },
+  },
 }

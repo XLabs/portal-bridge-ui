@@ -1,8 +1,5 @@
-import type {
-  ChainName,
-  WormholeConnectConfig,
-} from "@wormhole-foundation/wormhole-connect";
-import { useEffect, useMemo } from "react";
+import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
+import { ComponentProps, useEffect, useMemo } from "react";
 import customTheme from "./theme/connect";
 import NavBar from "./components/atoms/NavBar";
 import NewsBar from "./components/atoms/NewsBar";
@@ -10,18 +7,27 @@ import messageConfig from "./configs/messages";
 import { useQueryParams } from "./hooks/useQueryParams";
 import { useFormatAssetParam } from "./hooks/useFormatAssetParam";
 import WormholeConnect from "@wormhole-foundation/wormhole-connect";
-import { eventHandler } from "./providers/telemetry";
+import { eventHandler, type WormholeConnectEvent } from "./providers/telemetry";
 import { useRoutes } from "react-router-dom";
 import PrivacyPolicy from "./components/pages/PrivacyPolicy";
-import { PrivacyPolicyPath, isPreview } from "./utils/constants";
+import { PrivacyPolicyPath, isPreview, isProduction } from "./utils/constants";
 import Banner from "./components/atoms/Banner";
+import { ENV } from "@env";
+import { clearUrl, pushResumeUrl } from "./navs/navs";
 
 const defaultConfig: WormholeConnectConfig = {
-  ...wormholeConnectConfig,
-  ...(isPreview && {
-    eventHandler: eventHandler,
-  }),
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ...ENV.wormholeConnectConfig,
+
+  eventHandler: (e: WormholeConnectEvent) => {
+    if (isPreview || isProduction) {
+      // Send the event to Mixpanel
+      eventHandler(e);
+    }
+    // Update the URL when a transfer starts with a permlink
+    pushResumeUrl(e);
+    // Clear the URL when a transfer is successful
+    clearUrl(e);
+  },
   isRouteSupportedHandler: async (td: any) => {
     // Disable manual NTT for Lido wstETH
     if (
@@ -39,26 +45,25 @@ const defaultConfig: WormholeConnectConfig = {
 };
 
 export default function Root() {
-  const { txHash, sourceChain, targetChain, asset, requiredNetwork } =
+  const { txHash, sourceChain, targetChain, asset, requiredNetwork, route } =
     useQueryParams();
-  const tokenKey = useFormatAssetParam(asset);
-  const config = useMemo(
+  const token = useFormatAssetParam(asset);
+  const config: ComponentProps<typeof WormholeConnect>["config"] = useMemo(
     () => ({
       ...defaultConfig,
       searchTx: {
         ...(txHash && { txHash }),
-        ...(sourceChain && { chainName: sourceChain as ChainName }),
+        ...(sourceChain && { chainName: sourceChain }),
       },
       bridgeDefaults: {
-        ...(sourceChain && { fromNetwork: sourceChain as ChainName }),
-        ...(targetChain && { toNetwork: targetChain as ChainName }),
-        ...(tokenKey && { token: tokenKey as string }),
-        ...(requiredNetwork && {
-          requiredNetwork: requiredNetwork as ChainName,
-        }),
+        ...(sourceChain && { fromNetwork: sourceChain }),
+        ...(targetChain && { toNetwork: targetChain }),
+        ...(token && { token }),
+        ...(requiredNetwork && { requiredNetwork }),
       },
+      ...(route && { routes: [route] }),
     }),
-    [txHash, sourceChain, targetChain, tokenKey, requiredNetwork]
+    [txHash, sourceChain, targetChain, token, requiredNetwork, route]
   );
 
   const messages = Object.values(messageConfig);
@@ -73,12 +78,12 @@ export default function Root() {
     </>
   );
   const routes = useRoutes([
-    { path: `/`, element: Connect },
     { path: PrivacyPolicyPath, element: <PrivacyPolicy /> },
+    { path: "*", element: Connect },
   ]);
   return (
     <>
-      {versions.map(({ appName, version }, idx) => (
+      {ENV.versions.map(({ appName, version }, idx) => (
         <meta
           name={appName}
           content={version}
