@@ -36,17 +36,17 @@ class Telemetry {
     if (this.shouldLog) console.debug("Telemetry", ...args);
   };
 
-  private init = () => {
+  public initialize = () => {
     if (this.hasInitiated) return;
 
     mixpanel.init(mixpanelToken, {
       ignore_dnt: true,
       ip: false,
       debug: isPreview,
-      track_pageview: true,
+      track_pageview: "full-url",
     });
     this.hasInitiated = true;
-    this.log("init");
+    this.log("initialize");
   };
 
   private track = (...args: Parameters<typeof mixpanel.track>) => {
@@ -56,7 +56,7 @@ class Telemetry {
 
   private lazyInitWrap = <T = () => void>(method: T) => {
     return ((...args: any[]) => {
-      this.init();
+      this.initialize();
       return (method as Function)(...args);
     }) as T;
   };
