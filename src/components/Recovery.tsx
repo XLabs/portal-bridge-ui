@@ -37,6 +37,7 @@ import {
   uint8ArrayToHex,
   CHAIN_ID_SUI,
   getForeignAssetSui,
+  CHAIN_ID_TO_NAME,
 } from "@certusone/wormhole-sdk";
 import { repairVaa } from "../utils/repairVaa";
 import {
@@ -94,6 +95,7 @@ import {
   CLUSTER,
   ALGORAND_INDEXER,
   DISABLED_CHAINS,
+  getTxFromVaaApiRef,
 } from "../utils/consts";
 import { getSignedVAAWithRetry } from "../utils/getSignedVAAWithRetry";
 import {
@@ -948,9 +950,10 @@ export default function Recovery() {
     }
   }, [recoverySignedVAA]);
   const parsedPayloadTargetChain = parsedPayload?.targetChain;
-  const enableRecovery =
+  const enableAdvToolsRecovery =
     isTokenBridgetAttest || (recoverySignedVAA && parsedPayloadTargetChain);
   //&& (isNFTTransfer || isTokenBridgeTransfer);
+  const enableRecovery = !!recoveryParsedVAA?.emitterChain;
 
   const handleRecoverClickBase = useCallback(
     (useRelayer: boolean) => {
@@ -960,7 +963,7 @@ export default function Recovery() {
         dispatch(setSignedVAAHex(recoverySignedVAA));
         push("/register");
       } else if (
-        enableRecovery &&
+        enableAdvToolsRecovery &&
         recoverySignedVAA &&
         parsedPayloadTargetChain
       ) {
@@ -1001,7 +1004,7 @@ export default function Recovery() {
     },
     [
       dispatch,
-      enableRecovery,
+      enableAdvToolsRecovery,
       recoverySignedVAA,
       parsedPayloadTargetChain,
       parsedPayload,
@@ -1012,9 +1015,21 @@ export default function Recovery() {
     ]
   );
 
-  const handleRecoverClick = useCallback(() => {
-    handleRecoverClickBase(false);
-  }, [handleRecoverClickBase]);
+  const handleRecoverClick = useCallback(async () => {
+    if (enableAdvToolsRecovery) return handleRecoverClickBase(false);
+    const { emitterChain, emitterAddress, sequence } = recoveryParsedVAA!;
+    const txDetails = await fetch(
+      getTxFromVaaApiRef(
+        [emitterChain, emitterAddress.toString("hex"), sequence].join("/")
+      )
+    ).then((res) => res.json());
+    const txHash = txDetails?.sourceChain?.transaction?.txHash;
+    const sourceChain = CHAIN_ID_TO_NAME[emitterChain as ChainId];
+
+    if ([sourceChain, txHash].every((i) => typeof i === "string")) {
+      window.location.href = `${window.location.origin}?txHash=${txHash}&sourceChain=${sourceChain}`;
+    }
+  }, [enableAdvToolsRecovery, handleRecoverClickBase, recoveryParsedVAA]);
 
   const handleRecoverWithRelayerClick = useCallback(() => {
     handleRecoverClickBase(true);
@@ -1074,7 +1089,7 @@ export default function Recovery() {
           fullWidth
           margin="normal"
         />
-        {enableRecovery && (
+        {enableAdvToolsRecovery && (
           <>
             <RelayerRecovery
               parsedPayload={parsedPayload}
@@ -1089,7 +1104,7 @@ export default function Recovery() {
             />
           </>
         )}
-        {recoverySignedVAA !== "" &&
+        {!enableRecovery &&
           !(isNFTTransfer || isTokenBridgeTransfer || isTokenBridgetAttest) && (
             <ChainWarningMessage>
               {NOT_SUPPORTED_VAA_WARNING_MESSAGE}
