@@ -6,7 +6,7 @@ export interface SanctionResponse {
 }
 
 export const TRM_URL =
-"https://hjukqn406c.execute-api.us-east-2.amazonaws.com/addresses";
+  "https://hjukqn406c.execute-api.us-east-2.amazonaws.com/addresses";
 export const ACCOUNT_ID = "PortalBridge";
 export const RISK_LEVEL_SANCTION: number = 10;
 export const RISK_ADDRESS_INDICATOR_TYPE = "OWNERSHIP";
