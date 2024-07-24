@@ -14,6 +14,7 @@ import { PrivacyPolicyPath, isPreview, isProduction } from "./utils/constants";
 import Banner from "./components/atoms/Banner";
 import { ENV } from "@env";
 import { clearUrl, pushResumeUrl } from "./navs/navs";
+import { validateTransfer } from "./utils/transferVerification";
 
 const defaultConfig: WormholeConnectConfig = {
   ...ENV.wormholeConnectConfig,
@@ -28,6 +29,8 @@ const defaultConfig: WormholeConnectConfig = {
     // Clear the URL when a transfer is successful
     clearUrl(e);
   },
+  // validateTransfer
+  validateTransferHandler: validateTransfer,
   isRouteSupportedHandler: async (td: any) => {
     // Disable manual NTT for Lido wstETH
     if (

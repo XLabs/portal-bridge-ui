@@ -47,16 +47,17 @@ export const versions: Env["versions"] = [
     version: `v${packageJson.dependencies["@wormhole-foundation/wormhole-connect"]}`,
   },
 ];
-
+export const CLUSTER = envVars.VITE_APP_CLUSTER || "testnet";
 export const wormholeConnectConfigCommon: Partial<WormholeConnectConfig> = {
   walletConnectProjectId: envVars.VITE_APP_WALLET_CONNECT_PROJECT_ID || "",
 
-  env: envVars.VITE_APP_CLUSTER || "testnet",
+  env: CLUSTER,
   rpcs: {},
   showHamburgerMenu: false,
   explorer: {
-    href: `https://wormholescan.io/#/txs?address={:address}&network=${envVars.VITE_APP_CLUSTER || "testnet"}`,
+    href: `https://wormholescan.io/#/txs?address={:address}&network=${CLUSTER}`,
   },
+  // manualTargetAddress: true, // TODO: remove comment when have connect new version
   menu: [
     {
       label: "Advanced Tools",

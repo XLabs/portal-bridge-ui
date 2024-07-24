@@ -55,7 +55,7 @@ export const ENV: Env = {
           coinGeckoId: "ether-fi",
           decimals: {
             default: 18,
-            Arbitrum: 18,
+            Ethereum: 18,
           },
         },
         WOM: {
