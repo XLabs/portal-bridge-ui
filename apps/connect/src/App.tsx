@@ -14,6 +14,7 @@ import { PrivacyPolicyPath, isPreview, isProduction } from "./utils/constants";
 import Banner from "./components/atoms/Banner";
 import { ENV } from "@env";
 import { clearUrl, pushResumeUrl } from "./navs/navs";
+import { validateTransferHandler } from "./providers/sanctions";
 
 const defaultConfig: WormholeConnectConfig = {
   ...ENV.wormholeConnectConfig,
@@ -51,6 +52,7 @@ export default function Root() {
   const config: ComponentProps<typeof WormholeConnect>["config"] = useMemo(
     () => ({
       ...defaultConfig,
+      validateTransferHandler,
       searchTx: {
         ...(txHash && { txHash }),
         ...(sourceChain && { chainName: sourceChain }),
