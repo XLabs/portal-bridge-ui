@@ -48,13 +48,16 @@ import useNFTSignedVAA from "./useNFTSignedVAA";
 import { waitForSignAndSubmitTransaction } from "../utils/aptos";
 import { useAptosContext } from "../contexts/AptosWalletContext";
 import { AptosWallet } from "@xlabs-libs/wallet-aggregator-aptos";
+import { telemetry, TelemetryTxEvent } from "../utils/telemetry";
 
 async function evm(
   dispatch: any,
   enqueueSnackbar: any,
   signer: Signer,
   signedVAA: Uint8Array,
-  chainId: ChainId
+  chainId: ChainId,
+  onError: (error: any) => void,
+  onStart: (extra?: Partial<TelemetryTxEvent>) => void
 ) {
   dispatch(setIsRedeeming(true));
   try {
@@ -74,6 +77,7 @@ async function evm(
       signedVAA,
       overrides
     );
+    onStart({ txId: receipt.transactionHash });
     dispatch(
       setRedeemTx({ id: receipt.transactionHash, block: receipt.blockNumber })
     );
@@ -85,6 +89,7 @@ async function evm(
       content: <Alert severity="error">{parseError(e)}</Alert>,
     });
     dispatch(setIsRedeeming(false));
+    onError(e);
   }
 }
 
@@ -93,7 +98,9 @@ async function solana(
   enqueueSnackbar: any,
   wallet: SolanaWallet,
   payerAddress: string, //TODO: we may not need this since we have wallet
-  signedVAA: Uint8Array
+  signedVAA: Uint8Array,
+  onError: (error: any) => void,
+  onStart: (extra?: Partial<TelemetryTxEvent>) => void
 ) {
   dispatch(setIsRedeeming(true));
   try {
@@ -125,6 +132,7 @@ async function solana(
         signedVAA
       );
       txid = await signSendAndConfirm(wallet, transaction);
+      onStart({ txId: txid });
       // TODO: didn't want to make an info call we didn't need, can we get the block without it by modifying the above call?
     }
     const isNative = await isNFTVAASolanaNative(signedVAA);
@@ -161,6 +169,7 @@ async function solana(
       content: <Alert severity="error">{parseError(e)}</Alert>,
     });
     dispatch(setIsRedeeming(false));
+    onError(e);
   }
 }
 
@@ -168,13 +177,16 @@ async function aptos(
   dispatch: any,
   enqueueSnackbar: any,
   signedVAA: Uint8Array,
-  aptosWallet: AptosWallet
+  aptosWallet: AptosWallet,
+  onError: (error: any) => void,
+  onStart: (extra?: Partial<TelemetryTxEvent>) => void
 ) {
   dispatch(setIsRedeeming(true));
   const nftBridgeAddress = getNFTBridgeAddressForChain(CHAIN_ID_APTOS);
   try {
     const msg = await redeemOnAptos(nftBridgeAddress, signedVAA);
     const result = await waitForSignAndSubmitTransaction(msg, aptosWallet);
+    onStart({ txId: result });
     dispatch(setRedeemTx({ id: result, block: 1 }));
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
@@ -184,6 +196,7 @@ async function aptos(
       content: <Alert severity="error">{parseError(e)}</Alert>,
     });
     dispatch(setIsRedeeming(false));
+    onError(e);
   }
 }
 
@@ -197,22 +210,64 @@ export function useHandleNFTRedeem() {
   const signedVAA = useNFTSignedVAA();
   const isRedeeming = useSelector(selectNFTIsRedeeming);
   const handleRedeemClick = useCallback(() => {
+    const telemetryProps: TelemetryTxEvent = {
+      fromChainId: undefined,
+      toChainId: targetChain,
+      fromTokenSymbol: undefined,
+      toTokenSymbol: undefined,
+      fromTokenAddress: undefined,
+      toTokenAddress: undefined,
+      amount: undefined,
+    };
+    telemetry.on.transferInit(telemetryProps);
+
+    const onError = (error: any) => {
+      telemetry.on.error({ ...telemetryProps, error });
+    };
+
+    const onStart = (extra?: Partial<TelemetryTxEvent>) => {
+      telemetry.on.transferStart({ ...telemetryProps, ...extra });
+    };
+
     if (isEVMChain(targetChain) && !!signer && signedVAA) {
-      evm(dispatch, enqueueSnackbar, signer, signedVAA, targetChain);
+      evm(
+        dispatch,
+        enqueueSnackbar,
+        signer,
+        signedVAA,
+        targetChain,
+        onError,
+        onStart
+      );
     } else if (
       targetChain === CHAIN_ID_SOLANA &&
       !!solanaWallet &&
       !!solPK &&
       signedVAA
     ) {
-      solana(dispatch, enqueueSnackbar, solanaWallet, solPK, signedVAA);
+      solana(
+        dispatch,
+        enqueueSnackbar,
+        solanaWallet,
+        solPK,
+        signedVAA,
+        onError,
+        onStart
+      );
     } else if (
       targetChain === CHAIN_ID_APTOS &&
       !!aptosAccount &&
       !!aptosWallet &&
       signedVAA
     ) {
-      aptos(dispatch, enqueueSnackbar, signedVAA, aptosWallet);
+      aptos(
+        dispatch,
+        enqueueSnackbar,
+        signedVAA,
+        aptosWallet,
+        onError,
+        onStart
+      );
     }
   }, [
     dispatch,

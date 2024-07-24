@@ -5,8 +5,8 @@ import { CHAINS_BY_ID, isPreview, isProduction, mixpanelToken } from "./consts";
 import { ChainId } from "@certusone/wormhole-sdk";
 
 interface TelemetryTxCommon {
-  fromChainId: ChainId;
-  toChainId: ChainId;
+  fromChainId?: ChainId;
+  toChainId?: ChainId;
   fromChain: string;
   toChain: string;
   fromTokenSymbol?: string;
@@ -14,6 +14,8 @@ interface TelemetryTxCommon {
   fromTokenAddress?: string;
   toTokenAddress?: string;
   route: string;
+  txId?: string;
+  amount?: string;
   error?: any;
 }
 
@@ -41,7 +43,7 @@ class Telemetry {
 
     mixpanel.init(mixpanelToken, {
       ignore_dnt: true,
-      ip: false,
+      ip: true,
       debug: isPreview,
       track_pageview: "full-url",
     });
@@ -61,8 +63,8 @@ class Telemetry {
     }) as T;
   };
 
-  private getChainNameFromId = (chainId: ChainId): string => {
-    return CHAINS_BY_ID[chainId]?.name;
+  private getChainNameFromId = (chainId?: ChainId): string => {
+    return CHAINS_BY_ID[chainId!]?.name;
   };
 
   private canBeSerialized = (item: any) => {
@@ -82,6 +84,8 @@ class Telemetry {
       toTokenSymbol: event.toTokenSymbol,
       fromTokenAddress: event.fromTokenAddress,
       toTokenAddress: event.toTokenAddress,
+      txId: event.txId,
+      amount: event.amount,
       route: "Manual Bridge",
     } as TelemetryTxTrackingProps;
   };

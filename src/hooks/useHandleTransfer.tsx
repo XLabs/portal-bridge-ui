@@ -208,7 +208,7 @@ async function algo(
   maybeAdditionalPayload: MaybeAdditionalPayloadFn,
   relayerFee?: string,
   onError?: (error: any) => void,
-  onStart?: () => void
+  onStart?: (extra?: Partial<TelemetryTxEvent>) => void
 ) {
   dispatch(setIsSending(true));
   try {
@@ -233,12 +233,13 @@ async function algo(
       feeParsed.toBigInt(),
       additionalPayload?.payload
     );
-    onStart?.();
     const result = await signSendAndConfirmAlgorand(wallet, algodClient, txs);
     const sequence = parseSequenceFromLogAlgorand(result);
+    const txId = txs[txs.length - 1].tx.txID();
+    onStart?.({ txId });
     dispatch(
       setTransferTx({
-        id: txs[txs.length - 1].tx.txID(),
+        id: txId,
         block: result["confirmed-round"],
       })
     );
@@ -272,7 +273,7 @@ async function aptos(
   maybeAdditionalPayload: MaybeAdditionalPayloadFn,
   relayerFee?: string,
   onError?: (error: any) => void,
-  onStart?: () => void
+  onStart?: (extra?: Partial<TelemetryTxEvent>) => void
 ) {
   dispatch(setIsSending(true));
   const tokenBridgeAddress = getTokenBridgeAddressForChain(CHAIN_ID_APTOS);
@@ -295,8 +296,8 @@ async function aptos(
       additionalPayload?.payload
     );
 
-    onStart?.();
     const hash = await waitForSignAndSubmitTransaction(transferPayload, wallet);
+    onStart?.({ txId: hash });
     dispatch(setTransferTx({ id: hash, block: 1 }));
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
@@ -352,7 +353,7 @@ async function evm(
   maybeAdditionalPayload: MaybeAdditionalPayloadFn,
   relayerFee?: string,
   onError?: (error: any) => void,
-  onStart?: () => void
+  onStart?: (extra?: Partial<TelemetryTxEvent>) => void
 ) {
   dispatch(setIsSending(true));
   try {
@@ -403,7 +404,6 @@ async function evm(
         overrides
       );
 
-      onStart?.();
       receipt = await tx.wait();
     } else {
       const baseAmountParsed = parseUnits(amount, decimals);
@@ -416,7 +416,7 @@ async function evm(
           : {};
 
       const additionalPayload = maybeAdditionalPayload();
-      onStart?.();
+
       receipt = isNative
         ? await transferFromEthNative(
             getTokenBridgeAddressForChain(chainId),
@@ -440,6 +440,7 @@ async function evm(
             additionalPayload?.payload
           );
     }
+    onStart?.({ txId: receipt.transactionHash });
 
     dispatch(
       setTransferTx({
@@ -488,7 +489,7 @@ async function near(
   maybeAdditionalPayload: MaybeAdditionalPayloadFn,
   relayerFee?: string,
   onError?: (error: any) => void,
-  onStart?: () => void
+  onStart?: (extra?: Partial<TelemetryTxEvent>) => void
 ) {
   dispatch(setIsSending(true));
   try {
@@ -524,8 +525,8 @@ async function near(
               ? uint8ArrayToHex(additionalPayload.payload)
               : undefined
           );
-    onStart?.();
     const receipt = await signAndSendTransactions(account, wallet, msgs);
+    onStart?.({ txId: receipt.transaction_outcome.id });
     const sequence = parseSequenceFromLogNear(receipt);
     dispatch(
       setTransferTx({
@@ -562,7 +563,7 @@ async function xpla(
   maybeAdditionalPayload: MaybeAdditionalPayloadFn,
   relayerFee?: string,
   onError?: (error: any) => void,
-  onStart?: () => void
+  onStart?: (extra?: Partial<TelemetryTxEvent>) => void
 ) {
   dispatch(setIsSending(true));
   try {
@@ -582,7 +583,6 @@ async function xpla(
       additionalPayload?.payload
     );
 
-    onStart?.();
     const result = await postWithFeesXpla(
       wallet,
       msgs,
@@ -590,6 +590,7 @@ async function xpla(
     );
 
     const info = await waitForXplaExecution(result);
+    onStart?.({ txId: info.txhash });
     dispatch(setTransferTx({ id: info.txhash, block: info.height }));
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
@@ -630,7 +631,7 @@ async function solana(
   originChain?: ChainId,
   relayerFee?: string,
   onError?: (error: any) => void,
-  onStart?: () => void
+  onStart?: (extra?: Partial<TelemetryTxEvent>) => void
 ) {
   dispatch(setIsSending(true));
   try {
@@ -652,8 +653,8 @@ async function solana(
         fromAddress,
         mintAddress
       );
-      onStart?.();
       const txid = await signSendAndConfirm(wallet, transaction);
+      onStart?.({ txId: txid });
       enqueueSnackbar(null, {
         content: <Alert severity="success">Transaction confirmed</Alert>,
       });
@@ -705,8 +706,8 @@ async function solana(
             additionalPayload?.payload
           );
       const transaction = await promise;
-      onStart?.();
       const txid = await signSendAndConfirm(wallet, transaction);
+      onStart?.({ txId: txid });
       enqueueSnackbar(null, {
         content: <Alert severity="success">Transaction confirmed</Alert>,
       });
@@ -750,7 +751,7 @@ async function terra(
   maybeAdditionalPayload: MaybeAdditionalPayloadFn,
   relayerFee?: string,
   onError?: (error: any) => void,
-  onStart?: () => void
+  onStart?: (extra?: Partial<TelemetryTxEvent>) => void
 ) {
   dispatch(setIsSending(true));
   try {
@@ -769,7 +770,6 @@ async function terra(
       feeParsed.toString(),
       additionalPayload?.payload
     );
-    onStart?.();
     const result = await postWithFees(
       wallet,
       msgs,
@@ -787,6 +787,7 @@ async function terra(
     if (!sequence) {
       throw new Error("Sequence not found");
     }
+    onStart?.({ txId: info.txhash });
     const emitterAddress = await getEmitterAddressTerra(tokenBridgeAddress);
     await fetchSignedVAA(
       chainId,
@@ -814,7 +815,7 @@ async function injective(
   maybeAdditionalPayload: MaybeAdditionalPayloadFn,
   relayerFee?: string,
   onError?: (error: any) => void,
-  onStart?: () => void
+  onStart?: (extra?: Partial<TelemetryTxEvent>) => void
 ) {
   dispatch(setIsSending(true));
   try {
@@ -834,13 +835,13 @@ async function injective(
       feeParsed.toString(),
       additionalPayload?.payload
     );
-    onStart?.();
     const tx = await broadcastInjectiveTx(
       wallet,
       walletAddress,
       msgs,
       "Wormhole - Initiate Transfer"
     );
+    onStart?.({ txId: tx.txHash });
     dispatch(setTransferTx({ id: tx.txHash, block: tx.height }));
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
@@ -875,7 +876,7 @@ async function sei(
   maybeAdditionalPayload: MaybeAdditionalPayloadFn,
   relayerFee?: string,
   onError?: (error: any) => void,
-  onStart?: () => void
+  onStart?: (extra?: Partial<TelemetryTxEvent>) => void
 ) {
   dispatch(setIsSending(true));
   try {
@@ -937,7 +938,6 @@ async function sei(
       "Wormhole - Complete Transfer"
     );
 
-    onStart?.();
     const tx = await wallet.executeMultiple({
       instructions,
       fee,
@@ -948,6 +948,7 @@ async function sei(
       console.error("Error: No tx height [sei transfer]");
       return;
     }
+    onStart?.({ txId: tx.id });
 
     dispatch(setTransferTx({ id: tx.id, block: tx.data.height }));
     enqueueSnackbar(null, {
@@ -985,7 +986,7 @@ async function sui(
   maybeAdditionalPayload: MaybeAdditionalPayloadFn,
   relayerFee?: string,
   onError?: (error: any) => void,
-  onStart?: () => void
+  onStart?: (extra?: Partial<TelemetryTxEvent>) => void
 ) {
   dispatch(setIsSending(true));
   try {
@@ -1021,7 +1022,6 @@ async function sui(
       undefined,
       wallet.getAddress()!
     );
-    onStart?.();
     const response = (
       await wallet.signAndSendTransaction({
         transactionBlock: tx,
@@ -1033,6 +1033,7 @@ async function sui(
     if (!response) {
       throw new Error("Error parsing transaction results");
     }
+    onStart?.({ txId: response.digest });
     dispatch(
       setTransferTx({
         id: response.digest,
@@ -1156,6 +1157,7 @@ export function useHandleTransfer() {
       toTokenSymbol: undefined,
       fromTokenAddress: undefined,
       toTokenAddress: isNative ? "native" : targetAddressHex,
+      amount,
     };
     telemetry.on.transferInit(telemetryProps);
 
@@ -1163,7 +1165,9 @@ export function useHandleTransfer() {
       telemetry.on.error({ ...telemetryProps, error });
     };
 
-    const onStart = () => telemetry.on.transferStart(telemetryProps);
+    const onStart = (extra?: Partial<TelemetryTxEvent>) => {
+      telemetry.on.transferStart({ ...telemetryProps, ...extra });
+    };
 
     // TODO: we should separate state for transaction vs fetching vaa
 

@@ -113,6 +113,7 @@ import {
 import { useSeiWallet } from "../contexts/SeiWalletContext";
 import { SeiWallet } from "@xlabs-libs/wallet-aggregator-sei";
 import { queryWormchain, isGatewayCosmosChain } from "../utils/cosmos";
+import { telemetry, TelemetryTxEvent } from "../utils/telemetry";
 
 // TODO: replace with SDK method -
 export async function updateWrappedOnSui(
@@ -173,7 +174,9 @@ async function algo(
   dispatch: any,
   enqueueSnackbar: any,
   wallet: AlgorandWallet,
-  signedVAA: Uint8Array
+  signedVAA: Uint8Array,
+  onError: (error: any) => void,
+  onStart: (extra?: Partial<TelemetryTxEvent>) => void
 ) {
   dispatch(setIsCreating(true));
   try {
@@ -190,9 +193,11 @@ async function algo(
       signedVAA
     );
     const result = await signSendAndConfirmAlgorand(wallet, algodClient, txs);
+    const txId = txs[txs.length - 1].tx.txID();
+    onStart({ txId });
     dispatch(
       setCreateTx({
-        id: txs[txs.length - 1].tx.txID(),
+        id: txId,
         block: result["confirmed-round"],
       })
     );
@@ -204,6 +209,7 @@ async function algo(
       content: <Alert severity="error">{parseError(e)}</Alert>,
     });
     dispatch(setIsCreating(false));
+    onError(e);
   }
 }
 
@@ -213,7 +219,9 @@ async function aptos(
   senderAddr: string,
   signedVAA: Uint8Array,
   shouldUpdate: boolean,
-  wallet: AptosWallet
+  wallet: AptosWallet,
+  onError: (error: any) => void,
+  onStart: (extra?: Partial<TelemetryTxEvent>) => void
 ) {
   dispatch(setIsCreating(true));
   const tokenBridgeAddress = getTokenBridgeAddressForChain(CHAIN_ID_APTOS);
@@ -240,6 +248,7 @@ async function aptos(
       createWrappedCoinPayload,
       wallet
     );
+    onStart({ txId: result });
     dispatch(setCreateTx({ id: result, block: 1 }));
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
@@ -249,6 +258,7 @@ async function aptos(
       content: <Alert severity="error">{parseError(e)}</Alert>,
     });
     dispatch(setIsCreating(false));
+    onError(e);
   }
 }
 
@@ -258,7 +268,9 @@ async function evm(
   signer: Signer,
   signedVAA: Uint8Array,
   chainId: ChainId,
-  shouldUpdate: boolean
+  shouldUpdate: boolean,
+  onError: (error: any) => void,
+  onStart: (extra?: Partial<TelemetryTxEvent>) => void
 ) {
   dispatch(setIsCreating(true));
   try {
@@ -285,7 +297,7 @@ async function evm(
           signedVAA,
           overrides
         );
-
+    onStart({ txId: receipt.transactionHash });
     dispatch(
       setCreateTx({ id: receipt.transactionHash, block: receipt.blockNumber })
     );
@@ -297,6 +309,7 @@ async function evm(
       content: <Alert severity="error">{parseError(e)}</Alert>,
     });
     dispatch(setIsCreating(false));
+    onError(e);
   }
 }
 
@@ -305,7 +318,9 @@ async function near(
   enqueueSnackbar: any,
   senderAddr: string,
   signedVAA: Uint8Array,
-  wallet: NearWallet
+  wallet: NearWallet,
+  onError: (error: any) => void,
+  onStart: (extra?: Partial<TelemetryTxEvent>) => void
 ) {
   dispatch(setIsCreating(true));
   try {
@@ -316,6 +331,7 @@ async function near(
       signedVAA
     );
     const receipt = await signAndSendTransactions(account, wallet, msgs);
+    onStart({ txId: receipt.transaction_outcome.id });
     dispatch(
       setCreateTx({
         id: receipt.transaction_outcome.id,
@@ -330,6 +346,7 @@ async function near(
       content: <Alert severity="error">{parseError(e)}</Alert>,
     });
     dispatch(setIsCreating(false));
+    onError(e);
   }
 }
 
@@ -338,7 +355,9 @@ async function xpla(
   enqueueSnackbar: any,
   wallet: XplaWallet,
   signedVAA: Uint8Array,
-  shouldUpdate: boolean
+  shouldUpdate: boolean,
+  onError: (error: any) => void,
+  onStart: (extra?: Partial<TelemetryTxEvent>) => void
 ) {
   dispatch(setIsCreating(true));
   const tokenBridgeAddress = getTokenBridgeAddressForChain(CHAIN_ID_XPLA);
@@ -359,6 +378,7 @@ async function xpla(
       [msg],
       "Wormhole - Create Wrapped"
     );
+    onStart({ txId: result.result.txhash });
     dispatch(
       setCreateTx({ id: result.result.txhash, block: result.result.height })
     );
@@ -370,6 +390,7 @@ async function xpla(
       content: <Alert severity="error">{parseError(e)}</Alert>,
     });
     dispatch(setIsCreating(false));
+    onError(e);
   }
 }
 
@@ -378,7 +399,9 @@ async function sei(
   enqueueSnackbar: any,
   wallet: SeiWallet,
   signedVAA: Uint8Array,
-  shouldUpdate: boolean
+  shouldUpdate: boolean,
+  onError: (error: any) => void,
+  onStart: (extra?: Partial<TelemetryTxEvent>) => void
 ) {
   dispatch(setIsCreating(true));
   const tokenBridgeAddress = getTokenBridgeAddressForChain(CHAIN_ID_SEI);
@@ -409,6 +432,7 @@ async function sei(
       return;
     }
 
+    onStart({ txId: tx.id });
     dispatch(setCreateTx({ id: tx.id, block: tx.data?.height }));
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
@@ -418,6 +442,7 @@ async function sei(
       content: <Alert severity="error">{parseError(e)}</Alert>,
     });
     dispatch(setIsCreating(false));
+    onError(e);
   }
 }
 
@@ -427,7 +452,9 @@ async function solana(
   wallet: SolanaWallet,
   payerAddress: string, // TODO: we may not need this since we have wallet
   signedVAA: Uint8Array,
-  shouldUpdate: boolean
+  shouldUpdate: boolean,
+  onError: (error: any) => void,
+  onStart: (extra?: Partial<TelemetryTxEvent>) => void
 ) {
   dispatch(setIsCreating(true));
   try {
@@ -459,6 +486,7 @@ async function solana(
           signedVAA
         );
     const txid = await signSendAndConfirm(wallet, transaction);
+    onStart({ txId: txid });
     // TODO: didn't want to make an info call we didn't need, can we get the block without it by modifying the above call?
     dispatch(setCreateTx({ id: txid, block: 1 }));
     enqueueSnackbar(null, {
@@ -469,6 +497,7 @@ async function solana(
       content: <Alert severity="error">{parseError(e)}</Alert>,
     });
     dispatch(setIsCreating(false));
+    onError(e);
   }
 }
 
@@ -479,7 +508,9 @@ async function terra(
   signedVAA: Uint8Array,
   shouldUpdate: boolean,
   feeDenom: string,
-  chainId: TerraChainId
+  chainId: TerraChainId,
+  onError: (error: any) => void,
+  onStart: (extra?: Partial<TelemetryTxEvent>) => void
 ) {
   dispatch(setIsCreating(true));
   const tokenBridgeAddress = getTokenBridgeAddressForChain(chainId);
@@ -502,6 +533,7 @@ async function terra(
       [feeDenom],
       chainId
     );
+    onStart({ txId: result.result.txhash });
     dispatch(
       setCreateTx({ id: result.result.txhash, block: result.result.height })
     );
@@ -513,6 +545,7 @@ async function terra(
       content: <Alert severity="error">{parseError(e)}</Alert>,
     });
     dispatch(setIsCreating(false));
+    onError(e);
   }
 }
 
@@ -522,7 +555,9 @@ async function injective(
   wallet: InjectiveWallet,
   walletAddress: string,
   signedVAA: Uint8Array,
-  shouldUpdate: boolean
+  shouldUpdate: boolean,
+  onError: (error: any) => void,
+  onStart: (extra?: Partial<TelemetryTxEvent>) => void
 ) {
   dispatch(setIsCreating(true));
   const tokenBridgeAddress = getTokenBridgeAddressForChain(CHAIN_ID_INJECTIVE);
@@ -544,6 +579,7 @@ async function injective(
       msg,
       "Wormhole - Create Wrapped"
     );
+    onStart({ txId: tx.txHash });
     dispatch(setCreateTx({ id: tx.txHash, block: tx.height }));
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
@@ -553,6 +589,7 @@ async function injective(
       content: <Alert severity="error">{parseError(e)}</Alert>,
     });
     dispatch(setIsCreating(false));
+    onError(e);
   }
 }
 
@@ -561,7 +598,9 @@ async function sui(
   enqueueSnackbar: any,
   wallet: SuiWallet,
   signedVAA: Uint8Array,
-  foreignAddress: string | null | undefined
+  foreignAddress: string | null | undefined,
+  onError: (error: any) => void,
+  onStart: (extra?: Partial<TelemetryTxEvent>) => void
 ) {
   dispatch(setIsCreating(true));
   try {
@@ -662,7 +701,7 @@ async function sui(
         throw new Error("Error parsing transaction results");
       }
     }
-
+    onStart({ txId: response.digest });
     dispatch(
       setCreateTx({
         id: response.digest,
@@ -678,6 +717,7 @@ async function sui(
       content: <Alert severity="error">{parseError(e)}</Alert>,
     });
     dispatch(setIsCreating(false));
+    onError(e);
   }
 }
 
@@ -687,7 +727,9 @@ async function cosmos(
   signedVAA: Uint8Array,
   foreignAddress: string | null | undefined,
   sourceChain: ChainId,
-  sourceChainAddress: string
+  sourceChainAddress: string,
+  onError: (error: any) => void,
+  onStart: (extra?: Partial<TelemetryTxEvent>) => void
 ) {
   dispatch(setIsCreating(true));
   let tries = 0;
@@ -717,6 +759,7 @@ async function cosmos(
           return;
         }
         clearTimeout(interval);
+        onStart({ txId: txs[0].hash });
         dispatch(
           setCreateTx({
             id: txs[0].hash,
@@ -740,6 +783,7 @@ async function cosmos(
       });
       dispatch(setIsCreating(false));
       resetTimer();
+      onError(e);
     }
   };
   await query();
@@ -769,6 +813,25 @@ export function useHandleCreateWrapped(
   const seiWallet = useSeiWallet();
   const seiAddress = seiWallet?.getAddress();
   const handleCreateClick = useCallback(() => {
+    const telemetryProps: TelemetryTxEvent = {
+      fromChainId: sourceChain,
+      toChainId: targetChain,
+      fromTokenSymbol: sourceAsset,
+      toTokenSymbol: undefined,
+      fromTokenAddress: undefined,
+      toTokenAddress: undefined,
+      amount: undefined,
+    };
+    telemetry.on.transferInit(telemetryProps);
+
+    const onError = (error: any) => {
+      telemetry.on.error({ ...telemetryProps, error });
+    };
+
+    const onStart = (extra?: Partial<TelemetryTxEvent>) => {
+      telemetry.on.transferStart({ ...telemetryProps, ...extra });
+    };
+
     if (isEVMChain(targetChain) && !!signer && !!signedVAA) {
       evm(
         dispatch,
@@ -776,7 +839,9 @@ export function useHandleCreateWrapped(
         signer,
         signedVAA,
         targetChain,
-        shouldUpdate
+        shouldUpdate,
+        onError,
+        onStart
       );
     } else if (
       targetChain === CHAIN_ID_SOLANA &&
@@ -790,7 +855,9 @@ export function useHandleCreateWrapped(
         solanaWallet,
         solPK,
         signedVAA,
-        shouldUpdate
+        shouldUpdate,
+        onError,
+        onStart
       );
     } else if (
       isTerraChain(targetChain) &&
@@ -805,17 +872,35 @@ export function useHandleCreateWrapped(
         signedVAA,
         shouldUpdate,
         terraFeeDenom,
-        targetChain
+        targetChain,
+        onError,
+        onStart
       );
     } else if (targetChain === CHAIN_ID_XPLA && !!xplaWallet && !!signedVAA) {
-      xpla(dispatch, enqueueSnackbar, xplaWallet, signedVAA, shouldUpdate);
+      xpla(
+        dispatch,
+        enqueueSnackbar,
+        xplaWallet,
+        signedVAA,
+        shouldUpdate,
+        onError,
+        onStart
+      );
     } else if (
       targetChain === CHAIN_ID_SEI &&
       seiWallet &&
       seiAddress &&
       !!signedVAA
     ) {
-      sei(dispatch, enqueueSnackbar, seiWallet, signedVAA, shouldUpdate);
+      sei(
+        dispatch,
+        enqueueSnackbar,
+        seiWallet,
+        signedVAA,
+        shouldUpdate,
+        onError,
+        onStart
+      );
     } else if (
       targetChain === CHAIN_ID_APTOS &&
       !!aptosAddress &&
@@ -827,21 +912,31 @@ export function useHandleCreateWrapped(
         aptosAddress,
         signedVAA,
         shouldUpdate,
-        aptosWallet!
+        aptosWallet!,
+        onError,
+        onStart
       );
     } else if (
       targetChain === CHAIN_ID_ALGORAND &&
       algoAccount &&
       !!signedVAA
     ) {
-      algo(dispatch, enqueueSnackbar, algoWallet, signedVAA);
+      algo(dispatch, enqueueSnackbar, algoWallet, signedVAA, onError, onStart);
     } else if (
       targetChain === CHAIN_ID_NEAR &&
       nearAccountId &&
       wallet &&
       !!signedVAA
     ) {
-      near(dispatch, enqueueSnackbar, nearAccountId, signedVAA, wallet);
+      near(
+        dispatch,
+        enqueueSnackbar,
+        nearAccountId,
+        signedVAA,
+        wallet,
+        onError,
+        onStart
+      );
     } else if (
       targetChain === CHAIN_ID_INJECTIVE &&
       injWallet &&
@@ -854,7 +949,9 @@ export function useHandleCreateWrapped(
         injWallet,
         injAddress,
         signedVAA,
-        shouldUpdate
+        shouldUpdate,
+        onError,
+        onStart
       );
     } else if (
       targetChain === CHAIN_ID_SUI &&
@@ -863,7 +960,15 @@ export function useHandleCreateWrapped(
       suiWallet.getAddress() &&
       !!signedVAA
     ) {
-      sui(dispatch, enqueueSnackbar, suiWallet, signedVAA, foreignAddress);
+      sui(
+        dispatch,
+        enqueueSnackbar,
+        suiWallet,
+        signedVAA,
+        foreignAddress,
+        onError,
+        onStart
+      );
     } else if (isGatewayCosmosChain(targetChain as any) && !!signedVAA) {
       cosmos(
         dispatch,
@@ -871,7 +976,9 @@ export function useHandleCreateWrapped(
         signedVAA,
         foreignAddress,
         sourceChain,
-        sourceAsset
+        sourceAsset,
+        onError,
+        onStart
       );
     } else {
       // enqueueSnackbar(
