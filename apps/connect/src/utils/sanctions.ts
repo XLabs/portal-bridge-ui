@@ -1,4 +1,16 @@
-import { CHAIN_ID_ALGORAND, CHAIN_ID_ARBITRUM, CHAIN_ID_AVAX, CHAIN_ID_BSC, CHAIN_ID_BTC, CHAIN_ID_CELO, CHAIN_ID_OPTIMISM, CHAIN_ID_POLYGON, CHAIN_ID_SOLANA, ChainId, isEVMChain } from "@certusone/wormhole-sdk";
+import {
+  CHAIN_ID_ALGORAND,
+  CHAIN_ID_ARBITRUM,
+  CHAIN_ID_AVAX,
+  CHAIN_ID_BSC,
+  CHAIN_ID_BTC,
+  CHAIN_ID_CELO,
+  CHAIN_ID_OPTIMISM,
+  CHAIN_ID_POLYGON,
+  CHAIN_ID_SOLANA,
+  ChainId,
+  isEVMChain,
+} from "@certusone/wormhole-sdk";
 import { CLUSTER } from "../env/common";
 interface SanctionResponse {
   accountExternalId: string;
@@ -37,10 +49,7 @@ export const getTrmChainName = (chain: ChainId) => {
   return "";
 };
 
-export const getIsSanctioned = async (
-  chainId: ChainId,
-  addr?: string
-) => {
+export const getIsSanctioned = async (chainId: ChainId, addr?: string) => {
   if (!addr) return;
 
   const trmChain = getTrmChainName(chainId);
