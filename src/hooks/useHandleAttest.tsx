@@ -740,7 +740,7 @@ export function useHandleAttest() {
       toTokenSymbol: undefined,
       fromTokenAddress: undefined,
       toTokenAddress: undefined,
-      amount: undefined
+      amount: undefined,
     };
     telemetry.on.transferInit(telemetryProps);
 
