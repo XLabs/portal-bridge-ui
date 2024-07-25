@@ -289,12 +289,13 @@ export function useHandleNFTTransfer() {
   const sourceTokenPublicKey = sourceParsedTokenAccount?.publicKey;
   const disabled = !isTargetComplete || isSending || isSendComplete;
   const handleTransferClick = useCallback(() => {
+    
     const telemetryProps: TelemetryTxEvent = {
       fromChainId: sourceChain,
       toChainId: targetChain,
-      fromTokenSymbol: sourceAsset,
+      fromTokenSymbol: undefined,
       toTokenSymbol: undefined,
-      fromTokenAddress: undefined,
+      fromTokenAddress: sourceAsset,
       toTokenAddress: undefined,
       amount: undefined,
     };

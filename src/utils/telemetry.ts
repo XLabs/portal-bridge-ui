@@ -112,7 +112,7 @@ class Telemetry {
     };
 
   private onError = (event: TelemetryTxEvent) => {
-    this.track("error", {
+    this.track("transfer.error", {
       ...this.getTxPropsFromEvent(event),
       "error-type": "unknown",
       error: this.canBeSerialized(event.error) ? event.error : undefined,

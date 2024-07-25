@@ -30,7 +30,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEthereumProvider } from "../contexts/EthereumProviderContext";
 import { useSolanaWallet } from "../contexts/SolanaWalletContext";
 import { setIsRedeeming, setRedeemTx } from "../store/nftSlice";
-import { selectNFTIsRedeeming, selectNFTTargetChain } from "../store/selectors";
+import {
+  selectNFTIsRedeeming,
+  selectNFTSourceChain,
+  selectNFTTargetChain,
+} from "../store/selectors";
 import {
   ACALA_HOST,
   getNFTBridgeAddressForChain,
@@ -204,14 +208,16 @@ export function useHandleNFTRedeem() {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const targetChain = useSelector(selectNFTTargetChain);
+  const sourceChain = useSelector(selectNFTSourceChain);
   const { publicKey: solPK, wallet: solanaWallet } = useSolanaWallet();
   const { signer } = useEthereumProvider(targetChain as any);
   const { account: aptosAccount, wallet: aptosWallet } = useAptosContext();
   const signedVAA = useNFTSignedVAA();
   const isRedeeming = useSelector(selectNFTIsRedeeming);
+  
   const handleRedeemClick = useCallback(() => {
     const telemetryProps: TelemetryTxEvent = {
-      fromChainId: undefined,
+      fromChainId: sourceChain,
       toChainId: targetChain,
       fromTokenSymbol: undefined,
       toTokenSymbol: undefined,
@@ -270,8 +276,7 @@ export function useHandleNFTRedeem() {
       );
     }
   }, [
-    dispatch,
-    enqueueSnackbar,
+    sourceChain,
     targetChain,
     signer,
     signedVAA,
@@ -279,6 +284,8 @@ export function useHandleNFTRedeem() {
     solPK,
     aptosAccount,
     aptosWallet,
+    dispatch,
+    enqueueSnackbar,
   ]);
   return useMemo(
     () => ({

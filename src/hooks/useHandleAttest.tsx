@@ -59,6 +59,7 @@ import {
   selectAttestIsTargetComplete,
   selectAttestSourceAsset,
   selectAttestSourceChain,
+  selectAttestTargetChain,
   selectTerraFeeDenom,
 } from "../store/selectors";
 import { signSendAndConfirmAlgorand } from "../utils/algorand";
@@ -713,6 +714,7 @@ export function useHandleAttest() {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const sourceChain = useSelector(selectAttestSourceChain);
+  const targetChain = useSelector(selectAttestTargetChain);
   const sourceAsset = useSelector(selectAttestSourceAsset);
   const isTargetComplete = useSelector(selectAttestIsTargetComplete);
   const isSending = useSelector(selectAttestIsSending);
@@ -735,10 +737,10 @@ export function useHandleAttest() {
   const handleAttestClick = useCallback(() => {
     const telemetryProps: TelemetryTxEvent = {
       fromChainId: sourceChain,
-      toChainId: undefined,
-      fromTokenSymbol: sourceAsset,
+      toChainId: targetChain,
+      fromTokenSymbol: undefined,
       toTokenSymbol: undefined,
-      fromTokenAddress: undefined,
+      fromTokenAddress: sourceAsset,
       toTokenAddress: undefined,
       amount: undefined,
     };
@@ -840,28 +842,29 @@ export function useHandleAttest() {
       sui(dispatch, enqueueSnackbar, suiWallet, sourceAsset, onError, onStart);
     }
   }, [
-    dispatch,
-    enqueueSnackbar,
     sourceChain,
+    targetChain,
+    sourceAsset,
     signer,
     solanaWallet,
     solPK,
+    terraAddress,
     terraWallet,
-    sourceAsset,
-    terraFeeDenom,
+    xplaWallet,
     algoAccount,
-    algoWallet,
+    aptosAddress,
     nearAccountId,
     wallet,
-    xplaWallet,
-    aptosAddress,
-    aptosWallet,
     injWallet,
     injAddress,
-    terraAddress,
-    suiWallet,
     seiWallet,
     seiAddress,
+    suiWallet,
+    dispatch,
+    enqueueSnackbar,
+    terraFeeDenom,
+    algoWallet,
+    aptosWallet,
   ]);
   return useMemo(
     () => ({

@@ -73,6 +73,7 @@ import {
   selectTransferSourceParsedTokenAccount,
   selectTransferTargetAddressHex,
   selectTransferTargetChain,
+  selectTransferTargetParsedTokenAccount,
 } from "../store/selectors";
 import {
   setIsSending,
@@ -1098,6 +1099,9 @@ export function useHandleTransfer() {
     selectTransferSourceParsedTokenAccount
   );
   const relayerFee = useSelector(selectTransferRelayerFee);
+  const targetParsedTokenAccount = useSelector(
+    selectTransferTargetParsedTokenAccount
+  );
 
   const sourceTokenPublicKey = sourceParsedTokenAccount?.publicKey;
   const decimals = sourceParsedTokenAccount?.decimals;
@@ -1153,10 +1157,12 @@ export function useHandleTransfer() {
     const telemetryProps: TelemetryTxEvent = {
       fromChainId: sourceChain,
       toChainId: targetChain,
-      fromTokenSymbol: sourceAsset,
-      toTokenSymbol: undefined,
-      fromTokenAddress: undefined,
-      toTokenAddress: isNative ? "native" : targetAddressHex,
+      fromTokenSymbol: sourceParsedTokenAccount?.symbol,
+      toTokenSymbol: targetParsedTokenAccount?.symbol,
+      fromTokenAddress: isNative ? "native" : sourceAsset,
+      toTokenAddress: targetParsedTokenAccount?.isNativeAsset
+        ? "native"
+        : targetAddressHex,
       amount,
     };
     telemetry.on.transferInit(telemetryProps);
@@ -1407,9 +1413,13 @@ export function useHandleTransfer() {
   }, [
     sourceChain,
     targetChain,
-    sourceAsset,
+    sourceParsedTokenAccount?.symbol,
+    targetParsedTokenAccount?.symbol,
+    targetParsedTokenAccount?.isNativeAsset,
     isNative,
+    sourceAsset,
     targetAddressHex,
+    amount,
     signer,
     decimals,
     targetAddress,
@@ -1429,7 +1439,6 @@ export function useHandleTransfer() {
     suiWallet,
     dispatch,
     enqueueSnackbar,
-    amount,
     isTBTC,
     maybeAdditionalPayload,
     relayerFee,

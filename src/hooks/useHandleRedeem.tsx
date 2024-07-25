@@ -48,6 +48,7 @@ import {
   selectTransferSourceAsset,
   selectTransferSourceParsedTokenAccount,
   selectTransferTargetAddressHex,
+  selectTransferTargetParsedTokenAccount,
 } from "../store/selectors";
 import { setIsRedeeming, setRedeemTx } from "../store/transferSlice";
 import { signSendAndConfirmAlgorand } from "../utils/algorand";
@@ -615,16 +616,21 @@ export function useHandleRedeem() {
   const sourceParsedTokenAccount = useSelector(
     selectTransferSourceParsedTokenAccount
   );
+  const targetParsedTokenAccount = useSelector(
+    selectTransferTargetParsedTokenAccount
+  );
   const targetAddressHex = useSelector(selectTransferTargetAddressHex);
 
   const onSuccess = useCallback(() => {
     telemetry.on.transferSuccess({
       fromChainId: sourceChain,
       toChainId: targetChain,
-      fromTokenSymbol: sourceAsset,
-      toTokenSymbol: undefined,
-      fromTokenAddress: undefined,
-      toTokenAddress: !!sourceParsedTokenAccount?.isNativeAsset
+      fromTokenSymbol: sourceParsedTokenAccount?.symbol,
+      toTokenSymbol: targetParsedTokenAccount?.symbol,
+      fromTokenAddress: !!sourceParsedTokenAccount?.isNativeAsset
+        ? "native"
+        : sourceAsset,
+      toTokenAddress: !!targetParsedTokenAccount?.isNativeAsset
         ? "native"
         : targetAddressHex,
     });
@@ -632,8 +638,11 @@ export function useHandleRedeem() {
     sourceAsset,
     sourceChain,
     sourceParsedTokenAccount?.isNativeAsset,
+    sourceParsedTokenAccount?.symbol,
     targetAddressHex,
     targetChain,
+    targetParsedTokenAccount?.isNativeAsset,
+    targetParsedTokenAccount?.symbol,
   ]);
 
   const handleRedeemClick = useCallback(() => {
