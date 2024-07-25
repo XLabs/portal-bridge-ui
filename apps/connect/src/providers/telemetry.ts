@@ -12,8 +12,9 @@ mixpanel.init(
     : "fdaf35ef8f838559e248a71c80ff1626",
   {
     ignore_dnt: true,
-    ip: false,
+    ip: true,
     debug: isPreview,
+    track_pageview: "full-url",
   }
 );
 
@@ -71,6 +72,7 @@ export const eventHandler = (e: WormholeConnectEvent) => {
     fromTokenAddress: getTokenAddress(e.details.fromToken),
     toTokenSymbol: e.details.toToken?.symbol,
     toTokenAddress: getTokenAddress(e.details.toToken),
+    txId: e.details.txId!,
     route:
       {
         bridge: "Manual Bridge",
