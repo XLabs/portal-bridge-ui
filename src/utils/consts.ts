@@ -88,6 +88,16 @@ import { ChainConfiguration } from "@sei-js/react";
 import { Connection } from "@mysten/sui.js";
 import { chainToIcon } from "@wormhole-foundation/sdk-icons";
 
+export const isProduction = window.location.host === "portalbridge.com";
+
+export const isPreview =
+  window.location.origin.includes("preview") ||
+  window.location.origin.includes("testnet");
+
+export const mixpanelToken = isProduction
+  ? "a5bb05fa95759da34eac66cd9444790b"
+  : "fdaf35ef8f838559e248a71c80ff1626";
+
 export type Cluster = "devnet" | "testnet" | "mainnet";
 export const CLUSTER: Cluster =
   process.env.REACT_APP_CLUSTER === "mainnet"

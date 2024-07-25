@@ -44,6 +44,11 @@ import {
   selectTransferIsRedeeming,
   selectTransferTargetChain,
   selectTransferIsTBTC,
+  selectTransferSourceChain,
+  selectTransferSourceAsset,
+  selectTransferSourceParsedTokenAccount,
+  selectTransferTargetAddressHex,
+  selectTransferTargetParsedTokenAccount,
 } from "../store/selectors";
 import { setIsRedeeming, setRedeemTx } from "../store/transferSlice";
 import { signSendAndConfirmAlgorand } from "../utils/algorand";
@@ -99,12 +104,14 @@ import { SeiWallet } from "@xlabs-libs/wallet-aggregator-sei";
 import { calculateFeeForContractExecution } from "../utils/sei";
 import { addComputeBudget } from "../utils/computeBudget";
 import { redeemAndUnwrapOnSolana } from "../utils/redeemAndUnwrap";
+import { telemetry } from "../utils/telemetry";
 
 async function algo(
   dispatch: any,
   enqueueSnackbar: any,
   wallet: AlgorandWallet,
-  signedVAA: Uint8Array
+  signedVAA: Uint8Array,
+  onSuccess?: () => void
 ) {
   dispatch(setIsRedeeming(true));
   try {
@@ -131,6 +138,7 @@ async function algo(
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
     });
+    onSuccess?.();
   } catch (e) {
     enqueueSnackbar(null, {
       content: <Alert severity="error">{parseError(e)}</Alert>,
@@ -143,7 +151,8 @@ async function aptos(
   dispatch: any,
   enqueueSnackbar: any,
   signedVAA: Uint8Array,
-  wallet: AptosWallet
+  wallet: AptosWallet,
+  onSuccess?: () => void
 ) {
   dispatch(setIsRedeeming(true));
   const tokenBridgeAddress = getTokenBridgeAddressForChain(CHAIN_ID_APTOS);
@@ -159,6 +168,7 @@ async function aptos(
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
     });
+    onSuccess?.();
   } catch (e) {
     enqueueSnackbar(null, {
       content: <Alert severity="error">{parseError(e)}</Alert>,
@@ -174,7 +184,8 @@ async function evm(
   signedVAA: Uint8Array,
   isNative: boolean,
   chainId: ChainId,
-  isTBTC?: boolean
+  isTBTC?: boolean,
+  onSuccess?: () => void
 ) {
   dispatch(setIsRedeeming(true));
 
@@ -239,6 +250,7 @@ async function evm(
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
     });
+    onSuccess?.();
   } catch (e) {
     console.error(e);
     enqueueSnackbar(null, {
@@ -253,7 +265,8 @@ async function near(
   enqueueSnackbar: any,
   senderAddr: string,
   signedVAA: Uint8Array,
-  wallet: NearWallet
+  wallet: NearWallet,
+  onSuccess?: () => void
 ) {
   dispatch(setIsRedeeming(true));
   try {
@@ -273,6 +286,7 @@ async function near(
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
     });
+    onSuccess?.();
   } catch (e) {
     enqueueSnackbar(null, {
       content: <Alert severity="error">{parseError(e)}</Alert>,
@@ -285,7 +299,8 @@ async function xpla(
   dispatch: any,
   enqueueSnackbar: any,
   wallet: XplaWallet,
-  signedVAA: Uint8Array
+  signedVAA: Uint8Array,
+  onSuccess?: () => void
 ) {
   dispatch(setIsRedeeming(true));
   try {
@@ -305,6 +320,7 @@ async function xpla(
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
     });
+    onSuccess?.();
   } catch (e) {
     enqueueSnackbar(null, {
       content: <Alert severity="error">{parseError(e)}</Alert>,
@@ -317,7 +333,8 @@ async function sei(
   dispatch: any,
   enqueueSnackbar: any,
   wallet: SeiWallet,
-  signedVAA: Uint8Array
+  signedVAA: Uint8Array,
+  onSuccess?: () => void
 ) {
   dispatch(setIsRedeeming(true));
   try {
@@ -376,6 +393,7 @@ async function sei(
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
     });
+    onSuccess?.();
   } catch (e) {
     enqueueSnackbar(null, {
       content: <Alert severity="error">{parseError(e)}</Alert>,
@@ -389,7 +407,8 @@ async function injective(
   enqueueSnackbar: any,
   wallet: InjectiveWallet,
   walletAddress: string,
-  signedVAA: Uint8Array
+  signedVAA: Uint8Array,
+  onSuccess?: () => void
 ) {
   dispatch(setIsRedeeming(true));
   try {
@@ -408,6 +427,7 @@ async function injective(
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
     });
+    onSuccess?.();
   } catch (e) {
     enqueueSnackbar(null, {
       content: <Alert severity="error">{parseError(e)}</Alert>,
@@ -423,7 +443,8 @@ async function solana(
   payerAddress: string, //TODO: we may not need this since we have wallet
   signedVAA: Uint8Array,
   isNative: boolean,
-  isTbtc: boolean
+  isTbtc: boolean,
+  onSuccess?: () => void
 ) {
   dispatch(setIsRedeeming(true));
   try {
@@ -481,6 +502,7 @@ async function solana(
         content: <Alert severity="success">Transaction confirmed</Alert>,
       });
     }
+    onSuccess?.();
   } catch (e) {
     console.log(e);
     enqueueSnackbar(null, {
@@ -496,7 +518,8 @@ async function terra(
   wallet: TerraWallet,
   signedVAA: Uint8Array,
   feeDenom: string,
-  chainId: TerraChainId
+  chainId: TerraChainId,
+  onSuccess?: () => void
 ) {
   dispatch(setIsRedeeming(true));
   try {
@@ -518,6 +541,7 @@ async function terra(
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
     });
+    onSuccess?.();
   } catch (e) {
     enqueueSnackbar(null, {
       content: <Alert severity="error">{parseError(e)}</Alert>,
@@ -530,7 +554,8 @@ async function sui(
   dispatch: any,
   enqueueSnackbar: any,
   wallet: SuiWallet,
-  signedVAA: Uint8Array
+  signedVAA: Uint8Array,
+  onSuccess?: () => void
 ) {
   dispatch(setIsRedeeming(true));
   try {
@@ -558,6 +583,7 @@ async function sui(
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
     });
+    onSuccess?.();
   } catch (e) {
     enqueueSnackbar(null, {
       content: <Alert severity="error">{parseError(e)}</Alert>,
@@ -585,6 +611,40 @@ export function useHandleRedeem() {
   const seiAddress = seiWallet?.getAddress();
   const signedVAA = useTransferSignedVAA();
   const isRedeeming = useSelector(selectTransferIsRedeeming);
+  const sourceChain = useSelector(selectTransferSourceChain);
+  const sourceAsset = useSelector(selectTransferSourceAsset);
+  const sourceParsedTokenAccount = useSelector(
+    selectTransferSourceParsedTokenAccount
+  );
+  const targetParsedTokenAccount = useSelector(
+    selectTransferTargetParsedTokenAccount
+  );
+  const targetAddressHex = useSelector(selectTransferTargetAddressHex);
+
+  const onSuccess = useCallback(() => {
+    telemetry.on.transferSuccess({
+      fromChainId: sourceChain,
+      toChainId: targetChain,
+      fromTokenSymbol: sourceParsedTokenAccount?.symbol,
+      toTokenSymbol: targetParsedTokenAccount?.symbol,
+      fromTokenAddress: !!sourceParsedTokenAccount?.isNativeAsset
+        ? "native"
+        : sourceAsset,
+      toTokenAddress: !!targetParsedTokenAccount?.isNativeAsset
+        ? "native"
+        : targetAddressHex,
+    });
+  }, [
+    sourceAsset,
+    sourceChain,
+    sourceParsedTokenAccount?.isNativeAsset,
+    sourceParsedTokenAccount?.symbol,
+    targetAddressHex,
+    targetChain,
+    targetParsedTokenAccount?.isNativeAsset,
+    targetParsedTokenAccount?.symbol,
+  ]);
+
   const handleRedeemClick = useCallback(() => {
     if (isEVMChain(targetChain) && !!signer && signedVAA) {
       evm(
@@ -594,7 +654,8 @@ export function useHandleRedeem() {
         signedVAA,
         false,
         targetChain,
-        isTBTC
+        isTBTC,
+        onSuccess
       );
     } else if (
       targetChain === CHAIN_ID_SOLANA &&
@@ -609,7 +670,8 @@ export function useHandleRedeem() {
         solPK,
         signedVAA,
         false,
-        isTBTC
+        isTBTC,
+        onSuccess
       );
     } else if (isTerraChain(targetChain) && !!terraWallet && signedVAA) {
       terra(
@@ -618,45 +680,60 @@ export function useHandleRedeem() {
         terraWallet,
         signedVAA,
         terraFeeDenom,
-        targetChain
+        targetChain,
+        onSuccess
       );
     } else if (targetChain === CHAIN_ID_XPLA && !!xplaWallet && signedVAA) {
-      xpla(dispatch, enqueueSnackbar, xplaWallet, signedVAA);
+      xpla(dispatch, enqueueSnackbar, xplaWallet, signedVAA, onSuccess);
     } else if (
       targetChain === CHAIN_ID_SEI &&
       seiWallet &&
       seiAddress &&
       signedVAA
     ) {
-      sei(dispatch, enqueueSnackbar, seiWallet, signedVAA);
+      sei(dispatch, enqueueSnackbar, seiWallet, signedVAA, onSuccess);
     } else if (targetChain === CHAIN_ID_APTOS && !!aptosAddress && signedVAA) {
-      aptos(dispatch, enqueueSnackbar, signedVAA, aptosWallet!);
+      aptos(dispatch, enqueueSnackbar, signedVAA, aptosWallet!, onSuccess);
     } else if (
       targetChain === CHAIN_ID_ALGORAND &&
       algoAccount &&
       !!signedVAA
     ) {
-      algo(dispatch, enqueueSnackbar, algoWallet, signedVAA);
+      algo(dispatch, enqueueSnackbar, algoWallet, signedVAA, onSuccess);
     } else if (
       targetChain === CHAIN_ID_NEAR &&
       nearAccountId &&
       wallet &&
       !!signedVAA
     ) {
-      near(dispatch, enqueueSnackbar, nearAccountId, signedVAA, wallet);
+      near(
+        dispatch,
+        enqueueSnackbar,
+        nearAccountId,
+        signedVAA,
+        wallet,
+        onSuccess
+      );
     } else if (
       targetChain === CHAIN_ID_INJECTIVE &&
       injWallet &&
       injAddress &&
       signedVAA
     ) {
-      injective(dispatch, enqueueSnackbar, injWallet, injAddress, signedVAA);
+      injective(
+        dispatch,
+        enqueueSnackbar,
+        injWallet,
+        injAddress,
+        signedVAA,
+        onSuccess
+      );
     } else if (
       targetChain === CHAIN_ID_SUI &&
       suiWallet?.getAddress() &&
       !!signedVAA
     ) {
-      sui(dispatch, enqueueSnackbar, suiWallet, signedVAA);
+      sui(dispatch, enqueueSnackbar, suiWallet, signedVAA, onSuccess);
     }
   }, [
     targetChain,
@@ -666,6 +743,8 @@ export function useHandleRedeem() {
     solPK,
     terraWallet,
     xplaWallet,
+    seiWallet,
+    seiAddress,
     aptosAddress,
     algoAccount,
     nearAccountId,
@@ -676,16 +755,24 @@ export function useHandleRedeem() {
     dispatch,
     enqueueSnackbar,
     isTBTC,
+    onSuccess,
     terraFeeDenom,
     aptosWallet,
     algoWallet,
-    seiWallet,
-    seiAddress,
   ]);
 
   const handleRedeemNativeClick = useCallback(() => {
     if (isEVMChain(targetChain) && !!signer && signedVAA) {
-      evm(dispatch, enqueueSnackbar, signer, signedVAA, true, targetChain);
+      evm(
+        dispatch,
+        enqueueSnackbar,
+        signer,
+        signedVAA,
+        true,
+        targetChain,
+        undefined,
+        onSuccess
+      );
     } else if (
       targetChain === CHAIN_ID_SOLANA &&
       !!solanaWallet &&
@@ -699,7 +786,8 @@ export function useHandleRedeem() {
         solPK,
         signedVAA,
         true,
-        isTBTC
+        isTBTC,
+        onSuccess
       );
     } else if (isTerraChain(targetChain) && !!terraWallet && signedVAA) {
       terra(
@@ -708,53 +796,62 @@ export function useHandleRedeem() {
         terraWallet,
         signedVAA,
         terraFeeDenom,
-        targetChain
+        targetChain,
+        onSuccess
       ); //TODO isNative = true
     } else if (
       targetChain === CHAIN_ID_ALGORAND &&
       algoAccount &&
       !!signedVAA
     ) {
-      algo(dispatch, enqueueSnackbar, algoWallet, signedVAA);
+      algo(dispatch, enqueueSnackbar, algoWallet, signedVAA, onSuccess);
     } else if (
       targetChain === CHAIN_ID_INJECTIVE &&
       injWallet &&
       injAddress &&
       signedVAA
     ) {
-      injective(dispatch, enqueueSnackbar, injWallet, injAddress, signedVAA);
+      injective(
+        dispatch,
+        enqueueSnackbar,
+        injWallet,
+        injAddress,
+        signedVAA,
+        onSuccess
+      );
     } else if (
       targetChain === CHAIN_ID_SEI &&
       seiWallet &&
       seiAddress &&
       signedVAA
     ) {
-      sei(dispatch, enqueueSnackbar, seiWallet, signedVAA);
+      sei(dispatch, enqueueSnackbar, seiWallet, signedVAA, onSuccess);
     } else if (
       targetChain === CHAIN_ID_SUI &&
       suiWallet?.getAddress() &&
       signedVAA
     ) {
-      sui(dispatch, enqueueSnackbar, suiWallet, signedVAA);
+      sui(dispatch, enqueueSnackbar, suiWallet, signedVAA, onSuccess);
     }
   }, [
-    dispatch,
-    enqueueSnackbar,
     targetChain,
     signer,
     signedVAA,
     solanaWallet,
     solPK,
     terraWallet,
-    terraFeeDenom,
     algoAccount,
-    algoWallet,
     injWallet,
     injAddress,
-    suiWallet,
-    isTBTC,
     seiWallet,
     seiAddress,
+    suiWallet,
+    dispatch,
+    enqueueSnackbar,
+    onSuccess,
+    isTBTC,
+    terraFeeDenom,
+    algoWallet,
   ]);
 
   const handleAcalaRelayerRedeemClick = useCallback(async () => {

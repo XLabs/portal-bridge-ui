@@ -33,6 +33,10 @@ import { getXplaWallets } from "./contexts/XplaWalletContext";
 import { theme } from "./muiTheme";
 import { store } from "./store";
 import { getSeiWallets } from "./contexts/SeiWalletContext";
+import { telemetry } from "./utils/telemetry";
+
+/** initializing tracking early for page views */
+telemetry.initialize();
 
 const AGGREGATOR_WALLETS_BUILDER = async () => {
   return {

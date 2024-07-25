@@ -63,6 +63,7 @@ import {
 } from "../utils/aptos";
 import { useAptosContext } from "../contexts/AptosWalletContext";
 import { AptosWallet } from "@xlabs-libs/wallet-aggregator-aptos";
+import { telemetry, TelemetryTxEvent } from "../utils/telemetry";
 
 async function evm(
   dispatch: any,
@@ -72,7 +73,9 @@ async function evm(
   tokenId: string,
   recipientChain: ChainId,
   recipientAddress: Uint8Array,
-  chainId: ChainId
+  chainId: ChainId,
+  onError?: (error: any) => void,
+  onStart?: (extra?: Partial<TelemetryTxEvent>) => void
 ) {
   dispatch(setIsSending(true));
   try {
@@ -90,6 +93,7 @@ async function evm(
       recipientAddress,
       overrides
     );
+    onStart?.({ txId: receipt.transactionHash });
     dispatch(
       setTransferTx({ id: receipt.transactionHash, block: receipt.blockNumber })
     );
@@ -122,6 +126,7 @@ async function evm(
       content: <Alert severity="error">{parseError(e)}</Alert>,
     });
     dispatch(setIsSending(false));
+    onError?.(e);
   }
 }
 
@@ -136,7 +141,9 @@ async function solana(
   targetAddress: Uint8Array,
   originAddressStr?: string,
   originChain?: ChainId,
-  originTokenId?: string
+  originTokenId?: string,
+  onError?: (error: any) => void,
+  onStart?: (extra?: Partial<TelemetryTxEvent>) => void
 ) {
   dispatch(setIsSending(true));
   try {
@@ -161,6 +168,7 @@ async function solana(
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
     });
+    onStart?.({ txId: txid });
     const info = await connection.getTransaction(txid);
     if (!info) {
       throw new Error("An error occurred while fetching the transaction info");
@@ -190,6 +198,7 @@ async function solana(
       content: <Alert severity="error">{parseError(e)}</Alert>,
     });
     dispatch(setIsSending(false));
+    onError?.(e);
   }
 }
 
@@ -199,7 +208,9 @@ async function aptos(
   aptosTokenId: TokenTypes.TokenId,
   targetChain: ChainId,
   targetAddress: Uint8Array,
-  aptosWallet: AptosWallet
+  aptosWallet: AptosWallet,
+  onError?: (error: any) => void,
+  onStart?: (extra?: Partial<TelemetryTxEvent>) => void
 ) {
   dispatch(setIsSending(true));
   const nftBridgeAddress = getNFTBridgeAddressForChain(CHAIN_ID_APTOS);
@@ -218,6 +229,7 @@ async function aptos(
       transferPayload,
       aptosWallet
     );
+    onStart?.({ txId: hash });
     dispatch(setTransferTx({ id: hash, block: 1 }));
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
@@ -246,6 +258,7 @@ async function aptos(
       content: <Alert severity="error">{parseError(e)}</Alert>,
     });
     dispatch(setIsSending(false));
+    onError?.(e);
   }
 }
 
@@ -276,6 +289,24 @@ export function useHandleNFTTransfer() {
   const sourceTokenPublicKey = sourceParsedTokenAccount?.publicKey;
   const disabled = !isTargetComplete || isSending || isSendComplete;
   const handleTransferClick = useCallback(() => {
+    const telemetryProps: TelemetryTxEvent = {
+      fromChainId: sourceChain,
+      toChainId: targetChain,
+      fromTokenSymbol: undefined,
+      toTokenSymbol: undefined,
+      fromTokenAddress: sourceAsset,
+      toTokenAddress: undefined,
+      amount: undefined,
+    };
+    telemetry.on.transferInit(telemetryProps);
+
+    const onError = (error: any) => {
+      telemetry.on.error({ ...telemetryProps, error });
+    };
+
+    const onStart = (extra?: Partial<TelemetryTxEvent>) => {
+      telemetry.on.transferStart({ ...telemetryProps, ...extra });
+    };
     // TODO: we should separate state for transaction vs fetching vaa
     if (
       isEVMChain(sourceChain) &&
@@ -292,7 +323,9 @@ export function useHandleNFTTransfer() {
         sourceTokenId,
         targetChain,
         targetAddress,
-        sourceChain
+        sourceChain,
+        onError,
+        onStart
       );
     } else if (
       sourceChain === CHAIN_ID_SOLANA &&
@@ -313,7 +346,9 @@ export function useHandleNFTTransfer() {
         targetAddress,
         originAsset,
         originChain,
-        originTokenId
+        originTokenId,
+        onError,
+        onStart
       );
     } else if (
       sourceChain === CHAIN_ID_APTOS &&
@@ -328,7 +363,9 @@ export function useHandleNFTTransfer() {
         aptosTokenId,
         targetChain,
         targetAddress,
-        aptosWallet
+        aptosWallet,
+        onError,
+        onStart
       );
     }
   }, [
