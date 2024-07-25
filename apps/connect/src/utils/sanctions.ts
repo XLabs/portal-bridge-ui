@@ -73,49 +73,57 @@ export const getIsSanctioned = async (chainId: ChainId, addr?: string) => {
 
   if (trmChain && CLUSTER === "mainnet") {
     let isSanctioned = false;
+    try {
+      const resp = await fetch(
+        "https://hjukqn406c.execute-api.us-east-2.amazonaws.com/addresses",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify([
+            {
+              // address: "149w62rY42aZBox8fGcmqNsXUzSStKeq8C", // sanctioned address example
+              // chain: "bitcoin", // sanctioned address example
+              address: addr,
+              chain: trmChain,
+              accountExternalId: "PortalBridge",
+            },
+          ]),
+        }
+      );
 
-    const resp = await fetch(
-      "https://hjukqn406c.execute-api.us-east-2.amazonaws.com/addresses",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify([
-          {
-            // address: "149w62rY42aZBox8fGcmqNsXUzSStKeq8C", // sanctioned address example
-            // chain: "bitcoin", // sanctioned address example
-            address: addr,
-            chain: trmChain,
-            accountExternalId: "PortalBridge",
-          },
-        ]),
-      }
-    );
+      const data = await resp.json();
+      const screeningData = data[0] as SanctionResponse;
 
-    const data = await resp.json();
-    const screeningData = data[0] as SanctionResponse;
+      screeningData.addressRiskIndicators.forEach((risk) => {
+        if (
+          risk.categoryRiskScoreLevel >= 10 &&
+          risk.riskType === "OWNERSHIP"
+        ) {
+          isSanctioned = true;
+        }
+      });
 
-    screeningData.addressRiskIndicators.forEach((risk) => {
-      if (risk.categoryRiskScoreLevel >= 10 && risk.riskType === "OWNERSHIP") {
-        isSanctioned = true;
-      }
-    });
+      screeningData.entities.forEach((entity) => {
+        if (entity.riskScoreLevel >= 10) {
+          isSanctioned = true;
+        }
+      });
 
-    screeningData.entities.forEach((entity) => {
-      if (entity.riskScoreLevel >= 10) {
-        isSanctioned = true;
-      }
-    });
+      // store result on localStorage for one week
+      localStorage.setItem(
+        localStorageKey,
+        JSON.stringify({
+          expires: new Date(rightNow.getTime() + 7 * 24 * 60 * 60 * 1000),
+          isSanctioned: isSanctioned,
+        })
+      );
 
-    // store result on localStorage for one week
-    localStorage.setItem(
-      localStorageKey,
-      JSON.stringify({
-        expires: new Date(rightNow.getTime() + 7 * 24 * 60 * 60 * 1000),
-        isSanctioned: isSanctioned,
-      })
-    );
-
-    return isSanctioned;
+      return isSanctioned;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
   }
+
   return false;
 };
