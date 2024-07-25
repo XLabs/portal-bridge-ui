@@ -214,7 +214,7 @@ export function useHandleNFTRedeem() {
   const { account: aptosAccount, wallet: aptosWallet } = useAptosContext();
   const signedVAA = useNFTSignedVAA();
   const isRedeeming = useSelector(selectNFTIsRedeeming);
-  
+
   const handleRedeemClick = useCallback(() => {
     const telemetryProps: TelemetryTxEvent = {
       fromChainId: sourceChain,
