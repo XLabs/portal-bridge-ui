@@ -1,0 +1,238 @@
+---
+description: >- 
+    A brief overview over the current available liquid markets on different chains.
+title: Liquid Markets
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import EthSol from "./_liquid-markets/eth-sol.md";
+import BscSol from "./_liquid-markets/bsc-sol.md";
+import MaticSol from "./_liquid-markets/matic-sol.md";
+import SolEth from "./_liquid-markets/sol-eth.md";
+import NearEth from './_liquid-markets/near-eth.md'
+import AvaxMatic from './_liquid-markets/avax-matic.md'
+import SolMatic from './_liquid-markets/sol-matic.md'
+import MaticAvax from './_liquid-markets/matic-avax.md'
+import EthOasis from './_liquid-markets/eth-oasis.md'
+import SolOasis from './_liquid-markets/sol-oasis.md'
+import EthKarura from './_liquid-markets/eth-karura.md'
+import SolKarura from './_liquid-markets/sol-karura.md'
+import EthKlaytn from './_liquid-markets/eth-klaytn.md'
+import BscKlaytn from './_liquid-markets/bsc-klaytn.md'
+import SolKlaytn from './_liquid-markets/sol-klaytn.md'
+import AvaxKlytn from './_liquid-markets/avax-klaytn.md'
+import EthCelo from './_liquid-markets/eth-celo.md'
+import SolCelo from './_liquid-markets/sol-celo.md'
+import OasisCelo from './_liquid-markets/oasis-celo.md'
+import EthMoonbeam from './_liquid-markets/eth-moonbeam.md'
+import BscMoonbeam from './_liquid-markets/bsc-moonbeam.md'
+import EthAptos from './_liquid-markets/eth-aptos.md'
+import EthAlgorand from './_liquid-markets/eth-algorand.md'
+import SolAlgorand from './_liquid-markets/sol-algorand.md'
+import AvaxAlgorand from './_liquid-markets/avax-algorand.md'
+import SolInjective from './_liquid-markets/sol-injective.md'
+import EthInjective from './_liquid-markets/eth-injective.md'
+import EthSui from './_liquid-markets/eth-sui.md'
+import SolSui from './_liquid-markets/sol-sui.md'
+import AptosOsmosis from './_liquid-markets/aptos-osmosis.md'
+import SolOsmosis from './_liquid-markets/sol-osmosis.md'
+import SuiOsmosis from './_liquid-markets/sui-osmosis.md'
+
+# Overview: Liquid Markets
+
+Last updated: July 2023&#x20;
+
+Updates: Updated liquid markets for Sui&#x20;
+
+## How to navigate this guide
+
+Periodically check back here to see if new markets have been added to our supported chains.
+
+### Terminology
+
+**Origin chain:** The chain on which you currently have your funds that you want to bridge.
+
+**Target chain:** The chain on which you want to receive tokens.&#x20;
+
+_Example_: If you want to send ETH(Wormhole) from Ethereum (origin chain) to Solana (target chain). You need to chose this tab: ETH -> SOL
+
+**Token (origin):** The token on the origin chain, from which you are sending your funds ([Full token list by origin here](https://github.com/certusone/wormhole-token-list/blob/main/content/by_source.csv)).
+
+**Token (target):** The token that is minted on the target chain, on which you receive your funds ([Full token list by target here](https://github.com/certusone/wormhole-token-list/blob/main/content/by_dest.csv)).
+
+**Markets:** Available, liquid markets on the target chain for swapping/pooling/staking/etc.
+
+**Contract address:** The contract address of the token (target). You might need the contract address to manually add the token to your wallet (Phantom, Metamask, Terra Station, etc.)
+
+**Notes:** additional information
+
+### Portal naming conventions&#x20;
+
+Check out the [Wormhole Token list](https://github.com/certusone/wormhole-token-list/blob/main/README.md) for more details.&#x20;
+
+## Target chain: Solana
+
+<Tabs>
+  <TabItem value="ETH -> SOL" label="ETH -> SOL" default>
+    <EthSol />
+  </TabItem>
+  <TabItem value="BSC -> SOL" label="BSC -> SOL">
+    <BscSol />
+  </TabItem>
+  <TabItem value="MATIC -> SOL" label="MATIC -> SOL">
+    <MaticSol />
+  </TabItem>
+</Tabs>
+
+## Target chain: Ethereum
+
+<Tabs>
+  <TabItem value="SOL -> ETH" label="SOL -> ETH" default>
+    <SolEth />
+  </TabItem>
+  <TabItem value="NEAR -> ETH" label="NEAR -> ETH" >
+    <NearEth />
+  </TabItem>
+</Tabs>
+
+## Target chain: Polygon (MATIC)
+
+<Tabs>
+  <TabItem value="AVAX-> MATIC" label="AVAX-> MATIC" default>
+    <AvaxMatic />
+  </TabItem>
+  <TabItem value="SOL ->MATIC" label="SOL ->MATIC">
+    <SolMatic />
+  </TabItem>
+</Tabs>
+
+## Target chain: Avalanche
+
+<Tabs>
+  <TabItem value="MATIC ->AVAX" label="MATIC ->AVAX" default>
+    <MaticAvax />
+  </TabItem>
+</Tabs>
+
+## Target chain: Oasis
+
+<Tabs>
+  <TabItem value="ETH -> OASIS" label="ETH -> OASIS" default>
+    <EthOasis />
+  </TabItem>
+  <TabItem value="SOL -> OASIS" label="SOL -> OASIS">
+    <SolOasis />
+  </TabItem>
+</Tabs>
+
+## Target chain: Karura
+
+<Tabs>
+  <TabItem value="ETH -> KARURA" label="ETH -> KARURA" default>
+    <EthKarura />
+  </TabItem>
+  <TabItem value="SOL ->KARURA" label="SOL ->KARURA">
+    <SolKarura />
+  </TabItem>
+</Tabs>
+
+## Target chain: Klaytn
+
+<Tabs>
+  <TabItem value="ETH-> KLAYTN" label="ETH-> KLAYTN" default>
+    <EthKlaytn />
+  </TabItem>
+  <TabItem value="BSC -> KLAYTN" label="BSC -> KLAYTN">
+    <BscKlaytn />
+  </TabItem>
+  <TabItem value="SOL -> KLAYTN" label="SOL -> KLAYTN">
+    <SolKlaytn />
+  </TabItem>
+  <TabItem value="AVAX -> KLAYTN" label="AVAX -> KLAYTN">
+    <AvaxKlytn />
+  </TabItem>
+</Tabs>
+
+## Target chain: Celo
+
+<Tabs>
+  <TabItem value="ETH -> CELO" label="ETH -> CELO" default>
+    <EthCelo />
+  </TabItem>
+  <TabItem value="SOL -> CELO" label="SOL -> CELO">
+    <SolCelo />
+  </TabItem>
+  <TabItem value="OASIS -> CELO" label="OASIS -> CELO">
+    <OasisCelo />
+  </TabItem>
+</Tabs>
+
+## Target chain: Moonbeam
+
+<Tabs>
+  <TabItem value="ETH -> MOONBEAM" label="ETH -> MOONBEAM" default>
+    <EthMoonbeam />
+  </TabItem>
+  <TabItem value="BSC -> MOONBEAM" label="BSC -> MOONBEAM">
+    <BscMoonbeam />
+  </TabItem>
+</Tabs>
+
+## Target chain: Aptos
+
+<Tabs>
+  <TabItem value="ETH -> APTOS" label="ETH -> APTOS" default>
+    <EthAptos />
+  </TabItem>
+</Tabs>
+
+## Target chain: Algorand
+
+<Tabs>
+  <TabItem value="ETH -> ALGORAND" label="ETH -> ALGORAND" default>
+    <EthAlgorand />
+  </TabItem>
+  <TabItem value="SOL -> ALGORAND" label="SOL -> ALGORAND" default>
+    <SolAlgorand />
+  </TabItem>
+  <TabItem value="AVAX -> ALGORAND" label="AVAX -> ALGORAND" default>
+    <AvaxAlgorand />
+  </TabItem>
+</Tabs>
+
+## Target chain: Injective
+
+<Tabs>
+  <TabItem value="SOL -> INJECTIVE" label="SOL -> INJECTIVE" default>
+    <SolInjective />
+  </TabItem>
+  <TabItem value="ETH -> INJECTIVE" label="ETH -> INJECTIVE" >
+    <EthInjective />
+  </TabItem>
+</Tabs>
+
+## Target chain: Sui
+
+<Tabs>
+  <TabItem value="ETH -> SUI" label="ETH -> SUI" default>
+    <EthSui />
+  </TabItem>
+  <TabItem value="SOL -> SUI" label="SOL -> SUI" default>
+    <SolSui />
+  </TabItem>
+</Tabs>
+
+## Target chain: Osmosis
+
+<Tabs>
+  <TabItem value="SOL -> OSMO" label="SOL -> OSMO" default>
+    <SolOsmosis />
+  </TabItem>
+  <TabItem value="SUI -> OSMO" label="SUI -> OSMO" default>
+    <SuiOsmosis />
+  </TabItem>
+  <TabItem value="APTOS -> OSMO" label="APTOS -> OSMO" default>
+    <AptosOsmosis />
+  </TabItem>
+</Tabs>

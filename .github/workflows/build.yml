@@ -88,7 +88,9 @@ jobs:
           git config user.name "xLabs CI"
           git config user.email "devops@xlabs.xyz"
       - name: Install dependencies
-        run: npm ci
+        run: |
+          pushd apps/advanced-tools
+          npm ci
       - name: Set Version
         id: set-version
         run: npm version $(node -p -e "require('./package.json').version")-${{inputs.separator}}$(echo ${{ github.sha }} | cut -c -10)
@@ -103,6 +105,7 @@ jobs:
           REACT_APP_COVALENT_API_KEY: ${{ secrets.REACT_APP_COVALENT_API_KEY }}
           REACT_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}
         run: |
+          pushd apps/advanced-tools
           echo 'REACT_APP_VERSION=$npm_package_version' > .env
           npm run build
           cd build
@@ -111,7 +114,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: build-advanced-tools
-          path: build
+          path: apps/advanced-tools/build
 
   redirects:
     name: "Redirects"
