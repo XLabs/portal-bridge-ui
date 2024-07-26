@@ -30,6 +30,6 @@ export const validateTransfer = async (
   if (!isValid) {
     return { isValid: false, error: "Not valid target address" };
   }
-  //return { isValid: false, error: "Not implemented" };
+
   return { isValid: true };
 };
