@@ -8,10 +8,12 @@ import {
   CHAIN_ID_OPTIMISM,
   CHAIN_ID_POLYGON,
   CHAIN_ID_SOLANA,
+  CHAIN_ID_KLAYTN,
   ChainId,
   isEVMChain,
   ChainName,
   toChainId,
+  isCosmWasmChain,
 } from "@certusone/wormhole-sdk";
 import { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
 
@@ -32,17 +34,19 @@ export const getTrmChainName = (chain: ChainName | ChainId) => {
   const id = toChainId(chain as ChainName);
   const trm_chain_names: any = {
     [CHAIN_ID_ALGORAND]: "algorand",
-    [CHAIN_ID_BTC]: "bitcoin",
-    [CHAIN_ID_SOLANA]: "solana",
+    [CHAIN_ID_ARBITRUM]: "arbitrum",
     [CHAIN_ID_AVAX]: "avalanche_c_chain",
     [CHAIN_ID_BSC]: "binance_smart_chain",
+    [CHAIN_ID_BTC]: "bitcoin",
     [CHAIN_ID_CELO]: "celo",
+    [CHAIN_ID_KLAYTN]: "klaytn",
     [CHAIN_ID_OPTIMISM]: "optimism",
     [CHAIN_ID_POLYGON]: "polygon",
-    [CHAIN_ID_ARBITRUM]: "arbitrum",
+    [CHAIN_ID_SOLANA]: "solana",
   };
 
   if (trm_chain_names[id]) return trm_chain_names[id];
+  if (isCosmWasmChain(id)) return "cosmos";
   if (isEVMChain(id)) return "ethereum";
 
   return "";
