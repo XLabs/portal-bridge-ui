@@ -2,10 +2,9 @@ import {
   ExtendedTransferDetails,
   ValidateTransferResult,
 } from "node_modules/@wormhole-foundation/wormhole-connect/lib/src/config/types";
-import { ChainName, toChainId } from "@certusone/wormhole-sdk";
+import { ChainName } from "@certusone/wormhole-sdk";
 import { isValidAddress } from "./validAddress";
-//import { validateTransferHandler } from "../../src/providers/sanctions";
-import { getIsSanctioned } from "./sanctions";
+import { validateTransferHandler } from "../../src/providers/sanctions";
 
 export const validateTransfer = async (
   tx: ExtendedTransferDetails
@@ -15,7 +14,7 @@ export const validateTransfer = async (
   tx.route;
   try {
     // Check OFAC (sanctioned)
-    const isSanctioned = (await getIsSanctioned(toChainId(tx.toChain), tx.toWalletAddress));
+    const isSanctioned = (await validateTransferHandler(tx))?.isValid;
     if (isSanctioned) {
       return { isValid: false, error: "Sanctionated target address" };
     }

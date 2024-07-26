@@ -1,3 +1,18 @@
+import {
+  CHAIN_ID_ALGORAND,
+  CHAIN_ID_ARBITRUM,
+  CHAIN_ID_AVAX,
+  CHAIN_ID_BSC,
+  CHAIN_ID_BTC,
+  CHAIN_ID_CELO,
+  CHAIN_ID_OPTIMISM,
+  CHAIN_ID_POLYGON,
+  CHAIN_ID_SOLANA,
+  ChainId,
+  isEVMChain,
+  ChainName,
+  toChainId,
+} from "@certusone/wormhole-sdk";
 import { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
 
 export interface SanctionResponse {
@@ -11,6 +26,27 @@ export const ACCOUNT_ID = "PortalBridge";
 export const RISK_LEVEL_SANCTION: number = 10;
 export const RISK_ADDRESS_INDICATOR_TYPE = "OWNERSHIP";
 
+// TRM screening chain names map with wormhole chain ids
+// https://documentation.trmlabs.com/tag/Supported-Blockchain-List
+export const getTrmChainName = (chain: ChainName | ChainId) => {
+  const id = toChainId(chain as ChainName);
+  const trm_chain_names: any = {
+    [CHAIN_ID_ALGORAND]: "algorand",
+    [CHAIN_ID_BTC]: "bitcoin",
+    [CHAIN_ID_SOLANA]: "solana",
+    [CHAIN_ID_AVAX]: "avalanche_c_chain",
+    [CHAIN_ID_BSC]: "binance_smart_chain",
+    [CHAIN_ID_CELO]: "celo",
+    [CHAIN_ID_OPTIMISM]: "optimism",
+    [CHAIN_ID_POLYGON]: "polygon",
+    [CHAIN_ID_ARBITRUM]: "arbitrum",
+  };
+
+  if (trm_chain_names[id]) return trm_chain_names[id];
+  if (isEVMChain(id)) return "ethereum";
+
+  return "";
+};
 const isSanctioned = async ({
   chain,
   address,
@@ -46,11 +82,11 @@ export const validateTransferHandler: NonNullable<
 > = async (transferDetails) => {
   const [isOriginSanctioned, isTargetSanctioned] = await Promise.all([
     isSanctioned({
-      chain: transferDetails.fromChain,
+      chain: getTrmChainName(transferDetails.fromChain as ChainName),
       address: transferDetails.fromWalletAddress,
     }),
     isSanctioned({
-      chain: transferDetails.toChain,
+      chain: getTrmChainName(transferDetails.toChain as ChainName),
       address: transferDetails.toWalletAddress,
     }),
   ]);
