@@ -1,13 +1,17 @@
 import base58 from "bs58";
 import * as ethers from "ethers";
-import { ChainName, isCosmWasmChain, isEVMChain } from "@certusone/wormhole-sdk";
+import {
+  ChainName,
+  isCosmWasmChain,
+  isEVMChain,
+} from "@certusone/wormhole-sdk";
 import { AptosClient } from "aptos";
 import { bech32 } from "bech32";
 
 export const isValidAddress = async (
   address: string,
   chain: ChainName
-): Promise<boolean>  => {
+): Promise<boolean> => {
   if (isEVMChain(chain)) {
     return isValidEthereumAddress(address);
   } else if (chain === "solana") {
@@ -20,16 +24,13 @@ export const isValidAddress = async (
     return isValidCosmosAddress(address, chain);
   }
   return false;
-}
+};
 
 // Ethereum Validation
-const getEthereumAddressWithChecksum= (address: string): string => {
+const getEthereumAddressWithChecksum = (address: string): string => {
   return ethers.utils.getAddress(address);
-}
-const isValidEthereumAddress = (
-  address: string,
-  strict = false
-): boolean => {
+};
+const isValidEthereumAddress = (address: string, strict = false): boolean => {
   // We need to ensure the address contains the checksum
   try {
     const addressWithChecksum = getEthereumAddressWithChecksum(address);
@@ -48,7 +49,7 @@ const isValidEthereumAddress = (
     }
   }
   return false;
-}
+};
 
 // Solana Validation
 const isValidSolanaAddress = (address: string): boolean => {
@@ -58,7 +59,7 @@ const isValidSolanaAddress = (address: string): boolean => {
   } catch (e) {
     return false;
   }
-}
+};
 
 // Aptos Validation
 const aptosClient = new AptosClient("https://api.mainnet.aptoslabs.com/v1");
@@ -73,12 +74,12 @@ const isValidAptosAddress = async (address: string) => {
 // Cosmos Validation
 const isValidCosmosAddress = (address: string, chain: ChainName) => {
   const PREFIXES: Record<string, string> = {
-    osmosis: 'osmo',
-    evmos: 'evmos',
-    kujira: 'kujira',
-    injective: 'inj',
+    osmosis: "osmo",
+    evmos: "evmos",
+    kujira: "kujira",
+    injective: "inj",
   };
-  if (chain === 'evmos' && address.startsWith('0x')) {
+  if (chain === "evmos" && address.startsWith("0x")) {
     // For Evmos hex address case https://docs.evmos.org/protocol/concepts/accounts#address-formats-for-clients
     return isValidEthereumAddress(address);
   } else {
@@ -89,17 +90,16 @@ const isValidCosmosAddress = (address: string, chain: ChainName) => {
     } catch {
       return false;
     }
-
   }
-}
+};
 
 // Sui Validation
 const isHex = (value: string) => {
   return /^(0x|0X)?[a-fA-F0-9]+$/.test(value) && value.length % 2 === 0;
-}
+};
 const getHexByteLength = (value: string) => {
   return /^(0x|0X)/.test(value) ? (value.length - 2) / 2 : value.length / 2;
-}
+};
 const isValidSuiAddress = (address: string) => {
   return isHex(address) && getHexByteLength(address) === 32;
-}
+};
