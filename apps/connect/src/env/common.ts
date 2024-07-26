@@ -57,7 +57,7 @@ export const wormholeConnectConfigCommon: Partial<WormholeConnectConfig> = {
   explorer: {
     href: `https://wormholescan.io/#/txs?address={:address}&network=${CLUSTER}`,
   },
-  // manualTargetAddress: true, // TODO: remove comment when have connect new version
+  manualTargetAddress: true,
   menu: [
     {
       label: "Advanced Tools",
