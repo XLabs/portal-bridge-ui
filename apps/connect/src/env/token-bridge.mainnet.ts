@@ -39,7 +39,7 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/35958/standard/etherfi.jpeg?1710254562",
           coinGeckoId: "ether-fi",
           decimals: {
-            default: 18,
+            default: 8,
             Ethereum: 18,
           },
         },
@@ -54,7 +54,8 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/35958/standard/etherfi.jpeg?1710254562",
           coinGeckoId: "ether-fi",
           decimals: {
-            default: 18,
+            default: 8,
+            Ethereum: 18,
             Arbitrum: 18,
           },
         },
@@ -315,7 +316,8 @@ export const ENV: Env = {
           icon: "https://coin-images.coingecko.com/coins/images/33117/large/Frame_27513839.png?1700732599",
           coinGeckoId: "stakewise-staked-eth",
           decimals: {
-            default: 18,
+            default: 8,
+            Ethereum: 18,
           },
         },
         osETHarbitrum: {
@@ -329,7 +331,8 @@ export const ENV: Env = {
           icon: "https://coin-images.coingecko.com/coins/images/33117/large/Frame_27513839.png?1700732599",
           coinGeckoId: "stakewise-staked-eth",
           decimals: {
-            default: 18,
+            default: 8,
+            Ethereum: 18,
           },
         },
         "wstETH ": {
@@ -359,7 +362,9 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/26785/standard/yaku_logo.png?1706636424",
           coinGeckoId: "yaku",
           decimals: {
-            default: 9,
+            default: 8,
+            Ethereum: 9,
+            Solana: 9,
           },
         },
         Yakuethereum: {
@@ -373,7 +378,8 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/26785/standard/yaku_logo.png?1706636424",
           coinGeckoId: "yaku",
           decimals: {
-            default: 9,
+            default: 8,
+            Ethereum: 9,
           },
         },
         Yakuarbitrum: {
@@ -387,7 +393,8 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/26785/standard/yaku_logo.png?1706636424",
           coinGeckoId: "yaku",
           decimals: {
-            default: 9,
+            default: 8,
+            Ethereum: 9,
           },
         },
         Yakuavalanche: {
@@ -401,7 +408,8 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/26785/standard/yaku_logo.png?1706636424",
           coinGeckoId: "yaku",
           decimals: {
-            default: 9,
+            default: 8,
+            Ethereum: 9,
           },
         },
         WeatherXMethereum: {
@@ -415,7 +423,8 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/38154/standard/weatherxm-network-logo.png?1716668976",
           coinGeckoId: "weatherxm-network",
           decimals: {
-            default: 18,
+            default: 8,
+            Ethereum: 18,
           },
         },
         WeatherXMsolana: {
@@ -429,7 +438,9 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/38154/standard/weatherxm-network-logo.png?1716668976",
           coinGeckoId: "weatherxm-network",
           decimals: {
-            default: 9,
+            default: 8,
+            Ethereum: 18,
+            Solana: 9,
           },
         },
         JitoSOLsolana: {
@@ -443,7 +454,9 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/28046/standard/JitoSOL-200.png?1696527060",
           coinGeckoId: "jito-staked-sol",
           decimals: {
-            default: 9,
+            default: 8,
+            Ethereum: 9,
+            Solana: 9,
           },
         },
         JitoSOLarbitrum: {
@@ -457,7 +470,8 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/28046/standard/JitoSOL-200.png?1696527060",
           coinGeckoId: "jito-staked-sol",
           decimals: {
-            default: 9,
+            default: 8,
+            Ethereum: 9,
           },
         },
         Swissborgethereum: {
@@ -471,7 +485,8 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/2117/standard/YJUrRy7r_400x400.png?1696503083",
           coinGeckoId: "swissborg",
           decimals: {
-            default: 18,
+            default: 8,
+            Ethereum: 18,
           },
         },
         Swissborgsolana: {
@@ -485,7 +500,9 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/2117/standard/YJUrRy7r_400x400.png?1696503083",
           coinGeckoId: "swissborg",
           decimals: {
-            default: 9,
+            default: 8,
+            Ethereum: 18,
+            Solana: 9,
           },
         },
         Agoraethereum: {
@@ -499,7 +516,8 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/38230/standard/agora-avatar-black.png?1716828738",
           coinGeckoId: "agorahub",
           decimals: {
-            default: 18,
+            default: 8,
+            Ethereum: 18,
           },
         },
         Agorasolana: {
@@ -513,7 +531,9 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/38230/standard/agora-avatar-black.png?1716828738",
           coinGeckoId: "agorahub",
           decimals: {
-            default: 9,
+            default: 8,
+            Ethereum: 9,
+            Solana: 9,
           },
         },
         XBorgethereum: {
@@ -527,7 +547,8 @@ export const ENV: Env = {
           icon: "https://www.xborg.com/images/logo.svg",
           coinGeckoId: "",
           decimals: {
-            default: 18,
+            default: 8,
+            Ethereum: 18,
           },
         },
         XBorgarbitrum: {
@@ -541,7 +562,8 @@ export const ENV: Env = {
           icon: "https://www.xborg.com/images/logo.svg",
           coinGeckoId: "",
           decimals: {
-            default: 18,
+            default: 8,
+            Ethereum: 18,
           },
         },
         XBorgsolana: {
@@ -555,7 +577,9 @@ export const ENV: Env = {
           icon: "https://www.xborg.com/images/logo.svg",
           coinGeckoId: "",
           decimals: {
-            default: 9,
+            default: 8,
+            Ethereum: 18,
+            Solana: 9,
           },
         },
         Cheesearbitrum: {
@@ -569,7 +593,8 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/37156/standard/cheese_icon_500x500.png?1713499473",
           coinGeckoId: "cheese-2",
           decimals: {
-            default: 18,
+            default: 8,
+            Ethereum: 18,
           },
         },
         Cheesesolana: {
