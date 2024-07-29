@@ -457,7 +457,7 @@ export const ENV: Env = {
           icon: 'https://assets.coingecko.com/coins/images/28046/standard/JitoSOL-200.png?1696527060',
           coinGeckoId: 'jito-staked-sol',
           decimals: {
-            default: 18,
+            default: 9,
           },
         },
         Swissborgethereum: {
