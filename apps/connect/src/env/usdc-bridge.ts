@@ -21,7 +21,6 @@ export const ENV: Env = {
       isBlank: true,
     },
     { label: "USDC", active: true, href: `${PUBLIC_URL}/usdc-bridge` },
-    { label: "Privacy Policy", href: `${PUBLIC_URL}/privacy-policy` },
   ],
   redirects: undefined,
   wormholeConnectConfig: {
