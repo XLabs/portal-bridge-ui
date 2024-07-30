@@ -33,9 +33,7 @@ describe("sanctions", () => {
     global.fetch = jest.fn().mockResolvedValue({
       json: jest.fn().mockResolvedValue([validResponse]),
     });
-    expect(await isSanctionedAddress(transferDetails)).toEqual({
-      isValid: true,
-    });
+    expect(await isSanctionedAddress(transferDetails)).toEqual(true);
     expect(global.fetch).toHaveBeenNthCalledWith(
       1,
       TRM_URL,
@@ -67,9 +65,7 @@ describe("sanctions", () => {
   it("should be valid when api fails", async () => {
     console.error = jest.fn();
     global.fetch = jest.fn().mockRejectedValue({});
-    expect(await isSanctionedAddress(transferDetails)).toEqual({
-      isValid: true,
-    });
+    expect(await isSanctionedAddress(transferDetails)).toEqual(true);
   });
 
   it("should be valid when api returns unexpected data", async () => {
@@ -78,9 +74,7 @@ describe("sanctions", () => {
       json: jest.fn().mockResolvedValue({ random: true }),
     });
 
-    expect(await isSanctionedAddress(transferDetails)).toEqual({
-      isValid: true,
-    });
+    expect(await isSanctionedAddress(transferDetails)).toEqual(true);
   });
 
   it("should NOT be valid when one address is NOT valid because of the address risk level", async () => {
@@ -101,9 +95,7 @@ describe("sanctions", () => {
       ]);
     global.fetch = jest.fn().mockResolvedValue({ json });
 
-    expect(await isSanctionedAddress(transferDetails)).toEqual({
-      isValid: false,
-    });
+    expect(await isSanctionedAddress(transferDetails)).toEqual(false);
   });
 
   it("should NOT be valid when one address is NOT valid because of the entity risk level", async () => {
@@ -121,8 +113,6 @@ describe("sanctions", () => {
       ]);
     global.fetch = jest.fn().mockResolvedValue({ json });
 
-    expect(await isSanctionedAddress(transferDetails)).toEqual({
-      isValid: false,
-    });
+    expect(await isSanctionedAddress(transferDetails)).toEqual(false);
   });
 });

@@ -14,8 +14,8 @@ export const validateTransfer = async (
   tx.route;
   try {
     // Check OFAC (sanctioned)
-    const isValid = await isSanctionedAddress(tx);
-    if (!isValid) {
+    const isSanctioned = await isSanctionedAddress(tx);
+    if (isSanctioned) {
       return { isValid: false, error: "Sanctionated target address" };
     }
   } catch (error) {
