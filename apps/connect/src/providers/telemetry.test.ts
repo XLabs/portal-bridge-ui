@@ -20,6 +20,7 @@ describe("telemetry", () => {
         fromChain: "bsc",
         toChain: "arbitrum",
         txId: "txId",
+        USDAmount: 123.456,
         toToken: {
           symbol: "osETH",
           tokenId: { address: "address", chain: "chain" },
@@ -65,6 +66,7 @@ describe("telemetry", () => {
       toTokenAddress: "address",
       route: "wstETH Bridge",
       txId: "txId",
+      USDAmount: 123.456,
     });
   });
 
