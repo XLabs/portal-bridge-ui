@@ -65,14 +65,15 @@ export const eventHandler = (e: WormholeConnectEvent) => {
   // Convert WormholeConnectEvent to Attributes
   const isTransferError =
     e.type === "transfer.error" || e.type === "transfer.redeem.error";
-  const attributes: { [key: string]: string } = {
+  const attributes: { [key: string]: string | number | undefined } = {
     fromChain: e.details.fromChain.toString(),
     toChain: e.details.toChain.toString(),
     fromTokenSymbol: e.details.fromToken?.symbol,
     fromTokenAddress: getTokenAddress(e.details.fromToken),
     toTokenSymbol: e.details.toToken?.symbol,
     toTokenAddress: getTokenAddress(e.details.toToken),
-    txId: e.details.txId!,
+    txId: e.details.txId,
+    USDAmount: e.details.USDAmount,
     route:
       {
         bridge: "Manual Bridge",
