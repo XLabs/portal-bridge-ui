@@ -81,7 +81,9 @@ const isSanctioned = async ({
   }
 };
 
-export const isSanctionedAddress = async (transferDetails: ExtendedTransferDetails) => {
+export const isSanctionedAddress = async (
+  transferDetails: ExtendedTransferDetails
+) => {
   const [isOriginSanctioned, isTargetSanctioned] = await Promise.all([
     isSanctioned({
       chain: getTrmChainName(transferDetails.fromChain as ChainName),
