@@ -15,7 +15,7 @@ import {
   toChainId,
   isCosmWasmChain,
 } from "@certusone/wormhole-sdk";
-import { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
+import { ExtendedTransferDetails } from "node_modules/@wormhole-foundation/wormhole-connect/lib/src/config/types";
 
 export interface SanctionResponse {
   addressRiskIndicators: { categoryRiskScoreLevel: number; riskType: string }[];
@@ -32,7 +32,7 @@ export const RISK_ADDRESS_INDICATOR_TYPE = "OWNERSHIP";
 // https://documentation.trmlabs.com/tag/Supported-Blockchain-List
 export const getTrmChainName = (chain: ChainName | ChainId) => {
   const id = toChainId(chain as ChainName);
-  const trm_chain_names: any = {
+  const trmChainNames: any = {
     [CHAIN_ID_ALGORAND]: "algorand",
     [CHAIN_ID_ARBITRUM]: "arbitrum",
     [CHAIN_ID_AVAX]: "avalanche_c_chain",
@@ -45,7 +45,7 @@ export const getTrmChainName = (chain: ChainName | ChainId) => {
     [CHAIN_ID_SOLANA]: "solana",
   };
 
-  if (trm_chain_names[id]) return trm_chain_names[id];
+  if (trmChainNames[id]) return trmChainNames[id];
   if (isCosmWasmChain(id)) return "cosmos";
   if (isEVMChain(id)) return "ethereum";
 
@@ -81,9 +81,7 @@ const isSanctioned = async ({
   }
 };
 
-export const validateTransferHandler: NonNullable<
-  WormholeConnectConfig["validateTransferHandler"]
-> = async (transferDetails) => {
+export const isSanctionedAddress = async (transferDetails: ExtendedTransferDetails) => {
   const [isOriginSanctioned, isTargetSanctioned] = await Promise.all([
     isSanctioned({
       chain: getTrmChainName(transferDetails.fromChain as ChainName),
@@ -95,5 +93,5 @@ export const validateTransferHandler: NonNullable<
     }),
   ]);
 
-  return { isValid: !isOriginSanctioned && !isTargetSanctioned };
+  return isOriginSanctioned || isTargetSanctioned;
 };

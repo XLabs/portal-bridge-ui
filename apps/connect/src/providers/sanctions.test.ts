@@ -4,11 +4,11 @@ import {
   RISK_LEVEL_SANCTION,
   SanctionResponse,
   TRM_URL,
-  validateTransferHandler,
+  isSanctionedAddress,
 } from "./sanctions";
 
 describe("sanctions", () => {
-  let transferDetails: Parameters<typeof validateTransferHandler>[0];
+  let transferDetails: Parameters<typeof isSanctionedAddress>[0];
   let validResponse: SanctionResponse;
   beforeEach(() => {
     global.fetch = jest.fn().mockResolvedValue({ json: jest.fn() });
@@ -33,7 +33,7 @@ describe("sanctions", () => {
     global.fetch = jest.fn().mockResolvedValue({
       json: jest.fn().mockResolvedValue([validResponse]),
     });
-    expect(await validateTransferHandler(transferDetails)).toEqual({
+    expect(await isSanctionedAddress(transferDetails)).toEqual({
       isValid: true,
     });
     expect(global.fetch).toHaveBeenNthCalledWith(
@@ -67,7 +67,7 @@ describe("sanctions", () => {
   it("should be valid when api fails", async () => {
     console.error = jest.fn();
     global.fetch = jest.fn().mockRejectedValue({});
-    expect(await validateTransferHandler(transferDetails)).toEqual({
+    expect(await isSanctionedAddress(transferDetails)).toEqual({
       isValid: true,
     });
   });
@@ -78,7 +78,7 @@ describe("sanctions", () => {
       json: jest.fn().mockResolvedValue({ random: true }),
     });
 
-    expect(await validateTransferHandler(transferDetails)).toEqual({
+    expect(await isSanctionedAddress(transferDetails)).toEqual({
       isValid: true,
     });
   });
@@ -101,7 +101,7 @@ describe("sanctions", () => {
       ]);
     global.fetch = jest.fn().mockResolvedValue({ json });
 
-    expect(await validateTransferHandler(transferDetails)).toEqual({
+    expect(await isSanctionedAddress(transferDetails)).toEqual({
       isValid: false,
     });
   });
@@ -121,7 +121,7 @@ describe("sanctions", () => {
       ]);
     global.fetch = jest.fn().mockResolvedValue({ json });
 
-    expect(await validateTransferHandler(transferDetails)).toEqual({
+    expect(await isSanctionedAddress(transferDetails)).toEqual({
       isValid: false,
     });
   });
