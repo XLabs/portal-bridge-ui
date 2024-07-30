@@ -39,7 +39,8 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/35087/standard/womrhole_logo_full_color_rgb_2000px_72ppi_fb766ac85a.png?1708688954",
           coinGeckoId: "wormhole",
           decimals: {
-            default: 18,
+            default: 8,
+            Ethereum: 18,
           },
         },
         Warbitrum_sepolia: {
@@ -53,7 +54,8 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/35087/standard/womrhole_logo_full_color_rgb_2000px_72ppi_fb766ac85a.png?1708688954",
           coinGeckoId: "wormhole",
           decimals: {
-            default: 18,
+            default: 8,
+            Ethereum: 18,
           },
         },
         Wbase_sepolia: {
@@ -67,7 +69,8 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/35087/standard/womrhole_logo_full_color_rgb_2000px_72ppi_fb766ac85a.png?1708688954",
           coinGeckoId: "wormhole",
           decimals: {
-            default: 18,
+            default: 8,
+            Ethereum: 18,
           },
         },
         Woptimism_sepolia: {
@@ -81,7 +84,8 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/35087/standard/womrhole_logo_full_color_rgb_2000px_72ppi_fb766ac85a.png?1708688954",
           coinGeckoId: "wormhole",
           decimals: {
-            default: 18,
+            default: 8,
+            Ethereum: 18,
           },
         },
       },
