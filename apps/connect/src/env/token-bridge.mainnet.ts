@@ -56,7 +56,6 @@ export const ENV: Env = {
           decimals: {
             default: 8,
             Ethereum: 18,
-            Arbitrum: 18,
           },
         },
         WOM: {
@@ -363,7 +362,6 @@ export const ENV: Env = {
           coinGeckoId: "yaku",
           decimals: {
             default: 8,
-            Ethereum: 9,
             Solana: 9,
           },
         },
@@ -439,7 +437,6 @@ export const ENV: Env = {
           coinGeckoId: "weatherxm-network",
           decimals: {
             default: 8,
-            Ethereum: 18,
             Solana: 9,
           },
         },
@@ -455,7 +452,6 @@ export const ENV: Env = {
           coinGeckoId: "jito-staked-sol",
           decimals: {
             default: 8,
-            Ethereum: 9,
             Solana: 9,
           },
         },
@@ -501,7 +497,6 @@ export const ENV: Env = {
           coinGeckoId: "swissborg",
           decimals: {
             default: 8,
-            Ethereum: 18,
             Solana: 9,
           },
         },
@@ -532,7 +527,6 @@ export const ENV: Env = {
           coinGeckoId: "agorahub",
           decimals: {
             default: 8,
-            Ethereum: 9,
             Solana: 9,
           },
         },
@@ -578,7 +572,6 @@ export const ENV: Env = {
           coinGeckoId: "",
           decimals: {
             default: 8,
-            Ethereum: 18,
             Solana: 9,
           },
         },
