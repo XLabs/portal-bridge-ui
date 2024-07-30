@@ -39,7 +39,7 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/35958/standard/etherfi.jpeg?1710254562",
           coinGeckoId: "ether-fi",
           decimals: {
-            default: 18,
+            default: 8,
             Ethereum: 18,
           },
         },
@@ -54,7 +54,7 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/35958/standard/etherfi.jpeg?1710254562",
           coinGeckoId: "ether-fi",
           decimals: {
-            default: 18,
+            default: 8,
             Ethereum: 18,
           },
         },
@@ -315,7 +315,8 @@ export const ENV: Env = {
           icon: "https://coin-images.coingecko.com/coins/images/33117/large/Frame_27513839.png?1700732599",
           coinGeckoId: "stakewise-staked-eth",
           decimals: {
-            default: 18,
+            default: 8,
+            Ethereum: 18,
           },
         },
         osETHarbitrum: {
@@ -329,7 +330,8 @@ export const ENV: Env = {
           icon: "https://coin-images.coingecko.com/coins/images/33117/large/Frame_27513839.png?1700732599",
           coinGeckoId: "stakewise-staked-eth",
           decimals: {
-            default: 18,
+            default: 8,
+            Ethereum: 18,
           },
         },
         "wstETH ": {
@@ -346,6 +348,260 @@ export const ENV: Env = {
           decimals: {
             default: 8,
             Ethereum: 18,
+          },
+        },
+        Yakusolana: {
+          key: "Yakusolana",
+          symbol: "Yaku",
+          nativeChain: "solana",
+          tokenId: {
+            chain: "solana",
+            address: "AqEHVh8J2nXH9saV2ciZyYwPpqWFRfD2ffcq5Z8xxqm5",
+          },
+          icon: "https://assets.coingecko.com/coins/images/26785/standard/yaku_logo.png?1706636424",
+          coinGeckoId: "yaku",
+          decimals: {
+            default: 8,
+            Solana: 9,
+          },
+        },
+        Yakuethereum: {
+          key: "Yakuethereum",
+          symbol: "Yaku",
+          nativeChain: "ethereum",
+          tokenId: {
+            chain: "ethereum",
+            address: "0x1155DB64b59265F57533bC0f9AE012FfFd34eB7F",
+          },
+          icon: "https://assets.coingecko.com/coins/images/26785/standard/yaku_logo.png?1706636424",
+          coinGeckoId: "yaku",
+          decimals: {
+            default: 8,
+            Ethereum: 9,
+          },
+        },
+        Yakuarbitrum: {
+          key: "Yakuarbitrum",
+          symbol: "Yaku",
+          nativeChain: "arbitrum",
+          tokenId: {
+            chain: "arbitrum",
+            address: "0xB00eaEDB98F1e30ad545703d8Ff14b24D109514f",
+          },
+          icon: "https://assets.coingecko.com/coins/images/26785/standard/yaku_logo.png?1706636424",
+          coinGeckoId: "yaku",
+          decimals: {
+            default: 8,
+            Ethereum: 9,
+          },
+        },
+        Yakuavalanche: {
+          key: "Yakuavalanche",
+          symbol: "Yaku",
+          nativeChain: "avalanche",
+          tokenId: {
+            chain: "avalanche",
+            address: "0xB00eaEDB98F1e30ad545703d8Ff14b24D109514f",
+          },
+          icon: "https://assets.coingecko.com/coins/images/26785/standard/yaku_logo.png?1706636424",
+          coinGeckoId: "yaku",
+          decimals: {
+            default: 8,
+            Ethereum: 9,
+          },
+        },
+        WeatherXMethereum: {
+          key: "WeatherXMethereum",
+          symbol: "WXM",
+          nativeChain: "ethereum",
+          tokenId: {
+            chain: "ethereum",
+            address: "0xde654f497a563dd7a121c176a125dd2f11f13a83",
+          },
+          icon: "https://assets.coingecko.com/coins/images/38154/standard/weatherxm-network-logo.png?1716668976",
+          coinGeckoId: "weatherxm-network",
+          decimals: {
+            default: 8,
+            Ethereum: 18,
+          },
+        },
+        WeatherXMsolana: {
+          key: "WeatherXMsolana",
+          symbol: "WXM",
+          nativeChain: "solana",
+          tokenId: {
+            chain: "solana",
+            address: "wxmJYe17a2oGJZJ1wDe6ZyRKUKmrLj2pJsavEdTVhPP",
+          },
+          icon: "https://assets.coingecko.com/coins/images/38154/standard/weatherxm-network-logo.png?1716668976",
+          coinGeckoId: "weatherxm-network",
+          decimals: {
+            default: 8,
+            Solana: 9,
+          },
+        },
+        JitoSOLsolana: {
+          key: "JitoSOLsolana",
+          symbol: "JITOSOL",
+          nativeChain: "solana",
+          tokenId: {
+            chain: "solana",
+            address: "J1toso1uCk3RLmjorhTtrVwY9HJ7X8V9yYac6Y7kGCPn",
+          },
+          icon: "https://assets.coingecko.com/coins/images/28046/standard/JitoSOL-200.png?1696527060",
+          coinGeckoId: "jito-staked-sol",
+          decimals: {
+            default: 8,
+            Solana: 9,
+          },
+        },
+        JitoSOLarbitrum: {
+          key: "JitoSOLarbitrum",
+          symbol: "JITOSOL",
+          nativeChain: "arbitrum",
+          tokenId: {
+            chain: "arbitrum",
+            address: "0x83e1d2310Ade410676B1733d16e89f91822FD5c3",
+          },
+          icon: "https://assets.coingecko.com/coins/images/28046/standard/JitoSOL-200.png?1696527060",
+          coinGeckoId: "jito-staked-sol",
+          decimals: {
+            default: 8,
+            Ethereum: 9,
+          },
+        },
+        Swissborgethereum: {
+          key: "Swissborgethereum",
+          symbol: "BORG",
+          nativeChain: "ethereum",
+          tokenId: {
+            chain: "ethereum",
+            address: "0x64d0f55Cd8C7133a9D7102b13987235F486F2224",
+          },
+          icon: "https://assets.coingecko.com/coins/images/2117/standard/YJUrRy7r_400x400.png?1696503083",
+          coinGeckoId: "swissborg",
+          decimals: {
+            default: 8,
+            Ethereum: 18,
+          },
+        },
+        Swissborgsolana: {
+          key: "Swissborgsolana",
+          symbol: "BORG",
+          nativeChain: "solana",
+          tokenId: {
+            chain: "solana",
+            address: "3dQTr7ror2QPKQ3GbBCokJUmjErGg8kTJzdnYjNfvi3Z",
+          },
+          icon: "https://assets.coingecko.com/coins/images/2117/standard/YJUrRy7r_400x400.png?1696503083",
+          coinGeckoId: "swissborg",
+          decimals: {
+            default: 8,
+            Solana: 9,
+          },
+        },
+        Agoraethereum: {
+          key: "Agoraethereum",
+          symbol: "AGA",
+          nativeChain: "ethereum",
+          tokenId: {
+            chain: "ethereum",
+            address: "0x87B46212e805A3998B7e8077E9019c90759Ea88C",
+          },
+          icon: "https://assets.coingecko.com/coins/images/38230/standard/agora-avatar-black.png?1716828738",
+          coinGeckoId: "agorahub",
+          decimals: {
+            default: 8,
+            Ethereum: 18,
+          },
+        },
+        Agorasolana: {
+          key: "Agorasolana",
+          symbol: "AGA",
+          nativeChain: "solana",
+          tokenId: {
+            chain: "solana",
+            address: "AGAxefyrPTi63FGL2ukJUTBtLJStDpiXMdtLRWvzambv",
+          },
+          icon: "https://assets.coingecko.com/coins/images/38230/standard/agora-avatar-black.png?1716828738",
+          coinGeckoId: "agorahub",
+          decimals: {
+            default: 8,
+            Solana: 9,
+          },
+        },
+        XBorgethereum: {
+          key: "XBorgethereum",
+          symbol: "XBG",
+          nativeChain: "ethereum",
+          tokenId: {
+            chain: "ethereum",
+            address: "0xEaE00D6F9B16Deb1BD584c7965e4c7d762f178a1",
+          },
+          icon: "https://www.xborg.com/images/logo.svg",
+          coinGeckoId: "",
+          decimals: {
+            default: 8,
+            Ethereum: 18,
+          },
+        },
+        XBorgarbitrum: {
+          key: "XBorgarbitrum",
+          symbol: "XBG",
+          nativeChain: "arbitrum",
+          tokenId: {
+            chain: "arbitrum",
+            address: "0x93FA0B88C0C78e45980Fa74cdd87469311b7B3E4",
+          },
+          icon: "https://www.xborg.com/images/logo.svg",
+          coinGeckoId: "",
+          decimals: {
+            default: 8,
+            Ethereum: 18,
+          },
+        },
+        XBorgsolana: {
+          key: "XBorgsolana",
+          symbol: "XBG",
+          nativeChain: "solana",
+          tokenId: {
+            chain: "solana",
+            address: "XBGdqJ9P175hCC1LangCEyXWNeCPHaKWA17tymz2PrY",
+          },
+          icon: "https://www.xborg.com/images/logo.svg",
+          coinGeckoId: "",
+          decimals: {
+            default: 8,
+            Solana: 9,
+          },
+        },
+        Cheesearbitrum: {
+          key: "Cheesearbitrum",
+          symbol: "CHEESE",
+          nativeChain: "arbitrum",
+          tokenId: {
+            chain: "arbitrum",
+            address: "0x05AEa20947A9A376eF50218633BB0a5A05d40A0C",
+          },
+          icon: "https://assets.coingecko.com/coins/images/37156/standard/cheese_icon_500x500.png?1713499473",
+          coinGeckoId: "cheese-2",
+          decimals: {
+            default: 8,
+            Ethereum: 18,
+          },
+        },
+        Cheesesolana: {
+          key: "Cheesesolana",
+          symbol: "CHEESE",
+          nativeChain: "solana",
+          tokenId: {
+            chain: "solana",
+            address: "AbrMJWfDVRZ2EWCQ1xSCpoVeVgZNpq1U2AoYG98oRXfn",
+          },
+          icon: "https://assets.coingecko.com/coins/images/37156/standard/cheese_icon_500x500.png?1713499473",
+          coinGeckoId: "cheese-2",
+          decimals: {
+            default: 6,
           },
         },
       },
@@ -483,6 +739,247 @@ export const ENV: Env = {
               transceivers: [
                 {
                   address: "0x4386e36B96D437b0F1C04A35E572C10C6627d88a",
+                  type: "wormhole",
+                },
+              ],
+            },
+          ],
+        },
+        Yaku: {
+          nttManagers: [
+            {
+              chainName: "solana",
+              address: "nTtPcmsVY4f86cSREmnio5tUyiK58HBqBeDwaUYQt6t",
+              tokenKey: "Yakusolana",
+              transceivers: [
+                {
+                  address: "6gTkp6F5XhsaeugYEtuQ6qmuD8qUUdeHrYrN1s1qex7",
+                  type: "wormhole",
+                },
+              ],
+            },
+            {
+              chainName: "ethereum",
+              address: "0x9ad57E28ECc26507FFB18dBc15Ae7B13254B99c7",
+              tokenKey: "Yakuethereum",
+              transceivers: [
+                {
+                  address: "0x0e9c1B26Ee0D3021e4543c2Ed65a9661AC390390",
+                  type: "wormhole",
+                },
+              ],
+            },
+            {
+              chainName: "arbitrum",
+              address: "0x650613DbD0b422cD7f7c06a8a07Dc2C5880b54b3",
+              tokenKey: "Yakuarbitrum",
+              transceivers: [
+                {
+                  address: "0x19c19B3151AEa35eE19E018ed24D81F892b6C18E",
+                  type: "wormhole",
+                },
+              ],
+            },
+            {
+              chainName: "avalanche",
+              address: "0xbeEDEcF091DDAC6a494A718666f94d8A1d5Ab984",
+              tokenKey: "Yakuavalanche",
+              transceivers: [
+                {
+                  address: "0x0a5C77B838D22E8156D62e7845Fb73e948CAc299",
+                  type: "wormhole",
+                },
+              ],
+            },
+          ],
+        },
+        WeatherXM: {
+          nttManagers: [
+            {
+              chainName: "ethereum",
+              address: "0xd24afd8eca7b51bcf3c0e6b3ca94c301b121ccce",
+              tokenKey: "WeatherXMethereum",
+              transceivers: [
+                {
+                  address: "0x8b209672c2120f84ceb70b22416645f8912ad0f0",
+                  type: "wormhole",
+                },
+              ],
+            },
+            {
+              chainName: "solana",
+              address: "NttWixqwUHAnpXym3UYUySQZtb4C57EZxpH721JfLyF",
+              tokenKey: "WeatherXMsolana",
+              transceivers: [
+                {
+                  address: "PaK4UctEGihEm37c2qSrbpkucHBBDDqbvYzGXygbxkb",
+                  type: "wormhole",
+                },
+              ],
+            },
+          ],
+        },
+        JitoSOL: {
+          nttManagers: [
+            {
+              chainName: "solana",
+              address: "nTTJS9XtWhfHkPiLmddSmdMrCJAtJrSCjPwuns3fvu5",
+              tokenKey: "JitoSOLsolana",
+              transceivers: [
+                {
+                  address: "nTTJS9XtWhfHkPiLmddSmdMrCJAtJrSCjPwuns3fvu5",
+                  type: "wormhole",
+                },
+              ],
+            },
+            {
+              chainName: "arbitrum",
+              address: "0x02f5FB92F3794C535b1523183A417fB9efbB4f5d",
+              tokenKey: "JitoSOLarbitrum",
+              transceivers: [
+                {
+                  address: "0x89E928e6D95BA6D7419B2b9e384fC526b1649339",
+                  type: "wormhole",
+                },
+              ],
+            },
+          ],
+        },
+        Swissborg: {
+          nttManagers: [
+            {
+              chainName: "solana",
+              address: "NttBm3HouTCFnUBz32fEs5joQFRjFoJPA8AyhtgjFrw",
+              tokenKey: "Swissborgsolana",
+              transceivers: [
+                {
+                  address: "39eUvaqshuCbTo7CmQkHG7zBBLaDAPK3qg89cMSmqKWx",
+                  type: "wormhole",
+                },
+              ],
+            },
+            {
+              chainName: "ethereum",
+              address: "0x66a28B080918184851774a89aB94850a41f6a1e5",
+              tokenKey: "Swissborgethereum",
+              transceivers: [
+                {
+                  address: "0x45E581d6841F0a99Fc34F70871ef56b353813ddb",
+                  type: "wormhole",
+                },
+              ],
+            },
+          ],
+        },
+        Agora: {
+          nttManagers: [
+            {
+              chainName: "ethereum",
+              address: "0xCD024C7eB854f6799A343828773cB3A8107d17d4q",
+              tokenKey: "Agoraethereum",
+              transceivers: [
+                {
+                  address: "0x6eB0d287A539AAB2eB962De550Fe5dDA29b0fe52",
+                  type: "wormhole",
+                },
+              ],
+            },
+            {
+              chainName: "solana",
+              address: "NttADdCvGLUhukNyePei9CkmHoe6S9xjqgqfQv51PQg",
+              tokenKey: "Agorasolana",
+              transceivers: [
+                {
+                  address: "4FnEwHLcuu3CHf8YG31RWBCVpshGGxNyfYAszq2JABxi",
+                  type: "wormhole",
+                },
+              ],
+            },
+          ],
+        },
+        XBorg: {
+          nttManagers: [
+            {
+              chainName: "ethereum",
+              address: "0xa4489105efa4b029485d6bd3A4f52131baAE4B1B",
+              tokenKey: "XBorgethereum",
+              transceivers: [
+                {
+                  address: "0x7135766F279b9A50F7A7199cfF1be284521a0409",
+                  type: "wormhole",
+                },
+              ],
+            },
+            {
+              chainName: "arbitrum",
+              address: "0x7135766F279b9A50F7A7199cfF1be284521a0409",
+              tokenKey: "XBorgarbitrum",
+              transceivers: [
+                {
+                  address: "0x874303ba6a34fC33ADcdFFd4293a41f32246D6a0",
+                  type: "wormhole",
+                },
+              ],
+            },
+            {
+              chainName: "solana",
+              address: "NttXP2tPLxGkNA3yrSfFZbtDbfKPKBrJUR6Jcqh6sRi",
+              tokenKey: "XBorgsolana",
+              transceivers: [
+                {
+                  address: "328hfTbiEzfbXSHCWqrBg3g1VZ9bRxNtUTffjQ4Tqark",
+                  type: "wormhole",
+                },
+              ],
+            },
+          ],
+        },
+        Cheese: {
+          nttManagers: [
+            {
+              chainName: "arbitrum",
+              address: "0xfC843c4B402634a8Fc02137AAa7942474e043d72",
+              tokenKey: "Cheesearbitrum",
+              transceivers: [
+                {
+                  address: "0x33D2E8093143a317234cB070C2BB6A641dDeFA4d",
+                  type: "wormhole",
+                },
+              ],
+            },
+            {
+              chainName: "solana",
+              address: "NTtxeqz2XjMnpcEoWMqb6pz84zHweJRYWyzmsmmW49E",
+              tokenKey: "Cheesesolana",
+              transceivers: [
+                {
+                  address: "AoUmFKEGhsfnJSny6fMDF3JMgyEgjoG4yAk8YFGbfp6c",
+                  type: "wormhole",
+                },
+              ],
+            },
+          ],
+        },
+        "USDC.e": {
+          nttManagers: [
+            {
+              chainName: "fantom",
+              address: "0x68dB2f05Aa2d77DEf981fd2be32661340c9222FB",
+              tokenKey: "USDCfantom",
+              transceivers: [
+                {
+                  address: "0x8b47f02E7E20174C76Af910adc0Ad8A4B0342f4c",
+                  type: "wormhole",
+                },
+              ],
+            },
+            {
+              chainName: "ethereum",
+              address: "0xeBdCe9a913d9400EE75ef31Ce8bd34462D01a1c1",
+              tokenKey: "USDCeth",
+              transceivers: [
+                {
+                  address: "0x55f7820357FA17A1ECb48E959D5E637bFF956d6F",
                   type: "wormhole",
                 },
               ],
