@@ -54,6 +54,9 @@ export const wormholeConnectConfigCommon: Partial<WormholeConnectConfig> = {
   env: envVars.VITE_APP_CLUSTER || "testnet",
   rpcs: {},
   showHamburgerMenu: false,
+  ethBridgeMaxAmount: 10000000,
+  wstETHBridgeMaxAmount: 10000000,
+  usdtBridgeMaxAmount: 10000000,
   explorer: {
     href: `https://wormholescan.io/#/txs?address={:address}&network=${envVars.VITE_APP_CLUSTER || "testnet"}`,
   },
