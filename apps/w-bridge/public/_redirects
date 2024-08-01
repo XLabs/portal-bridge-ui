@@ -1,0 +1,5 @@
+/:to/from/:from/:asset /#/transfer?sourceChain=:from&targetChain=:to&asset=:asset 301
+/:to/from/:from /#/transfer?sourceChain=:from&targetChain=:to 301
+
+/recovery/:vaa  /#/redeem?vaa=:vaa 301
+/recovery/:sourceChain/:transactionId /#/redeem?sourceChain=:sourceChain&transactionId=:transactionId 301
