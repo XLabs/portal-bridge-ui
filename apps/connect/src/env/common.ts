@@ -50,7 +50,7 @@ export const versions: Env["versions"] = [
 
 export const wormholeConnectConfigCommon: Partial<WormholeConnectConfig> = {
   walletConnectProjectId: envVars.VITE_APP_WALLET_CONNECT_PROJECT_ID || "",
-
+  manualTargetAddress: true,
   env: envVars.VITE_APP_CLUSTER || "testnet",
   rpcs: {},
   showHamburgerMenu: false,
