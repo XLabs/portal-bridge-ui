@@ -1,4 +1,5 @@
-import { ChainName, coalesceChainName, isChain } from "@certusone/wormhole-sdk";
+import { coalesceChainName, isChain } from "@certusone/wormhole-sdk";
+import { ChainName } from "@wormhole-foundation/wormhole-connect";
 import { useMemo } from "react";
 
 const getChainValue = (
@@ -8,12 +9,12 @@ const getChainValue = (
   const sourceChain = query.get(key);
   if (sourceChain) {
     if (isChain(sourceChain)) {
-      return coalesceChainName(sourceChain);
+      return coalesceChainName(sourceChain) as ChainName;
     }
 
     const chainId = Number(sourceChain);
     if (isChain(chainId)) {
-      return coalesceChainName(chainId);
+      return coalesceChainName(chainId) as ChainName;
     }
   }
   return null;
