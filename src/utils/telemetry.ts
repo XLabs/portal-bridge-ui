@@ -3,6 +3,7 @@ import { Wallet } from "@xlabs-libs/wallet-aggregator-core";
 
 import { CHAINS_BY_ID, isPreview, isProduction, mixpanelToken } from "./consts";
 import { ChainId } from "@certusone/wormhole-sdk";
+import coingeckoIdBySymbol from "./coingeckoIdBySymbol.json";
 
 interface TelemetryTxCommon {
   fromChainId?: ChainId;
@@ -11,7 +12,6 @@ interface TelemetryTxCommon {
   toChain: string;
   fromTokenSymbol?: string;
   toTokenSymbol?: string;
-  sourceAsset?: string;
   fromTokenAddress?: string;
   toTokenAddress?: string;
   route: string;
@@ -27,7 +27,7 @@ export type TelemetryTxEvent = Omit<
 >;
 type TelemetryTxTrackingProps = Omit<
   TelemetryTxCommon,
-  "fromChainId" | "toChainId" | "sourceAsset"
+  "fromChainId" | "toChainId"
 >;
 
 class Telemetry {
@@ -80,15 +80,16 @@ class Telemetry {
 
   private getUSDAmount = async (
     chain: string,
-    tokenAddress: string,
+    tokenSymbol: string,
     amount: number
   ): Promise<number | undefined> => {
-    if (![chain, tokenAddress, amount].every(Boolean)) return;
+    const coingeckoId = (coingeckoIdBySymbol as any)[tokenSymbol] as string;
+    if (![chain, coingeckoId, amount].every(Boolean)) return;
     try {
       const response = await fetch(
-        `https://api.coingecko.com/api/v3/simple/token_price/${chain.toLowerCase()}?contract_addresses=${tokenAddress}&vs_currencies=usd`
+        `https://api.coingecko.com/api/v3/simple/price?ids=${coingeckoId}&vs_currencies=usd`
       ).then((r) => r.json());
-      const USDValue = response?.[tokenAddress]?.usd;
+      const USDValue = response?.[coingeckoId]?.usd;
       const USDAmount = USDValue * amount;
       return USDAmount || undefined;
     } catch {}
@@ -107,7 +108,7 @@ class Telemetry {
       amount: event.amount,
       USDAmount: await this.getUSDAmount(
         fromChain,
-        event.sourceAsset!,
+        event.toTokenSymbol!,
         event.amount!
       ),
       route: "Manual Bridge",

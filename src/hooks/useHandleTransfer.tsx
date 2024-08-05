@@ -1159,7 +1159,6 @@ export function useHandleTransfer() {
       toChainId: targetChain,
       fromTokenSymbol: sourceParsedTokenAccount?.symbol,
       toTokenSymbol: targetParsedTokenAccount?.symbol,
-      sourceAsset,
       fromTokenAddress: isNative ? "native" : sourceAsset,
       toTokenAddress: targetParsedTokenAccount?.isNativeAsset
         ? "native"
