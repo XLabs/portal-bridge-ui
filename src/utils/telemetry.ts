@@ -83,7 +83,9 @@ class Telemetry {
     tokenSymbol: string,
     amount: number
   ): Promise<number | undefined> => {
-    const coingeckoId = (coingeckoIdBySymbol as any)[tokenSymbol] as string;
+    const coingeckoId = (coingeckoIdBySymbol as any)[
+      tokenSymbol?.toLocaleLowerCase?.()
+    ] as string;
     if (![chain, coingeckoId, amount].every(Boolean)) return;
     try {
       const response = await fetch(
