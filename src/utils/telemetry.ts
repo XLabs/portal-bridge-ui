@@ -3,6 +3,7 @@ import { Wallet } from "@xlabs-libs/wallet-aggregator-core";
 
 import { CHAINS_BY_ID, isPreview, isProduction, mixpanelToken } from "./consts";
 import { ChainId } from "@certusone/wormhole-sdk";
+import coingeckoIdBySymbol from "./coingeckoIdBySymbol.json";
 
 interface TelemetryTxCommon {
   fromChainId?: ChainId;
@@ -15,13 +16,14 @@ interface TelemetryTxCommon {
   toTokenAddress?: string;
   route: string;
   txId?: string;
-  amount?: string;
+  amount?: number;
+  USDAmount?: number;
   error?: any;
 }
 
 export type TelemetryTxEvent = Omit<
   TelemetryTxCommon,
-  "fromChain" | "toChain" | "route"
+  "fromChain" | "toChain" | "route" | "USDAmount"
 >;
 type TelemetryTxTrackingProps = Omit<
   TelemetryTxCommon,
@@ -76,9 +78,29 @@ class Telemetry {
     }
   };
 
-  private getTxPropsFromEvent = (event: TelemetryTxEvent) => {
+  private getUSDAmount = async (
+    chain: string,
+    tokenSymbol: string,
+    amount: number
+  ): Promise<number | undefined> => {
+    const coingeckoId = (coingeckoIdBySymbol as any)[
+      tokenSymbol?.toLocaleLowerCase?.()
+    ] as string;
+    if (![chain, coingeckoId, amount].every(Boolean)) return;
+    try {
+      const response = await fetch(
+        `https://api.coingecko.com/api/v3/simple/price?ids=${coingeckoId}&vs_currencies=usd`
+      ).then((r) => r.json());
+      const USDValue = response?.[coingeckoId]?.usd;
+      const USDAmount = USDValue * amount;
+      return USDAmount || undefined;
+    } catch {}
+  };
+
+  private getTxPropsFromEvent = async (event: TelemetryTxEvent) => {
+    const fromChain = this.getChainNameFromId(event.fromChainId);
     return {
-      fromChain: this.getChainNameFromId(event.fromChainId),
+      fromChain,
       toChain: this.getChainNameFromId(event.toChainId),
       fromTokenSymbol: event.fromTokenSymbol,
       toTokenSymbol: event.toTokenSymbol,
@@ -86,6 +108,11 @@ class Telemetry {
       toTokenAddress: event.toTokenAddress,
       txId: event.txId,
       amount: event.amount,
+      USDAmount: await this.getUSDAmount(
+        fromChain,
+        event.toTokenSymbol!,
+        event.amount!
+      ),
       route: "Manual Bridge",
     } as TelemetryTxTrackingProps;
   };
@@ -107,13 +134,13 @@ class Telemetry {
   };
 
   private onTransfer =
-    (eventName: `transfer.${string}`) => (event: TelemetryTxEvent) => {
-      this.track(eventName, this.getTxPropsFromEvent(event));
+    (eventName: `transfer.${string}`) => async (event: TelemetryTxEvent) => {
+      this.track(eventName, await this.getTxPropsFromEvent(event));
     };
 
-  private onError = (event: TelemetryTxEvent) => {
+  private onError = async (event: TelemetryTxEvent) => {
     this.track("transfer.error", {
-      ...this.getTxPropsFromEvent(event),
+      ...(await this.getTxPropsFromEvent(event)),
       "error-type": "unknown",
       error: this.canBeSerialized(event.error) ? event.error : undefined,
     });

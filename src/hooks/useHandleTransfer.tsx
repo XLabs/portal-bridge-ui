@@ -1163,7 +1163,7 @@ export function useHandleTransfer() {
       toTokenAddress: targetParsedTokenAccount?.isNativeAsset
         ? "native"
         : targetAddressHex,
-      amount,
+      amount: Number(amount),
     };
     telemetry.on.transferInit(telemetryProps);
 
