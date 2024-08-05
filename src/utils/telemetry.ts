@@ -11,6 +11,7 @@ interface TelemetryTxCommon {
   toChain: string;
   fromTokenSymbol?: string;
   toTokenSymbol?: string;
+  sourceAsset?: string;
   fromTokenAddress?: string;
   toTokenAddress?: string;
   route: string;
@@ -26,7 +27,7 @@ export type TelemetryTxEvent = Omit<
 >;
 type TelemetryTxTrackingProps = Omit<
   TelemetryTxCommon,
-  "fromChainId" | "toChainId"
+  "fromChainId" | "toChainId" | "sourceAsset"
 >;
 
 class Telemetry {
@@ -106,7 +107,7 @@ class Telemetry {
       amount: event.amount,
       USDAmount: await this.getUSDAmount(
         fromChain,
-        event.fromTokenAddress!,
+        event.sourceAsset!,
         event.amount!
       ),
       route: "Manual Bridge",
