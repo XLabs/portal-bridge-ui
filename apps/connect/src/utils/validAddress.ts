@@ -86,7 +86,7 @@ const isValidCosmosAddress = (address: string, chain: ChainName) => {
     // For Beach32 encode case https://docs.cosmos.network/v0.47/build/spec/addresses/bech32
     try {
       const decoded = bech32.decode(address);
-      return !!PREFIXES[decoded.prefix] && !!decoded.words?.length;
+      return PREFIXES[chain] === decoded.prefix && !!decoded.words?.length;
     } catch {
       return false;
     }
