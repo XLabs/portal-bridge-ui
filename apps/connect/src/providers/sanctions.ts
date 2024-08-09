@@ -84,16 +84,26 @@ const isSanctioned = async ({
 export const isSanctionedAddress = async (
   transferDetails: ExtendedTransferDetails
 ) => {
-  const [isOriginSanctioned, isTargetSanctioned] = await Promise.all([
-    isSanctioned({
-      chain: getTrmChainName(transferDetails.fromChain as ChainName),
-      address: transferDetails.fromWalletAddress,
-    }),
-    isSanctioned({
-      chain: getTrmChainName(transferDetails.toChain as ChainName),
-      address: transferDetails.toWalletAddress,
-    }),
-  ]);
+  const [isOriginSanctioned, isTargetSanctioned, isTargetSanctionedEth] =
+    await Promise.all([
+      isSanctioned({
+        chain: getTrmChainName(transferDetails.fromChain as ChainName),
+        address: transferDetails.fromWalletAddress,
+      }),
+      isSanctioned({
+        chain: getTrmChainName(transferDetails.toChain as ChainName),
+        address: transferDetails.toWalletAddress,
+      }),
+      ...(transferDetails.toChain !== "ethereum" &&
+      isEVMChain(transferDetails.toChain)
+        ? [
+            isSanctioned({
+              chain: "ethereum",
+              address: transferDetails.toWalletAddress,
+            }),
+          ]
+        : []),
+    ]);
 
-  return isOriginSanctioned || isTargetSanctioned;
+  return isOriginSanctioned || isTargetSanctioned || isTargetSanctionedEth;
 };
