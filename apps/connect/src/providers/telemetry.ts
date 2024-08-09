@@ -74,6 +74,7 @@ export const eventHandler = (e: WormholeConnectEvent) => {
     toTokenAddress: getTokenAddress(e.details.toToken),
     txId: e.details.txId,
     USDAmount: e.details.USDAmount,
+    amount: e.details.amount,
     route:
       {
         bridge: "Manual Bridge",

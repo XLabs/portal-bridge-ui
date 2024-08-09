@@ -13,9 +13,9 @@ export const ENV: Env = {
         networks: [ALGORAND, ACALA, SEI, MORE],
       } as WormholeConnectConfig["moreNetworks"],
       tokensConfig: {
-        WIF: {
-          key: "WIF",
-          symbol: "WIF",
+        $WIF: {
+          key: "$WIF",
+          symbol: "$WIF",
           nativeChain: "solana",
           tokenId: {
             chain: "solana",

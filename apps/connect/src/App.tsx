@@ -14,7 +14,8 @@ import { PrivacyPolicyPath, isPreview, isProduction } from "./utils/constants";
 import Banner from "./components/atoms/Banner";
 import { ENV } from "@env";
 import { clearUrl, pushResumeUrl } from "./navs/navs";
-import { validateTransferHandler } from "./providers/sanctions";
+import { validateTransfer } from "./utils/transferVerification";
+//import { validateTransferHandler } from "./providers/sanctions"; // TO DO: Use this function
 
 const defaultConfig: WormholeConnectConfig = {
   ...ENV.wormholeConnectConfig,
@@ -29,6 +30,8 @@ const defaultConfig: WormholeConnectConfig = {
     // Clear the URL when a transfer is successful
     clearUrl(e);
   },
+  // validateTransfer
+  validateTransferHandler: validateTransfer,
   isRouteSupportedHandler: async (td: any) => {
     // Disable manual NTT for Lido wstETH
     if (
@@ -52,7 +55,7 @@ export default function Root() {
   const config: ComponentProps<typeof WormholeConnect>["config"] = useMemo(
     () => ({
       ...defaultConfig,
-      validateTransferHandler,
+      //validateTransferHandler,
       searchTx: {
         ...(txHash && { txHash }),
         ...(sourceChain && { chainName: sourceChain }),
