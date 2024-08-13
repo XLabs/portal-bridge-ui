@@ -9,7 +9,7 @@ describe("useFormatAssetParam", () => {
 
   it("should NOT get a formatted asset when key does NOT have an exact match", () => {
     const { result } = renderHook(() => useFormatAssetParam("eth"));
-    expect(result.current).toEqual('ETH');
+    expect(result.current).toEqual("ETH");
   });
 
   it("should get a formatted asset using an address", () => {
