@@ -6,7 +6,7 @@ const getChainValue = (
   query: URLSearchParams,
   key: string
 ): ChainName | null => {
-  const sourceChain = query.get(key);
+  const sourceChain = query.get(key)?.toLowerCase?.();
   if (sourceChain) {
     if (isChain(sourceChain)) {
       return coalesceChainName(sourceChain) as ChainName;
