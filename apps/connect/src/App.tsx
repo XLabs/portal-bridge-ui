@@ -1,5 +1,5 @@
 import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
-import { ComponentProps, useEffect, useMemo } from "react";
+import { ComponentProps, memo, useEffect, useMemo } from "react";
 import customTheme from "./theme/connect";
 import NavBar from "./components/atoms/NavBar";
 import NewsBar from "./components/atoms/NewsBar";
@@ -8,7 +8,7 @@ import { useQueryParams } from "./hooks/useQueryParams";
 import { useFormatAssetParam } from "./hooks/useFormatAssetParam";
 import WormholeConnect from "@wormhole-foundation/wormhole-connect";
 import { eventHandler, type WormholeConnectEvent } from "./providers/telemetry";
-import { useRoutes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import PrivacyPolicy from "./components/pages/PrivacyPolicy";
 import { PrivacyPolicyPath, isPreview, isProduction } from "./utils/constants";
 import Banner from "./components/atoms/Banner";
@@ -48,6 +48,17 @@ const defaultConfig: WormholeConnectConfig = {
   },
 };
 
+const Connect = memo(
+  ({ config }: Pick<ComponentProps<typeof WormholeConnect>, "config">) => {
+    return (
+      <>
+        <WormholeConnect config={config} theme={customTheme} />
+        <Banner />
+      </>
+    );
+  }
+);
+
 export default function Root() {
   const { txHash, sourceChain, targetChain, asset, requiredNetwork, route } =
     useQueryParams();
@@ -76,16 +87,6 @@ export default function Root() {
     localStorage.setItem("Connect Config", JSON.stringify(config, null, 2));
   }, [config]);
 
-  const Connect = (
-    <>
-      <WormholeConnect config={config} theme={customTheme} />
-      <Banner />
-    </>
-  );
-  const routes = useRoutes([
-    { path: PrivacyPolicyPath, element: <PrivacyPolicy /> },
-    { path: "*", element: Connect },
-  ]);
   return (
     <>
       {ENV.versions.map(({ appName, version }, idx) => (
@@ -99,7 +100,10 @@ export default function Root() {
         <NewsBar messages={messages} />
         <NavBar />
       </div>
-      {routes}
+      <Routes>
+        <Route path={PrivacyPolicyPath} element={<PrivacyPolicy />} />
+        <Route path="*" element={<Connect config={config} />} />
+      </Routes>
     </>
   );
 }
