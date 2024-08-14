@@ -13,7 +13,7 @@ const BannerContainer = styled("div")(({ theme }) => ({
   bottom: 60,
   left: 30,
   right: 30,
-  zIndex: 100,
+  zIndex: 10,
   [theme.breakpoints.down("sm")]: {
     bottom: 75,
   },

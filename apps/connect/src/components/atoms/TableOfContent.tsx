@@ -45,7 +45,6 @@ export default function TableOfContent() {
     borderLeft: "3px solid white",
   };
   useEffect(() => {
-    console.log("TableOfContent", document.querySelectorAll("H2"));
     const titles = Array.from(document.querySelectorAll("H2"))
       .filter((el) => !!el.children[0].textContent)
       .map((el) => {
