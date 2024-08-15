@@ -24,7 +24,7 @@
     "test:watch": "cross-env VITE_APP_CLUSTER=testnet jest --coverage --watchAll=true"
   },
   "dependencies": {
-    "@certusone/wormhole-sdk": "^0.10.10",
+    "@certusone/wormhole-sdk": "^0.10.18",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.11",
