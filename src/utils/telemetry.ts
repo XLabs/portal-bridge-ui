@@ -129,7 +129,7 @@ class Telemetry {
       amount: event.amount,
       USDAmount: await this.getUSDAmount(
         fromChain,
-        event.fromTokenSymbol!,
+        event.fromTokenAddress!,
         event.amount!
       ),
       route: "Manual Bridge",
