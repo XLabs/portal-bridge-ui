@@ -604,6 +604,38 @@ export const ENV: Env = {
             default: 6,
           },
         },
+        RenzoEthereum: {
+          key: "RenzoEthereum",
+          symbol: "REZ",
+          nativeChain: "ethereum",
+          tokenId: {
+            chain: "ethereum",
+            address: "0x3B50805453023a91a8bf641e279401a0b23FA6F9",
+          },
+          icon: "https://assets.coingecko.com/coins/images/37327/standard/renzo_200x200.png?1714025012",
+          coinGeckoId: "renzo",
+          decimals: {
+            default: 8,
+            Solana: 9,
+            Ethereum: 18,
+          },
+        },
+        RenzoSolana: {
+          key: "RenzoSolana",
+          symbol: "REZ",
+          nativeChain: "solana",
+          tokenId: {
+            chain: "solana",
+            address: "3DK98MXPz8TRuim7rfQnebSLpA7VSoc79Bgiee1m4Zw5"
+          },
+          icon: "https://assets.coingecko.com/coins/images/37327/standard/renzo_200x200.png?1714025012",
+          coinGeckoId: "renzo",
+          decimals: {
+            default: 8,
+            Ethereum: 18,
+            Solana: 9,
+          },
+        },
       },
       nttGroups: {
         W: {
@@ -986,6 +1018,32 @@ export const ENV: Env = {
             },
           ],
         },
+        Renzo: {
+          nttManagers: [
+            {
+              chainName: "ethereum",
+              address: "0x4ba5ea226da36466EA7EbCf018df66a615D27c7c",
+              tokenKey: "RenzoEthereum",
+              transceivers: [
+                {
+                  address: "0x591Be6DBC81D65924dcC78912bBC9306D09c2faa",
+                  type: "wormhole",
+                },
+              ],
+            },
+            {
+              chainName: "solana",
+              address: "NtTtwqVX4SCNECrZ8ZmEaxAPFcm5r7Szx4tBmYLU17p",
+              tokenKey: "RenzoSolana",
+              transceivers: [
+                {
+                  address: "DC5fFP5we3qshuoiQ4M7gjBnNKcKaqu4ibheetZeXfCY",
+                  type: "wormhole",
+                },
+              ],
+            },
+          ]
+        }
       },
     }
   ),
