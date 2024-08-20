@@ -23,13 +23,13 @@ interface TokenList {
 
 interface AvailableNotionalByChainEntry {
   chainId: number;
-  remainingAvailableNotional: number;
+  availableNotional: number;
   notionalLimit: number;
-  bigTransactionSize: number;
+  maxTransactionSize: number;
 }
 
 interface AvailableNotionalByChain {
-  entries: AvailableNotionalByChainEntry[];
+  data: AvailableNotionalByChainEntry[];
 }
 
 export interface ChainLimits {
@@ -70,12 +70,11 @@ const useIsTransferLimited = (): IsTransferLimitedResult => {
       (async () => {
         for (const rpcHost of WORMHOLE_RPC_HOSTS) {
           try {
-            const baseUrl = `${rpcHost}/v1/governor`;
             const [tokenListResponse, availableNotionalByChainResponse] =
               await Promise.all([
-                axios.get<TokenList>(`${baseUrl}/token_list`),
+                axios.get<TokenList>(`${rpcHost}/v1/governor/token_list`),
                 axios.get<AvailableNotionalByChain>(
-                  `${baseUrl}/available_notional_by_chain`
+                  `${rpcHost}/api/v1/governor/limit`
                 ),
               ]);
             if (!cancelled) {
@@ -114,7 +113,7 @@ const useIsTransferLimited = (): IsTransferLimitedResult => {
           entry.originAddress === "0x" + originAsset
       );
       if (token) {
-        const chain = availableNotionalByChain.entries.find(
+        const chain = availableNotionalByChain.data.find(
           (entry) => entry.chainId === sourceChain
         );
         if (chain) {
@@ -123,10 +122,10 @@ const useIsTransferLimited = (): IsTransferLimitedResult => {
             transferNotional > chain.notionalLimit
               ? "EXCEEDS_MAX_NOTIONAL"
               : transferNotional >
-                chain.bigTransactionSize * REMAINING_NOTIONAL_TOLERANCE
+                chain.maxTransactionSize * REMAINING_NOTIONAL_TOLERANCE
               ? "EXCEEDS_LARGE_TRANSFER_LIMIT"
               : transferNotional >
-                chain.remainingAvailableNotional * REMAINING_NOTIONAL_TOLERANCE
+                chain.availableNotional * REMAINING_NOTIONAL_TOLERANCE
               ? "EXCEEDS_REMAINING_NOTIONAL"
               : undefined;
           return {
@@ -135,8 +134,8 @@ const useIsTransferLimited = (): IsTransferLimitedResult => {
             limits: {
               chainId: sourceChain,
               chainNotionalLimit: chain.notionalLimit,
-              chainRemainingAvailableNotional: chain.remainingAvailableNotional,
-              chainBigTransactionSize: chain.bigTransactionSize,
+              chainRemainingAvailableNotional: chain.availableNotional,
+              chainBigTransactionSize: chain.maxTransactionSize,
               tokenPrice: token.price,
             },
           };
