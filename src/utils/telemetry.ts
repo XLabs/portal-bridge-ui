@@ -3,7 +3,6 @@ import { Wallet } from "@xlabs-libs/wallet-aggregator-core";
 
 import { CHAINS_BY_ID, isPreview, isProduction, mixpanelToken } from "./consts";
 import { ChainId } from "@certusone/wormhole-sdk";
-import coingeckoIdBySymbol from "./coingeckoIdBySymbol.json";
 
 interface TelemetryTxCommon {
   fromChainId?: ChainId;
@@ -78,21 +77,41 @@ class Telemetry {
     }
   };
 
+  private getUSDByAddress = async (
+    chain: string,
+    address: string
+  ): Promise<number> => {
+    const response = await fetch(
+      `https://api.coingecko.com/api/v3/simple/token_price/${chain.toLowerCase()}?contract_addresses=${address}&vs_currencies=usd`
+    ).then((r) => r.json());
+
+    return response?.[address]?.usd;
+  };
+
+  private getUSDByCoingeckoid = async (
+    coingeckoId: string
+  ): Promise<number> => {
+    const response = await fetch(
+      `https://api.coingecko.com/api/v3/simple/price?ids=${coingeckoId}&vs_currencies=usd`
+    ).then((r) => r.json());
+
+    return response?.[coingeckoId]?.usd;
+  };
+
   private getUSDAmount = async (
     chain: string,
-    tokenSymbol: string,
+    address: string,
     amount: number
   ): Promise<number | undefined> => {
-    const coingeckoId = (coingeckoIdBySymbol as any)[
-      tokenSymbol?.toLocaleLowerCase?.()
-    ] as string;
-    if (![chain, coingeckoId, amount].every(Boolean)) return;
+    if (![chain, amount, address].every(Boolean)) return;
+
     try {
-      const response = await fetch(
-        `https://api.coingecko.com/api/v3/simple/price?ids=${coingeckoId}&vs_currencies=usd`
-      ).then((r) => r.json());
-      const USDValue = response?.[coingeckoId]?.usd;
-      const USDAmount = USDValue * amount;
+      const USDValue =
+        address === "native"
+          ? await this.getUSDByCoingeckoid(chain.toLowerCase())
+          : await this.getUSDByAddress(chain, address);
+
+      const USDAmount = (USDValue as number) * amount;
       return USDAmount || undefined;
     } catch {}
   };
@@ -110,7 +129,7 @@ class Telemetry {
       amount: event.amount,
       USDAmount: await this.getUSDAmount(
         fromChain,
-        event.toTokenSymbol!,
+        event.fromTokenAddress!,
         event.amount!
       ),
       route: "Manual Bridge",
