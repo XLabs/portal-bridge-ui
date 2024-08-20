@@ -1,5 +1,5 @@
 import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
-import { ComponentProps, useEffect, useMemo } from "react";
+import { ComponentProps, useEffect, useMemo, useState } from "react";
 
 import { useQueryParams } from "./useQueryParams";
 import { useFormatAssetParam } from "./useFormatAssetParam";
@@ -12,7 +12,9 @@ import { isPreview, isProduction } from "../utils/constants";
 import { ENV } from "@env";
 import { clearUrl, pushResumeUrl } from "../navs/navs";
 import { validateTransfer } from "../utils/transferVerification";
+import { ChainName } from "@certusone/wormhole-sdk";
 //import { validateTransferHandler } from "./providers/sanctions"; // TO DO: Use this function
+import { getSortedChains } from "../utils/getSortedChains";
 
 const defaultConfig: WormholeConnectConfig = {
   ...ENV.wormholeConnectConfig,
@@ -42,12 +44,14 @@ const defaultConfig: WormholeConnectConfig = {
 };
 
 export const useConnectConfig = () => {
+  const [networks, setNetworks] = useState<ChainName[] | null>(null);
   const { txHash, sourceChain, targetChain, asset, requiredNetwork, route } =
     useQueryParams();
   const token = useFormatAssetParam(asset);
   const config: ComponentProps<typeof WormholeConnect>["config"] = useMemo(
     () => ({
       ...defaultConfig,
+      networks: networks!,
       //validateTransferHandler,
       searchTx: {
         ...(txHash && { txHash }),
@@ -61,12 +65,17 @@ export const useConnectConfig = () => {
       },
       ...(route && { routes: [route] }),
     }),
-    [txHash, sourceChain, targetChain, token, requiredNetwork, route]
+    [txHash, sourceChain, targetChain, token, requiredNetwork, route, networks]
   );
 
   useEffect(() => {
-    localStorage.setItem("Connect Config", JSON.stringify(config, null, 2));
-  }, [config]);
+    const controller = new AbortController();
+    getSortedChains(
+      ENV.wormholeConnectConfig.networks as ChainName[],
+      controller.signal
+    ).then((chains) => setNetworks(chains));
+    return () => controller.abort();
+  }, []);
 
-  return config;
+  return networks ? config : undefined;
 };

@@ -10,11 +10,13 @@ interface TopSymbolsByVolume {
 }
 
 export const getSortedChains = async (
-  chains: ChainName[]
+  chains: ChainName[],
+  signal?: AbortSignal
 ): Promise<ChainName[]> => {
   try {
     const response: TopSymbolsByVolume = await fetch(
-      "https://api.wormholescan.io/api/v1/top-symbols-by-volume?timeSpan=30d"
+      "https://api.wormholescan.io/api/v1/top-symbols-by-volume?timeSpan=30d",
+      { signal, cache: "default" }
     ).then((r) => r.json());
 
     const volumePerChain = response.symbols
