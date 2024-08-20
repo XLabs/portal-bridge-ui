@@ -626,7 +626,7 @@ export const ENV: Env = {
           nativeChain: "solana",
           tokenId: {
             chain: "solana",
-            address: "3DK98MXPz8TRuim7rfQnebSLpA7VSoc79Bgiee1m4Zw5"
+            address: "3DK98MXPz8TRuim7rfQnebSLpA7VSoc79Bgiee1m4Zw5",
           },
           icon: "https://assets.coingecko.com/coins/images/37327/standard/renzo_200x200.png?1714025012",
           coinGeckoId: "renzo",
@@ -1042,8 +1042,8 @@ export const ENV: Env = {
                 },
               ],
             },
-          ]
-        }
+          ],
+        },
       },
     }
   ),
