@@ -13,7 +13,7 @@ describe("useMessages", () => {
   beforeEach(() => {
     global.fetch = jest
       .fn()
-      .mockReturnValue({ status: 200, json: async () => [] });
+      .mockResolvedValue({ status: 200, json: async () => [] });
   });
 
   it("should get relevant parsed messages", async () => {
