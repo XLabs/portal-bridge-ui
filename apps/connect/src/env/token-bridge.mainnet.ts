@@ -538,7 +538,7 @@ export const ENV: Env = {
             chain: "ethereum",
             address: "0xEaE00D6F9B16Deb1BD584c7965e4c7d762f178a1",
           },
-          icon: "https://www.xborg.com/images/logo.svg",
+          icon: "https://bafybeiemq2qpk3fahebltwzbdsugrzhxuono3ugxa25imywc7mbfhwl2lm.ipfs.dweb.link/",
           coinGeckoId: "",
           decimals: {
             default: 8,
@@ -553,7 +553,7 @@ export const ENV: Env = {
             chain: "arbitrum",
             address: "0x93FA0B88C0C78e45980Fa74cdd87469311b7B3E4",
           },
-          icon: "https://www.xborg.com/images/logo.svg",
+          icon: "https://bafybeiemq2qpk3fahebltwzbdsugrzhxuono3ugxa25imywc7mbfhwl2lm.ipfs.dweb.link/",
           coinGeckoId: "",
           decimals: {
             default: 8,
@@ -568,7 +568,7 @@ export const ENV: Env = {
             chain: "solana",
             address: "XBGdqJ9P175hCC1LangCEyXWNeCPHaKWA17tymz2PrY",
           },
-          icon: "https://www.xborg.com/images/logo.svg",
+          icon: "https://bafybeiemq2qpk3fahebltwzbdsugrzhxuono3ugxa25imywc7mbfhwl2lm.ipfs.dweb.link/",
           coinGeckoId: "",
           decimals: {
             default: 8,
