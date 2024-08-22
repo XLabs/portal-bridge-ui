@@ -73,7 +73,7 @@ export const useConnectConfig = () => {
     getSortedChains(
       ENV.wormholeConnectConfig.networks as ChainName[],
       controller.signal
-    ).then((chains) => setNetworks(chains));
+    ).then((chains) => !!chains && setNetworks(chains));
     return () => controller.abort();
   }, []);
 
