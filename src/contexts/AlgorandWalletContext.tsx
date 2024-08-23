@@ -9,11 +9,7 @@ import {
 } from "@xlabs-libs/wallet-aggregator-algorand";
 
 export const getAlgorandWallets = (): AlgorandWallet[] => {
-  return [
-    new PeraWallet(),
-    new DeflyWallet({}),
-    new AlgorandLedgerWallet(),
-  ];
+  return [new PeraWallet(), new DeflyWallet({}), new AlgorandLedgerWallet()];
 };
 
 export const useAlgorandWallet = () => {
