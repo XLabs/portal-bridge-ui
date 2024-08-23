@@ -5,13 +5,11 @@ import { useMemo } from "react";
 import {
   AlgorandLedgerWallet,
   DeflyWallet,
-  MyAlgoWallet,
   PeraWallet,
 } from "@xlabs-libs/wallet-aggregator-algorand";
 
 export const getAlgorandWallets = (): AlgorandWallet[] => {
   return [
-    new MyAlgoWallet(),
     new PeraWallet(),
     new DeflyWallet({}),
     new AlgorandLedgerWallet(),
