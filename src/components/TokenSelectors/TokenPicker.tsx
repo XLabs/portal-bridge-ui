@@ -305,31 +305,40 @@ export default function TokenPicker({
   const handleSelectOption = useCallback(
     async (option: NFTParsedTokenAccount) => {
       setSelectionError("");
-      let newOption = null;
       try {
-        //Covalent balances tend to be stale, so we make an attempt to correct it at selection time.
-        if (getAddress && !option.isNativeAsset) {
-          newOption = await getAddress(option.mintKey, option.tokenId);
-          newOption = {
-            ...option,
-            ...newOption,
-            // keep logo and uri from covalent / market list / etc (otherwise would be overwritten by undefined)
-            logo: option.logo || newOption.logo,
-            uri: option.uri || newOption.uri,
-          } as NFTParsedTokenAccount;
-        } else {
-          newOption = option;
-        }
-        await onChange(newOption);
+        // covalent balances tend to be stale, so we make an attempt to correct it at selection time.
+        const updatedOption: Partial<NFTParsedTokenAccount> =
+          typeof getAddress === "function" && !option.isNativeAsset
+            ? await (async () => {
+                try {
+                  const response = await getAddress(
+                    option.mintKey,
+                    option.tokenId
+                  );
+                  return response;
+                } catch (error: any) {
+                  // using stale value when updated value can't be found
+                  if (error?.message === "Asset not found") return option;
+                  throw error;
+                }
+              })()
+            : {};
+
+        await onChange({
+          ...option,
+          ...updatedOption,
+          // keep logo and uri from covalent / market list / etc (otherwise would be overwritten by undefined)
+          logo: option.logo || updatedOption?.logo,
+          uri: option.uri || updatedOption?.uri,
+        } as NFTParsedTokenAccount);
         closeDialog();
       } catch (e: any) {
-        if (e.message?.includes("v1")) {
-          setSelectionError(e.message);
-        } else {
-          setSelectionError(
-            "Unable to retrieve required information about this token. Ensure your wallet is connected, then refresh the list."
-          );
-        }
+        console.error(e);
+        setSelectionError(
+          e?.message?.includes("v1")
+            ? e.message
+            : "Unable to retrieve required information about this token. Ensure your wallet is connected, then refresh the list."
+        );
       }
     },
     [getAddress, onChange, closeDialog]
@@ -347,17 +356,18 @@ export default function TokenPicker({
       if (!holderString) {
         return true;
       }
-      const optionString = (
-        (option.publicKey || "") +
-        " " +
-        (option.mintKey || "") +
-        " " +
-        (option.symbol || "") +
-        " " +
-        (option.name || " ")
-      ).toLowerCase();
-      const searchString = holderString.toLowerCase();
-      return optionString.includes(searchString);
+
+      const optionString = [
+        option.publicKey,
+        option.mintKey,
+        option.symbol,
+        option.name,
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      return optionString.includes(holderString.toLowerCase());
     },
     [holderString]
   );
@@ -465,7 +475,11 @@ export default function TokenPicker({
         (error) => {
           if (!cancelled) {
             setLocalLoading(false);
-            setLoadingError("Could not find the specified address.");
+            console.error(error);
+            // leaving default "no results"
+            if (error?.message !== "Asset not found") {
+              setLoadingError("Could not find the specified address.");
+            }
           }
         }
       );

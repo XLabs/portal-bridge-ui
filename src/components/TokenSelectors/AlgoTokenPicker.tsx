@@ -43,44 +43,36 @@ export default function AlgoTokenPicker(props: AlgoTokenPickerProps) {
   );
 
   const lookupAlgoAddress = useCallback(
-    (lookupAsset: string) => {
-      if (!walletAddress) {
-        return Promise.reject("Wallet not connected");
-      }
+    async (lookupAsset: string) => {
+      if (!walletAddress) throw new Error("Wallet not connected");
       const algodClient = new Algodv2(
         ALGORAND_HOST.algodToken,
         ALGORAND_HOST.algodServer,
         ALGORAND_HOST.algodPort
       );
-      return fetchSingleMetadata(lookupAsset, algodClient)
-        .then((metadata) => {
-          return algodClient
-            .accountInformation(walletAddress)
-            .do()
-            .then((accountInfo) => {
-              for (const asset of accountInfo.assets) {
-                const assetId = asset["asset-id"];
-                if (assetId.toString() === lookupAsset) {
-                  const amount = asset.amount;
-                  return createParsedTokenAccount(
-                    walletAddress,
-                    assetId.toString(),
-                    amount,
-                    metadata.decimals,
-                    parseFloat(formatUnits(amount, metadata.decimals)),
-                    formatUnits(amount, metadata.decimals).toString(),
-                    metadata.symbol,
-                    metadata.tokenName,
-                    undefined,
-                    false
-                  );
-                }
-              }
-              return Promise.reject();
-            })
-            .catch(() => Promise.reject());
-        })
-        .catch(() => Promise.reject());
+      const metadata = await fetchSingleMetadata(lookupAsset, algodClient);
+      const accountInfo = await algodClient
+        .accountInformation(walletAddress)
+        .do();
+
+      const asset = accountInfo.assets.find(
+        (asset: any) => asset["asset-id"]?.toString() === lookupAsset
+      );
+
+      if (!asset) throw new Error("Asset not found");
+
+      return createParsedTokenAccount(
+        walletAddress,
+        asset["asset-id"]?.toString(),
+        asset.amount,
+        metadata.decimals,
+        parseFloat(formatUnits(asset.amount, metadata.decimals)),
+        formatUnits(asset.amount, metadata.decimals).toString(),
+        metadata.symbol,
+        metadata.tokenName,
+        undefined,
+        false
+      );
     },
     [walletAddress]
   );
