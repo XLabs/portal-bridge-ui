@@ -3,7 +3,7 @@ import {
   ValidateTransferResult,
 } from "node_modules/@wormhole-foundation/wormhole-connect/lib/src/config/types";
 import { ChainName } from "@certusone/wormhole-sdk";
-import { isValidAddress } from "./validAddress";
+import { isValidAddress } from "./isValidAddress";
 import { isSanctionedAddress } from "../../src/providers/sanctions";
 
 export const validateTransfer = async (

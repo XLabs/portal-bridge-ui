@@ -12,17 +12,12 @@ export const isValidAddress = async (
   address: string,
   chain: ChainName
 ): Promise<boolean> => {
-  if (isEVMChain(chain)) {
-    return isValidEthereumAddress(address);
-  } else if (chain === "solana") {
-    return isValidSolanaAddress(address);
-  } else if (chain === "aptos") {
-    return isValidAptosAddress(address);
-  } else if (chain === "sui") {
-    return isValidSuiAddress(address);
-  } else if (isCosmWasmChain(chain)) {
-    return isValidCosmosAddress(address, chain);
-  }
+  if (isEVMChain(chain)) return isValidEthereumAddress(address);
+  if (chain === "solana") return isValidSolanaAddress(address);
+  if (chain === "aptos") return isValidAptosAddress(address);
+  if (chain === "sui") return isValidSuiAddress(address);
+  if (isCosmWasmChain(chain)) return isValidCosmosAddress(address, chain);
+
   return false;
 };
 
@@ -34,28 +29,19 @@ const isValidEthereumAddress = (address: string, strict = false): boolean => {
   // We need to ensure the address contains the checksum
   try {
     const addressWithChecksum = getEthereumAddressWithChecksum(address);
-    if (strict) {
-      return address === addressWithChecksum;
-    }
+    if (strict) return address === addressWithChecksum;
     return address.toLowerCase() === addressWithChecksum.toLocaleLowerCase();
   } catch (e) {
-    const typedError = e as { reason?: string };
-    if (
-      typedError.reason === "invalid address" ||
-      typedError.reason === "bad address checksum" ||
-      typedError.reason === "bad icap checksum"
-    ) {
-      return false;
-    }
+    return !/^(invalid address|bad address checksum|bad icap checksum)$/.test(
+      (e as { reason: string }).reason
+    );
   }
-  return false;
 };
 
 // Solana Validation
 const isValidSolanaAddress = (address: string): boolean => {
   try {
-    const decoded = base58.decode(address);
-    return decoded.length === 32;
+    return base58.decode(address).length === 32;
   } catch (e) {
     return false;
   }
@@ -82,14 +68,13 @@ const isValidCosmosAddress = (address: string, chain: ChainName) => {
   if (chain === "evmos" && address.startsWith("0x")) {
     // For Evmos hex address case https://docs.evmos.org/protocol/concepts/accounts#address-formats-for-clients
     return isValidEthereumAddress(address);
-  } else {
-    // For Beach32 encode case https://docs.cosmos.network/v0.47/build/spec/addresses/bech32
-    try {
-      const decoded = bech32.decode(address);
-      return PREFIXES[chain] === decoded.prefix && !!decoded.words?.length;
-    } catch {
-      return false;
-    }
+  }
+  // For Beach32 encode case https://docs.cosmos.network/v0.47/build/spec/addresses/bech32
+  try {
+    const decoded = bech32.decode(address);
+    return PREFIXES[chain] === decoded.prefix && !!decoded.words?.length;
+  } catch {
+    return false;
   }
 };
 
