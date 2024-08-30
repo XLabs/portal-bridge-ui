@@ -4,15 +4,16 @@ export default {
   coverageProvider: "v8",
   verbose: true,
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node", "html"],
-  testMatch: ["<rootDir>/**/*.test.ts", "<rootDir>/**/*.test.tsx"],
+  testMatch: ["<rootDir>/src/**/*.test.ts", "<rootDir>/src/**/*.test.tsx"],
+  maxWorkers: "50%",
   setupFilesAfterEnv: ["<rootDir>/jest.setup.tsx"],
   testEnvironment: "jsdom",
   transform: {
-    ".(ts|tsx)": "ts-jest",
+    "^.+\\.(t|j)sx?$": "@swc/jest",
   },
   moduleNameMapper: {
     "@env": "<rootDir>/src/env/index.ts",
-    "uuid": require.resolve('uuid'),
+    uuid: require.resolve("uuid"),
   },
   collectCoverageFrom: [
     "<rootDir>/src/**/*.{ts,tsx,js,jsx}",
