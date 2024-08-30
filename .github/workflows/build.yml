@@ -35,6 +35,7 @@ on:
         pkg-version:
             description: "NPM Package Version"
             value: ${{ jobs.token-bridge.outputs.pkg-version }}
+
 jobs:    
   docs:
     name: "Documentation"
@@ -140,38 +141,7 @@ jobs:
         with:
           name: build-redirects
           path: apps/redirects/dist
-  rewards-dashboard:
-    name: "Rewards Dashboard"
-    runs-on: "ubuntu-latest"
-    concurrency:
-      group: ${{ github.ref }}-${{inputs.name}}-rewards-dashboard
-      cancel-in-progress: true
-    environment: ${{inputs.environment}}
-    steps:
-      - name: Set up Node environment
-        uses: actions/setup-node@v3
-        with:
-          node-version: v18.17.1
-      - name: Checkout Rewards Dashboard
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ inputs.project-branch }}
-      - name: Build Rewards Dashboard
-        env:
-          PUBLIC_URL: ${{ inputs.public-url }}
-          VITE_WAC_URL: ${{ inputs.wac-url }}
-          VITE_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}
-          VITE_APP_DOMAIN: ${{ inputs.app-domain }}
-        run: |
-          pushd apps/rewards-dashboard
-          npm ci
-          npm run build
-      - name: Upload Rewards Dashboard Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: build-rewards-dashboard
-          path: apps/rewards-dashboard/dist
-  
+
   usdc-bridge:
     name: "USDC Bridge"
     runs-on: "ubuntu-latest"
@@ -303,13 +273,59 @@ jobs:
           name: build-token-bridge
           path: connect-loader/apps/connect/dist
 
+  w-bridge:
+    name: "W Bridge"
+    runs-on: "ubuntu-latest"
+    concurrency:
+      group: ${{ github.ref }}-${{inputs.name}}-w-bridge
+      cancel-in-progress: true
+    environment: ${{inputs.environment}}
+    outputs:
+      pkg-version: ${{ steps.set-version.outputs._PKG_VERSION }}
+    steps:
+      - name: Set up Node environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: v18.17.1
+      - name: Checkout Custom Wormhole Connect Loader
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.project-branch }}
+          path: connect-loader
+      - name: Setup Git
+        run: |
+          pushd connect-loader
+          git config user.name "xLabs CI"
+          git config user.email "devops@xlabs.xyz"
+      - name: Set Portal Bridge Version 
+        id: set-version
+        run: |
+          pushd connect-loader/apps/w-bridge
+          echo "_PKG_VERSION=$(node -p -e "require('./package.json').version")-${{inputs.separator}}$(echo ${{ github.sha }} | cut -c -10)" >> "${GITHUB_OUTPUT}"
+      - name: Build Custom Wormhole Connect Loader
+        env:
+          PUBLIC_URL: "${{ inputs.public-url }}"
+          VITE_APP_VERSION: ${{ steps.set-version.outputs._PKG_VERSION }}
+          VITE_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
+          VITE_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}
+        run: |
+          pushd connect-loader/apps/w-bridge
+          npm ci
+          echo 'VITE_APP_VERSION=$npm_package_version' > .env
+          npm run build:token-bridge
+      - name: Upload Portal Bridge Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-w-bridge
+          path: connect-loader/apps/w-bridge/dist
+
   publish:
     name: "Publish"
     needs:
       - advanced-tools
       - usdc-bridge
       - token-bridge
-      - rewards-dashboard
+      - w-bridge
       - redirects
       - docs
     runs-on: "ubuntu-latest"
@@ -332,6 +348,11 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
+          name: build-w-bridge
+          path: w-bridge    
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
           name: build-advanced-tools
           path: advanced-tools
       - name: Download Artifact
@@ -339,11 +360,6 @@ jobs:
         with:
           name: build-docs
           path: docs
-      - name: Download Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: build-rewards-dashboard
-          path: rewards-dashboard
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
