@@ -1,8 +1,9 @@
 import { styled } from "@mui/material";
 import { useEffect, useState } from "react";
+import { COLOR } from "../../theme/portal";
 
 const TableContainer = styled("div")(({ theme }) => ({
-  borderLeft: "1px solid #FFFFFF1A",
+  borderLeft: `1px solid ${COLOR.whiteWithTransparency}`,
   width: 320,
   [theme.breakpoints.down("md")]: {
     width: "100%",
@@ -16,18 +17,18 @@ const TableItem = styled("div")(() => ({
   cursor: "pointer",
   textTransform: "capitalize",
   fontSize: 14,
-  color: "#9C9DBF",
+  color: COLOR.whiteWithTransparency,
   fontWeight: 500,
   marginLeft: -2,
   "&:hover": {
-    color: "white",
-    borderLeft: "3px solid white",
+    color: COLOR.white,
+    borderLeft: `3px solid ${COLOR.white}`,
     fontWeight: 600,
   },
 }));
 
 const Title = styled("p")(() => ({
-  color: "#9C9DBF",
+  color: COLOR.whiteWithTransparency,
   fontSize: 14,
   fontWeight: 500,
 }));
@@ -41,32 +42,31 @@ export default function TableOfContent() {
   const [tableOfContent, setTableOfContent] = useState<TableItem[]>([]);
   const activeItem = {
     fontWeight: 600,
-    color: "white",
-    borderLeft: "3px solid white",
+    color: COLOR.white,
+    borderLeft: `3px solid ${COLOR.white}`,
   };
   useEffect(() => {
-    const titles = Array.from(document.querySelectorAll("H2"))
-      .filter((el) => !!el.children[0].textContent)
-      .map((el) => {
-        return { title: el.children[0].textContent, active: false, id: el.id };
-      });
-    setTableOfContent(titles);
+    setTableOfContent(
+      Array.from(document.querySelectorAll("H2"))
+        .filter((el) => !!el.children[0].textContent)
+        .map((el) => ({
+          title: el.children[0].textContent,
+          active: false,
+          id: el.id,
+        }))
+    );
   }, []);
+
   const updateActive = (idx: number) => {
-    const newTableOfContent = tableOfContent.map((item, index) => {
-      if (index === idx) {
-        item.active = true;
-        setTimeout(() => {
-          //document.querySelector(`#${item.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
-          const el = document.querySelector(`#${item.id}`) as HTMLElement;
-          window.scroll({ top: el?.offsetTop || 0, behavior: "smooth" });
-        }, 100);
-      } else {
-        item.active = false;
-      }
-      return item;
-    });
-    setTableOfContent(newTableOfContent);
+    setTableOfContent(
+      tableOfContent.map((item, index) => ({
+        ...item,
+        active: index === idx,
+      }))
+    );
+    document
+      .querySelector(`#${tableOfContent[idx]?.id}`)
+      ?.scrollIntoView?.({ behavior: "smooth" });
   };
   return (
     <div>
@@ -75,7 +75,7 @@ export default function TableOfContent() {
         {tableOfContent.map((item, idx) => (
           <TableItem
             style={item.active ? activeItem : {}}
-            key={idx}
+            key={item.id}
             onClick={() => updateActive(idx)}
           >
             {item.title}

@@ -1,13 +1,8 @@
 import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
-import {
-  Env,
-  PUBLIC_URL,
-  versions,
-  wormholeConnectConfigCommon,
-} from "./common";
+import { Env, PUBLIC_URL, wormholeConnectConfigCommon } from "./common";
 
 export const ENV: Env = {
-  versions,
+  PUBLIC_URL,
   navBar: [
     { label: "Home", href: `${PUBLIC_URL}/` },
     {

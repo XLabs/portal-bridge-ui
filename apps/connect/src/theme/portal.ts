@@ -10,7 +10,7 @@ const suisse = {
   src: `url(${font}) format('woff2')`,
 };
 
-const COLORS = {
+export const COLOR = {
   blue: "#1975e6",
   blueWithTransparency: "rgba(25, 117, 230, 0.8)",
   gray: "#4e4e54",
@@ -22,8 +22,9 @@ const COLORS = {
   nearBlackWithMinorTransparency: "rgba(0,0,0,.25)",
   red: "#aa0818",
   darkRed: "#810612",
-  white: "#FFFFFF",
-  whiteWithTransparency: "rgba(255,255,255,.07)",
+  white: "#ffffff",
+  whiteWithTransparency: "#ffffffb3",
+  black: '#000000'
 };
 
 const theme = responsiveFontSizes(
@@ -31,23 +32,23 @@ const theme = responsiveFontSizes(
     palette: {
       mode: "dark",
       background: {
-        default: COLORS.nearBlack,
-        paper: COLORS.nearBlack,
+        default: COLOR.black,
+        paper: COLOR.black,
       },
-      divider: COLORS.white,
+      divider: COLOR.white,
       text: {
-        primary: COLORS.white,
+        primary: COLOR.white,
       },
       primary: {
-        main: COLORS.blueWithTransparency, // #0074FF
-        light: COLORS.lightBlue,
+        main: COLOR.blueWithTransparency, // #0074FF
+        light: COLOR.lightBlue,
       },
       secondary: {
-        main: COLORS.greenWithTransparency, // #00EFD8
-        light: COLORS.lightGreen,
+        main: COLOR.greenWithTransparency, // #00EFD8
+        light: COLOR.lightGreen,
       },
       error: {
-        main: COLORS.red,
+        main: COLOR.red,
       },
     },
 
@@ -84,15 +85,15 @@ const theme = responsiveFontSizes(
           },
           "*": {
             scrollbarWidth: "thin",
-            scrollbarColor: `${COLORS.gray} ${COLORS.nearBlackWithMinorTransparency}`,
+            scrollbarColor: `${COLOR.gray} ${COLOR.nearBlackWithMinorTransparency}`,
           },
           "*::-webkit-scrollbar": {
             width: "8px",
             height: "8px",
-            backgroundColor: COLORS.nearBlackWithMinorTransparency,
+            backgroundColor: COLOR.nearBlackWithMinorTransparency,
           },
           "*::-webkit-scrollbar-thumb": {
-            backgroundColor: COLORS.gray,
+            backgroundColor: COLOR.gray,
             borderRadius: "4px",
           },
           "*::-webkit-scrollbar-corner": {
@@ -104,7 +105,7 @@ const theme = responsiveFontSizes(
       MuiAccordion: {
         styleOverrides: {
           root: {
-            backgroundColor: COLORS.whiteWithTransparency,
+            backgroundColor: COLOR.whiteWithTransparency,
             "&:before": {
               display: "none",
             },
@@ -145,7 +146,7 @@ const theme = responsiveFontSizes(
         styleOverrides: {
           root: {
             textDecoration: "none",
-            color: COLORS.lightBlue,
+            color: COLOR.lightBlue,
           },
         },
       },
@@ -168,7 +169,7 @@ const theme = responsiveFontSizes(
       MuiStep: {
         styleOverrides: {
           root: {
-            backgroundColor: COLORS.whiteWithTransparency,
+            backgroundColor: COLOR.whiteWithTransparency,
             backdropFilter: "blur(4px)",
             borderRadius: "28px",
             padding: "32px 32px 16px",
@@ -194,7 +195,7 @@ const theme = responsiveFontSizes(
       MuiStepLabel: {
         styleOverrides: {
           label: {
-            color: COLORS.white,
+            color: COLOR.white,
             textTransform: "uppercase",
             "&.MuiStepLabel-active": {},
             "&.MuiStepLabel-completed": {},
@@ -204,7 +205,7 @@ const theme = responsiveFontSizes(
       MuiTabs: {
         styleOverrides: {
           root: {
-            borderBottom: `1px solid ${COLORS.white}`,
+            borderBottom: `1px solid ${COLOR.white}`,
           },
           indicator: {
             height: "100%",
@@ -216,7 +217,7 @@ const theme = responsiveFontSizes(
       MuiTab: {
         styleOverrides: {
           root: {
-            color: COLORS.white,
+            color: COLOR.white,
             fontFamily: "Suisse BP Intl, sans-serif",
             fontWeight: "bold",
             fontSize: 18,
@@ -239,7 +240,7 @@ const theme = responsiveFontSizes(
       MuiCircularProgress: {
         styleOverrides: {
           root: {
-            color: COLORS.lightBlue,
+            color: COLOR.lightBlue,
           },
         },
       },
