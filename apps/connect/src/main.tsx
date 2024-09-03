@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import CssBaseline from "@mui/material/CssBaseline";
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import theme from "./theme/portal.ts";
+import { theme } from "./theme/portal.ts";
 import { App } from "./App.tsx";
 import { HashRouter } from "react-router-dom";
 import { ENV } from "@env";

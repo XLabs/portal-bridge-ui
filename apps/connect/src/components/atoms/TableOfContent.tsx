@@ -1,6 +1,6 @@
 import { styled } from "@mui/material";
 import { useEffect, useState } from "react";
-import { COLOR } from "../../theme/portal";
+import { COLOR, FONT_SIZE } from "../../theme/portal";
 
 const TableContainer = styled("div")(({ theme }) => ({
   borderLeft: `1px solid ${COLOR.whiteWithTransparency}`,
@@ -16,7 +16,7 @@ const TableItem = styled("div")(() => ({
   marginTop: 10,
   cursor: "pointer",
   textTransform: "capitalize",
-  fontSize: 14,
+  fontSize: FONT_SIZE.S,
   color: COLOR.whiteWithTransparency,
   fontWeight: 500,
   marginLeft: -2,
@@ -29,7 +29,7 @@ const TableItem = styled("div")(() => ({
 
 const Title = styled("p")(() => ({
   color: COLOR.whiteWithTransparency,
-  fontSize: 14,
+  fontSize: FONT_SIZE.S,
   fontWeight: 500,
 }));
 

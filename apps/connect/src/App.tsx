@@ -1,13 +1,13 @@
+import { Route, Routes } from "react-router-dom";
+import { styled } from "@mui/material";
+
+import { PrivacyPolicyPath } from "./utils/constants";
+import messageConfig from "./configs/messages";
 import { NavBar } from "./components/atoms/NavBar";
 import NewsBar from "./components/atoms/NewsBar";
-import messageConfig from "./configs/messages";
-
-import { Route, Routes } from "react-router-dom";
 import PrivacyPolicy from "./components/pages/PrivacyPolicy";
-import { PrivacyPolicyPath } from "./utils/constants";
 import { Connect } from "./components/atoms/Connect";
 import { Footer } from "./components/atoms/Footer";
-import { styled } from "@mui/material";
 
 const messages = Object.values(messageConfig);
 
