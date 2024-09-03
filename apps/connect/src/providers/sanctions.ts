@@ -15,7 +15,7 @@ import {
   toChainId,
   isCosmWasmChain,
 } from "@certusone/wormhole-sdk";
-import { ExtendedTransferDetails } from "node_modules/@wormhole-foundation/wormhole-connect/lib/src/config/types";
+import { ExtendedTransferDetails } from "node_modules/@wormhole-foundation/wormhole-connect-v1/lib/src/config/types";
 
 export interface SanctionResponse {
   addressRiskIndicators: { categoryRiskScoreLevel: number; riskType: string }[];

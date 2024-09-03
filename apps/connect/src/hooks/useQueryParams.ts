@@ -1,5 +1,5 @@
 import { coalesceChainName, isChain } from "@certusone/wormhole-sdk";
-import { ChainName } from "@wormhole-foundation/wormhole-connect";
+import { ChainName } from "@wormhole-foundation/wormhole-connect-v1";
 import { useMemo } from "react";
 
 const getChainValue = (

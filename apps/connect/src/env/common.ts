@@ -1,4 +1,5 @@
-import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
+import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect-v1";
+import type { WormholeConnectConfig as WormholeConnectConfigv2 } from "@wormhole-foundation/wormhole-connect";
 import { envVars } from "./env-vars";
 
 const rpcs = (chains: string[], template: (chain: string) => string) =>
@@ -49,9 +50,37 @@ export const wormholeConnectConfigCommon: Partial<WormholeConnectConfig> = {
   menu: [],
 };
 
+const capitalize = (s: string) => (s && s[0].toUpperCase() + s.slice(1)) || "";
+export const chainsv2 = chains.map((chain) => capitalize(chain));
+export const MAINNET_RPCS_V2 = {
+  ...rpcs(chainsv2, asRpcHost),
+  Solana: "https://wormhole.rpcpool.com/",
+};
+
+export const wormholeConnectConfigCommonv2: Partial<WormholeConnectConfigv2> = {
+  walletConnectProjectId: envVars.VITE_APP_WALLET_CONNECT_PROJECT_ID || "",
+  env: CLUSTER,
+  network: CLUSTER,
+  rpcs: {},
+  showHamburgerMenu: false,
+  explorer: {
+    href: `https://wormholescan.io/#/txs?address={:address}&network=${CLUSTER}`,
+  },
+  menu: [
+    {
+      label: "Advanced Tools",
+      href: `${PUBLIC_URL}/advanced-tools/`,
+      order: 1,
+    },
+    {
+      label: "Privacy Policy",
+      href: `${PUBLIC_URL}/#/privacy-policy/`,
+    },
+  ],
+}; 
 export interface Env {
   PUBLIC_URL: string;
-  wormholeConnectConfig: WormholeConnectConfig;
+  wormholeConnectConfig: WormholeConnectConfig | WormholeConnectConfigv2;
   navBar: {
     label: string;
     active?: boolean;

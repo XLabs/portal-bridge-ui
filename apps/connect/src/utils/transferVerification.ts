@@ -1,7 +1,7 @@
 import {
   ExtendedTransferDetails,
   ValidateTransferResult,
-} from "node_modules/@wormhole-foundation/wormhole-connect/lib/src/config/types";
+} from "node_modules/@wormhole-foundation/wormhole-connect-v1/lib/src/config/types";
 import { ChainName } from "@certusone/wormhole-sdk";
 import { isValidAddress } from "./isValidAddress";
 import { isSanctionedAddress } from "../../src/providers/sanctions";

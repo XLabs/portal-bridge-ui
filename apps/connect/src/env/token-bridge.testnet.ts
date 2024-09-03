@@ -1,13 +1,13 @@
 import { ALGORAND, ACALA, MORE, ENV as ENV_BASE } from "./token-bridge";
 import { mergeDeep } from "../utils/mergeDeep";
 import { TESTNET } from "@wormhole-foundation/wormhole-connect";
-import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
+import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect-v1";
 import { Env } from "./common";
 
 export const ENV: Env = {
   ...ENV_BASE,
   wormholeConnectConfig: mergeDeep<WormholeConnectConfig>(
-    ENV_BASE.wormholeConnectConfig,
+    ENV_BASE.wormholeConnectConfig as WormholeConnectConfig,
     {
       networks: [...Object.keys(TESTNET.chains)],
       moreNetworks: {

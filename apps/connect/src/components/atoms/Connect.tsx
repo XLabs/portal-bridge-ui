@@ -1,5 +1,5 @@
 import { memo, useEffect } from "react";
-import WormholeConnect from "@wormhole-foundation/wormhole-connect";
+import WormholeConnect from "@wormhole-foundation/wormhole-connect-v1";
 import customTheme from "../../theme/connect";
 import Banner from "./Banner";
 import { useConnectConfig } from "../../hooks/useConnectConfig";

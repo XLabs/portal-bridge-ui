@@ -1,9 +1,9 @@
-import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
+import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect-v1";
 import { ComponentProps, useEffect, useMemo, useState } from "react";
 
 import { useQueryParams } from "./useQueryParams";
 import { useFormatAssetParam } from "./useFormatAssetParam";
-import WormholeConnect from "@wormhole-foundation/wormhole-connect";
+import WormholeConnect from "@wormhole-foundation/wormhole-connect-v1";
 import {
   eventHandler,
   type WormholeConnectEvent,
@@ -17,7 +17,7 @@ import { ChainName } from "@certusone/wormhole-sdk";
 import { getSortedChains } from "../utils/getSortedChains";
 
 const defaultConfig: WormholeConnectConfig = {
-  ...ENV.wormholeConnectConfig,
+  ...(ENV.wormholeConnectConfig as WormholeConnectConfig),
   eventHandler: (e: WormholeConnectEvent) => {
     if (isPreview || isProduction) {
       // Send the event to Mixpanel
@@ -71,7 +71,7 @@ export const useConnectConfig = () => {
   useEffect(() => {
     const controller = new AbortController();
     getSortedChains(
-      ENV.wormholeConnectConfig.networks as ChainName[],
+      (ENV.wormholeConnectConfig as WormholeConnectConfig).networks as ChainName[],
       controller.signal
     ).then((chains) => !!chains && setNetworks(chains));
     return () => controller.abort();

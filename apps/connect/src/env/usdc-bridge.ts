@@ -1,4 +1,4 @@
-import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
+import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect-v1";
 import { Env, PUBLIC_URL, wormholeConnectConfigCommon } from "./common";
 
 export const ENV: Env = {
@@ -19,7 +19,7 @@ export const ENV: Env = {
   ],
   redirects: undefined,
   wormholeConnectConfig: {
-    ...wormholeConnectConfigCommon,
+    ...wormholeConnectConfigCommon as WormholeConnectConfig,
     pageHeader: {
       text: "USDC Transfer",
       align: "center",
