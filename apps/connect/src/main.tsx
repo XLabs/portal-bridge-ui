@@ -4,8 +4,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import theme from "./theme/portal.ts";
-import Background from "./components/atoms/Background.tsx";
-import App from "./App.tsx";
+import { App } from "./App.tsx";
 import { HashRouter } from "react-router-dom";
 import { ENV } from "@env";
 
@@ -22,12 +21,10 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={client}>
-        <Background>
-          <CssBaseline />
-          <HashRouter>
-            <App />
-          </HashRouter>
-        </Background>
+        <CssBaseline />
+        <HashRouter>
+          <App />
+        </HashRouter>
       </QueryClientProvider>
     </ThemeProvider>
   </React.StrictMode>
