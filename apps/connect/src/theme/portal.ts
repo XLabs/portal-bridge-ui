@@ -10,6 +10,15 @@ const suisse = {
   src: `url(${font}) format('woff2')`,
 };
 
+export const FONT_SIZE = {
+  XS: 12,
+  S: 14,
+  M: 16,
+  L: 18,
+  XL: 20,
+  XXL: 24,
+} as const;
+
 export const COLOR = {
   blue: "#1975e6",
   blueWithTransparency: "rgba(25, 117, 230, 0.8)",
@@ -27,7 +36,7 @@ export const COLOR = {
   black: "#000000",
 };
 
-const theme = responsiveFontSizes(
+export const theme = responsiveFontSizes(
   createTheme({
     palette: {
       mode: "dark",
@@ -54,7 +63,7 @@ const theme = responsiveFontSizes(
 
     typography: {
       fontFamily: "'Poppins', sans-serif",
-      fontSize: 13,
+      fontSize: FONT_SIZE.XS,
       h1: {
         fontFamily: "Suisse BP Intl, sans-serif",
         lineHeight: 0.9,
@@ -220,7 +229,7 @@ const theme = responsiveFontSizes(
             color: COLOR.white,
             fontFamily: "Suisse BP Intl, sans-serif",
             fontWeight: "bold",
-            fontSize: 18,
+            fontSize: FONT_SIZE.L,
             padding: 12,
             letterSpacing: "-0.69px",
             textTransform: "none",
@@ -247,5 +256,3 @@ const theme = responsiveFontSizes(
     },
   })
 );
-
-export default theme;

@@ -1,6 +1,8 @@
 import { Link } from "@mui/material";
 import Typography from "@mui/material/Typography";
 
+import { FONT_SIZE } from "../theme/portal";
+
 export type Message = {
   background: string;
   button?: {
@@ -23,10 +25,10 @@ const messages: Record<string, Message> = {
           variant="body1"
           style={{
             color: "white",
-            fontSize: "16px",
+            fontSize: FONT_SIZE.M,
             fontFamily: "Poppins",
             fontWeight: "500",
-            lineHeight: "20.02px",
+            lineHeight: `${FONT_SIZE.XL}px`,
             letterSpacing: "0.28px",
             wordWrap: "break-word",
           }}
@@ -92,10 +94,10 @@ const messages: Record<string, Message> = {
           variant="body1"
           style={{
             color: "white",
-            fontSize: "16px",
+            fontSize: FONT_SIZE.M,
             fontFamily: "Poppins",
             fontWeight: "700",
-            lineHeight: "20.02px",
+            lineHeight: `${FONT_SIZE.XL}px`,
             letterSpacing: "0.28px",
             wordWrap: "break-word",
           }}
@@ -106,10 +108,10 @@ const messages: Record<string, Message> = {
           variant="body1"
           style={{
             color: "white",
-            fontSize: "16px",
+            fontSize: FONT_SIZE.M,
             fontFamily: "Poppins",
             fontWeight: 500,
-            lineHeight: "20.02px",
+            lineHeight: `${FONT_SIZE.XL}px`,
             letterSpacing: "0.28px",
             wordWrap: "break-word",
           }}
@@ -129,10 +131,10 @@ const messages: Record<string, Message> = {
           variant="body1"
           style={{
             color: "#070528",
-            fontSize: "16px",
+            fontSize: FONT_SIZE.M,
             fontFamily: "Poppins",
             fontWeight: "700",
-            lineHeight: "20.02px",
+            lineHeight: `${FONT_SIZE.XL}px`,
             letterSpacing: "0.28px",
             wordWrap: "break-word",
           }}

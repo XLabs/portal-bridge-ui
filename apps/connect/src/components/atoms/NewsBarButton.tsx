@@ -1,6 +1,7 @@
 import type { Message } from "../../configs/messages";
 import MuiLink from "@mui/material/Link";
 import styled from "@mui/material/styles/styled";
+import { FONT_SIZE } from "../../theme/portal";
 
 const Link = styled(MuiLink)<{ backgroundColor: string }>(
   ({ theme, backgroundColor }) => ({
@@ -15,7 +16,7 @@ const Link = styled(MuiLink)<{ backgroundColor: string }>(
     backgroundColor: "white",
     color: backgroundColor,
     marginLeft: "8px",
-    fontSize: "12px",
+    fontSize: FONT_SIZE.XS,
     letterSpacing: "0.08em",
     fontWeight: 600,
     minHeight: "32px",

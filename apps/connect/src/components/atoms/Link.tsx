@@ -1,10 +1,11 @@
 import styled from "@mui/material/styles/styled";
 import MuiLink from "@mui/material/Link";
-import { COLOR } from "../../theme/portal";
+
+import { COLOR, FONT_SIZE } from "../../theme/portal";
 
 export const Link = styled(MuiLink)(({ theme }) => ({
   ...theme.typography.body2,
-  fontSize: "14px",
+  fontSize: FONT_SIZE.S,
   fontWeight: 400,
   fontFamily: '"Poppins", regular',
   color: COLOR.whiteWithTransparency,

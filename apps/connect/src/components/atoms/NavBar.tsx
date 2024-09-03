@@ -1,11 +1,10 @@
+import { useState } from "react";
 import MuiAppBar from "@mui/material/AppBar";
 import Hidden from "@mui/material/Hidden";
 import MuiLink from "@mui/material/Link";
 import styled from "@mui/material/styles/styled";
-
 import MenuIcon from "@mui/icons-material/Menu";
 
-import { useState } from "react";
 import { ENV } from "@env";
 import { Logo } from "./Logo";
 import { COLOR } from "../../theme/portal";
@@ -42,16 +41,6 @@ const LinkContainer = styled("div")(({ theme }) => ({
   },
 }));
 
-const links = [
-  ...ENV.navBar,
-  {
-    label: "Wormholescan",
-    isBlank: true,
-    active: false,
-    href: `https://wormholescan.io${ENV.wormholeConnectConfig.env === "testnet" ? "/#/?network=TESTNET" : ""}`,
-  },
-];
-
 export const NavBar = () => {
   const [openMenu, setOpenMenu] = useState(false);
 
@@ -69,7 +58,15 @@ export const NavBar = () => {
 
         <Hidden implementation="css" smDown={!openMenu} smUp={false}>
           <LinkContainer>
-            {links.map(({ label, active, href, isBlank }, idx) => (
+            {[
+              ...ENV.navBar,
+              {
+                label: "Wormholescan",
+                isBlank: true,
+                active: false,
+                href: `https://wormholescan.io${ENV.wormholeConnectConfig.env === "testnet" ? "/#/?network=TESTNET" : ""}`,
+              },
+            ].map(({ label, active, href, isBlank }, idx) => (
               <Link
                 key={`${label}_${idx}`}
                 href={href}

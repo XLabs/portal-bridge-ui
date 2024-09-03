@@ -1,42 +1,43 @@
-import { Button, Container as MuiContainer, styled } from "@mui/material";
-import arrow from "../../assets/imgs/arrow.svg";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Button, Container as MuiContainer, styled } from "@mui/material";
+
+import arrow from "../../assets/imgs/arrow.svg";
 import { Link } from "../../utils/styles";
 import TableOfContent from "../atoms/TableOfContent";
-import { COLOR } from "../../theme/portal";
+import { COLOR, FONT_SIZE } from "../../theme/portal";
 
 const TitleItem = styled("li")(() => ({
   paddingLeft: 25,
 }));
 
 const P = styled("p")(() => ({
-  fontSize: 14,
-  lineHeight: "20px",
+  fontSize: FONT_SIZE.S,
+  lineHeight: `${FONT_SIZE.XL}px`,
 }));
 
 const H1 = styled("h1")(() => ({
-  fontSize: 24,
-  lineHeight: "24px",
+  fontSize: FONT_SIZE.XXL,
+  lineHeight: `${FONT_SIZE.XXL}px`,
   fontWeight: 700,
   color: COLOR.white,
 }));
 
 const H2 = styled("h2")(() => ({
-  fontSize: 20,
-  lineHeight: "24px",
+  fontSize: FONT_SIZE.XL,
+  lineHeight: `${FONT_SIZE.XXL}px`,
   fontWeight: 700,
   color: COLOR.white,
 }));
 
 const H3 = styled("h3")(() => ({
-  fontSize: 17,
-  lineHeight: "20px",
+  fontSize: FONT_SIZE.L,
+  lineHeight: `${FONT_SIZE.XL}px`,
   fontWeight: 700,
 }));
 
 const ContactButton = styled(Button)(() => ({
-  fontSize: 16,
-  lineHeight: "24px",
+  fontSize: FONT_SIZE.M,
+  lineHeight: `${FONT_SIZE.XXL}px`,
   fontWeight: 400,
   textTransform: "lowercase",
   borderRadius: 8,
@@ -74,8 +75,8 @@ const Container = styled("div")(({ theme }) => ({
 }));
 
 const UL = styled("ul")(() => ({
-  fontSize: 14,
-  lineHeight: "20px",
+  fontSize: FONT_SIZE.S,
+  lineHeight: `${FONT_SIZE.XL}px`,
 }));
 
 const PrivacyPolicy = () => {
