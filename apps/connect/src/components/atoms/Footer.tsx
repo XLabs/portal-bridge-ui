@@ -1,5 +1,12 @@
 import { ENV } from "@env";
-import { Link, LinkContainer } from "./Link";
+import { Link } from "./Link";
+import { styled } from "@mui/material";
+
+const LinkContainer = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  gap: theme.spacing(4),
+}));
 
 export const Footer = () => {
   return (

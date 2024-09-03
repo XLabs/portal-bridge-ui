@@ -10,18 +10,9 @@ export const Link = styled(MuiLink)(({ theme }) => ({
   color: COLOR.whiteWithTransparency,
   [theme.breakpoints.down("sm")]: {
     fontSize: "0.9rem",
-    paddingTop: 8,
-    paddingBottom: 8,
-    lineHeight: "45px",
   },
   transition: "color 0.3s",
   ":hover": {
     color: COLOR.white,
   },
-}));
-
-export const LinkContainer = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  gap: theme.spacing(4),
 }));

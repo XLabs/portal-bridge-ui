@@ -24,7 +24,7 @@ export const COLOR = {
   darkRed: "#810612",
   white: "#ffffff",
   whiteWithTransparency: "#ffffffb3",
-  black: '#000000'
+  black: "#000000",
 };
 
 const theme = responsiveFontSizes(

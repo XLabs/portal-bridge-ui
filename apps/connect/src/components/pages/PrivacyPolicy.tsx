@@ -3,7 +3,7 @@ import arrow from "../../assets/imgs/arrow.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Link } from "../../utils/styles";
 import TableOfContent from "../atoms/TableOfContent";
-import { COLOR } from '../../theme/portal';
+import { COLOR } from "../../theme/portal";
 
 const TitleItem = styled("li")(() => ({
   paddingLeft: 25,
