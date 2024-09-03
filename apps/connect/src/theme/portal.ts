@@ -40,25 +40,12 @@ export const theme = responsiveFontSizes(
   createTheme({
     palette: {
       mode: "dark",
-      background: {
-        default: COLOR.black,
-        paper: COLOR.black,
-      },
+      background: { default: COLOR.black, paper: COLOR.black },
       divider: COLOR.white,
-      text: {
-        primary: COLOR.white,
-      },
-      primary: {
-        main: COLOR.blueWithTransparency, // #0074FF
-        light: COLOR.lightBlue,
-      },
-      secondary: {
-        main: COLOR.greenWithTransparency, // #00EFD8
-        light: COLOR.lightGreen,
-      },
-      error: {
-        main: COLOR.red,
-      },
+      text: { primary: COLOR.white },
+      primary: { main: COLOR.blueWithTransparency, light: COLOR.lightBlue },
+      secondary: { main: COLOR.greenWithTransparency, light: COLOR.lightGreen },
+      error: { main: COLOR.red },
     },
 
     typography: {
@@ -70,18 +57,14 @@ export const theme = responsiveFontSizes(
         letterSpacing: -2,
         fontWeight: "bold",
       },
-      h2: {
-        fontWeight: "200",
-      },
+      h2: { fontWeight: "200" },
       h4: {
         fontWeight: "600",
         fontFamily: "Suisse BP Intl, sans-serif",
         letterSpacing: -1.02,
       },
     },
-    zIndex: {
-      modal: 50,
-    },
+    zIndex: { modal: 50 },
     components: {
       MuiCssBaseline: {
         styleOverrides: {
@@ -106,8 +89,8 @@ export const theme = responsiveFontSizes(
             borderRadius: "4px",
           },
           "*::-webkit-scrollbar-corner": {
-            // this hides an annoying white box which appears when both scrollbars are present
-            backgroundColor: "transparent",
+            /** this hides an annoying white box which appears when both scrollbars are present */ backgroundColor:
+              "transparent",
           },
         },
       },
@@ -115,9 +98,7 @@ export const theme = responsiveFontSizes(
         styleOverrides: {
           root: {
             backgroundColor: COLOR.whiteWithTransparency,
-            "&:before": {
-              display: "none",
-            },
+            "&:before": { display: "none" },
           },
           rounded: {
             "&:first-child": {
@@ -132,47 +113,27 @@ export const theme = responsiveFontSizes(
         },
       },
       MuiAlert: {
-        styleOverrides: {
-          root: {
-            borderRadius: "8px",
-            border: "1px solid",
-          },
-        },
+        styleOverrides: { root: { borderRadius: "8px", border: "1px solid" } },
       },
       MuiButton: {
         styleOverrides: {
-          root: {
-            borderRadius: "22px",
-            letterSpacing: ".1em",
-          },
-          outlinedSizeSmall: {
-            padding: "6px 9px",
-            fontSize: "0.70rem",
-          },
+          root: { borderRadius: "22px", letterSpacing: ".1em" },
+          outlinedSizeSmall: { padding: "6px 9px", fontSize: "0.70rem" },
         },
       },
       MuiLink: {
         styleOverrides: {
-          root: {
-            textDecoration: "none",
-            color: COLOR.lightBlue,
-          },
+          root: { textDecoration: "none", color: COLOR.lightBlue },
         },
       },
       MuiPaper: {
         styleOverrides: {
-          rounded: {
-            borderRadius: "28px",
-            backdropFilter: "blur(4px)",
-          },
+          rounded: { borderRadius: "28px", backdropFilter: "blur(4px)" },
         },
       },
       MuiStepper: {
         styleOverrides: {
-          root: {
-            backgroundColor: "transparent",
-            padding: 0,
-          },
+          root: { backgroundColor: "transparent", padding: 0 },
         },
       },
       MuiStep: {
@@ -186,19 +147,11 @@ export const theme = responsiveFontSizes(
         },
       },
       MuiStepConnector: {
-        styleOverrides: {
-          lineVertical: {
-            borderLeftWidth: 0,
-          },
-        },
+        styleOverrides: { lineVertical: { borderLeftWidth: 0 } },
       },
       MuiStepContent: {
         styleOverrides: {
-          root: {
-            borderLeftWidth: 0,
-            marginLeft: 0,
-            paddingLeft: 0,
-          },
+          root: { borderLeftWidth: 0, marginLeft: 0, paddingLeft: 0 },
         },
       },
       MuiStepLabel: {
@@ -213,9 +166,7 @@ export const theme = responsiveFontSizes(
       },
       MuiTabs: {
         styleOverrides: {
-          root: {
-            borderBottom: `1px solid ${COLOR.white}`,
-          },
+          root: { borderBottom: `1px solid ${COLOR.white}` },
           indicator: {
             height: "100%",
             background: "linear-gradient(20deg, #f44b1b 0%, #eeb430 100%);",
@@ -234,24 +185,12 @@ export const theme = responsiveFontSizes(
             letterSpacing: "-0.69px",
             textTransform: "none",
           },
-          textColorInherit: {
-            opacity: 1,
-          },
+          textColorInherit: { opacity: 1 },
         },
       },
-      MuiTableCell: {
-        styleOverrides: {
-          root: {
-            borderBottom: "none",
-          },
-        },
-      },
+      MuiTableCell: { styleOverrides: { root: { borderBottom: "none" } } },
       MuiCircularProgress: {
-        styleOverrides: {
-          root: {
-            color: COLOR.lightBlue,
-          },
-        },
+        styleOverrides: { root: { color: COLOR.lightBlue } },
       },
     },
   })
