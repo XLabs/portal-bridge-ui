@@ -1,12 +1,16 @@
 import { ACALA, ALGORAND, MORE, SEI, ENV as ENV_BASE } from "./v2-token-bridge";
 import { mergeDeep } from "../utils/mergeDeep";
-import { DEFAULT_ROUTES, nttRoutes, type WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
+import {
+  DEFAULT_ROUTES,
+  nttRoutes,
+  type WormholeConnectConfig,
+} from "@wormhole-foundation/wormhole-connect";
 import { Env } from "./common";
 
 export const ENV: Env = {
   ...ENV_BASE,
   wormholeConnectConfig: mergeDeep<WormholeConnectConfig>(
-    (ENV_BASE.wormholeConnectConfig as WormholeConnectConfig),
+    ENV_BASE.wormholeConnectConfig as WormholeConnectConfig,
     {
       //rpcs: MAINNET_RPCS_V2,
       moreNetworks: {
@@ -88,7 +92,8 @@ export const ENV: Env = {
             Bsc: "0x672147dD47674757C457eB155BAA382cc10705Dd",
             Avalanche: "0x543672E9CBEC728CBBa9C3Ccd99ed80aC3607FA8",
             Sui: "0xcf72ec52c0f8ddead746252481fb44ff6e8485a39b803825bde6b00d77cdb0bb::coin::COIN",
-            Aptos: "0xc7160b1c2415d19a88add188ec726e62aab0045f0aed798106a2ef2994a9101e::coin::T",
+            Aptos:
+              "0xc7160b1c2415d19a88add188ec726e62aab0045f0aed798106a2ef2994a9101e::coin::T",
             Arbitrum: "0x9A3Fba8a0870Fb9765023681DAa5390C7919C916",
             Fantom: "0x6e0e8cf6Ad151e1260A4D398faaEDFC450A9f00a",
             Base: "0x59f4f969dd3A91A943651C9625E96822DC84Ef94",
@@ -112,8 +117,7 @@ export const ENV: Env = {
             Bsc: "0xA697e272a73744b343528C3Bc4702F2565b2F422",
             Polygon: "0xe5B49820e5A1063F6F4DdF851327b5E8B2301048",
             Avalanche: "0xC07C98a93591504584738e4569928DDb3b9f12A7",
-            Sui:
-              "0x6907963ca849faff0957b9a8269a7a07065e3def2eef49cc33b50ab946ea5a9f::coin::COIN",
+            Sui: "0x6907963ca849faff0957b9a8269a7a07065e3def2eef49cc33b50ab946ea5a9f::coin::COIN",
             Aptos:
               "0x2a90fae71afc7460ee42b20ee49a9c9b29272905ad71fef92fbd8b3905a24b56::coin::T",
             Arbitrum: "0x09199d9A5F4448D0848e4395D065e1ad9c4a1F74",
@@ -563,279 +567,279 @@ export const ENV: Env = {
               },
             ],
             ETHFI: [
-                {
-                  chain: "Ethereum",
-                  manager: "0x344169Cc4abE9459e77bD99D13AA8589b55b6174",
-                  token: "0xfe0c30065b384f05761f15d0cc899d4f9f9cc0eb",
-                  transceiver: [
-                    {
-                      address: "0x3bf4AebcaD920447c5fdD6529239Ab3922ce2186",
-                      type: "wormhole",
-                    },
-                  ],
-                },
-                {
-                  chain: "Arbitrum",
-                  manager: "0x90A82462258F79780498151EF6f663f1D4BE4E3b",
-                  token: "0x7189fb5B6504bbfF6a852B13B7B82a3c118fDc27",
-                  transceiver: [
-                    {
-                      address: "0x4386e36B96D437b0F1C04A35E572C10C6627d88a",
-                      type: "wormhole",
-                    },
-                  ],
-                },
+              {
+                chain: "Ethereum",
+                manager: "0x344169Cc4abE9459e77bD99D13AA8589b55b6174",
+                token: "0xfe0c30065b384f05761f15d0cc899d4f9f9cc0eb",
+                transceiver: [
+                  {
+                    address: "0x3bf4AebcaD920447c5fdD6529239Ab3922ce2186",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Arbitrum",
+                manager: "0x90A82462258F79780498151EF6f663f1D4BE4E3b",
+                token: "0x7189fb5B6504bbfF6a852B13B7B82a3c118fDc27",
+                transceiver: [
+                  {
+                    address: "0x4386e36B96D437b0F1C04A35E572C10C6627d88a",
+                    type: "wormhole",
+                  },
+                ],
+              },
             ],
             Yaku: [
-                {
-                  chain: "Solana",
-                  manager: "nTtPcmsVY4f86cSREmnio5tUyiK58HBqBeDwaUYQt6t",
-                  token: "AqEHVh8J2nXH9saV2ciZyYwPpqWFRfD2ffcq5Z8xxqm5",
-                  transceiver: [
-                    {
-                      address: "6gTkp6F5XhsaeugYEtuQ6qmuD8qUUdeHrYrN1s1qex7",
-                      type: "wormhole",
-                    },
-                  ],
-                },
-                {
-                  chain: "Ethereum",
-                  manager: "0x9ad57E28ECc26507FFB18dBc15Ae7B13254B99c7",
-                  token: "0x1155DB64b59265F57533bC0f9AE012FfFd34eB7F",
-                  transceiver: [
-                    {
-                      address: "0x0e9c1B26Ee0D3021e4543c2Ed65a9661AC390390",
-                      type: "wormhole",
-                    },
-                  ],
-                },
-                {
-                  chain: "Arbitrum",
-                  manager: "0x650613DbD0b422cD7f7c06a8a07Dc2C5880b54b3",
-                  token: "0xB00eaEDB98F1e30ad545703d8Ff14b24D109514f",
-                  transceiver: [
-                    {
-                      address: "0x19c19B3151AEa35eE19E018ed24D81F892b6C18E",
-                      type: "wormhole",
-                    },
-                  ],
-                },
-                {
-                  chain: "Avalanche",
-                  manager: "0xbeEDEcF091DDAC6a494A718666f94d8A1d5Ab984",
-                  token: "0xB00eaEDB98F1e30ad545703d8Ff14b24D109514f",
-                  transceiver: [
-                    {
-                      address: "0x0a5C77B838D22E8156D62e7845Fb73e948CAc299",
-                      type: "wormhole",
-                    },
-                  ],
-                },
-              ],
+              {
+                chain: "Solana",
+                manager: "nTtPcmsVY4f86cSREmnio5tUyiK58HBqBeDwaUYQt6t",
+                token: "AqEHVh8J2nXH9saV2ciZyYwPpqWFRfD2ffcq5Z8xxqm5",
+                transceiver: [
+                  {
+                    address: "6gTkp6F5XhsaeugYEtuQ6qmuD8qUUdeHrYrN1s1qex7",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Ethereum",
+                manager: "0x9ad57E28ECc26507FFB18dBc15Ae7B13254B99c7",
+                token: "0x1155DB64b59265F57533bC0f9AE012FfFd34eB7F",
+                transceiver: [
+                  {
+                    address: "0x0e9c1B26Ee0D3021e4543c2Ed65a9661AC390390",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Arbitrum",
+                manager: "0x650613DbD0b422cD7f7c06a8a07Dc2C5880b54b3",
+                token: "0xB00eaEDB98F1e30ad545703d8Ff14b24D109514f",
+                transceiver: [
+                  {
+                    address: "0x19c19B3151AEa35eE19E018ed24D81F892b6C18E",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Avalanche",
+                manager: "0xbeEDEcF091DDAC6a494A718666f94d8A1d5Ab984",
+                token: "0xB00eaEDB98F1e30ad545703d8Ff14b24D109514f",
+                transceiver: [
+                  {
+                    address: "0x0a5C77B838D22E8156D62e7845Fb73e948CAc299",
+                    type: "wormhole",
+                  },
+                ],
+              },
+            ],
             WeatherXM: [
-                {
-                  chain: "Ethereum",
-                  manager: "0xd24afd8eca7b51bcf3c0e6b3ca94c301b121ccce",
-                  token: "0xde654f497a563dd7a121c176a125dd2f11f13a83",
-                  transceiver: [
-                    {
-                      address: "0x8b209672c2120f84ceb70b22416645f8912ad0f0",
-                      type: "wormhole",
-                    },
-                  ],
-                },
-                {
-                  chain: "Solana",
-                  manager: "NttWixqwUHAnpXym3UYUySQZtb4C57EZxpH721JfLyF",
-                  token: "wxmJYe17a2oGJZJ1wDe6ZyRKUKmrLj2pJsavEdTVhPP",
-                  transceiver: [
-                    {
-                      address: "PaK4UctEGihEm37c2qSrbpkucHBBDDqbvYzGXygbxkb",
-                      type: "wormhole",
-                    },
-                  ],
-                },
-              ],
+              {
+                chain: "Ethereum",
+                manager: "0xd24afd8eca7b51bcf3c0e6b3ca94c301b121ccce",
+                token: "0xde654f497a563dd7a121c176a125dd2f11f13a83",
+                transceiver: [
+                  {
+                    address: "0x8b209672c2120f84ceb70b22416645f8912ad0f0",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Solana",
+                manager: "NttWixqwUHAnpXym3UYUySQZtb4C57EZxpH721JfLyF",
+                token: "wxmJYe17a2oGJZJ1wDe6ZyRKUKmrLj2pJsavEdTVhPP",
+                transceiver: [
+                  {
+                    address: "PaK4UctEGihEm37c2qSrbpkucHBBDDqbvYzGXygbxkb",
+                    type: "wormhole",
+                  },
+                ],
+              },
+            ],
             JitoSOL: [
-                {
-                  chain: "Solana",
-                  manager: "nTTJS9XtWhfHkPiLmddSmdMrCJAtJrSCjPwuns3fvu5",
-                  token: "J1toso1uCk3RLmjorhTtrVwY9HJ7X8V9yYac6Y7kGCPn",
-                  transceiver: [
-                    {
-                      address: "nTTJS9XtWhfHkPiLmddSmdMrCJAtJrSCjPwuns3fvu5",
-                      type: "wormhole",
-                    },
-                  ],
-                },
-                {
-                  chain: "Arbitrum",
-                  manager: "0x02f5FB92F3794C535b1523183A417fB9efbB4f5d",
-                  token: "0x83e1d2310Ade410676B1733d16e89f91822FD5c3",
-                  transceiver: [
-                    {
-                      address: "0x89E928e6D95BA6D7419B2b9e384fC526b1649339",
-                      type: "wormhole",
-                    },
-                  ],
-                },
-              ],
+              {
+                chain: "Solana",
+                manager: "nTTJS9XtWhfHkPiLmddSmdMrCJAtJrSCjPwuns3fvu5",
+                token: "J1toso1uCk3RLmjorhTtrVwY9HJ7X8V9yYac6Y7kGCPn",
+                transceiver: [
+                  {
+                    address: "nTTJS9XtWhfHkPiLmddSmdMrCJAtJrSCjPwuns3fvu5",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Arbitrum",
+                manager: "0x02f5FB92F3794C535b1523183A417fB9efbB4f5d",
+                token: "0x83e1d2310Ade410676B1733d16e89f91822FD5c3",
+                transceiver: [
+                  {
+                    address: "0x89E928e6D95BA6D7419B2b9e384fC526b1649339",
+                    type: "wormhole",
+                  },
+                ],
+              },
+            ],
             Swissborg: [
-                {
-                  chain: "Solana",
-                  manager: "NttBm3HouTCFnUBz32fEs5joQFRjFoJPA8AyhtgjFrw",
-                  token: "3dQTr7ror2QPKQ3GbBCokJUmjErGg8kTJzdnYjNfvi3Z",
-                  transceiver: [
-                    {
-                      address: "39eUvaqshuCbTo7CmQkHG7zBBLaDAPK3qg89cMSmqKWx",
-                      type: "wormhole",
-                    },
-                  ],
-                },
-                {
-                  chain: "Ethereum",
-                  manager: "0x66a28B080918184851774a89aB94850a41f6a1e5",
-                  token: "0x64d0f55Cd8C7133a9D7102b13987235F486F2224",
-                  transceiver: [
-                    {
-                      address: "0x45E581d6841F0a99Fc34F70871ef56b353813ddb",
-                      type: "wormhole",
-                    },
-                  ],
-                },
+              {
+                chain: "Solana",
+                manager: "NttBm3HouTCFnUBz32fEs5joQFRjFoJPA8AyhtgjFrw",
+                token: "3dQTr7ror2QPKQ3GbBCokJUmjErGg8kTJzdnYjNfvi3Z",
+                transceiver: [
+                  {
+                    address: "39eUvaqshuCbTo7CmQkHG7zBBLaDAPK3qg89cMSmqKWx",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Ethereum",
+                manager: "0x66a28B080918184851774a89aB94850a41f6a1e5",
+                token: "0x64d0f55Cd8C7133a9D7102b13987235F486F2224",
+                transceiver: [
+                  {
+                    address: "0x45E581d6841F0a99Fc34F70871ef56b353813ddb",
+                    type: "wormhole",
+                  },
+                ],
+              },
             ],
             Agora: [
-                {
-                  chain: "Ethereum",
-                  manager: "0xCD024C7eB854f6799A343828773cB3A8107d17d4q",
-                  token: "0x87B46212e805A3998B7e8077E9019c90759Ea88C",
-                  transceiver: [
-                    {
-                      address: "0x6eB0d287A539AAB2eB962De550Fe5dDA29b0fe52",
-                      type: "wormhole",
-                    },
-                  ],
-                },
-                {
-                  chain: "Solana",
-                  manager: "NttADdCvGLUhukNyePei9CkmHoe6S9xjqgqfQv51PQg",
-                  token: "AGAxefyrPTi63FGL2ukJUTBtLJStDpiXMdtLRWvzambv",
-                  transceiver: [
-                    {
-                      address: "4FnEwHLcuu3CHf8YG31RWBCVpshGGxNyfYAszq2JABxi",
-                      type: "wormhole",
-                    },
-                  ],
-                },
-              ],
+              {
+                chain: "Ethereum",
+                manager: "0xCD024C7eB854f6799A343828773cB3A8107d17d4q",
+                token: "0x87B46212e805A3998B7e8077E9019c90759Ea88C",
+                transceiver: [
+                  {
+                    address: "0x6eB0d287A539AAB2eB962De550Fe5dDA29b0fe52",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Solana",
+                manager: "NttADdCvGLUhukNyePei9CkmHoe6S9xjqgqfQv51PQg",
+                token: "AGAxefyrPTi63FGL2ukJUTBtLJStDpiXMdtLRWvzambv",
+                transceiver: [
+                  {
+                    address: "4FnEwHLcuu3CHf8YG31RWBCVpshGGxNyfYAszq2JABxi",
+                    type: "wormhole",
+                  },
+                ],
+              },
+            ],
             XBorg: [
-                {
-                  chain: "Ethereum",
-                  manager: "0xa4489105efa4b029485d6bd3A4f52131baAE4B1B",
-                  token: "0xEaE00D6F9B16Deb1BD584c7965e4c7d762f178a1",
-                  transceiver: [
-                    {
-                      address: "0x7135766F279b9A50F7A7199cfF1be284521a0409",
-                      type: "wormhole",
-                    },
-                  ],
-                },
-                {
-                  chain: "Arbitrum",
-                  manager: "0x7135766F279b9A50F7A7199cfF1be284521a0409",
-                  token: "0x93FA0B88C0C78e45980Fa74cdd87469311b7B3E4",
-                  transceiver: [
-                    {
-                      address: "0x874303ba6a34fC33ADcdFFd4293a41f32246D6a0",
-                      type: "wormhole",
-                    },
-                  ],
-                },
-                {
-                  chain: "Solana",
-                  manager: "NttXP2tPLxGkNA3yrSfFZbtDbfKPKBrJUR6Jcqh6sRi",
-                  token: "XBGdqJ9P175hCC1LangCEyXWNeCPHaKWA17tymz2PrY",
-                  transceiver: [
-                    {
-                      address: "328hfTbiEzfbXSHCWqrBg3g1VZ9bRxNtUTffjQ4Tqark",
-                      type: "wormhole",
-                    },
-                  ],
-                },
-              ],
+              {
+                chain: "Ethereum",
+                manager: "0xa4489105efa4b029485d6bd3A4f52131baAE4B1B",
+                token: "0xEaE00D6F9B16Deb1BD584c7965e4c7d762f178a1",
+                transceiver: [
+                  {
+                    address: "0x7135766F279b9A50F7A7199cfF1be284521a0409",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Arbitrum",
+                manager: "0x7135766F279b9A50F7A7199cfF1be284521a0409",
+                token: "0x93FA0B88C0C78e45980Fa74cdd87469311b7B3E4",
+                transceiver: [
+                  {
+                    address: "0x874303ba6a34fC33ADcdFFd4293a41f32246D6a0",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Solana",
+                manager: "NttXP2tPLxGkNA3yrSfFZbtDbfKPKBrJUR6Jcqh6sRi",
+                token: "XBGdqJ9P175hCC1LangCEyXWNeCPHaKWA17tymz2PrY",
+                transceiver: [
+                  {
+                    address: "328hfTbiEzfbXSHCWqrBg3g1VZ9bRxNtUTffjQ4Tqark",
+                    type: "wormhole",
+                  },
+                ],
+              },
+            ],
             Cheese: [
-                {
-                  chain: "Arbitrum",
-                  manager: "0xfC843c4B402634a8Fc02137AAa7942474e043d72",
-                  token: "0x05AEa20947A9A376eF50218633BB0a5A05d40A0C",
-                  transceiver: [
-                    {
-                      address: "0x33D2E8093143a317234cB070C2BB6A641dDeFA4d",
-                      type: "wormhole",
-                    },
-                  ],
-                },
-                {
-                  chain: "Solana",
-                  manager: "NTtxeqz2XjMnpcEoWMqb6pz84zHweJRYWyzmsmmW49E",
-                  token: "AbrMJWfDVRZ2EWCQ1xSCpoVeVgZNpq1U2AoYG98oRXfn",
-                  transceiver: [
-                    {
-                      address: "AoUmFKEGhsfnJSny6fMDF3JMgyEgjoG4yAk8YFGbfp6c",
-                      type: "wormhole",
-                    },
-                  ],
-                },
+              {
+                chain: "Arbitrum",
+                manager: "0xfC843c4B402634a8Fc02137AAa7942474e043d72",
+                token: "0x05AEa20947A9A376eF50218633BB0a5A05d40A0C",
+                transceiver: [
+                  {
+                    address: "0x33D2E8093143a317234cB070C2BB6A641dDeFA4d",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Solana",
+                manager: "NTtxeqz2XjMnpcEoWMqb6pz84zHweJRYWyzmsmmW49E",
+                token: "AbrMJWfDVRZ2EWCQ1xSCpoVeVgZNpq1U2AoYG98oRXfn",
+                transceiver: [
+                  {
+                    address: "AoUmFKEGhsfnJSny6fMDF3JMgyEgjoG4yAk8YFGbfp6c",
+                    type: "wormhole",
+                  },
+                ],
+              },
             ],
             "USDC.e": [
-                {
-                  chain: "Fantom",
-                  manager: "0x68dB2f05Aa2d77DEf981fd2be32661340c9222FB",
-                  token: "0x6e0e8cf6Ad151e1260A4D398faaEDFC450A9f00a",
-                  transceiver: [
-                    {
-                      address: "0x8b47f02E7E20174C76Af910adc0Ad8A4B0342f4c",
-                      type: "wormhole",
-                    },
-                  ],
-                },
-                {
-                  chain: "Ethereum",
-                  manager: "0xeBdCe9a913d9400EE75ef31Ce8bd34462D01a1c1",
-                  token: "0x566957eF80F9fd5526CD2BEF8BE67035C0b81130",
-                  transceiver: [
-                    {
-                      address: "0x55f7820357FA17A1ECb48E959D5E637bFF956d6F",
-                      type: "wormhole",
-                    },
-                  ],
-                },
-              ],
+              {
+                chain: "Fantom",
+                manager: "0x68dB2f05Aa2d77DEf981fd2be32661340c9222FB",
+                token: "0x6e0e8cf6Ad151e1260A4D398faaEDFC450A9f00a",
+                transceiver: [
+                  {
+                    address: "0x8b47f02E7E20174C76Af910adc0Ad8A4B0342f4c",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Ethereum",
+                manager: "0xeBdCe9a913d9400EE75ef31Ce8bd34462D01a1c1",
+                token: "0x566957eF80F9fd5526CD2BEF8BE67035C0b81130",
+                transceiver: [
+                  {
+                    address: "0x55f7820357FA17A1ECb48E959D5E637bFF956d6F",
+                    type: "wormhole",
+                  },
+                ],
+              },
+            ],
             Renzo: [
-                {
-                  chain: "Ethereum",
-                  manager: "0x4ba5ea226da36466EA7EbCf018df66a615D27c7c",
-                  token: "0x3B50805453023a91a8bf641e279401a0b23FA6F9",
-                  transceiver: [
-                    {
-                      address: "0x591Be6DBC81D65924dcC78912bBC9306D09c2faa",
-                      type: "wormhole",
-                    },
-                  ],
-                },
-                {
-                  chain: "Solana",
-                  manager: "NtTtwqVX4SCNECrZ8ZmEaxAPFcm5r7Szx4tBmYLU17p",
-                  token: "3DK98MXPz8TRuim7rfQnebSLpA7VSoc79Bgiee1m4Zw5",
-                  transceiver: [
-                    {
-                      address: "3DK98MXPz8TRuim7rfQnebSLpA7VSoc79Bgiee1m4Zw5",
-                      type: "wormhole",
-                    },
-                  ],
-                  quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
-                },
-              ],
+              {
+                chain: "Ethereum",
+                manager: "0x4ba5ea226da36466EA7EbCf018df66a615D27c7c",
+                token: "0x3B50805453023a91a8bf641e279401a0b23FA6F9",
+                transceiver: [
+                  {
+                    address: "0x591Be6DBC81D65924dcC78912bBC9306D09c2faa",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Solana",
+                manager: "NtTtwqVX4SCNECrZ8ZmEaxAPFcm5r7Szx4tBmYLU17p",
+                token: "3DK98MXPz8TRuim7rfQnebSLpA7VSoc79Bgiee1m4Zw5",
+                transceiver: [
+                  {
+                    address: "3DK98MXPz8TRuim7rfQnebSLpA7VSoc79Bgiee1m4Zw5",
+                    type: "wormhole",
+                  },
+                ],
+                quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
+              },
+            ],
           },
         }),
       ],

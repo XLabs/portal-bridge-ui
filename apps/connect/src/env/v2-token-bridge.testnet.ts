@@ -34,7 +34,7 @@ export const ENV: Env = {
           },
           icon: "https://assets.coingecko.com/coins/images/35087/standard/womrhole_logo_full_color_rgb_2000px_72ppi_fb766ac85a.png?1708688954",
           coinGeckoId: "wormhole",
-          decimals:  18,
+          decimals: 18,
         },
         Warbitrum_sepolia: {
           key: "Warbitrum_sepolia",

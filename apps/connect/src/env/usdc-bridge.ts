@@ -19,7 +19,7 @@ export const ENV: Env = {
   ],
   redirects: undefined,
   wormholeConnectConfig: {
-    ...wormholeConnectConfigCommon as WormholeConnectConfig,
+    ...(wormholeConnectConfigCommon as WormholeConnectConfig),
     pageHeader: {
       text: "USDC Transfer",
       align: "center",

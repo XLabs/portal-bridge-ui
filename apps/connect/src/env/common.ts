@@ -77,7 +77,7 @@ export const wormholeConnectConfigCommonv2: Partial<WormholeConnectConfigv2> = {
       href: `${PUBLIC_URL}/#/privacy-policy/`,
     },
   ],
-}; 
+};
 export interface Env {
   PUBLIC_URL: string;
   wormholeConnectConfig: WormholeConnectConfig | WormholeConnectConfigv2;

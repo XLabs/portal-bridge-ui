@@ -71,7 +71,8 @@ export const useConnectConfig = () => {
   useEffect(() => {
     const controller = new AbortController();
     getSortedChains(
-      (ENV.wormholeConnectConfig as WormholeConnectConfig).networks as ChainName[],
+      (ENV.wormholeConnectConfig as WormholeConnectConfig)
+        .networks as ChainName[],
       controller.signal
     ).then((chains) => !!chains && setNetworks(chains));
     return () => controller.abort();
