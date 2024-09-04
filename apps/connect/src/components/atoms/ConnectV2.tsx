@@ -1,18 +1,23 @@
-import { memo } from "react";
-import WormholeConnect, {
-  WormholeConnectConfig,
-} from "@wormhole-foundation/wormhole-connect";
+import { memo, useEffect } from "react";
+import WormholeConnect from "@wormhole-foundation/wormhole-connect";
 import customTheme from "../../theme/connect";
 import Banner from "./Banner";
-import { ENV } from "../../env/v2-token-bridge.mainnet";
+import { useConnectConfig } from "../../hooks/useConnectConfigv2";
 
 export const ConnectV2 = memo(() => {
+  const config = useConnectConfig();
+
+  useEffect(() => {
+    if (config) {
+      localStorage.setItem(
+        "Connect v2 Config",
+        JSON.stringify(config, null, 2)
+      );
+    }
+  }, [config]);
   return (
     <>
-      <WormholeConnect
-        config={ENV.wormholeConnectConfig as WormholeConnectConfig}
-        theme={customTheme}
-      />
+      {!!config && <WormholeConnect config={config} theme={customTheme} />}
       <Banner />
     </>
   );

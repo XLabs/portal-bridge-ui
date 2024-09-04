@@ -1,6 +1,6 @@
 import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
 import {
-  chains,
+  chainsv2,
   Env,
   PUBLIC_URL,
   wormholeConnectConfigCommonv2,
@@ -81,7 +81,7 @@ export const ENV: Env = {
     cctpWarning: {
       href: USDC_BRIDGE_HREF,
     },
-    networks: [...chains, "solana", "injective", "klaytn"],
+    networks: [...chainsv2, "Solana", "Injective", "Klaytn"],
     moreNetworks: {
       href: ADVANCE_TOOLS_HREF_TEMPLATE,
       target: "_blank",

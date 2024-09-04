@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 import viteConfig from "./vite.config";
-import { createHtmlPlugin } from "vite-plugin-html";
 import { resolve } from "path";
+import { createHtmlPlugin } from "vite-plugin-html";
 import packageJson from "./package.json";
 
 const PUBLIC_URL = viteConfig.base;
@@ -17,12 +17,12 @@ export default defineConfig({
         find: "@env",
         replacement: resolve(
           __dirname,
-          `./src/env/token-bridge.${process.env.VITE_APP_CLUSTER === "mainnet" ? "mainnet" : "testnet"}.ts`
+          `./src/env/v2-token-bridge.${process.env.VITE_APP_CLUSTER === "mainnet" ? "mainnet" : "testnet"}.ts`
         ),
       },
     ],
   },
-  base: `${PUBLIC_URL}/v1`,
+  base: `${PUBLIC_URL}/`,
   define: {},
   plugins: [
     ...(viteConfig.plugins as []),

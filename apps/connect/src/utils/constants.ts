@@ -1,5 +1,5 @@
 export const PrivacyPolicyPath = "/privacy-policy";
-export const ConnectV2Path = "/beta-v2";
+export const ConnectV2Path = "/";
 
 export const isPreview =
   window.location.origin.includes("preview") ||

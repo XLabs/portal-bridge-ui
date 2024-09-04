@@ -1,6 +1,10 @@
-import { ALGORAND, ACALA, MORE, ENV as ENV_BASE } from "./token-bridge";
+import { ALGORAND, ACALA, MORE, ENV as ENV_BASE } from "./v2-token-bridge";
 import { mergeDeep } from "../utils/mergeDeep";
-import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
+import {
+  DEFAULT_ROUTES,
+  nttRoutes,
+  type WormholeConnectConfig,
+} from "@wormhole-foundation/wormhole-connect";
 import { Env } from "./common";
 
 export const ENV: Env = {
@@ -73,68 +77,71 @@ export const ENV: Env = {
           decimals: 18,
         },
       },
-      // nttGroups: {
-      //   W: {
-      //     nttManagers: [
-      //       {
-      //         chainName: "Solana",
-      //         address: "NTtAaoDJhkeHeaVUHnyhwbPNAN6WgBpHkHBTc6d7vLK",
-      //         tokenKey: "Wsolana",
-      //         transceivers: [
-      //           {
-      //             address: "NTtAaoDJhkeHeaVUHnyhwbPNAN6WgBpHkHBTc6d7vLK",
-      //             type: "wormhole",
-      //           },
-      //         ],
-      //         solanaQuoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
-      //       },
-      //       {
-      //         chainName: "Sepolia",
-      //         address: "0x06413c42e913327Bc9a08B7C1E362BAE7C0b9598",
-      //         tokenKey: "Wsepolia",
-      //         transceivers: [
-      //           {
-      //             address: "0x649fF7B32C2DE771043ea105c4aAb2D724497238",
-      //             type: "wormhole",
-      //           },
-      //         ],
-      //       },
-      //       {
-      //         chainName: "ArbitrumSepolia",
-      //         address: "0xCeC6FB4F352bf3DC2b95E1c41831E4D2DBF9a35D",
-      //         tokenKey: "Warbitrum_sepolia",
-      //         transceivers: [
-      //           {
-      //             address: "0xfA42603152E4f133F5F3DA610CDa91dF5821d8bc",
-      //             type: "wormhole",
-      //           },
-      //         ],
-      //       },
-      //       {
-      //         chainName: "BaseSepolia",
-      //         address: "0x8b9E328bE1b1Bc7501B413d04EBF7479B110775c",
-      //         tokenKey: "Wbase_sepolia",
-      //         transceivers: [
-      //           {
-      //             address: "0x149987472333cD48ac6D28293A338a1EEa6Be7EE",
-      //             type: "wormhole",
-      //           },
-      //         ],
-      //       },
-      //       {
-      //         chainName: "OptimismSepolia",
-      //         address: "0x27F9Fdd3eaD5aA9A5D827Ca860Be28442A1e7582",
-      //         tokenKey: "Woptimism_sepolia",
-      //         transceivers: [
-      //           {
-      //             address: "0xeCF0496DE01e9Aa4ADB50ae56dB550f52003bdB7",
-      //             type: "wormhole",
-      //           },
-      //         ],
-      //       },
-      //     ],
-      //   },
-      // },
+      routes: [
+        ...DEFAULT_ROUTES,
+        ...nttRoutes({
+          tokens: {
+            W: [
+              {
+                chain: "Solana",
+                manager: "NTtAaoDJhkeHeaVUHnyhwbPNAN6WgBpHkHBTc6d7vLK",
+                token: "EetppHswYvV1jjRWoQKC1hejdeBDHR9NNzNtCyRQfrrQ",
+                transceiver: [
+                  {
+                    address: "NTtAaoDJhkeHeaVUHnyhwbPNAN6WgBpHkHBTc6d7vLK",
+                    type: "wormhole",
+                  },
+                ],
+                quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
+              },
+              {
+                chain: "Sepolia",
+                manager: "0x06413c42e913327Bc9a08B7C1E362BAE7C0b9598",
+                token: "0x738141EFf659625F2eAD4feECDfCD94155C67f18",
+                transceiver: [
+                  {
+                    address: "0x649fF7B32C2DE771043ea105c4aAb2D724497238",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "ArbitrumSepolia",
+                manager: "0xCeC6FB4F352bf3DC2b95E1c41831E4D2DBF9a35D",
+                token: "0x395D3C74232D12916ecA8952BA352b4d27818035",
+                transceiver: [
+                  {
+                    address: "0xfA42603152E4f133F5F3DA610CDa91dF5821d8bc",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "BaseSepolia",
+                manager: "0x8b9E328bE1b1Bc7501B413d04EBF7479B110775c",
+                token: "0x1d30E78B7C7fbbcef87ae6e97B5389b2e470CA4a",
+                transceiver: [
+                  {
+                    address: "0x149987472333cD48ac6D28293A338a1EEa6Be7EE",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "OptimismSepolia",
+                manager: "0x27F9Fdd3eaD5aA9A5D827Ca860Be28442A1e7582",
+                token: "0xdDFeABcCf2063CD66f53a1218e23c681Ba6e7962",
+                transceiver: [
+                  {
+                    address: "0xeCF0496DE01e9Aa4ADB50ae56dB550f52003bdB7",
+                    type: "wormhole",
+                  },
+                ],
+              },
+            ],
+          },
+        }),
+      ],
     }
   ),
 };
