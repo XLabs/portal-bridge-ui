@@ -1,5 +1,4 @@
 import { createTheme, responsiveFontSizes } from "@material-ui/core";
-import bg from "../src/images/bg.svg";
 import SuisseBPIntlBold from "./fonts/SuisseBPIntlBold.woff2";
 
 export const COLORS = {
@@ -82,10 +81,7 @@ export const theme = responsiveFontSizes(
           "@font-face": [suisse],
           body: {
             overscrollBehaviorY: "none",
-            backgroundImage: `url(${bg})`,
-            backgroundPosition: "top center",
-            backgroundRepeat: "repeat-y",
-            backgroundSize: "120%",
+            backgroundColor: "#000000",
           },
           "*": {
             scrollbarWidth: "thin",

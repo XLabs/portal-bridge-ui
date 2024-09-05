@@ -415,11 +415,6 @@ function App() {
           <Redirect to="/transfer" />
         </Route>
       </Switch>
-      <div className={classes.spacer} />
-      <div className={classes.gradientRight}></div>
-      <div className={classes.gradientRight2}></div>
-      <div className={classes.gradientLeft}></div>
-      <div className={classes.gradientLeft2}></div>
       <Footer />
     </div>
   );
