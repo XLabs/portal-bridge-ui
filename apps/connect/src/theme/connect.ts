@@ -1,6 +1,6 @@
 import { WormholeConnectPartialTheme } from "@wormhole-foundation/wormhole-connect";
 
-const customized: WormholeConnectPartialTheme = {
+export const theme: WormholeConnectPartialTheme = {
   mode: "dark",
   primary: {
     50: "#fafafa",
@@ -39,8 +39,8 @@ const customized: WormholeConnectPartialTheme = {
     default: "rgba(12, 9, 60, 0)",
   },
   text: {
-    primary: "rgba(255, 255, 255, 0.9)",
-    secondary: "rgba(156, 157, 191, 1)",
+    primary: "#ffffff",
+    secondary: "#ffffff",
   },
   error: {
     50: "#ffebee",
@@ -107,12 +107,12 @@ const customized: WormholeConnectPartialTheme = {
     A700: "#FFC749",
   },
   button: {
-    primary: "rgba(49, 50, 102, 1)",
-    primaryText: "#ffffff",
-    disabled: "#ffffff0F",
-    disabledText: "#ffffff66",
-    action: "#e47829",
-    actionText: "#ffffff",
+    primary: "#7ABFFF",
+    primaryText: "#000000",
+    disabled: "#7ABFFF7F",
+    disabledText: "#000000",
+    action: "#7ABFFF",
+    actionText: "#000000",
     hover: "#ffffff0F",
   },
   options: {
@@ -130,12 +130,10 @@ const customized: WormholeConnectPartialTheme = {
     elevation: "none",
   },
   modal: {
-    background: "rgba(15, 9, 44, 1)",
+    background: "#121212",
   },
   font: {
     primary: '"Poppins", regular',
     header: '"Poppins", bold',
   },
 };
-
-export default customized;

@@ -1,6 +1,6 @@
 import { memo, useEffect } from "react";
 import WormholeConnect from "@wormhole-foundation/wormhole-connect-v1";
-import customTheme from "../../theme/connect";
+import { theme } from "../../theme/connect";
 import Banner from "./Banner";
 import { useConnectConfig } from "../../hooks/useConnectConfig";
 
@@ -15,7 +15,7 @@ export const Connect = memo(() => {
 
   return (
     <>
-      {!!config && <WormholeConnect config={config} theme={customTheme} />}
+      {!!config && <WormholeConnect config={config} theme={theme} />}
       <Banner />
     </>
   );
