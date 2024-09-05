@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { styled } from "@mui/material";
 
-import { ConnectV2Path, PrivacyPolicyPath } from "./utils/constants";
+import { ConnectV1Path, PrivacyPolicyPath } from "./utils/constants";
 import messageConfig from "./configs/messages";
 import { NavBar } from "./components/atoms/NavBar";
 import NewsBar from "./components/atoms/NewsBar";
@@ -32,8 +32,8 @@ export const App = () => {
       </header>
       <Routes>
         <Route path={PrivacyPolicyPath} element={<PrivacyPolicy />} />
-        <Route path={ConnectV2Path} element={<ConnectV2 />} />
-        <Route path="*" element={<Connect />} />
+        <Route path={ConnectV1Path} element={<Connect />} />
+        <Route path="*" element={<ConnectV2 />} />
       </Routes>
       <Footer />
     </Wrapper>
