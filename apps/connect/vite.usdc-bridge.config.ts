@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import viteConfig from "./vite.config";
 import { resolve } from "path";
 import { createHtmlPlugin } from "vite-plugin-html";
+import packageJson from "./package.json";
 
 const PUBLIC_URL = viteConfig.base;
 
@@ -28,6 +29,22 @@ export default defineConfig({
     createHtmlPlugin({
       inject: {
         tags: [
+          {
+            injectTo: "head-prepend",
+            tag: "meta",
+            attrs: {
+              name: "USDC Bridge",
+              content: `v${process.env.VITE_APP_VERSION || "0.0.0"}`,
+            },
+          },
+          {
+            injectTo: "head-prepend",
+            tag: "meta",
+            attrs: {
+              name: "Wormhole connect",
+              content: `v${packageJson.dependencies["@wormhole-foundation/wormhole-connect"]}`,
+            },
+          },
           {
             injectTo: "head-prepend",
             tag: "title",

@@ -1,5 +1,4 @@
 import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
-import packageJson from "../../package.json";
 import { envVars } from "./env-vars";
 
 const rpcs = (chains: string[], template: (chain: string) => string) =>
@@ -37,16 +36,6 @@ export const MAINNET_RPCS = {
 
 export const PUBLIC_URL = envVars.VITE_PUBLIC_URL || "";
 
-export const versions: Env["versions"] = [
-  {
-    appName: "Portal Bridge",
-    version: `v${envVars.VITE_APP_VERSION || "0.0.0"}`,
-  },
-  {
-    appName: "Wormhole Connect",
-    version: `v${packageJson.dependencies["@wormhole-foundation/wormhole-connect"]}`,
-  },
-];
 export const CLUSTER = envVars.VITE_APP_CLUSTER || "testnet";
 export const wormholeConnectConfigCommon: Partial<WormholeConnectConfig> = {
   walletConnectProjectId: envVars.VITE_APP_WALLET_CONNECT_PROJECT_ID || "",
@@ -57,20 +46,11 @@ export const wormholeConnectConfigCommon: Partial<WormholeConnectConfig> = {
     href: `https://wormholescan.io/#/txs?address={:address}&network=${CLUSTER}`,
   },
   manualTargetAddress: true,
-  menu: [
-    {
-      label: "Advanced Tools",
-      href: `${PUBLIC_URL}/advanced-tools/`,
-      order: 1,
-    },
-    {
-      label: "Privacy Policy",
-      href: `${PUBLIC_URL}/#/privacy-policy/`,
-    },
-  ],
+  menu: [],
 };
 
 export interface Env {
+  PUBLIC_URL: string;
   wormholeConnectConfig: WormholeConnectConfig;
   navBar: {
     label: string;
@@ -79,5 +59,4 @@ export interface Env {
     isBlank?: boolean;
   }[];
   redirects?: { source: string[]; target: string };
-  versions: { version: string; appName: string }[];
 }

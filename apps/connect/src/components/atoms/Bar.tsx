@@ -1,11 +1,12 @@
 import styled from "@mui/material/styles/styled";
+import { FONT_SIZE } from "../../theme/portal";
+import { PropsWithChildren } from "react";
 
-export type BarProps = {
+export type BarProps = PropsWithChildren<{
   background: string;
   color?: string;
   size?: string;
-  children: string[] | JSX.Element | JSX.Element[] | null;
-};
+}>;
 
 const Container = styled("div")<BarProps>(
   ({ theme, background, color, size }) => ({
@@ -24,7 +25,7 @@ const Container = styled("div")<BarProps>(
     textAlign: "center",
     fontWeight: 500,
     color: color || theme.palette.text.primary,
-    fontSize: size || "16px",
+    fontSize: size || FONT_SIZE.M,
     letterSpacing: "0.02em",
     background,
     marginBottom: theme.spacing(0.5),

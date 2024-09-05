@@ -2,12 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import CssBaseline from "@mui/material/CssBaseline";
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
+import { GlobalStyles } from "@mui/material";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import theme from "./theme/portal.ts";
-import Background from "./components/atoms/Background.tsx";
-import App from "./App.tsx";
+import { App } from "./App.tsx";
 import { HashRouter } from "react-router-dom";
 import { ENV } from "@env";
+import { globalStyles } from "./theme/globalStyles";
+import { theme } from "./theme/portal";
 
 if (ENV.redirects && ENV.redirects?.source?.length > 0) {
   const matcher = new RegExp(ENV.redirects.source.join("|"));
@@ -21,13 +22,12 @@ const client = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
+      <GlobalStyles styles={globalStyles} />
       <QueryClientProvider client={client}>
-        <Background>
-          <CssBaseline />
-          <HashRouter>
-            <App />
-          </HashRouter>
-        </Background>
+        <CssBaseline />
+        <HashRouter>
+          <App />
+        </HashRouter>
       </QueryClientProvider>
     </ThemeProvider>
   </React.StrictMode>

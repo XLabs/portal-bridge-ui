@@ -1,11 +1,5 @@
 import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
-import {
-  chains,
-  Env,
-  PUBLIC_URL,
-  versions,
-  wormholeConnectConfigCommon,
-} from "./common";
+import { chains, Env, PUBLIC_URL, wormholeConnectConfigCommon } from "./common";
 
 type MoreChainDefinition = NonNullable<
   WormholeConnectConfig["moreNetworks"]
@@ -42,7 +36,7 @@ export const MORE = {
 } as MoreChainDefinition;
 
 export const ENV: Env = {
-  versions,
+  PUBLIC_URL,
   navBar: [
     { label: "Home", active: true, href: `${PUBLIC_URL}/` },
     {

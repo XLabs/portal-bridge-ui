@@ -4,6 +4,7 @@ import { PrivacyPolicyPath } from "../../utils/constants";
 import cookie from "../../assets/imgs/cookie.svg";
 import { Link } from "../../utils/styles";
 import { Link as RouterLink } from "react-router-dom";
+import { FONT_SIZE } from "../../theme/portal";
 
 const BannerContainer = styled("div")(({ theme }) => ({
   display: "flex",
@@ -41,7 +42,7 @@ const CloseButton = styled(Button)(() => ({
   color: "#070528",
   backgroundColor: "white",
   borderRadius: 6,
-  fontSize: 16,
+  fontSize: FONT_SIZE.M,
   maxHeight: 28,
   minWidth: 67,
   textTransform: "capitalize",
