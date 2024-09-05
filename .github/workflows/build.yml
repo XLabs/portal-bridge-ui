@@ -304,7 +304,7 @@ jobs:
           path: connect-loader/apps/connect/dist
         
   token-bridge-v2:
-    name: "Token Bridge"
+    name: "Token Bridge v2"
     runs-on: "ubuntu-latest"
     concurrency:
       group: ${{ github.ref }}-${{inputs.name}}-token-bridge-v2
@@ -374,6 +374,7 @@ jobs:
       - advanced-tools
       - usdc-bridge
       - token-bridge
+      - token-bridge-v2
       - rewards-dashboard
       - redirects
       - docs
@@ -388,7 +389,12 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
+          name: build-v2-token-bridge
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
           name: build-token-bridge
+          path: v1
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
