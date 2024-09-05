@@ -30,5 +30,5 @@ export const globalStyles: ComponentProps<typeof GlobalStyles>["styles"] = (
   },
   ['[data-testid="CheckCircleOutlineIcon"]']: {
     color: "#7BFF3D",
-  }
+  },
 });
