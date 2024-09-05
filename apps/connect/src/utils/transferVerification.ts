@@ -10,9 +10,8 @@ import { isSanctionedAddress } from "../../src/providers/sanctions";
 export const validateTransfer = async (
   tx: ExtendedTransferDetails | ExtendedTransferDetailsV2
 ): Promise<ValidateTransferResult> => {
-  tx.toChain;
-  tx.toWalletAddress;
-  tx.route;
+  tx.fromChain = tx.fromChain?.toLocaleLowerCase() as ChainName;
+  tx.toChain = tx.toChain?.toLocaleLowerCase() as ChainName;
   try {
     // Check OFAC (sanctioned)
     const isSanctioned = await isSanctionedAddress(tx);
@@ -26,7 +25,7 @@ export const validateTransfer = async (
   // Correct Address Validation (based on chain selected)
   const isValid = await isValidAddress(
     tx.toWalletAddress,
-    tx.toChain as ChainName
+    tx.toChain
   );
   if (!isValid) {
     return { isValid: false, error: "Not valid target address" };
