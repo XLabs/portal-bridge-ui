@@ -1,4 +1,7 @@
-import { DEFAULT_ROUTES, type WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
+import {
+  DEFAULT_ROUTES,
+  type WormholeConnectConfig,
+} from "@wormhole-foundation/wormhole-connect";
 import { Env, PUBLIC_URL, wormholeConnectConfigCommonv2 } from "./common";
 
 export const ENV: Env = {
