@@ -1,5 +1,6 @@
-import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect-v1";
-import { Env, PUBLIC_URL, wormholeConnectConfigCommon } from "./common";
+import { type WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
+import { Env, PUBLIC_URL, wormholeConnectConfigCommonv2 } from "./common";
+import { routes } from "@wormhole-foundation/sdk";
 
 export const ENV: Env = {
   PUBLIC_URL,
@@ -19,12 +20,13 @@ export const ENV: Env = {
   ],
   redirects: undefined,
   wormholeConnectConfig: {
-    ...(wormholeConnectConfigCommon as WormholeConnectConfig),
+    ...(wormholeConnectConfigCommonv2 as WormholeConnectConfig),
+    useRedesign: true,
     pageHeader: {
       text: "USDC Transfer",
       align: "center",
     },
-    routes: ["cctpManual", "cctpRelay"],
+    routes: [routes.AutomaticCCTPRoute, routes.CCTPRoute],
     tokens: [
       "USDCeth",
       "USDCavax",
