@@ -11,7 +11,7 @@ export default defineConfig({
   define: {
     "BASE_URL": `"${PUBLIC_URL}"`,
     navBar: [
-      { label: "Home", href: `${PUBLIC_URL}/` },
+      { label: "Bridge", href: `${PUBLIC_URL}/` },
       { label: "USDC", href: `${PUBLIC_URL}/usdc-bridge` },
       { label: "Rewards",active: true, href: `${PUBLIC_URL}/rewards-dashboard` },
       { label: "Wormholescan", href: `https://wormholescan.io` }
