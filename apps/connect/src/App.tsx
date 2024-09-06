@@ -11,7 +11,7 @@ import { Footer } from "./components/atoms/Footer";
 
 const messages = Object.values(messageConfig);
 
-const Wrapper = styled("main")(({ theme }) => ({
+const Wrapper = styled("div")(({ theme }) => ({
   margin: "auto",
   width: "100%",
   maxWidth: 1440,
@@ -22,17 +22,25 @@ const Wrapper = styled("main")(({ theme }) => ({
   padding: `${theme.spacing(3)} `,
 }));
 
+const Main = styled("main")(({ theme }) => ({
+  display: "grid",
+  gridTemplateColumns: "auto 1fr",
+  [theme.breakpoints.down("sm")]: {
+    gridTemplateColumns: "1fr",
+  },
+}));
+
 export const App = () => {
   return (
     <Wrapper>
-      <header>
-        <NewsBar messages={messages} />
+      <NewsBar messages={messages} />
+      <Main>
         <NavBar />
-      </header>
-      <Routes>
-        <Route path={PrivacyPolicyPath} element={<PrivacyPolicy />} />
-        <Route path="*" element={<Connect />} />
-      </Routes>
+        <Routes>
+          <Route path={PrivacyPolicyPath} element={<PrivacyPolicy />} />
+          <Route path="*" element={<Connect />} />
+        </Routes>
+      </Main>
       <Footer />
     </Wrapper>
   );

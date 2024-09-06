@@ -10,15 +10,18 @@ import { Logo } from "./Logo";
 import { COLOR } from "../../theme/portal";
 import { Link } from "./Link";
 
+export const NAVBAR_WIDTH = 110;
+
 const AppBar = styled(MuiAppBar)(() => ({
   background: "transparent",
   boxShadow: "none",
   margin: 0,
 }));
 
-const TopBar = styled("div")(({ theme }) => ({
+const Nav = styled("div")(({ theme }) => ({
   display: "flex",
-  justifyContent: "space-between",
+  flexDirection: "column",
+  gap: theme.spacing(5),
   [theme.breakpoints.down("sm")]: {
     flexDirection: "column",
   },
@@ -27,13 +30,13 @@ const TopBar = styled("div")(({ theme }) => ({
 const LogoContainer = styled("div")(() => ({
   display: "flex",
   justifyContent: "space-between",
-  alignItems: "center",
+  alignItems: "flex-start",
 }));
 
 const LinkContainer = styled("div")(({ theme }) => ({
   display: "flex",
-  alignItems: "center",
-  gap: theme.spacing(4),
+  flexDirection: "column",
+  gap: theme.spacing(2),
   [theme.breakpoints.down("sm")]: {
     flexDirection: "column",
     alignItems: "flex-end",
@@ -46,7 +49,7 @@ export const NavBar = () => {
 
   return (
     <AppBar position="static" color="inherit">
-      <TopBar>
+      <Nav>
         <LogoContainer>
           <MuiLink href={import.meta.env.BASE_URL}>
             <Logo />
@@ -70,9 +73,9 @@ export const NavBar = () => {
               <Link
                 key={`${label}_${idx}`}
                 href={href}
-                sx={{
-                  color: active ? COLOR.white : COLOR.whiteWithTransparency,
-                }}
+                sx={
+                  !active ? undefined : { color: COLOR.white, fontWeight: 500 }
+                }
                 target={isBlank ? "_blank" : "_self"}
               >
                 {label}
@@ -80,7 +83,7 @@ export const NavBar = () => {
             ))}
           </LinkContainer>
         </Hidden>
-      </TopBar>
+      </Nav>
     </AppBar>
   );
 };
