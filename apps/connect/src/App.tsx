@@ -37,11 +37,11 @@ export const App = () => {
       <NewsBar messages={messages} />
       <Main>
         <NavBar />
-      <Routes>
-        <Route path={PrivacyPolicyPath} element={<PrivacyPolicy />} />
-        <Route path={ConnectV1Path} element={<Connect />} />
-        <Route path="*" element={<ConnectV2 />} />
-      </Routes>
+        <Routes>
+          <Route path={PrivacyPolicyPath} element={<PrivacyPolicy />} />
+          <Route path={ConnectV1Path} element={<Connect />} />
+          <Route path="*" element={<ConnectV2 />} />
+        </Routes>
       </Main>
       <Footer />
     </Wrapper>
