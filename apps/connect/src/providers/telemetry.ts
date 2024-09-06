@@ -1,8 +1,8 @@
 import mixpanel from "mixpanel-browser";
 import { isPreview, isProduction } from "../utils/constants";
-import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect-v1";
+import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
 import type { WormholeConnectConfig as WormholeConnectConfigV2 } from "@wormhole-foundation/wormhole-connect";
-import { TransferDetails } from "node_modules/@wormhole-foundation/wormhole-connect-v1/lib/src/telemetry/types";
+// import { TransferDetails } from "node_modules/@wormhole-foundation/wormhole-connect/lib/src/telemetry/types";
 
 export type WormholeConnectEvent = Parameters<
   NonNullable<WormholeConnectConfig["eventHandler"]>
@@ -79,9 +79,9 @@ export const eventHandler = (
     fromTokenAddress: getTokenAddress(e.details.fromToken),
     toTokenSymbol: e.details.toToken?.symbol,
     toTokenAddress: getTokenAddress(e.details.toToken),
-    txId: (e.details as TransferDetails).txId || undefined, // TO DO: File not available in v2
-    USDAmount: (e.details as TransferDetails).USDAmount || undefined, // TO DO: File not available in v2
-    amount: (e.details as TransferDetails).amount || undefined, // TO DO: File not available in v2
+    // txId: (e.details as TransferDetails).txId || undefined, // TO DO: File not available in v2
+    // USDAmount: (e.details as TransferDetails).USDAmount || undefined, // TO DO: File not available in v2
+    // amount: (e.details as TransferDetails).amount || undefined, // TO DO: File not available in v2
     route:
       {
         bridge: "Manual Bridge",

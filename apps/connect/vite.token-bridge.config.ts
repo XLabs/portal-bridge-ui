@@ -22,7 +22,6 @@ export default defineConfig({
       },
     ],
   },
-  base: `${PUBLIC_URL}/v1`,
   define: {},
   plugins: [
     ...(viteConfig.plugins as []),

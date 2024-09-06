@@ -3,7 +3,7 @@ import {
   MAINNET,
   TESTNET,
   WormholeConnectConfig,
-} from "@wormhole-foundation/wormhole-connect-v1";
+} from "@wormhole-foundation/wormhole-connect";
 import { useMemo } from "react";
 
 const tokensList =

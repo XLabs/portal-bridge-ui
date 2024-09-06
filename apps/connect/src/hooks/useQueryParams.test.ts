@@ -28,14 +28,14 @@ describe("useQueryParams", () => {
 
   it("should get QS when query contains all expected attrs after a hash #", () => {
     rewriteHref(
-      "https://portalbridge.com/#/?sourceChain=bsc&targetChain=arbitrum&requiredNetwork=arbitrum&txHash=txHash&asset=asset&route=bridge"
+      "https://portalbridge.com/#/?sourceChain=Bsc&targetChain=Arbitrum&requiredNetwork=Arbitrum&txHash=txHash&asset=asset&route=bridge"
     );
     const { result } = renderHook(() => useQueryParams());
     expect(result.current).toEqual({
       asset: "asset",
-      requiredNetwork: "arbitrum",
-      sourceChain: "bsc",
-      targetChain: "arbitrum",
+      requiredNetwork: "Arbitrum",
+      sourceChain: "Bsc",
+      targetChain: "Arbitrum",
       txHash: "txHash",
       route: "bridge",
     });
@@ -43,14 +43,14 @@ describe("useQueryParams", () => {
 
   it("should get QS when query contains all expected attrs when there is no hash", () => {
     rewriteHref(
-      "https://portalbridge.com/?sourceChain=bsc&targetChain=arbitrum&requiredNetwork=arbitrum&txHash=txHash&asset=asset&route=bridge"
+      "https://portalbridge.com/?sourceChain=Bsc&targetChain=Arbitrum&requiredNetwork=Arbitrum&txHash=txHash&asset=asset&route=bridge"
     );
     const { result } = renderHook(() => useQueryParams());
     expect(result.current).toEqual({
       asset: "asset",
-      requiredNetwork: "arbitrum",
-      sourceChain: "bsc",
-      targetChain: "arbitrum",
+      requiredNetwork: "Arbitrum",
+      sourceChain: "Bsc",
+      targetChain: "Arbitrum",
       txHash: "txHash",
       route: "bridge",
     });
@@ -76,9 +76,9 @@ describe("useQueryParams", () => {
     const { result } = renderHook(() => useQueryParams());
     expect(result.current).toEqual({
       asset: null,
-      requiredNetwork: "arbitrum",
-      sourceChain: "bsc",
-      targetChain: "arbitrum",
+      requiredNetwork: "Arbitrum",
+      sourceChain: "Bsc",
+      targetChain: "Arbitrum",
       txHash: null,
       route: null,
     });

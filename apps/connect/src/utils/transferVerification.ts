@@ -1,17 +1,16 @@
 import {
   ExtendedTransferDetails,
   ValidateTransferResult,
-} from "node_modules/@wormhole-foundation/wormhole-connect-v1/lib/src/config/types";
+} from "node_modules/@wormhole-foundation/wormhole-connect/lib/src/config/types";
 import { ExtendedTransferDetails as ExtendedTransferDetailsV2 } from "node_modules/@wormhole-foundation/wormhole-connect/lib/src/config/types";
-import { ChainName } from "@certusone/wormhole-sdk";
 import { isValidAddress } from "./isValidAddress";
 import { isSanctionedAddress } from "../../src/providers/sanctions";
+import { ChainName } from "@certusone/wormhole-sdk";
+import { Chain } from "@wormhole-foundation/sdk";
 
 export const validateTransfer = async (
   tx: ExtendedTransferDetails | ExtendedTransferDetailsV2
 ): Promise<ValidateTransferResult> => {
-  tx.fromChain = tx.fromChain?.toLocaleLowerCase() as ChainName;
-  tx.toChain = tx.toChain?.toLocaleLowerCase() as ChainName;
   try {
     // Check OFAC (sanctioned)
     const isSanctioned = await isSanctionedAddress(tx);
@@ -29,4 +28,8 @@ export const validateTransfer = async (
   }
 
   return { isValid: true };
+};
+
+export const toChainNameFormat = (chain: Chain) => {
+  return chain.toLowerCase() as ChainName;
 };

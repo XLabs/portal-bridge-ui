@@ -34,11 +34,11 @@ export const MORE = {
   showOpenInNewIcon: false,
   href: ADVANCE_TOOLS_HREF,
 } as MoreChainDefinition;
-
+// se puede reutilizr?
 export const ENV: Env = {
   PUBLIC_URL,
   navBar: [
-    { label: "Bridge", active: true, href: `${PUBLIC_URL}/` },
+    { label: "Home", active: true, href: `${PUBLIC_URL}/` },
     {
       label: "Staking",
       href: "https://www.tally.xyz/gov/wormhole",
@@ -76,7 +76,7 @@ export const ENV: Env = {
     cctpWarning: {
       href: USDC_BRIDGE_HREF,
     },
-    networks: [...chains, "solana", "injective", "klaytn"],
+    networks: [...chains, "Solana", "Injective", "Klaytn"],
     moreNetworks: {
       href: ADVANCE_TOOLS_HREF_TEMPLATE,
       target: "_blank",
@@ -89,5 +89,6 @@ export const ENV: Env = {
       href: ADVANCE_TOOLS_HREF_TEMPLATE,
     },
     tokensConfig: {},
+    useRedesign: true,
   } as WormholeConnectConfig,
 };

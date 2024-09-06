@@ -2,7 +2,7 @@ import {
   DEFAULT_ROUTES,
   type WormholeConnectConfig,
 } from "@wormhole-foundation/wormhole-connect";
-import { Env, PUBLIC_URL, wormholeConnectConfigCommonv2 } from "./common";
+import { Env, PUBLIC_URL, wormholeConnectConfigCommon } from "./common";
 
 export const ENV: Env = {
   PUBLIC_URL,
@@ -22,7 +22,7 @@ export const ENV: Env = {
   ],
   redirects: undefined,
   wormholeConnectConfig: {
-    ...(wormholeConnectConfigCommonv2 as WormholeConnectConfig),
+    ...(wormholeConnectConfigCommon as WormholeConnectConfig),
     useRedesign: true,
     pageHeader: {
       text: "USDC Transfer",

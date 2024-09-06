@@ -1,14 +1,13 @@
 import { Route, Routes } from "react-router-dom";
 import { styled } from "@mui/material";
 
-import { ConnectV1Path, PrivacyPolicyPath } from "./utils/constants";
+import { PrivacyPolicyPath } from "./utils/constants";
 import messageConfig from "./configs/messages";
 import { NavBar } from "./components/atoms/NavBar";
 import NewsBar from "./components/atoms/NewsBar";
 import PrivacyPolicy from "./components/pages/PrivacyPolicy";
 import { Connect } from "./components/atoms/Connect";
 import { Footer } from "./components/atoms/Footer";
-import { ConnectV2 } from "./components/atoms/ConnectV2";
 
 const messages = Object.values(messageConfig);
 
@@ -39,8 +38,7 @@ export const App = () => {
         <NavBar />
         <Routes>
           <Route path={PrivacyPolicyPath} element={<PrivacyPolicy />} />
-          <Route path={ConnectV1Path} element={<Connect />} />
-          <Route path="*" element={<ConnectV2 />} />
+          <Route path="*" element={<Connect />} />
         </Routes>
       </Main>
       <Footer />
