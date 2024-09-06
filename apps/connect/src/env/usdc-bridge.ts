@@ -7,7 +7,7 @@ import { Env, PUBLIC_URL, wormholeConnectConfigCommonv2 } from "./common";
 export const ENV: Env = {
   PUBLIC_URL,
   navBar: [
-    { label: "Home", href: `${PUBLIC_URL}/` },
+    { label: "Bridge", href: `${PUBLIC_URL}/` },
     {
       label: "Staking",
       href: "https://www.tally.xyz/gov/wormhole",

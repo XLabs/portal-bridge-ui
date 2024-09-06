@@ -12,7 +12,7 @@ import { ConnectV2 } from "./components/atoms/ConnectV2";
 
 const messages = Object.values(messageConfig);
 
-const Wrapper = styled("main")(({ theme }) => ({
+const Wrapper = styled("div")(({ theme }) => ({
   margin: "auto",
   width: "100%",
   maxWidth: 1440,
@@ -23,18 +23,26 @@ const Wrapper = styled("main")(({ theme }) => ({
   padding: `${theme.spacing(3)} `,
 }));
 
+const Main = styled("main")(({ theme }) => ({
+  display: "grid",
+  gridTemplateColumns: "auto 1fr",
+  [theme.breakpoints.down("sm")]: {
+    gridTemplateColumns: "1fr",
+  },
+}));
+
 export const App = () => {
   return (
     <Wrapper>
-      <header>
-        <NewsBar messages={messages} />
+      <NewsBar messages={messages} />
+      <Main>
         <NavBar />
-      </header>
       <Routes>
         <Route path={PrivacyPolicyPath} element={<PrivacyPolicy />} />
         <Route path={ConnectV1Path} element={<Connect />} />
         <Route path="*" element={<ConnectV2 />} />
       </Routes>
+      </Main>
       <Footer />
     </Wrapper>
   );
