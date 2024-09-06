@@ -1,20 +1,22 @@
-import { coalesceChainName, isChain } from "@certusone/wormhole-sdk";
-import { ChainName } from "@wormhole-foundation/wormhole-connect-v1";
+import {
+  Chain,
+  chainIdToChain,
+  isChain,
+  isChainId,
+} from "@wormhole-foundation/sdk";
 import { useMemo } from "react";
 
-const getChainValue = (
-  query: URLSearchParams,
-  key: string
-): ChainName | null => {
-  const sourceChain = query.get(key)?.toLowerCase?.();
+const getChainValue = (query: URLSearchParams, key: string): Chain | null => {
+  let sourceChain = query.get(key)?.toLowerCase?.();
   if (sourceChain) {
+    sourceChain = sourceChain?.charAt(0).toUpperCase() + sourceChain?.slice(1);
     if (isChain(sourceChain)) {
-      return coalesceChainName(sourceChain) as ChainName;
+      return sourceChain;
     }
 
     const chainId = Number(sourceChain);
-    if (isChain(chainId)) {
-      return coalesceChainName(chainId) as ChainName;
+    if (isChainId(chainId)) {
+      return chainIdToChain(chainId);
     }
   }
   return null;

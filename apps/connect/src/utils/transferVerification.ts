@@ -23,10 +23,7 @@ export const validateTransfer = async (
   }
 
   // Correct Address Validation (based on chain selected)
-  const isValid = await isValidAddress(
-    tx.toWalletAddress,
-    tx.toChain
-  );
+  const isValid = await isValidAddress(tx.toWalletAddress, tx.toChain);
   if (!isValid) {
     return { isValid: false, error: "Not valid target address" };
   }
