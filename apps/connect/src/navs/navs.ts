@@ -6,16 +6,16 @@ enum TransferEvents {
   SUCCESS_REDEEM = "transfer.redeem.success",
 }
 
-export const pushResumeUrl = (e: WormholeConnectEvent) => {
-  if (e.type === TransferEvents.START) {
-    const { fromChain, txId } = e.details;
-    history.pushState(
-      { event: e.type },
-      "Start Transfer",
-      `?sourceChain=${fromChain}&transactionId=${txId}`
-    );
-  }
-};
+// export const pushResumeUrl = (e: WormholeConnectEvent) => {
+//   if (e.type === TransferEvents.START) {
+//     const { fromChain, txId } = e.details;
+//     history.pushState(
+//       { event: e.type },
+//       "Start Transfer",
+//       `?sourceChain=${fromChain}&transactionId=${txId}`
+//     );
+//   }
+// };
 
 export const clearUrl = (e: WormholeConnectEvent) => {
   if (

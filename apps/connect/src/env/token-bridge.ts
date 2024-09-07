@@ -34,7 +34,7 @@ export const MORE = {
   showOpenInNewIcon: false,
   href: ADVANCE_TOOLS_HREF,
 } as MoreChainDefinition;
-// se puede reutilizr?
+
 export const ENV: Env = {
   PUBLIC_URL,
   navBar: [
