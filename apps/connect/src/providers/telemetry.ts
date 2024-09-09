@@ -38,9 +38,7 @@ const getErrorMessage = (error: any) => {
 };
 
 let lastChain: string;
-export const eventHandler = (
-  e: WormholeConnectEvent
-) => {
+export const eventHandler = (e: WormholeConnectEvent) => {
   // Ignore the load event
   if (e.type === "load") return;
 
