@@ -3,19 +3,19 @@ import { useFormatAssetParam } from "./useFormatAssetParam";
 
 describe("useFormatAssetParam", () => {
   it("should get a formatted asset when key has an exact match", () => {
-    const { result } = renderHook(() => useFormatAssetParam("BNB"));
-    expect(result.current).toEqual("BNB");
+    const { result } = renderHook(() => useFormatAssetParam("ETH"));
+    expect(result.current).toEqual("ETH");
   });
 
   it("should NOT get a formatted asset when key does NOT have an exact match", () => {
-    const { result } = renderHook(() => useFormatAssetParam("BNB"));
-    expect(result.current).toEqual("BNB");
+    const { result } = renderHook(() => useFormatAssetParam("ETH"));
+    expect(result.current).toEqual("ETH");
   });
 
   it("should get a formatted asset using an address", () => {
     const { result } = renderHook(() =>
-      useFormatAssetParam("0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd")
+      useFormatAssetParam("0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2")
     );
-    expect(result.current).toEqual("WBNB");
+    expect(result.current).toEqual("WETH");
   });
 });
