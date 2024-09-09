@@ -1,6 +1,6 @@
 import { isValidAddress } from "./isValidAddress";
 
-jest.mock("Aptos", () => {
+jest.mock("aptos", () => {
   class AptosClient {
     getAccount = jest
       .fn()
