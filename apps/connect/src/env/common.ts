@@ -6,7 +6,7 @@ const rpcs = (chains: string[], template: (chain: string) => string) =>
     .map((chain: string) => ({ [chain]: template(chain) }))
     .reduce((acc, cur) => ({ ...acc, ...cur }), {});
 const asRpcHost = (chain: string) =>
-  `https://and76cjzpa.execute-api.us-east-2.amazonaws.com/${chain.toLocaleLowerCase()}/`;
+  `https://and76cjzpa.execute-api.us-east-2.amazonaws.com/${chain.toLowerCase()}/`;
 export const chains = [
   "Wormchain",
   "Osmosis",
