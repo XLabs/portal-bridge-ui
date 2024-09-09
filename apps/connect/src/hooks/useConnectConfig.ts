@@ -10,7 +10,6 @@ import WormholeConnect from "@wormhole-foundation/wormhole-connect";
 import {
   eventHandler,
   type WormholeConnectEvent,
-  type WormholeConnectEventV2,
 } from "../providers/telemetry";
 import { isPreview, isProduction } from "../utils/constants";
 import { ENV } from "@env";
@@ -19,7 +18,7 @@ import { getSortedChains } from "../utils/getSortedChains";
 
 const defaultConfig: WormholeConnectConfig = {
   ...(ENV.wormholeConnectConfig as WormholeConnectConfig),
-  eventHandler: (e: WormholeConnectEvent | WormholeConnectEventV2) => {
+  eventHandler: (e: WormholeConnectEvent) => {
     if (isPreview || isProduction) {
       // Send the event to Mixpanel
       eventHandler(e);

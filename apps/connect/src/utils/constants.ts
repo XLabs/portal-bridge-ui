@@ -1,5 +1,4 @@
 export const PrivacyPolicyPath = "/privacy-policy";
-export const ConnectV1Path = "/v1";
 
 export const isPreview =
   window.location.origin.includes("preview") ||

@@ -1,16 +1,12 @@
 import mixpanel from "mixpanel-browser";
 import { isPreview, isProduction } from "../utils/constants";
 import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
-import type { WormholeConnectConfig as WormholeConnectConfigV2 } from "@wormhole-foundation/wormhole-connect";
 // import { TransferDetails } from "node_modules/@wormhole-foundation/wormhole-connect/lib/src/telemetry/types";
 
 export type WormholeConnectEvent = Parameters<
   NonNullable<WormholeConnectConfig["eventHandler"]>
 >[0];
 
-export type WormholeConnectEventV2 = Parameters<
-  NonNullable<WormholeConnectConfigV2["eventHandler"]>
->[0];
 mixpanel.init(
   isProduction
     ? "a5bb05fa95759da34eac66cd9444790b"
@@ -43,7 +39,7 @@ const getErrorMessage = (error: any) => {
 
 let lastChain: string;
 export const eventHandler = (
-  e: WormholeConnectEvent | WormholeConnectEventV2
+  e: WormholeConnectEvent
 ) => {
   // Ignore the load event
   if (e.type === "load") return;
