@@ -549,7 +549,7 @@ const PrivacyPolicy = () => {
               and whether we disclosed that personal information for a business
               purpose (e.g., to a service provider) in the preceding 12 months.
               California residents can find this information by visiting:{" "}
-              <Link to="https://www.oag.ca.gov/privacy/ccpa" target="_blank">
+              <Link href="https://www.oag.ca.gov/privacy/ccpa" target="_blank">
                 https://www.oag.ca.gov/privacy/ccpa
               </Link>
               .

@@ -13,9 +13,12 @@ import {
   isEVMChain,
 } from "@certusone/wormhole-sdk";
 import { Chain, toChainId } from "@wormhole-foundation/sdk";
-import { ExtendedTransferDetails } from "node_modules/@wormhole-foundation/wormhole-connect/lib/src/config/types";
 import { toChainNameFormat } from "../utils/transferVerification";
+import { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
 
+export type ExtendedTransferDetails = Parameters<
+  NonNullable<WormholeConnectConfig["validateTransferHandler"]>
+>[0];
 export interface SanctionResponse {
   addressRiskIndicators: { categoryRiskScoreLevel: number; riskType: string }[];
   entities: { riskScoreLevel: number }[];

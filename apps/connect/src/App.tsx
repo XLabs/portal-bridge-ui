@@ -1,6 +1,13 @@
 import { Route, Routes } from "react-router-dom";
 import { PrivacyPolicyPath } from "./utils/constants";
-import { Footer, Main, messages as messageConfig, NavBar, NewsBar, Wrapper } from "@xlabs/common-library";
+import {
+  Footer,
+  Main,
+  messages as messageConfig,
+  NavBar,
+  NewsBar,
+  Wrapper,
+} from "@xlabs/common-library";
 import PrivacyPolicy from "./components/pages/PrivacyPolicy";
 import { Connect } from "./components/atoms/Connect";
 import { ENV } from "@env";
@@ -16,7 +23,10 @@ export const App = () => {
     <Wrapper>
       <NewsBar message={message} banners={banners} />
       <Main>
-        <NavBar navBar={[...ENV.navBar]} env={ENV.wormholeConnectConfig.env || "mainnet"} />
+        <NavBar
+          navBar={[...ENV.navBar]}
+          env={ENV.wormholeConnectConfig.env || "mainnet"}
+        />
         <Routes>
           <Route path={PrivacyPolicyPath} element={<PrivacyPolicy />} />
           <Route path="*" element={<Connect />} />

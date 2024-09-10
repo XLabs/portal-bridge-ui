@@ -1,15 +1,19 @@
-import {
-  ExtendedTransferDetails,
-  ValidateTransferResult,
-} from "node_modules/@wormhole-foundation/wormhole-connect/lib/src/config/types";
 import { isValidAddress } from "./isValidAddress";
 import { isSanctionedAddress } from "../../src/providers/sanctions";
 import { ChainName } from "@certusone/wormhole-sdk";
 import { Chain } from "@wormhole-foundation/sdk";
+import { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
 
+export type ExtendedTransferDetails = Parameters<
+  NonNullable<WormholeConnectConfig["validateTransferHandler"]>
+>[0];
+
+export type ValidateTransferResult = ReturnType<
+  NonNullable<WormholeConnectConfig["validateTransferHandler"]>
+>;
 export const validateTransfer = async (
   tx: ExtendedTransferDetails
-): Promise<ValidateTransferResult> => {
+): ValidateTransferResult => {
   try {
     // Check OFAC (sanctioned)
     const isSanctioned = await isSanctionedAddress(tx);
