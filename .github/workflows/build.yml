@@ -360,7 +360,7 @@ jobs:
         run: |
           pushd connect-loader
           npm ci
-          pushd connect-loader/apps/connect-v1
+          pushd apps/connect-v1
           echo 'VITE_APP_VERSION=$npm_package_version' > .env
           npm run build:token-bridge
       - name: Upload Portal Bridge Artifact
