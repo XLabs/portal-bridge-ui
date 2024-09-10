@@ -1,5 +1,5 @@
 {
-  "name": "@xlabs/portal-bridge-ui",
+  "name": "@xlabs/portal-bridge-ui-v1",
   "private": true,
   "version": "0.2.15",
   "type": "module",
@@ -20,8 +20,8 @@
     "preview": "cross-env VITE_APP_CLUSTER=mainnet vite preview",
     "format": "npm run prettier -- --write ./src",
     "ts:check": "tsc --project ./tsconfig.json --noEmit --skipLibCheck",
-    "test": "cross-env VITE_APP_CLUSTER=mainnet jest --coverage",
-    "test:watch": "cross-env VITE_APP_CLUSTER=mainnet jest --coverage --watchAll=true"
+    "test": "cross-env VITE_APP_CLUSTER=testnet jest --coverage",
+    "test:watch": "cross-env VITE_APP_CLUSTER=testnet jest --coverage --watchAll=true"
   },
   "dependencies": {
     "@certusone/wormhole-sdk": "^0.10.18",
@@ -30,8 +30,7 @@
     "@mui/icons-material": "^5.14.11",
     "@mui/material": "^5.12.1",
     "@tanstack/react-query": "^5.14.2",
-    "@wormhole-foundation/sdk": "^0.10.3",
-    "@wormhole-foundation/wormhole-connect": "file:wormhole-foundation-wormhole-connect-0.3.7.tgz",
+    "@wormhole-foundation/wormhole-connect": "^0.3.22-beta.3-development",
     "@xlabs/common-library": "^0.0.0",
     "aptos": "^1.21.0",
     "bech32": "^2.0.0",

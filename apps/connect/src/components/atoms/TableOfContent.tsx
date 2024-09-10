@@ -1,6 +1,6 @@
 import { styled } from "@mui/material";
 import { useEffect, useState } from "react";
-import { COLOR, FONT_SIZE } from "../../theme/portal";
+import { COLOR, FONT_SIZE } from "@xlabs/common-library";
 
 const TableContainer = styled("div")(({ theme }) => ({
   borderLeft: `1px solid ${COLOR.whiteWithTransparency}`,

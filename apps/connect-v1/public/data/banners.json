@@ -1,0 +1,12 @@
+[
+  {
+    "id": "string",
+    "background": "yellow",
+    "content": {
+      "color": "black",
+      "text": "Solana is currently experiencing congestion. Transactions to Solana may experience delays."
+    },
+    "since": "2024-01-30T01:00:00-05:00",
+    "until": "2024-04-25T17:00:00-05:00"
+  }
+]

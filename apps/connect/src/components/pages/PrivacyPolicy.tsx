@@ -2,9 +2,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Button, Container as MuiContainer, styled } from "@mui/material";
 
 import arrow from "../../assets/imgs/arrow.svg";
-import { Link } from "../../utils/styles";
 import TableOfContent from "../atoms/TableOfContent";
-import { COLOR, FONT_SIZE } from "../../theme/portal";
+import { COLOR, FONT_SIZE, Link } from "@xlabs/common-library";
 
 const TitleItem = styled("li")(() => ({
   paddingLeft: 25,
