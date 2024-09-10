@@ -10,7 +10,7 @@ import { Env, MAINNET_RPCS } from "./common";
 export const ENV: Env = {
   ...ENV_BASE,
   wormholeConnectConfig: mergeDeep<WormholeConnectConfig>(
-    ENV_BASE.wormholeConnectConfig as WormholeConnectConfig,
+    ENV_BASE.wormholeConnectConfig,
     {
       rpcs: MAINNET_RPCS,
       moreNetworks: {

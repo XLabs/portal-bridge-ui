@@ -8,7 +8,7 @@ describe("useFormatAssetParam", () => {
   });
 
   it("should NOT get a formatted asset when key does NOT have an exact match", () => {
-    const { result } = renderHook(() => useFormatAssetParam("ETH"));
+    const { result } = renderHook(() => useFormatAssetParam("eth"));
     expect(result.current).toEqual("ETH");
   });
 

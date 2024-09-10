@@ -6,7 +6,7 @@ import { Env } from "./common";
 export const ENV: Env = {
   ...ENV_BASE,
   wormholeConnectConfig: mergeDeep<WormholeConnectConfig>(
-    ENV_BASE.wormholeConnectConfig as WormholeConnectConfig,
+    ENV_BASE.wormholeConnectConfig,
     {
       chains: [
         "Sepolia",

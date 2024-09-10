@@ -17,7 +17,7 @@ import { validateTransfer } from "../utils/transferVerification";
 import { getSortedChains } from "../utils/getSortedChains";
 
 const defaultConfig: WormholeConnectConfig = {
-  ...(ENV.wormholeConnectConfig as WormholeConnectConfig),
+  ...ENV.wormholeConnectConfig,
   eventHandler: (e: WormholeConnectEvent) => {
     if (isPreview || isProduction) {
       // Send the event to Mixpanel
@@ -70,7 +70,7 @@ export const useConnectConfig = () => {
   useEffect(() => {
     const controller = new AbortController();
     getSortedChains(
-      (ENV.wormholeConnectConfig as WormholeConnectConfig).chains as Chain[],
+      ENV.wormholeConnectConfig.chains as Chain[],
       controller.signal
     ).then((chains) => !!chains && setNetworks(chains));
     return () => controller.abort();

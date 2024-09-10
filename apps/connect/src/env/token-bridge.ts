@@ -38,7 +38,7 @@ export const MORE = {
 export const ENV: Env = {
   PUBLIC_URL,
   navBar: [
-    { label: "Home", active: true, href: `${PUBLIC_URL}/` },
+    { label: "Bridge", active: true, href: `${PUBLIC_URL}/` },
     {
       label: "Staking",
       href: "https://www.tally.xyz/gov/wormhole",
