@@ -303,11 +303,11 @@ jobs:
           name: build-token-bridge
           path: connect-loader/apps/connect/dist
 
-  token-bridge-v1:
-    name: "Token Bridge v1"
+  tbtc-bridge-v1:
+    name: "tBTC Bridge v1"
     runs-on: "ubuntu-latest"
     concurrency:
-      group: ${{ github.ref }}-${{inputs.name}}-token-bridge-v1
+      group: ${{ github.ref }}-${{inputs.name}}-tbtc-bridge-v1
       cancel-in-progress: true
     environment: ${{inputs.environment}}
     outputs:
@@ -362,11 +362,11 @@ jobs:
           npm ci
           pushd apps/connect-v1
           echo 'VITE_APP_VERSION=$npm_package_version' > .env
-          npm run build:token-bridge
+          npm run build:tbtc-bridge
       - name: Upload Portal Bridge Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: build-token-bridge-v1
+          name: build-tbtc-bridge-v1
           path: connect-loader/apps/connect-v1/dist
 
   publish:
@@ -375,7 +375,7 @@ jobs:
       - advanced-tools
       - usdc-bridge
       - token-bridge
-      - token-bridge-v1
+      - tbtc-bridge-v1
       - rewards-dashboard
       - redirects
       - docs

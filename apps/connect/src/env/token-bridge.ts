@@ -50,6 +50,7 @@ export const ENV: Env = {
       isBlank: true,
     },
     { label: "USDC", href: USDC_BRIDGE_HREF },
+    { label: "tBTC", href: `${PUBLIC_URL}/tbtc-bridge` },
   ],
   redirects: {
     source: [

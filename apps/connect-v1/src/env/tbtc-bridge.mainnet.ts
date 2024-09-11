@@ -1,4 +1,4 @@
-import { ENV as ENV_BASE } from "./usdc-bridge";
+import { ENV as ENV_BASE } from "./tbtc-bridge";
 import { mergeDeep } from "../utils/mergeDeep";
 import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
 import { Env, MAINNET_RPCS } from "./common";
@@ -11,11 +11,10 @@ export const ENV: Env = {
       rpcs: MAINNET_RPCS,
       networks: [
         "ethereum",
-        "avalanche",
-        "arbitrum",
-        "optimism",
-        "base",
         "polygon",
+        "optimism",
+        "arbitrum",
+        "base",
         "solana",
       ],
     }

@@ -1,4 +1,4 @@
-import { ENV as ENV_BASE } from "./usdc-bridge";
+import { ENV as ENV_BASE } from "./tbtc-bridge";
 import { mergeDeep } from "../utils/mergeDeep";
 import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
 import { Env } from "./common";
@@ -10,11 +10,10 @@ export const ENV: Env = {
     {
       networks: [
         "goerli",
-        "fuji",
-        "arbitrumgoerli",
-        "optimismgoerli",
-        "basegoerli",
         "mumbai",
+        "optimismgoerli",
+        "arbitrumgoerli",
+        "basegoerli",
         "solana",
       ],
     }

@@ -19,6 +19,7 @@ export const ENV: Env = {
       isBlank: true,
     },
     { label: "USDC", active: true, href: `${PUBLIC_URL}/usdc-bridge` },
+    { label: "tBTC", href: `${PUBLIC_URL}/tbtc-bridge` },
   ],
   redirects: undefined,
   wormholeConnectConfig: {

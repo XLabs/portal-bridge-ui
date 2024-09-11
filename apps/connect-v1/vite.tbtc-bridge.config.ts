@@ -17,12 +17,12 @@ export default defineConfig({
         find: "@env",
         replacement: resolve(
           __dirname,
-          `./src/env/usdc-bridge.${process.env.VITE_APP_CLUSTER === "mainnet" ? "mainnet" : "testnet"}.ts`
+          `./src/env/tbtc-bridge.${process.env.VITE_APP_CLUSTER === "mainnet" ? "mainnet" : "testnet"}.ts`
         ),
       },
     ],
   },
-  base: `${PUBLIC_URL}/usdc-bridge/`,
+  base: `${PUBLIC_URL}/tbtc-bridge/`,
   define: {},
   plugins: [
     ...(viteConfig.plugins as []),
@@ -33,7 +33,7 @@ export default defineConfig({
             injectTo: "head-prepend",
             tag: "meta",
             attrs: {
-              name: "USDC Bridge",
+              name: "tBTC Bridge",
               content: `v${process.env.VITE_APP_VERSION || "0.0.0"}`,
             },
           },
@@ -48,17 +48,17 @@ export default defineConfig({
           {
             injectTo: "head-prepend",
             tag: "title",
-            children: "Portal USDC Bridge",
+            children: "Portal tBTC Bridge",
           },
           {
             injectTo: "head-prepend",
             tag: "meta",
-            attrs: { "og:title": "Portal USDC Bridge" },
+            attrs: { "og:title": "Portal tBTC Bridge" },
           },
           {
             injectTo: "head-prepend",
             tag: "meta",
-            attrs: { "og:url": "https://portalbridge.com/usdc-bridge" },
+            attrs: { "og:url": "https://portalbridge.com/tbtc-bridge" },
           },
           {
             injectTo: "head-prepend",
@@ -66,7 +66,7 @@ export default defineConfig({
             attrs: {
               name: "description",
               content:
-                "Convert some USDC to ETH, AVAX, BASE, OP or ARB and use it as gas to pay for transaction fees on the destination network.",
+                "Convert some tBTC to ETH, MATIC, BASE, OP, SOL or ARB and use it as gas to pay for transaction fees on the destination network.", 
             },
           },
           {
@@ -75,7 +75,7 @@ export default defineConfig({
             attrs: {
               property: "og:description",
               content:
-                "Convert some USDC to ETH, AVAX, BASE, OP or ARB and use it as gas to pay for transaction fees on the destination network.",
+                "Convert some tBTC to ETH, MATIC, BASE, OP, SOL or ARB and use it as gas to pay for transaction fees on the destination network.",
             },
           },
         ],
