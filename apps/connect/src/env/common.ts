@@ -36,7 +36,7 @@ export const MAINNET_RPCS = {
 
 export const PUBLIC_URL = envVars.VITE_PUBLIC_URL || "";
 
-export const CLUSTER = envVars.VITE_APP_CLUSTER || "testnet";
+export const CLUSTER = envVars.VITE_APP_CLUSTER || "Testnet";
 export const wormholeConnectConfigCommon: Partial<WormholeConnectConfig> = {
   walletConnectProjectId: envVars.VITE_APP_WALLET_CONNECT_PROJECT_ID || "",
   env: CLUSTER,
@@ -46,7 +46,6 @@ export const wormholeConnectConfigCommon: Partial<WormholeConnectConfig> = {
     href: `https://wormholescan.io/#/txs?address={:address}&network=${CLUSTER}`,
   },
   useRedesign: true,
-  //manualTargetAddress: true,
   menu: [],
 };
 

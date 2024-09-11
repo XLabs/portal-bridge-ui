@@ -2,6 +2,7 @@ import { ACALA, ALGORAND, MORE, SEI, ENV as ENV_BASE } from "./token-bridge";
 import { mergeDeep } from "../utils/mergeDeep";
 import {
   DEFAULT_ROUTES,
+  MayanRoute,
   nttRoutes,
   type WormholeConnectConfig,
 } from "@wormhole-foundation/wormhole-connect";
@@ -18,6 +19,7 @@ export const ENV: Env = {
       } as WormholeConnectConfig["moreNetworks"],
       routes: [
         ...DEFAULT_ROUTES,
+        MayanRoute,
         ...nttRoutes({
           tokens: {
             W: [
@@ -403,6 +405,45 @@ export const ENV: Env = {
           },
         }),
       ],
+      wrappedTokens: {
+        WOM: {
+          Ethereum: "0xc0B314a8c08637685Fc3daFC477b92028c540CFB",
+          Avalanche: "0xa15E4544D141aa98C4581a1EA10Eb9048c3b3382",
+          Base: "0xD9541B08B375D58ae104EC247d7443D2D7235D64",
+          Scroll: "0x1a7aD8A6171A1EA84DD1E6d649cbd616189660D9",
+          Optimism: "0xD2612B256F6f76feA8C6fbca0BF3166D0d13a668",
+          Arbitrum: "0x7B5EB3940021Ec0e8e463D5dBB4B7B09a89DDF96",
+        },
+        "USDC.e": {
+          Ethereum: "0x566957eF80F9fd5526CD2BEF8BE67035C0b81130",
+          Bsc: "0x672147dD47674757C457eB155BAA382cc10705Dd",
+          Avalanche: "0x543672E9CBEC728CBBa9C3Ccd99ed80aC3607FA8",
+          Sui: "0xcf72ec52c0f8ddead746252481fb44ff6e8485a39b803825bde6b00d77cdb0bb::coin::COIN",
+          Aptos:
+            "0xc7160b1c2415d19a88add188ec726e62aab0045f0aed798106a2ef2994a9101e::coin::T",
+          Arbitrum: "0x9A3Fba8a0870Fb9765023681DAa5390C7919C916",
+          Fantom: "0x6e0e8cf6Ad151e1260A4D398faaEDFC450A9f00a",
+          Base: "0x59f4f969dd3A91A943651C9625E96822DC84Ef94",
+          Celo: "0x0E21B5BdFb6eDBa7d903a610d4DE2F8c72586017",
+        },
+        BONK: {
+          Ethereum: "0x1151CB3d861920e07a38e03eEAd12C32178567F6",
+          Bsc: "0xA697e272a73744b343528C3Bc4702F2565b2F422",
+          Polygon: "0xe5B49820e5A1063F6F4DdF851327b5E8B2301048",
+          Avalanche: "0xC07C98a93591504584738e4569928DDb3b9f12A7",
+          Sui: "0x6907963ca849faff0957b9a8269a7a07065e3def2eef49cc33b50ab946ea5a9f::coin::COIN",
+          Aptos:
+            "0x2a90fae71afc7460ee42b20ee49a9c9b29272905ad71fef92fbd8b3905a24b56::coin::T",
+          Arbitrum: "0x09199d9A5F4448D0848e4395D065e1ad9c4a1F74",
+          Wormchain:
+            "wormhole10qt8wg0n7z740ssvf3urmvgtjhxpyp74hxqvqt7z226gykuus7eq9mpu8u",
+          Osmosis:
+            "ibc/CA3733CB0071F480FAE8EF0D9C3D47A49C6589144620A642BBE0D59A293D110E",
+          Fantom: "0x3fEcdF1248fe7642d29f879a75CFC0339659ab93",
+          Base: "0xDF1Cf211D38E7762c9691Be4D779A441a17A6cFC",
+          Celo: "0x3fc50bc066aE2ee280876EeefADfdAbF6cA02894",
+        },
+      },
       tokensConfig: {
         $WIF: {
           key: "$WIF",
@@ -452,15 +493,6 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/26946/standard/Wombat_Token.png?1696526001",
           coinGeckoId: "wombat-exchange",
           decimals: 18,
-          //Ehtereum, Avalanche, Base, Scroll, Optimism, Arbitrum, BNB Chain
-          foreignAssets: {
-            Ethereum: "0xc0B314a8c08637685Fc3daFC477b92028c540CFB",
-            Avalanche: "0xa15E4544D141aa98C4581a1EA10Eb9048c3b3382",
-            Base: "0xD9541B08B375D58ae104EC247d7443D2D7235D64",
-            Scroll: "0x1a7aD8A6171A1EA84DD1E6d649cbd616189660D9",
-            Optimism: "0xD2612B256F6f76feA8C6fbca0BF3166D0d13a668",
-            Arbitrum: "0x7B5EB3940021Ec0e8e463D5dBB4B7B09a89DDF96",
-          },
         },
         "USDC.e": {
           key: "USDC.e",
@@ -474,18 +506,6 @@ export const ENV: Env = {
           coinGeckoId: "bridged-usdc-polygon-pos-bridge",
           color: "#FC8E03",
           decimals: 6,
-          foreignAssets: {
-            Ethereum: "0x566957eF80F9fd5526CD2BEF8BE67035C0b81130",
-            Bsc: "0x672147dD47674757C457eB155BAA382cc10705Dd",
-            Avalanche: "0x543672E9CBEC728CBBa9C3Ccd99ed80aC3607FA8",
-            Sui: "0xcf72ec52c0f8ddead746252481fb44ff6e8485a39b803825bde6b00d77cdb0bb::coin::COIN",
-            Aptos:
-              "0xc7160b1c2415d19a88add188ec726e62aab0045f0aed798106a2ef2994a9101e::coin::T",
-            Arbitrum: "0x9A3Fba8a0870Fb9765023681DAa5390C7919C916",
-            Fantom: "0x6e0e8cf6Ad151e1260A4D398faaEDFC450A9f00a",
-            Base: "0x59f4f969dd3A91A943651C9625E96822DC84Ef94",
-            Celo: "0x0E21B5BdFb6eDBa7d903a610d4DE2F8c72586017",
-          },
         },
         BONK: {
           key: "BONK",
@@ -499,23 +519,6 @@ export const ENV: Env = {
           coinGeckoId: "bonk",
           color: "#FC8E03",
           decimals: 5,
-          foreignAssets: {
-            Ethereum: "0x1151CB3d861920e07a38e03eEAd12C32178567F6",
-            Bsc: "0xA697e272a73744b343528C3Bc4702F2565b2F422",
-            Polygon: "0xe5B49820e5A1063F6F4DdF851327b5E8B2301048",
-            Avalanche: "0xC07C98a93591504584738e4569928DDb3b9f12A7",
-            Sui: "0x6907963ca849faff0957b9a8269a7a07065e3def2eef49cc33b50ab946ea5a9f::coin::COIN",
-            Aptos:
-              "0x2a90fae71afc7460ee42b20ee49a9c9b29272905ad71fef92fbd8b3905a24b56::coin::T",
-            Arbitrum: "0x09199d9A5F4448D0848e4395D065e1ad9c4a1F74",
-            Wormchain:
-              "wormhole10qt8wg0n7z740ssvf3urmvgtjhxpyp74hxqvqt7z226gykuus7eq9mpu8u",
-            Osmosis:
-              "ibc/CA3733CB0071F480FAE8EF0D9C3D47A49C6589144620A642BBE0D59A293D110E",
-            Fantom: "0x3fEcdF1248fe7642d29f879a75CFC0339659ab93",
-            Base: "0xDF1Cf211D38E7762c9691Be4D779A441a17A6cFC",
-            Celo: "0x3fc50bc066aE2ee280876EeefADfdAbF6cA02894",
-          },
         },
         Wsolana: {
           key: "Wsolana",
