@@ -1,8 +1,17 @@
 import { memo, useEffect } from "react";
 import WormholeConnect from "@wormhole-foundation/wormhole-connect";
 import { useConnectConfig } from "../../hooks/useConnectConfig";
-import { Container, Banner, themeConnectV1 } from "@xlabs/common-library";
+import { themeConnectV1 } from "../../theme/connect-v1";
+import { styled } from "@mui/material";
+import { NAVBAR_WIDTH } from "./NavBar";
+import { Banner } from "./Banner";
 
+export const Container = styled("div")(({ theme }) => ({
+  paddingRight: `${NAVBAR_WIDTH}px`,
+  [theme.breakpoints.down("md")]: {
+    paddingRight: 0,
+  },
+}));
 export const Connect = memo(() => {
   const config = useConnectConfig();
 

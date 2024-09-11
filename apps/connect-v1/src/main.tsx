@@ -7,7 +7,8 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { App } from "./App.tsx";
 import { HashRouter } from "react-router-dom";
 import { ENV } from "@env";
-import { globalStyles, themePortal } from "@xlabs/common-library";
+import { themePortal } from "./theme/portal.ts";
+import { globalStyles } from "./theme/globalStyles.ts";
 
 if (ENV.redirects && ENV.redirects?.source?.length > 0) {
   const matcher = new RegExp(ENV.redirects.source.join("|"));

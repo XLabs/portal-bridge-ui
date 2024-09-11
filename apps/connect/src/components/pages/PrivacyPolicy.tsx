@@ -1,9 +1,9 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button, Container as MuiContainer, styled } from "@mui/material";
 
 import arrow from "../../assets/imgs/arrow.svg";
 import TableOfContent from "../atoms/TableOfContent";
-import { COLOR, FONT_SIZE, Link } from "@xlabs/common-library";
+import { FONT_SIZE, COLOR } from "../../theme/portal";
 
 const TitleItem = styled("li")(() => ({
   paddingLeft: 25,
@@ -549,7 +549,7 @@ const PrivacyPolicy = () => {
               and whether we disclosed that personal information for a business
               purpose (e.g., to a service provider) in the preceding 12 months.
               California residents can find this information by visiting:{" "}
-              <Link href="https://www.oag.ca.gov/privacy/ccpa" target="_blank">
+              <Link to="https://www.oag.ca.gov/privacy/ccpa" target="_blank">
                 https://www.oag.ca.gov/privacy/ccpa
               </Link>
               .
