@@ -346,7 +346,7 @@ jobs:
       - name: Set Portal Bridge Version 
         id: set-version
         run: |
-          pushd connect-loader/apps/connect-v1
+          pushd connect-loader/apps/connect-tbtc-v1
           echo "_PKG_VERSION=$(node -p -e "require('./package.json').version")-${{inputs.separator}}$(echo ${{ github.sha }} | cut -c -10)" >> "${GITHUB_OUTPUT}"
       - name: Build Custom Wormhole Connect Loader
         env:
@@ -360,14 +360,14 @@ jobs:
         run: |
           pushd connect-loader
           npm ci
-          pushd apps/connect-v1
+          pushd apps/connect-tbtc-v1
           echo 'VITE_APP_VERSION=$npm_package_version' > .env
           npm run build:tbtc-bridge
       - name: Upload Portal Bridge Artifact
         uses: actions/upload-artifact@v3
         with:
           name: build-tbtc-bridge-v1
-          path: connect-loader/apps/connect-v1/dist
+          path: connect-loader/apps/connect-tbtc-v1/dist
 
   publish:
     name: "Publish"
@@ -394,7 +394,7 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
-          name: build-token-bridge-v1
+          name: build-tbtc-bridge-v1
           path: tbtc-bridge
       - name: Download Artifact
         uses: actions/download-artifact@v3
