@@ -2,11 +2,10 @@ import type {
   Chain,
   WormholeConnectConfig,
 } from "@wormhole-foundation/wormhole-connect";
-import { ComponentProps, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { useQueryParams } from "./useQueryParams";
 import { useFormatAssetParam } from "./useFormatAssetParam";
-import WormholeConnect from "@wormhole-foundation/wormhole-connect";
 import {
   eventHandler,
   type WormholeConnectEvent,
@@ -48,7 +47,7 @@ export const useConnectConfig = () => {
   const { txHash, sourceChain, targetChain, asset, requiredNetwork } =
     useQueryParams();
   const token = useFormatAssetParam(asset);
-  const config: ComponentProps<typeof WormholeConnect>["config"] = useMemo(
+  const config: WormholeConnectConfig = useMemo(
     () => ({
       ...defaultConfig,
       chains: networks!,
@@ -57,10 +56,10 @@ export const useConnectConfig = () => {
         ...(sourceChain && { chainName: sourceChain }),
       },
       bridgeDefaults: {
-        ...(sourceChain && { fromNetwork: sourceChain }),
-        ...(targetChain && { toNetwork: targetChain }),
-        ...(token && { token }),
-        ...(requiredNetwork && { requiredNetwork }),
+        ...(sourceChain && { fromChain: sourceChain }),
+        ...(targetChain && { toChain: targetChain }),
+        ...(token && { tokenKey: token }),
+        ...(requiredNetwork && { requiredChain: requiredNetwork }),
       },
       //...(route && { routes: [route] }),
     }),

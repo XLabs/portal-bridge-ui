@@ -20,8 +20,8 @@
     "preview": "cross-env VITE_APP_CLUSTER=Mainnet vite preview",
     "format": "npm run prettier -- --write ./src",
     "ts:check": "tsc --project ./tsconfig.json --noEmit --skipLibCheck",
-    "test": "cross-env VITE_APP_CLUSTER=mainnet jest --coverage",
-    "test:watch": "cross-env VITE_APP_CLUSTER=mainnet jest --coverage --watchAll=true"
+    "test": "cross-env VITE_APP_CLUSTER=Mainnet jest --coverage",
+    "test:watch": "cross-env VITE_APP_CLUSTER=Mainnet jest --coverage --watchAll=true"
   },
   "dependencies": {
     "@certusone/wormhole-sdk": "^0.10.18",
