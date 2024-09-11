@@ -358,9 +358,8 @@ jobs:
           # VITE_APP_CSS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._CSS_SHA_384 }}
           VITE_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}
         run: |
-          pushd connect-loader
+          pushd connect-loader/apps/connect-v1
           npm ci
-          pushd apps/connect-v1
           echo 'VITE_APP_VERSION=$npm_package_version' > .env
           npm run build:tbtc-bridge
       - name: Upload Portal Bridge Artifact
