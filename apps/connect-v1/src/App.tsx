@@ -1,4 +1,11 @@
-import { Footer, Main, messages as messageConfig, NavBar, NewsBar, Wrapper } from "@xlabs/common-library";
+import {
+  Footer,
+  Main,
+  messages as messageConfig,
+  NavBar,
+  NewsBar,
+  Wrapper,
+} from "@xlabs/common-library";
 import { Connect } from "./components/atoms/Connect";
 import { ENV } from "@env";
 import { useBannerMessageConfig } from "./hooks/useBannerMessageConfig";
@@ -13,7 +20,10 @@ export const App = () => {
     <Wrapper>
       <NewsBar message={message} banners={banners} />
       <Main>
-        <NavBar navBar={[...ENV.navBar]} env={ENV.wormholeConnectConfig.env || "mainnet"} />
+        <NavBar
+          navBar={[...ENV.navBar]}
+          env={ENV.wormholeConnectConfig.env || "mainnet"}
+        />
         <Connect />
       </Main>
       <Footer publicUrl={ENV.PUBLIC_URL} />
