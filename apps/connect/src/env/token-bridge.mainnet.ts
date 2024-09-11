@@ -604,7 +604,7 @@ export const ENV: Env = {
           coinGeckoId: "stakewise-staked-eth",
           decimals: 18,
         },
-        "wstETHBsc": {
+        wstETHBsc: {
           key: "wstETHBsc",
           symbol: "wstETH",
           nativeChain: "Bsc",
