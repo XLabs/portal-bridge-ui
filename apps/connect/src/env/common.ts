@@ -6,37 +6,37 @@ const rpcs = (chains: string[], template: (chain: string) => string) =>
     .map((chain: string) => ({ [chain]: template(chain) }))
     .reduce((acc, cur) => ({ ...acc, ...cur }), {});
 const asRpcHost = (chain: string) =>
-  `https://and76cjzpa.execute-api.us-east-2.amazonaws.com/${chain}/`;
+  `https://and76cjzpa.execute-api.us-east-2.amazonaws.com/${chain.toLowerCase()}/`;
 export const chains = [
-  "wormchain",
-  "osmosis",
-  "ethereum",
-  "sui",
-  "aptos",
-  "kujira",
-  "evmos",
-  "bsc",
-  "polygon",
-  "avalanche",
-  "fantom",
-  "celo",
-  "moonbeam",
-  "base",
-  "arbitrum",
-  "optimism",
-  "scroll",
-  "xlayer",
-  "mantle",
+  "Wormchain",
+  "Osmosis",
+  "Ethereum",
+  "Sui",
+  "Aptos",
+  "Kujira",
+  "Evmos",
+  "Bsc",
+  "Polygon",
+  "Avalanche",
+  "Fantom",
+  "Celo",
+  "Moonbeam",
+  "Base",
+  "Arbitrum",
+  "Optimism",
+  "Scroll",
+  "Xlayer",
+  "Mantle",
 ];
 
 export const MAINNET_RPCS = {
   ...rpcs(chains, asRpcHost),
-  solana: "https://wormhole.rpcpool.com/",
+  Solana: "https://wormhole.rpcpool.com/",
 };
 
 export const PUBLIC_URL = envVars.VITE_PUBLIC_URL || "";
 
-export const CLUSTER = envVars.VITE_APP_CLUSTER || "testnet";
+export const CLUSTER = envVars.VITE_APP_CLUSTER || "Testnet";
 export const wormholeConnectConfigCommon: Partial<WormholeConnectConfig> = {
   walletConnectProjectId: envVars.VITE_APP_WALLET_CONNECT_PROJECT_ID || "",
   env: CLUSTER,
@@ -45,7 +45,7 @@ export const wormholeConnectConfigCommon: Partial<WormholeConnectConfig> = {
   explorer: {
     href: `https://wormholescan.io/#/txs?address={:address}&network=${CLUSTER}`,
   },
-  manualTargetAddress: true,
+  useRedesign: true,
   menu: [],
 };
 

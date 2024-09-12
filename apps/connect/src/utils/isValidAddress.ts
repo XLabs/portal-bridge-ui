@@ -1,22 +1,22 @@
 import base58 from "bs58";
 import * as ethers from "ethers";
-import {
-  ChainName,
-  isCosmWasmChain,
-  isEVMChain,
-} from "@certusone/wormhole-sdk";
+import { isCosmWasmChain, isEVMChain } from "@certusone/wormhole-sdk";
 import { AptosClient } from "aptos";
 import { bech32 } from "bech32";
+import { Chain } from "@wormhole-foundation/sdk";
+import { toChainNameFormat } from "./transferVerification";
 
 export const isValidAddress = async (
   address: string,
-  chain: ChainName
+  chain: Chain
 ): Promise<boolean> => {
-  if (isEVMChain(chain)) return isValidEthereumAddress(address);
-  if (chain === "solana") return isValidSolanaAddress(address);
-  if (chain === "aptos") return isValidAptosAddress(address);
-  if (chain === "sui") return isValidSuiAddress(address);
-  if (isCosmWasmChain(chain)) return isValidCosmosAddress(address, chain);
+  if (isEVMChain(toChainNameFormat(chain)))
+    return isValidEthereumAddress(address);
+  if (chain === "Solana") return isValidSolanaAddress(address);
+  if (chain === "Aptos") return isValidAptosAddress(address);
+  if (chain === "Sui") return isValidSuiAddress(address);
+  if (isCosmWasmChain(toChainNameFormat(chain)))
+    return isValidCosmosAddress(address, chain);
 
   return false;
 };
@@ -58,14 +58,14 @@ const isValidAptosAddress = async (address: string) => {
 };
 
 // Cosmos Validation
-const isValidCosmosAddress = (address: string, chain: ChainName) => {
+const isValidCosmosAddress = (address: string, chain: Chain) => {
   const PREFIXES: Record<string, string> = {
-    osmosis: "osmo",
-    evmos: "evmos",
-    kujira: "kujira",
-    injective: "inj",
+    Osmosis: "osmo",
+    Evmos: "evmos",
+    Kujira: "kujira",
+    Injective: "inj",
   };
-  if (chain === "evmos" && address.startsWith("0x")) {
+  if (chain === "Evmos" && address.startsWith("0x")) {
     // For Evmos hex address case https://docs.evmos.org/protocol/concepts/accounts#address-formats-for-clients
     return isValidEthereumAddress(address);
   }

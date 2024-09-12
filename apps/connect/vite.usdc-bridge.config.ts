@@ -17,7 +17,7 @@ export default defineConfig({
         find: "@env",
         replacement: resolve(
           __dirname,
-          `./src/env/usdc-bridge.${process.env.VITE_APP_CLUSTER === "mainnet" ? "mainnet" : "testnet"}.ts`
+          `./src/env/usdc-bridge.${process.env.VITE_APP_CLUSTER === "Mainnet" ? "mainnet" : "testnet"}.ts`
         ),
       },
     ],

@@ -50,6 +50,7 @@ export const ENV: Env = {
       isBlank: true,
     },
     { label: "USDC", href: USDC_BRIDGE_HREF },
+    { label: "tBTC", href: `${PUBLIC_URL}/tbtc-bridge` },
   ],
   redirects: {
     source: [
@@ -76,7 +77,7 @@ export const ENV: Env = {
     cctpWarning: {
       href: USDC_BRIDGE_HREF,
     },
-    networks: [...chains, "solana", "injective", "klaytn"],
+    chains: [...chains, "Solana", "Injective", "Klaytn"],
     moreNetworks: {
       href: ADVANCE_TOOLS_HREF_TEMPLATE,
       target: "_blank",
@@ -89,5 +90,6 @@ export const ENV: Env = {
       href: ADVANCE_TOOLS_HREF_TEMPLATE,
     },
     tokensConfig: {},
+    useRedesign: true,
   } as WormholeConnectConfig,
 };

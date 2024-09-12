@@ -14,9 +14,9 @@ describe("sanctions", () => {
   beforeEach(() => {
     global.fetch = jest.fn().mockResolvedValue({ json: jest.fn() });
     transferDetails = {
-      fromChain: "ethereum",
+      fromChain: "Ethereum",
       fromWalletAddress: "fromWalletAddress",
-      toChain: "avalanche",
+      toChain: "Avalanche",
       toWalletAddress: "toWalletAddress",
     } as any;
     validResponse = {

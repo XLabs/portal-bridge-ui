@@ -1,0 +1,3 @@
+# Disallow frame embedding
+/*
+  X-Frame-Options: DENY

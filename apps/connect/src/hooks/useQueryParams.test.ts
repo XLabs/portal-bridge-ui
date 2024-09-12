@@ -33,9 +33,9 @@ describe("useQueryParams", () => {
     const { result } = renderHook(() => useQueryParams());
     expect(result.current).toEqual({
       asset: "asset",
-      requiredNetwork: "arbitrum",
-      sourceChain: "bsc",
-      targetChain: "arbitrum",
+      requiredNetwork: "Arbitrum",
+      sourceChain: "Bsc",
+      targetChain: "Arbitrum",
       txHash: "txHash",
       route: "bridge",
     });
@@ -48,9 +48,9 @@ describe("useQueryParams", () => {
     const { result } = renderHook(() => useQueryParams());
     expect(result.current).toEqual({
       asset: "asset",
-      requiredNetwork: "arbitrum",
-      sourceChain: "bsc",
-      targetChain: "arbitrum",
+      requiredNetwork: "Arbitrum",
+      sourceChain: "Bsc",
+      targetChain: "Arbitrum",
       txHash: "txHash",
       route: "bridge",
     });
@@ -76,9 +76,9 @@ describe("useQueryParams", () => {
     const { result } = renderHook(() => useQueryParams());
     expect(result.current).toEqual({
       asset: null,
-      requiredNetwork: "arbitrum",
-      sourceChain: "bsc",
-      targetChain: "arbitrum",
+      requiredNetwork: "Arbitrum",
+      sourceChain: "Bsc",
+      targetChain: "Arbitrum",
       txHash: null,
       route: null,
     });
