@@ -14,6 +14,6 @@ export const globalStyles: ComponentProps<typeof GlobalStyles>["styles"] = (
   ".MuiIconButton-root": {},
   ".MuiPaper-root": {},
   '[class$="assetPickerContainer"] .MuiPaper-root': {},
-  '[class$="assetPickerContainer"] .MuiCardContent-root': {},
   '[class$="amountCardContent"]': {},
+  '[class$="assetPickerContainer"] .MuiCardContent-root': {},
 });
