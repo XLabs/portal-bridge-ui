@@ -353,11 +353,11 @@ export const ENV: Env = {
                 ],
               },
             ],
-            "USDC.e": [
+            FANTOM_USDC: [
               {
                 chain: "Fantom",
                 manager: "0x68dB2f05Aa2d77DEf981fd2be32661340c9222FB",
-                token: "0x6e0e8cf6Ad151e1260A4D398faaEDFC450A9f00a",
+                token: "0x2F733095B80A04b38b0D10cC884524a3d09b836a",
                 transceiver: [
                   {
                     address: "0x8b47f02E7E20174C76Af910adc0Ad8A4B0342f4c",
@@ -368,7 +368,7 @@ export const ENV: Env = {
               {
                 chain: "Ethereum",
                 manager: "0xeBdCe9a913d9400EE75ef31Ce8bd34462D01a1c1",
-                token: "0x566957eF80F9fd5526CD2BEF8BE67035C0b81130",
+                token: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
                 transceiver: [
                   {
                     address: "0x55f7820357FA17A1ECb48E959D5E637bFF956d6F",
@@ -415,14 +415,14 @@ export const ENV: Env = {
           Arbitrum: "0x7B5EB3940021Ec0e8e463D5dBB4B7B09a89DDF96",
         },
         "USDC.e": {
-          Ethereum: "0x566957eF80F9fd5526CD2BEF8BE67035C0b81130",
+          Ethereum: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
           Bsc: "0x672147dD47674757C457eB155BAA382cc10705Dd",
           Avalanche: "0x543672E9CBEC728CBBa9C3Ccd99ed80aC3607FA8",
           Sui: "0xcf72ec52c0f8ddead746252481fb44ff6e8485a39b803825bde6b00d77cdb0bb::coin::COIN",
           Aptos:
             "0xc7160b1c2415d19a88add188ec726e62aab0045f0aed798106a2ef2994a9101e::coin::T",
           Arbitrum: "0x9A3Fba8a0870Fb9765023681DAa5390C7919C916",
-          Fantom: "0x6e0e8cf6Ad151e1260A4D398faaEDFC450A9f00a",
+          Fantom: "0x2F733095B80A04b38b0D10cC884524a3d09b836a",
           Base: "0x59f4f969dd3A91A943651C9625E96822DC84Ef94",
           Celo: "0x0E21B5BdFb6eDBa7d903a610d4DE2F8c72586017",
         },
