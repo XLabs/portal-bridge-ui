@@ -13,11 +13,6 @@ export const ENV: Env = {
       href: "https://www.tally.xyz/gov/wormhole",
       isBlank: true,
     },
-    {
-      label: "Rewards",
-      href: `${PUBLIC_URL}/rewards-dashboard/`,
-      isBlank: true,
-    },
     { label: "USDC", active: true, href: `${PUBLIC_URL}/usdc-bridge` },
     { label: "tBTC", href: `${PUBLIC_URL}/tbtc-bridge` },
   ],
