@@ -1,4 +1,7 @@
-import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
+import {
+  CCTPRoute,
+  type WormholeConnectConfig,
+} from "@wormhole-foundation/wormhole-connect";
 import { Env, PUBLIC_URL, wormholeConnectConfigCommon } from "./common";
 
 export const ENV: Env = {
@@ -16,15 +19,17 @@ export const ENV: Env = {
       isBlank: true,
     },
     { label: "USDC", active: true, href: `${PUBLIC_URL}/usdc-bridge` },
+    { label: "tBTC", href: `${PUBLIC_URL}/tbtc-bridge` },
   ],
   redirects: undefined,
   wormholeConnectConfig: {
     ...wormholeConnectConfigCommon,
+    useRedesign: true,
     pageHeader: {
       text: "USDC Transfer",
       align: "center",
     },
-    routes: ["cctpManual", "cctpRelay"],
+    routes: [CCTPRoute],
     tokens: [
       "USDCeth",
       "USDCavax",

@@ -9,14 +9,14 @@ export const ENV: Env = {
     ENV_BASE.wormholeConnectConfig,
     {
       rpcs: MAINNET_RPCS,
-      networks: [
-        "ethereum",
-        "avalanche",
-        "arbitrum",
-        "optimism",
-        "base",
-        "polygon",
-        "solana",
+      chains: [
+        "Ethereum",
+        "Avalanche",
+        "Arbitrum",
+        "Optimism",
+        "Base",
+        "Polygon",
+        "Solana",
       ],
     }
   ),

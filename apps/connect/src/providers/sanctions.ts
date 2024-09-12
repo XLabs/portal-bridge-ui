@@ -9,14 +9,16 @@ import {
   CHAIN_ID_POLYGON,
   CHAIN_ID_SOLANA,
   CHAIN_ID_KLAYTN,
-  ChainId,
-  isEVMChain,
-  ChainName,
-  toChainId,
   isCosmWasmChain,
+  isEVMChain,
 } from "@certusone/wormhole-sdk";
-import { ExtendedTransferDetails } from "node_modules/@wormhole-foundation/wormhole-connect/lib/src/config/types";
+import { Chain, toChainId } from "@wormhole-foundation/sdk";
+import { toChainNameFormat } from "../utils/transferVerification";
+import { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
 
+export type ExtendedTransferDetails = Parameters<
+  NonNullable<WormholeConnectConfig["validateTransferHandler"]>
+>[0];
 export interface SanctionResponse {
   addressRiskIndicators: { categoryRiskScoreLevel: number; riskType: string }[];
   entities: { riskScoreLevel: number }[];
@@ -30,8 +32,8 @@ export const RISK_ADDRESS_INDICATOR_TYPE = "OWNERSHIP";
 
 // TRM screening chain names map with wormhole chain ids
 // https://documentation.trmlabs.com/tag/Supported-Blockchain-List
-export const getTrmChainName = (chain: ChainName | ChainId) => {
-  const id = toChainId(chain as ChainName);
+export const getTrmChainName = (chain: Chain) => {
+  const id = toChainId(chain);
   const trmChainNames: any = {
     [CHAIN_ID_ALGORAND]: "algorand",
     [CHAIN_ID_ARBITRUM]: "arbitrum",
@@ -46,8 +48,8 @@ export const getTrmChainName = (chain: ChainName | ChainId) => {
   };
 
   if (trmChainNames[id]) return trmChainNames[id];
-  if (isCosmWasmChain(id)) return "cosmos";
-  if (isEVMChain(id)) return "ethereum";
+  if (isCosmWasmChain(toChainNameFormat(chain))) return "cosmos";
+  if (isEVMChain(toChainNameFormat(chain))) return "ethereum";
 
   return "";
 };
@@ -87,15 +89,15 @@ export const isSanctionedAddress = async (
   const [isOriginSanctioned, isTargetSanctioned, isTargetSanctionedEth] =
     await Promise.all([
       isSanctioned({
-        chain: getTrmChainName(transferDetails.fromChain as ChainName),
+        chain: getTrmChainName(transferDetails.fromChain),
         address: transferDetails.fromWalletAddress,
       }),
       isSanctioned({
-        chain: getTrmChainName(transferDetails.toChain as ChainName),
+        chain: getTrmChainName(transferDetails.toChain),
         address: transferDetails.toWalletAddress,
       }),
-      ...(transferDetails.toChain !== "ethereum" &&
-      isEVMChain(transferDetails.toChain)
+      ...(transferDetails.toChain !== "Ethereum" &&
+      isEVMChain(toChainNameFormat(transferDetails.toChain))
         ? [
             isSanctioned({
               chain: "ethereum",

@@ -1,6 +1,7 @@
 import mixpanel from "mixpanel-browser";
 import { isPreview, isProduction } from "../utils/constants";
 import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
+// import { TransferDetails } from "node_modules/@wormhole-foundation/wormhole-connect/lib/src/telemetry/types";
 
 export type WormholeConnectEvent = Parameters<
   NonNullable<WormholeConnectConfig["eventHandler"]>
@@ -72,9 +73,9 @@ export const eventHandler = (e: WormholeConnectEvent) => {
     fromTokenAddress: getTokenAddress(e.details.fromToken),
     toTokenSymbol: e.details.toToken?.symbol,
     toTokenAddress: getTokenAddress(e.details.toToken),
-    txId: e.details.txId,
-    USDAmount: e.details.USDAmount,
-    amount: e.details.amount,
+    // txId: (e.details as TransferDetails).txId || undefined, // TO DO: File not available in v2
+    // USDAmount: (e.details as TransferDetails).USDAmount || undefined, // TO DO: File not available in v2
+    // amount: (e.details as TransferDetails).amount || undefined, // TO DO: File not available in v2
     route:
       {
         bridge: "Manual Bridge",

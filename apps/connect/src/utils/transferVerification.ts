@@ -1,17 +1,19 @@
-import {
-  ExtendedTransferDetails,
-  ValidateTransferResult,
-} from "node_modules/@wormhole-foundation/wormhole-connect/lib/src/config/types";
-import { ChainName } from "@certusone/wormhole-sdk";
 import { isValidAddress } from "./isValidAddress";
 import { isSanctionedAddress } from "../../src/providers/sanctions";
+import { ChainName } from "@certusone/wormhole-sdk";
+import { Chain } from "@wormhole-foundation/sdk";
+import { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
 
+export type ExtendedTransferDetails = Parameters<
+  NonNullable<WormholeConnectConfig["validateTransferHandler"]>
+>[0];
+
+export type ValidateTransferResult = ReturnType<
+  NonNullable<WormholeConnectConfig["validateTransferHandler"]>
+>;
 export const validateTransfer = async (
   tx: ExtendedTransferDetails
-): Promise<ValidateTransferResult> => {
-  tx.toChain;
-  tx.toWalletAddress;
-  tx.route;
+): ValidateTransferResult => {
   try {
     // Check OFAC (sanctioned)
     const isSanctioned = await isSanctionedAddress(tx);
@@ -23,13 +25,14 @@ export const validateTransfer = async (
   }
 
   // Correct Address Validation (based on chain selected)
-  const isValid = await isValidAddress(
-    tx.toWalletAddress,
-    tx.toChain as ChainName
-  );
+  const isValid = await isValidAddress(tx.toWalletAddress, tx.toChain);
   if (!isValid) {
     return { isValid: false, error: "Not valid target address" };
   }
 
   return { isValid: true };
+};
+
+export const toChainNameFormat = (chain: Chain) => {
+  return chain.toLowerCase() as ChainName;
 };
