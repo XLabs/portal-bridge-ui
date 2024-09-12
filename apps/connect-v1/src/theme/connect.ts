@@ -37,8 +37,8 @@ export const theme = {
     default: "rgba(12, 9, 60, 0)",
   },
   text: {
-    primary: "#ffffff",
-    secondary: "#ffffff",
+    primary: "rgba(255, 255, 255, 0.9)",
+    secondary: "rgba(255, 255, 255, 0.8)",
   },
   error: {
     50: "#ffebee",
@@ -105,12 +105,12 @@ export const theme = {
     A700: "#FFC749",
   },
   button: {
-    primary: "#7ABFFF",
-    primaryText: "#000000",
-    disabled: "#7ABFFF7F",
-    disabledText: "#000000",
-    action: "#7ABFFF",
-    actionText: "#000000",
+    primary: "rgba(31, 31, 31, 1)",
+    primaryText: "#ffffff",
+    disabled: "#ffffff0F",
+    disabledText: "#ffffff66",
+    action: "#e47829",
+    actionText: "#ffffff",
     hover: "#ffffff0F",
   },
   options: {
@@ -118,7 +118,7 @@ export const theme = {
     select: "#ffffff19",
   },
   card: {
-    background: "rgba(31, 32, 69, 1)",
+    background: "#121212",
     secondary: "#ffffff0C",
     elevation: "none",
   },

@@ -69,6 +69,11 @@ export const NavBar = () => {
                 active: false,
                 href: `https://wormholescan.io${ENV.wormholeConnectConfig.env === "Testnet" ? "/#/?network=TESTNET" : ""}`,
               },
+              {
+                label: "Advanced Tools",
+                isBlank: true,
+                href: `${ENV.PUBLIC_URL}/advanced-tools/`,
+              },
             ].map(({ label, active, href, isBlank }, idx) => (
               <Link
                 key={`${label}_${idx}`}

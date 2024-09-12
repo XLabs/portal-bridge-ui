@@ -1,7 +1,7 @@
 import { memo, useEffect } from "react";
 import WormholeConnect from "@wormhole-foundation/wormhole-connect";
 import { useConnectConfig } from "../../hooks/useConnectConfig";
-import { themeConnectV1 } from "../../theme/connect-v1";
+import { theme as themeConnectV1 } from "../../theme/connect";
 import { styled } from "@mui/material";
 import { NAVBAR_WIDTH } from "./NavBar";
 import { Banner } from "./Banner";

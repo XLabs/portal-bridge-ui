@@ -2,8 +2,16 @@ import { styled } from "@mui/material";
 
 import { ENV } from "@env";
 import { Link } from "./Link";
+import { BuiltBy } from "./BuiltBy";
 
-const LinkContainer = styled("footer")(({ theme }) => ({
+const Container = styled("footer")(() => ({
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "flex-end",
+}));
+
+const LinkContainer = styled("div")(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "flex-start",
@@ -12,25 +20,20 @@ const LinkContainer = styled("footer")(({ theme }) => ({
 
 export const Footer = () => {
   return (
-    <LinkContainer>
-      {[
-        {
-          label: "Advanced Tools",
-          href: `${ENV.PUBLIC_URL}/advanced-tools/`,
-        },
-        {
-          label: "Privacy Policy",
-          href: `${ENV.PUBLIC_URL}/#/privacy-policy/`,
-        },
-        {
-          label: "Copyright © Wormhole 2024",
-          href: undefined,
-        },
-      ].map(({ label, href }) => (
-        <Link key={label} href={href} target="_blank">
-          {label}
-        </Link>
-      ))}
-    </LinkContainer>
+    <Container>
+      <LinkContainer>
+        {[
+          {
+            label: "Privacy Policy",
+            href: `${ENV.PUBLIC_URL}/#/privacy-policy/`,
+          },
+        ].map(({ label, href }) => (
+          <Link key={label} href={href} target="_blank">
+            {label}
+          </Link>
+        ))}
+      </LinkContainer>
+      <BuiltBy />
+    </Container>
   );
 };

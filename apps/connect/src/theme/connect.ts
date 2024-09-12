@@ -1,4 +1,6 @@
-export const theme = {
+import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
+
+export const theme: WormholeConnectConfig["customTheme"] = {
   mode: "dark",
   primary: {
     50: "#fafafa",
@@ -6,7 +8,7 @@ export const theme = {
     200: "#eeeeee",
     300: "#e0e0e0",
     400: "#bdbdbd",
-    500: "#9e9e9e",
+    500: "#8A2FFF",
     600: "#757575",
     700: "#616161",
     800: "#424242",
@@ -22,7 +24,7 @@ export const theme = {
     200: "#eeeeee",
     300: "#e0e0e0",
     400: "#bdbdbd",
-    500: "#9e9e9e",
+    500: "#8A2FFF",
     600: "#757575",
     700: "#616161",
     800: "#424242",
@@ -34,7 +36,7 @@ export const theme = {
   },
   divider: "#ffffff33",
   background: {
-    default: "rgba(12, 9, 60, 0)",
+    default: "#00000000", // transparent
   },
   text: {
     primary: "#ffffff",
@@ -46,7 +48,7 @@ export const theme = {
     200: "#ef9a9a",
     300: "#e57373",
     400: "#ef5350",
-    500: "#f44336",
+    500: "#FF5C38",
     600: "#e53935",
     700: "#d32f2f",
     800: "#c62828",
@@ -78,7 +80,7 @@ export const theme = {
     200: "#33c8bc",
     300: "#1ac1b4",
     400: "#01BBAC",
-    500: "#00a89a",
+    500: "#4BFFBE",
     600: "#009589",
     700: "#008278",
     800: "#007067",
@@ -94,22 +96,22 @@ export const theme = {
     200: "#ffd77f",
     300: "#ffd26d",
     400: "#ffcc5b",
-    500: "#FFC749",
+    500: "#FFD45F",
     600: "#e5b341",
     700: "#cc9f3a",
     800: "#b28b33",
     900: "#99772b",
-    A100: "#FFC749",
-    A200: "#FFC749",
-    A400: "#FFC749",
-    A700: "#FFC749",
+    A100: "#FFD45F",
+    A200: "#FFD45F",
+    A400: "#FFD45F",
+    A700: "#FFD45F",
   },
   button: {
-    primary: "#7ABFFF",
+    primary: "#8A2FFF",
     primaryText: "#000000",
-    disabled: "#7ABFFF7F",
+    disabled: "#8A2FFF7F",
     disabledText: "#000000",
-    action: "#7ABFFF",
+    action: "#8A2FFF",
     actionText: "#000000",
     hover: "#ffffff0F",
   },
