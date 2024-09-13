@@ -134,4 +134,4 @@ export const theme = {
     primary: '"Poppins", regular',
     header: '"Poppins", bold',
   },
-}
+};
