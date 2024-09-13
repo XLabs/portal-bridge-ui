@@ -14,7 +14,7 @@ export default defineConfig({
       { label: "Bridge", href: `${PUBLIC_URL}/` },
       { label: "USDC", href: `${PUBLIC_URL}/usdc-bridge` },
       { label: "tBTC", href: `${PUBLIC_URL}/tbtc-bridge` },
-      { label: "Rewards",active: true, href: `${PUBLIC_URL}/rewards-dashboard` },
+      { label: "Rewards", active: true, href: `${PUBLIC_URL}/rewards-dashboard` },
       { label: "Wormholescan", href: `https://wormholescan.io` }
     ]
   },
