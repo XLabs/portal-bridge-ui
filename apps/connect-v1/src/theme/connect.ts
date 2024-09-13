@@ -38,7 +38,7 @@ export const theme = {
   },
   text: {
     primary: "rgba(255, 255, 255, 0.9)",
-    secondary: "rgba(255, 255, 255, 0.8)",
+    secondary: "rgba(156, 157, 191, 1)",
   },
   error: {
     50: "#ffebee",
@@ -105,7 +105,7 @@ export const theme = {
     A700: "#FFC749",
   },
   button: {
-    primary: "rgba(31, 31, 31, 1)",
+    primary: "rgba(49, 50, 102, 1)",
     primaryText: "#ffffff",
     disabled: "#ffffff0F",
     disabledText: "#ffffff66",
@@ -118,7 +118,7 @@ export const theme = {
     select: "#ffffff19",
   },
   card: {
-    background: "#121212",
+    background: "rgba(31, 32, 69, 1)",
     secondary: "#ffffff0C",
     elevation: "none",
   },
@@ -128,10 +128,10 @@ export const theme = {
     elevation: "none",
   },
   modal: {
-    background: "#121212",
+    background: "rgba(15, 9, 44, 1)",
   },
   font: {
     primary: '"Poppins", regular',
     header: '"Poppins", bold',
   },
-};
+}
