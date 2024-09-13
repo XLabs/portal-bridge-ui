@@ -34,14 +34,17 @@ export const COLOR = {
   white: "#ffffff",
   whiteWithTransparency: "#ffffffb3",
   black: "#000000",
-  mainBackground: '#070528'
+  mainBackground: "#070528",
 };
 
 export const themePortal = responsiveFontSizes(
   createTheme({
     palette: {
       mode: "dark",
-      background: { default: COLOR.mainBackground, paper: COLOR.mainBackground },
+      background: {
+        default: COLOR.mainBackground,
+        paper: COLOR.mainBackground,
+      },
       divider: COLOR.white,
       text: { primary: COLOR.white },
       primary: { main: COLOR.blueWithTransparency, light: COLOR.lightBlue },
