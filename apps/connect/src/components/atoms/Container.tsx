@@ -1,31 +1,23 @@
 import { styled } from "@mui/system";
-import bg from "../../assets/imgs/bg.png";
 import { memo, PropsWithChildren } from "react";
-
-const OuterWrapper = styled("div")(() => ({
-  backgroundImage: `url(${bg})`,
-  backgroundRepeat: "no-repeat",
-  backgroundPositionY: "100%",
-  backgroundPositionX: "100%",
-  backgroundAttachment: "fixed",
-}));
+import { Background } from "./Background";
 
 const InnerWrapper = styled("div")(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   justifyContent: "space-between",
+  minHeight: "100vh",
   width: "100%",
   maxWidth: 1440,
   margin: "auto",
-  minHeight: "100vh",
   padding: `${theme.spacing(3)} `,
 }));
 
 export const Wrapper = memo(({ children }: PropsWithChildren) => {
   return (
-    <OuterWrapper>
+    <Background>
       <InnerWrapper>{children}</InnerWrapper>
-    </OuterWrapper>
+    </Background>
   );
 });
 
