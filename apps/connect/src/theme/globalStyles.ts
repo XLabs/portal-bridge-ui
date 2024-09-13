@@ -12,4 +12,7 @@ export const globalStyles: ComponentProps<
   '[class$="assetPickerContainer"] .MuiPaper-root': {},
   '[class$="assetPickerContainer"] .MuiCardContent-root': {},
   '[class$="amountCardContent"]': {},
+  '[class$="chainBadge"]': {
+    backgroundColor: "rgb(15, 9, 44) !important",
+  },
 });
