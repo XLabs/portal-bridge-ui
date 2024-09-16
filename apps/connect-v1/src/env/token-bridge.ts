@@ -86,6 +86,5 @@ export const ENV: Env = {
       href: ADVANCE_TOOLS_HREF_TEMPLATE,
     },
     tokensConfig: {},
-    useRedesign: true,
   } as WormholeConnectConfig,
 };

@@ -17,7 +17,6 @@ export const ENV: Env = {
   redirects: undefined,
   wormholeConnectConfig: {
     ...wormholeConnectConfigCommon,
-    useRedesign: true,
     pageHeader: {
       text: "tBTC Transfer",
       align: "center",

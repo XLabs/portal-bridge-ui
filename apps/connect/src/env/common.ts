@@ -45,7 +45,7 @@ export const wormholeConnectConfigCommon: Partial<WormholeConnectConfig> = {
   explorer: {
     href: `https://wormholescan.io/#/txs?address={:address}&network=${CLUSTER}`,
   },
-  useRedesign: true,
+  // useRedesign: true,
   menu: [],
 };
 
