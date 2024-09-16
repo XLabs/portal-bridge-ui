@@ -38,12 +38,12 @@ export const MORE = {
 export const ENV: Env = {
   PUBLIC_URL,
   navBar: [
-    { label: "Bridge", active: true, href: `${PUBLIC_URL}/` },
-    {
-      label: "Staking",
-      href: "https://www.tally.xyz/gov/wormhole",
-      isBlank: true,
-    },
+    { label: "Home", active: true, href: `${PUBLIC_URL}/` },
+    // {
+    //   label: "Staking",
+    //   href: "https://www.tally.xyz/gov/wormhole",
+    //   isBlank: true,
+    // },
     { label: "USDC", href: USDC_BRIDGE_HREF },
     { label: "tBTC", href: `${PUBLIC_URL}/tbtc-bridge` },
     { label: "Rewards", href: `${PUBLIC_URL}/rewards-dashboard` },

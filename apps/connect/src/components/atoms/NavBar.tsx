@@ -63,12 +63,12 @@ export const NavBar = () => {
           <LinkContainer>
             {[
               ...ENV.navBar,
-              {
-                label: "Wormholescan",
-                isBlank: true,
-                active: false,
-                href: `https://wormholescan.io${ENV.wormholeConnectConfig.env === "Testnet" ? "/#/?network=TESTNET" : ""}`,
-              },
+              // {
+              //   label: "Wormholescan",
+              //   isBlank: true,
+              //   active: false,
+              //   href: `https://wormholescan.io${ENV.wormholeConnectConfig.env === "Testnet" ? "/#/?network=TESTNET" : ""}`,
+              // },
               {
                 label: "Advanced Tools",
                 isBlank: true,
