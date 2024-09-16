@@ -12,3 +12,21 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+.navbar-item {
+  font-size: 14px;
+  font-weight: 300;
+  font-family: "Poppins", regular;
+  color: #ffffffb3;
+  transition: "color 0.3s";
+}
+
+.navbar-item:hover {
+  color: white;
+  font-weight: 500;
+}
+
+.navbar-item-active {
+  color: white;
+  font-weight: 500;
+}

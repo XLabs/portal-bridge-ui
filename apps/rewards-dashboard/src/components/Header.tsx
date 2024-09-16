@@ -22,7 +22,7 @@ export const Header = () => {
         </div>
       </div>
       <div className={`${showMenu ? "" : "hidden"} md:flex`}>
-        <div className="flex flex-col gap-6 pb-6">
+        <div className="flex flex-col gap-3 pb-6">
           {navBar.map((x, idx) => (
             <NavItem key={idx} item={x} />
           ))}
