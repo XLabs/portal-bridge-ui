@@ -18,7 +18,10 @@ export const Connect = memo(() => {
 
   useEffect(() => {
     if (config) {
-      localStorage.setItem("Connect Config", JSON.stringify(config, null, 2));
+      localStorage.setItem(
+        `${window.location.href}?${import.meta.env.VITE_APP_VERSION}`,
+        JSON.stringify(config, null, 2)
+      );
     }
   }, [config]);
 
