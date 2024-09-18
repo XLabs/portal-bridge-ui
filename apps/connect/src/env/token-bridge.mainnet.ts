@@ -500,9 +500,9 @@ export const ENV: Env = {
         ETHFIbase: {
           key: "ETHFIbase",
           symbol: "ETHFI",
-          nativeChain: "base",
+          nativeChain: "Base",
           tokenId: {
-            chain: "base",
+            chain: "Base",
             address: "0x6C240DDA6b5c336DF09A4D011139beAAa1eA2Aa2",
           },
           icon: "https://assets.coingecko.com/coins/images/35958/standard/etherfi.jpeg?1710254562",
