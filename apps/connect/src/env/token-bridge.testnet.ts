@@ -12,9 +12,11 @@ export const ENV: Env = {
   wormholeConnectConfig: mergeDeep<WormholeConnectConfig>(
     ENV_BASE.wormholeConnectConfig as WormholeConnectConfig,
     {
-      moreNetworks: {
-        networks: [ALGORAND, ACALA, MORE],
-      } as WormholeConnectConfig["moreNetworks"],
+      ui: {
+        moreChains: {
+          networks: [ALGORAND, ACALA, MORE],
+        },
+      } as NonNullable<WormholeConnectConfig["ui"]>,
       tokensConfig: {
         Wsolana: {
           key: "Wsolana",

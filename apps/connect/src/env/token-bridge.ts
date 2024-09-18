@@ -1,8 +1,9 @@
 import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
 import { chains, Env, PUBLIC_URL, wormholeConnectConfigCommon } from "./common";
+import { mergeDeep } from "../utils/mergeDeep";
 
 type MoreChainDefinition = NonNullable<
-  WormholeConnectConfig["moreNetworks"]
+  NonNullable<WormholeConnectConfig["ui"]>["moreChains"]
 >["networks"][0];
 
 const ADVANCE_TOOLS_HREF = `${PUBLIC_URL}/advanced-tools/`;
@@ -68,23 +69,25 @@ export const ENV: Env = {
     ],
     target: ADVANCE_TOOLS_HREF,
   },
-  wormholeConnectConfig: {
-    ...wormholeConnectConfigCommon,
-    cctpWarning: {
-      href: USDC_BRIDGE_HREF,
-    },
-    chains: [...chains, "Solana", "Injective", "Klaytn"],
-    moreNetworks: {
-      href: ADVANCE_TOOLS_HREF_TEMPLATE,
-      target: "_blank",
-      description:
-        "Advance Tools offers unlimited transfers across chains for tokens and NFTs wrapped by Wormhole.",
-      networks: [],
-    },
-    moreTokens: {
-      label: "More tokens ...",
-      href: ADVANCE_TOOLS_HREF_TEMPLATE,
-    },
-    tokensConfig: {},
-  } as WormholeConnectConfig,
+  wormholeConnectConfig: mergeDeep<WormholeConnectConfig>(
+    wormholeConnectConfigCommon,
+    {
+      ui: {
+        cctpWarning: USDC_BRIDGE_HREF,
+        moreTokens: {
+          label: "More tokens ...",
+          href: ADVANCE_TOOLS_HREF_TEMPLATE,
+        },
+      } as WormholeConnectConfig["ui"],
+      chains: [...chains, "Solana", "Injective", "Klaytn"],
+      moreNetworks: {
+        href: ADVANCE_TOOLS_HREF_TEMPLATE,
+        target: "_blank",
+        description:
+          "Advance Tools offers unlimited transfers across chains for tokens and NFTs wrapped by Wormhole.",
+        networks: [],
+      },
+      tokensConfig: {},
+    } as WormholeConnectConfig
+  ),
 };

@@ -13,10 +13,12 @@ export const ENV: Env = {
   wormholeConnectConfig: mergeDeep<WormholeConnectConfig>(
     ENV_BASE.wormholeConnectConfig,
     {
+      ui: {
+        moreChains: {
+          networks: [ALGORAND, ACALA, SEI, MORE],
+        },
+      } as WormholeConnectConfig["ui"],
       rpcs: MAINNET_RPCS,
-      moreNetworks: {
-        networks: [ALGORAND, ACALA, SEI, MORE],
-      } as WormholeConnectConfig["moreNetworks"],
       routes: [
         ...DEFAULT_ROUTES,
         MayanRoute,
