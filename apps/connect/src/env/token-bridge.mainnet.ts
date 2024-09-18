@@ -58,6 +58,21 @@ export const ENV: Env = {
             Ethereum: 18,
           },
         },
+        ETHFIbase: {
+          key: "ETHFIbase",
+          symbol: "ETHFI",
+          nativeChain: "base",
+          tokenId: {
+            chain: "base",
+            address: "0x6C240DDA6b5c336DF09A4D011139beAAa1eA2Aa2",
+          },
+          icon: "https://assets.coingecko.com/coins/images/35958/standard/etherfi.jpeg?1710254562",
+          coinGeckoId: "ether-fi",
+          decimals: {
+            default: 8,
+            Ethereum: 18,
+          },
+        },
         WOM: {
           key: "WOM",
           symbol: "WOM",
@@ -771,6 +786,17 @@ export const ENV: Env = {
               transceivers: [
                 {
                   address: "0x4386e36B96D437b0F1C04A35E572C10C6627d88a",
+                  type: "wormhole",
+                },
+              ],
+            },
+            {
+              chainName: "base",
+              address: "0xE87797A1aFb329216811dfA22C87380128CA17d8",
+              tokenKey: "ETHFIbase",
+              transceivers: [
+                {
+                  address: "0x2153bEa70D96cd804aCbC89D82Ab36638fc1A5F4",
                   type: "wormhole",
                 },
               ],
