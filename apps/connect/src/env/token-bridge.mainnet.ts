@@ -155,6 +155,17 @@ export const ENV: Env = {
                   },
                 ],
               },
+              {
+                chain: "Base",
+                manager: "0xE87797A1aFb329216811dfA22C87380128CA17d8",
+                token: "0x6C240DDA6b5c336DF09A4D011139beAAa1eA2Aa2",
+                transceiver: [
+                  {
+                    address: "0x2153bEa70D96cd804aCbC89D82Ab36638fc1A5F4",
+                    type: "wormhole",
+                  },
+                ],
+              },
             ],
             Yaku: [
               {
@@ -481,6 +492,18 @@ export const ENV: Env = {
           tokenId: {
             chain: "Arbitrum",
             address: "0x7189fb5B6504bbfF6a852B13B7B82a3c118fDc27",
+          },
+          icon: "https://assets.coingecko.com/coins/images/35958/standard/etherfi.jpeg?1710254562",
+          coinGeckoId: "ether-fi",
+          decimals: 18,
+        },
+        ETHFIbase: {
+          key: "ETHFIbase",
+          symbol: "ETHFI",
+          nativeChain: "base",
+          tokenId: {
+            chain: "base",
+            address: "0x6C240DDA6b5c336DF09A4D011139beAAa1eA2Aa2",
           },
           icon: "https://assets.coingecko.com/coins/images/35958/standard/etherfi.jpeg?1710254562",
           coinGeckoId: "ether-fi",
