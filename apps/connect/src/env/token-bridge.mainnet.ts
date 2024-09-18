@@ -2,7 +2,9 @@ import { ACALA, ALGORAND, MORE, SEI, ENV as ENV_BASE } from "./token-bridge";
 import { mergeDeep } from "../utils/mergeDeep";
 import {
   DEFAULT_ROUTES,
-  MayanRoute,
+  MayanRouteWH,
+  MayanRouteMCTP,
+  MayanRouteSWIFT,
   nttRoutes,
   type WormholeConnectConfig,
 } from "@wormhole-foundation/wormhole-connect";
@@ -14,14 +16,14 @@ export const ENV: Env = {
     ENV_BASE.wormholeConnectConfig,
     {
       ui: {
-        moreChains: {
-          networks: [ALGORAND, ACALA, SEI, MORE],
-        },
+        moreChains: { chains: [ALGORAND, ACALA, SEI, MORE] },
       } as WormholeConnectConfig["ui"],
       rpcs: MAINNET_RPCS,
       routes: [
         ...DEFAULT_ROUTES,
-        MayanRoute,
+        MayanRouteWH,
+        MayanRouteMCTP,
+        MayanRouteSWIFT,
         ...nttRoutes({
           tokens: {
             W: [

@@ -13,9 +13,7 @@ export const ENV: Env = {
     ENV_BASE.wormholeConnectConfig as WormholeConnectConfig,
     {
       ui: {
-        moreChains: {
-          networks: [ALGORAND, ACALA, MORE],
-        },
+        moreChains: { chains: [ALGORAND, ACALA, MORE] },
       } as NonNullable<WormholeConnectConfig["ui"]>,
       tokensConfig: {
         Wsolana: {

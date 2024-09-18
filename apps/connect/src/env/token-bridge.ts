@@ -4,7 +4,7 @@ import { mergeDeep } from "../utils/mergeDeep";
 
 type MoreChainDefinition = NonNullable<
   NonNullable<WormholeConnectConfig["ui"]>["moreChains"]
->["networks"][0];
+>["chains"][0];
 
 const ADVANCE_TOOLS_HREF = `${PUBLIC_URL}/advanced-tools/`;
 const ADVANCE_TOOLS_HREF_TEMPLATE = `${ADVANCE_TOOLS_HREF}#/transfer?sourceChain={:sourceChain}&targetChain={:targetChain}`;
