@@ -64,9 +64,8 @@ export default function TableOfContent() {
         active: index === idx,
       }))
     );
-    document
-      .querySelector(`#${tableOfContent[idx]?.id}`)
-      ?.scrollIntoView?.({ behavior: "smooth" });
+    const el = document.getElementById(`${tableOfContent[idx]?.id}`);
+    window.scroll({ top: el?.offsetTop, behavior: "smooth" });
   };
   return (
     <div>
