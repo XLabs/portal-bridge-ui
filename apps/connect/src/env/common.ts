@@ -39,8 +39,8 @@ export const PUBLIC_URL = envVars.VITE_PUBLIC_URL || "";
 export const CLUSTER = envVars.VITE_APP_CLUSTER || "Testnet";
 export const wormholeConnectConfigCommon: Partial<WormholeConnectConfig> = {
   ui: {
-    title: "Bridge assets",
-    cctpWarning: "Bridge assets",
+    title: "",
+    cctpWarning: "",
     walletConnectProjectId: envVars.VITE_APP_WALLET_CONNECT_PROJECT_ID || "",
     showHamburgerMenu: false,
     explorer: {
