@@ -17,9 +17,10 @@ describe("telemetry", () => {
       type: "other",
       details: {
         route: "wstETHBridge",
-        fromChain: "bsc",
+        fromChain: "Bsc",
         toChain: "arbitrum",
         txId: "txId",
+        amount: 0.0001,
         USDAmount: 123.456,
         toToken: {
           symbol: "osETH",
@@ -41,14 +42,14 @@ describe("telemetry", () => {
       type: "wallet.connect",
       details: {
         side: "sending" as any /** enum is not available */,
-        chain: "bsc",
+        chain: "Bsc",
         wallet: "wallet",
       },
     });
 
     expect(mixpanel.track).toHaveBeenCalledTimes(1);
     expect(mixpanel.track).toHaveBeenCalledWith("wallet.connect", {
-      "chain-sending": "bsc",
+      "chain-sending": "Bsc",
       "wallet-sending": "wallet",
     });
   });
@@ -58,7 +59,7 @@ describe("telemetry", () => {
 
     expect(mixpanel.track).toHaveBeenCalledTimes(1);
     expect(mixpanel.track).toHaveBeenCalledWith(completeEvent.type, {
-      fromChain: "bsc",
+      fromChain: "Bsc",
       toChain: "arbitrum",
       fromTokenSymbol: "WOM",
       fromTokenAddress: "native",
@@ -66,6 +67,7 @@ describe("telemetry", () => {
       toTokenAddress: "address",
       route: "wstETH Bridge",
       txId: "txId",
+      amount: 0.0001,
       USDAmount: 123.456,
     });
   });

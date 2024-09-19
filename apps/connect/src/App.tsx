@@ -1,33 +1,27 @@
-import NavBar from "./components/atoms/NavBar";
-import NewsBar from "./components/atoms/NewsBar";
-import messageConfig from "./configs/messages";
-
 import { Route, Routes } from "react-router-dom";
-import PrivacyPolicy from "./components/pages/PrivacyPolicy";
 import { PrivacyPolicyPath } from "./utils/constants";
-import { ENV } from "@env";
+import PrivacyPolicy from "./components/pages/PrivacyPolicy";
 import { Connect } from "./components/atoms/Connect";
+import { Main, Wrapper } from "./components/atoms/Container";
+import { Footer } from "./components/atoms/Footer";
+import { NavBar } from "./components/atoms/NavBar";
+import NewsBar from "./components/atoms/NewsBar";
+import { messages as messageConfig } from "./configs/messages";
 
-export default function Root() {
-  const messages = Object.values(messageConfig);
+const messages = Object.values(messageConfig);
 
+export const App = () => {
   return (
-    <>
-      {ENV.versions.map(({ appName, version }, idx) => (
-        <meta
-          name={appName}
-          content={version}
-          key={`${appName}-${version}-${idx}`}
-        />
-      ))}
-      <div>
-        <NewsBar messages={messages} />
+    <Wrapper>
+      <NewsBar messages={messages} />
+      <Main>
         <NavBar />
-      </div>
-      <Routes>
-        <Route path={PrivacyPolicyPath} element={<PrivacyPolicy />} />
-        <Route path="*" element={<Connect />} />
-      </Routes>
-    </>
+        <Routes>
+          <Route path={PrivacyPolicyPath} element={<PrivacyPolicy />} />
+          <Route path="*" element={<Connect />} />
+        </Routes>
+      </Main>
+      <Footer />
+    </Wrapper>
   );
-}
+};

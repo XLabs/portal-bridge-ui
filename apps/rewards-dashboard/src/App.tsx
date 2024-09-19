@@ -10,18 +10,13 @@ function App() {
     <>
       <AppProvider>
         <Background>
-          <div
-            className={`
-              flex flex-col grow h-full
-              justify-between
-              overflow-scroll scrollbar-hide
-              `}
-          >
-            <Header />
-            {
-              // TODO: routing for different layouts
-            }
-            <DashboardLayout />
+          <div className="flex flex-col grow h-full justify-between overflow-scroll scrollbar-hide py-6 px-4 flex-1">
+            <div className="flex flex-1 flex-col md:flex-row">
+              <Header />
+              <div className="flex flex-1 items-center justify-center">
+                <DashboardLayout />
+              </div>
+            </div>
             <Footer />
           </div>
         </Background>

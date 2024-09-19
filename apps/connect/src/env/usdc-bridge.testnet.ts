@@ -8,14 +8,14 @@ export const ENV: Env = {
   wormholeConnectConfig: mergeDeep<WormholeConnectConfig>(
     ENV_BASE.wormholeConnectConfig,
     {
-      networks: [
-        "goerli",
-        "fuji",
-        "arbitrumgoerli",
-        "optimismgoerli",
-        "basegoerli",
-        "mumbai",
-        "solana",
+      chains: [
+        "Sepolia",
+        "Avalanche",
+        "ArbitrumSepolia",
+        "OptimismSepolia",
+        "BaseSepolia",
+        "PolygonSepolia",
+        "Solana",
       ],
     }
   ),

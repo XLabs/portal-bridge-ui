@@ -1,33 +1,33 @@
-import { ChainName } from "@certusone/wormhole-sdk";
+import { Chain } from "@wormhole-foundation/sdk";
 import { getSortedChains } from "./getSortedChains";
 import topSymbolsByVolume from "./top-symbols-by-volume.json";
 
 describe("getSortedChains", () => {
-  let unsorted: ChainName[];
+  let unsorted: Chain[];
   beforeEach(() => {
     unsorted = [
-      "wormchain",
-      "osmosis",
-      "ethereum",
-      "sui",
-      "aptos",
-      "kujira",
-      "evmos",
-      "bsc",
-      "polygon",
-      "avalanche",
-      "fantom",
-      "celo",
-      "moonbeam",
-      "base",
-      "arbitrum",
-      "optimism",
-      "scroll",
-      "xlayer" as any,
-      "mantle",
-      "solana",
-      "injective",
-      "klaytn",
+      "Wormchain",
+      "Osmosis",
+      "Ethereum",
+      "Sui",
+      "Aptos",
+      "Kujira",
+      "Evmos",
+      "Bsc",
+      "Polygon",
+      "Avalanche",
+      "Fantom",
+      "Celo",
+      "Moonbeam",
+      "Base",
+      "Arbitrum",
+      "Optimism",
+      "Scroll",
+      "Xlayer" as any,
+      "Mantle",
+      "Solana",
+      "Injective",
+      "Klaytn",
     ];
     global.fetch = jest
       .fn()
@@ -38,28 +38,28 @@ describe("getSortedChains", () => {
     const result = await getSortedChains(unsorted);
     expect(result).not.toBe(unsorted);
     expect(result).toEqual([
-      "ethereum",
-      "solana",
-      "sui",
-      "arbitrum",
-      "moonbeam",
-      "bsc",
-      "avalanche",
-      "base",
-      "optimism",
-      "polygon",
-      "aptos",
-      "wormchain",
-      "klaytn",
-      "celo",
-      "fantom",
-      "scroll",
-      "injective",
-      "mantle",
-      "osmosis",
-      "kujira",
-      "evmos",
-      "xlayer",
+      "Ethereum",
+      "Solana",
+      "Sui",
+      "Arbitrum",
+      "Moonbeam",
+      "Bsc",
+      "Avalanche",
+      "Base",
+      "Optimism",
+      "Polygon",
+      "Aptos",
+      "Wormchain",
+      "Klaytn",
+      "Celo",
+      "Fantom",
+      "Scroll",
+      "Injective",
+      "Mantle",
+      "Osmosis",
+      "Kujira",
+      "Evmos",
+      "Xlayer",
     ]);
   });
 

@@ -1,4 +1,4 @@
-import { ChainId, ChainName, CHAINS } from "@certusone/wormhole-sdk";
+import { Chain, ChainId, chainToChainId } from "@wormhole-foundation/sdk";
 
 interface TopSymbolsByVolume {
   symbols: {
@@ -10,9 +10,9 @@ interface TopSymbolsByVolume {
 }
 
 export const getSortedChains = async (
-  chains: ChainName[],
+  chains: Chain[],
   signal?: AbortSignal
-): Promise<ChainName[] | undefined> => {
+): Promise<Chain[] | undefined> => {
   try {
     const response: TopSymbolsByVolume = await fetch(
       "https://api.wormholescan.io/api/v1/top-symbols-by-volume?timeSpan=30d",
@@ -32,8 +32,8 @@ export const getSortedChains = async (
         {} as Record<ChainId, number>
       );
 
-    const getChainScore = (chainName: ChainName): number =>
-      volumePerChain[CHAINS[chainName]] || 0;
+    const getChainScore = (chainName: Chain): number =>
+      volumePerChain[chainToChainId(chainName)] || 0;
 
     return [...chains].sort((a, b) => getChainScore(b) - getChainScore(a));
   } catch (error) {

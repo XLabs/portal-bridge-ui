@@ -303,12 +303,78 @@ jobs:
           name: build-token-bridge
           path: connect-loader/apps/connect/dist
 
+  tbtc-bridge-v1:
+    name: "tBTC Bridge v1"
+    runs-on: "ubuntu-latest"
+    concurrency:
+      group: ${{ github.ref }}-${{inputs.name}}-tbtc-bridge-v1
+      cancel-in-progress: true
+    environment: ${{inputs.environment}}
+    outputs:
+      pkg-version: ${{ steps.set-version.outputs._PKG_VERSION }}
+    steps:
+      - name: Set up Node environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: v18.17.1
+      # - name: Checkout Wormhole Connect
+      #   uses: actions/checkout@v3
+      #   with:
+      #     repository: wormhole-foundation/wormhole-connect
+      #     ref: ${{inputs.connect-branch}}
+      #     path: wormhole-connect
+      # - name: Build Wormhole Connect
+      #   id: wormhole-connect
+      #   run: |
+      #     npm install -g husky
+      #     pushd wormhole-connect
+      #     npm ci --workspaces --if-present
+      #     sed -i -e 's|vite build",|vite build --base=${{inputs.public-url}}/assets/wormhole-connect/",|g' wormhole-connect/package.json
+      #     npm run build
+      #     echo "_JS_SHA_384=$(shasum -b -a 384 wormhole-connect/dist/main.js | awk '{ print $1 }' | xxd -r -p | base64)" >> "${GITHUB_OUTPUT}"
+      #     echo "_CSS_SHA_384=$(shasum -b -a 384 wormhole-connect/dist/main.css | awk '{ print $1 }' | xxd -r -p | base64)" >> "${GITHUB_OUTPUT}"
+      - name: Checkout Custom Wormhole Connect Loader
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.project-branch }}
+          path: connect-loader
+      - name: Setup Git
+        run: |
+          pushd connect-loader
+          git config user.name "xLabs CI"
+          git config user.email "devops@xlabs.xyz"
+      - name: Set Portal Bridge Version 
+        id: set-version
+        run: |
+          pushd connect-loader/apps/connect-v1
+          echo "_PKG_VERSION=$(node -p -e "require('./package.json').version")-${{inputs.separator}}$(echo ${{ github.sha }} | cut -c -10)" >> "${GITHUB_OUTPUT}"
+      - name: Build Custom Wormhole Connect Loader
+        env:
+          PUBLIC_URL: "${{ inputs.public-url }}"
+          VITE_PUBLIC_URL: ${{ inputs.public-url }}
+          VITE_APP_VERSION: ${{ steps.set-version.outputs._PKG_VERSION }}
+          VITE_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
+          # VITE_APP_JS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._JS_SHA_384 }}
+          # VITE_APP_CSS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._CSS_SHA_384 }}
+          VITE_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}
+        run: |
+          pushd connect-loader/apps/connect-v1
+          npm ci
+          echo 'VITE_APP_VERSION=$npm_package_version' > .env
+          npm run build:tbtc-bridge
+      - name: Upload Portal Bridge Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-tbtc-bridge-v1
+          path: connect-loader/apps/connect-v1/dist
+
   publish:
     name: "Publish"
     needs:
       - advanced-tools
       - usdc-bridge
       - token-bridge
+      - tbtc-bridge-v1
       - rewards-dashboard
       - redirects
       - docs
@@ -327,6 +393,11 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
+          name: build-tbtc-bridge-v1
+          path: tbtc-bridge
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
           name: build-usdc-bridge 
           path: usdc-bridge    
       - name: Download Artifact
@@ -337,13 +408,13 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
-          name: build-docs
-          path: docs
+          name: build-rewards-dashboard
+          path: rewards-dashboard
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
-          name: build-rewards-dashboard
-          path: rewards-dashboard
+          name: build-docs
+          path: docs
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:

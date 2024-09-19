@@ -16,7 +16,7 @@ export const WalletManager = () => {
   return (
     <div
       className="
-      flex flex-row items-center gap-2 px-4 py-2
+      flex flex-row items-center gap-2 px-4 py-2 mt-2
       border border-0.5 border-white
       bg-white
       hover:cursor-pointer

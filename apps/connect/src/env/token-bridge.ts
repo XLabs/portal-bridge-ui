@@ -1,15 +1,10 @@
 import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
-import {
-  chains,
-  Env,
-  PUBLIC_URL,
-  versions,
-  wormholeConnectConfigCommon,
-} from "./common";
+import { chains, Env, PUBLIC_URL, wormholeConnectConfigCommon } from "./common";
+import { mergeDeep } from "../utils/mergeDeep";
 
 type MoreChainDefinition = NonNullable<
-  WormholeConnectConfig["moreNetworks"]
->["networks"][0];
+  NonNullable<WormholeConnectConfig["ui"]>["moreChains"]
+>["chains"][0];
 
 const ADVANCE_TOOLS_HREF = `${PUBLIC_URL}/advanced-tools/`;
 const ADVANCE_TOOLS_HREF_TEMPLATE = `${ADVANCE_TOOLS_HREF}#/transfer?sourceChain={:sourceChain}&targetChain={:targetChain}`;
@@ -42,20 +37,17 @@ export const MORE = {
 } as MoreChainDefinition;
 
 export const ENV: Env = {
-  versions,
+  PUBLIC_URL,
   navBar: [
     { label: "Home", active: true, href: `${PUBLIC_URL}/` },
-    {
-      label: "Staking",
-      href: "https://www.tally.xyz/gov/wormhole",
-      isBlank: true,
-    },
-    {
-      label: "Rewards",
-      href: `${PUBLIC_URL}/rewards-dashboard/`,
-      isBlank: true,
-    },
+    // {
+    //   label: "Staking",
+    //   href: "https://www.tally.xyz/gov/wormhole",
+    //   isBlank: true,
+    // },
     { label: "USDC", href: USDC_BRIDGE_HREF },
+    { label: "tBTC", href: `${PUBLIC_URL}/tbtc-bridge` },
+    { label: "Rewards", href: `${PUBLIC_URL}/rewards-dashboard` },
   ],
   redirects: {
     source: [
@@ -77,23 +69,25 @@ export const ENV: Env = {
     ],
     target: ADVANCE_TOOLS_HREF,
   },
-  wormholeConnectConfig: {
-    ...wormholeConnectConfigCommon,
-    cctpWarning: {
-      href: USDC_BRIDGE_HREF,
-    },
-    networks: [...chains, "solana", "injective", "klaytn"],
-    moreNetworks: {
-      href: ADVANCE_TOOLS_HREF_TEMPLATE,
-      target: "_blank",
-      description:
-        "Advance Tools offers unlimited transfers across chains for tokens and NFTs wrapped by Wormhole.",
-      networks: [],
-    },
-    moreTokens: {
-      label: "More tokens ...",
-      href: ADVANCE_TOOLS_HREF_TEMPLATE,
-    },
-    tokensConfig: {},
-  } as WormholeConnectConfig,
+  wormholeConnectConfig: mergeDeep<WormholeConnectConfig>(
+    wormholeConnectConfigCommon,
+    {
+      ui: {
+        cctpWarning: USDC_BRIDGE_HREF,
+        moreTokens: {
+          label: "More tokens ...",
+          href: ADVANCE_TOOLS_HREF_TEMPLATE,
+        },
+      } as WormholeConnectConfig["ui"],
+      chains: [...chains, "Solana", "Injective", "Klaytn"],
+      moreNetworks: {
+        href: ADVANCE_TOOLS_HREF_TEMPLATE,
+        target: "_blank",
+        description:
+          "Advance Tools offers unlimited transfers across chains for tokens and NFTs wrapped by Wormhole.",
+        networks: [],
+      },
+      tokensConfig: {},
+    } as WormholeConnectConfig
+  ),
 };

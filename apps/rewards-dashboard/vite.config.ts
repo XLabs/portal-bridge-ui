@@ -13,8 +13,10 @@ export default defineConfig({
     navBar: [
       { label: "Home", href: `${PUBLIC_URL}/` },
       { label: "USDC", href: `${PUBLIC_URL}/usdc-bridge` },
-      { label: "Rewards",active: true, href: `${PUBLIC_URL}/rewards-dashboard` },
-      { label: "Wormholescan", href: `https://wormholescan.io` }
+      { label: "tBTC", href: `${PUBLIC_URL}/tbtc-bridge` },
+      { label: "Rewards", active: true, href: `${PUBLIC_URL}/rewards-dashboard` },
+      //{ label: "Wormholescan", href: `https://wormholescan.io` },
+      { label: "Advanced Tools", href: `${PUBLIC_URL}/advanced-tools/` },
     ]
   },
   plugins: [

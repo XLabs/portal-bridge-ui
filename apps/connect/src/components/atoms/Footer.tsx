@@ -1,31 +1,39 @@
-import Typography from "@mui/material/Typography";
-import styled from "@mui/material/styles/styled";
+import { styled } from "@mui/material";
 
-type FooterProps = {
-  left?: string;
-  right?: string;
-};
+import { ENV } from "@env";
+import { Link } from "./Link";
+import { BuiltBy } from "./BuiltBy";
 
-const Footer = styled(Typography)<FooterProps>(({ theme, left, right }) => ({
-  [theme.breakpoints.down("md")]: {
-    display: "flex",
-    flexGrow: 1,
-    justifyContent: "center",
-    paddingBottom: theme.spacing(2),
-    alignItems: "flex-end",
-  },
-  [theme.breakpoints.up("md")]: {
-    position: "absolute",
-    left,
-    right,
-    bottom: "28px",
-  },
-  color: "#C9CAE8",
-  fontFamily: "Poppins",
-  fontSize: "14px",
-  fontStyle: "normal",
-  fontWeight: "600",
-  lineHeight: "18.59px",
+const Container = styled("footer")(() => ({
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "flex-end",
 }));
 
-export default Footer;
+const LinkContainer = styled("div")(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "flex-start",
+  gap: theme.spacing(1),
+}));
+
+export const Footer = () => {
+  return (
+    <Container>
+      <LinkContainer>
+        {[
+          {
+            label: "Privacy Policy",
+            href: `${ENV.PUBLIC_URL}/#/privacy-policy/`,
+          },
+        ].map(({ label, href }) => (
+          <Link key={label} href={href} target="_blank">
+            {label}
+          </Link>
+        ))}
+      </LinkContainer>
+      <BuiltBy />
+    </Container>
+  );
+};

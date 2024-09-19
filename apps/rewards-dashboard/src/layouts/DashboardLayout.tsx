@@ -311,9 +311,7 @@ export const DashboardLayout = () => {
   const { isConnected } = useAccount();
   return (
     <div
-      className="
-      flex flex-col
-      "
+      className="flex flex-col flex-1"
     >
       {isConnected ? <ConnectedDashboard /> : <DisconnectedDashboard />}
     </div>
