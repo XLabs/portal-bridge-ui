@@ -51,17 +51,19 @@ export const useConnectConfig = () => {
     () => ({
       ...defaultConfig,
       chains: networks!,
-      searchTx: {
-        ...(txHash && { txHash }),
-        ...(sourceChain && { chainName: sourceChain }),
+      ui: {
+        ...(defaultConfig.ui as NonNullable<WormholeConnectConfig["ui"]>),
+        searchTx: {
+          ...(txHash && { txHash }),
+          ...(sourceChain && { chainName: sourceChain }),
+        },
+        defaultInputs: {
+          ...(sourceChain && { fromChain: sourceChain }),
+          ...(targetChain && { toChain: targetChain }),
+          ...(token && { tokenKey: token }),
+          ...(requiredNetwork && { requiredChain: requiredNetwork }),
+        },
       },
-      bridgeDefaults: {
-        ...(sourceChain && { fromChain: sourceChain }),
-        ...(targetChain && { toChain: targetChain }),
-        ...(token && { tokenKey: token }),
-        ...(requiredNetwork && { requiredChain: requiredNetwork }),
-      },
-      //...(route && { routes: [route] }),
     }),
     [networks, txHash, sourceChain, targetChain, token, requiredNetwork]
   );
