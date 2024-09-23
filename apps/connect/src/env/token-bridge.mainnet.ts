@@ -872,6 +872,30 @@ export const ENV: Env = {
           coinGeckoId: "renzo",
           decimals: 9,
         },
+        Op: {
+          key: "Op",
+          symbol: "OP",
+          nativeChain: "Optimism",
+          tokenId: {
+            chain: "Optimism",
+            address: "0x4200000000000000000000000000000000000042",
+          },
+          icon: "https://assets.coingecko.com/coins/images/25244/standard/Optimism.png?1696524385",
+          coinGeckoId: "optimism",
+          decimals: 18
+        },
+        Arb: {
+          key: "Arb",
+          symbol: "ARB",
+          nativeChain: "Arbitrum",
+          tokenId: {
+            chain: "Arbitrum",
+            address: "0x912ce59144191c1204e64559fe8253a0e49e6548",
+          },
+          icon: "https://assets.coingecko.com/coins/images/16547/standard/arb.jpg?1721358242",
+          coinGeckoId: "arbitrum",
+          decimals: 18
+        }
       },
     }
   ),
