@@ -882,7 +882,7 @@ export const ENV: Env = {
           },
           icon: "https://assets.coingecko.com/coins/images/25244/standard/Optimism.png?1696524385",
           coinGeckoId: "optimism",
-          decimals: 18
+          decimals: 18,
         },
         Arb: {
           key: "Arb",
@@ -894,8 +894,8 @@ export const ENV: Env = {
           },
           icon: "https://assets.coingecko.com/coins/images/16547/standard/arb.jpg?1721358242",
           coinGeckoId: "arbitrum",
-          decimals: 18
-        }
+          decimals: 18,
+        },
       },
     }
   ),
