@@ -458,6 +458,30 @@ export const ENV: Env = {
           Base: "0xDF1Cf211D38E7762c9691Be4D779A441a17A6cFC",
           Celo: "0x3fc50bc066aE2ee280876EeefADfdAbF6cA02894",
         },
+        OP: {
+          Ethereum: "0x1df721D242E0783F8fCab4A9FfE4F35bdf329909",
+          Bsc: "0x0D5155720F292F5155c4Cf923AeFE523fe52a266",
+          Polygon: "0x43a85384f880C9A6F00F21D6ec95b8CEee6A5d96",
+          Avalanche: "0x137e3b33DC1Fe64bC6FC3d3fF2A801A2fdfcB4b2",
+          Sui: "0xe817f4f6f07f0da308698a4d9cd8af8a5d05b234edc55ce524916dc8d2b42fa5::coin::COIN",
+          Aptos: "0x863d1f83048111cb48be29cf86d2d3da6c48b64e6c60aa72ca3e3f4abe198386",
+          Arbitrum: "0x3Ac2EBFf77Aab7cA87FC0e4e1c1b4a5E219957C2",
+          Fantom: "0xC07B1b12122e4835e7b3d3920Cd55CA1EB238D6C",
+          Base: "0x75A078Ab8d977BCECAFAfAAcA4339e6EACf648d3",
+          Celo: "0x5a3203696ee43b0c80a1BFd446cc33c88B39BaeB",
+        },
+        Arb: {
+          Ethereum: "0xe5EB5EbDB1dc46C7235BAa55a650B248caeCc01B",
+          Bsc: "0xe4A57a1F98D93558eD877459980986B5fd295Daf",
+          Polygon: "0xA7050dda333E67AAa76086ee66F7deDEE4E1e1fd",
+          Avalanche: "0x0c0582EC56A1aA983EDda43cF19bC7bBd86Fba79",
+          Optimism: "0x5F33522034D2281667b9354D2e9A0317755146AC",
+          Sui: "0x37f44326b8ffd853e74030a00ede720380d164dcc33949aaf729c675865c4da3::coin::COIN",
+          Aptos: "0xb628b3c69a4747cadc570ca75efaf43cff1979db3993d85db7d071a984b9e445",
+          Fantom: "0x3f3a9fcAdE548b59E2c335E4f2dF2ae4ed4A6B63",
+          Base: "0x9e325590933809B3b79B9C892f07D5A89d322542",
+          Celo: "0xfA9f0D9b7E903970e16f65BD648ddD282E2772a1",
+        },
       },
       tokensConfig: {
         $WIF: {
@@ -872,8 +896,8 @@ export const ENV: Env = {
           coinGeckoId: "renzo",
           decimals: 9,
         },
-        Op: {
-          key: "Op",
+        OP: {
+          key: "OP",
           symbol: "OP",
           nativeChain: "Optimism",
           tokenId: {
