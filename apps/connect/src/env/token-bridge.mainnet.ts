@@ -458,6 +458,32 @@ export const ENV: Env = {
           Base: "0xDF1Cf211D38E7762c9691Be4D779A441a17A6cFC",
           Celo: "0x3fc50bc066aE2ee280876EeefADfdAbF6cA02894",
         },
+        OP: {
+          Ethereum: "0x1df721D242E0783F8fCab4A9FfE4F35bdf329909",
+          Bsc: "0x0D5155720F292F5155c4Cf923AeFE523fe52a266",
+          Polygon: "0x43a85384f880C9A6F00F21D6ec95b8CEee6A5d96",
+          Avalanche: "0x137e3b33DC1Fe64bC6FC3d3fF2A801A2fdfcB4b2",
+          Sui: "0xe817f4f6f07f0da308698a4d9cd8af8a5d05b234edc55ce524916dc8d2b42fa5::coin::COIN",
+          Aptos:
+            "0x863d1f83048111cb48be29cf86d2d3da6c48b64e6c60aa72ca3e3f4abe198386",
+          Arbitrum: "0x3Ac2EBFf77Aab7cA87FC0e4e1c1b4a5E219957C2",
+          Fantom: "0xC07B1b12122e4835e7b3d3920Cd55CA1EB238D6C",
+          Base: "0x75A078Ab8d977BCECAFAfAAcA4339e6EACf648d3",
+          Celo: "0x5a3203696ee43b0c80a1BFd446cc33c88B39BaeB",
+        },
+        ARB: {
+          Ethereum: "0xe5EB5EbDB1dc46C7235BAa55a650B248caeCc01B",
+          Bsc: "0xe4A57a1F98D93558eD877459980986B5fd295Daf",
+          Polygon: "0xA7050dda333E67AAa76086ee66F7deDEE4E1e1fd",
+          Avalanche: "0x0c0582EC56A1aA983EDda43cF19bC7bBd86Fba79",
+          Optimism: "0x5F33522034D2281667b9354D2e9A0317755146AC",
+          Sui: "0x37f44326b8ffd853e74030a00ede720380d164dcc33949aaf729c675865c4da3::coin::COIN",
+          Aptos:
+            "0xb628b3c69a4747cadc570ca75efaf43cff1979db3993d85db7d071a984b9e445",
+          Fantom: "0x3f3a9fcAdE548b59E2c335E4f2dF2ae4ed4A6B63",
+          Base: "0x9e325590933809B3b79B9C892f07D5A89d322542",
+          Celo: "0xfA9f0D9b7E903970e16f65BD648ddD282E2772a1",
+        },
       },
       tokensConfig: {
         $WIF: {
@@ -871,6 +897,30 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/37327/standard/renzo_200x200.png?1714025012",
           coinGeckoId: "renzo",
           decimals: 9,
+        },
+        OP: {
+          key: "OP",
+          symbol: "OP",
+          nativeChain: "Optimism",
+          tokenId: {
+            chain: "Optimism",
+            address: "0x4200000000000000000000000000000000000042",
+          },
+          icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' id='optimism-logo-circle' width='122' height='122' viewBox='0 0 122 122' style='max-height: 100%25; max-width: 100%25;'%3E%3Ccircle id='Ellipse_11' data-name='Ellipse 11' cx='61' cy='61' r='61' fill='%23ff0420'%3E%3C/circle%3E%3Cpath id='Path_139' data-name='Path 139' d='M113.533,178.026a14.656,14.656,0,0,1-8.924-2.563,8.762,8.762,0,0,1-3.432-7.413,16.433,16.433,0,0,1,.229-2.471q.595-3.3,1.693-7.917,3.112-12.585,16.062-12.585a15.966,15.966,0,0,1,6.315,1.19,9.6,9.6,0,0,1,4.393,3.478,9.333,9.333,0,0,1,1.6,5.492,16.288,16.288,0,0,1-.229,2.425q-.687,4.073-1.647,7.917-1.6,6.269-5.537,9.381Q120.123,178.026,113.533,178.026Zm.641-6.59a6.5,6.5,0,0,0,4.348-1.51,8.424,8.424,0,0,0,2.608-4.622q1.053-4.3,1.6-7.505a10.5,10.5,0,0,0,.183-1.968q0-4.165-4.347-4.164a6.681,6.681,0,0,0-4.393,1.51,8.573,8.573,0,0,0-2.563,4.622q-.824,3.066-1.647,7.505a9.791,9.791,0,0,0-.183,1.922Q109.78,171.436,114.174,171.436Z' transform='translate(-70.332 -100.849)' fill='%23fff'%3E%3C/path%3E%3Cpath id='Path_140' data-name='Path 140' d='M205.3,178.612a.97.97,0,0,1-.778-.32,1.1,1.1,0,0,1-.137-.824l6.315-29.746a1.31,1.31,0,0,1,.5-.824,1.4,1.4,0,0,1,.87-.32h12.173a14.148,14.148,0,0,1,8.146,2.105,6.9,6.9,0,0,1,3.112,6.087,10.955,10.955,0,0,1-.275,2.38,12.39,12.39,0,0,1-4.622,7.78q-3.432,2.517-9.427,2.517H215l-2.105,10.022a1.311,1.311,0,0,1-.5.824,1.4,1.4,0,0,1-.869.32Zm16.2-17.482a5.451,5.451,0,0,0,3.341-1.052,4.942,4.942,0,0,0,1.922-3.02,8.022,8.022,0,0,0,.137-1.373,2.543,2.543,0,0,0-.778-2.014,3.836,3.836,0,0,0-2.654-.732h-5.491l-1.739,8.191Z' transform='translate(-142.055 -101.892)' fill='%23fff'%3E%3C/path%3E%3C/svg%3E",
+          coinGeckoId: "optimism",
+          decimals: 18,
+        },
+        ARB: {
+          key: "ARB",
+          symbol: "ARB",
+          nativeChain: "Arbitrum",
+          tokenId: {
+            chain: "Arbitrum",
+            address: "0x912ce59144191c1204e64559fe8253a0e49e6548",
+          },
+          icon: "https://assets.coingecko.com/coins/images/16547/standard/arb.jpg?1721358242",
+          coinGeckoId: "arbitrum",
+          decimals: 18,
         },
       },
     }
