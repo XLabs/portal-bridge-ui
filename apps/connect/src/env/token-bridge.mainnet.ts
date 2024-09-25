@@ -797,7 +797,7 @@ export const ENV: Env = {
             address: "0xEaE00D6F9B16Deb1BD584c7965e4c7d762f178a1",
           },
           icon: "https://bafybeiemq2qpk3fahebltwzbdsugrzhxuono3ugxa25imywc7mbfhwl2lm.ipfs.dweb.link/",
-          coinGeckoId: "",
+          coinGeckoId: "xborg",
           decimals: 18,
         },
         XBorgarbitrum: {
@@ -809,7 +809,7 @@ export const ENV: Env = {
             address: "0x93FA0B88C0C78e45980Fa74cdd87469311b7B3E4",
           },
           icon: "https://bafybeiemq2qpk3fahebltwzbdsugrzhxuono3ugxa25imywc7mbfhwl2lm.ipfs.dweb.link/",
-          coinGeckoId: "",
+          coinGeckoId: "xborg",
           decimals: 18,
         },
         XBorgsolana: {
