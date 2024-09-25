@@ -48,7 +48,7 @@ export const wormholeConnectConfigCommon: Partial<WormholeConnectConfig> = {
     },
     menu: [],
   },
-  env: CLUSTER,
+  network: CLUSTER,
   rpcs: {},
 };
 
