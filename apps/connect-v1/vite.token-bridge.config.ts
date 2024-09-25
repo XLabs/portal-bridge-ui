@@ -3,6 +3,7 @@ import viteConfig from "./vite.config";
 import { createHtmlPlugin } from "vite-plugin-html";
 import { resolve } from "path";
 import packageJson from "./package.json";
+const PUBLIC_URL = viteConfig.base;
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -21,6 +22,7 @@ export default defineConfig({
     ],
   },
   define: {},
+  base: `${PUBLIC_URL}/cosmos-bridge/`,
   plugins: [
     ...(viteConfig.plugins as []),
     createHtmlPlugin({
