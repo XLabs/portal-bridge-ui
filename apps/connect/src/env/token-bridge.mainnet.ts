@@ -421,6 +421,13 @@ export const ENV: Env = {
         }),
       ],
       wrappedTokens: {
+        tBTC: {
+          Arbitrum: "0x6c84a8f1c29108F47a79964b5Fe888D4f4D0dE40",
+          Polygon: "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+          Optimism: "0x6c84a8f1c29108F47a79964b5Fe888D4f4D0dE40",
+          Base: "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+          Solana: "6DNSN2BJsaPFdFFc1zP37kkeNe4Usc1Sqkzr9C9vPWcU",
+        },
         WOM: {
           Ethereum: "0xc0B314a8c08637685Fc3daFC477b92028c540CFB",
           Avalanche: "0xa15E4544D141aa98C4581a1EA10Eb9048c3b3382",
