@@ -410,7 +410,7 @@ export const ENV: Env = {
                 token: "3DK98MXPz8TRuim7rfQnebSLpA7VSoc79Bgiee1m4Zw5",
                 transceiver: [
                   {
-                    address: "3DK98MXPz8TRuim7rfQnebSLpA7VSoc79Bgiee1m4Zw5",
+                    address: "DC5fFP5we3qshuoiQ4M7gjBnNKcKaqu4ibheetZeXfCY",
                     type: "wormhole",
                   },
                 ],
@@ -706,7 +706,7 @@ export const ENV: Env = {
           coinGeckoId: "yaku",
           decimals: 9,
         },
-        YakuAvalanche: {
+        Yakuavalanche: {
           key: "Yakuavalanche",
           symbol: "Yaku",
           nativeChain: "Avalanche",
