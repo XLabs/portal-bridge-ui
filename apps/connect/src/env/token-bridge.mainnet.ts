@@ -292,7 +292,7 @@ export const ENV: Env = {
             Agora: [
               {
                 chain: "Ethereum",
-                manager: "0xCD024C7eB854f6799A343828773cB3A8107d17d4q",
+                manager: "0xCD024C7eB854f6799A343828773cB3A8107d17d4",
                 token: "0x87B46212e805A3998B7e8077E9019c90759Ea88C",
                 transceiver: [
                   {
