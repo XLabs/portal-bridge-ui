@@ -22,7 +22,7 @@ export default defineConfig({
     ],
   },
   define: {},
-  base: `${PUBLIC_URL}/cosmos-bridge/`,
+  base: `${PUBLIC_URL}/cosmos/`,
   plugins: [
     ...(viteConfig.plugins as []),
     createHtmlPlugin({

@@ -47,6 +47,7 @@ export const ENV: Env = {
     // },
     { label: "USDC", href: USDC_BRIDGE_HREF },
     { label: "tBTC", href: `${PUBLIC_URL}/tbtc-bridge` },
+    { label: "Cosmos", href: `${PUBLIC_URL}/cosmos` },
     { label: "Rewards", href: `${PUBLIC_URL}/rewards-dashboard` },
   ],
   redirects: {
