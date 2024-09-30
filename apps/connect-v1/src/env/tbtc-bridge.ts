@@ -30,6 +30,6 @@ export const ENV: Env = {
       "tBTCarbitrum",
       "tBTCbase",
       "tBTCsol",
-    ]
+    ],
   } as WormholeConnectConfig,
 };
