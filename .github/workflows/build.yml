@@ -465,7 +465,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: build-token-bridge-v1
-          path: cosmos-bridge
+          path: cosmos
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
