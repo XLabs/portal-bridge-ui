@@ -32,7 +32,7 @@ export default defineConfig({
             injectTo: "head-prepend",
             tag: "meta",
             attrs: {
-              name: "Portal Bridge",
+              name: "Cosmos Token Bridge",
               content: `v${process.env.VITE_APP_VERSION || "0.0.0"}`,
             },
           },
@@ -47,7 +47,7 @@ export default defineConfig({
           {
             injectTo: "head-prepend",
             tag: "title",
-            children: "Portal Token Bridge",
+            children: "Cosmos Token Bridge",
           },
           {
             injectTo: "head-prepend",
