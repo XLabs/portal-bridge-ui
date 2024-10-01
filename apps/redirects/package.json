@@ -5,14 +5,12 @@
   "main": "index.js",
   "scripts": {
     "clean": "shx rm -rf dist && shx rm -rf src/configs/*.json ",
-    "prebuild": "npm run clean && shx mkdir -p dist/{sui,cosmos} ",
+    "prebuild": "npm run clean && shx mkdir -p dist/{sui} ",
     "build": "npm run create:config:all && npm run build:all",
     "create:config:sui": "DOTENV_CONFIG_PATH=./src/configs/sui.env MAIN=${PUBLIC_URL}/?sourceChain=sui ts-node -r dotenv/config src/index.ts > src/configs/sui.json",
-    "create:config:cosmos": "DOTENV_CONFIG_PATH=./src/configs/cosmos.env MAIN=${PUBLIC_URL}/?sourceChain=cosmos ts-node -r dotenv/config src/index.ts > src/configs/cosmos.json",
-    "create:config:all": "npm run create:config:sui && npm run create:config:cosmos",
+    "create:config:all": "npm run create:config:sui",
     "build:sui": "shx mkdir -p dist/sui && npx liquidjs --template @./src/template/index.liquid --context @./src/configs/sui.json --output ./dist/sui/index.html",
-    "build:cosmos": "shx mkdir -p dist/cosmos && npx liquidjs --template @./src/template/index.liquid --context @./src/configs/cosmos.json --output ./dist/cosmos/index.html",
-    "build:all": "npm run build:sui && npm run build:cosmos"
+    "build:all": "npm run build:sui"
   },
   "author": "xLabs Inc",
   "license": "ISC",
