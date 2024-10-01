@@ -178,6 +178,7 @@ export const ENV: Env = {
                     type: "wormhole",
                   },
                 ],
+                quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
               },
               {
                 chain: "Ethereum",
@@ -235,6 +236,7 @@ export const ENV: Env = {
                     type: "wormhole",
                   },
                 ],
+                quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
               },
             ],
             JitoSOL: [
@@ -248,6 +250,7 @@ export const ENV: Env = {
                     type: "wormhole",
                   },
                 ],
+                quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
               },
               {
                 chain: "Arbitrum",
@@ -272,6 +275,7 @@ export const ENV: Env = {
                     type: "wormhole",
                   },
                 ],
+                quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
               },
               {
                 chain: "Ethereum",
@@ -288,7 +292,7 @@ export const ENV: Env = {
             Agora: [
               {
                 chain: "Ethereum",
-                manager: "0xCD024C7eB854f6799A343828773cB3A8107d17d4q",
+                manager: "0xCD024C7eB854f6799A343828773cB3A8107d17d4",
                 token: "0x87B46212e805A3998B7e8077E9019c90759Ea88C",
                 transceiver: [
                   {
@@ -307,6 +311,7 @@ export const ENV: Env = {
                     type: "wormhole",
                   },
                 ],
+                quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
               },
             ],
             XBorg: [
@@ -342,6 +347,7 @@ export const ENV: Env = {
                     type: "wormhole",
                   },
                 ],
+                quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
               },
             ],
             Cheese: [
@@ -366,6 +372,7 @@ export const ENV: Env = {
                     type: "wormhole",
                   },
                 ],
+                quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
               },
             ],
             FANTOM_USDC: [
