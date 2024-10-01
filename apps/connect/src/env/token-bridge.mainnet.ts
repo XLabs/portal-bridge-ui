@@ -1,4 +1,4 @@
-import { ACALA, ALGORAND, MORE, SEI, ENV as ENV_BASE } from "./token-bridge";
+import { ENV as ENV_BASE } from "./token-bridge";
 import { mergeDeep } from "../utils/mergeDeep";
 import {
   DEFAULT_ROUTES,
@@ -15,9 +15,9 @@ export const ENV: Env = {
   wormholeConnectConfig: mergeDeep<WormholeConnectConfig>(
     ENV_BASE.wormholeConnectConfig,
     {
-      ui: {
-        moreChains: { chains: [ALGORAND, ACALA, SEI, MORE] },
-      } as WormholeConnectConfig["ui"],
+      // ui: {
+      //   moreChains: { chains: [ALGORAND, ACALA, SEI, MORE] },
+      // } as WormholeConnectConfig["ui"],
       rpcs: MAINNET_RPCS,
       routes: [
         ...DEFAULT_ROUTES,
