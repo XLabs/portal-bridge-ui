@@ -40,7 +40,7 @@ export const CLUSTER = envVars.VITE_APP_CLUSTER || "Testnet";
 export const wormholeConnectConfigCommon: Partial<WormholeConnectConfig> = {
   ui: {
     title: "",
-    cctpWarning: "",
+    // cctpWarning: "",
     walletConnectProjectId: envVars.VITE_APP_WALLET_CONNECT_PROJECT_ID || "",
     showHamburgerMenu: false,
     explorer: {
