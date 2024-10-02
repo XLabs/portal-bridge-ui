@@ -75,11 +75,11 @@ export const ENV: Env = {
     {
       cctpWarning: USDC_BRIDGE_HREF,
       // ui: {
-        // cctpWarning: USDC_BRIDGE_HREF,
-        // moreTokens: {
-        //   label: "More tokens ...",
-        //   href: ADVANCE_TOOLS_HREF_TEMPLATE,
-        // },
+      // cctpWarning: USDC_BRIDGE_HREF,
+      // moreTokens: {
+      //   label: "More tokens ...",
+      //   href: ADVANCE_TOOLS_HREF_TEMPLATE,
+      // },
       // },
       chains: [...chains, "Solana", "Injective", "Klaytn"],
       moreNetworks: {
