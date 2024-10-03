@@ -73,7 +73,7 @@ export const ENV: Env = {
     cctpWarning: {
       href: USDC_BRIDGE_HREF,
     },
-    networks: [...chains, "Solana", "Injective", "Klaytn"],
+    networks: [...chains, "solana", "injective", "klaytn"],
     moreNetworks: {
       href: ADVANCE_TOOLS_HREF_TEMPLATE,
       target: "_blank",
