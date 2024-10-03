@@ -256,7 +256,7 @@ function App() {
                 Sui
               </Link>
               <Link
-                href={`${process.env.REACT_APP_BASE_URL}/?sourceChain=cosmos`}
+                href={`${process.env.REACT_APP_BASE_URL}/cosmos`}
                 rel="noopener noreferrer"
                 color="inherit"
                 className={classes.link}
