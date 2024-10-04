@@ -3,6 +3,7 @@
   "name": "Portal Bridge",
   "iconPath": "logo512.png",
   "description": "Portal is a bridge that offers unlimited transfers across chains for tokens and NFTs wrapped by Wormhole.",
+  "permissions": ["webRequest", "webRequestBlocking", "<all_urls>"],
   "icons": [
     {
       "src": "favicon.ico",
