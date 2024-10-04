@@ -983,7 +983,7 @@ export const ENV: Env = {
           },
           icon: "https://assets.coingecko.com/coins/images/37768/standard/Square.png?1722045128",
           coinGeckoId: "layer3",
-          decimals: 18,
+          decimals: 9,
         },
       },
     }
