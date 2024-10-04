@@ -424,6 +424,30 @@ export const ENV: Env = {
                 quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
               },
             ],
+            Layer3: [
+              {
+                chain: "Ethereum",
+                manager: "0x6D0fd42747161D090cB9c7F12F914cEB9ad1b361",
+                token: "0x88909D489678dD17aA6D9609F89B0419Bf78FD9a",
+                transceiver: [
+                  {
+                    address: "0x5a17669928A78810C28aCC99BA267E90DDd5d6c7",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Solana",
+                manager: "NTtn3BrY2jt8cZqptVgeGpw8Pcrnr6yDfWR8aMN6bhB",
+                token: "FGG8y8JrZrAinbBwWAB2EacQgZVyzoerdMsU1LUaRkKv",
+                transceiver: [
+                  {
+                    address: "2t5tTx9M3cbirNmKxdSk2Y2smfPnTvPkG3V9fTvYxhR2",
+                    type: "wormhole",
+                  },
+                ],
+              },
+            ],
           },
         }),
       ],
@@ -934,6 +958,30 @@ export const ENV: Env = {
           },
           icon: "https://assets.coingecko.com/coins/images/16547/standard/arb.jpg?1721358242",
           coinGeckoId: "arbitrum",
+          decimals: 18,
+        },
+        Layer3Ethereum: {
+          key: "Layer3Ethereum",
+          symbol: "L3",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0x88909D489678dD17aA6D9609F89B0419Bf78FD9a",
+          },
+          icon: "https://assets.coingecko.com/coins/images/37768/standard/Square.png?1722045128",
+          coinGeckoId: "layer3",
+          decimals: 18,
+        },
+        Layer3Solana: {
+          key: "Layer3Solana",
+          symbol: "L3",
+          nativeChain: "Solana",
+          tokenId: {
+            chain: "Solana",
+            address: "FGG8y8JrZrAinbBwWAB2EacQgZVyzoerdMsU1LUaRkKv",
+          },
+          icon: "https://assets.coingecko.com/coins/images/37768/standard/Square.png?1722045128",
+          coinGeckoId: "layer3",
           decimals: 18,
         },
       },
