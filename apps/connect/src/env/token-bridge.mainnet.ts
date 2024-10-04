@@ -424,6 +424,56 @@ export const ENV: Env = {
                 quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
               },
             ],
+            Sky: [
+              {
+                chain: "Ethereum",
+                manager: "0x143E8bEE29bAd55f96FfB55A47D87436A1029238",
+                token: "0x56072C95FAA701256059aa122697B133aDEd9279",
+                transceiver: [
+                  {
+                    address: "0x2cA1e08953FcEdCD74c3ba8BE33FBBabdcB4Ea30",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Solana",
+                manager: "STTzd1vq1QoxzHWR6dbcvg8uyiRGHh3sXqMdreYsYWh",
+                token: "SKY3ns1PY4rCyyu1n5WCNGnh7MPSjJai3fRcba12NZ8",
+                transceiver: [
+                  {
+                    address: "BopVWeP7ctdHU4x2GrbZX7XM13RPrfC45hUmcQz621Y8",
+                    type: "wormhole",
+                  },
+                ],
+                quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
+              },
+            ],
+            USDS: [
+              {
+                chain: "Ethereum",
+                manager: "0x9BBB66C298772771B9c2294fbcD19BDf52450e1f",
+                token: "0xdC035D45d973E3EC169d2276DDab16f1e407384F",
+                transceiver: [
+                  {
+                    address: "0xC628888D00443752178eccFe5D6d2AbE46Da62ae",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Solana",
+                manager: "STTaPviaZpRbBiubcx2QeDKViRB7scgg4kmonK1Wn3T",
+                token: "USDSmbcVPUStXmCNeH6i13LmRPMZic7Afz7uu7nVgrJ",
+                transceiver: [
+                  {
+                    address: "A7VwadM5nSiCtmEe5XZ3AjyXBKfePF2EPnY5wZbaWJjq",
+                    type: "wormhole",
+                  },
+                ],
+                quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
+              },
+            ],
           },
         }),
       ],
@@ -935,6 +985,54 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/16547/standard/arb.jpg?1721358242",
           coinGeckoId: "arbitrum",
           decimals: 18,
+        },
+        SkyEthereum: {
+          key: "SkyEthereum",
+          symbol: "SKY",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0x56072C95FAA701256059aa122697B133aDEd9279",
+          },
+          icon: "https://assets.coingecko.com/coins/images/39925/standard/sky.jpg?1724827980",
+          coinGeckoId: "sky",
+          decimals: 18,
+        },
+        SkySolana: {
+          key: "SkySolana",
+          symbol: "SKY",
+          nativeChain: "Solana",
+          tokenId: {
+            chain: "Solana",
+            address: "SKY3ns1PY4rCyyu1n5WCNGnh7MPSjJai3fRcba12NZ8",
+          },
+          icon: "https://assets.coingecko.com/coins/images/39925/standard/sky.jpg?1724827980",
+          coinGeckoId: "sky",
+          decimals: 6,
+        },
+        USDSEthereum: {
+          key: "USDSEthereum",
+          symbol: "USDS",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0xdC035D45d973E3EC169d2276DDab16f1e407384F",
+          },
+          icon: "https://assets.coingecko.com/coins/images/39925/standard/sky.jpg?1724827980",
+          coinGeckoId: "usds",
+          decimals: 18,
+        },
+        USDSSolana: {
+          key: "USDSSolana",
+          symbol: "USDS",
+          nativeChain: "Solana",
+          tokenId: {
+            chain: "Solana",
+            address: "USDSmbcVPUStXmCNeH6i13LmRPMZic7Afz7uu7nVgrJ",
+          },
+          icon: "https://assets.coingecko.com/coins/images/39925/standard/sky.jpg?1724827980",
+          coinGeckoId: "usds",
+          decimals: 6,
         },
       },
     }
