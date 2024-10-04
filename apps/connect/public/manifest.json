@@ -1,6 +1,8 @@
 {
   "short_name": "worm.to",
-  "name": "Wormhole Token Bridge",
+  "name": "Portal Bridge",
+  "iconPath": "logo512.png",
+  "description": "Portal is a bridge that offers unlimited transfers across chains for tokens and NFTs wrapped by Wormhole.",
   "icons": [
     {
       "src": "favicon.ico",
