@@ -427,22 +427,22 @@ export const ENV: Env = {
             Layer3: [
               {
                 chain: "Ethereum",
-                manager: "0x6D0fd42747161D090cB9c7F12F914cEB9ad1b361",
+                manager: "0x7ef5053CC09139A84fe1C18bd3219bF0243DE93C",
                 token: "0x88909D489678dD17aA6D9609F89B0419Bf78FD9a",
                 transceiver: [
                   {
-                    address: "0x5a17669928A78810C28aCC99BA267E90DDd5d6c7",
+                    address: "0xc2492Fe6425692f9cb266faf6A3B91D61577A946",
                     type: "wormhole",
                   },
                 ],
               },
               {
                 chain: "Solana",
-                manager: "NTtn3BrY2jt8cZqptVgeGpw8Pcrnr6yDfWR8aMN6bhB",
-                token: "FGG8y8JrZrAinbBwWAB2EacQgZVyzoerdMsU1LUaRkKv",
+                manager: "NttwugVXXpdq1CRdC2PwgsqsUNEsi3kLqB8M22cxPCL",
+                token: "2ummN5q6x8iQid7BFcRp7oMgF3UMEXR8LrUSPYzuMHQH",
                 transceiver: [
                   {
-                    address: "2t5tTx9M3cbirNmKxdSk2Y2smfPnTvPkG3V9fTvYxhR2",
+                    address: "w7Pk9wgXBBkkn6QWk684W95S1WWFL13TMjcMCPHTxU7",
                     type: "wormhole",
                   },
                 ],
