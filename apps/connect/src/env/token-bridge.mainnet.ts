@@ -979,7 +979,7 @@ export const ENV: Env = {
           nativeChain: "Solana",
           tokenId: {
             chain: "Solana",
-            address: "FGG8y8JrZrAinbBwWAB2EacQgZVyzoerdMsU1LUaRkKv",
+            address: "2ummN5q6x8iQid7BFcRp7oMgF3UMEXR8LrUSPYzuMHQH",
           },
           icon: "https://assets.coingecko.com/coins/images/37768/standard/Square.png?1722045128",
           coinGeckoId: "layer3",
