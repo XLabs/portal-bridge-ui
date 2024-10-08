@@ -427,22 +427,22 @@ export const ENV: Env = {
             Layer3: [
               {
                 chain: "Ethereum",
-                manager: "0x596d22d09ea243a79686A3df3dC8b04b0658284f",
+                manager: "0x7926D63FEb9b950908b297cC995B6853bCA21847",
                 token: "0x88909D489678dD17aA6D9609F89B0419Bf78FD9a",
                 transceiver: [
                   {
-                    address: "0x607E27278F879651099d63095D8Aa97Ae0D65bB0",
+                    address: "0x6C55F346C20Ca2b0C62e30790907f0a41C978ccc",
                     type: "wormhole",
                   },
                 ],
               },
               {
                 chain: "Solana",
-                manager: "nTTVLsyTqRZFSyphRjkgi1Bxp5aR7nXDmMGerNWm2a6",
-                token: "CivjW7ZGp7eaubEdGoDeVsTrYYRnyTf5mrp9pET7KFuk",
+                manager: "ntT5xGC7XEuR8Po9U3Umze12T9LBdaTCuEc9Cby6qPa",
+                token: "5k84VjAKoGPXa7ias1BNgKUrX7e61eMPWhZDqsiD4Bpe",
                 transceiver: [
                   {
-                    address: "4ijCe6W6ar2Lg9AuG7MakVnppiYxftANH9pYRRH5pA9T",
+                    address: "5JGpVmGF976mzhzQrfk2BSwqG8b2xg4NxQ88upmZ3iyR",
                     type: "wormhole",
                   },
                 ],
@@ -979,7 +979,7 @@ export const ENV: Env = {
           nativeChain: "Solana",
           tokenId: {
             chain: "Solana",
-            address: "CivjW7ZGp7eaubEdGoDeVsTrYYRnyTf5mrp9pET7KFuk",
+            address: "5k84VjAKoGPXa7ias1BNgKUrX7e61eMPWhZDqsiD4Bpe",
           },
           icon: "https://assets.coingecko.com/coins/images/37768/standard/Square.png?1722045128",
           coinGeckoId: "layer3",
