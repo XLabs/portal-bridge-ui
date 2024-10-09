@@ -964,6 +964,7 @@ export const ENV: Env = {
         Layer3Ethereum: {
           key: "Layer3Ethereum",
           symbol: "L3",
+          displayName: 'Layer3',
           nativeChain: "Ethereum",
           tokenId: {
             chain: "Ethereum",
@@ -976,6 +977,7 @@ export const ENV: Env = {
         Layer3Solana: {
           key: "Layer3Solana",
           symbol: "L3",
+          displayName: 'Layer3',
           nativeChain: "Solana",
           tokenId: {
             chain: "Solana",
