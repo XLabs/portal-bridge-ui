@@ -424,6 +424,31 @@ export const ENV: Env = {
                 quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
               },
             ],
+            Layer3: [
+              {
+                chain: "Ethereum",
+                manager: "0x7926D63FEb9b950908b297cC995B6853bCA21847",
+                token: "0x88909D489678dD17aA6D9609F89B0419Bf78FD9a",
+                transceiver: [
+                  {
+                    address: "0x6C55F346C20Ca2b0C62e30790907f0a41C978ccc",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Solana",
+                manager: "ntT5xGC7XEuR8Po9U3Umze12T9LBdaTCuEc9Cby6qPa",
+                token: "5k84VjAKoGPXa7ias1BNgKUrX7e61eMPWhZDqsiD4Bpe",
+                transceiver: [
+                  {
+                    address: "5JGpVmGF976mzhzQrfk2BSwqG8b2xg4NxQ88upmZ3iyR",
+                    type: "wormhole",
+                  },
+                ],
+                quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
+              },
+            ],
           },
         }),
       ],
@@ -935,6 +960,32 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/16547/standard/arb.jpg?1721358242",
           coinGeckoId: "arbitrum",
           decimals: 18,
+        },
+        Layer3Ethereum: {
+          key: "Layer3Ethereum",
+          symbol: "L3",
+          displayName: "Layer3",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0x88909D489678dD17aA6D9609F89B0419Bf78FD9a",
+          },
+          icon: "https://assets.coingecko.com/coins/images/37768/standard/Square.png?1722045128",
+          coinGeckoId: "layer3",
+          decimals: 18,
+        },
+        Layer3Solana: {
+          key: "Layer3Solana",
+          symbol: "L3",
+          displayName: "Layer3",
+          nativeChain: "Solana",
+          tokenId: {
+            chain: "Solana",
+            address: "5k84VjAKoGPXa7ias1BNgKUrX7e61eMPWhZDqsiD4Bpe",
+          },
+          icon: "https://assets.coingecko.com/coins/images/37768/standard/Square.png?1722045128",
+          coinGeckoId: "layer3",
+          decimals: 9,
         },
       },
     }
