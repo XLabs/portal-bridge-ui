@@ -32,7 +32,7 @@ describe("telemetry", () => {
   });
 
   it("should not track load events", () => {
-    eventHandler({ type: "load" });
+    eventHandler({ type: "load", meta: { version: "version", hash: "hash", host: "host" }, });
 
     expect(mixpanel.track).not.toHaveBeenCalled();
   });
@@ -45,6 +45,7 @@ describe("telemetry", () => {
         chain: "Bsc",
         wallet: "wallet",
       },
+      meta: { version: "version", hash: "hash", host: "host" },
     });
 
     expect(mixpanel.track).toHaveBeenCalledTimes(1);
