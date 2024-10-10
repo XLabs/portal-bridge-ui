@@ -18,6 +18,7 @@ import { getSortedChains } from "../utils/getSortedChains";
 
 const defaultConfig: WormholeConnectConfig = {
   ...ENV.wormholeConnectConfig,
+  // @ts-expect-error: Type error because v1 is outdated
   eventHandler: (e: WormholeConnectEvent) => {
     if (isPreview || isProduction) {
       // Send the event to Mixpanel

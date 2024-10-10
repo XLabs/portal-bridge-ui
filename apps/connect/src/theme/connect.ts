@@ -1,8 +1,6 @@
-import type { WormholeConnectPartialTheme } from "@wormhole-foundation/wormhole-connect";
+import type { WormholeConnectTheme } from "@wormhole-foundation/wormhole-connect";
 
-export const theme: WormholeConnectPartialTheme = {
-  background: {
-    default: "rgba(12, 9, 60, 0)",
-    badge: "rgb(15, 9, 44)",
-  },
+export const theme: WormholeConnectTheme = {
+  mode: "dark",
+  badge: "rgb(15, 9, 44)",
 };

@@ -28,11 +28,15 @@ describe("telemetry", () => {
         },
         fromToken: { symbol: "WOM", tokenId: "native" },
       },
+      meta: { version: "version", hash: "hash", host: "host" },
     };
   });
 
   it("should not track load events", () => {
-    eventHandler({ type: "load" });
+    eventHandler({
+      type: "load",
+      meta: { version: "version", hash: "hash", host: "host" },
+    });
 
     expect(mixpanel.track).not.toHaveBeenCalled();
   });
@@ -45,6 +49,7 @@ describe("telemetry", () => {
         chain: "Bsc",
         wallet: "wallet",
       },
+      meta: { version: "version", hash: "hash", host: "host" },
     });
 
     expect(mixpanel.track).toHaveBeenCalledTimes(1);
@@ -69,6 +74,8 @@ describe("telemetry", () => {
       txId: "txId",
       amount: 0.0001,
       USDAmount: 123.456,
+      connectHash: "hash",
+      connectVersion: "version",
     });
   });
 
