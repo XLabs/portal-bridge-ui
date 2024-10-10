@@ -33,7 +33,10 @@ describe("telemetry", () => {
   });
 
   it("should not track load events", () => {
-    eventHandler({ type: "load", meta: { version: "version", hash: "hash", host: "host" }, });
+    eventHandler({
+      type: "load",
+      meta: { version: "version", hash: "hash", host: "host" },
+    });
 
     expect(mixpanel.track).not.toHaveBeenCalled();
   });

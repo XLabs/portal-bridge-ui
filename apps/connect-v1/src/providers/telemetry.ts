@@ -80,8 +80,7 @@ export const eventHandler = (e: WormholeConnectEvent) => {
     txId: e.details.txId,
     USDAmount: e.details.USDAmount,
     amount: e.details.amount,
-    connectVersion: e.meta.version,
-    connectHash: e.meta.hash,
+    connectVersion: e.meta?.version,
     route:
       {
         bridge: "Manual Bridge",

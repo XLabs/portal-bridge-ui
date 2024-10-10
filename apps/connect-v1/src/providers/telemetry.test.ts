@@ -27,6 +27,7 @@ describe("telemetry", () => {
         },
         fromToken: { symbol: "WOM", tokenId: "native" },
       },
+      meta: { version: "version", hash: "hash", host: "host" },
     };
   });
 
@@ -73,6 +74,9 @@ describe("telemetry", () => {
       route: "wstETH Bridge",
       txId: "txId",
       USDAmount: 123.456,
+      amount: undefined,
+      connectHash: "hash",
+      connectVersion: "version",
     });
   });
 
