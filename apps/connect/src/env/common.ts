@@ -31,6 +31,7 @@ export const chains = [
 
 export const MAINNET_RPCS = {
   ...rpcs(chains, asRpcHost),
+  Klaytn: "https://public-en.node.kaia.io/",
   Solana: "https://wormhole.rpcpool.com/",
 };
 
