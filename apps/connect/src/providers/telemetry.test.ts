@@ -28,6 +28,7 @@ describe("telemetry", () => {
         },
         fromToken: { symbol: "WOM", tokenId: "native" },
       },
+      meta: { version: "version", hash: "hash", host: "host" },
     };
   });
 
@@ -70,6 +71,8 @@ describe("telemetry", () => {
       txId: "txId",
       amount: 0.0001,
       USDAmount: 123.456,
+      connectHash: "hash",
+      connectVersion: "version",
     });
   });
 

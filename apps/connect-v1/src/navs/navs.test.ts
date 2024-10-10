@@ -28,6 +28,8 @@ describe("navs", () => {
         toToken: EMPTY_TOKEN,
         toChain: 1,
       },
+      // @ts-expect-error: Type error because v1 is outdated
+      meta: { version: "version", hash: "hash", host: "host" },
     });
     expect(global.window.history.pushState).toHaveBeenCalledWith(
       { event: "transfer.start" },
@@ -47,6 +49,8 @@ describe("navs", () => {
         toToken: EMPTY_TOKEN,
         toChain: 1,
       },
+      // @ts-expect-error: Type error because v1 is outdated
+      meta: { version: "version", hash: "hash", host: "host" },
     });
     expect(global.window.history.pushState).toHaveBeenCalledWith(
       { event: "transfer.success" },
@@ -66,6 +70,8 @@ describe("navs", () => {
         toToken: EMPTY_TOKEN,
         toChain: 1,
       },
+      // @ts-expect-error: Type error because v1 is outdated
+      meta: { version: "version", hash: "hash", host: "host" },
     });
     expect(global.window.history.pushState).toHaveBeenCalledWith(
       { event: "transfer.redeem.success" },

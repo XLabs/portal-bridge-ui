@@ -8,7 +8,7 @@ export type WormholeConnectEvent = Parameters<
   meta: {
     version: string;
     hash: string;
-  }
+  };
 };
 
 mixpanel.init(
