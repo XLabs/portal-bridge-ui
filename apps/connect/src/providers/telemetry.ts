@@ -58,6 +58,8 @@ export const eventHandler = (e: WormholeConnectEvent) => {
         properties: {
           [`wallet-${side}`]: e.details.wallet,
           [`chain-${side}`]: e.details.chain,
+          connectVersion: e.meta.version,
+          connectHash: e.meta.hash,
         },
       });
     }
