@@ -81,7 +81,6 @@ export const eventHandler = (e: WormholeConnectEvent) => {
     USDAmount: e.details.USDAmount,
     amount: e.details.amount,
     connectVersion: e.meta?.version,
-    connectHost: e.meta ? (window.location.host + window.location.pathname) : undefined,
     route:
       {
         bridge: "Manual Bridge",

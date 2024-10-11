@@ -74,7 +74,6 @@ describe("telemetry", () => {
       txId: "txId",
       USDAmount: 123.456,
       amount: undefined,
-      connectHost: undefined,
       connectVersion: undefined,
     });
   });
