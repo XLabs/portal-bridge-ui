@@ -56,6 +56,8 @@ describe("telemetry", () => {
     expect(mixpanel.track).toHaveBeenCalledWith("wallet.connect", {
       "chain-sending": "Bsc",
       "wallet-sending": "wallet",
+      "connectHash": "hash",
+      "connectVersion": "version",
     });
   });
 
