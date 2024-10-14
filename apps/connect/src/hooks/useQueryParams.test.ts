@@ -85,7 +85,7 @@ describe("useQueryParams", () => {
       txHash: null,
       preferredRouteName: null,
       sourceToken: null,
-      targetToken: null,      
+      targetToken: null,
     });
   });
 
@@ -101,7 +101,7 @@ describe("useQueryParams", () => {
       txHash: null,
       preferredRouteName: "ManualCCTP",
       sourceToken: "USDCarbitrum",
-      targetToken: "USDCeth",      
+      targetToken: "USDCeth",
     });
   });
 });
