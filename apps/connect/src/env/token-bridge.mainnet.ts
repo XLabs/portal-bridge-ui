@@ -573,6 +573,9 @@ export const ENV: Env = {
           Base: "0x9e325590933809B3b79B9C892f07D5A89d322542",
           Celo: "0xfA9f0D9b7E903970e16f65BD648ddD282E2772a1",
         },
+        AUDIUS: {
+          Solana: "9LzCMqDgTKYz9Drzqnpgee3SGa89up3a247ypMj2xrqM",
+        },
       },
       tokensConfig: {
         $WIF: {
@@ -1086,6 +1089,19 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/37768/standard/Square.png?1722045128",
           coinGeckoId: "layer3",
           decimals: 9,
+        },
+        AUDIUS: {
+          key: "AUDIUS",
+          symbol: "AUDIO",
+          displayName: "Audius",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0x18aAA7115705e8be94bfFEBDE57Af9BFc265B998",
+          },
+          icon: "https://assets.coingecko.com/coins/images/37768/standard/Square.png?1722045128",
+          coinGeckoId: "audius",
+          decimals: 18,
         },
       },
     }
