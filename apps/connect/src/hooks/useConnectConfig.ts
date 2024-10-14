@@ -44,9 +44,15 @@ const defaultConfig: WormholeConnectConfig = {
 
 export const useConnectConfig = () => {
   const [networks, setNetworks] = useState<Chain[] | null>(null);
-  const { txHash, sourceChain, targetChain, asset, requiredNetwork } =
+  const { txHash, sourceChain, targetChain, sourceToken, targetToken, requiredNetwork, preferredRouteName } =
     useQueryParams();
-  const token = useFormatAssetParam(asset);
+  const tokenKey = useFormatAssetParam(sourceToken);
+  const toTokenKey = useFormatAssetParam(targetToken);
+  const token = useMemo(() => ({
+    tokenKey: tokenKey ?? undefined,
+    toTokenKey: toTokenKey ?? tokenKey ?? undefined,
+  }), [tokenKey, toTokenKey]);
+
   const config: WormholeConnectConfig = useMemo(
     () => ({
       ...defaultConfig,
@@ -60,12 +66,13 @@ export const useConnectConfig = () => {
         defaultInputs: {
           ...(sourceChain && { fromChain: sourceChain }),
           ...(targetChain && { toChain: targetChain }),
-          ...(token && { tokenKey: token }),
+          ...token,
           ...(requiredNetwork && { requiredChain: requiredNetwork }),
+          ...(preferredRouteName && { preferredRouteName }),
         },
       },
     }),
-    [networks, txHash, sourceChain, targetChain, token, requiredNetwork]
+    [networks, txHash, sourceChain, targetChain, token, requiredNetwork, preferredRouteName]
   );
 
   useEffect(() => {
