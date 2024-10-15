@@ -31,7 +31,11 @@ describe("telemetry", () => {
   });
 
   it("should not track load events", () => {
-    eventHandler({ type: "load" });
+    eventHandler({
+      type: "load",
+      // @ts-expect-error: Type error because v1 is outdated
+      meta: { version: "version", hash: "hash", host: "host" },
+    });
 
     expect(mixpanel.track).not.toHaveBeenCalled();
   });
@@ -44,6 +48,8 @@ describe("telemetry", () => {
         chain: "bsc",
         wallet: "wallet",
       },
+      // @ts-expect-error: Type error because v1 is outdated
+      meta: { version: "version", hash: "hash", host: "host" },
     });
 
     expect(mixpanel.track).toHaveBeenCalledTimes(1);
@@ -67,6 +73,8 @@ describe("telemetry", () => {
       route: "wstETH Bridge",
       txId: "txId",
       USDAmount: 123.456,
+      amount: undefined,
+      connectVersion: undefined,
     });
   });
 

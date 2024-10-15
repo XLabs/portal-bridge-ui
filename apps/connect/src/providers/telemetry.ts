@@ -4,7 +4,12 @@ import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connec
 
 export type WormholeConnectEvent = Parameters<
   NonNullable<WormholeConnectConfig["eventHandler"]>
->[0];
+>[0] & {
+  meta: {
+    version: string;
+    hash: string;
+  };
+};
 
 mixpanel.init(
   isProduction
@@ -53,6 +58,8 @@ export const eventHandler = (e: WormholeConnectEvent) => {
         properties: {
           [`wallet-${side}`]: e.details.wallet,
           [`chain-${side}`]: e.details.chain,
+          connectVersion: e.meta.version,
+          connectHash: e.meta.hash,
         },
       });
     }
@@ -75,6 +82,8 @@ export const eventHandler = (e: WormholeConnectEvent) => {
     txId: e.details.txId,
     USDAmount: e.details.USDAmount,
     amount: e.details.amount,
+    connectVersion: e.meta.version,
+    connectHash: e.meta.hash,
     route:
       {
         ManualTokenBridge: "Manual Bridge",
