@@ -37,6 +37,13 @@ export const METAMASK_CHAIN_PARAMETERS: {
     rpcUrls: ["https://rpc.ankr.com/eth_goerli"],
     blockExplorerUrls: ["https://goerli.etherscan.io"],
   },
+  17000: {
+    chainId: "0x4268",
+    chainName: "Holesky",
+    nativeCurrency: { name: "Holesky Ether", symbol: "ETH", decimals: 18 },
+    rpcUrls: ["https://rpc.ankr.com/eth_holesky"],
+    blockExplorerUrls: ["https://holesky.etherscan.io"],
+  },
   10: {
     chainId: "0xA",
     chainName: "Optimism",
