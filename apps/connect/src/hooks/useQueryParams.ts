@@ -35,6 +35,10 @@ const getRoute = (query: URLSearchParams): string | null => {
   return query.get("route") || null;
 };
 
+const getPreferredValue = (query: URLSearchParams): string | null => {
+  return query.get("preferredRouteName") || null;
+};
+
 export const useQueryParams = () => {
   const query = useMemo(
     () =>
@@ -50,11 +54,13 @@ export const useQueryParams = () => {
   return useMemo(
     () => ({
       txHash: getTxHash(query),
+      preferredRouteName: getRoute(query) ?? getPreferredValue(query),
+      sourceToken:
+        getTokenValue(query, "asset") ?? getTokenValue(query, "sourceAsset"),
+      targetToken: getTokenValue(query, "targetAsset"),
       sourceChain: getChainValue(query, "sourceChain"),
       targetChain: getChainValue(query, "targetChain"),
-      asset: getTokenValue(query, "asset"),
       requiredNetwork: getChainValue(query, "requiredNetwork"),
-      route: getRoute(query),
     }),
     [query]
   );

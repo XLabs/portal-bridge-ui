@@ -17,12 +17,13 @@ describe("useQueryParams", () => {
     rewriteHref("https://portalbridge.com/");
     const { result } = renderHook(() => useQueryParams());
     expect(result.current).toEqual({
-      asset: null,
       requiredNetwork: null,
       sourceChain: null,
       targetChain: null,
       txHash: null,
-      route: null,
+      preferredRouteName: null,
+      sourceToken: null,
+      targetToken: null,
     });
   });
 
@@ -32,12 +33,13 @@ describe("useQueryParams", () => {
     );
     const { result } = renderHook(() => useQueryParams());
     expect(result.current).toEqual({
-      asset: "asset",
       requiredNetwork: "Arbitrum",
       sourceChain: "Bsc",
       targetChain: "Arbitrum",
       txHash: "txHash",
-      route: "bridge",
+      preferredRouteName: "bridge",
+      sourceToken: "asset",
+      targetToken: null,
     });
   });
 
@@ -47,12 +49,13 @@ describe("useQueryParams", () => {
     );
     const { result } = renderHook(() => useQueryParams());
     expect(result.current).toEqual({
-      asset: "asset",
       requiredNetwork: "Arbitrum",
       sourceChain: "Bsc",
       targetChain: "Arbitrum",
       txHash: "txHash",
-      route: "bridge",
+      sourceToken: "asset",
+      targetToken: null,
+      preferredRouteName: "bridge",
     });
   });
 
@@ -60,12 +63,13 @@ describe("useQueryParams", () => {
     rewriteHref("https://portalbridge.com/#/?transactionId=transactionId");
     const { result } = renderHook(() => useQueryParams());
     expect(result.current).toEqual({
-      asset: null,
       requiredNetwork: null,
       sourceChain: null,
       targetChain: null,
       txHash: "transactionId",
-      route: null,
+      preferredRouteName: null,
+      sourceToken: null,
+      targetToken: null,
     });
   });
 
@@ -75,12 +79,29 @@ describe("useQueryParams", () => {
     );
     const { result } = renderHook(() => useQueryParams());
     expect(result.current).toEqual({
-      asset: null,
       requiredNetwork: "Arbitrum",
       sourceChain: "Bsc",
       targetChain: "Arbitrum",
       txHash: null,
-      route: null,
+      preferredRouteName: null,
+      sourceToken: null,
+      targetToken: null,
+    });
+  });
+
+  it("should get QS with difference between source and target assets", () => {
+    rewriteHref(
+      "https://portalbridge.com/#/?sourceChain=arbitrum&targetChain=ethereum&sourceAsset=USDCarbitrum&targetAsset=USDCeth&route=ManualCCTP"
+    );
+    const { result } = renderHook(() => useQueryParams());
+    expect(result.current).toEqual({
+      requiredNetwork: null,
+      sourceChain: "Arbitrum",
+      targetChain: "Ethereum",
+      txHash: null,
+      preferredRouteName: "ManualCCTP",
+      sourceToken: "USDCarbitrum",
+      targetToken: "USDCeth",
     });
   });
 });

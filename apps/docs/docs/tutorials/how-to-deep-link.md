@@ -3,6 +3,51 @@ sidebar_position: 6
 ---
 # Deep link to Portal Bridge
 
+> Note: This feature could work differently between the different bridge versions than 
+> what Portal Bridge currently offers. The documentation presented here works on https://portalbridge.com
+
+## Pre-select Assets and Preferred route
+
+|Query Parameter  | Description |
+|---|---|---|
+|`sourceChain`                   |A source chain that will be pre-selected |
+|`targetChain`                   |A target chain that will be pre-selected |
+|`sourceAsset` or `asset`        |It will be the key of an asset that is injected in configs, you could check [here](https://github.com/XLabs/portal-bridge-ui/blob/main/apps/connect/src/env/token-bridge.mainnet.ts#L505)|
+|`targetAsset`                   |this could be useful for routes that offer swaps|
+|`route` or `preferredRouteName` |the route names, check below|
+
+#### Routes
+
+> Note if the preferred route does not support the given tokens, 
+> it will fall back to the fastest available option.
+
+##### Mayan
+- to prefer Mayan route, the value must be `MayanSwapWH`
+- to prefer Mayan Swift route, the value must be `MayanSwapSWIFT`
+- to prefer Mayan MCTP route, the value must be `MayanSwapMCTP`
+
+
+##### CCTP
+- to prefer CCTP Manual route, the value must be `ManualCCTP`
+- to prefer CCTP Automatic, the value must be `AutomaticCCTP`
+
+##### Token Bridge
+- to prefer Token Bridge Manual route, the value must be `ManualTokenBridge`
+- to prefer Token Bridge Automatic route, the value must be `AutomaticTokenBridge`
+
+
+##### NTT
+- to prefer NTT Manual route, the value must be `ManualNtt`
+- to prefer NTT Automatic route, the value must be `AutomaticNtt`
+
+#### Examples
+
+You can set a preferred route to bridge the assets by using the query param: `route`
+
+- https://portalbridge.com/?sourceChain=arbitrum&targetChain=ethereum&sourceAsset=USDCarbitrum&targetAsset=USDCeth&route=ManualCCTP
+
+- https://portalbridge.com/?sourceChain=ethereum&targetChain=bsc&sourceAsset=wstETH&targetAsset=wstETHBsc&route=AutomacticNtt
+
 ## Transfer
 
 What if I want to share a link on social media or to a friend, and I want a pre-selection of **source-chain** and **target-chain**?
