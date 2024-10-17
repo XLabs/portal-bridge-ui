@@ -503,6 +503,10 @@ export const ENV: Env = {
         }),
       ],
       wrappedTokens: {
+        spx6900: {
+          Ethereum: "0xe0f63a424a4439cbe457d80e4f4b51ad25b2c56c",
+          Solana: "J3NKxxXZcnNiMjKw9hYb2K4LUxgwB6t1FtPtQVsv3KFr",
+        },
         tBTC: {
           Arbitrum: "0x6c84a8f1c29108F47a79964b5Fe888D4f4D0dE40",
           Polygon: "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
@@ -578,6 +582,18 @@ export const ENV: Env = {
         },
       },
       tokensConfig: {
+        spx6900: {
+          key: "spx6900",
+          symbol: "spx6900",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0xe0f63a424a4439cbe457d80e4f4b51ad25b2c56c"
+          },
+          icon: "images/tokens/spx6900.svg",
+          coinGeckoId: "spx6900",
+          decimals: 8,
+        },
         $WIF: {
           key: "$WIF",
           symbol: "$WIF",
