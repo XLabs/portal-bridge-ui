@@ -588,7 +588,7 @@ export const ENV: Env = {
           nativeChain: "Ethereum",
           tokenId: {
             chain: "Ethereum",
-            address: "0xe0f63a424a4439cbe457d80e4f4b51ad25b2c56c"
+            address: "0xe0f63a424a4439cbe457d80e4f4b51ad25b2c56c",
           },
           icon: "images/tokens/spx6900.svg",
           coinGeckoId: "spx6900",
