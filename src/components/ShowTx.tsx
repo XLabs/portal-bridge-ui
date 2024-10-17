@@ -76,7 +76,7 @@ export default function ShowTx({
   const explorerAddress =
     chainId === CHAIN_ID_ETH
       ? `https://${
-          CLUSTER === "testnet" ? "goerli." : ""
+          CLUSTER === "testnet" ? "holesky." : ""
         }etherscan.io/tx/${tx?.id}`
       : chainId === CHAIN_ID_BSC
       ? `https://${

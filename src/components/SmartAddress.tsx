@@ -120,7 +120,7 @@ export default function SmartAddress({
   const explorerAddress = isNative
     ? null
     : chainId === CHAIN_ID_ETH
-    ? `https://${CLUSTER === "testnet" ? "goerli." : ""}etherscan.io/${
+    ? `https://${CLUSTER === "testnet" ? "holesky." : ""}etherscan.io/${
         isAsset ? "token" : "address"
       }/${useableAddress}`
     : chainId === CHAIN_ID_BSC

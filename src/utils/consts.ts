@@ -315,9 +315,14 @@ export const CHAINS: ChainInfo[] =
           name: "Celo",
           logo: celoIcon,
         },
+        // {
+        //   id: CHAIN_ID_ETH,
+        //   name: "Ethereum (Goerli)",
+        //   logo: ethIcon,
+        // },
         {
           id: CHAIN_ID_ETH,
-          name: "Ethereum (Goerli)",
+          name: "Ethereum (Holesky)",
           logo: ethIcon,
         },
         {
@@ -796,7 +801,7 @@ export const WORMHOLE_RPC_HOSTS =
     ? ["https://api.testnet.wormholescan.io"]
     : ["http://localhost:7071"];
 export const ETH_NETWORK_CHAIN_ID =
-  CLUSTER === "mainnet" ? 1 : CLUSTER === "testnet" ? 5 : 1337;
+  CLUSTER === "mainnet" ? 1 : CLUSTER === "testnet" ? 17000 : 1337;
 export const ROPSTEN_ETH_NETWORK_CHAIN_ID =
   CLUSTER === "mainnet" ? 1 : CLUSTER === "testnet" ? 3 : 1337;
 export const BSC_NETWORK_CHAIN_ID =
@@ -1526,7 +1531,7 @@ export const COVALENT_CHAIN_MAINNET: ChainIdMap = {
 } as const;
 
 export const COVALENT_CHAIN_TESTNET: ChainIdMap = {
-  [CHAIN_ID_ETH]: 5,
+  [CHAIN_ID_ETH]: 17000,
   [CHAIN_ID_BSC]: BSC_NETWORK_CHAIN_ID,
   [CHAIN_ID_POLYGON]: POLYGON_NETWORK_CHAIN_ID,
   [CHAIN_ID_AVAX]: AVAX_NETWORK_CHAIN_ID,
