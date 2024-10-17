@@ -3,46 +3,46 @@ sidebar_position: 6
 ---
 # Deep link to Portal Bridge
 
-> Note: this feature could work differently between the different bridged experience
-> that currently portal bridge offer. The documentation presented here works on https://portalbridge.com
+> Note: this feature could work differently between the different bridged experiences
+> that currently portal bridge offers. The documentation presented here works on https://portalbridge.com
 
-## Pre select Assets and Preffered route
+## Pre-select Assets and Preferred route
 
 |Query Param  | Description |
 |---|---|---|
-|`sourceChain`                   |A source chain that will be pre selected|
-|`targetChain`                   |A target chain that will be pre selected|
+|`sourceChain`                   |A source chain that will be pre-selected |
+|`targetChain`                   |A target chain that will be pre-selected |
 |`sourceAsset` or `asset`        |It will be the key of an asset that is injected in configs, you could check [here](https://github.com/XLabs/portal-bridge-ui/blob/main/apps/connect/src/env/token-bridge.mainnet.ts#L505)|
 |`targetAsset`                   |this could be useful for routes that offer swaps|
 |`route` or `preferredRouteName` |the route names, check below|
 
 #### Routes
 
-> Note if the prefeer route does not support the given tokens, 
-> it will fallback to the fastest available option.
+> Note if the preferred route does not support the given tokens, 
+> it will fall back to the fastest available option.
 
 ##### Mayan
-- to prefeer Mayan route, the value must be `MayanSwapWH`
-- to prefeer Mayan Swift route, the value must be `MayanSwapSWIFT`
-- to prefeer Mayan MCTP route, the value must be `MayanSwapMCTP`
+- to prefer Mayan route, the value must be `MayanSwapWH`
+- to prefer Mayan Swift route, the value must be `MayanSwapSWIFT`
+- to prefer Mayan MCTP route, the value must be `MayanSwapMCTP`
 
 
 ##### CCTP
-- to prefeer CCTP Manual, the value must be `ManualCCTP`
-- to prefeer CCTP Automatic, the value must be `AutomaticCCTP`
+- to prefer CCTP Manual, the value must be `ManualCCTP`
+- to prefer CCTP Automatic, the value must be `AutomaticCCTP`
 
 ##### Token Bridge
-- to prefeer Token Bridge Manual, the value must be `ManualTokenBridge`
-- to prefeer Token Bridge Automatic, the value must be `AutomaticTokenBridge`
+- to prefer Token Bridge Manual, the value must be `ManualTokenBridge`
+- to prefer Token Bridge Automatic, the value must be `AutomaticTokenBridge`
 
 
 ##### NTT
-- to prefeer Token Bridge Manual, the value must be `ManualNtt`
-- to prefeer Token Bridge Automatic, the value must be `AutomaticNtt`
+- to prefer Token Bridge Manual, the value must be `ManualNtt`
+- to prefer Token Bridge Automatic, the value must be `AutomaticNtt`
 
 #### Examples
 
-You can setup a preferred route to bridge the assets by using the query param: `route`
+You can set a preferred route to bridge the assets by using the query param: `route`
 
 - https://portalbridge.com/?sourceChain=arbitrum&targetChain=ethereum&sourceAsset=USDCarbitrum&targetAsset=USDCeth&route=ManualCCTP
 
