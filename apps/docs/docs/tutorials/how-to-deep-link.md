@@ -3,12 +3,12 @@ sidebar_position: 6
 ---
 # Deep link to Portal Bridge
 
-> Note: this feature could work differently between the different bridged experiences
-> that currently portal bridge offers. The documentation presented here works on https://portalbridge.com
+> Note: This feature could work differently between the different bridge versions than 
+> what Portal Bridge currently offers. The documentation presented here works on https://portalbridge.com
 
 ## Pre-select Assets and Preferred route
 
-|Query Param  | Description |
+|Query Parameter  | Description |
 |---|---|---|
 |`sourceChain`                   |A source chain that will be pre-selected |
 |`targetChain`                   |A target chain that will be pre-selected |
@@ -28,17 +28,17 @@ sidebar_position: 6
 
 
 ##### CCTP
-- to prefer CCTP Manual, the value must be `ManualCCTP`
+- to prefer CCTP Manual route, the value must be `ManualCCTP`
 - to prefer CCTP Automatic, the value must be `AutomaticCCTP`
 
 ##### Token Bridge
-- to prefer Token Bridge Manual, the value must be `ManualTokenBridge`
-- to prefer Token Bridge Automatic, the value must be `AutomaticTokenBridge`
+- to prefer Token Bridge Manual route, the value must be `ManualTokenBridge`
+- to prefer Token Bridge Automatic route, the value must be `AutomaticTokenBridge`
 
 
 ##### NTT
-- to prefer Token Bridge Manual, the value must be `ManualNtt`
-- to prefer Token Bridge Automatic, the value must be `AutomaticNtt`
+- to prefer NTT Manual route, the value must be `ManualNtt`
+- to prefer NTT Automatic route, the value must be `AutomaticNtt`
 
 #### Examples
 
