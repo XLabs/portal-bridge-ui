@@ -39,7 +39,7 @@ describe("useQueryParams", () => {
       txHash: "txHash",
       preferredRouteName: "bridge",
       sourceToken: "asset",
-      targetToken: "asset",
+      targetToken: null,
     });
   });
 
@@ -54,7 +54,7 @@ describe("useQueryParams", () => {
       targetChain: "Arbitrum",
       txHash: "txHash",
       sourceToken: "asset",
-      targetToken: "asset",
+      targetToken: null,
       preferredRouteName: "bridge",
     });
   });
