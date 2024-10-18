@@ -1,4 +1,4 @@
-import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
+import type { Chain, WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
 import { envVars } from "./env-vars";
 
 const rpcs = (chains: string[], template: (chain: string) => string) =>
@@ -29,12 +29,41 @@ export const chains = [
   "Mantle",
 ];
 
+export const chainsTestnet: Chain[] = [
+  "Wormchain",
+  "Osmosis",
+  "Sepolia",
+  "Holesky",
+  "Sui",
+  "Aptos",
+  "Kujira",
+  "Evmos",
+  "Bsc",
+  "Avalanche",
+  "Fantom",
+  "Celo",
+  "Moonbeam",
+  "Scroll",
+  "Xlayer",
+  "Mantle",
+  "ArbitrumSepolia",
+  "OptimismSepolia",
+  "BaseSepolia",
+  "PolygonSepolia",
+  "Solana",
+];
+
 export const MAINNET_RPCS = {
   ...rpcs(chains, asRpcHost),
   Klaytn: "https://public-en.node.kaia.io/",
   Solana: "https://wormhole.rpcpool.com/",
 };
 
+export const TESTNET_RPCS = {
+  Ethereum: asRpcHost('ethereum-testnet'),
+  Aptos: asRpcHost('aptos-testnet'),
+  Sui: asRpcHost('sui-testnet'),
+};
 export const PUBLIC_URL = envVars.VITE_PUBLIC_URL || "";
 
 export const CLUSTER = envVars.VITE_APP_CLUSTER || "Testnet";

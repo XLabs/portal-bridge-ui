@@ -5,7 +5,7 @@ import {
   nttRoutes,
   type WormholeConnectConfig,
 } from "@wormhole-foundation/wormhole-connect";
-import { Env } from "./common";
+import { chainsTestnet, Env, TESTNET_RPCS } from "./common";
 
 export const ENV: Env = {
   ...ENV_BASE,
@@ -15,6 +15,8 @@ export const ENV: Env = {
       // ui: {
       //   moreChains: { chains: [ALGORAND, ACALA, MORE] },
       // } as NonNullable<WormholeConnectConfig["ui"]>,
+      rpcs: TESTNET_RPCS,
+      chains: chainsTestnet,
       tokensConfig: {
         Wsolana: {
           key: "Wsolana",
