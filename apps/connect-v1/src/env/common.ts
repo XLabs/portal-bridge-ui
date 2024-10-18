@@ -35,9 +35,9 @@ export const MAINNET_RPCS = {
 };
 
 export const TESTNET_RPCS = {
-  Ethereum: asRpcHost('ethereum-testnet'),
-  Aptos: asRpcHost('aptos-testnet'),
-  Sui: asRpcHost('sui-testnet'),
+  holesky: asRpcHost('ethereum-testnet'),
+  aptos: asRpcHost('aptos-testnet'),
+  sui: asRpcHost('sui-testnet'),
 };
 
 export const PUBLIC_URL = envVars.VITE_PUBLIC_URL || "";

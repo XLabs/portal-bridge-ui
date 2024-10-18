@@ -60,10 +60,11 @@ export const MAINNET_RPCS = {
 };
 
 export const TESTNET_RPCS = {
-  Ethereum: asRpcHost('ethereum-testnet'),
+  Holesky: asRpcHost('ethereum-testnet'),
   Aptos: asRpcHost('aptos-testnet'),
   Sui: asRpcHost('sui-testnet'),
 };
+
 export const PUBLIC_URL = envVars.VITE_PUBLIC_URL || "";
 
 export const CLUSTER = envVars.VITE_APP_CLUSTER || "Testnet";
