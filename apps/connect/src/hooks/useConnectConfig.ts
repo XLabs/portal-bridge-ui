@@ -14,6 +14,7 @@ import { isPreview, isProduction } from "../utils/constants";
 import { ENV } from "@env";
 import { validateTransfer } from "../utils/transferVerification";
 import { getSortedChains } from "../utils/getSortedChains";
+import isRouteSupported from "../utils/isRouteSupported";
 
 const defaultConfig: WormholeConnectConfig = {
   ...ENV.wormholeConnectConfig,
@@ -29,17 +30,7 @@ const defaultConfig: WormholeConnectConfig = {
   },
   // validateTransfer
   validateTransferHandler: validateTransfer,
-  isRouteSupportedHandler: async (td: any) => {
-    // Disable manual NTT for Lido wstETHƒ
-    return !(
-      td.route === "ManualNtt" &&
-      td.fromToken.tokenId !== "native" &&
-      [
-        "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0",
-        "0x26c5e01524d2E6280A48F2c50fF6De7e52E9611C",
-      ].includes(td.fromToken.tokenId.address)
-    );
-  },
+  isRouteSupportedHandler: isRouteSupported,
 };
 
 export const useConnectConfig = () => {
