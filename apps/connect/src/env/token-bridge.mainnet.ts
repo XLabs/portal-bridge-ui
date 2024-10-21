@@ -452,6 +452,63 @@ export const ENV: Env = {
                 quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
               },
             ],
+            VaultCraft: [
+              {
+                chain: "Arbitrum",
+                manager: "0x0fa98307C08a4A832291767600ABaDb02209DF3f",
+                token: "0xFeae6470A79b7779888f4a64af315Ca997D6cF33",
+                transceiver: [
+                  {
+                    address: "0x8052D5245341F67a8033798987d5d4b323a0913A",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Ethereum",
+                manager: "0xBfdc5171Cf63acE266aF9cA06DAD6301Ef6455d3",
+                token: "0xcE246eEa10988C495B4A90a905Ee9237a0f91543",
+                transceiver: [
+                  {
+                    address: "0xBf238579EFc1Da2cE9E8d1237aAE37531C16B37a",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Optimism",
+                manager: "0xDafC709d84f5FE09546fD054220EA59b47517379",
+                token: "0x43Ad2CFDDA3CEFf40d832eB9bc33eC3FACE86829",
+                transceiver: [
+                  {
+                    address: "0x0f5325Ea19504403fA543688bC84F9DC3327D78b",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Base",
+                manager: "0xDafC709d84f5FE09546fD054220EA59b47517379",
+                token: "0x43Ad2CFDDA3CEFf40d832eB9bc33eC3FACE86829",
+                transceiver: [
+                  {
+                    address: "0x0f5325Ea19504403fA543688bC84F9DC3327D78b",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Avalanche",
+                manager: "0x30F64191353Db3f2135CAb366039c916BE38B598",
+                token: "0x58890c4d6268CA329C9Ff626dc4Da07c1977Deb4",
+                transceiver: [
+                  {
+                    address: "0xdcA6fd78f1128F9593Af4c59e48FfEc177295654",
+                    type: "wormhole",
+                  },
+                ],
+              },
+            ],
           },
         }),
       ],
@@ -1021,6 +1078,71 @@ export const ENV: Env = {
           },
           icon: "https://assets.coingecko.com/coins/images/37768/standard/Square.png?1722045128",
           coinGeckoId: "audius",
+          decimals: 18,
+        },
+        VaultCraftEthereum: {
+          key: "VaultCraftEthereum",
+          symbol: "VCX",
+          displayName: "VaultCraft",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0xce246eea10988c495b4a90a905ee9237a0f91543",
+          },
+          icon: "https://assets.coingecko.com/coins/images/33237/standard/VCX_Token_200x200.png?1701147660",
+          coinGeckoId: "vaultcraft",
+          decimals: 18,
+        },
+        VaultCraftArbitrum: {
+          key: "VaultCraftArbitrum",
+          symbol: "VCX",
+          displayName: "VaultCraft",
+          nativeChain: "Arbitrum",
+          tokenId: {
+            chain: "Arbitrum",
+            address: "0xFeae6470A79b7779888f4a64af315Ca997D6cF33",
+          },
+          icon: "https://assets.coingecko.com/coins/images/33237/standard/VCX_Token_200x200.png?1701147660",
+          coinGeckoId: "vaultcraft",
+          decimals: 18,
+        },
+        VaultCraftOptimism: {
+          key: "VaultCraftOptimism",
+          symbol: "VCX",
+          displayName: "VaultCraft",
+          nativeChain: "Optimism",
+          tokenId: {
+            chain: "Optimism",
+            address: "0x43Ad2CFDDA3CEFf40d832eB9bc33eC3FACE86829",
+          },
+          icon: "https://assets.coingecko.com/coins/images/33237/standard/VCX_Token_200x200.png?1701147660",
+          coinGeckoId: "vaultcraft",
+          decimals: 18,
+        },
+        VaultCraftBase: {
+          key: "VaultCraftBase",
+          symbol: "VCX",
+          displayName: "VaultCraft",
+          nativeChain: "Base",
+          tokenId: {
+            chain: "Base",
+            address: "0x43Ad2CFDDA3CEFf40d832eB9bc33eC3FACE86829",
+          },
+          icon: "https://assets.coingecko.com/coins/images/33237/standard/VCX_Token_200x200.png?1701147660",
+          coinGeckoId: "vaultcraft",
+          decimals: 18,
+        },
+        VaultCraftAvalanche: {
+          key: "VaultCraftAvalanche",
+          symbol: "VCX",
+          displayName: "VaultCraft",
+          nativeChain: "Avalanche",
+          tokenId: {
+            chain: "Avalanche",
+            address: "0x58890c4d6268CA329C9Ff626dc4Da07c1977Deb4",
+          },
+          icon: "https://assets.coingecko.com/coins/images/33237/standard/VCX_Token_200x200.png?1701147660",
+          coinGeckoId: "vaultcraft",
           decimals: 18,
         },
       },
