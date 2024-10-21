@@ -504,7 +504,6 @@ export const ENV: Env = {
       ],
       wrappedTokens: {
         spx6900: {
-          Ethereum: "0xe0f63a424a4439cbe457d80e4f4b51ad25b2c56c",
           Solana: "J3NKxxXZcnNiMjKw9hYb2K4LUxgwB6t1FtPtQVsv3KFr",
         },
         tBTC: {
