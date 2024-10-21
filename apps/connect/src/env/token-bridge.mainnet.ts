@@ -167,53 +167,6 @@ export const ENV: Env = {
                 ],
               },
             ],
-            Yaku: [
-              {
-                chain: "Solana",
-                manager: "nTtPcmsVY4f86cSREmnio5tUyiK58HBqBeDwaUYQt6t",
-                token: "AqEHVh8J2nXH9saV2ciZyYwPpqWFRfD2ffcq5Z8xxqm5",
-                transceiver: [
-                  {
-                    address: "6gTkp6F5XhsaeugYEtuQ6qmuD8qUUdeHrYrN1s1qex7",
-                    type: "wormhole",
-                  },
-                ],
-                quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
-              },
-              {
-                chain: "Ethereum",
-                manager: "0x9ad57E28ECc26507FFB18dBc15Ae7B13254B99c7",
-                token: "0x1155DB64b59265F57533bC0f9AE012FfFd34eB7F",
-                transceiver: [
-                  {
-                    address: "0x0e9c1B26Ee0D3021e4543c2Ed65a9661AC390390",
-                    type: "wormhole",
-                  },
-                ],
-              },
-              {
-                chain: "Arbitrum",
-                manager: "0x650613DbD0b422cD7f7c06a8a07Dc2C5880b54b3",
-                token: "0xB00eaEDB98F1e30ad545703d8Ff14b24D109514f",
-                transceiver: [
-                  {
-                    address: "0x19c19B3151AEa35eE19E018ed24D81F892b6C18E",
-                    type: "wormhole",
-                  },
-                ],
-              },
-              {
-                chain: "Avalanche",
-                manager: "0xbeEDEcF091DDAC6a494A718666f94d8A1d5Ab984",
-                token: "0xB00eaEDB98F1e30ad545703d8Ff14b24D109514f",
-                transceiver: [
-                  {
-                    address: "0x0a5C77B838D22E8156D62e7845Fb73e948CAc299",
-                    type: "wormhole",
-                  },
-                ],
-              },
-            ],
             WeatherXM: [
               {
                 chain: "Ethereum",
@@ -761,54 +714,6 @@ export const ENV: Env = {
           coinGeckoId: "wrapped-steth",
           color: "#3AA3FF",
           decimals: 18,
-        },
-        Yakusolana: {
-          key: "Yakusolana",
-          symbol: "Yaku",
-          nativeChain: "Solana",
-          tokenId: {
-            chain: "Solana",
-            address: "AqEHVh8J2nXH9saV2ciZyYwPpqWFRfD2ffcq5Z8xxqm5",
-          },
-          icon: "https://assets.coingecko.com/coins/images/26785/standard/yaku_logo.png?1706636424",
-          coinGeckoId: "yaku",
-          decimals: 9,
-        },
-        Yakuethereum: {
-          key: "Yakuethereum",
-          symbol: "Yaku",
-          nativeChain: "Ethereum",
-          tokenId: {
-            chain: "Ethereum",
-            address: "0x1155DB64b59265F57533bC0f9AE012FfFd34eB7F",
-          },
-          icon: "https://assets.coingecko.com/coins/images/26785/standard/yaku_logo.png?1706636424",
-          coinGeckoId: "yaku",
-          decimals: 9,
-        },
-        Yakuarbitrum: {
-          key: "Yakuarbitrum",
-          symbol: "Yaku",
-          nativeChain: "Arbitrum",
-          tokenId: {
-            chain: "Arbitrum",
-            address: "0xB00eaEDB98F1e30ad545703d8Ff14b24D109514f",
-          },
-          icon: "https://assets.coingecko.com/coins/images/26785/standard/yaku_logo.png?1706636424",
-          coinGeckoId: "yaku",
-          decimals: 9,
-        },
-        Yakuavalanche: {
-          key: "Yakuavalanche",
-          symbol: "Yaku",
-          nativeChain: "Avalanche",
-          tokenId: {
-            chain: "Avalanche",
-            address: "0xB00eaEDB98F1e30ad545703d8Ff14b24D109514f",
-          },
-          icon: "https://assets.coingecko.com/coins/images/26785/standard/yaku_logo.png?1706636424",
-          coinGeckoId: "yaku",
-          decimals: 9,
         },
         WeatherXMethereum: {
           key: "WeatherXMethereum",

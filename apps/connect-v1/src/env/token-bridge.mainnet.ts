@@ -350,66 +350,6 @@ export const ENV: Env = {
             Ethereum: 18,
           },
         },
-        Yakusolana: {
-          key: "Yakusolana",
-          symbol: "Yaku",
-          nativeChain: "solana",
-          tokenId: {
-            chain: "solana",
-            address: "AqEHVh8J2nXH9saV2ciZyYwPpqWFRfD2ffcq5Z8xxqm5",
-          },
-          icon: "https://assets.coingecko.com/coins/images/26785/standard/yaku_logo.png?1706636424",
-          coinGeckoId: "yaku",
-          decimals: {
-            default: 8,
-            Solana: 9,
-          },
-        },
-        Yakuethereum: {
-          key: "Yakuethereum",
-          symbol: "Yaku",
-          nativeChain: "ethereum",
-          tokenId: {
-            chain: "ethereum",
-            address: "0x1155DB64b59265F57533bC0f9AE012FfFd34eB7F",
-          },
-          icon: "https://assets.coingecko.com/coins/images/26785/standard/yaku_logo.png?1706636424",
-          coinGeckoId: "yaku",
-          decimals: {
-            default: 8,
-            Ethereum: 9,
-          },
-        },
-        Yakuarbitrum: {
-          key: "Yakuarbitrum",
-          symbol: "Yaku",
-          nativeChain: "arbitrum",
-          tokenId: {
-            chain: "arbitrum",
-            address: "0xB00eaEDB98F1e30ad545703d8Ff14b24D109514f",
-          },
-          icon: "https://assets.coingecko.com/coins/images/26785/standard/yaku_logo.png?1706636424",
-          coinGeckoId: "yaku",
-          decimals: {
-            default: 8,
-            Ethereum: 9,
-          },
-        },
-        Yakuavalanche: {
-          key: "Yakuavalanche",
-          symbol: "Yaku",
-          nativeChain: "avalanche",
-          tokenId: {
-            chain: "avalanche",
-            address: "0xB00eaEDB98F1e30ad545703d8Ff14b24D109514f",
-          },
-          icon: "https://assets.coingecko.com/coins/images/26785/standard/yaku_logo.png?1706636424",
-          coinGeckoId: "yaku",
-          decimals: {
-            default: 8,
-            Ethereum: 9,
-          },
-        },
         WeatherXMethereum: {
           key: "WeatherXMethereum",
           symbol: "WXM",
@@ -771,54 +711,6 @@ export const ENV: Env = {
               transceivers: [
                 {
                   address: "0x4386e36B96D437b0F1C04A35E572C10C6627d88a",
-                  type: "wormhole",
-                },
-              ],
-            },
-          ],
-        },
-        Yaku: {
-          nttManagers: [
-            {
-              chainName: "solana",
-              address: "nTtPcmsVY4f86cSREmnio5tUyiK58HBqBeDwaUYQt6t",
-              tokenKey: "Yakusolana",
-              transceivers: [
-                {
-                  address: "6gTkp6F5XhsaeugYEtuQ6qmuD8qUUdeHrYrN1s1qex7",
-                  type: "wormhole",
-                },
-              ],
-            },
-            {
-              chainName: "ethereum",
-              address: "0x9ad57E28ECc26507FFB18dBc15Ae7B13254B99c7",
-              tokenKey: "Yakuethereum",
-              transceivers: [
-                {
-                  address: "0x0e9c1B26Ee0D3021e4543c2Ed65a9661AC390390",
-                  type: "wormhole",
-                },
-              ],
-            },
-            {
-              chainName: "arbitrum",
-              address: "0x650613DbD0b422cD7f7c06a8a07Dc2C5880b54b3",
-              tokenKey: "Yakuarbitrum",
-              transceivers: [
-                {
-                  address: "0x19c19B3151AEa35eE19E018ed24D81F892b6C18E",
-                  type: "wormhole",
-                },
-              ],
-            },
-            {
-              chainName: "avalanche",
-              address: "0xbeEDEcF091DDAC6a494A718666f94d8A1d5Ab984",
-              tokenKey: "Yakuavalanche",
-              transceivers: [
-                {
-                  address: "0x0a5C77B838D22E8156D62e7845Fb73e948CAc299",
                   type: "wormhole",
                 },
               ],
