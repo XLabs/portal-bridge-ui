@@ -30,7 +30,7 @@
     "@mui/icons-material": "^5.14.11",
     "@mui/material": "^5.12.1",
     "@tanstack/react-query": "^5.14.2",
-    "@wormhole-foundation/sdk": "^0.10.3",
+    "@wormhole-foundation/sdk": "^0.12.0",
     "@wormhole-foundation/wormhole-connect": "^1.1.2",
     "aptos": "^1.21.0",
     "bech32": "^2.0.0",
