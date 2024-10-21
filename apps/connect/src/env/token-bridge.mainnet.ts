@@ -536,7 +536,7 @@ export const ENV: Env = {
       tokensConfig: {
         spx6900: {
           key: "spx6900",
-          symbol: "spx6900",
+          symbol: "SPX6900",
           nativeChain: "Ethereum",
           tokenId: {
             chain: "Ethereum",
