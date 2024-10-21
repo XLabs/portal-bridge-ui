@@ -71,8 +71,6 @@ export const COIN_GECKO_IMAGE_URLS: CoinGeckoIdToImageUrl = {
     "https://assets.coingecko.com/coins/images/20077/small/200x200-agf.png?1636452467",
   augur:
     "https://assets.coingecko.com/coins/images/309/small/REP.png?1596339859",
-  "aurora-dao":
-    "https://assets.coingecko.com/coins/images/2565/small/logomark-purple-286x286.png?1638362736",
   aurory:
     "https://assets.coingecko.com/coins/images/19324/small/logo.png?1635076945",
   "avalanche-2":

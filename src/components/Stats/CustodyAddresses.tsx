@@ -1,5 +1,4 @@
 import {
-  CHAIN_ID_AURORA,
   CHAIN_ID_AVAX,
   CHAIN_ID_BSC,
   CHAIN_ID_ETH,
@@ -99,12 +98,6 @@ const CustodyAddresses: React.FC<any> = () => {
         chainId: CHAIN_ID_FANTOM,
         tokenAddress: getTokenBridgeAddressForChain(CHAIN_ID_FANTOM),
         nftAddress: getNFTBridgeAddressForChain(CHAIN_ID_FANTOM),
-      },
-      {
-        chainName: "Aurora",
-        chainId: CHAIN_ID_AURORA,
-        tokenAddress: getTokenBridgeAddressForChain(CHAIN_ID_AURORA),
-        nftAddress: getNFTBridgeAddressForChain(CHAIN_ID_AURORA),
       },
       {
         chainName: "Terra",

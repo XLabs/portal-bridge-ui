@@ -2,7 +2,6 @@ import {
   ChainId,
   CHAIN_ID_ACALA,
   CHAIN_ID_ARBITRUM,
-  CHAIN_ID_AURORA,
   CHAIN_ID_CELO,
   CHAIN_ID_ETH,
   CHAIN_ID_FANTOM,
@@ -114,7 +113,6 @@ export default function TransactionProgress({
           ? 64
           : 512
         : chainId === CHAIN_ID_OASIS ||
-          chainId === CHAIN_ID_AURORA ||
           chainId === CHAIN_ID_FANTOM ||
           chainId === CHAIN_ID_KARURA ||
           chainId === CHAIN_ID_ACALA ||
