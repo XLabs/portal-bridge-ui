@@ -1020,7 +1020,7 @@ export const ENV: Env = {
             chain: "Ethereum",
             address: "0x18aAA7115705e8be94bfFEBDE57Af9BFc265B998",
           },
-          icon: "https://assets.coingecko.com/coins/images/37768/standard/Square.png?1722045128",
+          icon: "https://assets.coingecko.com/coins/images/12913/standard/AudiusCoinLogo_2x.png?1696512701",
           coinGeckoId: "audius",
           decimals: 18,
         },
