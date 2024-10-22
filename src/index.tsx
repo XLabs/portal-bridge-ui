@@ -4,7 +4,6 @@ import {
   CHAIN_ID_ALGORAND,
   CHAIN_ID_APTOS,
   CHAIN_ID_ETH,
-  CHAIN_ID_INJECTIVE,
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   CHAIN_ID_SUI,
@@ -24,7 +23,6 @@ import { getAlgorandWallets } from "./contexts/AlgorandWalletContext";
 import { getWrappedWallets as getWrappedAptosWallets } from "./contexts/AptosWalletContext";
 import { BetaContextProvider } from "./contexts/BetaContext";
 import { getEvmWallets } from "./contexts/EthereumProviderContext";
-import { getInjectiveWallets } from "./contexts/InjectiveWalletContext";
 import { getNearWallets } from "./contexts/NearWalletContext";
 import { getWrappedWallets as getWrappedSolanaWallets } from "./contexts/SolanaWalletContext";
 import { getSuiWallets } from "./contexts/SuiWalletContext";
@@ -44,7 +42,6 @@ const AGGREGATOR_WALLETS_BUILDER = async () => {
     [CHAIN_ID_ETH]: getEvmWallets(),
     [CHAIN_ID_SOLANA]: getWrappedSolanaWallets(),
     [CHAIN_ID_APTOS]: getWrappedAptosWallets(),
-    [CHAIN_ID_INJECTIVE]: getInjectiveWallets(),
     [CHAIN_ID_NEAR]: await getNearWallets(),
     [CHAIN_ID_TERRA2]: await getTerraWallets(),
     [CHAIN_ID_XPLA]: await getXplaWallets(),

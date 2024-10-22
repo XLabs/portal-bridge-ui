@@ -9,7 +9,6 @@ import {
   isEVMChain,
   isTerraChain,
   uint8ArrayToHex,
-  CHAIN_ID_INJECTIVE,
   CHAIN_ID_SUI,
 } from "@certusone/wormhole-sdk";
 import { arrayify, zeroPad } from "@ethersproject/bytes";
@@ -42,7 +41,6 @@ import { getTransactionLastResult } from "near-api-js/lib/providers";
 import BN from "bn.js";
 import { useXplaWallet } from "../contexts/XplaWalletContext";
 import { useAptosContext } from "../contexts/AptosWalletContext";
-import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 import { useTerraWallet } from "../contexts/TerraWalletContext";
 import { useSuiWallet } from "../contexts/SuiWalletContext";
 import { useSeiWallet } from "../contexts/SeiWalletContext";
@@ -66,7 +64,6 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
   const { address: algoAccount } = useAlgorandWallet();
   const { account: aptosAddress } = useAptosContext();
   const { accountId: nearAccountId, wallet } = useNearContext();
-  const { address: injAddress } = useInjectiveContext();
   const isTBTC = useSelector(selectTransferIsTBTC);
   const suiWallet = useSuiWallet();
   const suiAddress = suiWallet?.getAddress();
@@ -163,12 +160,6 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
             uint8ArrayToHex(decodeAddress(algoAccount).publicKey)
           )
         );
-      } else if (targetChain === CHAIN_ID_INJECTIVE && injAddress) {
-        dispatch(
-          setTargetAddressHex(
-            uint8ArrayToHex(zeroPad(cosmos.canonicalAddress(injAddress), 32))
-          )
-        );
       } else if (targetChain === CHAIN_ID_NEAR && nearAccountId && wallet) {
         (async () => {
           try {
@@ -249,7 +240,6 @@ function useSyncTargetAddress(shouldFire: boolean, nft?: boolean) {
     wallet,
     xplaWallet,
     aptosAddress,
-    injAddress,
     suiAddress,
     isTBTC,
     seiAddress,

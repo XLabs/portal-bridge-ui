@@ -12,7 +12,6 @@ import {
   CHAIN_ID_CELO,
   CHAIN_ID_ETH,
   CHAIN_ID_FANTOM,
-  CHAIN_ID_INJECTIVE,
   CHAIN_ID_KARURA,
   CHAIN_ID_KLAYTN,
   CHAIN_ID_MOONBEAM,
@@ -79,11 +78,8 @@ import xplaIcon from "../icons/xpla.svg";
 import evmosIcon from "../icons/evmos.svg";
 import osmosIcon from "../icons/osmos.svg";
 import kujiraIcon from "../icons/kujira.svg";
-import injectiveIcon from "../icons/injective.svg";
 import { ConnectConfig, keyStores } from "near-api-js";
 import { AptosNetwork } from "./aptos";
-import { getNetworkInfo, Network } from "@injectivelabs/networks";
-import { ChainId as InjectiveChainId } from "@injectivelabs/ts-types";
 import { ChainConfiguration } from "@sei-js/react";
 import { Connection } from "@mysten/sui.js";
 import { chainToIcon } from "@wormhole-foundation/sdk-icons";
@@ -181,11 +177,6 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_FANTOM,
           name: "Fantom",
           logo: fantomIcon,
-        },
-        {
-          id: CHAIN_ID_INJECTIVE,
-          name: "Injective",
-          logo: injectiveIcon,
         },
         {
           id: CHAIN_ID_KARURA,
@@ -324,11 +315,6 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_FANTOM,
           name: "Fantom",
           logo: fantomIcon,
-        },
-        {
-          id: CHAIN_ID_INJECTIVE,
-          name: "Injective",
-          logo: injectiveIcon,
         },
         {
           id: CHAIN_ID_KARURA,
@@ -718,8 +704,6 @@ export const getDefaultNativeCurrencySymbol = (chainId: ChainId) =>
     ? "APTOS"
     : chainId === CHAIN_ID_ARBITRUM
     ? "ETH"
-    : chainId === CHAIN_ID_INJECTIVE
-    ? "INJ"
     : chainId === CHAIN_ID_SUI
     ? "SUI"
     : "";
@@ -978,41 +962,6 @@ export const SEI_TRANSLATOR =
     : "sei1dkdwdvknx0qav5cp5kw68mkn3r99m3svkyjfvkztwh97dv2lm0ksj6xrak";
 export const SEI_TRANSLATER_TARGET = cosmos.canonicalAddress(SEI_TRANSLATOR);
 export const SEI_DECIMALS = 6;
-
-export const getInjectiveNetworkName = () => {
-  if (CLUSTER === "mainnet") {
-    return Network.MainnetSentry;
-  } else if (CLUSTER === "testnet") {
-    return Network.TestnetK8s;
-  }
-  throw Error("Unsupported injective network");
-};
-export const getInjectiveNetwork = () => {
-  if (CLUSTER === "mainnet") {
-    return Network.MainnetSentry;
-  } else if (CLUSTER === "testnet") {
-    return Network.TestnetK8s;
-  }
-  throw Error("Unsupported injective network");
-};
-
-export const getInjectiveNetworkInfo = () => {
-  if (CLUSTER === "mainnet") {
-    return getNetworkInfo(Network.MainnetSentry);
-  } else if (CLUSTER === "testnet") {
-    return getNetworkInfo(Network.TestnetK8s);
-  }
-  throw Error("Unsupported injective network");
-};
-
-export const getInjectiveNetworkChainId = () => {
-  if (CLUSTER === "mainnet") {
-    return InjectiveChainId.Mainnet;
-  } else if (CLUSTER === "testnet") {
-    return InjectiveChainId.Testnet;
-  }
-  throw Error("Unsupported injective network");
-};
 
 export const SUI_CONNECTION =
   CLUSTER === "mainnet"
@@ -2159,9 +2108,6 @@ export const DISABLED_TOKEN_TRANSFERS: {
   [CHAIN_ID_BSC]: {
     "0xa2B726B1145A4773F68593CF171187d8EBe4d495": [], // INJ
   },
-  [CHAIN_ID_INJECTIVE]: {
-    inj: [], // INJ
-  },
 };
 
 export const getIsTokenTransferDisabled = (
@@ -2198,15 +2144,6 @@ export const DISABLED_TOKEN_REASONS: {
   },
   [CHAIN_ID_BSC]: {
     "0xa2B726B1145A4773F68593CF171187d8EBe4d495": {
-      text: "Transfers of INJ token can be made through the Injective Bridge.",
-      link: {
-        text: "Click here to go to Injective Bridge",
-        url: "https://hub.injective.network/bridge/",
-      },
-    }, // INJ
-  },
-  [CHAIN_ID_INJECTIVE]: {
-    inj: {
       text: "Transfers of INJ token can be made through the Injective Bridge.",
       link: {
         text: "Click here to go to Injective Bridge",

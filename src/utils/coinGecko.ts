@@ -369,8 +369,6 @@ export const COIN_GECKO_IMAGE_URLS: CoinGeckoIdToImageUrl = {
     "https://assets.coingecko.com/coins/images/21976/small/i-DYP-Logo-1.png?1640570294",
   infinitup:
     "https://assets.coingecko.com/coins/images/18890/small/fc_qo2M7_400x400.jpg?1633749805",
-  "injective-protocol":
-    "https://assets.coingecko.com/coins/images/12882/small/Secondary_Symbol.png?1628233237",
   insure:
     "https://assets.coingecko.com/coins/images/10354/small/logo-grey-circle.png?1614910406",
   "interest-bearing-bitcoin":
