@@ -476,7 +476,7 @@ export const ENV: Env = {
                 ],
                 quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
               },
-            ]
+            ],
           },
         }),
       ],
