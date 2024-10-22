@@ -452,6 +452,31 @@ export const ENV: Env = {
                 quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
               },
             ],
+            Libertai: [
+              {
+                chain: "Base",
+                manager: "0xcb66bDF296653E37bEa3D1e73f335cd8472C9261",
+                token: "0xF8B1b47AA748F5C7b5D0e80C726a843913EB573a",
+                transceiver: [
+                  {
+                    address: "0x321dbB84766c4E6D51c7F2015db20F5B9A2C5601",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Solana",
+                manager: "ntTziNUdVjNJKZXCFbSZxfmjigyBouS8YLtAp8R2Fwa",
+                token: "mntpN8z1d29f3MWhMD7VqZFpeYmbD88MgwS3Bkz8y7u",
+                transceiver: [
+                  {
+                    address: "HNzgsJRCAcnnQXeFteFd44zgKJX9Wz9o7juA1qKZaZYB",
+                    type: "wormhole",
+                  },
+                ],
+                quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
+              },
+            ]
           },
         }),
       ],
@@ -1023,6 +1048,32 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/37768/standard/Square.png?1722045128",
           coinGeckoId: "audius",
           decimals: 18,
+        },
+        LibertaiBase: {
+          key: "LibertaiBase",
+          symbol: "LTAI",
+          displayName: "Libertai",
+          nativeChain: "Base",
+          tokenId: {
+            chain: "Base",
+            address: "0xF8B1b47AA748F5C7b5D0e80C726a843913EB573a",
+          },
+          icon: "https://assets.coingecko.com/coins/images/39288/standard/LibertAI_FavIcon_Secondary.png?1721589002",
+          coinGeckoId: "libertai",
+          decimals: 18,
+        },
+        LibertaiSolana: {
+          key: "LibertaiSolana",
+          symbol: "LTAI",
+          displayName: "Libertai",
+          nativeChain: "Solana",
+          tokenId: {
+            chain: "Solana",
+            address: "mntpN8z1d29f3MWhMD7VqZFpeYmbD88MgwS3Bkz8y7u",
+          },
+          icon: "https://assets.coingecko.com/coins/images/39288/standard/LibertAI_FavIcon_Secondary.png?1721589002",
+          coinGeckoId: "libertai",
+          decimals: 9,
         },
       },
     }
