@@ -458,6 +458,7 @@ export const ENV: Env = {
       wrappedTokens: {
         spx6900: {
           Solana: "J3NKxxXZcnNiMjKw9hYb2K4LUxgwB6t1FtPtQVsv3KFr",
+          Base: "0x50dA645f148798F68EF2d7dB7C1CB22A6819bb2C",
         },
         tBTC: {
           Arbitrum: "0x6c84a8f1c29108F47a79964b5Fe888D4f4D0dE40",
