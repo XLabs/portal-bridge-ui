@@ -1095,7 +1095,7 @@ export const ENV: Env = {
         },
         VaultCraftArbitrum: {
           key: "VaultCraftArbitrum",
-          symbol: "VCX",
+          symbol: "wVCX",
           displayName: "VaultCraft",
           nativeChain: "Arbitrum",
           tokenId: {
@@ -1108,7 +1108,7 @@ export const ENV: Env = {
         },
         VaultCraftOptimism: {
           key: "VaultCraftOptimism",
-          symbol: "VCX",
+          symbol: "wVCX",
           displayName: "VaultCraft",
           nativeChain: "Optimism",
           tokenId: {
@@ -1121,7 +1121,7 @@ export const ENV: Env = {
         },
         VaultCraftBase: {
           key: "VaultCraftBase",
-          symbol: "VCX",
+          symbol: "wVCX",
           displayName: "VaultCraft",
           nativeChain: "Base",
           tokenId: {
@@ -1134,7 +1134,7 @@ export const ENV: Env = {
         },
         VaultCraftAvalanche: {
           key: "VaultCraftAvalanche",
-          symbol: "VCX",
+          symbol: "wVCX",
           displayName: "VaultCraft",
           nativeChain: "Avalanche",
           tokenId: {
