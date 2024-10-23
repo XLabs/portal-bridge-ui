@@ -1039,7 +1039,7 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/23931/standard/512_x_512_Dark.png?1721243699",
           coinGeckoId: "pstake-finance",
           decimals: 18,
-        }
+        },
       },
     }
   ),
