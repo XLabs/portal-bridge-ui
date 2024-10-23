@@ -533,6 +533,9 @@ export const ENV: Env = {
         AUDIUS: {
           Solana: "9LzCMqDgTKYz9Drzqnpgee3SGa89up3a247ypMj2xrqM",
         },
+        pSTAKE: {
+          Sui: "0x61017ce4bd0b75b266af53edd60bbe391ba1a9fbe9a7d8553657c94ef73ee2ab::coin::COIN",
+        },
       },
       tokensConfig: {
         spx6900: {
@@ -1022,6 +1025,19 @@ export const ENV: Env = {
           },
           icon: "https://assets.coingecko.com/coins/images/37768/standard/Square.png?1722045128",
           coinGeckoId: "audius",
+          decimals: 18,
+        },
+        pSTAKE: {
+          key: "pSTAKE",
+          symbol: "PSTAKE",
+          displayName: "pSTAKE",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0xfB5c6815cA3AC72Ce9F5006869AE67f18bF77006",
+          },
+          icon: "https://assets.coingecko.com/coins/images/23931/standard/512_x_512_Dark.png?1721243699",
+          coinGeckoId: "pstake-finance",
           decimals: 18,
         },
       },
