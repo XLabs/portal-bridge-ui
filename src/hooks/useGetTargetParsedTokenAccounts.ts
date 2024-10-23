@@ -11,7 +11,6 @@ import {
   isEVMChain,
   isNativeDenomXpla,
   isTerraChain,
-  parseSmartContractStateResponse,
   terra,
 } from "@certusone/wormhole-sdk";
 import { Connection, PublicKey } from "@solana/web3.js";
