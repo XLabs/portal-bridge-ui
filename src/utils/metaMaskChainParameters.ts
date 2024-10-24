@@ -206,20 +206,6 @@ export const METAMASK_CHAIN_PARAMETERS: {
     rpcUrls: ["https://proxy.devnet.neonlabs.org/solana"],
     blockExplorerUrls: ["https://neonscan.org/"],
   },
-  1313161554: {
-    chainId: "0x4e454152",
-    chainName: "Aurora Mainnet",
-    nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
-    rpcUrls: ["https://mainnet.aurora.dev"],
-    blockExplorerUrls: ["https://aurorascan.dev"],
-  },
-  1313161555: {
-    chainId: "0x4e454153",
-    chainName: "Aurora Testnet",
-    nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
-    rpcUrls: ["https://testnet.aurora.dev"],
-    blockExplorerUrls: ["https://testnet.aurorascan.dev"],
-  },
   1284: {
     chainId: "0x504",
     chainName: "Moonbeam",

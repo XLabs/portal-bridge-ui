@@ -1,7 +1,6 @@
 import {
   ChainId,
   CHAIN_ID_ALGORAND,
-  CHAIN_ID_AURORA,
   CHAIN_ID_AVAX,
   CHAIN_ID_BSC,
   CHAIN_ID_CELO,
@@ -94,10 +93,6 @@ export default function ShowTx({
       ? `https://${
           CLUSTER === "testnet" ? "testnet." : ""
         }explorer.emerald.oasis.dev/tx/${tx?.id}`
-      : chainId === CHAIN_ID_AURORA
-      ? `https://${
-          CLUSTER === "testnet" ? "testnet." : ""
-        }aurorascan.dev/tx/${tx?.id}`
       : chainId === CHAIN_ID_FANTOM
       ? `https://${
           CLUSTER === "testnet" ? "testnet." : ""
