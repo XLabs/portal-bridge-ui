@@ -2,7 +2,6 @@ import {
   ChainId,
   CHAIN_ID_ALGORAND,
   CHAIN_ID_APTOS,
-  CHAIN_ID_INJECTIVE,
   CHAIN_ID_KLAYTN,
   CHAIN_ID_SOLANA,
   CHAIN_ID_XPLA,
@@ -11,7 +10,6 @@ import {
   createNonce,
   getEmitterAddressAlgorand,
   getEmitterAddressEth,
-  getEmitterAddressInjective,
   getEmitterAddressSolana,
   getEmitterAddressTerra,
   getEmitterAddressXpla,
@@ -20,7 +18,6 @@ import {
   isTerraChain,
   parseSequenceFromLogAlgorand,
   parseSequenceFromLogEth,
-  parseSequenceFromLogInjective,
   parseSequenceFromLogSolana,
   parseSequenceFromLogTerra,
   parseSequenceFromLogXpla,
@@ -28,7 +25,6 @@ import {
   transferFromAlgorand,
   transferFromEth,
   transferFromEthNative,
-  transferFromInjective,
   transferFromTerra,
   transferFromXpla,
   transferFromAptos,
@@ -121,12 +117,9 @@ import { signSendAndConfirm } from "../utils/solana";
 import { postWithFees, waitForTerraExecution } from "../utils/terra";
 import useTransferTargetAddressHex from "./useTransferTargetAddress";
 import { postWithFeesXpla, waitForXplaExecution } from "../utils/xpla";
-import { broadcastInjectiveTx } from "../utils/injective";
-import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
 import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 import { AptosWallet } from "@xlabs-libs/wallet-aggregator-aptos";
-import { InjectiveWallet } from "@xlabs-libs/wallet-aggregator-injective";
 import { NearWallet } from "@xlabs-libs/wallet-aggregator-near";
 import { useTerraWallet } from "../contexts/TerraWalletContext";
 import { TerraWallet } from "@xlabs-libs/wallet-aggregator-terra";
@@ -803,68 +796,6 @@ async function terra(
   }
 }
 
-async function injective(
-  dispatch: any,
-  enqueueSnackbar: any,
-  wallet: InjectiveWallet,
-  walletAddress: string,
-  asset: string,
-  amount: string,
-  decimals: number,
-  targetChain: ChainId,
-  targetAddress: Uint8Array,
-  maybeAdditionalPayload: MaybeAdditionalPayloadFn,
-  relayerFee?: string,
-  onError?: (error: any) => void,
-  onStart?: (extra?: Partial<TelemetryTxEvent>) => void
-) {
-  dispatch(setIsSending(true));
-  try {
-    const baseAmountParsed = parseUnits(amount, decimals);
-    const feeParsed = parseUnits(relayerFee || "0", decimals);
-    const transferAmountParsed = baseAmountParsed.add(feeParsed);
-    const additionalPayload = maybeAdditionalPayload();
-    const tokenBridgeAddress =
-      getTokenBridgeAddressForChain(CHAIN_ID_INJECTIVE);
-    const msgs = await transferFromInjective(
-      walletAddress,
-      tokenBridgeAddress,
-      asset,
-      transferAmountParsed.toString(),
-      targetChain,
-      additionalPayload?.receivingContract || targetAddress,
-      feeParsed.toString(),
-      additionalPayload?.payload
-    );
-    const tx = await broadcastInjectiveTx(
-      wallet,
-      walletAddress,
-      msgs,
-      "Wormhole - Initiate Transfer"
-    );
-    onStart?.({ txId: tx.txHash });
-    dispatch(setTransferTx({ id: tx.txHash, block: tx.height }));
-    enqueueSnackbar(null, {
-      content: <Alert severity="success">Transaction confirmed</Alert>,
-    });
-    const sequence = parseSequenceFromLogInjective(tx);
-    if (!sequence) {
-      throw new Error("Sequence not found");
-    }
-    const emitterAddress = await getEmitterAddressInjective(tokenBridgeAddress);
-    await fetchSignedVAA(
-      CHAIN_ID_INJECTIVE,
-      emitterAddress,
-      sequence,
-      enqueueSnackbar,
-      dispatch
-    );
-  } catch (e) {
-    handleError(e, enqueueSnackbar, dispatch);
-    onError?.(e);
-  }
-}
-
 async function sei(
   dispatch: any,
   enqueueSnackbar: any,
@@ -1091,7 +1022,6 @@ export function useHandleTransfer() {
   const { address: algoAccount, wallet: algoWallet } = useAlgorandWallet();
   const { accountId: nearAccountId, wallet } = useNearContext();
   const { account: aptosAddress, wallet: aptosWallet } = useAptosContext();
-  const { wallet: injWallet, address: injAddress } = useInjectiveContext();
   const suiWallet = useSuiWallet();
   const seiWallet = useSeiWallet();
   const seiAddress = seiWallet?.getAddress();
@@ -1365,29 +1295,6 @@ export function useHandleTransfer() {
         onStart
       );
     } else if (
-      sourceChain === CHAIN_ID_INJECTIVE &&
-      injWallet &&
-      injAddress &&
-      !!sourceAsset &&
-      decimals !== undefined &&
-      !!targetAddress
-    ) {
-      injective(
-        dispatch,
-        enqueueSnackbar,
-        injWallet,
-        injAddress,
-        sourceAsset,
-        amount,
-        decimals,
-        targetChain,
-        targetAddress,
-        maybeAdditionalPayload,
-        relayerFee,
-        onError,
-        onStart
-      );
-    } else if (
       sourceChain === CHAIN_ID_SUI &&
       suiWallet?.isConnected() &&
       suiWallet.getAddress() &&
@@ -1434,8 +1341,6 @@ export function useHandleTransfer() {
     nearAccountId,
     wallet,
     aptosAddress,
-    injWallet,
-    injAddress,
     suiWallet,
     dispatch,
     enqueueSnackbar,

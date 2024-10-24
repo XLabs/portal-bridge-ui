@@ -2,7 +2,6 @@
 import {
   CHAIN_ID_ALGORAND,
   CHAIN_ID_APTOS,
-  CHAIN_ID_INJECTIVE,
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   CHAIN_ID_SUI,
@@ -39,7 +38,6 @@ import RefreshButtonWrapper from "./RefreshButtonWrapper";
 import SolanaTokenPicker from "./SolanaTokenPicker";
 import TerraTokenPicker from "./TerraTokenPicker";
 import XplaTokenPicker from "./XplaTokenPicker";
-import InjectiveTokenPicker from "./InjectiveTokenPicker";
 import SuiTokenPicker from "./SuiTokenPicker";
 import SeiTokenPicker from "./SeiTokenPicker";
 
@@ -161,14 +159,6 @@ export const TokenSelector = (props: TokenSelectorProps) => {
       resetAccounts={maps?.resetAccounts}
       tokenAccounts={maps?.tokenAccounts}
       nft={nft}
-    />
-  ) : lookupChain === CHAIN_ID_INJECTIVE ? (
-    <InjectiveTokenPicker
-      value={sourceParsedTokenAccount || null}
-      disabled={disabled}
-      onChange={handleOnChange}
-      resetAccounts={maps?.resetAccounts}
-      tokenAccounts={maps?.tokenAccounts}
     />
   ) : lookupChain === CHAIN_ID_SUI ? (
     <SuiTokenPicker

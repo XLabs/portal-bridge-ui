@@ -2,14 +2,12 @@ import {
   attestFromAlgorand,
   attestFromAptos,
   attestFromEth,
-  attestFromInjective,
   attestFromSolana,
   attestFromTerra,
   attestFromXpla,
   ChainId,
   CHAIN_ID_ALGORAND,
   CHAIN_ID_APTOS,
-  CHAIN_ID_INJECTIVE,
   CHAIN_ID_KLAYTN,
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
@@ -17,7 +15,6 @@ import {
   CHAIN_ID_SEI,
   getEmitterAddressAlgorand,
   getEmitterAddressEth,
-  getEmitterAddressInjective,
   getEmitterAddressSolana,
   getEmitterAddressTerra,
   getEmitterAddressXpla,
@@ -26,7 +23,6 @@ import {
   isTerraChain,
   parseSequenceFromLogAlgorand,
   parseSequenceFromLogEth,
-  parseSequenceFromLogInjective,
   parseSequenceFromLogSolana,
   parseSequenceFromLogTerra,
   parseSequenceFromLogXpla,
@@ -95,12 +91,9 @@ import parseError from "../utils/parseError";
 import { signSendAndConfirm } from "../utils/solana";
 import { postWithFees, waitForTerraExecution } from "../utils/terra";
 import { postWithFeesXpla, waitForXplaExecution } from "../utils/xpla";
-import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
-import { broadcastInjectiveTx } from "../utils/injective";
 import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
 import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 import { AptosWallet } from "@xlabs-libs/wallet-aggregator-aptos";
-import { InjectiveWallet } from "@xlabs-libs/wallet-aggregator-injective";
 import { NearWallet } from "@xlabs-libs/wallet-aggregator-near";
 import { useTerraWallet } from "../contexts/TerraWalletContext";
 import { TerraWallet } from "@xlabs-libs/wallet-aggregator-terra";
@@ -515,63 +508,6 @@ async function terra(
   }
 }
 
-async function injective(
-  dispatch: any,
-  enqueueSnackbar: any,
-  wallet: InjectiveWallet,
-  walletAddress: string,
-  asset: string,
-  onError: (error: any) => void,
-  onStart: (extra?: Partial<TelemetryTxEvent>) => void
-) {
-  dispatch(setIsSending(true));
-  try {
-    const tokenBridgeAddress =
-      getTokenBridgeAddressForChain(CHAIN_ID_INJECTIVE);
-    const msg = await attestFromInjective(
-      tokenBridgeAddress,
-      walletAddress,
-      asset
-    );
-    const tx = await broadcastInjectiveTx(
-      wallet,
-      walletAddress,
-      msg,
-      "Attest Token"
-    );
-    onStart?.({ txId: tx.txHash });
-    dispatch(setAttestTx({ id: tx.txHash, block: tx.height }));
-    enqueueSnackbar(null, {
-      content: <Alert severity="success">Transaction confirmed</Alert>,
-    });
-    const sequence = parseSequenceFromLogInjective(tx);
-    if (!sequence) {
-      throw new Error("Sequence not found");
-    }
-    const emitterAddress = await getEmitterAddressInjective(tokenBridgeAddress);
-    enqueueSnackbar(null, {
-      content: <Alert severity="info">Fetching VAA</Alert>,
-    });
-    const { vaaBytes } = await getSignedVAAWithRetry(
-      WORMHOLE_RPC_HOSTS,
-      CHAIN_ID_INJECTIVE,
-      emitterAddress,
-      sequence
-    );
-    dispatch(setSignedVAAHex(uint8ArrayToHex(vaaBytes)));
-    enqueueSnackbar(null, {
-      content: <Alert severity="success">Fetched Signed VAA</Alert>,
-    });
-  } catch (e) {
-    console.error(e);
-    enqueueSnackbar(null, {
-      content: <Alert severity="error">{parseError(e)}</Alert>,
-    });
-    dispatch(setIsSending(false));
-    onError(e);
-  }
-}
-
 async function sui(
   dispatch: any,
   enqueueSnackbar: any,
@@ -729,7 +665,6 @@ export function useHandleAttest() {
   const { address: algoAccount, wallet: algoWallet } = useAlgorandWallet();
   const { account: aptosAddress, wallet: aptosWallet } = useAptosContext();
   const { accountId: nearAccountId, wallet } = useNearContext();
-  const { wallet: injWallet, address: injAddress } = useInjectiveContext();
   const seiWallet = useSeiWallet();
   const seiAddress = seiWallet?.getAddress();
   const suiWallet = useSuiWallet();
@@ -822,16 +757,6 @@ export function useHandleAttest() {
         onError,
         onStart
       );
-    } else if (sourceChain === CHAIN_ID_INJECTIVE && injWallet && injAddress) {
-      injective(
-        dispatch,
-        enqueueSnackbar,
-        injWallet,
-        injAddress,
-        sourceAsset,
-        onError,
-        onStart
-      );
     } else if (sourceChain === CHAIN_ID_SEI && seiWallet && seiAddress) {
       sei(dispatch, enqueueSnackbar, seiWallet, sourceAsset, onError, onStart);
     } else if (
@@ -855,8 +780,6 @@ export function useHandleAttest() {
     aptosAddress,
     nearAccountId,
     wallet,
-    injWallet,
-    injAddress,
     seiWallet,
     seiAddress,
     suiWallet,

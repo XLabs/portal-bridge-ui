@@ -3,7 +3,6 @@ import {
   CHAIN_ID_ACALA,
   CHAIN_ID_ALGORAND,
   CHAIN_ID_APTOS,
-  CHAIN_ID_INJECTIVE,
   CHAIN_ID_KARURA,
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
@@ -12,7 +11,6 @@ import {
   CHAIN_ID_SEI,
   getEmitterAddressAlgorand,
   getEmitterAddressEth,
-  getEmitterAddressInjective,
   getEmitterAddressSolana,
   getEmitterAddressTerra,
   getEmitterAddressXpla,
@@ -25,14 +23,12 @@ import {
   parseNFTPayload,
   parseSequenceFromLogAlgorand,
   parseSequenceFromLogEth,
-  parseSequenceFromLogInjective,
   parseSequenceFromLogSolana,
   parseSequenceFromLogTerra,
   parseSequenceFromLogXpla,
   parseTransferPayload,
   parseVaa,
   queryExternalId,
-  queryExternalIdInjective,
   TerraChainId,
   uint8ArrayToHex,
   CHAIN_ID_SUI,
@@ -115,10 +111,6 @@ import {
   getEmitterAddressAndSequenceFromResult,
 } from "../utils/aptos";
 import { Types } from "aptos";
-import {
-  getInjectiveTxClient,
-  getInjectiveWasmClient,
-} from "../utils/injective";
 import { getSuiProvider } from "../utils/sui";
 import {
   getEmitterAddressAndSequenceFromResponseSui,
@@ -385,26 +377,6 @@ async function xpla(tx: string, enqueueSnackbar: any) {
   }
 }
 
-async function injective(txHash: string, enqueueSnackbar: any) {
-  try {
-    const client = getInjectiveTxClient();
-    const tx = await client.fetchTx(txHash);
-    if (!tx) {
-      throw new Error("Unable to fetch transaction");
-    }
-    const sequence = parseSequenceFromLogInjective(tx);
-    if (!sequence) {
-      throw new Error("Sequence not found");
-    }
-    const emitterAddress = await getEmitterAddressInjective(
-      getTokenBridgeAddressForChain(CHAIN_ID_INJECTIVE)
-    );
-    return await fetchSignedVAA(CHAIN_ID_INJECTIVE, emitterAddress, sequence);
-  } catch (e) {
-    return handleError(e, enqueueSnackbar);
-  }
-}
-
 async function sui(digest: string, enqueueSnackbar: any) {
   try {
     const provider = getSuiProvider();
@@ -649,21 +621,6 @@ export default function Recovery() {
         }
       })();
     }
-    if (parsedPayload && parsedPayload.targetChain === CHAIN_ID_INJECTIVE) {
-      (async () => {
-        const client = getInjectiveWasmClient();
-        const tokenBridgeAddress =
-          getTokenBridgeAddressForChain(CHAIN_ID_INJECTIVE);
-        const tokenId = await queryExternalIdInjective(
-          client as any,
-          tokenBridgeAddress,
-          parsedPayload.originAddress
-        );
-        if (!cancelled) {
-          setTokenId(tokenId || "");
-        }
-      })();
-    }
 
     if (parsedPayload && parsedPayload.targetChain === CHAIN_ID_SUI) {
       (async () => {
@@ -831,26 +788,6 @@ export default function Recovery() {
         setRecoverySourceTxIsLoading(true);
         (async () => {
           const { vaa, isPending, error } = await aptos(
-            recoverySourceTx,
-            enqueueSnackbar
-          );
-          if (!cancelled) {
-            setRecoverySourceTxIsLoading(false);
-            if (vaa) {
-              setRecoverySignedVAA(vaa);
-            }
-            if (error) {
-              setRecoverySourceTxError(error);
-            }
-            setIsVAAPending(isPending);
-          }
-        })();
-      } else if (recoverySourceChain === CHAIN_ID_INJECTIVE) {
-        setRecoverySourceTxError("");
-        setRecoverySourceTxIsLoading(true);
-        setTokenId("");
-        (async () => {
-          const { vaa, isPending, error } = await injective(
             recoverySourceTx,
             enqueueSnackbar
           );
@@ -1229,8 +1166,7 @@ export default function Recovery() {
                   value={
                     parsedPayload
                       ? parsedPayload.targetChain === CHAIN_ID_TERRA2 ||
-                        parsedPayload.targetChain === CHAIN_ID_XPLA ||
-                        parsedPayload.targetChain === CHAIN_ID_INJECTIVE
+                        parsedPayload.targetChain === CHAIN_ID_XPLA
                         ? tokenId
                         : hexToNativeAssetString(
                             parsedPayload.originAddress,

@@ -1,7 +1,6 @@
 import {
   CHAIN_ID_ALGORAND,
   CHAIN_ID_APTOS,
-  CHAIN_ID_INJECTIVE,
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   CHAIN_ID_SUI,
@@ -10,7 +9,6 @@ import {
   getIsTransferCompletedAlgorand,
   getIsTransferCompletedAptos,
   getIsTransferCompletedEth,
-  getIsTransferCompletedInjective,
   getIsTransferCompletedSolana,
   getIsTransferCompletedSui,
   getIsTransferCompletedTerra,
@@ -45,7 +43,6 @@ import useIsWalletReady from "./useIsWalletReady";
 import useTransferSignedVAA from "./useTransferSignedVAA";
 import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
 import { getAptosClient } from "../utils/aptos";
-import { getInjectiveWasmClient } from "../utils/injective";
 import { getSuiProvider } from "../utils/sui";
 import { getIsTransferCompletedSei, getSeiWasmClient } from "../utils/sei";
 
@@ -234,24 +231,6 @@ export default function useGetIsTransferCompleted(
               account,
               NEAR_TOKEN_BRIDGE_ACCOUNT,
               signedVAA
-            );
-          } catch (error) {
-            console.error(error);
-          }
-          if (!cancelled) {
-            setIsTransferCompleted(transferCompleted);
-            setIsLoading(false);
-          }
-        })();
-      } else if (targetChain === CHAIN_ID_INJECTIVE) {
-        setIsLoading(true);
-        (async () => {
-          try {
-            const client = getInjectiveWasmClient();
-            transferCompleted = await getIsTransferCompletedInjective(
-              getTokenBridgeAddressForChain(targetChain),
-              signedVAA,
-              client as any
             );
           } catch (error) {
             console.error(error);

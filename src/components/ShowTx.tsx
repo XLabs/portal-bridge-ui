@@ -19,7 +19,6 @@ import {
   CHAIN_ID_XPLA,
   CHAIN_ID_APTOS,
   CHAIN_ID_ARBITRUM,
-  CHAIN_ID_INJECTIVE,
   CHAIN_ID_OPTIMISM,
   CHAIN_ID_SUI,
   CHAIN_ID_BASE,
@@ -169,10 +168,6 @@ export default function ShowTx({
       ? `https://${
           CLUSTER === "testnet" ? "goerli." : ""
         }arbiscan.io/tx/${tx?.id}`
-      : chainId === CHAIN_ID_INJECTIVE
-      ? `https://${
-          CLUSTER === "testnet" ? "testnet." : ""
-        }explorer.injective.network/transaction/${tx.id}`
       : chainId === CHAIN_ID_OPTIMISM
       ? `https://${
           CLUSTER === "testnet" ? "goerli-optimism." : "optimistic."

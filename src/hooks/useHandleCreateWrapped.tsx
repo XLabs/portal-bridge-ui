@@ -3,7 +3,6 @@ import {
   CHAIN_ID_ACALA,
   CHAIN_ID_ALGORAND,
   CHAIN_ID_APTOS,
-  CHAIN_ID_INJECTIVE,
   CHAIN_ID_KARURA,
   CHAIN_ID_KLAYTN,
   CHAIN_ID_NEAR,
@@ -12,7 +11,6 @@ import {
   createWrappedOnAlgorand,
   createWrappedOnAptos,
   createWrappedOnEth,
-  createWrappedOnInjective,
   createWrappedOnSolana,
   createWrappedOnTerra,
   createWrappedOnXpla,
@@ -21,7 +19,6 @@ import {
   isTerraChain,
   TerraChainId,
   updateWrappedOnEth,
-  updateWrappedOnInjective,
   updateWrappedOnSolana,
   updateWrappedOnTerra,
   updateWrappedOnXpla,
@@ -78,12 +75,9 @@ import parseError from "../utils/parseError";
 import { postVaa, signSendAndConfirm } from "../utils/solana";
 import { postWithFees } from "../utils/terra";
 import useAttestSignedVAA from "./useAttestSignedVAA";
-import { broadcastInjectiveTx } from "../utils/injective";
-import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
 import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 import { AptosWallet } from "@xlabs-libs/wallet-aggregator-aptos";
-import { InjectiveWallet } from "@xlabs-libs/wallet-aggregator-injective";
 import { NearWallet } from "@xlabs-libs/wallet-aggregator-near";
 import { useTerraWallet } from "../contexts/TerraWalletContext";
 import { TerraWallet } from "@xlabs-libs/wallet-aggregator-terra";
@@ -549,50 +543,6 @@ async function terra(
   }
 }
 
-async function injective(
-  dispatch: any,
-  enqueueSnackbar: any,
-  wallet: InjectiveWallet,
-  walletAddress: string,
-  signedVAA: Uint8Array,
-  shouldUpdate: boolean,
-  onError: (error: any) => void,
-  onStart: (extra?: Partial<TelemetryTxEvent>) => void
-) {
-  dispatch(setIsCreating(true));
-  const tokenBridgeAddress = getTokenBridgeAddressForChain(CHAIN_ID_INJECTIVE);
-  try {
-    const msg = shouldUpdate
-      ? await updateWrappedOnInjective(
-          tokenBridgeAddress,
-          walletAddress,
-          signedVAA
-        )
-      : await createWrappedOnInjective(
-          tokenBridgeAddress,
-          walletAddress,
-          signedVAA
-        );
-    const tx = await broadcastInjectiveTx(
-      wallet,
-      walletAddress,
-      msg,
-      "Wormhole - Create Wrapped"
-    );
-    onStart({ txId: tx.txHash });
-    dispatch(setCreateTx({ id: tx.txHash, block: tx.height }));
-    enqueueSnackbar(null, {
-      content: <Alert severity="success">Transaction confirmed</Alert>,
-    });
-  } catch (e) {
-    enqueueSnackbar(null, {
-      content: <Alert severity="error">{parseError(e)}</Alert>,
-    });
-    dispatch(setIsCreating(false));
-    onError(e);
-  }
-}
-
 async function sui(
   dispatch: any,
   enqueueSnackbar: any,
@@ -648,7 +598,7 @@ async function sui(
       }
       const wrappedAssetSetupEvent =
         suiPrepareRegistrationTxRes.objectChanges?.find(
-          (oc) =>
+          (oc: any) =>
             oc.type === "created" && oc.objectType.includes("WrappedAssetSetup")
         );
       const wrappedAssetSetupType =
@@ -807,7 +757,6 @@ export function useHandleCreateWrapped(
   const xplaWallet = useXplaWallet();
   const { address: algoAccount, wallet: algoWallet } = useAlgorandWallet();
   const { account: aptosAddress, wallet: aptosWallet } = useAptosContext();
-  const { wallet: injWallet, address: injAddress } = useInjectiveContext();
   const { accountId: nearAccountId, wallet } = useNearContext();
   const suiWallet = useSuiWallet();
   const seiWallet = useSeiWallet();
@@ -938,22 +887,6 @@ export function useHandleCreateWrapped(
         onStart
       );
     } else if (
-      targetChain === CHAIN_ID_INJECTIVE &&
-      injWallet &&
-      injAddress &&
-      !!signedVAA
-    ) {
-      injective(
-        dispatch,
-        enqueueSnackbar,
-        injWallet,
-        injAddress,
-        signedVAA,
-        shouldUpdate,
-        onError,
-        onStart
-      );
-    } else if (
       targetChain === CHAIN_ID_SUI &&
       suiWallet &&
       suiWallet.isConnected() &&
@@ -1006,8 +939,6 @@ export function useHandleCreateWrapped(
     xplaWallet,
     aptosAddress,
     aptosWallet,
-    injWallet,
-    injAddress,
     foreignAddress,
     suiWallet,
     seiWallet,

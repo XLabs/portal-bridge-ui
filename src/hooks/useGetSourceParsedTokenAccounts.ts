@@ -23,7 +23,6 @@ import {
   ethers_contracts,
   WSOL_ADDRESS,
   WSOL_DECIMALS,
-  CHAIN_ID_INJECTIVE,
   CHAIN_ID_SUI,
   CHAIN_ID_ARBITRUM,
   CHAIN_ID_BASE,
@@ -2004,10 +2003,6 @@ function useGetAvailableTokens(nft: boolean = false) {
     : lookupChain === CHAIN_ID_APTOS
     ? {
         tokenAccounts,
-        resetAccounts: resetSourceAccounts,
-      }
-    : lookupChain === CHAIN_ID_INJECTIVE
-    ? {
         resetAccounts: resetSourceAccounts,
       }
     : lookupChain === CHAIN_ID_SUI

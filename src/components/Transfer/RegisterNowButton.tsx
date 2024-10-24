@@ -18,7 +18,6 @@ import {
 import {
   ChainId,
   CHAIN_ID_APTOS,
-  CHAIN_ID_INJECTIVE,
   CHAIN_ID_NEAR,
   CHAIN_ID_TERRA2,
   CHAIN_ID_XPLA,
@@ -50,7 +49,6 @@ export function RegisterNowButtonCore({
         originChain === CHAIN_ID_NEAR ||
         originChain === CHAIN_ID_XPLA ||
         originChain === CHAIN_ID_APTOS ||
-        originChain === CHAIN_ID_INJECTIVE ||
         originChain === CHAIN_ID_SUI ||
         originChain === CHAIN_ID_SEI
         ? sourceAsset || forceAsset

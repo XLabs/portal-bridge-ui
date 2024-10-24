@@ -2,7 +2,6 @@ import {
   ChainId,
   CHAIN_ID_ALGORAND,
   CHAIN_ID_APTOS,
-  CHAIN_ID_INJECTIVE,
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   CHAIN_ID_XPLA,
@@ -22,7 +21,6 @@ function isChainAllowed(chainId: ChainId) {
     chainId === CHAIN_ID_NEAR ||
     chainId === CHAIN_ID_XPLA ||
     chainId === CHAIN_ID_APTOS ||
-    chainId === CHAIN_ID_INJECTIVE ||
     chainId === CHAIN_ID_SUI ||
     chainId === CHAIN_ID_SEI
   );
