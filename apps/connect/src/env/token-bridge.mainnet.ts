@@ -558,6 +558,9 @@ export const ENV: Env = {
         AUDIUS: {
           Solana: "9LzCMqDgTKYz9Drzqnpgee3SGa89up3a247ypMj2xrqM",
         },
+        pSTAKE: {
+          Sui: "0x61017ce4bd0b75b266af53edd60bbe391ba1a9fbe9a7d8553657c94ef73ee2ab::coin::COIN",
+        },
       },
       tokensConfig: {
         spx6900: {
@@ -1045,7 +1048,7 @@ export const ENV: Env = {
             chain: "Ethereum",
             address: "0x18aAA7115705e8be94bfFEBDE57Af9BFc265B998",
           },
-          icon: "https://assets.coingecko.com/coins/images/37768/standard/Square.png?1722045128",
+          icon: "https://assets.coingecko.com/coins/images/12913/standard/AudiusCoinLogo_2x.png?1696512701",
           coinGeckoId: "audius",
           decimals: 18,
         },
@@ -1074,6 +1077,19 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/39288/standard/LibertAI_FavIcon_Secondary.png?1721589002",
           coinGeckoId: "",
           decimals: 9,
+        },
+        pSTAKE: {
+          key: "pSTAKE",
+          symbol: "PSTAKE",
+          displayName: "pSTAKE",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0xfB5c6815cA3AC72Ce9F5006869AE67f18bF77006",
+          },
+          icon: "https://assets.coingecko.com/coins/images/23931/standard/512_x_512_Dark.png?1721243699",
+          coinGeckoId: "pstake-finance",
+          decimals: 18,
         },
       },
     }
