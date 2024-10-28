@@ -1072,7 +1072,7 @@ export const ENV: Env = {
             address: "mntpN8z1d29f3MWhMD7VqZFpeYmbD88MgwS3Bkz8y7u",
           },
           icon: "https://assets.coingecko.com/coins/images/39288/standard/LibertAI_FavIcon_Secondary.png?1721589002",
-          coinGeckoId: "libertai",
+          coinGeckoId: "",
           decimals: 9,
         },
       },
