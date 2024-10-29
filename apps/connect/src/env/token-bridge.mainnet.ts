@@ -509,6 +509,31 @@ export const ENV: Env = {
                 ],
               },
             ],
+            LITT: [
+              {
+                chain: "Bsc",
+                manager: "0x8D5B54Aa1775216D22Cf587507896B88c65Cc9Db",
+                token: "0xCEbEf3DF1F3C5Bfd90FDE603E71F31a53B11944D",
+                transceiver: [
+                  {
+                    address: "0x1A4464a07171092EEe3871cF8dC2d4FbFF51A10A",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Solana",
+                manager: "NTt198zrFsZkvfFH5juBK98frhDNooPtd5PGefd7vNb",
+                token: "GEBUHM7o5T1Ws2rAWjRijtYeh9XFxKrD3B4b9HV7dxLz",
+                transceiver: [
+                  {
+                    address: "Fiu6o1MGMDwPH3uFEk75MWsrEnPvjnpe9JJu63SsF7LF",
+                    type: "wormhole",
+                  },
+                ],
+                quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
+              },
+            ],
           },
         }),
       ],
@@ -1161,6 +1186,32 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/23931/standard/512_x_512_Dark.png?1721243699",
           coinGeckoId: "pstake-finance",
           decimals: 18,
+        },
+        LITTBsc: {
+          key: "LITTBsc",
+          symbol: "LITT",
+          displayName: "LitLab Games",
+          nativeChain: "Bsc",
+          tokenId: {
+            chain: "Bsc",
+            address: "0xCEbEf3DF1F3C5Bfd90FDE603E71F31a53B11944D",
+          },
+          icon: "https://assets.coingecko.com/coins/images/29930/standard/_LITT_token_logo.png?1696528858",
+          coinGeckoId: "litlab-games",
+          decimals: 18,
+        },
+        LITTSolana: {
+          key: "LITTSolana",
+          symbol: "LITT",
+          displayName: "LitLab Games",
+          nativeChain: "Solana",
+          tokenId: {
+            chain: "Solana",
+            address: "GEBUHM7o5T1Ws2rAWjRijtYeh9XFxKrD3B4b9HV7dxLz",
+          },
+          icon: "https://assets.coingecko.com/coins/images/29930/standard/_LITT_token_logo.png?1696528858",
+          coinGeckoId: "litlab-games",
+          decimals: 9,
         },
       },
     }
