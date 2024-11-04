@@ -463,6 +463,11 @@ export const ENV: Env = {
         }),
       ],
       wrappedTokens: {
+        enzoBTC: {
+          Sui: "0x8f2b5eb696ed88b71fea398d330bccfa52f6e2a5a8e1ac6180fcb25c6de42ebc::coin::COIN",
+          Aptos: "0x1d9a4d969e7a0d67052fee38da3086a89cb2fddfa322849ee0215b85ff01fa60::coin::T",
+          Bsc: "0xE90669eB2dc5109710500b8a54cC847ad8702E6b"
+        },
         spx6900: {
           Solana: "J3NKxxXZcnNiMjKw9hYb2K4LUxgwB6t1FtPtQVsv3KFr",
           Base: "0x50dA645f148798F68EF2d7dB7C1CB22A6819bb2C",
@@ -545,6 +550,18 @@ export const ENV: Env = {
         },
       },
       tokensConfig: {
+        enzoBTC: {
+          key: "enzoBTC",
+          symbol: "enzoBTC",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0x6A9A65B84843F5fD4aC9a0471C4fc11AFfFBce4a"
+          },
+          icon: "images/tokens/enzoBTC.svg",
+          decimals: 8,
+          coinGeckoId: "bitcoin",
+        },
         spx6900: {
           key: "spx6900",
           symbol: "SPX6900",
