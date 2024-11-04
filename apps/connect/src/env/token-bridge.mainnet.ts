@@ -567,7 +567,7 @@ export const ENV: Env = {
           },
           coinGeckoId: "lorenzo-stbtc",
           decimals: 18,
-          icon: "images/tokens/stbtc.svg",
+          icon: "images/tokens/stBTC.svg",
         },
         enzoBTC: {
           key: "enzoBTC",
