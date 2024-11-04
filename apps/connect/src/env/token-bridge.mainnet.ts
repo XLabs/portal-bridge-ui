@@ -463,6 +463,12 @@ export const ENV: Env = {
         }),
       ],
       wrappedTokens: {
+        stBTC: {
+          Sui: "0x5f496ed5d9d045c5b788dc1bb85f54100f2ede11e46f6a232c29daada4c5bdb6::coin::COIN",
+          Aptos:
+            "0x91d7249ba13f34e24892b126eea6b1acf00730ac56a3779477d0bf27f04c688b::coin::T",
+          Bsc: "0x86EA0AED4d21AA13db4A00d93B8716dFbBcA4A8B",
+        },
         enzoBTC: {
           Sui: "0x8f2b5eb696ed88b71fea398d330bccfa52f6e2a5a8e1ac6180fcb25c6de42ebc::coin::COIN",
           Aptos:
@@ -551,6 +557,18 @@ export const ENV: Env = {
         },
       },
       tokensConfig: {
+        stBTC: {
+          key: "stBTC",
+          symbol: "stBTC",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0xf6718b2701D4a6498eF77D7c152b2137Ab28b8A3",
+          },
+          coinGeckoId: "lorenzo-stbtc",
+          decimals: 18,
+          icon: "images/tokens/stbtc.svg",
+        },
         enzoBTC: {
           key: "enzoBTC",
           symbol: "enzoBTC",
