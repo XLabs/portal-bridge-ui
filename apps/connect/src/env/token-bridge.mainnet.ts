@@ -475,6 +475,9 @@ export const ENV: Env = {
             "0x1d9a4d969e7a0d67052fee38da3086a89cb2fddfa322849ee0215b85ff01fa60::coin::T",
           Bsc: "0xE90669eB2dc5109710500b8a54cC847ad8702E6b",
         },
+        joeEthereum: {
+          Solana: "47uDEdzSvmwtWZi4The5upP1gB3i9zaGpCVYYLoJhf79",
+        },
         spx6900: {
           Solana: "J3NKxxXZcnNiMjKw9hYb2K4LUxgwB6t1FtPtQVsv3KFr",
           Base: "0x50dA645f148798F68EF2d7dB7C1CB22A6819bb2C",
@@ -580,6 +583,19 @@ export const ENV: Env = {
           icon: "images/tokens/enzoBTC.svg",
           decimals: 8,
           coinGeckoId: "lorenzo-stbtc",
+        },
+        joeEthereum: {
+          key: "joeEthereum",
+          symbol: "JOE",
+          nativeChain: "Ethereum",
+          icon: "https://coin-images.coingecko.com/coins/images/32333/large/joe.png?1697452551",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0x76e222b07c53d28b89b0bac18602810fc22b49a8",
+          },
+          coinGeckoId: "joe-coin",
+          decimals: 8,
+          displayName: "Joe Coin",
         },
         spx6900: {
           key: "spx6900",
