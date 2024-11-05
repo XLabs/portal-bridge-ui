@@ -2,6 +2,7 @@ import {
   ChainId,
   CHAIN_ID_ALGORAND,
   CHAIN_ID_APTOS,
+  CHAIN_ID_INJECTIVE,
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   CHAIN_ID_TERRA2,
@@ -10,12 +11,14 @@ import {
   getOriginalAssetAptos,
   getOriginalAssetCosmWasm,
   getOriginalAssetEth,
+  getOriginalAssetInjective,
   getOriginalAssetSol,
   getTypeFromExternalAddress,
   hexToNativeAssetString,
   isEVMChain,
   isTerraChain,
   queryExternalId,
+  queryExternalIdInjective,
   uint8ArrayToHex,
   uint8ArrayToNative,
   CHAIN_ID_SUI,
@@ -62,6 +65,7 @@ import {
 import useIsWalletReady from "./useIsWalletReady";
 import { LCDClient as XplaLCDClient } from "@xpla/xpla.js";
 import { getAptosClient } from "../utils/aptos";
+import { getInjectiveWasmClient } from "../utils/injective";
 import { getSuiProvider } from "../utils/sui";
 
 export type OriginalAssetInfo = {
@@ -122,6 +126,11 @@ export async function getOriginalAssetToken(
         getAptosClient(),
         getTokenBridgeAddressForChain(CHAIN_ID_APTOS),
         foreignNativeStringAddress
+      );
+    } else if (foreignChain === CHAIN_ID_INJECTIVE) {
+      promise = await getOriginalAssetInjective(
+        foreignNativeStringAddress,
+        getInjectiveWasmClient() as any
       );
     } else if (foreignChain === CHAIN_ID_SUI) {
       promise = await getOriginalAssetSui(
@@ -330,6 +339,16 @@ function useOriginalAsset(
               getTokenBridgeAddressForChain(CHAIN_ID_APTOS),
               uint8ArrayToHex(result.assetAddress)
             ).then((tokenId) => setOriginAddress(tokenId || null));
+          } else if (result.chainId === CHAIN_ID_INJECTIVE) {
+            const client = getInjectiveWasmClient();
+            const tokenBridgeAddress = getTokenBridgeAddressForChain(
+              result.chainId
+            );
+            queryExternalIdInjective(
+              client as any,
+              tokenBridgeAddress,
+              uint8ArrayToHex(result.assetAddress)
+            ).then((tokenId) => setOriginAddress(tokenId));
           } else if (result.chainId === CHAIN_ID_SUI) {
             getForeignAssetSui(
               getSuiProvider(),

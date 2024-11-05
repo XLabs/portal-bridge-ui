@@ -22,6 +22,7 @@ import {
   CHAIN_ID_APTOS,
   isValidAptosType,
   CHAIN_ID_ARBITRUM,
+  CHAIN_ID_INJECTIVE,
   terra,
   CHAIN_ID_OPTIMISM,
   CHAIN_ID_SUI,
@@ -229,6 +230,14 @@ export default function SmartAddress({
     ? `https://${CLUSTER === "testnet" ? "goerli." : ""}arbiscan.io/${
         isAsset ? "token" : "address"
       }/${useableAddress}`
+    : chainId === CHAIN_ID_INJECTIVE
+    ? `https://${
+        CLUSTER === "testnet" ? "testnet." : ""
+      }explorer.injective.network/${
+        isAsset
+          ? `asset/?tokenType=${isNative ? "native" : "cw20"}&tokenIdentifier=`
+          : "account/"
+      }${useableAddress}`
     : chainId === CHAIN_ID_OPTIMISM
     ? `https://${
         CLUSTER === "testnet" ? "goerli-optimism." : "optimistic."
