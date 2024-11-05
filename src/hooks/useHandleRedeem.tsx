@@ -2,6 +2,7 @@ import {
   ChainId,
   CHAIN_ID_ALGORAND,
   CHAIN_ID_APTOS,
+  CHAIN_ID_INJECTIVE,
   CHAIN_ID_KLAYTN,
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
@@ -11,6 +12,7 @@ import {
   redeemOnAlgorand,
   redeemOnEth,
   redeemOnEthNative,
+  redeemOnInjective,
   redeemOnSolana,
   redeemOnTerra,
   redeemOnXpla,
@@ -79,9 +81,12 @@ import { postVaa, signSendAndConfirm } from "../utils/solana";
 import { postWithFees } from "../utils/terra";
 import useTransferSignedVAA from "./useTransferSignedVAA";
 import { postWithFeesXpla } from "../utils/xpla";
+import { broadcastInjectiveTx } from "../utils/injective";
+import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
 import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 import { AptosWallet } from "@xlabs-libs/wallet-aggregator-aptos";
+import { InjectiveWallet } from "@xlabs-libs/wallet-aggregator-injective";
 import { NearWallet } from "@xlabs-libs/wallet-aggregator-near";
 import { useTerraWallet } from "../contexts/TerraWalletContext";
 import { TerraWallet } from "@xlabs-libs/wallet-aggregator-terra";
@@ -335,7 +340,7 @@ async function sei(
   try {
     const vaa = parseVaa(signedVAA);
     const transfer = parseTokenTransferPayload(vaa.payload);
-    const receiver = cosmos.humanAddress("sei", new Uint8Array(transfer.to));
+    const receiver = cosmos.humanAddress("sei", transfer.to);
     const contractAddress =
       receiver === SEI_TRANSLATOR
         ? SEI_TRANSLATOR
@@ -385,6 +390,40 @@ async function sei(
     }
 
     dispatch(setRedeemTx({ id: tx.id, block: tx.data.height }));
+    enqueueSnackbar(null, {
+      content: <Alert severity="success">Transaction confirmed</Alert>,
+    });
+    onSuccess?.();
+  } catch (e) {
+    enqueueSnackbar(null, {
+      content: <Alert severity="error">{parseError(e)}</Alert>,
+    });
+    dispatch(setIsRedeeming(false));
+  }
+}
+
+async function injective(
+  dispatch: any,
+  enqueueSnackbar: any,
+  wallet: InjectiveWallet,
+  walletAddress: string,
+  signedVAA: Uint8Array,
+  onSuccess?: () => void
+) {
+  dispatch(setIsRedeeming(true));
+  try {
+    const msg = await redeemOnInjective(
+      getTokenBridgeAddressForChain(CHAIN_ID_INJECTIVE),
+      walletAddress,
+      signedVAA
+    );
+    const tx = await broadcastInjectiveTx(
+      wallet,
+      walletAddress,
+      msg,
+      "Wormhole - Complete Transfer"
+    );
+    dispatch(setRedeemTx({ id: tx.txHash, block: tx.height }));
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
     });
@@ -566,6 +605,7 @@ export function useHandleRedeem() {
   const { address: algoAccount, wallet: algoWallet } = useAlgorandWallet();
   const { accountId: nearAccountId, wallet } = useNearContext();
   const { account: aptosAddress, wallet: aptosWallet } = useAptosContext();
+  const { wallet: injWallet, address: injAddress } = useInjectiveContext();
   const suiWallet = useSuiWallet();
   const seiWallet = useSeiWallet();
   const seiAddress = seiWallet?.getAddress();
@@ -675,6 +715,20 @@ export function useHandleRedeem() {
         onSuccess
       );
     } else if (
+      targetChain === CHAIN_ID_INJECTIVE &&
+      injWallet &&
+      injAddress &&
+      signedVAA
+    ) {
+      injective(
+        dispatch,
+        enqueueSnackbar,
+        injWallet,
+        injAddress,
+        signedVAA,
+        onSuccess
+      );
+    } else if (
       targetChain === CHAIN_ID_SUI &&
       suiWallet?.getAddress() &&
       !!signedVAA
@@ -695,6 +749,8 @@ export function useHandleRedeem() {
     algoAccount,
     nearAccountId,
     wallet,
+    injWallet,
+    injAddress,
     suiWallet,
     dispatch,
     enqueueSnackbar,
@@ -750,6 +806,20 @@ export function useHandleRedeem() {
     ) {
       algo(dispatch, enqueueSnackbar, algoWallet, signedVAA, onSuccess);
     } else if (
+      targetChain === CHAIN_ID_INJECTIVE &&
+      injWallet &&
+      injAddress &&
+      signedVAA
+    ) {
+      injective(
+        dispatch,
+        enqueueSnackbar,
+        injWallet,
+        injAddress,
+        signedVAA,
+        onSuccess
+      );
+    } else if (
       targetChain === CHAIN_ID_SEI &&
       seiWallet &&
       seiAddress &&
@@ -771,6 +841,8 @@ export function useHandleRedeem() {
     solPK,
     terraWallet,
     algoAccount,
+    injWallet,
+    injAddress,
     seiWallet,
     seiAddress,
     suiWallet,

@@ -2,6 +2,7 @@ import {
   ChainId,
   CHAIN_ID_ALGORAND,
   CHAIN_ID_APTOS,
+  CHAIN_ID_INJECTIVE,
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   CHAIN_ID_XPLA,
@@ -18,6 +19,7 @@ import { useSolanaWallet } from "../contexts/SolanaWalletContext";
 import { APTOS_NETWORK, CLUSTER, getEvmChainId } from "../utils/consts";
 import { useXplaWallet } from "../contexts/XplaWalletContext";
 import { useAptosContext } from "../contexts/AptosWalletContext";
+import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 import { useTerraWallet } from "../contexts/TerraWalletContext";
 import { useSuiWallet } from "../contexts/SuiWalletContext";
 import { useSeiWallet } from "../contexts/SeiWalletContext";
@@ -67,6 +69,8 @@ function useIsWalletReady(
   const hasCorrectAptosNetwork =
     aptosNetwork?.name?.toLowerCase().includes(APTOS_NETWORK.toLowerCase()) ||
     (CLUSTER === "devnet" && aptosNetwork?.chainId === "4");
+  const { address: injAddress } = useInjectiveContext();
+  const hasInjWallet = !!injAddress;
   const suiWallet = useSuiWallet();
   const suiAddress = suiWallet?.getAddress();
   const seiWallet = useSeiWallet();
@@ -108,6 +112,9 @@ function useIsWalletReady(
         );
       }
     }
+    if (chainId === CHAIN_ID_INJECTIVE && hasInjWallet && injAddress) {
+      return createWalletStatus(true, undefined, injAddress);
+    }
     if (chainId === CHAIN_ID_SUI && suiAddress) {
       return createWalletStatus(true, undefined, suiAddress);
     }
@@ -148,6 +155,8 @@ function useIsWalletReady(
     hasAptosWallet,
     aptosAddress,
     hasCorrectAptosNetwork,
+    hasInjWallet,
+    injAddress,
     suiAddress,
     hasSeiWallet,
     seiAddress,

@@ -2,6 +2,7 @@ import {
   ChainId,
   CHAIN_ID_ALGORAND,
   CHAIN_ID_APTOS,
+  CHAIN_ID_INJECTIVE,
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   CHAIN_ID_TERRA2,
@@ -20,6 +21,9 @@ import { Metadata } from "../utils/metaplex";
 import useAlgoMetadata, { AlgoMetadata } from "./useAlgoMetadata";
 import useAptosMetadata, { AptosMetadata } from "./useAptosMetadata";
 import useEvmMetadata, { EvmMetadata } from "./useEvmMetadata";
+import useInjectiveMetadata, {
+  InjectiveMetadata,
+} from "./useInjectiveMetadata";
 import useMetaplexData from "./useMetaplexData";
 import useNearMetadata from "./useNearMetadata";
 import useSolanaTokenMap from "./useSolanaTokenMap";
@@ -237,6 +241,33 @@ const constructAptosMetadata = (
   };
 };
 
+const constructInjectiveMetadata = (
+  addresses: string[],
+  metadataMap: DataWrapper<Map<string, InjectiveMetadata>>
+) => {
+  const isFetching = metadataMap.isFetching;
+  const error = metadataMap.error;
+  const receivedAt = metadataMap.receivedAt;
+  const data = new Map<string, GenericMetadata>();
+  addresses.forEach((address) => {
+    const meta = metadataMap.data?.get(address);
+    const obj = {
+      symbol: meta?.symbol || undefined,
+      logo: undefined,
+      tokenName: meta?.tokenName || undefined,
+      decimals: meta?.decimals,
+    };
+    data.set(address, obj);
+  });
+
+  return {
+    isFetching,
+    error,
+    receivedAt,
+    data,
+  };
+};
+
 const constructSuiMetadata = (
   addresses: string[],
   metadataMap: DataWrapper<Map<string, SuiMetadata>>
@@ -292,6 +323,9 @@ export default function useMetadata(
   const aptosAddresses = useMemo(() => {
     return chainId === CHAIN_ID_APTOS ? addresses : [];
   }, [chainId, addresses]);
+  const injAddresses = useMemo(() => {
+    return chainId === CHAIN_ID_INJECTIVE ? addresses : [];
+  }, [chainId, addresses]);
   const seiAddresses = useMemo(() => {
     return chainId === CHAIN_ID_SEI ? addresses : [];
   }, [chainId, addresses]);
@@ -309,6 +343,7 @@ export default function useMetadata(
   const nearMetadata = useNearMetadata(nearAddresses);
   const xplaMetadata = useXplaMetadata(xplaAddresses);
   const aptosMetadata = useAptosMetadata(aptosAddresses);
+  const injMetadata = useInjectiveMetadata(injAddresses);
   const suiMetadata = useSuiMetadata(suiAddresses);
   const seiMetadata = useSeiMetadata(seiAddresses);
 
@@ -333,6 +368,8 @@ export default function useMetadata(
         ? constructXplaMetadata(xplaAddresses, xplaMetadata)
         : chainId === CHAIN_ID_APTOS
         ? constructAptosMetadata(aptosAddresses, aptosMetadata)
+        : chainId === CHAIN_ID_INJECTIVE
+        ? constructInjectiveMetadata(injAddresses, injMetadata)
         : chainId === CHAIN_ID_SEI
         ? constructSeiMetadata(seiAddresses, seiMetadata)
         : chainId === CHAIN_ID_SUI
@@ -356,6 +393,8 @@ export default function useMetadata(
       xplaMetadata,
       aptosAddresses,
       aptosMetadata,
+      injAddresses,
+      injMetadata,
       suiAddresses,
       suiMetadata,
       seiAddresses,
