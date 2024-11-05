@@ -566,7 +566,7 @@ export const ENV: Env = {
           decimals: 8,
           coinGeckoId: "lorenzo-stbtc",
         },
-        joe: {
+        joeEthereum: {
           key: "joeEthereum",
           symbol: "joe",
           nativeChain: "Ethereum",
