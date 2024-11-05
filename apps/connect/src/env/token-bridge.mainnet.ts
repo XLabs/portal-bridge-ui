@@ -459,6 +459,31 @@ export const ENV: Env = {
                 ],
               },
             ],
+            LooPIN: [
+              {
+                chain: "Ethereum",
+                manager: "0x6bE6CC3825f29EbBD014487B30512984b2C0cDf3",
+                token: "0x975dA7b2325F815F1dE23C8B68f721fb483B8071",
+                transceiver: [
+                  {
+                    address: "0x42e3ec587dE57b2b28C054DF785a863E3A1b55CF",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Solana",
+                manager: "nTtyAzdYmpLwAWGWCK3PFqfrsKaPpZgbghy7qiqDb7H",
+                token: "CHX3FSxGYSJ2LHeQTcGp2oMAoBNngtJ73jsuamMUnZQx",
+                transceiver: [
+                  {
+                    address: "84J5SnqJTCyFzVX6DM9srpr12Rbzz7m87xcemGLkwjon",
+                    type: "wormhole",
+                  },
+                ],
+                quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
+              },
+            ],
           },
         }),
       ],
@@ -1113,6 +1138,33 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/23931/standard/512_x_512_Dark.png?1721243699",
           coinGeckoId: "pstake-finance",
           decimals: 18,
+        },
+
+        LooPINEthereum: {
+          key: "LooPINEthereum",
+          symbol: "LOOPIN",
+          displayName: "LooPIN",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0x975dA7b2325F815F1dE23C8B68f721fb483B8071",
+          },
+          icon: "https://files.loopin.network/logo/transparent.png",
+          coinGeckoId: "",
+          decimals: 18,
+        },
+        LooPINSolana: {
+          key: "LooPINSolana",
+          symbol: "LOOPIN",
+          displayName: "LooPIN",
+          nativeChain: "Solana",
+          tokenId: {
+            chain: "Solana",
+            address: "CHX3FSxGYSJ2LHeQTcGp2oMAoBNngtJ73jsuamMUnZQx",
+          },
+          icon: "https://files.loopin.network/logo/transparent.png",
+          coinGeckoId: "",
+          decimals: 9,
         },
       },
     }
