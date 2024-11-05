@@ -568,7 +568,7 @@ export const ENV: Env = {
         },
         joeEthereum: {
           key: "joeEthereum",
-          symbol: "joe",
+          symbol: "JOE",
           nativeChain: "Ethereum",
           icon: "https://coin-images.coingecko.com/coins/images/32333/large/joe.png?1697452551",
           tokenId: {
