@@ -124,7 +124,7 @@ export const METAMASK_CHAIN_PARAMETERS: {
   },
   8217: {
     chainId: "0x2019",
-    chainName: "Klaytn",
+    chainName: "Kaia",
     nativeCurrency: { name: "Klay", symbol: "KLAY", decimals: 18 },
     rpcUrls: ["https://public-node-api.klaytnapi.com/v1/cypress"],
     blockExplorerUrls: ["https://scope.klaytn.com"],
