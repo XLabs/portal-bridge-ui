@@ -48,6 +48,7 @@ export const wormholeConnectConfigCommon: Partial<WormholeConnectConfig> = {
       href: `https://wormholescan.io/#/txs?address={:address}&network=${CLUSTER}`,
     },
     menu: [],
+    showInProgressWidget: true,
   },
   network: CLUSTER,
   rpcs: {},
