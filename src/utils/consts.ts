@@ -187,7 +187,7 @@ export const CHAINS: ChainInfo[] =
         },
         {
           id: CHAIN_ID_KLAYTN,
-          name: "Klaytn",
+          name: "Kaia",
           logo: klaytnIcon,
         },
         {
@@ -325,7 +325,7 @@ export const CHAINS: ChainInfo[] =
         },
         {
           id: CHAIN_ID_KLAYTN,
-          name: "Klaytn",
+          name: "Kaia",
           logo: klaytnIcon,
         },
         {
@@ -753,7 +753,7 @@ export const getExplorerName = (chainId: ChainId) =>
     : chainId === CHAIN_ID_FANTOM
     ? "FTMScan"
     : chainId === CHAIN_ID_KLAYTN
-    ? "Klaytnscope"
+    ? "Kaiascope"
     : chainId === CHAIN_ID_SOLANA
     ? "Solscan"
     : chainId === CHAIN_ID_MOONBEAM

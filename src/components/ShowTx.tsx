@@ -100,7 +100,7 @@ export default function ShowTx({
       : chainId === CHAIN_ID_KLAYTN
       ? `https://${
           CLUSTER === "testnet" ? "baobab." : ""
-        }scope.klaytn.com/tx/${tx?.id}`
+        }kaiascope.com/tx/${tx?.id}`
       : chainId === CHAIN_ID_CELO
       ? `https://${
           CLUSTER === "testnet" ? "alfajores.celoscan.io" : "explorer.celo.org"

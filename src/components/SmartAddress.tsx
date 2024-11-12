@@ -145,7 +145,7 @@ export default function SmartAddress({
         isAsset ? "token" : "address"
       }/${useableAddress}`
     : chainId === CHAIN_ID_KLAYTN
-    ? `https://${CLUSTER === "testnet" ? "baobab." : ""}scope.klaytn.com/${
+    ? `https://${CLUSTER === "testnet" ? "baobab." : ""}kaiascope.com/${
         isAsset ? "token" : "address"
       }/${useableAddress}`
     : chainId === CHAIN_ID_CELO
