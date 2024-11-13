@@ -128,7 +128,7 @@ export default function SolanaCreateAssociatedAddress({
               ASSOCIATED_TOKEN_PROGRAM_ID
             )
           );
-          const { blockhash } = await connection.getRecentBlockhash();
+          const { blockhash } = await connection.getLatestBlockhash();
           transaction.recentBlockhash = blockhash;
           transaction.feePayer = new PublicKey(payerPublicKey);
           await signSendAndConfirm(solanaWallet, transaction);
@@ -247,7 +247,7 @@ export function SolanaCreateAssociatedAddressAlternate() {
               ASSOCIATED_TOKEN_PROGRAM_ID
             )
           );
-          const { blockhash } = await connection.getRecentBlockhash();
+          const { blockhash } = await connection.getLatestBlockhash();
           transaction.recentBlockhash = blockhash;
           transaction.feePayer = new PublicKey(payerPublicKey);
           await signSendAndConfirm(solanaWallet, transaction);
