@@ -16,6 +16,32 @@ export const ENV: Env = {
       //   moreChains: { chains: [ALGORAND, ACALA, MORE] },
       // } as NonNullable<WormholeConnectConfig["ui"]>,
       tokensConfig: {
+        usdcCelo: {
+          key: "usdcCelo",
+          symbol: "USDC",
+          nativeChain: "Celo",
+          icon: "https://assets.coingecko.com/coins/images/6319/standard/usdc.png?1696506694",
+          tokenId: {
+            chain: "Celo",
+            address: "0xF194afDf50B03e69Bd7D057c1Aa9e10c9954E4C9"
+          },
+          coinGeckoId: "usdc",
+          decimals: 8,
+          displayName: "USD Coin"
+        },
+        solSolana: {
+          key: "solSolana",
+          symbol: "SOL",
+          nativeChain: "Solana",
+          icon: "https://coin-images.coingecko.com/coins/images/21629/large/solana.jpg?1696520989",
+          tokenId: {
+            chain: "Solana",
+            address: "So11111111111111111111111111111111111111112"
+          },
+          coinGeckoId: "wrapped-solana",
+          decimals: 8,
+          displayName: "Wrapped SOL"
+        },
         Wsolana: {
           key: "Wsolana",
           symbol: "W",
@@ -142,6 +168,15 @@ export const ENV: Env = {
           },
         }),
       ],
+      wrappedTokens: {
+        usdcCelo: {
+          Bsc: "0x1471698cBD9cAB0228F2EEA9303A2b3aA0ABDC2B",
+          Solana: "84F2QX9278ToDmA98u4A86xSV9hz1ovazr8zwGaX6qjS"
+        },
+        solSolana: {
+          Avalanche: "0xFE6B19286885a4F7F55AdAD09C3Cd1f906D2478F"
+        }
+      }
     }
   ),
 };
