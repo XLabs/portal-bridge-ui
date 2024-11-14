@@ -390,6 +390,17 @@ export const ENV: Env = {
                 ],
               },
               {
+                chain: "Base",
+                manager: "0xBC51f76178a56811fdfe95D3897E6aC2B11DbB62",
+                token: "0x46777C76dBbE40fABB2AAB99E33CE20058e76C59",
+                transceiver: [
+                  {
+                    address: "0x8D77Ac62A6571a408e5C9655fF5dE90d537C3045",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
                 chain: "Solana",
                 manager: "ntT5xGC7XEuR8Po9U3Umze12T9LBdaTCuEc9Cby6qPa",
                 token: "5k84VjAKoGPXa7ias1BNgKUrX7e61eMPWhZDqsiD4Bpe",
@@ -1030,6 +1041,19 @@ export const ENV: Env = {
           tokenId: {
             chain: "Ethereum",
             address: "0x88909D489678dD17aA6D9609F89B0419Bf78FD9a",
+          },
+          icon: "https://assets.coingecko.com/coins/images/37768/standard/Square.png?1722045128",
+          coinGeckoId: "layer3",
+          decimals: 18,
+        },
+        Layer3Base: {
+          key: "Layer3Base",
+          symbol: "L3",
+          displayName: "Layer3",
+          nativeChain: "Base",
+          tokenId: {
+            chain: "Base",
+            address: "0x46777C76dBbE40fABB2AAB99E33CE20058e76C59",
           },
           icon: "https://assets.coingecko.com/coins/images/37768/standard/Square.png?1722045128",
           coinGeckoId: "layer3",
