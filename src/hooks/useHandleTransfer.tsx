@@ -8,7 +8,7 @@ import {
   CHAIN_ID_XPLA,
   CHAIN_ID_SEI,
   cosmos,
-  createNonce,
+  //  createNonce,
   getEmitterAddressAlgorand,
   getEmitterAddressEth,
   getEmitterAddressInjective,
@@ -290,7 +290,7 @@ async function aptos(
       tokenAddress,
       transferAmountParsed.toString(),
       recipientChain,
-      recipientAddress,
+      recipientAddress
       //additionalPayload?.receivingContract || recipientAddress,
       //additionalPayload?.payload
       //  ? undefined
