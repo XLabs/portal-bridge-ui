@@ -282,19 +282,20 @@ async function aptos(
     const baseAmountParsed = parseUnits(amount, decimals);
     const feeParsed = parseUnits(relayerFee || "0", decimals);
     const transferAmountParsed = baseAmountParsed.add(feeParsed);
-
-    const additionalPayload = maybeAdditionalPayload();
-
+    // Aptos does not support additional payload, comment out for now
+    // See https://github.com/wormhole-foundation/wormhole/blob/main/sdk/js/src/token_bridge/transfer.ts#L901
+    // const additionalPayload = maybeAdditionalPayload();
     const transferPayload = transferFromAptos(
       tokenBridgeAddress,
       tokenAddress,
       transferAmountParsed.toString(),
       recipientChain,
-      additionalPayload?.receivingContract || recipientAddress,
-      additionalPayload?.payload
-        ? undefined
-        : createNonce().readUInt32LE(0).toString(),
-      additionalPayload?.payload
+      recipientAddress,
+      //additionalPayload?.receivingContract || recipientAddress,
+      //additionalPayload?.payload
+      //  ? undefined
+      //  : createNonce().readUInt32LE(0).toString(),
+      //additionalPayload?.payload
     );
 
     const hash = await waitForSignAndSubmitTransaction(transferPayload, wallet);
