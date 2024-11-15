@@ -3,6 +3,8 @@ const MM_ERR_WITH_INFO_START =
 const DEFAULT_ERROR_MESSAGE = "An unknown error occurred";
 
 const parseError = (e: any): string => {
+  // Logs more information about the error
+  console.trace(e);
   if (e?.data?.message?.startsWith(MM_ERR_WITH_INFO_START)) {
     return e.data.message.replace(MM_ERR_WITH_INFO_START, "");
   }
