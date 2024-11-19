@@ -594,6 +594,9 @@ export const ENV: Env = {
         pSTAKE: {
           Sui: "0x61017ce4bd0b75b266af53edd60bbe391ba1a9fbe9a7d8553657c94ef73ee2ab::coin::COIN",
         },
+        pxEth: {
+          Sui: "0xf4530aa5ef8af33c497ec38f54ff9dd45fad9157264efae9693eb62faf8667b5::coin::COIN",
+        },
       },
       tokensConfig: {
         stBTC: {
@@ -1187,6 +1190,19 @@ export const ENV: Env = {
           coinGeckoId: "usds",
           decimals: 6,
         },
+        pxEth: {
+          key: "pxEth",
+          symbol: "PXETH",
+          displayName: "Dinero Staked ETH",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0x04C154b66CB340F3Ae24111CC767e0184Ed00Cc6",
+          },
+          icon: "https://assets.coingecko.com/coins/images/33608/large/pxETH-icon-transbg_72dpi.png?1702512024",
+          coinGeckoId: "dinero-staked-eth",
+          decimals: 18,
+        }
       },
     }
   ),
