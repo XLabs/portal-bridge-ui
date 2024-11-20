@@ -218,7 +218,7 @@ const ConnectedDashboard = () => {
                 <InfoStatWindow
                   header={t`Accrued Rewards Header`}
                   value={formatInteger(accruedRewards, 6)}
-                  unit="OP"
+                  unit="USDs"
                   infoElement={<Trans>Accrued Rewards Tooltip</Trans>}
                 />
               </div>
@@ -235,13 +235,13 @@ const ConnectedDashboard = () => {
           <StatWindow
             header={t`Estimated Rewards Header`}
             value={formatInteger(estimatedRewards)}
-            unit="OP"
+            unit="USDs"
             graphic={<EstimatedRewardsGraphic />}
           />
           <StatWindow
             header={t`History of Rewards Earned Header`}
             value={formatInteger(historyRewardsEarned)}
-            unit="OP"
+            unit="USDs"
             graphic={<RewardHistoryGraphic />}
             infoElement={<Trans>History of Rewards Earned Tooltip</Trans>}
           />
