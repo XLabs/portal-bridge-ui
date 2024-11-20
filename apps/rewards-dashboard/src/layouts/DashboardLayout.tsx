@@ -50,9 +50,7 @@ const ConnectedDashboard = () => {
     undefined
   );
   const [wstethHeld, setWstethHeld] = useState<number | undefined>(undefined);
-  const [exactlyWstethHeld, setExactlyWstethHeld] = useState<
-    number | undefined
-  >(undefined);
+
   const [aaveWstethHeld, setAaveWstethHeld] = useState<number | undefined>(
     undefined
   );
@@ -86,7 +84,6 @@ const ConnectedDashboard = () => {
     setWstetehBridged(userInfo.bridged_amount);
     setWstethHeld(userInfo.wsteth_held);
     setAaveWstethHeld(userInfo.aave_wsteth_held);
-    setExactlyWstethHeld(userInfo.exactly_wsteth_held);
     setAccruedRewards(userInfo.pending_rewards);
   }, [userInfo]);
   useEffect(() => {
@@ -206,12 +203,6 @@ const ConnectedDashboard = () => {
                   infoElement={
                     <Trans>Aave Kamino USDs Held Value Tooltip</Trans>
                   }
-                />
-                <InfoStatWindow
-                  header={t`Exactly WSTETH Held Value`}
-                  value={formatInteger(exactlyWstethHeld, 6)}
-                  unit="eWSTETH"
-                  infoElement={<Trans>Exactly WSTETH Held Value Tooltip</Trans>}
                 />
               </div>
               <div className="">
