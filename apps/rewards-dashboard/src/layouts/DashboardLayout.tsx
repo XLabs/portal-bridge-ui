@@ -17,12 +17,14 @@ import { WAC_URL } from "../constants";
 
 interface DashboardQueryResult {
   user: string;
-  bridged_amount: number;
-  wsteth_held: number;
-  aave_wsteth_held: number;
-  exactly_wsteth_held: number;
-  pending_rewards: number;
-  earned_rewards: number;
+  usds_balance: number;
+  eff_usds_balance: number;
+  bridged_usds: number;
+  effective_bridged_usds: number;
+  net_usds_supply_in_kamino: number;
+  effective_usds_balance: number;
+  hourly_rewards_per_unit: number;
+  accrued_rewards: number;
 }
 
 export interface OverviewQueryResult {
@@ -39,7 +41,6 @@ export interface OverviewQueryResult {
 
 const ConnectedDashboard = () => {
   const { address } = useWalletInfo();
-  console.log(`${WAC_URL}overview.modal.run`);
   const [numbersHidden, setNumbersHidden] = useState(false);
 
   const [totalBridged, setTotalBridged] = useState<number | undefined>(
@@ -77,9 +78,11 @@ const ConnectedDashboard = () => {
     enabled: !!address,
     staleTime: 5000,
     queryFn: () => {
-      return fetch(`${WAC_URL}/usersummary?address=${address}`).then((res) => {
-        return res.json();
-      });
+      return fetch(`${WAC_URL}usersummary.modal.run?address=${address}`).then(
+        (res) => {
+          return res.json();
+        }
+      );
     },
   });
 
@@ -87,13 +90,12 @@ const ConnectedDashboard = () => {
     if (!userInfo) {
       return;
     }
-    setWstetehBridged(userInfo.bridged_amount);
-    setWstethHeld(userInfo.wsteth_held);
-    setAaveWstethHeld(userInfo.aave_wsteth_held);
-    setAccruedRewards(userInfo.pending_rewards);
+    setWstetehBridged(userInfo.effective_bridged_usds);
+    setWstethHeld(userInfo.usds_balance);
+    setAaveWstethHeld(userInfo.effective_usds_balance);
+    setAccruedRewards(userInfo.accrued_rewards);
   }, [userInfo]);
   useEffect(() => {
-    console.log(overview);
     if (!overview) {
       return;
     }
