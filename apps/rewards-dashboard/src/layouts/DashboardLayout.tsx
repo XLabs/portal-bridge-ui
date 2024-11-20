@@ -205,12 +205,10 @@ const ConnectedDashboard = () => {
               </div>
               <div className="flex flex-col md:flex-row gap-4">
                 <InfoStatWindow
-                  header={t`Aave Kamino USDs Held Value Header`}
+                  header={t`Kamino USDs Held Value Header`}
                   value={formatInteger(aaveWstethHeld, 6)}
                   unit="Kamino USDs"
-                  infoElement={
-                    <Trans>Aave Kamino USDs Held Value Tooltip</Trans>
-                  }
+                  infoElement={<Trans>Kamino USDs Held Value Tooltip</Trans>}
                 />
               </div>
               <div className="">

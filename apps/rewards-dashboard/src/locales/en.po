@@ -13,102 +13,110 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/layouts/DashboardLayout.tsx:193
-msgid "Kamino USDs Held Value Header"
-msgstr "Kamino USDs Balance"
+#: src/layouts/DashboardLayout.tsx:208
+#~ msgid "Kamino USDs Held Value Header"
+#~ msgstr "Kamino USDs Balance"
 
-#: src/layouts/DashboardLayout.tsx:196
-msgid "Kamino USDs Held Value Tooltip"
-msgstr "Kamino USDs account balance."
+#: src/layouts/DashboardLayout.tsx:212
+#~ msgid "Kamino USDs Held Value Tooltip"
+#~ msgstr "Kamino USDs account balance."
 
-#: src/layouts/DashboardLayout.tsx:207
+#: src/layouts/DashboardLayout.tsx:216
 msgid "Accrued Rewards Header"
 msgstr "Accruing USDs Rewards"
 
-#: src/layouts/DashboardLayout.tsx:210
+#: src/layouts/DashboardLayout.tsx:219
 msgid "Accrued Rewards Tooltip"
 msgstr "The estimated amount of USDs you have earned that has not been paid out."
 
-#: src/layouts/DashboardLayout.tsx:290
+#: src/layouts/DashboardLayout.tsx:299
 msgid "Bottom Banner Header"
 msgstr "How rewards work?"
 
-#: src/layouts/DashboardLayout.tsx:300
+#: src/layouts/DashboardLayout.tsx:309
 msgid "Bottom Banner Link"
 msgstr "Learn more"
 
-#: src/layouts/DashboardLayout.tsx:179
+#: src/layouts/DashboardLayout.tsx:194
 msgid "Bridged Header"
 msgstr "Total USDs bridged"
 
-#: src/layouts/DashboardLayout.tsx:182
+#: src/layouts/DashboardLayout.tsx:197
 msgid "Bridged Window Tooltip"
 msgstr "The total amount of USDs you bridged in via Wormhole."
 
-#: src/quarks/WalletManager.tsx:15
+#: src/quarks/WalletManager.tsx:12
 msgid "CONNECT WALLET"
 msgstr "Connect Wallet"
 
-#: src/layouts/DashboardLayout.tsx:147
+#: src/layouts/DashboardLayout.tsx:162
 msgid "Connected Dashboard Header"
 msgstr "My USDs Rewards"
 
-#: src/layouts/DashboardLayout.tsx:133
+#: src/layouts/DashboardLayout.tsx:148
 msgid "Connected Dashboard Subtitle"
 msgstr "Get up to 5% rewards by bridging your USDs to Solana"
 
-#: src/layouts/DashboardLayout.tsx:122
+#: src/layouts/DashboardLayout.tsx:137
 msgid "Connected Dashboard Title"
 msgstr "USDs Rewards Dashboard"
 
-#: src/layouts/DashboardLayout.tsx:262
+#: src/layouts/DashboardLayout.tsx:271
 msgid "Disconnect Wallet Dashboard Subtitle One"
 msgstr "Bridge Sky's new USDs to Solana to earn rewards."
 
-#: src/layouts/DashboardLayout.tsx:265
+#: src/layouts/DashboardLayout.tsx:274
 msgid "Disconnect Wallet Dashboard Subtitle Two"
 msgstr "Hold USDs or deposit into Kamino to qualify."
 
-#: src/layouts/DashboardLayout.tsx:258
+#: src/layouts/DashboardLayout.tsx:267
 msgid "Disconnect Wallet Dashboard Title"
 msgstr "Solana USDs Rewards Dashboard"
 
-#: src/layouts/DashboardLayout.tsx:224
+#: src/layouts/DashboardLayout.tsx:233
 msgid "Estimated Rewards Header"
 msgstr "Total Projected Rewards"
 
 #: src/layouts/DashboardLayout.tsx:199
-msgid "Exactly USDs Held Value"
-msgstr "Kamino USDs Balance"
+#~ msgid "Exactly USDs Held Value"
+#~ msgstr "Kamino USDs Balance"
 
 #: src/layouts/DashboardLayout.tsx:202
-msgid "Exactly USDs Held Value Tooltip"
-msgstr "Exactly USDs account balance."
+#~ msgid "Exactly USDs Held Value Tooltip"
+#~ msgstr "Exactly USDs account balance."
 
-#: src/layouts/DashboardLayout.tsx:168
+#: src/layouts/DashboardLayout.tsx:183
 msgid "Hide Number Text"
 msgstr "Show Numbers"
 
-#: src/layouts/DashboardLayout.tsx:230
+#: src/layouts/DashboardLayout.tsx:239
 msgid "History of Rewards Earned Header"
 msgstr "Total USDs Earned"
 
-#: src/layouts/DashboardLayout.tsx:234
+#: src/layouts/DashboardLayout.tsx:243
 msgid "History of Rewards Earned Tooltip"
 msgstr "A minimum of 1 USDs will be paid out. Outstanding rewards below 1 USDs will roll over to the next week."
 
-#: src/layouts/DashboardLayout.tsx:168
+#: src/layouts/DashboardLayout.tsx:208
+msgid "Kamino USDs Held Value Header"
+msgstr "Kamino USDs Balance"
+
+#: src/layouts/DashboardLayout.tsx:211
+msgid "Kamino USDs Held Value Tooltip"
+msgstr "Kamino USDs account balance."
+
+#: src/layouts/DashboardLayout.tsx:183
 msgid "Show Number Text"
 msgstr "Hide Numbers"
 
-#: src/layouts/DashboardLayout.tsx:218
+#: src/layouts/DashboardLayout.tsx:227
 msgid "Staking Power Header"
 msgstr "Total USDs Bridged"
 
-#: src/layouts/DashboardLayout.tsx:185
+#: src/layouts/DashboardLayout.tsx:200
 msgid "USDs Held Header"
 msgstr "USDs Balance"
 
-#: src/layouts/DashboardLayout.tsx:188
+#: src/layouts/DashboardLayout.tsx:203
 msgid "USDs Held Window Tooltip"
 msgstr "The amount of USDs held in your account."
