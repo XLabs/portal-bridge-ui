@@ -1,4 +1,3 @@
-import { useAccount } from "wagmi";
 import Taurus from "../quarks/Taurus";
 import { WalletManager } from "../quarks/WalletManager";
 import { FaArrowRight } from "react-icons/fa6";
@@ -11,9 +10,9 @@ import {
 import { InfoStatWindow, StatWindow } from "../quarks/StatWindow";
 import { PortalLogo } from "../quarks/LogoVectors";
 import { Trans, t } from "@lingui/macro";
-import { useWalletInfo } from "../hooks/useWalletInfo";
 import { useQuery } from "@tanstack/react-query";
 import { WAC_URL } from "../constants";
+import { useAppKitAccount } from "@reown/appkit/react";
 
 interface DashboardQueryResult {
   user: string;
@@ -40,7 +39,7 @@ export interface OverviewQueryResult {
 }
 
 const ConnectedDashboard = () => {
-  const { address } = useWalletInfo();
+  const { address } = useAppKitAccount();
   const [numbersHidden, setNumbersHidden] = useState(false);
 
   const [totalBridged, setTotalBridged] = useState<number | undefined>(
@@ -78,11 +77,11 @@ const ConnectedDashboard = () => {
     enabled: !!address,
     staleTime: 5000,
     queryFn: () => {
-      return fetch(`${WAC_URL}usersummary.modal.run?address=${address}`).then(
-        (res) => {
-          return res.json();
-        }
-      );
+      return fetch(
+        `${WAC_URL}usersummary.modal.run?address=BKT2JR5wRWsXQBxrht1LbbbKtgUkz3sJdaBY8UzgRJPL`
+      ).then((res) => {
+        return res.json();
+      });
     },
   });
 
@@ -320,7 +319,7 @@ const DisconnectedDashboard = () => {
 };
 
 export const DashboardLayout = () => {
-  const { isConnected } = useAccount();
+  const { isConnected } = useAppKitAccount();
   return (
     <div className="flex flex-col flex-1">
       {isConnected ? <ConnectedDashboard /> : <DisconnectedDashboard />}
