@@ -6,7 +6,7 @@ import { publicProvider } from "wagmi/providers/public";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
-import {mainnet, optimism} from "@gfxlabs/oku-chains";
+import { mainnet, optimism } from "@gfxlabs/oku-chains";
 import { PropsWithChildren } from "react";
 const CHAINS_LIST = [optimism, mainnet];
 
@@ -14,8 +14,8 @@ const envProjectId = import.meta.env.VITE_APP_WALLET_CONNECT_PROJECT_ID;
 const projectId = envProjectId ? envProjectId : "dummy-wc-key";
 
 const metadata = {
-  name: "Wormhole WSTETH rewards ",
-  description: "Wormhole WSTETH Rewards",
+  name: "Wormhole USDs rewards ",
+  description: "Wormhole USDs Rewards",
   url: import.meta.env.VITE_APP_DOMAIN || "portalbridge.com",
   icons: [`https://portalbridge.com/favicon.ico`],
 };

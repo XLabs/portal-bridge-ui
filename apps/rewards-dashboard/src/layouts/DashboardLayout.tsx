@@ -46,10 +46,16 @@ const ConnectedDashboard = () => {
     number | undefined
   >(undefined);
 
-  const [wstetehBridged, setWstetehBridged] = useState<number | undefined>(undefined);
+  const [wstetehBridged, setWstetehBridged] = useState<number | undefined>(
+    undefined
+  );
   const [wstethHeld, setWstethHeld] = useState<number | undefined>(undefined);
-  const [exactlyWstethHeld, setExactlyWstethHeld] = useState<number | undefined>(undefined);
-  const [aaveWstethHeld, setAaveWstethHeld] = useState<number | undefined>(undefined);
+  const [exactlyWstethHeld, setExactlyWstethHeld] = useState<
+    number | undefined
+  >(undefined);
+  const [aaveWstethHeld, setAaveWstethHeld] = useState<number | undefined>(
+    undefined
+  );
   const [accruedRewards, setAccruedRewards] = useState<number | undefined>(
     undefined
   );
@@ -101,7 +107,11 @@ const ConnectedDashboard = () => {
 
   const formatInteger = (x?: number, decimals?: number) => {
     x = maybeHide(x);
-    return x !== undefined ? (x === 0 ? "0" : x.toFixed(decimals).toLocaleString()) : undefined;
+    return x !== undefined
+      ? x === 0
+        ? "0"
+        : x.toFixed(decimals).toLocaleString()
+      : undefined;
   };
 
   return (
@@ -178,22 +188,24 @@ const ConnectedDashboard = () => {
                 <InfoStatWindow
                   header={t`Bridged Header`}
                   value={formatInteger(wstetehBridged, 6)}
-                  unit="WSTETH"
+                  unit="USDs"
                   infoElement={<Trans>Bridged Window Tooltip</Trans>}
                 />
                 <InfoStatWindow
-                  header={t`WSTETH Held Header`}
+                  header={t`USDs Held Header`}
                   value={formatInteger(wstethHeld, 6)}
-                  unit="WSTETH"
-                  infoElement={<Trans>WSTETH Held Window Tooltip</Trans>}
+                  unit="USDs"
+                  infoElement={<Trans>USDs Held Window Tooltip</Trans>}
                 />
               </div>
               <div className="flex flex-col md:flex-row gap-4">
                 <InfoStatWindow
-                  header={t`Aave WSTETH Held Value Header`}
+                  header={t`Aave Kamino USDs Held Value Header`}
                   value={formatInteger(aaveWstethHeld, 6)}
-                  unit="aWSTETH"
-                  infoElement={<Trans>Aave WSTETH Held Value Tooltip</Trans>}
+                  unit="Kamino USDs"
+                  infoElement={
+                    <Trans>Aave Kamino USDs Held Value Tooltip</Trans>
+                  }
                 />
                 <InfoStatWindow
                   header={t`Exactly WSTETH Held Value`}
@@ -310,9 +322,7 @@ const DisconnectedDashboard = () => {
 export const DashboardLayout = () => {
   const { isConnected } = useAccount();
   return (
-    <div
-      className="flex flex-col flex-1"
-    >
+    <div className="flex flex-col flex-1">
       {isConnected ? <ConnectedDashboard /> : <DisconnectedDashboard />}
     </div>
   );
