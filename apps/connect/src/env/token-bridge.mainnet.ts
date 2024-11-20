@@ -1202,7 +1202,7 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/33608/large/pxETH-icon-transbg_72dpi.png?1702512024",
           coinGeckoId: "dinero-staked-eth",
           decimals: 18,
-        }
+        },
       },
     }
   ),
