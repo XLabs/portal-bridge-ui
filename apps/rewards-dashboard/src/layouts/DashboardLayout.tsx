@@ -77,11 +77,11 @@ const ConnectedDashboard = () => {
     enabled: !!address,
     staleTime: 5000,
     queryFn: () => {
-      return fetch(
-        `${WAC_URL}usersummary.modal.run?address=BKT2JR5wRWsXQBxrht1LbbbKtgUkz3sJdaBY8UzgRJPL`
-      ).then((res) => {
-        return res.json();
-      });
+      return fetch(`${WAC_URL}usersummary.modal.run?address=${address}`).then(
+        (res) => {
+          return res.json();
+        }
+      );
     },
   });
 
@@ -91,7 +91,7 @@ const ConnectedDashboard = () => {
     }
     setWstetehBridged(userInfo.effective_bridged_usds);
     setWstethHeld(userInfo.usds_balance);
-    setAaveWstethHeld(userInfo.effective_usds_balance);
+    setAaveWstethHeld(userInfo.net_usds_supply_in_kamino);
     setAccruedRewards(userInfo.accrued_rewards);
   }, [userInfo]);
   useEffect(() => {
