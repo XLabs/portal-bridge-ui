@@ -47,15 +47,7 @@ const LightningIcon = () => {
     </svg>
   );
 };
-const truncateEns = (x?: string) => {
-  if (x) {
-    if (x.length > 8) {
-      return x.slice(0, 8) + "...";
-    }
-    return x;
-  }
-  return "";
-};
+
 const truncateAddr = (x?: string) => {
   if (x) {
     if (x.length > 10) {
