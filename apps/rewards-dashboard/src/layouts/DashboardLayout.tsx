@@ -26,14 +26,20 @@ interface DashboardQueryResult {
 }
 
 export interface OverviewQueryResult {
-  total_bridged: number;
-  estimated_rewards: number;
-  rewards_earned: number;
+  usds_balance_total: number;
+  usds_flagged_addresses: number;
+  usds_total_supply: number;
+  bridged_usds_total: number;
+  effective_bridged_usds_total: number;
+  net_usds_supply_in_kamino_total: number;
+  effective_usds_balance_total: number;
+  hourly_rewards_per_unit: number;
+  accrued_rewards_total: number;
 }
 
 const ConnectedDashboard = () => {
   const { address } = useWalletInfo();
-
+  console.log(`${WAC_URL}overview.modal.run`);
   const [numbersHidden, setNumbersHidden] = useState(false);
 
   const [totalBridged, setTotalBridged] = useState<number | undefined>(
@@ -61,7 +67,7 @@ const ConnectedDashboard = () => {
     queryKey: ["overview"],
     staleTime: 5000,
     queryFn: () => {
-      return fetch(`${WAC_URL}/overview`).then((res) => {
+      return fetch(`${WAC_URL}overview.modal.run`).then((res) => {
         return res.json();
       });
     },
@@ -87,12 +93,13 @@ const ConnectedDashboard = () => {
     setAccruedRewards(userInfo.pending_rewards);
   }, [userInfo]);
   useEffect(() => {
+    console.log(overview);
     if (!overview) {
       return;
     }
-    setTotalBridged(overview.total_bridged);
-    setEstimatedRewards(overview.estimated_rewards);
-    setHistoryRewardsEarned(overview.rewards_earned);
+    setTotalBridged(overview.bridged_usds_total);
+    setEstimatedRewards(overview.usds_balance_total);
+    setHistoryRewardsEarned(overview.accrued_rewards_total);
   }, [overview]);
 
   const maybeHide = (x?: number) => {
