@@ -89,7 +89,7 @@ const ConnectedDashboard = () => {
     if (!userInfo) {
       return;
     }
-    setWstetehBridged(userInfo.effective_bridged_usds);
+    setWstetehBridged(userInfo.bridged_usds); // TODO: Change to effective_bridged_usds after going live
     setWstethHeld(userInfo.usds_balance);
     setAaveWstethHeld(userInfo.net_usds_supply_in_kamino);
     setAccruedRewards(userInfo.accrued_rewards);
