@@ -114,7 +114,10 @@ const ConnectedDashboard = () => {
     return x !== undefined
       ? x === 0
         ? "0"
-        : x.toFixed(decimals).toLocaleString()
+        : x.toLocaleString(undefined, {
+            minimumFractionDigits: decimals,
+            maximumFractionDigits: x < 1 ? decimals : 0,
+          })
       : undefined;
   };
 
