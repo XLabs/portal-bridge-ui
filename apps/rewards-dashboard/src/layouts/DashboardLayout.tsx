@@ -144,7 +144,7 @@ const ConnectedDashboard = () => {
           md:pb-8
           "
         >
-          <Trans id="connectedDashboardSubtitle">
+          <Trans>
             100,000 USDS in{" "}
             <a
               href="https://x.com/SkyEcosystem/status/1858873709722734611"
@@ -202,29 +202,29 @@ const ConnectedDashboard = () => {
                 <InfoStatWindow
                   header={t`Bridged Header`}
                   value={formatInteger(totalUSDSBridged, 6)}
-                  unit="USDs"
+                  unit="USDS"
                   infoElement={<Trans>Bridged Window Tooltip</Trans>}
                 />
                 <InfoStatWindow
-                  header={t`USDs Held Header`}
+                  header={t`USDS Held Header`}
                   value={formatInteger(USDSBalance, 6)}
-                  unit="USDs"
-                  infoElement={<Trans>USDs Held Window Tooltip</Trans>}
+                  unit="USDS"
+                  infoElement={<Trans>USDS Held Window Tooltip</Trans>}
                 />
               </div>
               <div className="flex flex-col md:flex-row gap-4">
                 <InfoStatWindow
-                  header={t`Kamino USDs Held Value Header`}
+                  header={t`Kamino USDS Held Value Header`}
                   value={formatInteger(kaminoHeld, 6)}
-                  unit="Kamino USDs"
-                  infoElement={<Trans>Kamino USDs Held Value Tooltip</Trans>}
+                  unit="Kamino USDS"
+                  infoElement={<Trans>Kamino USDS Held Value Tooltip</Trans>}
                 />
               </div>
               <div className="">
                 <InfoStatWindow
                   header={t`Accrued Rewards Header`}
                   value={formatInteger(accruedRewards, 6)}
-                  unit="USDs"
+                  unit="USDS"
                   infoElement={<Trans>Accrued Rewards Tooltip</Trans>}
                 />
               </div>
@@ -247,7 +247,7 @@ const ConnectedDashboard = () => {
           <StatWindow
             header={t`History of Rewards Earned Header`}
             value={formatInteger(historyRewardsEarned)}
-            unit="USDs"
+            unit="USDS"
             graphic={<RewardHistoryGraphic />}
             infoElement={<Trans>History of Rewards Earned Tooltip</Trans>}
           />

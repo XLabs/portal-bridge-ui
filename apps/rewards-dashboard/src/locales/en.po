@@ -15,109 +15,113 @@ msgstr ""
 
 #. js-lingui-explicit-id
 #: src/layouts/DashboardLayout.tsx:149
-msgid "connectedDashboardSubtitle"
-msgstr "100,000 USDS in Weekly Rewards for users going from Ethereum to Solana!"
+#~ msgid "connectedDashboardSubtitle"
+#~ msgstr "100,000 USDS in Weekly Rewards for users going from Ethereum to Solana!"
 
-#: src/layouts/DashboardLayout.tsx:227
+#: src/layouts/DashboardLayout.tsx:147
+msgid "100,000 USDS in <0>Weekly Rewards</0> for users going from Ethereum to Solana!"
+msgstr ""
+
+#: src/layouts/DashboardLayout.tsx:225
 msgid "Accrued Rewards Header"
-msgstr "Accruing USDs Rewards"
+msgstr "Accruing USDS Rewards"
 
-#: src/layouts/DashboardLayout.tsx:230
+#: src/layouts/DashboardLayout.tsx:228
 msgid "Accrued Rewards Tooltip"
-msgstr "The estimated amount of USDs you have earned that has not been paid out."
+msgstr "The estimated amount of USDS you have earned that has not been paid out."
 
-#: src/layouts/DashboardLayout.tsx:316
+#: src/layouts/DashboardLayout.tsx:314
 msgid "Bottom Banner Header"
 msgstr "How rewards work?"
 
-#: src/layouts/DashboardLayout.tsx:326
+#: src/layouts/DashboardLayout.tsx:324
 msgid "Bottom Banner Link"
 msgstr "Learn more"
 
-#: src/layouts/DashboardLayout.tsx:205
+#: src/layouts/DashboardLayout.tsx:203
 msgid "Bridged Header"
-msgstr "Total USDs bridged"
+msgstr "Total USDS bridged"
 
-#: src/layouts/DashboardLayout.tsx:208
+#: src/layouts/DashboardLayout.tsx:206
 msgid "Bridged Window Tooltip"
-msgstr "The total amount of USDs you bridged in via Wormhole."
+msgstr "The total amount of USDS you bridged in via Wormhole."
 
 #: src/quarks/WalletManager.tsx:12
 msgid "CONNECT WALLET"
 msgstr "Connect Wallet"
 
-#: src/layouts/DashboardLayout.tsx:173
+#: src/layouts/DashboardLayout.tsx:171
 msgid "Connected Dashboard Header"
-msgstr "My USDs Rewards"
+msgstr "My USDS Rewards"
 
 #: src/layouts/DashboardLayout.tsx:149
 #~ msgid "Connected Dashboard Subtitle"
-#~ msgstr "Get up to 5% rewards by bridging your USDs to Solana"
+#~ msgstr "Get up to 5% rewards by bridging your USDS to Solana"
 
-#: src/layouts/DashboardLayout.tsx:138
+#: src/layouts/DashboardLayout.tsx:136
 msgid "Connected Dashboard Title"
-msgstr "USDs Rewards Dashboard"
+msgstr "USDS Rewards Dashboard"
 
-#: src/layouts/DashboardLayout.tsx:288
+#: src/layouts/DashboardLayout.tsx:286
 msgid "Disconnect Wallet Dashboard Subtitle One"
-msgstr "Bridge Sky's new USDs to Solana to earn rewards."
+msgstr "Bridge Sky's new USDS to Solana to earn rewards."
 
-#: src/layouts/DashboardLayout.tsx:291
+#: src/layouts/DashboardLayout.tsx:289
 msgid "Disconnect Wallet Dashboard Subtitle Two"
-msgstr "Hold USDs or deposit into Kamino to qualify."
+msgstr "Hold USDS or deposit into Kamino to qualify."
 
-#: src/layouts/DashboardLayout.tsx:284
+#: src/layouts/DashboardLayout.tsx:282
 msgid "Disconnect Wallet Dashboard Title"
-msgstr "Solana USDs Rewards Dashboard"
+msgstr "Solana USDS Rewards Dashboard"
 
-#: src/layouts/DashboardLayout.tsx:257
+#: src/layouts/DashboardLayout.tsx:255
 msgid "Est Hourly Rewards per USDS"
 msgstr "Est Hourly Rewards per USDS"
 
 #: src/layouts/DashboardLayout.tsx:199
-#~ msgid "Exactly USDs Held Value"
-#~ msgstr "Kamino USDs Balance"
+#~ msgid "Exactly USDS Held Value"
+#~ msgstr "Kamino USDS Balance"
 
 #: src/layouts/DashboardLayout.tsx:202
-#~ msgid "Exactly USDs Held Value Tooltip"
-#~ msgstr "Exactly USDs account balance."
+#~ msgid "Exactly USDS Held Value Tooltip"
+#~ msgstr "Exactly USDS account balance."
 
-#: src/layouts/DashboardLayout.tsx:194
+#: src/layouts/DashboardLayout.tsx:192
 msgid "Hide Number Text"
 msgstr "Show Numbers"
 
-#: src/layouts/DashboardLayout.tsx:250
+#: src/layouts/DashboardLayout.tsx:248
 msgid "History of Rewards Earned Header"
-msgstr "Total USDs Earned"
+msgstr "Total USDS Earned"
 
-#: src/layouts/DashboardLayout.tsx:254
+#: src/layouts/DashboardLayout.tsx:252
 msgid "History of Rewards Earned Tooltip"
-msgstr "A minimum of 1 USDs will be paid out. Outstanding rewards below 1 USDs will roll over to the next week."
+msgstr "A minimum of 1 USDS will be paid out. Outstanding rewards below 1 USDS will roll over to the next week."
 
-#: src/layouts/DashboardLayout.tsx:219
-msgid "Kamino USDs Held Value Header"
-msgstr "Kamino USDs Balance"
+#: src/layouts/DashboardLayout.tsx:217
+msgid "Kamino USDS Held Value Header"
+msgstr "Kamino USDS Balance"
 
-#: src/layouts/DashboardLayout.tsx:222
-msgid "Kamino USDs Held Value Tooltip"
-msgstr "Kamino USDs account balance."
+#: src/layouts/DashboardLayout.tsx:220
+msgid "Kamino USDS Held Value Tooltip"
+msgstr "Kamino USDS account balance."
 
-#: src/layouts/DashboardLayout.tsx:194
+#: src/layouts/DashboardLayout.tsx:192
 msgid "Show Number Text"
 msgstr "Hide Numbers"
 
-#: src/layouts/DashboardLayout.tsx:238
+#: src/layouts/DashboardLayout.tsx:236
 msgid "Staking Power Header"
-msgstr "Total USDs Bridged"
+msgstr "Total USDS Bridged"
 
-#: src/layouts/DashboardLayout.tsx:211
-msgid "USDs Held Header"
-msgstr "USDs Balance"
+#: src/layouts/DashboardLayout.tsx:209
+msgid "USDS Held Header"
+msgstr "USDS Balance"
 
-#: src/layouts/DashboardLayout.tsx:214
-msgid "USDs Held Window Tooltip"
-msgstr "The amount of USDs held in your account."
+#: src/layouts/DashboardLayout.tsx:212
+msgid "USDS Held Window Tooltip"
+msgstr "The amount of USDS held in your account."
 
-#: src/layouts/DashboardLayout.tsx:244
+#: src/layouts/DashboardLayout.tsx:242
 msgid "Weekly Rewards Header"
 msgstr "Weekly Rewards Pool"

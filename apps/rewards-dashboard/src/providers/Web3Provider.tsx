@@ -17,8 +17,8 @@ const envProjectId = import.meta.env.VITE_APP_WALLET_CONNECT_PROJECT_ID;
 const projectId = envProjectId ? envProjectId : "dummy-wc-key";
 
 const metadata = {
-  name: "Wormhole USDs rewards",
-  description: "Wormhole USDs Rewards",
+  name: "Wormhole USDS rewards",
+  description: "Wormhole USDS Rewards",
   url: import.meta.env.VITE_APP_DOMAIN || "portalbridge.com",
   icons: [`https://portalbridge.com/favicon.ico`],
 };
