@@ -56,7 +56,7 @@ const ConnectedDashboard = () => {
   const [totalUSDSBridged, setTotalUSDSBridged] = useState<number | undefined>(
     undefined
   );
-  const [wstethHeld, setWstethHeld] = useState<number | undefined>(undefined);
+  const [USDSBalance, setUSDSBalance] = useState<number | undefined>(undefined);
 
   const [kaminoHeld, setKaminoHeld] = useState<number | undefined>(undefined);
   const [accruedRewards, setAccruedRewards] = useState<number | undefined>(
@@ -89,7 +89,7 @@ const ConnectedDashboard = () => {
       return;
     }
     setTotalUSDSBridged(userInfo.bridged_usds); // TODO: Change to effective_bridged_usds after going live
-    setWstethHeld(userInfo.effective_usds_balance);
+    setUSDSBalance(userInfo.effective_usds_balance);
     setKaminoHeld(userInfo.net_usds_supply_in_kamino);
     setAccruedRewards(userInfo.accrued_rewards);
   }, [userInfo]);
@@ -207,7 +207,7 @@ const ConnectedDashboard = () => {
                 />
                 <InfoStatWindow
                   header={t`USDs Held Header`}
-                  value={formatInteger(wstethHeld, 6)}
+                  value={formatInteger(USDSBalance, 6)}
                   unit="USDs"
                   infoElement={<Trans>USDs Held Window Tooltip</Trans>}
                 />
