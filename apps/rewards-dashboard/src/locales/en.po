@@ -13,11 +13,6 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#. js-lingui-explicit-id
-#: src/layouts/DashboardLayout.tsx:149
-#~ msgid "connectedDashboardSubtitle"
-#~ msgstr "100,000 USDS in Weekly Rewards for users going from Ethereum to Solana!"
-
 #: src/layouts/DashboardLayout.tsx:147
 msgid "100,000 USDS in <0>Weekly Rewards</0> for users going from Ethereum to Solana!"
 msgstr ""
