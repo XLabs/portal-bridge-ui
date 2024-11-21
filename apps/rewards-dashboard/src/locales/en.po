@@ -13,27 +13,32 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/layouts/DashboardLayout.tsx:217
+#. js-lingui-explicit-id
+#: src/layouts/DashboardLayout.tsx:149
+msgid "connectedDashboardSubtitle"
+msgstr "100,000 USDS in Weekly Rewards for users going from Ethereum to Solana!"
+
+#: src/layouts/DashboardLayout.tsx:227
 msgid "Accrued Rewards Header"
 msgstr "Accruing USDs Rewards"
 
-#: src/layouts/DashboardLayout.tsx:220
+#: src/layouts/DashboardLayout.tsx:230
 msgid "Accrued Rewards Tooltip"
 msgstr "The estimated amount of USDs you have earned that has not been paid out."
 
-#: src/layouts/DashboardLayout.tsx:306
+#: src/layouts/DashboardLayout.tsx:316
 msgid "Bottom Banner Header"
 msgstr "How rewards work?"
 
-#: src/layouts/DashboardLayout.tsx:316
+#: src/layouts/DashboardLayout.tsx:326
 msgid "Bottom Banner Link"
 msgstr "Learn more"
 
-#: src/layouts/DashboardLayout.tsx:195
+#: src/layouts/DashboardLayout.tsx:205
 msgid "Bridged Header"
 msgstr "Total USDs bridged"
 
-#: src/layouts/DashboardLayout.tsx:198
+#: src/layouts/DashboardLayout.tsx:208
 msgid "Bridged Window Tooltip"
 msgstr "The total amount of USDs you bridged in via Wormhole."
 
@@ -41,31 +46,31 @@ msgstr "The total amount of USDs you bridged in via Wormhole."
 msgid "CONNECT WALLET"
 msgstr "Connect Wallet"
 
-#: src/layouts/DashboardLayout.tsx:163
+#: src/layouts/DashboardLayout.tsx:173
 msgid "Connected Dashboard Header"
 msgstr "My USDs Rewards"
 
 #: src/layouts/DashboardLayout.tsx:149
-msgid "Connected Dashboard Subtitle"
-msgstr "Get up to 5% rewards by bridging your USDs to Solana"
+#~ msgid "Connected Dashboard Subtitle"
+#~ msgstr "Get up to 5% rewards by bridging your USDs to Solana"
 
 #: src/layouts/DashboardLayout.tsx:138
 msgid "Connected Dashboard Title"
 msgstr "USDs Rewards Dashboard"
 
-#: src/layouts/DashboardLayout.tsx:278
+#: src/layouts/DashboardLayout.tsx:288
 msgid "Disconnect Wallet Dashboard Subtitle One"
 msgstr "Bridge Sky's new USDs to Solana to earn rewards."
 
-#: src/layouts/DashboardLayout.tsx:281
+#: src/layouts/DashboardLayout.tsx:291
 msgid "Disconnect Wallet Dashboard Subtitle Two"
 msgstr "Hold USDs or deposit into Kamino to qualify."
 
-#: src/layouts/DashboardLayout.tsx:274
+#: src/layouts/DashboardLayout.tsx:284
 msgid "Disconnect Wallet Dashboard Title"
 msgstr "Solana USDs Rewards Dashboard"
 
-#: src/layouts/DashboardLayout.tsx:247
+#: src/layouts/DashboardLayout.tsx:257
 msgid "Est Hourly Rewards per USDS"
 msgstr "Est Hourly Rewards per USDS"
 
@@ -77,42 +82,42 @@ msgstr "Est Hourly Rewards per USDS"
 #~ msgid "Exactly USDs Held Value Tooltip"
 #~ msgstr "Exactly USDs account balance."
 
-#: src/layouts/DashboardLayout.tsx:184
+#: src/layouts/DashboardLayout.tsx:194
 msgid "Hide Number Text"
 msgstr "Show Numbers"
 
-#: src/layouts/DashboardLayout.tsx:240
+#: src/layouts/DashboardLayout.tsx:250
 msgid "History of Rewards Earned Header"
 msgstr "Total USDs Earned"
 
-#: src/layouts/DashboardLayout.tsx:244
+#: src/layouts/DashboardLayout.tsx:254
 msgid "History of Rewards Earned Tooltip"
 msgstr "A minimum of 1 USDs will be paid out. Outstanding rewards below 1 USDs will roll over to the next week."
 
-#: src/layouts/DashboardLayout.tsx:209
+#: src/layouts/DashboardLayout.tsx:219
 msgid "Kamino USDs Held Value Header"
 msgstr "Kamino USDs Balance"
 
-#: src/layouts/DashboardLayout.tsx:212
+#: src/layouts/DashboardLayout.tsx:222
 msgid "Kamino USDs Held Value Tooltip"
 msgstr "Kamino USDs account balance."
 
-#: src/layouts/DashboardLayout.tsx:184
+#: src/layouts/DashboardLayout.tsx:194
 msgid "Show Number Text"
 msgstr "Hide Numbers"
 
-#: src/layouts/DashboardLayout.tsx:228
+#: src/layouts/DashboardLayout.tsx:238
 msgid "Staking Power Header"
 msgstr "Total USDs Bridged"
 
-#: src/layouts/DashboardLayout.tsx:201
+#: src/layouts/DashboardLayout.tsx:211
 msgid "USDs Held Header"
 msgstr "USDs Balance"
 
-#: src/layouts/DashboardLayout.tsx:204
+#: src/layouts/DashboardLayout.tsx:214
 msgid "USDs Held Window Tooltip"
 msgstr "The amount of USDs held in your account."
 
-#: src/layouts/DashboardLayout.tsx:234
+#: src/layouts/DashboardLayout.tsx:244
 msgid "Weekly Rewards Header"
 msgstr "Weekly Rewards Pool"

@@ -146,7 +146,17 @@ const ConnectedDashboard = () => {
           md:pb-8
           "
         >
-          <Trans>Connected Dashboard Subtitle</Trans>
+          <Trans id="connectedDashboardSubtitle">
+            100,000 USDS in{" "}
+            <a
+              href="https://x.com/SkyEcosystem/status/1858873709722734611"
+              className="text-blue-500"
+              target="_blank"
+            >
+              Weekly Rewards
+            </a>{" "}
+            for users going from Ethereum to Solana!
+          </Trans>
         </h2>
       </div>
       <div className="flex flex-col lg:flex-row gap-8 w-full max-w-screen-xl">
@@ -308,7 +318,7 @@ const DisconnectedDashboard = () => {
         </div>
         <div>
           <a
-            href="https://x.com/WormholeFdn/status/1788999096566677769"
+            href="https://x.com/SkyEcosystem/status/1858873709722734611"
             target="_blank"
             className="flex flex-row items-center gap-3"
           >
