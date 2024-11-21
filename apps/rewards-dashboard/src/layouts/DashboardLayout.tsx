@@ -230,9 +230,9 @@ const ConnectedDashboard = () => {
             graphic={<TotalBridgedGraphic />}
           />
           <StatWindow
-            header={t`Estimated Rewards Header`}
-            value={formatInteger(estimatedRewards)}
-            unit="USDs"
+            header={t`Weekly Rewards Header`}
+            value={"100,000"}
+            unit="USDS"
             graphic={<EstimatedRewardsGraphic />}
           />
           <StatWindow
