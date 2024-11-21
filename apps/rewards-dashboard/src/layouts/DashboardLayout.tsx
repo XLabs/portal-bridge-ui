@@ -114,10 +114,12 @@ const ConnectedDashboard = () => {
     return x !== undefined
       ? x === 0
         ? "0"
-        : x.toLocaleString(undefined, {
-            minimumFractionDigits: decimals,
-            maximumFractionDigits: x < 1 ? decimals : 0,
-          })
+        : x
+            .toLocaleString(undefined, {
+              minimumFractionDigits: decimals,
+              maximumFractionDigits: x < 1 ? decimals : 0,
+            })
+            .replace(/\.?0+$/, "")
       : undefined;
   };
 
@@ -256,7 +258,7 @@ const ConnectedDashboard = () => {
           />
           <StatWindow
             header={t`Est Hourly Rewards per USDS`}
-            value={formatInteger(hourlyRewards)}
+            value={formatInteger(hourlyRewards, 6)}
             unit="USDS"
             graphic={<EstimatedApyGraphic />}
           />
