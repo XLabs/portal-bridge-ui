@@ -53,7 +53,7 @@ const ConnectedDashboard = () => {
     number | undefined
   >(undefined);
 
-  const [wstetehBridged, setWstetehBridged] = useState<number | undefined>(
+  const [totalUSDSBridged, setTotalUSDSBridged] = useState<number | undefined>(
     undefined
   );
   const [wstethHeld, setWstethHeld] = useState<number | undefined>(undefined);
@@ -88,7 +88,7 @@ const ConnectedDashboard = () => {
     if (!userInfo) {
       return;
     }
-    setWstetehBridged(userInfo.bridged_usds); // TODO: Change to effective_bridged_usds after going live
+    setTotalUSDSBridged(userInfo.bridged_usds); // TODO: Change to effective_bridged_usds after going live
     setWstethHeld(userInfo.effective_usds_balance);
     setKaminoHeld(userInfo.net_usds_supply_in_kamino);
     setAccruedRewards(userInfo.accrued_rewards);
@@ -201,7 +201,7 @@ const ConnectedDashboard = () => {
               <div className="flex flex-col md:flex-row gap-4">
                 <InfoStatWindow
                   header={t`Bridged Header`}
-                  value={formatInteger(wstetehBridged, 6)}
+                  value={formatInteger(totalUSDSBridged, 6)}
                   unit="USDs"
                   infoElement={<Trans>Bridged Window Tooltip</Trans>}
                 />
