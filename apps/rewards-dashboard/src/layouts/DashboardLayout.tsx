@@ -58,9 +58,7 @@ const ConnectedDashboard = () => {
   );
   const [wstethHeld, setWstethHeld] = useState<number | undefined>(undefined);
 
-  const [aaveWstethHeld, setAaveWstethHeld] = useState<number | undefined>(
-    undefined
-  );
+  const [kaminoHeld, setKaminoHeld] = useState<number | undefined>(undefined);
   const [accruedRewards, setAccruedRewards] = useState<number | undefined>(
     undefined
   );
@@ -92,7 +90,7 @@ const ConnectedDashboard = () => {
     }
     setWstetehBridged(userInfo.bridged_usds); // TODO: Change to effective_bridged_usds after going live
     setWstethHeld(userInfo.effective_usds_balance);
-    setAaveWstethHeld(userInfo.net_usds_supply_in_kamino);
+    setKaminoHeld(userInfo.net_usds_supply_in_kamino);
     setAccruedRewards(userInfo.accrued_rewards);
   }, [userInfo]);
   useEffect(() => {
@@ -217,7 +215,7 @@ const ConnectedDashboard = () => {
               <div className="flex flex-col md:flex-row gap-4">
                 <InfoStatWindow
                   header={t`Kamino USDs Held Value Header`}
-                  value={formatInteger(aaveWstethHeld, 6)}
+                  value={formatInteger(kaminoHeld, 6)}
                   unit="Kamino USDs"
                   infoElement={<Trans>Kamino USDs Held Value Tooltip</Trans>}
                 />
