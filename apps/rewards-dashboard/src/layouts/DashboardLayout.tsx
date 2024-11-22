@@ -85,6 +85,7 @@ const ConnectedDashboard = () => {
   });
 
   useEffect(() => {
+    console.log(userInfo);
     if (!userInfo) {
       return;
     }
@@ -109,17 +110,17 @@ const ConnectedDashboard = () => {
     return x;
   };
 
-  const formatInteger = (x?: number, decimals?: number) => {
+  const formatInteger = (x?: number, decimals: number = 2) => {
     x = maybeHide(x);
     return x !== undefined
       ? x === 0
         ? "0"
         : x
             .toLocaleString(undefined, {
-              minimumFractionDigits: decimals,
+              minimumFractionDigits: 0,
               maximumFractionDigits: x < 1 ? decimals : 0,
             })
-            .replace(/\.?0+$/, "")
+            .replace(/\.(\d*?[1-9])?0+$/, ".$1")
       : undefined;
   };
 
