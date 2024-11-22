@@ -37,6 +37,7 @@ export const getSortedChains = async (
 
     return [...chains].sort((a, b) => getChainScore(b) - getChainScore(a));
   } catch (error) {
-    if ((error as Error).name !== "AbortError") return chains;
+    console.debug(error);
+    return chains;
   }
 };
