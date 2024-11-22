@@ -71,11 +71,15 @@ export const useConnectConfig = () => {
 
   useEffect(() => {
     const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 1500); // Abort after 1.5 seconds
     getSortedChains(
       ENV.wormholeConnectConfig.networks as ChainName[],
       controller.signal
     ).then((chains) => !!chains && setNetworks(chains));
-    return () => controller.abort();
+    return () => {
+      clearTimeout(timeoutId); // Clear the timeout
+      controller.abort();
+    };
   }, []);
 
   return networks ? config : undefined;
