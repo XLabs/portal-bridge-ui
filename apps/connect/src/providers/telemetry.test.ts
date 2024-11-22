@@ -20,7 +20,7 @@ describe("telemetry", () => {
         fromChain: "Bsc",
         toChain: "arbitrum",
         txId: "txId",
-        amount: 0.0001,
+        amount: { amount: "1", decimals: 4 },
         USDAmount: 123.456,
         toToken: {
           symbol: "osETH",
