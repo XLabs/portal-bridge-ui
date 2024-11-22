@@ -316,11 +316,11 @@ jobs:
           name: build-tbtc-bridge-v1
           path: connect-loader/apps/connect-v1/dist
   
-  maker-bridge-v1:
+  sky-bridge-v1:
     name: "USDS Bridge v1"
     runs-on: "ubuntu-latest"
     concurrency:
-      group: ${{ github.ref }}-${{inputs.name}}-maker-bridge-v1
+      group: ${{ github.ref }}-${{inputs.name}}-sky-bridge-v1
       cancel-in-progress: true
     environment: ${{inputs.environment}}
     outputs:
@@ -358,11 +358,11 @@ jobs:
           pushd connect-loader/apps/connect-v1
           npm ci
           echo 'VITE_APP_VERSION=$npm_package_version' > .env
-          npm run build:maker-bridge
+          npm run build:sky-bridge
       - name: Upload Portal Bridge Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: build-maker-bridge-v1
+          name: build-sky-bridge-v1
           path: connect-loader/apps/connect-v1/dist
 
   token-bridge-v1:
@@ -421,7 +421,7 @@ jobs:
       - usdc-bridge
       - token-bridge
       - tbtc-bridge-v1
-      - maker-bridge-v1
+      - sky-bridge-v1
       - token-bridge-v1
       - rewards-dashboard
       - redirects
@@ -446,8 +446,8 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
-          name: build-maker-bridge-v1
-          path: maker-bridge
+          name: build-sky-bridge-v1
+          path: sky-bridge
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:

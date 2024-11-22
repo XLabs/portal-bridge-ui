@@ -16,13 +16,13 @@ export default defineConfig({
         find: "@env",
         replacement: resolve(
           __dirname,
-          `./src/env/maker-bridge.${process.env.VITE_APP_CLUSTER === "mainnet" ? "mainnet" : "testnet"}.ts`
+          `./src/env/sky-bridge.${process.env.VITE_APP_CLUSTER === "mainnet" ? "mainnet" : "testnet"}.ts`
         ),
       },
     ],
   },
   define: {},
-  base: `${PUBLIC_URL}/maker-bridge/`,
+  base: `${PUBLIC_URL}/sky-bridge/`,
   plugins: [
     ...(viteConfig.plugins as []),
     createHtmlPlugin({

@@ -1,4 +1,4 @@
-import { ENV as ENV_BASE } from "./maker-bridge";
+import { ENV as ENV_BASE } from "./sky-bridge";
 import { mergeDeep } from "../utils/mergeDeep";
 import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
 import { Env } from "./common";
