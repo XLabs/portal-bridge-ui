@@ -85,7 +85,6 @@ const ConnectedDashboard = () => {
   });
 
   useEffect(() => {
-    console.log(userInfo);
     if (!userInfo) {
       return;
     }
@@ -98,7 +97,6 @@ const ConnectedDashboard = () => {
     if (!overview) {
       return;
     }
-    console.log(overview);
     setTotalBridged(overview.bridged_usds_total);
     setHistoryRewardsEarned(overview.accrued_rewards_total);
     setHourlyRewards(overview.hourly_rewards_per_unit);
