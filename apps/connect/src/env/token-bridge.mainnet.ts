@@ -1240,7 +1240,7 @@ export const ENV: Env = {
         },
         pxEth: {
           key: "pxEth",
-          symbol: "PXETH",
+          symbol: "pxETH",
           displayName: "Dinero Staked ETH",
           nativeChain: "Ethereum",
           tokenId: {
@@ -1279,7 +1279,7 @@ export const ENV: Env = {
         },
         stAvailEthereum: {
           key: "stAvailEthereum",
-          symbol: "STAVAIL",
+          symbol: "stAVAIL",
           displayName: "Deq Staked AVAIL",
           nativeChain: "Ethereum",
           tokenId: {
@@ -1292,7 +1292,7 @@ export const ENV: Env = {
         },
         stAvailBase: {
           key: "stAvailBase",
-          symbol: "STAVAIL.W",
+          symbol: "stAVAIL.W",
           displayName: "Deq Staked AVAIL",
           nativeChain: "Base",
           tokenId: {
