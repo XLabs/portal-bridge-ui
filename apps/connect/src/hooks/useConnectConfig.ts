@@ -103,7 +103,7 @@ export const useConnectConfig = () => {
     return () => {
       clearTimeout(timeoutId); // Clear the timeout
       controller.abort();
-    }
+    };
   }, []);
 
   return networks ? config : undefined;
