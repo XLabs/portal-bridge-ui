@@ -542,7 +542,7 @@ export const ENV: Env = {
                   },
                 ],
               },
-            ]
+            ],
           },
         }),
       ],
@@ -1302,7 +1302,7 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/51343/large/stAVAIL_200x200.png?1730824445",
           coinGeckoId: "staked-avail",
           decimals: 18,
-        }
+        },
       },
     }
   ),
