@@ -1,6 +1,7 @@
 import mixpanel from "mixpanel-browser";
 import { isPreview, isProduction } from "../utils/constants";
 import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
+import { amount as sdkAmount } from "@wormhole-foundation/sdk";
 
 export type WormholeConnectEvent = Parameters<
   NonNullable<WormholeConnectConfig["eventHandler"]>
@@ -72,6 +73,7 @@ export const eventHandler = (e: WormholeConnectEvent) => {
   // Convert WormholeConnectEvent to Attributes
   const isTransferError =
     e.type === "transfer.error" || e.type === "transfer.redeem.error";
+  const amount = sdkAmount.whole(e.details.amount as sdkAmount.Amount);
   const attributes: { [key: string]: string | number | undefined } = {
     fromChain: e.details.fromChain.toString(),
     toChain: e.details.toChain.toString(),
@@ -81,7 +83,7 @@ export const eventHandler = (e: WormholeConnectEvent) => {
     toTokenAddress: getTokenAddress(e.details.toToken),
     txId: e.details.txId,
     USDAmount: e.details.USDAmount,
-    amount: e.details.amount,
+    amount: amount,
     connectVersion: e.meta.version,
     connectHash: e.meta.hash,
     route:
