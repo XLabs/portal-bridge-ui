@@ -98,6 +98,7 @@ const ConnectedDashboard = () => {
     if (!overview) {
       return;
     }
+    console.log(overview);
     setTotalBridged(overview.bridged_usds_total);
     setHistoryRewardsEarned(overview.accrued_rewards_total);
     setHourlyRewards(overview.hourly_rewards_per_unit);
@@ -115,12 +116,10 @@ const ConnectedDashboard = () => {
     return x !== undefined
       ? x === 0
         ? "0"
-        : x
-            .toLocaleString(undefined, {
-              minimumFractionDigits: 0,
-              maximumFractionDigits: x < 1 ? decimals : 0,
-            })
-            .replace(/\.(\d*?[1-9])?0+$/, ".$1")
+        : x.toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: x < 1 ? decimals : 2,
+          })
       : undefined;
   };
 
