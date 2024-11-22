@@ -73,7 +73,7 @@ export const eventHandler = (e: WormholeConnectEvent) => {
   // Convert WormholeConnectEvent to Attributes
   const isTransferError =
     e.type === "transfer.error" || e.type === "transfer.redeem.error";
-  const amount = sdkAmount.whole(e.details.amount as sdkAmount.Amount);
+  const amount = typeof e.details.amount  === 'number' ? e.details.amount : sdkAmount.whole(e.details.amount as sdkAmount.Amount);
   const attributes: { [key: string]: string | number | undefined } = {
     fromChain: e.details.fromChain.toString(),
     toChain: e.details.toChain.toString(),
