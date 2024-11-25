@@ -62,6 +62,10 @@ export interface Env {
     active?: boolean;
     href: string;
     isBlank?: boolean;
+    subMenu?: {
+      open: boolean;
+      content: { label: string; href: string; active?: boolean }[];
+    };
   }[];
   redirects?: { source: string[]; target: string };
 }
