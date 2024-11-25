@@ -3,7 +3,6 @@ import { WalletManager } from "../quarks/WalletManager";
 import { FaArrowRight } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import {
-  EstimatedApyGraphic,
   EstimatedRewardsGraphic,
   RewardHistoryGraphic,
   TotalBridgedGraphic,
@@ -44,9 +43,6 @@ const ConnectedDashboard = () => {
   const [numbersHidden, setNumbersHidden] = useState(false);
 
   const [totalBridged, setTotalBridged] = useState<number | undefined>(
-    undefined
-  );
-  const [hourlyRewards, setHourlyRewards] = useState<number | undefined>(
     undefined
   );
   const [historyRewardsEarned, setHistoryRewardsEarned] = useState<
@@ -99,7 +95,6 @@ const ConnectedDashboard = () => {
     }
     setTotalBridged(overview.bridged_usds_total);
     setHistoryRewardsEarned(overview.accrued_rewards_total);
-    setHourlyRewards(overview.hourly_rewards_per_unit);
   }, [overview]);
 
   const maybeHide = (x?: number) => {
@@ -253,12 +248,6 @@ const ConnectedDashboard = () => {
             unit="USDS"
             graphic={<RewardHistoryGraphic />}
             infoElement={<Trans>History of Rewards Earned Tooltip</Trans>}
-          />
-          <StatWindow
-            header={t`Est Hourly Rewards per USDS`}
-            value={formatInteger(hourlyRewards, 6)}
-            unit="USDS"
-            graphic={<EstimatedApyGraphic />}
           />
         </div>
       </div>
