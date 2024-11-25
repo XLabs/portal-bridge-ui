@@ -308,7 +308,7 @@ const DisconnectedDashboard = () => {
         </div>
         <div>
           <a
-            href="https://x.com/SkyEcosystem/status/1858873709722734611"
+            href="https://wormhole.foundation/blog/details-on-usds-rewards-for-solana-expansion"
             target="_blank"
             className="flex flex-row items-center gap-3"
           >
