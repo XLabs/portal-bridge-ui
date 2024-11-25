@@ -73,11 +73,11 @@ export const NavBar = () => {
   const [items, setItems] = useState([...ENV.navBar]);
   const openSubMenuHandler = (index: number) => {
     const newItems = [...items];
-    if (newItems[index].subMenu) {
-      if (newItems[index].subMenu) {
-        newItems[index].subMenu.open = !newItems[index].subMenu.open;
-        setItems(newItems);
-      }
+    const item = newItems[index];
+    if (item && item.subMenu) {
+      item.subMenu.open = !item.subMenu?.open;
+      newItems[index] = item;
+      setItems(newItems);
     }
   };
   return (
