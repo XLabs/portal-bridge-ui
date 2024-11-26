@@ -1,4 +1,3 @@
-import { useAccount } from "wagmi";
 import Taurus from "../quarks/Taurus";
 import { WalletManager } from "../quarks/WalletManager";
 import { FaArrowRight } from "react-icons/fa6";
@@ -11,45 +10,51 @@ import {
 import { InfoStatWindow, StatWindow } from "../quarks/StatWindow";
 import { PortalLogo } from "../quarks/LogoVectors";
 import { Trans, t } from "@lingui/macro";
-import { useWalletInfo } from "../hooks/useWalletInfo";
 import { useQuery } from "@tanstack/react-query";
-import { WAC_URL } from "../constants";
+import { getWACUrl } from "../constants";
+import { useAppKitAccount } from "@reown/appkit/react";
 
 interface DashboardQueryResult {
   user: string;
-  bridged_amount: number;
-  wsteth_held: number;
-  aave_wsteth_held: number;
-  exactly_wsteth_held: number;
-  pending_rewards: number;
-  earned_rewards: number;
+  usds_balance: number;
+  eff_usds_balance: number;
+  bridged_usds: number;
+  effective_bridged_usds: number;
+  net_usds_supply_in_kamino: number;
+  effective_usds_balance: number;
+  hourly_rewards_per_unit: number;
+  accrued_rewards: number;
 }
 
 export interface OverviewQueryResult {
-  total_bridged: number;
-  estimated_rewards: number;
-  rewards_earned: number;
+  usds_balance_total: number;
+  usds_flagged_addresses: number;
+  usds_total_supply: number;
+  bridged_usds_total: number;
+  effective_bridged_usds_total: number;
+  net_usds_supply_in_kamino_total: number;
+  effective_usds_balance_total: number;
+  hourly_rewards_per_unit: number;
+  accrued_rewards_total: number;
 }
 
 const ConnectedDashboard = () => {
-  const { address } = useWalletInfo();
-
+  const { address } = useAppKitAccount();
   const [numbersHidden, setNumbersHidden] = useState(false);
 
   const [totalBridged, setTotalBridged] = useState<number | undefined>(
-    undefined
-  );
-  const [estimatedRewards, setEstimatedRewards] = useState<number | undefined>(
     undefined
   );
   const [historyRewardsEarned, setHistoryRewardsEarned] = useState<
     number | undefined
   >(undefined);
 
-  const [wstetehBridged, setWstetehBridged] = useState<number | undefined>(undefined);
-  const [wstethHeld, setWstethHeld] = useState<number | undefined>(undefined);
-  const [exactlyWstethHeld, setExactlyWstethHeld] = useState<number | undefined>(undefined);
-  const [aaveWstethHeld, setAaveWstethHeld] = useState<number | undefined>(undefined);
+  const [totalUSDSBridged, setTotalUSDSBridged] = useState<number | undefined>(
+    undefined
+  );
+  const [USDSBalance, setUSDSBalance] = useState<number | undefined>(undefined);
+
+  const [kaminoHeld, setKaminoHeld] = useState<number | undefined>(undefined);
   const [accruedRewards, setAccruedRewards] = useState<number | undefined>(
     undefined
   );
@@ -57,7 +62,7 @@ const ConnectedDashboard = () => {
     queryKey: ["overview"],
     staleTime: 5000,
     queryFn: () => {
-      return fetch(`${WAC_URL}/overview`).then((res) => {
+      return fetch(`${getWACUrl("overview")}`).then((res) => {
         return res.json();
       });
     },
@@ -67,9 +72,11 @@ const ConnectedDashboard = () => {
     enabled: !!address,
     staleTime: 5000,
     queryFn: () => {
-      return fetch(`${WAC_URL}/usersummary?address=${address}`).then((res) => {
-        return res.json();
-      });
+      return fetch(`${getWACUrl("usersummary")}?address=${address}`).then(
+        (res) => {
+          return res.json();
+        }
+      );
     },
   });
 
@@ -77,19 +84,17 @@ const ConnectedDashboard = () => {
     if (!userInfo) {
       return;
     }
-    setWstetehBridged(userInfo.bridged_amount);
-    setWstethHeld(userInfo.wsteth_held);
-    setAaveWstethHeld(userInfo.aave_wsteth_held);
-    setExactlyWstethHeld(userInfo.exactly_wsteth_held);
-    setAccruedRewards(userInfo.pending_rewards);
+    setTotalUSDSBridged(userInfo.bridged_usds); // TODO: Change to effective_bridged_usds after going live
+    setUSDSBalance(userInfo.effective_usds_balance);
+    setKaminoHeld(userInfo.net_usds_supply_in_kamino);
+    setAccruedRewards(userInfo.accrued_rewards);
   }, [userInfo]);
   useEffect(() => {
     if (!overview) {
       return;
     }
-    setTotalBridged(overview.total_bridged);
-    setEstimatedRewards(overview.estimated_rewards);
-    setHistoryRewardsEarned(overview.rewards_earned);
+    setTotalBridged(overview.bridged_usds_total);
+    setHistoryRewardsEarned(overview.accrued_rewards_total);
   }, [overview]);
 
   const maybeHide = (x?: number) => {
@@ -99,9 +104,16 @@ const ConnectedDashboard = () => {
     return x;
   };
 
-  const formatInteger = (x?: number, decimals?: number) => {
+  const formatInteger = (x?: number, decimals: number = 2) => {
     x = maybeHide(x);
-    return x !== undefined ? (x === 0 ? "0" : x.toFixed(decimals).toLocaleString()) : undefined;
+    return x !== undefined
+      ? x === 0
+        ? "0"
+        : x.toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: x < 1 ? decimals : 2,
+          })
+      : undefined;
   };
 
   return (
@@ -130,7 +142,17 @@ const ConnectedDashboard = () => {
           md:pb-8
           "
         >
-          <Trans>Connected Dashboard Subtitle</Trans>
+          <Trans>
+            100,000 USDS in{" "}
+            <a
+              href="https://x.com/SkyEcosystem/status/1858873709722734611"
+              className="text-blue-500"
+              target="_blank"
+            >
+              Weekly Rewards
+            </a>{" "}
+            for users going from Ethereum to Solana!
+          </Trans>
         </h2>
       </div>
       <div className="flex flex-col lg:flex-row gap-8 w-full max-w-screen-xl">
@@ -177,36 +199,30 @@ const ConnectedDashboard = () => {
               <div className="flex flex-col md:flex-row gap-4">
                 <InfoStatWindow
                   header={t`Bridged Header`}
-                  value={formatInteger(wstetehBridged, 6)}
-                  unit="WSTETH"
+                  value={formatInteger(totalUSDSBridged, 6)}
+                  unit="USDS"
                   infoElement={<Trans>Bridged Window Tooltip</Trans>}
                 />
                 <InfoStatWindow
-                  header={t`WSTETH Held Header`}
-                  value={formatInteger(wstethHeld, 6)}
-                  unit="WSTETH"
-                  infoElement={<Trans>WSTETH Held Window Tooltip</Trans>}
+                  header={t`USDS Held Header`}
+                  value={formatInteger(USDSBalance, 6)}
+                  unit="USDS"
+                  infoElement={<Trans>USDS Held Window Tooltip</Trans>}
                 />
               </div>
               <div className="flex flex-col md:flex-row gap-4">
                 <InfoStatWindow
-                  header={t`Aave WSTETH Held Value Header`}
-                  value={formatInteger(aaveWstethHeld, 6)}
-                  unit="aWSTETH"
-                  infoElement={<Trans>Aave WSTETH Held Value Tooltip</Trans>}
-                />
-                <InfoStatWindow
-                  header={t`Exactly WSTETH Held Value`}
-                  value={formatInteger(exactlyWstethHeld, 6)}
-                  unit="eWSTETH"
-                  infoElement={<Trans>Exactly WSTETH Held Value Tooltip</Trans>}
+                  header={t`Kamino USDS Held Value Header`}
+                  value={formatInteger(kaminoHeld, 6)}
+                  unit="Kamino USDS"
+                  infoElement={<Trans>Kamino USDS Held Value Tooltip</Trans>}
                 />
               </div>
               <div className="">
                 <InfoStatWindow
                   header={t`Accrued Rewards Header`}
                   value={formatInteger(accruedRewards, 6)}
-                  unit="OP"
+                  unit="USDS"
                   infoElement={<Trans>Accrued Rewards Tooltip</Trans>}
                 />
               </div>
@@ -221,15 +237,15 @@ const ConnectedDashboard = () => {
             graphic={<TotalBridgedGraphic />}
           />
           <StatWindow
-            header={t`Estimated Rewards Header`}
-            value={formatInteger(estimatedRewards)}
-            unit="OP"
+            header={t`Weekly Rewards Header`}
+            value={"100,000"}
+            unit="USDS"
             graphic={<EstimatedRewardsGraphic />}
           />
           <StatWindow
             header={t`History of Rewards Earned Header`}
             value={formatInteger(historyRewardsEarned)}
-            unit="OP"
+            unit="USDS"
             graphic={<RewardHistoryGraphic />}
             infoElement={<Trans>History of Rewards Earned Tooltip</Trans>}
           />
@@ -292,7 +308,7 @@ const DisconnectedDashboard = () => {
         </div>
         <div>
           <a
-            href="https://x.com/WormholeFdn/status/1788999096566677769"
+            href="https://wormhole.foundation/blog/details-on-usds-rewards-for-solana-expansion"
             target="_blank"
             className="flex flex-row items-center gap-3"
           >
@@ -308,11 +324,9 @@ const DisconnectedDashboard = () => {
 };
 
 export const DashboardLayout = () => {
-  const { isConnected } = useAccount();
+  const { isConnected } = useAppKitAccount();
   return (
-    <div
-      className="flex flex-col flex-1"
-    >
+    <div className="flex flex-col flex-1">
       {isConnected ? <ConnectedDashboard /> : <DisconnectedDashboard />}
     </div>
   );

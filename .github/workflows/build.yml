@@ -21,7 +21,7 @@ on:
         app-domain:
             type: string
             default: "portalbridge.com"
-        wac-url:
+        wac-url-template:
             type: string
             default: "https://wac.staging.gfx.town"
         project-branch:
@@ -155,7 +155,7 @@ jobs:
       - name: Build Rewards Dashboard
         env:
           PUBLIC_URL: ${{ inputs.public-url }}
-          VITE_WAC_URL: ${{ inputs.wac-url }}
+          VITE_WAC_URL_TEMPLATE: ${{ inputs.wac-url-template }}
           VITE_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}
           VITE_APP_DOMAIN: ${{ inputs.app-domain }}
         run: |
