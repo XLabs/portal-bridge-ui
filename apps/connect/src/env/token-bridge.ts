@@ -57,7 +57,7 @@ export const ENV: Env = {
       label: "More",
       href: "",
       subMenu: {
-        open: true,
+        open: false,
         content: [{ label: "Cosmos", href: `${PUBLIC_URL}/cosmos` }],
       },
     },
