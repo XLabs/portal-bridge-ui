@@ -7,7 +7,7 @@ import { PortalLogoWithText } from "../quarks/LogoVectors";
 
 export const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
-  const [openMenu, setOpenMenu] = useState(true);
+  const [openMenu, setOpenMenu] = useState(false);
   return (
     <header className="flex flex-col gap-1">
       <div className="flex flex-row gap-1 justify-between">
