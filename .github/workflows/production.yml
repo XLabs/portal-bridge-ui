@@ -32,6 +32,6 @@ jobs:
       environment: ${{inputs.environment}}
       project-branch: main
       public-url: ''
-      wac-url: "https://wac.gfx.xyz"
+      wac-url: "https://allez-xyz--usds-"
       app-domain: portalbridge.com
     secrets: inherit
