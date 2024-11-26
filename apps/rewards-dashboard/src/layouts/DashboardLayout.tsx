@@ -11,7 +11,7 @@ import { InfoStatWindow, StatWindow } from "../quarks/StatWindow";
 import { PortalLogo } from "../quarks/LogoVectors";
 import { Trans, t } from "@lingui/macro";
 import { useQuery } from "@tanstack/react-query";
-import { WAC_URL } from "../constants";
+import { getWACUrl } from "../constants";
 import { useAppKitAccount } from "@reown/appkit/react";
 
 interface DashboardQueryResult {
@@ -62,7 +62,7 @@ const ConnectedDashboard = () => {
     queryKey: ["overview"],
     staleTime: 5000,
     queryFn: () => {
-      return fetch(`${WAC_URL}overview.modal.run`).then((res) => {
+      return fetch(`${getWACUrl("overview")}`).then((res) => {
         return res.json();
       });
     },
@@ -72,7 +72,7 @@ const ConnectedDashboard = () => {
     enabled: !!address,
     staleTime: 5000,
     queryFn: () => {
-      return fetch(`${WAC_URL}usersummary.modal.run?address=${address}`).then(
+      return fetch(`${getWACUrl("usersummary")}?address=${address}`).then(
         (res) => {
           return res.json();
         }
