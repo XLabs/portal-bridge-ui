@@ -1987,18 +1987,18 @@ export const logoOverrides = new Map<string, string>([
   // ETHFI ETH
   [
     "0xfe0c30065b384f05761f15d0cc899d4f9f9cc0eb",
-    "https://assets.coingecko.com/coins/images/35958/large/etherfi.jpeg?1710254562"
+    "https://assets.coingecko.com/coins/images/35958/large/etherfi.jpeg?1710254562",
   ],
   // ETHFI ARB
   [
     "0x7189fb5b6504bbff6a852b13b7b82a3c118fdc27",
-    "https://assets.coingecko.com/coins/images/35958/large/etherfi.jpeg?1710254562"
+    "https://assets.coingecko.com/coins/images/35958/large/etherfi.jpeg?1710254562",
   ],
   // ETHFI BASE
   [
     "0x6C240DDA6b5c336DF09A4D011139beAAa1eA2Aa2",
-    "https://assets.coingecko.com/coins/images/35958/large/etherfi.jpeg?1710254562"
-  ]
+    "https://assets.coingecko.com/coins/images/35958/large/etherfi.jpeg?1710254562",
+  ],
 ]);
 
 export const getHowToAddTokensToWalletUrl = (chainId: ChainId) => {
