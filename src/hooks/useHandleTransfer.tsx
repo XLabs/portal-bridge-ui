@@ -149,6 +149,7 @@ import { useSeiWallet } from "../contexts/SeiWalletContext";
 import { SeiWallet } from "@xlabs-libs/wallet-aggregator-sei";
 import { SuiTransactionBlockResponse } from "@mysten/sui.js";
 import { telemetry, TelemetryTxEvent } from "../utils/telemetry";
+import { TxResponse } from "@injectivelabs/sdk-ts";
 
 type AdditionalPayloadOverride = {
   receivingContract: Uint8Array;
@@ -804,6 +805,31 @@ async function terra(
   }
 }
 
+/**
+ * if raw tx logs are not present, add them to the tx object
+ * @param tx 
+ * @returns tx with raw logs
+ * 
+ * Note: applied the fix here, since wormhole sdk has been deprecated
+ */
+function addInjectiveRawLogsToTx(tx: TxResponse): TxResponse {
+  if (!!tx.rawLog || tx.rawLog.length === 0) {
+    const decoder = new TextDecoder();
+    const events = tx.events || [];
+    const rawLogs = events.map((event) => ({
+      type: event.type,
+      attributes: event.attributes.map(
+        (attr: { key: Uint8Array; value: Uint8Array }) => ({
+          key: attr.key instanceof Uint8Array ? decoder.decode(attr.key) : attr.key,
+          value: attr.value instanceof Uint8Array ? decoder.decode(attr.value) : attr.value,
+        })
+      ),
+    }));
+    tx.rawLog = JSON.stringify([{ events: rawLogs }]);
+  }
+  return tx;
+}
+
 async function injective(
   dispatch: any,
   enqueueSnackbar: any,
@@ -848,7 +874,7 @@ async function injective(
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
     });
-    const sequence = parseSequenceFromLogInjective(tx);
+    const sequence = parseSequenceFromLogInjective(addInjectiveRawLogsToTx(tx));
     if (!sequence) {
       throw new Error("Sequence not found");
     }
