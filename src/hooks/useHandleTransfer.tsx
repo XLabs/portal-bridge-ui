@@ -121,7 +121,10 @@ import { signSendAndConfirm } from "../utils/solana";
 import { postWithFees, waitForTerraExecution } from "../utils/terra";
 import useTransferTargetAddressHex from "./useTransferTargetAddress";
 import { postWithFeesXpla, waitForXplaExecution } from "../utils/xpla";
-import { broadcastInjectiveTx } from "../utils/injective";
+import {
+  addInjectiveRawLogsToTx,
+  broadcastInjectiveTx,
+} from "../utils/injective";
 import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
 import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
 import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
@@ -149,7 +152,6 @@ import { useSeiWallet } from "../contexts/SeiWalletContext";
 import { SeiWallet } from "@xlabs-libs/wallet-aggregator-sei";
 import { SuiTransactionBlockResponse } from "@mysten/sui.js";
 import { telemetry, TelemetryTxEvent } from "../utils/telemetry";
-import { TxResponse } from "@injectivelabs/sdk-ts";
 
 type AdditionalPayloadOverride = {
   receivingContract: Uint8Array;
@@ -803,37 +805,6 @@ async function terra(
     handleError(e, enqueueSnackbar, dispatch);
     onError?.(e);
   }
-}
-
-/**
- * if raw tx logs are not present, add them to the tx object
- * @param tx
- * @returns tx with raw logs
- *
- * Note: applied the fix here, since wormhole sdk has been deprecated
- */
-function addInjectiveRawLogsToTx(tx: TxResponse): TxResponse {
-  if (!!tx.rawLog || tx.rawLog.length === 0) {
-    const decoder = new TextDecoder();
-    const events = tx.events || [];
-    const rawLogs = events.map((event) => ({
-      type: event.type,
-      attributes: event.attributes.map(
-        (attr: { key: Uint8Array; value: Uint8Array }) => ({
-          key:
-            attr.key instanceof Uint8Array
-              ? decoder.decode(attr.key)
-              : attr.key,
-          value:
-            attr.value instanceof Uint8Array
-              ? decoder.decode(attr.value)
-              : attr.value,
-        })
-      ),
-    }));
-    tx.rawLog = JSON.stringify([{ events: rawLogs }]);
-  }
-  return tx;
 }
 
 async function injective(
