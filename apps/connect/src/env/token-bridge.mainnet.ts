@@ -1266,7 +1266,7 @@ export const ENV: Env = {
         },
         AvailBase: {
           key: "AvailBase",
-          symbol: "AVAIL.W",
+          symbol: "AVAIL",
           displayName: "Avail",
           nativeChain: "Base",
           tokenId: {
@@ -1292,7 +1292,7 @@ export const ENV: Env = {
         },
         stAvailBase: {
           key: "stAvailBase",
-          symbol: "stAVAIL.W",
+          symbol: "stAVAIL",
           displayName: "Deq Staked AVAIL",
           nativeChain: "Base",
           tokenId: {
