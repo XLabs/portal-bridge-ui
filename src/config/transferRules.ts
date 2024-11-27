@@ -1,7 +1,4 @@
-import {
-  CHAIN_ID_BSC,
-  CHAIN_ID_ETH,
-} from "@certusone/wormhole-sdk";
+import { CHAIN_ID_BSC, CHAIN_ID_ETH } from "@certusone/wormhole-sdk";
 // import { terra } from "@certusone/wormhole-sdk";
 import { Rule, PredicateArgs } from "../hooks/useWarningRulesEngine";
 
