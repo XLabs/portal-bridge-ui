@@ -4,6 +4,7 @@ import {
   ChainGrpcWasmApi,
   Msgs,
   TxGrpcClient,
+  TxResponse,
 } from "@injectivelabs/sdk-ts";
 import { InjectiveWallet } from "@xlabs-libs/wallet-aggregator-injective";
 import { getInjectiveNetworkInfo } from "./consts";
@@ -60,3 +61,34 @@ export const broadcastInjectiveTx = async (
   }
   return tx;
 };
+
+/**
+ * if raw tx logs are not present, add them to the tx object
+ * @param tx
+ * @returns tx with raw logs
+ *
+ * Note: applied the fix here, since wormhole sdk has been deprecated
+ */
+export function addInjectiveRawLogsToTx(tx: TxResponse): TxResponse {
+  if (!!tx.rawLog || tx.rawLog.length === 0) {
+    const decoder = new TextDecoder();
+    const events = tx.events || [];
+    const rawLogs = events.map((event) => ({
+      type: event.type,
+      attributes: event.attributes.map(
+        (attr: { key: Uint8Array; value: Uint8Array }) => ({
+          key:
+            attr.key instanceof Uint8Array
+              ? decoder.decode(attr.key)
+              : attr.key,
+          value:
+            attr.value instanceof Uint8Array
+              ? decoder.decode(attr.value)
+              : attr.value,
+        })
+      ),
+    }));
+    tx.rawLog = JSON.stringify([{ events: rawLogs }]);
+  }
+  return tx;
+}

@@ -96,7 +96,10 @@ import { signSendAndConfirm } from "../utils/solana";
 import { postWithFees, waitForTerraExecution } from "../utils/terra";
 import { postWithFeesXpla, waitForXplaExecution } from "../utils/xpla";
 import { useInjectiveContext } from "../contexts/InjectiveWalletContext";
-import { broadcastInjectiveTx } from "../utils/injective";
+import {
+  addInjectiveRawLogsToTx,
+  broadcastInjectiveTx,
+} from "../utils/injective";
 import { AlgorandWallet } from "@xlabs-libs/wallet-aggregator-algorand";
 import { SolanaWallet } from "@xlabs-libs/wallet-aggregator-solana";
 import { AptosWallet } from "@xlabs-libs/wallet-aggregator-aptos";
@@ -544,7 +547,7 @@ async function injective(
     enqueueSnackbar(null, {
       content: <Alert severity="success">Transaction confirmed</Alert>,
     });
-    const sequence = parseSequenceFromLogInjective(tx);
+    const sequence = parseSequenceFromLogInjective(addInjectiveRawLogsToTx(tx));
     if (!sequence) {
       throw new Error("Sequence not found");
     }
