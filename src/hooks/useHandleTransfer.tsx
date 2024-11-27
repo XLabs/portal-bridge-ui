@@ -807,9 +807,9 @@ async function terra(
 
 /**
  * if raw tx logs are not present, add them to the tx object
- * @param tx 
+ * @param tx
  * @returns tx with raw logs
- * 
+ *
  * Note: applied the fix here, since wormhole sdk has been deprecated
  */
 function addInjectiveRawLogsToTx(tx: TxResponse): TxResponse {
@@ -820,8 +820,14 @@ function addInjectiveRawLogsToTx(tx: TxResponse): TxResponse {
       type: event.type,
       attributes: event.attributes.map(
         (attr: { key: Uint8Array; value: Uint8Array }) => ({
-          key: attr.key instanceof Uint8Array ? decoder.decode(attr.key) : attr.key,
-          value: attr.value instanceof Uint8Array ? decoder.decode(attr.value) : attr.value,
+          key:
+            attr.key instanceof Uint8Array
+              ? decoder.decode(attr.key)
+              : attr.key,
+          value:
+            attr.value instanceof Uint8Array
+              ? decoder.decode(attr.value)
+              : attr.value,
         })
       ),
     }));
