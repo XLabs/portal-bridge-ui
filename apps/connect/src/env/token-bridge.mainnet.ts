@@ -423,6 +423,17 @@ export const ENV: Env = {
                 ],
               },
               {
+                chain: "Arbitrum",
+                manager: "0xBC51f76178a56811fdfe95D3897E6aC2B11DbB62",
+                token: "0x46777C76dBbE40fABB2AAB99E33CE20058e76C59",
+                transceiver: [
+                  {
+                    address: "0x8D77Ac62A6571a408e5C9655fF5dE90d537C3045",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
                 chain: "Solana",
                 manager: "ntT5xGC7XEuR8Po9U3Umze12T9LBdaTCuEc9Cby6qPa",
                 token: "5k84VjAKoGPXa7ias1BNgKUrX7e61eMPWhZDqsiD4Bpe",
@@ -1152,6 +1163,19 @@ export const ENV: Env = {
           nativeChain: "Polygon",
           tokenId: {
             chain: "Polygon",
+            address: "0x46777C76dBbE40fABB2AAB99E33CE20058e76C59",
+          },
+          icon: "https://assets.coingecko.com/coins/images/37768/standard/Square.png?1722045128",
+          coinGeckoId: "layer3",
+          decimals: 18,
+        },
+        Layer3Arbitrum: {
+          key: "Layer3Arbitrum",
+          symbol: "L3",
+          displayName: "Layer3",
+          nativeChain: "Arbitrum",
+          tokenId: {
+            chain: "Arbitrum",
             address: "0x46777C76dBbE40fABB2AAB99E33CE20058e76C59",
           },
           icon: "https://assets.coingecko.com/coins/images/37768/standard/Square.png?1722045128",
