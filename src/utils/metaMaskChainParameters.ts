@@ -30,12 +30,19 @@ export const METAMASK_CHAIN_PARAMETERS: {
     rpcUrls: ["https://rpc.ankr.com/eth_ropsten"],
     blockExplorerUrls: ["https://ropsten.etherscan.io"],
   },
-  5: {
-    chainId: "0x5",
-    chainName: "Görli",
-    nativeCurrency: { name: "Görli Ether", symbol: "GOR", decimals: 18 },
-    rpcUrls: ["https://rpc.ankr.com/eth_goerli"],
-    blockExplorerUrls: ["https://goerli.etherscan.io"],
+  // 5: {
+  //   chainId: "0x5",
+  //   chainName: "Görli",
+  //   nativeCurrency: { name: "Görli Ether", symbol: "GOR", decimals: 18 },
+  //   rpcUrls: ["https://rpc.ankr.com/eth_goerli"],
+  //   blockExplorerUrls: ["https://goerli.etherscan.io"],
+  // },
+  17000: {
+    chainId: "0x4268",
+    chainName: "Holesky",
+    nativeCurrency: { name: "Holesky Ether", symbol: "ETH", decimals: 18 },
+    rpcUrls: ["https://rpc.ankr.com/eth_holesky"],
+    blockExplorerUrls: ["https://holesky.etherscan.io"],
   },
   10: {
     chainId: "0xA",
