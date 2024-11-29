@@ -15,6 +15,9 @@ const { values, positionals } = parseArgs({
         query: {
             type: 'string'
         },
+        queries: {
+            type: 'string'
+        },
         address: {
             type: 'string'
         },
@@ -70,11 +73,15 @@ if (values.address && values.sourceChain && values.targetChains) {
 
 async function executeCreateConfigFromDuneQuery() {
     const { createConfigFromDuneQuery } = await import("../src/createConfigFromDuneQuery");
-    const output = await createConfigFromDuneQuery(parseInt(values.query!));
-    writeFileSync(positionals.pop() || "output.json", JSON.stringify(output, null, 2));
+    const executions = Array<Promise<any>>();
+    for (const query of values.queries!.split(",")) {
+        executions.push(createConfigFromDuneQuery(parseInt(query)));
+    }
+    const results = await Promise.all(executions);
+    writeFileSync(positionals.pop() || "output.json", JSON.stringify(results, null, 2));
 }
 
-if (values.query) {
-    console.log(`Running queries ${values.query}`);
+if (values.queries) {
+    console.log(`Running queries ${values.queries}`);
     executeCreateConfigFromDuneQuery();
 }

@@ -78,11 +78,7 @@ function asTokenInfo(row: any): TokenInfo {
   return new TokenInfo(getTokenAddress(row), getTokenChain(row), getTargetChains(row));
 }
 
-function hasValidChainId(token: TokenInfo): boolean {
-  return token.isValidSourceChain && token.targetChainIds.length > 0;
-}
-
-export async function getDuneInfo(queryId: number, execute = false): Promise<Array<TokenInfo>> {
-  const { result } = execute ? await client.runQuery({ queryId }) : await client.getLatestResult({ queryId, sample_count: 30 });
-  return result?.rows.map(asTokenInfo).filter(hasValidChainId) ?? [];
+export async function getDuneInfo<T = any>(queryId: number, execute = false, mapper: (item: any, idx?: number) => any = asTokenInfo): Promise<T[]> {
+  const { result } = execute ? await client.runQuery({ queryId, limit: 30, offset: 0 }) : await client.getLatestResult({ queryId, limit: 30, offset: 0 });
+  return result?.rows.map(mapper) ?? [];
 }

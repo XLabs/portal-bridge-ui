@@ -1,0 +1,275 @@
+[
+  "Avalanche",
+  [
+    [
+      "WAVAX",
+      {
+        "address": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+        "symbol": "WAVAX",
+        "decimals": "18",
+        "original": "Avalanche"
+      }
+    ],
+    [
+      "SOL",
+      {
+        "address": "0xFE6B19286885a4F7F55AdAD09C3Cd1f906D2478F",
+        "symbol": "SOL",
+        "decimals": "9",
+        "original": "Solana"
+      }
+    ],
+    [
+      "Bonk",
+      {
+        "address": "0xC07C98a93591504584738e4569928DDb3b9f12A7",
+        "symbol": "Bonk",
+        "decimals": "5",
+        "original": "Solana"
+      }
+    ],
+    [
+      "USDC",
+      {
+        "address": "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
+        "symbol": "USDC",
+        "decimals": "6",
+        "original": "Avalanche"
+      }
+    ],
+    [
+      "WETH",
+      {
+        "address": "0x8b82A291F83ca07Af22120ABa21632088fC92931",
+        "symbol": "WETH",
+        "decimals": "18",
+        "original": "Ethereum"
+      }
+    ],
+    [
+      "WOM",
+      {
+        "address": "0xa15E4544D141aa98C4581a1EA10Eb9048c3b3382",
+        "symbol": "WOM",
+        "decimals": "18",
+        "original": "Bsc"
+      }
+    ],
+    [
+      "SOLNIC",
+      {
+        "address": "0xc6108B914D59fb5f3e8a1a6B0dBbAA4d7d3A80a1",
+        "symbol": "SOLNIC",
+        "decimals": "6",
+        "original": "Solana"
+      }
+    ],
+    [
+      "BLSEYE🎯",
+      {
+        "address": "0x464281C0ce5aEe44f3D8886E2C62C3623242c724",
+        "symbol": "BLSEYE🎯",
+        "decimals": "10",
+        "original": "Ethereum"
+      }
+    ],
+    [
+      "UST",
+      {
+        "address": "0xb599c3590F42f8F995ECfa0f85D2980B76862fc1",
+        "symbol": "UST",
+        "decimals": "6",
+        "original": "Terra"
+      }
+    ],
+    [
+      "NULL",
+      {
+        "address": "0xAb236ED82A0184AB754534F3952b48408468c09b",
+        "symbol": "NULL",
+        "decimals": "18",
+        "original": "Base"
+      }
+    ],
+    [
+      "USDT",
+      {
+        "address": "0x9d228444FC4B7E15A2C481b48E10247A03351FD8",
+        "symbol": "USDT",
+        "decimals": "6",
+        "original": "Ethereum"
+      }
+    ],
+    [
+      "USDC",
+      {
+        "address": "0x4b5fE357Eb11c735078e47526D6e853DBff18541",
+        "symbol": "USDC",
+        "decimals": "6",
+        "original": "Arbitrum"
+      }
+    ],
+    [
+      "LUNA",
+      {
+        "address": "0x70928E5B188def72817b7775F0BF6325968e563B",
+        "symbol": "LUNA",
+        "decimals": "6",
+        "original": "Terra"
+      }
+    ],
+    [
+      "MELANIA",
+      {
+        "address": "0xC6fC054286199e706518763F320Bc376DB8Ae582",
+        "symbol": "MELANIA",
+        "decimals": "9",
+        "original": "Ethereum"
+      }
+    ],
+    [
+      "USDC",
+      {
+        "address": "0x543672E9CBEC728CBBa9C3Ccd99ed80aC3607FA8",
+        "symbol": "USDC",
+        "decimals": "6",
+        "original": "Polygon"
+      }
+    ],
+    [
+      "WMATIC",
+      {
+        "address": "0xf2f13f0B7008ab2FA4A2418F4ccC3684E49D20Eb",
+        "symbol": "WMATIC",
+        "decimals": "18",
+        "original": "Polygon"
+      }
+    ],
+    [
+      "USDC",
+      {
+        "address": "0xab933e939a9236BD439F7d29b87CE712f42bAC06",
+        "symbol": "USDC",
+        "decimals": "6",
+        "original": "Base"
+      }
+    ],
+    [
+      "USDC",
+      {
+        "address": "0xBe04f76A0ba2100c3F2d6Aa1FD8484F415469573",
+        "symbol": "USDC",
+        "decimals": "6",
+        "original": "Optimism"
+      }
+    ],
+    [
+      "USDC",
+      {
+        "address": "0x0950Fc1AD509358dAeaD5eB8020a3c7d8b43b9DA",
+        "symbol": "USDC",
+        "decimals": "6",
+        "original": "Solana"
+      }
+    ],
+    [
+      "USDC",
+      {
+        "address": "0xB24CA28D4e2742907115fECda335b40dbda07a4C",
+        "symbol": "USDC",
+        "decimals": "6",
+        "original": "Ethereum"
+      }
+    ],
+    [
+      "USDC",
+      {
+        "address": "0xDb2d08f5A9C9ADBBA0DE5a69bbB1E9Ca03411692",
+        "symbol": "USDC",
+        "decimals": "6",
+        "original": "Polygon"
+      }
+    ],
+    [
+      "WETH.e",
+      {
+        "address": "0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB",
+        "symbol": "WETH.e",
+        "decimals": "18",
+        "original": "Avalanche"
+      }
+    ],
+    [
+      "Conk",
+      {
+        "address": "0xc3FF73C26532fc98ffDCb42F6E24b57784e50313",
+        "symbol": "Conk",
+        "decimals": "5",
+        "original": "Solana"
+      }
+    ],
+    [
+      "USDC",
+      {
+        "address": "0x49347DFc03A99CE65Bcd16b0e3051d5f57e45007",
+        "symbol": "USDC",
+        "decimals": "6",
+        "original": "Aptos"
+      }
+    ],
+    [
+      "SUI",
+      {
+        "address": "0x1703CB0F762D2a435199B64Ea47E5349B7C17480",
+        "symbol": "SUI",
+        "decimals": "9",
+        "original": "Sui"
+      }
+    ],
+    [
+      "WFTM",
+      {
+        "address": "0xd19abc09B7b36F7558929b97a866f499a26c2f83",
+        "symbol": "WFTM",
+        "decimals": "18",
+        "original": "Fantom"
+      }
+    ],
+    [
+      "xALGO",
+      {
+        "address": "0xc3fb03E75cf916973D430D63635f3f6154d01dc9",
+        "symbol": "xALGO",
+        "decimals": "6",
+        "original": "Algorand"
+      }
+    ],
+    [
+      "MVPX",
+      {
+        "address": "0xe81Ab210bdd924C35387772b791aB6b5e10078a9",
+        "symbol": "MVPX",
+        "decimals": "9",
+        "original": "Ethereum"
+      }
+    ],
+    [
+      "SNP",
+      {
+        "address": "0xac84F63067c7497f12Fc20590633aB42d26849E0",
+        "symbol": "SNP",
+        "decimals": "6",
+        "original": "Solana"
+      }
+    ],
+    [
+      "BNB",
+      {
+        "address": "0x264c1383EA520f73dd837F915ef3a732e204a493",
+        "symbol": "BNB",
+        "decimals": "18",
+        "original": "Avalanche"
+      }
+    ]
+  ]
+]
