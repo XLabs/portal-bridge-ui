@@ -9,10 +9,9 @@ import cosmwasm from "@wormhole-foundation/sdk/cosmwasm";
 
 function getNetwork(): Network {
     return isNetwork(process.env.NETWORK!) ? process.env.NETWORK : "Mainnet";
-};
+}
 
-
-export async function getWrappedAssetForChain(tokenId: TokenId, chain: Chain): Promise<TokenAddress<Chain>|undefined> {
+export default async function getWrappedAssetForChain(tokenId: TokenId, chain: Chain): Promise<TokenAddress<Chain>|undefined> {
     const wh = await wormhole(getNetwork(), [solana, evm, sui, aptos, algorand, cosmwasm]);
     const context = wh.getChain(chain);
     if (context.supportsTokenBridge()) {
@@ -25,20 +24,12 @@ export async function getWrappedAssetForChain(tokenId: TokenId, chain: Chain): P
     }
 }
 
-
-export async function getWrappedAsset(tokenId: TokenId, chains: Array<Chain>): Promise<Array<Array<string>>> {
-    const wh = await wormhole(getNetwork(), [solana, evm, sui, aptos, algorand, cosmwasm]);
-    const result = new Array<Array<string>>();
+export async function getWrappedAsset(tokenId: TokenId, chains: Array<Chain>): Promise<string[][]> {
+    const result: string[][] = [];
     for (const chain of chains) {
-        const context = wh.getChain(chain);
-        if (context.supportsTokenBridge()) {
-            const tb = await context.getTokenBridge();
-            try {
-                const address = await tb.getWrappedAsset(tokenId);
-                result.push([chain, address.toString()]);
-            } catch (error: any) {
-                console.log(error.message);
-            }
+        const address = await getWrappedAssetForChain(tokenId, chain);
+        if (address !== undefined) {
+            result.push([chain, address.toString()]);
         }
     }
     return result;

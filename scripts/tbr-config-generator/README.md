@@ -1,11 +1,5 @@
 # tbr-config-generator
 
-## Sample Execution
-
-npm exec tbr-configs -- --sourceChain Ethereum --address 0xcfd16933Cb1579eee9fe6031686534e87353B148 --targetChains Base,Bsc,Arbitrum
-
-npm exec tbr-configs -- --query 4126080
-
 ## Dune Query Ids
 
 - Ethereum:  4126080
@@ -18,9 +12,19 @@ npm exec tbr-configs -- --query 4126080
 - Optimism:  4140347
 - Base:      4140404
 
-
 ## Config Generation
 
 ```bash
-npm exec tbr-configs -- --queries 4126080,4128580,4128575,4137843,4137974,4137984,4138031,4140347,4140404
+npm exec tbr-configs -- --queries Ethereum:4126080,Polygon:4128580,Bsc:4128575,Avalanche:4137843,Fantom:4137974,Celo:4137984,Arbitrum:4138031,Optimism:4140347,Base:4140404
+```
+
+## Environment options
+
+```bash
+NETWORK            = Mainnet|Testnet
+DUNE_API_KEY       = <API-Key>
+DUNE_QUERY_EXECUTE = true|false
+DUNE_QUERY_OFFSET  = result offset, default 0
+DUNE_QUERY_LIMIT   = result limit, default 30
+[CHAIN]_RPC        = Chain rpc specific
 ```
