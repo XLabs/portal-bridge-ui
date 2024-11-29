@@ -52,6 +52,7 @@ const SubMenu = styled(MenuItem)(() => ({
   paddingTop: 0,
   paddingBottom: 0,
   display: "flex",
+  fontSize: 14,
   gap: 4,
   maxHeight: 20,
   color: COLOR.whiteWithTransparency,
