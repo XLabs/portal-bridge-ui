@@ -315,6 +315,55 @@ jobs:
         with:
           name: build-tbtc-bridge-v1
           path: connect-loader/apps/connect-v1/dist
+  
+  sky-bridge-v1:
+    name: "USDS Bridge v1"
+    runs-on: "ubuntu-latest"
+    concurrency:
+      group: ${{ github.ref }}-${{inputs.name}}-sky-bridge-v1
+      cancel-in-progress: true
+    environment: ${{inputs.environment}}
+    outputs:
+      pkg-version: ${{ steps.set-version.outputs._PKG_VERSION }}
+    steps:
+      - name: Set up Node environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: v18.17.1
+      - name: Checkout Custom Wormhole Connect Loader
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.project-branch }}
+          path: connect-loader
+      - name: Setup Git
+        run: |
+          pushd connect-loader
+          git config user.name "xLabs CI"
+          git config user.email "devops@xlabs.xyz"
+      - name: Set Portal Bridge Version 
+        id: set-version
+        run: |
+          pushd connect-loader/apps/connect-v1
+          echo "_PKG_VERSION=$(node -p -e "require('./package.json').version")-${{inputs.separator}}$(echo ${{ github.sha }} | cut -c -10)" >> "${GITHUB_OUTPUT}"
+      - name: Build Custom Wormhole Connect Loader
+        env:
+          PUBLIC_URL: "${{ inputs.public-url }}"
+          VITE_PUBLIC_URL: ${{ inputs.public-url }}
+          VITE_APP_VERSION: ${{ steps.set-version.outputs._PKG_VERSION }}
+          VITE_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
+          # VITE_APP_JS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._JS_SHA_384 }}
+          # VITE_APP_CSS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._CSS_SHA_384 }}
+          VITE_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}
+        run: |
+          pushd connect-loader/apps/connect-v1
+          npm ci
+          echo 'VITE_APP_VERSION=$npm_package_version' > .env
+          npm run build:sky-bridge
+      - name: Upload Portal Bridge Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-sky-bridge-v1
+          path: connect-loader/apps/connect-v1/dist
 
   token-bridge-v1:
     name: "Token Bridge v1"
@@ -372,6 +421,7 @@ jobs:
       - usdc-bridge
       - token-bridge
       - tbtc-bridge-v1
+      - sky-bridge-v1
       - token-bridge-v1
       - rewards-dashboard
       - redirects
@@ -393,6 +443,11 @@ jobs:
         with:
           name: build-tbtc-bridge-v1
           path: tbtc-bridge
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build-sky-bridge-v1
+          path: sky-bridge
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
