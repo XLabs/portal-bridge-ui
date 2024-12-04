@@ -1396,7 +1396,7 @@ export const ENV: Env = {
         },
         Lumos: {
           key: "Lumos",
-          symbol: "LUM",
+          symbol: "LUMOS",
           displayName: "Lumos",
           nativeChain: "Fantom",
           tokenId: {
