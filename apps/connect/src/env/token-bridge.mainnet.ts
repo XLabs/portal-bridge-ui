@@ -678,6 +678,9 @@ export const ENV: Env = {
         pxEth: {
           Sui: "0xf4530aa5ef8af33c497ec38f54ff9dd45fad9157264efae9693eb62faf8667b5::coin::COIN",
         },
+        Tower: {
+          Solana: "5Ro9KjSUGYisjREz8K5uD1fMdXnu1Jfq3Ktqm4EQMc1R",
+        },
       },
       tokensConfig: {
         stBTC: {
@@ -1375,6 +1378,19 @@ export const ENV: Env = {
           coinGeckoId: "staked-avail",
           decimals: 18,
         },
+        Tower: {
+          key: "Tower",
+          symbol: "TOWER",
+          displayName: "Tower",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0x1C9922314ED1415c95b9FD453c3818fd41867d0B",
+          },
+          icon: "https://assets.coingecko.com/coins/images/14134/large/tower-circular-1000.png?1696513854",
+          coinGeckoId: "tower",
+          decimals: 18,
+        }
       },
     }
   ),
