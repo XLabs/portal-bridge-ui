@@ -23,7 +23,7 @@ jobs:
     with:
       name: testnet
       separator: T
-      advanced-tools-branch: advanced-tools
+      advanced-tools-branch: feature/holesky
       environment: Cloudflare-Testnet
       public-url: "/${{ needs.branch-sha.outputs.value }}"
       project-branch: ${{ github.event.pull_request.head.ref }}

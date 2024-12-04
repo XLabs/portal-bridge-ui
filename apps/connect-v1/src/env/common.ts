@@ -34,6 +34,12 @@ export const MAINNET_RPCS = {
   solana: "https://wormhole.rpcpool.com/",
 };
 
+export const TESTNET_RPCS = {
+  holesky: asRpcHost('ethereum-testnet'),
+  aptos: asRpcHost('aptos-testnet'),
+  sui: asRpcHost('sui-testnet'),
+};
+
 export const PUBLIC_URL = envVars.VITE_PUBLIC_URL || "";
 
 export const CLUSTER = envVars.VITE_APP_CLUSTER || "testnet";
