@@ -678,6 +678,9 @@ export const ENV: Env = {
         pxEth: {
           Sui: "0xf4530aa5ef8af33c497ec38f54ff9dd45fad9157264efae9693eb62faf8667b5::coin::COIN",
         },
+        ALT: {
+          Solana: "wiwDfzGBb4radfYGpQo5EGeqv3q45ms6tTiaJc7Pzubq",
+        },
       },
       tokensConfig: {
         stBTC: {
@@ -1373,6 +1376,19 @@ export const ENV: Env = {
           },
           icon: "https://assets.coingecko.com/coins/images/51343/large/stAVAIL_200x200.png?1730824445",
           coinGeckoId: "staked-avail",
+          decimals: 18,
+        },
+        AltLayer: {
+          key: "AltLayer",
+          symbol: "ALT",
+          displayName: "AltLayer Token",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0x8457ca5040ad67fdebbcc8edce889a335bc0fbfb",
+          },
+          icon: "https://assets.coingecko.com/coins/images/34608/standard/Logomark_200x200.png?1715107868",
+          coinGeckoId: "altlayer",
           decimals: 18,
         },
       },
