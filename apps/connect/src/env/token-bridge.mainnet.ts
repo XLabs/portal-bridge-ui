@@ -678,6 +678,12 @@ export const ENV: Env = {
         pxEth: {
           Sui: "0xf4530aa5ef8af33c497ec38f54ff9dd45fad9157264efae9693eb62faf8667b5::coin::COIN",
         },
+        Tower: {
+          Solana: "5Ro9KjSUGYisjREz8K5uD1fMdXnu1Jfq3Ktqm4EQMc1R",
+        },
+        Lumos: {
+          Solana: "6xTAKg6SQejorPyubo3asYY1sLco66DA5vDbfZbheVub",
+        },
       },
       tokensConfig: {
         stBTC: {
@@ -1373,6 +1379,32 @@ export const ENV: Env = {
           },
           icon: "https://assets.coingecko.com/coins/images/51343/large/stAVAIL_200x200.png?1730824445",
           coinGeckoId: "staked-avail",
+          decimals: 18,
+        },
+        Tower: {
+          key: "Tower",
+          symbol: "TOWER",
+          displayName: "Tower",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0x1C9922314ED1415c95b9FD453c3818fd41867d0B",
+          },
+          icon: "https://assets.coingecko.com/coins/images/14134/large/tower-circular-1000.png?1696513854",
+          coinGeckoId: "tower",
+          decimals: 18,
+        },
+        Lumos: {
+          key: "Lumos",
+          symbol: "LUMOS",
+          displayName: "Lumos",
+          nativeChain: "Fantom",
+          tokenId: {
+            chain: "Fantom",
+            address: "0x94fBE860aD699670A2293D194CF1376EF58C014a",
+          },
+          icon: "https://assets.coingecko.com/coins/images/39362/large/LUMOS_LOGO.png?1721893262",
+          coinGeckoId: "lumoscoin",
           decimals: 18,
         },
       },
