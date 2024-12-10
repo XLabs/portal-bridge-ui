@@ -23,7 +23,7 @@ jobs:
     with:
       name: preview
       separator: P
-      advanced-tools-branch: advanced-tools
+      advanced-tools-branch: feature/add-worldchain
       environment: Cloudflare-Preview
       public-url: "/${{ needs.branch-sha.outputs.value }}"
       wac-url-template: "https://allez-xyz--usds-*.modal.run"
