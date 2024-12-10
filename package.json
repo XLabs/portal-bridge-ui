@@ -86,7 +86,8 @@
     "build": "sed -i '/enableWorkerThreads/d' node_modules/terser-webpack-plugin/dist/index.js && react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
-    "format": "npx prettier --write ./src"
+    "format": "npx prettier --write ./src",
+    "postinstall": "patch-package"
   },
   "eslintConfig": {
     "extends": [
@@ -135,6 +136,7 @@
     "jest-watch-typeahead": "^0.6.4",
     "lint-staged": "^13.2.3",
     "os-browserify": "^0.3.0",
+    "patch-package": "^8.0.0",
     "path-browserify": "^1.0.1",
     "prettier": "^3.0.2",
     "process": "^0.11.10",

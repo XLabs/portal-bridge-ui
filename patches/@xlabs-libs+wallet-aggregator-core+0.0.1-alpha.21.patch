@@ -1,0 +1,30 @@
+diff --git a/node_modules/@xlabs-libs/wallet-aggregator-core/src/constants.ts b/node_modules/@xlabs-libs/wallet-aggregator-core/src/constants.ts
+index 580c52e..dbf5574 100644
+--- a/node_modules/@xlabs-libs/wallet-aggregator-core/src/constants.ts
++++ b/node_modules/@xlabs-libs/wallet-aggregator-core/src/constants.ts
+@@ -39,6 +39,7 @@ export const CHAINS = {
+   linea: 38,
+   berachain: 39,
+   seievm: 40,
++  worldchain: 45,
+   wormchain: 3104,
+   cosmoshub: 4000,
+   evmos: 4001,
+@@ -107,6 +108,7 @@ export const CHAIN_ID_SEI = CHAINS["sei"];
+ export const CHAIN_ID_ROOTSTOCK = CHAINS["rootstock"];
+ export const CHAIN_ID_SCROLL = CHAINS["scroll"];
+ export const CHAIN_ID_MANTLE = CHAINS["mantle"];
++export const CHAIN_ID_WORLDCHAIN = CHAINS["worldchain"];
+ export const CHAIN_ID_BLAST = CHAINS["blast"];
+ export const CHAIN_ID_XLAYER = CHAINS["xlayer"];
+ export const CHAIN_ID_LINEA = CHAINS["linea"];
+@@ -177,7 +179,8 @@ export function isEVMChain(chainId: ChainId): boolean {
+     chainId === CHAIN_ID_SCROLL ||
+     chainId === CHAIN_ID_BLAST ||
+     chainId === CHAIN_ID_XLAYER ||
+-    chainId === CHAIN_ID_MANTLE
++    chainId === CHAIN_ID_MANTLE ||
++    chainId === CHAIN_ID_WORLDCHAIN
+   );
+ }
+ 

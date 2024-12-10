@@ -1,0 +1,91 @@
+diff --git a/node_modules/@xlabs-libs/wallet-aggregator-evm/src/chains.ts b/node_modules/@xlabs-libs/wallet-aggregator-evm/src/chains.ts
+index 2d5ef40..7e2be51 100644
+--- a/node_modules/@xlabs-libs/wallet-aggregator-evm/src/chains.ts
++++ b/node_modules/@xlabs-libs/wallet-aggregator-evm/src/chains.ts
+@@ -259,6 +259,49 @@ export const mantleTestnet = {
+   },
+ } as const satisfies Chain;
+ 
++export const worldchain = {
++  id: 480,
++  name: "World Chain",
++  network: "worldchain",
++  nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
++  rpcUrls: {
++    default: {
++      http: ["https://worldchain-mainnet.g.alchemy.com/public"],
++    },
++    public: {
++      http: ["https://worldchain-mainnet.g.alchemy.com/public"],
++    },
++  },
++  blockExplorers: {
++    default: {
++      name: "World Scan",
++      url: "https://worldscan.org/",
++    },
++  },
++} as const satisfies Chain;
++
++export const worldchainTestnet = {
++  id: 4801,
++  name: "World Chain",
++  network: "worldchain-sepolia",
++  nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
++  rpcUrls: {
++    default: {
++      http: ["https://worldchain-sepolia.g.alchemy.com/public"],
++    },
++    public: {
++      http: ["https://worldchain-sepolia.g.alchemy.com/public"],
++    },
++  },
++  blockExplorers: {
++    default: {
++      name: "World Scan",
++      url: "https://worldchain-sepolia.explorer.alchemy.com/",
++    },
++  },
++  testnet: true,
++} as const satisfies Chain;
++
+ export const DEFAULT_CHAINS: Chain[] = [
+   ...Object.values(CHAINS),
+   acala,
+@@ -275,4 +318,6 @@ export const DEFAULT_CHAINS: Chain[] = [
+   xlayerTestnet,
+   mantle,
+   mantleTestnet,
++  worldchain,
++  worldchainTestnet,
+ ];
+diff --git a/node_modules/@xlabs-libs/wallet-aggregator-evm/src/constants.ts b/node_modules/@xlabs-libs/wallet-aggregator-evm/src/constants.ts
+index 5d7eb0a..35bfff1 100644
+--- a/node_modules/@xlabs-libs/wallet-aggregator-evm/src/constants.ts
++++ b/node_modules/@xlabs-libs/wallet-aggregator-evm/src/constants.ts
+@@ -22,6 +22,7 @@ export const EVM_CHAINS = {
+   blast: 81457,
+   xlayer: 196,
+   mantle: 5000,
++  worldchain: 480,
+ } as const;
+ 
+ export const EVM_CHAINS_TESTNET = {
+@@ -45,6 +46,7 @@ export const EVM_CHAINS_TESTNET = {
+   blast: 168587773,
+   xlayer: 195,
+   mantle: 5001,
++  worldchain: 4801,
+ } as const;
+ 
+ export type EVMChainName =
+@@ -68,7 +70,8 @@ export type EVMChainName =
+   | "scroll"
+   | "blast"
+   | "xlayer"
+-  | "mantle";
++  | "mantle"
++  | "worldchain";
+ 
+ type Indexable = string | number | symbol;
+ 
