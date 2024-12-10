@@ -32,7 +32,6 @@ import {
   CHAIN_ID_WORMCHAIN,
   CONTRACTS,
   coalesceChainName,
-  isEVMChain,
   isTerraChain,
   TerraChainId,
   hexToNativeString,
@@ -46,6 +45,7 @@ import {
   CHAIN_ID_XLAYER,
   CHAIN_ID_MANTLE,
 } from "@certusone/wormhole-sdk";
+//import { chainIdToChain, chainToPlatform } from '@wormhole-foundation/sdk';
 import { clusterApiUrl } from "@solana/web3.js";
 import { getAddress } from "ethers/lib/utils";
 import seiIcon from "../icons/sei.svg";
@@ -109,6 +109,16 @@ export interface ChainInfo {
   name: string;
   logo: string;
 }
+
+// TO DO: Deprecate certusone to get the new chains configuration
+export const CHAIN_ID_WORLDCHAIN = 45 as ChainId;
+
+export const isEVMChain = (chainId: ChainId) =>{
+  // @ts-ignore 
+  const chain = chainIdToChain(chainId as any);
+  // @ts-ignore 
+  return chainToPlatform(chain) === "Evm";
+};
 
 export const DISABLED_CHAINS: Array<Partial<ChainId>> = [
   CHAIN_ID_BLAST,
@@ -260,6 +270,11 @@ export const CHAINS: ChainInfo[] =
           name: "XPLA",
           logo: xplaIcon,
         },
+        {
+          id: CHAIN_ID_WORLDCHAIN,
+          name: "World Chain",
+          logo: xplaIcon, // change
+        },
       ]
     : CLUSTER === "testnet"
     ? [
@@ -396,6 +411,11 @@ export const CHAINS: ChainInfo[] =
         {
           id: CHAIN_ID_XPLA,
           name: "XPLA",
+          logo: xplaIcon,
+        },
+        {
+          id: CHAIN_ID_WORLDCHAIN,
+          name: "World Chain",
           logo: xplaIcon,
         },
       ]
@@ -818,6 +838,8 @@ export const XLAYER_NETWORK_CHAIN_ID =
   CLUSTER === "mainnet" ? 196 : CLUSTER === "testnet" ? 195 : 1381;
 export const MANTLE_NETWORK_CHAIN_ID =
   CLUSTER === "mainnet" ? 5000 : CLUSTER === "testnet" ? 5001 : 1381;
+export const WORLDCHAIN_NETWORK_CHAIN_ID =
+  CLUSTER === "mainnet" ? 480 : CLUSTER === "testnet" ? 4801 : 1381;
 
 export const getEvmChainId = (chainId: ChainId) =>
   chainId === CHAIN_ID_ETH
@@ -858,6 +880,8 @@ export const getEvmChainId = (chainId: ChainId) =>
     ? XLAYER_NETWORK_CHAIN_ID
     : chainId === CHAIN_ID_MANTLE
     ? MANTLE_NETWORK_CHAIN_ID
+    : chainId === CHAIN_ID_WORLDCHAIN
+    ? WORLDCHAIN_NETWORK_CHAIN_ID
     : undefined;
 export const SOLANA_HOST = process.env.REACT_APP_SOLANA_API_URL
   ? process.env.REACT_APP_SOLANA_API_URL
