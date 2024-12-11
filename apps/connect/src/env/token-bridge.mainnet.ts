@@ -683,6 +683,8 @@ export const ENV: Env = {
         },
         Lumos: {
           Solana: "6xTAKg6SQejorPyubo3asYY1sLco66DA5vDbfZbheVub",
+        ALT: {
+          Solana: "wiwDfzGBb4radfYGpQo5EGeqv3q45ms6tTiaJc7Pzub",
         },
       },
       tokensConfig: {
@@ -1405,6 +1407,17 @@ export const ENV: Env = {
           },
           icon: "https://assets.coingecko.com/coins/images/39362/large/LUMOS_LOGO.png?1721893262",
           coinGeckoId: "lumoscoin",
+        AltLayer: {
+          key: "AltLayer",
+          symbol: "ALT",
+          displayName: "AltLayer Token",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0x8457ca5040ad67fdebbcc8edce889a335bc0fbfb",
+          },
+          icon: "https://assets.coingecko.com/coins/images/34608/standard/Logomark_200x200.png?1715107868",
+          coinGeckoId: "altlayer",
           decimals: 18,
         },
       },
