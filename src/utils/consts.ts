@@ -45,7 +45,6 @@ import {
   CHAIN_ID_XLAYER,
   CHAIN_ID_MANTLE,
 } from "@certusone/wormhole-sdk";
-//import { chainIdToChain, chainToPlatform } from '@wormhole-foundation/sdk';
 import { clusterApiUrl } from "@solana/web3.js";
 import { getAddress } from "ethers/lib/utils";
 import seiIcon from "../icons/sei.svg";
@@ -78,6 +77,7 @@ import evmosIcon from "../icons/evmos.svg";
 import osmosIcon from "../icons/osmos.svg";
 import kujiraIcon from "../icons/kujira.svg";
 import injectiveIcon from "../icons/injective.svg";
+import worldchainIcon from "../icons/worldchain.svg";
 import { ConnectConfig, keyStores } from "near-api-js";
 import { AptosNetwork } from "./aptos";
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
@@ -85,6 +85,7 @@ import { ChainId as InjectiveChainId } from "@injectivelabs/ts-types";
 import { ChainConfiguration } from "@sei-js/react";
 import { Connection } from "@mysten/sui.js";
 import { chainToIcon } from "@wormhole-foundation/sdk-icons";
+import { isEVMChain } from "@xlabs-libs/wallet-aggregator-core";
 
 export const isProduction = window.location.host === "portalbridge.com";
 
@@ -113,18 +114,13 @@ export interface ChainInfo {
 // TO DO: Deprecate certusone to get the new chains configuration
 export const CHAIN_ID_WORLDCHAIN = 45 as ChainId;
 
-export const isEVMChain = (chainId: ChainId) =>{
-  // @ts-ignore 
-  const chain = chainIdToChain(chainId as any);
-  // @ts-ignore 
-  return chainToPlatform(chain) === "Evm";
-};
 
 export const DISABLED_CHAINS: Array<Partial<ChainId>> = [
   CHAIN_ID_BLAST,
   CHAIN_ID_SCROLL,
   CHAIN_ID_XLAYER,
   CHAIN_ID_MANTLE,
+  CHAIN_ID_WORLDCHAIN, // TO DO: Change when the new chains configuration is ready in bridge
 ];
 
 export const CHAINS: ChainInfo[] =
@@ -273,7 +269,7 @@ export const CHAINS: ChainInfo[] =
         {
           id: CHAIN_ID_WORLDCHAIN,
           name: "World Chain",
-          logo: xplaIcon, // change
+          logo: worldchainIcon
         },
       ]
     : CLUSTER === "testnet"
@@ -416,7 +412,7 @@ export const CHAINS: ChainInfo[] =
         {
           id: CHAIN_ID_WORLDCHAIN,
           name: "World Chain",
-          logo: xplaIcon,
+          logo: worldchainIcon
         },
       ]
     : [
@@ -1717,6 +1713,15 @@ export const ARBWETH_ADDRESS =
     ? "0x0000000000000000000000000000000000000000"
     : "0xDDb64fE46a91D46ee29420539FC25FD07c5FEa3E";
 export const ARBWETH_DECIMALS = 18;
+
+export const WORLDWETH_ADDRESS =
+  CLUSTER === "mainnet"
+    ? "0x4200000000000000000000000000000000000006"
+    : CLUSTER === "testnet"
+    ? "0x4200000000000000000000000000000000000006"
+    : "0xDDb64fE46a91D46ee29420539FC25FD07c5FEa3E";
+export const WORLDWETH_DECIMALS = 18;
+
 
 export const ALGO_DECIMALS = 6;
 
