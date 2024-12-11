@@ -684,7 +684,7 @@ export const ENV: Env = {
         Lumos: {
           Solana: "6xTAKg6SQejorPyubo3asYY1sLco66DA5vDbfZbheVub",
         ALT: {
-          Solana: "wiwDfzGBb4radfYGpQo5EGeqv3q45ms6tTiaJc7Pzubq",
+          Solana: "wiwDfzGBb4radfYGpQo5EGeqv3q45ms6tTiaJc7Pzub",
         },
       },
       tokensConfig: {
