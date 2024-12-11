@@ -44,6 +44,7 @@ import {
   CHAIN_ID_BLAST,
   CHAIN_ID_XLAYER,
   CHAIN_ID_MANTLE,
+  CHAIN_ID_WORLDCHAIN,
 } from "@certusone/wormhole-sdk";
 import { clusterApiUrl } from "@solana/web3.js";
 import { getAddress } from "ethers/lib/utils";
@@ -111,16 +112,12 @@ export interface ChainInfo {
   logo: string;
 }
 
-// TO DO: Deprecate certusone to get the new chains configuration
-export const CHAIN_ID_WORLDCHAIN = 45 as ChainId;
-
-
 export const DISABLED_CHAINS: Array<Partial<ChainId>> = [
   CHAIN_ID_BLAST,
   CHAIN_ID_SCROLL,
   CHAIN_ID_XLAYER,
   CHAIN_ID_MANTLE,
-  CHAIN_ID_WORLDCHAIN, // TO DO: Change when the new chains configuration is ready in bridge
+  // CHAIN_ID_WORLDCHAIN,
 ];
 
 export const CHAINS: ChainInfo[] =

@@ -12,6 +12,7 @@ import {
   CHAIN_ID_OASIS,
   CHAIN_ID_POLYGON,
   CHAIN_ID_SOLANA,
+  CHAIN_ID_WORLDCHAIN,
   ChainId,
   isEVMChain,
   isTerraChain,
@@ -53,6 +54,7 @@ import {
   WKLAY_ADDRESS,
   WMATIC_ADDRESS,
   WNEON_ADDRESS,
+  WORLDWETH_ADDRESS,
   WROSE_ADDRESS,
 } from "../../utils/consts";
 import ButtonWithLoader from "../ButtonWithLoader";
@@ -200,6 +202,10 @@ function Redeem() {
     targetChain === CHAIN_ID_ARBITRUM &&
     targetAsset &&
     targetAsset.toLowerCase() === ARBWETH_ADDRESS.toLowerCase();
+  const isWorldchainNative =
+    targetChain === CHAIN_ID_WORLDCHAIN &&
+    targetAsset &&
+    targetAsset.toLowerCase() === WORLDWETH_ADDRESS.toLowerCase();
   const isSolNative =
     targetChain === CHAIN_ID_SOLANA &&
     targetAsset &&
@@ -215,6 +221,7 @@ function Redeem() {
     isNeonNative ||
     isMoonbeamNative ||
     isArbitrumNative ||
+    isWorldchainNative ||
     isSolNative;
   const [useNativeRedeem, setUseNativeRedeem] = useState(true);
   const toggleNativeRedeem = useCallback(() => {

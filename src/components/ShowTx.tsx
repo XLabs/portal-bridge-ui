@@ -23,6 +23,7 @@ import {
   CHAIN_ID_OPTIMISM,
   CHAIN_ID_SUI,
   CHAIN_ID_BASE,
+  CHAIN_ID_WORLDCHAIN,
 } from "@certusone/wormhole-sdk";
 import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk/lib/esm";
 import { Button, makeStyles, Typography } from "@material-ui/core";
@@ -185,6 +186,10 @@ export default function ShowTx({
             ? "?network=local"
             : "?network=https%3A%2F%2Frpc.mainnet.sui.io"
         }`
+      : chainId === CHAIN_ID_WORLDCHAIN
+      ? `https://${
+          CLUSTER === "testnet" ? "worldchain-sepolia.explorer.alchemy.com" : "worldscan.org"
+        }/tx/${tx?.id}`
       : undefined;
   const explorerName = getExplorerName(chainId);
 
