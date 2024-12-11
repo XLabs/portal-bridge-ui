@@ -678,20 +678,13 @@ export const ENV: Env = {
         pxEth: {
           Sui: "0xf4530aa5ef8af33c497ec38f54ff9dd45fad9157264efae9693eb62faf8667b5::coin::COIN",
         },
-<<<<<<< HEAD
         Tower: {
           Solana: "5Ro9KjSUGYisjREz8K5uD1fMdXnu1Jfq3Ktqm4EQMc1R",
         },
         Lumos: {
           Solana: "6xTAKg6SQejorPyubo3asYY1sLco66DA5vDbfZbheVub",
-=======
         ALT: {
-<<<<<<< HEAD
           Solana: "wiwDfzGBb4radfYGpQo5EGeqv3q45ms6tTiaJc7Pzubq",
->>>>>>> 8ce68d6 (feat: add altlayer)
-=======
-          Solana: "wiwDfzGBb4radfYGpQo5EGeqv3q45ms6tTiaJc7Pzub",
->>>>>>> f918b23 (fix: fix wrapped token address)
         },
       },
       tokensConfig: {
@@ -1390,7 +1383,6 @@ export const ENV: Env = {
           coinGeckoId: "staked-avail",
           decimals: 18,
         },
-<<<<<<< HEAD
         Tower: {
           key: "Tower",
           symbol: "TOWER",
@@ -1415,7 +1407,6 @@ export const ENV: Env = {
           },
           icon: "https://assets.coingecko.com/coins/images/39362/large/LUMOS_LOGO.png?1721893262",
           coinGeckoId: "lumoscoin",
-=======
         AltLayer: {
           key: "AltLayer",
           symbol: "ALT",
@@ -1427,7 +1418,6 @@ export const ENV: Env = {
           },
           icon: "https://assets.coingecko.com/coins/images/34608/standard/Logomark_200x200.png?1715107868",
           coinGeckoId: "altlayer",
->>>>>>> 8ce68d6 (feat: add altlayer)
           decimals: 18,
         },
       },
