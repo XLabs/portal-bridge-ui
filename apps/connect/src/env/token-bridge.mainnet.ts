@@ -686,8 +686,12 @@ export const ENV: Env = {
           Solana: "6xTAKg6SQejorPyubo3asYY1sLco66DA5vDbfZbheVub",
 =======
         ALT: {
+<<<<<<< HEAD
           Solana: "wiwDfzGBb4radfYGpQo5EGeqv3q45ms6tTiaJc7Pzubq",
 >>>>>>> 8ce68d6 (feat: add altlayer)
+=======
+          Solana: "wiwDfzGBb4radfYGpQo5EGeqv3q45ms6tTiaJc7Pzub",
+>>>>>>> f918b23 (fix: fix wrapped token address)
         },
       },
       tokensConfig: {
