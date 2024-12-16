@@ -10,7 +10,8 @@ export const isValidAddress = async (
   address: string,
   chain: Chain
 ): Promise<boolean> => {
-  if (isEVMChain(toChainNameFormat(chain)))
+  // TO DO: Add support for other evm chains with the new sdk
+  if (isEVMChain(toChainNameFormat(chain)) || chain === "Worldchain")
     return isValidEthereumAddress(address);
   if (chain === "Solana") return isValidSolanaAddress(address);
   if (chain === "Aptos") return isValidAptosAddress(address);
