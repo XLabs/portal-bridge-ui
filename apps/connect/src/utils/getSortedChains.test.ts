@@ -25,6 +25,7 @@ describe("getSortedChains", () => {
       "Scroll",
       "Xlayer" as any,
       "Mantle",
+      "Worldchain",
       "Solana",
       "Injective",
       "Klaytn",
@@ -60,6 +61,7 @@ describe("getSortedChains", () => {
       "Kujira",
       "Evmos",
       "Xlayer",
+      "Worldchain",
     ]);
   });
 

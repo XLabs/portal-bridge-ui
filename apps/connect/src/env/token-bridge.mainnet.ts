@@ -21,7 +21,7 @@ export const ENV: Env = {
       rpcs: MAINNET_RPCS,
       routes: [
         ...DEFAULT_ROUTES,
-        MayanRouteWH,
+        MayanRouteWH as any, // FIXME: Remove this any and fix wh connect type issues
         MayanRouteMCTP,
         MayanRouteSWIFT,
         ...nttRoutes({
