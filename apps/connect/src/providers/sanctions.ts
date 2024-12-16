@@ -50,7 +50,8 @@ export const getTrmChainName = (chain: Chain) => {
   if (trmChainNames[id]) return trmChainNames[id];
   if (isCosmWasmChain(toChainNameFormat(chain))) return "cosmos";
   // TO DO: Add support for other evm chains with the new sdk
-  if (isEVMChain(toChainNameFormat(chain)) || chain === "Worldchain") return "ethereum";
+  if (isEVMChain(toChainNameFormat(chain)) || chain === "Worldchain")
+    return "ethereum";
 
   return "";
 };
@@ -98,7 +99,8 @@ export const isSanctionedAddress = async (
         address: transferDetails.toWalletAddress,
       }),
       ...(transferDetails.toChain !== "Ethereum" &&
-      (isEVMChain(toChainNameFormat(transferDetails.toChain)) || transferDetails.toChain === "Worldchain")
+      (isEVMChain(toChainNameFormat(transferDetails.toChain)) ||
+        transferDetails.toChain === "Worldchain")
         ? [
             isSanctioned({
               chain: "ethereum",
