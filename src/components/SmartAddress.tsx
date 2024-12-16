@@ -27,6 +27,7 @@ import {
   CHAIN_ID_OPTIMISM,
   CHAIN_ID_SUI,
   CHAIN_ID_BASE,
+  CHAIN_ID_WORLDCHAIN,
 } from "@certusone/wormhole-sdk";
 import { Button, makeStyles, Tooltip, Typography } from "@material-ui/core";
 import { FileCopy, OpenInNew } from "@material-ui/icons";
@@ -206,6 +207,12 @@ export default function SmartAddress({
     ? `https://explorer.xpla.io/${
         CLUSTER === "testnet" ? "testnet" : "mainnet"
       }/address/${useableAddress}`
+    : chainId === CHAIN_ID_WORLDCHAIN
+      ? `https://${
+          CLUSTER === "testnet" ? "worldchain-sepolia.explorer.alchemy.com" : "worldscan.org"
+        }/${
+          isAsset ? "token" : "address"
+        }/${useableAddress}`
     : chainId === CHAIN_ID_APTOS
     ? propertyVersion !== undefined // NFT
       ? `https://explorer.aptoslabs.com/token/${useableAddress}/${propertyVersion}${

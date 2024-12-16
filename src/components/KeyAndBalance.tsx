@@ -6,10 +6,10 @@ import {
   CHAIN_ID_NEAR,
   CHAIN_ID_SOLANA,
   CHAIN_ID_XPLA,
-  isEVMChain,
   isTerraChain,
   CHAIN_ID_SUI,
   CHAIN_ID_SEI,
+  isEVMChain,
 } from "@certusone/wormhole-sdk";
 import ConnectWalletButton from "./ConnectWalletButton";
 
