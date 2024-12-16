@@ -27,6 +27,7 @@ export const chains = [
   "Scroll",
   "Xlayer",
   "Mantle",
+  "Worldchain",
 ];
 
 export const MAINNET_RPCS = {
