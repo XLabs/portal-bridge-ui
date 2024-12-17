@@ -1407,6 +1407,19 @@ export const ENV: Env = {
           coinGeckoId: "lumoscoin",
           decimals: 18,
         },
+        Worldcoin: {
+          key: "Worldcoin",
+          symbol: "WLD",
+          displayName: "Worldcoin",
+          nativeChain: "Worldchain",
+          tokenId: {
+            chain: "Worldchain",
+            address: "0x2cFc85d8E48F8EAB294be644d9E25C3030863003",
+          },
+          icon: "https://assets.coingecko.com/coins/images/31069/large/worldcoin.jpeg?1696529903",
+          coinGeckoId: "worldcoin-wld",
+          decimals: 18,
+        },
       },
     }
   ),
