@@ -49,6 +49,7 @@ export const ENV: Env = {
         "USDCbase",
         "USDCpolygon",
         "USDCsol",
+        "USDCsui",
       ],
     }
   ),
