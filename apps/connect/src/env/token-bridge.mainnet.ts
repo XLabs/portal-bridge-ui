@@ -700,6 +700,9 @@ export const ENV: Env = {
           Aptos:
             "0x01aad41572eb11435df33d6d4a605814a4b6ee73fc2d566204220d8f4bfee7fe::coin::T",
           Avalanche: "0x768a15C2942880A997594eb1451D8950367A2184",
+          Scroll: "0x2b02D2c8F44e982b462fee4B97fa6bD49388bEc3",
+          Mantle: "0x2a76b7dE7902BA089EdD39C17Df38c4a2CdDAd0B",
+          Xlayer: "0x8173Aba689eC001af9918B170a3946826212A366",
         },
       },
       tokensConfig: {
