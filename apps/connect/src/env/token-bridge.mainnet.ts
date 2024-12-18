@@ -696,7 +696,9 @@ export const ENV: Env = {
           "Polygon": "0x30aD88e1C594F13B43aa1e53c526D0ab4b2077d0",
           "Celo": "0x9836c625210389a05e1d7473Cf82AC3c627f61A4",
           "Moonbeam": "0x341d95086ec63A08836dcE66FAd837aA49995B7D",
-          "Klaytn": "0xf1503817FE623438bBF0A8E03258b5eDcdaFd214"
+          "Klaytn": "0xf1503817FE623438bBF0A8E03258b5eDcdaFd214",
+          "Aptos": "0x01aad41572eb11435df33d6d4a605814a4b6ee73fc2d566204220d8f4bfee7fe::coin::T",
+          "Avalanche": "0x768a15C2942880A997594eb1451D8950367A2184"
         }
       },
       tokensConfig: {
