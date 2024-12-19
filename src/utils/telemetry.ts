@@ -139,7 +139,7 @@ class Telemetry {
   private onConnect = (wallet: Wallet) => {
     const eventName = "wallet.connect";
     const side = "sending";
-    const chain = this.getChainNameFromId(wallet.getChainId?.());
+    const chain = this.getChainNameFromId(wallet.getChainId?.() as ChainId);
     const walletName = wallet.getName?.();
     const properties = {
       [`wallet-${side}`]: walletName,

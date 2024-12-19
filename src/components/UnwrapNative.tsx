@@ -11,6 +11,7 @@ import {
   CHAIN_ID_POLYGON,
   CHAIN_ID_BASE,
   ethers_contracts,
+  CHAIN_ID_WORLDCHAIN,
 } from "@certusone/wormhole-sdk";
 import {
   Container,
@@ -37,6 +38,7 @@ import moonbeamIcon from "../icons/moonbeam.svg";
 import neonIcon from "../icons/neon.svg";
 import oasisIcon from "../icons/oasis-network-rose-logo.svg";
 import polygonIcon from "../icons/polygon.svg";
+import worldchainIcon from "../icons/worldchain.svg";
 import { COLORS } from "../muiTheme";
 import {
   DataWrapper,
@@ -68,6 +70,8 @@ import {
   WROSE_DECIMALS,
   BASE_WETH_ADDRESS,
   BASE_WETH_DECIMALS,
+  WORLDWETH_ADDRESS,
+  WORLDWETH_DECIMALS,
 } from "../utils/consts";
 import parseError from "../utils/parseError";
 import ButtonWithLoader from "./ButtonWithLoader";
@@ -173,6 +177,12 @@ const supportedTokens = {
     icon: baseIcon,
     address: BASE_WETH_ADDRESS,
     decimals: BASE_WETH_DECIMALS,
+  },
+  [CHAIN_ID_WORLDCHAIN]: {
+    symbol: "WETH",
+    icon: worldchainIcon,
+    address: WORLDWETH_ADDRESS,
+    decimals: WORLDWETH_DECIMALS,
   },
 } as const;
 

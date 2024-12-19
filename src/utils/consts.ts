@@ -32,7 +32,6 @@ import {
   CHAIN_ID_WORMCHAIN,
   CONTRACTS,
   coalesceChainName,
-  isEVMChain,
   isTerraChain,
   TerraChainId,
   hexToNativeString,
@@ -45,6 +44,7 @@ import {
   CHAIN_ID_BLAST,
   CHAIN_ID_XLAYER,
   CHAIN_ID_MANTLE,
+  CHAIN_ID_WORLDCHAIN,
 } from "@certusone/wormhole-sdk";
 import { clusterApiUrl } from "@solana/web3.js";
 import { getAddress } from "ethers/lib/utils";
@@ -78,6 +78,7 @@ import evmosIcon from "../icons/evmos.svg";
 import osmosIcon from "../icons/osmos.svg";
 import kujiraIcon from "../icons/kujira.svg";
 import injectiveIcon from "../icons/injective.svg";
+import worldchainIcon from "../icons/worldchain.svg";
 import { ConnectConfig, keyStores } from "near-api-js";
 import { AptosNetwork } from "./aptos";
 import { getNetworkInfo, Network } from "@injectivelabs/networks";
@@ -85,6 +86,7 @@ import { ChainId as InjectiveChainId } from "@injectivelabs/ts-types";
 import { ChainConfiguration } from "@sei-js/react";
 import { Connection } from "@mysten/sui.js";
 import { chainToIcon } from "@wormhole-foundation/sdk-icons";
+import { isEVMChain } from "@xlabs-libs/wallet-aggregator-core";
 
 export const isProduction = window.location.host === "portalbridge.com";
 
@@ -257,6 +259,11 @@ export const CHAINS: ChainInfo[] =
           name: "XPLA",
           logo: xplaIcon,
         },
+        {
+          id: CHAIN_ID_WORLDCHAIN,
+          name: "World Chain",
+          logo: worldchainIcon
+        },
       ]
     : CLUSTER === "testnet"
     ? [
@@ -394,6 +401,11 @@ export const CHAINS: ChainInfo[] =
           id: CHAIN_ID_XPLA,
           name: "XPLA",
           logo: xplaIcon,
+        },
+        {
+          id: CHAIN_ID_WORLDCHAIN,
+          name: "World Chain",
+          logo: worldchainIcon
         },
       ]
     : [
@@ -815,6 +827,8 @@ export const XLAYER_NETWORK_CHAIN_ID =
   CLUSTER === "mainnet" ? 196 : CLUSTER === "testnet" ? 195 : 1381;
 export const MANTLE_NETWORK_CHAIN_ID =
   CLUSTER === "mainnet" ? 5000 : CLUSTER === "testnet" ? 5001 : 1381;
+export const WORLDCHAIN_NETWORK_CHAIN_ID =
+  CLUSTER === "mainnet" ? 480 : CLUSTER === "testnet" ? 4801 : 1381;
 
 export const getEvmChainId = (chainId: ChainId) =>
   chainId === CHAIN_ID_ETH
@@ -855,6 +869,8 @@ export const getEvmChainId = (chainId: ChainId) =>
     ? XLAYER_NETWORK_CHAIN_ID
     : chainId === CHAIN_ID_MANTLE
     ? MANTLE_NETWORK_CHAIN_ID
+    : chainId === CHAIN_ID_WORLDCHAIN
+    ? WORLDCHAIN_NETWORK_CHAIN_ID
     : undefined;
 export const SOLANA_HOST = process.env.REACT_APP_SOLANA_API_URL
   ? process.env.REACT_APP_SOLANA_API_URL
@@ -1690,6 +1706,15 @@ export const ARBWETH_ADDRESS =
     ? "0x0000000000000000000000000000000000000000"
     : "0xDDb64fE46a91D46ee29420539FC25FD07c5FEa3E";
 export const ARBWETH_DECIMALS = 18;
+
+export const WORLDWETH_ADDRESS =
+  CLUSTER === "mainnet"
+    ? "0x4200000000000000000000000000000000000006"
+    : CLUSTER === "testnet"
+    ? "0x4200000000000000000000000000000000000006"
+    : "0xDDb64fE46a91D46ee29420539FC25FD07c5FEa3E";
+export const WORLDWETH_DECIMALS = 18;
+
 
 export const ALGO_DECIMALS = 6;
 

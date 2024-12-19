@@ -27,6 +27,7 @@ import {
   CHAIN_ID_SUI,
   CHAIN_ID_ARBITRUM,
   CHAIN_ID_BASE,
+  CHAIN_ID_WORLDCHAIN,
 } from "@certusone/wormhole-sdk";
 import { Dispatch } from "@reduxjs/toolkit";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
@@ -66,6 +67,7 @@ import oasisIcon from "../icons/oasis-network-rose-logo.svg";
 import polygonIcon from "../icons/polygon.svg";
 import aptosIcon from "../icons/aptos.svg";
 import suiIcon from "../icons/sui.svg";
+import worldchainIcon from "../icons/worldchain.svg";
 import {
   errorSourceParsedTokenAccounts as errorSourceParsedTokenAccountsNFT,
   fetchSourceParsedTokenAccounts as fetchSourceParsedTokenAccountsNFT,
@@ -135,6 +137,8 @@ import {
   BASE_WETH_DECIMALS,
   CLUSTER,
   SUI_NATIVE_TOKEN_KEY,
+  WORLDWETH_ADDRESS,
+  WORLDWETH_DECIMALS,
 } from "../utils/consts";
 import { makeNearAccount } from "../utils/near";
 import {
@@ -603,6 +607,30 @@ const createNativeArbitrumParsedTokenAccount = (
           "arbETH", //A white lie for display purposes
           "arbEth", //A white lie for display purposes
           arbitrumIcon,
+          true //isNativeAsset
+        );
+      });
+};
+
+// TO DO: Update this function to create a native asset for the other evm chains
+const createNativeWorldchainParsedTokenAccount = (
+  provider: Provider,
+  signerAddress: string | undefined
+) => {
+  return !(provider && signerAddress)
+    ? Promise.reject()
+    : provider.getBalance(signerAddress).then((balanceInWei) => {
+        const balanceInEth = ethers.utils.formatEther(balanceInWei);
+        return createParsedTokenAccount(
+          signerAddress, //public key
+          WORLDWETH_ADDRESS, //Mint key, On the other side this will be weth, so this is hopefully a white lie.
+          balanceInWei.toString(), //amount, in wei
+          WORLDWETH_DECIMALS,
+          parseFloat(balanceInEth), //This loses precision, but is a limitation of the current datamodel. This field is essentially deprecated
+          balanceInEth.toString(), //This is the actual display field, which has full precision.
+          "worldETH", //A white lie for display purposes
+          "worldETH", //A white lie for display purposes
+          worldchainIcon,
           true //isNativeAsset
         );
       });
@@ -1791,6 +1819,41 @@ function useGetAvailableTokens(nft: boolean = false) {
       cancelled = true;
     };
   }, [lookupChain, provider, signerAddress, nft, ethNativeAccount]);
+
+  //Worldchain native asset load
+  useEffect(() => {
+    let cancelled = false;
+    if (
+      signerAddress &&
+      lookupChain === CHAIN_ID_WORLDCHAIN &&
+      !ethNativeAccount &&
+      !nft
+    ) {
+      setEthNativeAccountLoading(true);
+      createNativeWorldchainParsedTokenAccount(provider, signerAddress).then(
+        (result) => {
+          console.log("create native account returned with value", result);
+          if (!cancelled) {
+            setEthNativeAccount(result);
+            setEthNativeAccountLoading(false);
+            setEthNativeAccountError("");
+          }
+        },
+        (error) => {
+          if (!cancelled) {
+            setEthNativeAccount(undefined);
+            setEthNativeAccountLoading(false);
+            setEthNativeAccountError("Unable to retrieve your MATIC balance.");
+          }
+        }
+      );
+    }
+
+    return () => {
+      cancelled = true;
+    };
+  }, [lookupChain, provider, signerAddress, nft, ethNativeAccount]);
+
 
   //Ethereum covalent or blockscout accounts load
   useEffect(() => {
