@@ -211,30 +211,27 @@ export default function SmartAddress({
         CLUSTER === "testnet" ? "testnet" : "mainnet"
       }/address/${useableAddress}`
     : chainId === CHAIN_ID_WORLDCHAIN
-      ? `https://${
-          CLUSTER === "testnet" ? "worldchain-sepolia.explorer.alchemy.com" : "worldscan.org"
-        }/${
-          isAsset ? "token" : "address"
-        }/${useableAddress}`
+    ? `https://${
+        CLUSTER === "testnet"
+          ? "worldchain-sepolia.explorer.alchemy.com"
+          : "worldscan.org"
+      }/${isAsset ? "token" : "address"}/${useableAddress}`
     : chainId === CHAIN_ID_SCROLL
     ? `https://${
         CLUSTER === "testnet" ? "sepolia.scrollscan.dev" : "scrollscan.com"
-      }/${
-        isAsset ? "token" : "address"
-      }/${useableAddress}`
+      }/${isAsset ? "token" : "address"}/${useableAddress}`
     : chainId === CHAIN_ID_MANTLE
     ? `https://${
-        CLUSTER === "testnet" ? "explorer.testnet.mantle.xyz" : "explorer.mantle.xyz"
-      }/${
-        isAsset ? "token" : "address"
-      }/${useableAddress}`
-
+        CLUSTER === "testnet"
+          ? "explorer.testnet.mantle.xyz"
+          : "explorer.mantle.xyz"
+      }/${isAsset ? "token" : "address"}/${useableAddress}`
     : chainId === CHAIN_ID_XLAYER
     ? `https://${
-        CLUSTER === "testnet" ? "www.okx.com/web3/explorer/xlayer-test" : "www.okx.com/web3/explorer/xlayer"
-      }/${
-        isAsset ? "token" : "address"
-      }/${useableAddress}`
+        CLUSTER === "testnet"
+          ? "www.okx.com/web3/explorer/xlayer-test"
+          : "www.okx.com/web3/explorer/xlayer"
+      }/${isAsset ? "token" : "address"}/${useableAddress}`
     : chainId === CHAIN_ID_APTOS
     ? propertyVersion !== undefined // NFT
       ? `https://explorer.aptoslabs.com/token/${useableAddress}/${propertyVersion}${

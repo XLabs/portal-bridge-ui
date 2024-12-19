@@ -112,9 +112,7 @@ export interface ChainInfo {
   logo: string;
 }
 
-export const DISABLED_CHAINS: Array<Partial<ChainId>> = [
-  CHAIN_ID_BLAST,
-];
+export const DISABLED_CHAINS: Array<Partial<ChainId>> = [CHAIN_ID_BLAST];
 
 export const CHAINS: ChainInfo[] =
   CLUSTER === "mainnet"
@@ -262,7 +260,7 @@ export const CHAINS: ChainInfo[] =
         {
           id: CHAIN_ID_WORLDCHAIN,
           name: "World Chain",
-          logo: worldchainIcon
+          logo: worldchainIcon,
         },
       ]
     : CLUSTER === "testnet"
@@ -405,7 +403,7 @@ export const CHAINS: ChainInfo[] =
         {
           id: CHAIN_ID_WORLDCHAIN,
           name: "World Chain",
-          logo: worldchainIcon
+          logo: worldchainIcon,
         },
       ]
     : [

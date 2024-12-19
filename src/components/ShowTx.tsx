@@ -191,20 +191,26 @@ export default function ShowTx({
         }`
       : chainId === CHAIN_ID_WORLDCHAIN
       ? `https://${
-          CLUSTER === "testnet" ? "worldchain-sepolia.explorer.alchemy.com" : "worldscan.org"
+          CLUSTER === "testnet"
+            ? "worldchain-sepolia.explorer.alchemy.com"
+            : "worldscan.org"
         }/tx/${tx?.id}`
       : chainId === CHAIN_ID_SCROLL
       ? `https://${
-        CLUSTER === "testnet" ? "sepolia.scrollscan.dev" : "scrollscan.com"
-      }/tx/${tx?.id}`
+          CLUSTER === "testnet" ? "sepolia.scrollscan.dev" : "scrollscan.com"
+        }/tx/${tx?.id}`
       : chainId === CHAIN_ID_MANTLE
       ? `https://${
-        CLUSTER === "testnet" ? "explorer.testnet.mantle.xyz" : "explorer.mantle.xyz"
-      }/tx/${tx?.id}`
+          CLUSTER === "testnet"
+            ? "explorer.testnet.mantle.xyz"
+            : "explorer.mantle.xyz"
+        }/tx/${tx?.id}`
       : chainId === CHAIN_ID_XLAYER
       ? `https://${
-        CLUSTER === "testnet" ? "www.okx.com/web3/explorer/xlayer-test" : "www.okx.com/web3/explorer/xlayer"
-      }/tx/${tx?.id}`
+          CLUSTER === "testnet"
+            ? "www.okx.com/web3/explorer/xlayer-test"
+            : "www.okx.com/web3/explorer/xlayer"
+        }/tx/${tx?.id}`
       : undefined;
   const explorerName = getExplorerName(chainId);
 

@@ -653,7 +653,7 @@ const createNativeParsedTokenAccount = (
   wrappedAddress: string,
   decimals: number,
   icon: string,
-  symbol: string,
+  symbol: string
 ) => {
   return !(provider && signerAddress)
     ? Promise.reject()
@@ -1892,46 +1892,72 @@ function useGetAvailableTokens(nft: boolean = false) {
     };
   }, [lookupChain, provider, signerAddress, nft, ethNativeAccount]);
 
-    //Scroll, Mantle, Xlayer native asset load
-    useEffect(() => {
-      let cancelled = false;
-      if (
-        signerAddress &&
-        (lookupChain === CHAIN_ID_SCROLL ||
-          lookupChain === CHAIN_ID_MANTLE ||
-          lookupChain === CHAIN_ID_XLAYER) &&
-        !ethNativeAccount &&
-        !nft
-      ) {
-        setEthNativeAccountLoading(true);
-        let address = lookupChain === CHAIN_ID_SCROLL ? SCROLLWETH_ADDRESS : lookupChain === CHAIN_ID_MANTLE ? WMNT_ADDRESS : WOKB_ADDRESS;
-        let decimals = lookupChain === CHAIN_ID_SCROLL ? SCROLLWETH_DECIMALS : lookupChain === CHAIN_ID_MANTLE ? WMNT_DECIMALS : WOKB_DECIMALS;
-        let icon = lookupChain === CHAIN_ID_SCROLL ? scrollIcon : lookupChain === CHAIN_ID_MANTLE ? chainToIcon("Mantle") : chainToIcon("Xlayer");
-        let symbol = lookupChain === CHAIN_ID_SCROLL ? "scrollETH" : lookupChain === CHAIN_ID_MANTLE ? "MNT" : "OKB";
-        createNativeParsedTokenAccount(provider, signerAddress, address, decimals, icon, symbol).then(
-          (result) => {
-            console.log("create native account returned with value", result);
-            if (!cancelled) {
-              setEthNativeAccount(result);
-              setEthNativeAccountLoading(false);
-              setEthNativeAccountError("");
-            }
-          },
-          (error) => {
-            if (!cancelled) {
-              setEthNativeAccount(undefined);
-              setEthNativeAccountLoading(false);
-              setEthNativeAccountError("Unable to retrieve your MATIC balance.");
-            }
+  //Scroll, Mantle, Xlayer native asset load
+  useEffect(() => {
+    let cancelled = false;
+    if (
+      signerAddress &&
+      (lookupChain === CHAIN_ID_SCROLL ||
+        lookupChain === CHAIN_ID_MANTLE ||
+        lookupChain === CHAIN_ID_XLAYER) &&
+      !ethNativeAccount &&
+      !nft
+    ) {
+      setEthNativeAccountLoading(true);
+      let address =
+        lookupChain === CHAIN_ID_SCROLL
+          ? SCROLLWETH_ADDRESS
+          : lookupChain === CHAIN_ID_MANTLE
+          ? WMNT_ADDRESS
+          : WOKB_ADDRESS;
+      let decimals =
+        lookupChain === CHAIN_ID_SCROLL
+          ? SCROLLWETH_DECIMALS
+          : lookupChain === CHAIN_ID_MANTLE
+          ? WMNT_DECIMALS
+          : WOKB_DECIMALS;
+      let icon =
+        lookupChain === CHAIN_ID_SCROLL
+          ? scrollIcon
+          : lookupChain === CHAIN_ID_MANTLE
+          ? chainToIcon("Mantle")
+          : chainToIcon("Xlayer");
+      let symbol =
+        lookupChain === CHAIN_ID_SCROLL
+          ? "scrollETH"
+          : lookupChain === CHAIN_ID_MANTLE
+          ? "MNT"
+          : "OKB";
+      createNativeParsedTokenAccount(
+        provider,
+        signerAddress,
+        address,
+        decimals,
+        icon,
+        symbol
+      ).then(
+        (result) => {
+          console.log("create native account returned with value", result);
+          if (!cancelled) {
+            setEthNativeAccount(result);
+            setEthNativeAccountLoading(false);
+            setEthNativeAccountError("");
           }
-        );
-      }
-  
-      return () => {
-        cancelled = true;
-      };
-    }, [lookupChain, provider, signerAddress, nft, ethNativeAccount]);
-  
+        },
+        (error) => {
+          if (!cancelled) {
+            setEthNativeAccount(undefined);
+            setEthNativeAccountLoading(false);
+            setEthNativeAccountError("Unable to retrieve your MATIC balance.");
+          }
+        }
+      );
+    }
+
+    return () => {
+      cancelled = true;
+    };
+  }, [lookupChain, provider, signerAddress, nft, ethNativeAccount]);
 
   //Ethereum covalent or blockscout accounts load
   useEffect(() => {
