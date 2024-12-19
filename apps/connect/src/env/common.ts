@@ -27,6 +27,7 @@ export const chains = [
   "Scroll",
   "Xlayer",
   "Mantle",
+  "Worldchain",
 ];
 
 export const MAINNET_RPCS = {
@@ -48,7 +49,7 @@ export const wormholeConnectConfigCommon: Partial<WormholeConnectConfig> = {
       href: `https://wormholescan.io/#/txs?address={:address}&network=${CLUSTER}`,
     },
     menu: [],
-    // showInProgressWidget: true,
+    showInProgressWidget: true,
   },
   network: CLUSTER,
   rpcs: {},
