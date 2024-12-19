@@ -24,6 +24,9 @@ import {
   CHAIN_ID_SUI,
   CHAIN_ID_BASE,
   CHAIN_ID_WORLDCHAIN,
+  CHAIN_ID_SCROLL,
+  CHAIN_ID_MANTLE,
+  CHAIN_ID_XLAYER,
 } from "@certusone/wormhole-sdk";
 import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk/lib/esm";
 import { Button, makeStyles, Typography } from "@material-ui/core";
@@ -188,7 +191,25 @@ export default function ShowTx({
         }`
       : chainId === CHAIN_ID_WORLDCHAIN
       ? `https://${
-          CLUSTER === "testnet" ? "worldchain-sepolia.explorer.alchemy.com" : "worldscan.org"
+          CLUSTER === "testnet"
+            ? "worldchain-sepolia.explorer.alchemy.com"
+            : "worldscan.org"
+        }/tx/${tx?.id}`
+      : chainId === CHAIN_ID_SCROLL
+      ? `https://${
+          CLUSTER === "testnet" ? "sepolia.scrollscan.dev" : "scrollscan.com"
+        }/tx/${tx?.id}`
+      : chainId === CHAIN_ID_MANTLE
+      ? `https://${
+          CLUSTER === "testnet"
+            ? "explorer.testnet.mantle.xyz"
+            : "explorer.mantle.xyz"
+        }/tx/${tx?.id}`
+      : chainId === CHAIN_ID_XLAYER
+      ? `https://${
+          CLUSTER === "testnet"
+            ? "www.okx.com/web3/explorer/xlayer-test"
+            : "www.okx.com/web3/explorer/xlayer"
         }/tx/${tx?.id}`
       : undefined;
   const explorerName = getExplorerName(chainId);

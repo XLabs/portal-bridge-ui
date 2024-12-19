@@ -7,12 +7,15 @@ import {
   CHAIN_ID_FANTOM,
   CHAIN_ID_KARURA,
   CHAIN_ID_KLAYTN,
+  CHAIN_ID_MANTLE,
   CHAIN_ID_MOONBEAM,
   CHAIN_ID_NEON,
   CHAIN_ID_OASIS,
   CHAIN_ID_POLYGON,
+  CHAIN_ID_SCROLL,
   CHAIN_ID_SOLANA,
   CHAIN_ID_WORLDCHAIN,
+  CHAIN_ID_XLAYER,
   ChainId,
   isEVMChain,
   isTerraChain,
@@ -46,6 +49,7 @@ import {
   CHAINS_BY_ID,
   CLUSTER,
   getHowToAddTokensToWalletUrl,
+  SCROLLWETH_ADDRESS,
   WAVAX_ADDRESS,
   WBNB_ADDRESS,
   WETH_ADDRESS,
@@ -53,7 +57,9 @@ import {
   WGLMR_ADDRESS,
   WKLAY_ADDRESS,
   WMATIC_ADDRESS,
+  WMNT_ADDRESS,
   WNEON_ADDRESS,
+  WOKB_ADDRESS,
   WORLDWETH_ADDRESS,
   WROSE_ADDRESS,
 } from "../../utils/consts";
@@ -206,6 +212,18 @@ function Redeem() {
     targetChain === CHAIN_ID_WORLDCHAIN &&
     targetAsset &&
     targetAsset.toLowerCase() === WORLDWETH_ADDRESS.toLowerCase();
+  const isScrollNative =
+    targetChain === CHAIN_ID_SCROLL &&
+    targetAsset &&
+    targetAsset.toLowerCase() === SCROLLWETH_ADDRESS.toLowerCase();
+  const isMantleNative =
+    targetChain === CHAIN_ID_MANTLE &&
+    targetAsset &&
+    targetAsset.toLowerCase() === WMNT_ADDRESS.toLowerCase();
+  const isXlayerNative =
+    targetChain === CHAIN_ID_XLAYER &&
+    targetAsset &&
+    targetAsset.toLowerCase() === WOKB_ADDRESS.toLowerCase();
   const isSolNative =
     targetChain === CHAIN_ID_SOLANA &&
     targetAsset &&
@@ -222,6 +240,9 @@ function Redeem() {
     isMoonbeamNative ||
     isArbitrumNative ||
     isWorldchainNative ||
+    isScrollNative ||
+    isMantleNative ||
+    isXlayerNative ||
     isSolNative;
   const [useNativeRedeem, setUseNativeRedeem] = useState(true);
   const toggleNativeRedeem = useCallback(() => {

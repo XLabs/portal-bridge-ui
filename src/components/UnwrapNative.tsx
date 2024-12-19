@@ -12,6 +12,9 @@ import {
   CHAIN_ID_BASE,
   ethers_contracts,
   CHAIN_ID_WORLDCHAIN,
+  CHAIN_ID_SCROLL,
+  CHAIN_ID_XLAYER,
+  CHAIN_ID_MANTLE,
 } from "@certusone/wormhole-sdk";
 import {
   Container,
@@ -39,6 +42,7 @@ import neonIcon from "../icons/neon.svg";
 import oasisIcon from "../icons/oasis-network-rose-logo.svg";
 import polygonIcon from "../icons/polygon.svg";
 import worldchainIcon from "../icons/worldchain.svg";
+import scrollIcon from "../icons/scroll.svg";
 import { COLORS } from "../muiTheme";
 import {
   DataWrapper,
@@ -72,11 +76,18 @@ import {
   BASE_WETH_DECIMALS,
   WORLDWETH_ADDRESS,
   WORLDWETH_DECIMALS,
+  SCROLLWETH_ADDRESS,
+  SCROLLWETH_DECIMALS,
+  WMNT_ADDRESS,
+  WMNT_DECIMALS,
+  WOKB_ADDRESS,
+  WOKB_DECIMALS,
 } from "../utils/consts";
 import parseError from "../utils/parseError";
 import ButtonWithLoader from "./ButtonWithLoader";
 import ConnectWalletButton from "./ConnectWalletButton";
 import HeaderText from "./HeaderText";
+import { chainToIcon } from "@wormhole-foundation/sdk-icons";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -183,6 +194,24 @@ const supportedTokens = {
     icon: worldchainIcon,
     address: WORLDWETH_ADDRESS,
     decimals: WORLDWETH_DECIMALS,
+  },
+  [CHAIN_ID_SCROLL]: {
+    symbol: "WETH",
+    icon: scrollIcon,
+    address: SCROLLWETH_ADDRESS,
+    decimals: SCROLLWETH_DECIMALS,
+  },
+  [CHAIN_ID_MANTLE]: {
+    symbol: "WMNT",
+    icon: chainToIcon("Mantle"),
+    address: WMNT_ADDRESS,
+    decimals: WMNT_DECIMALS,
+  },
+  [CHAIN_ID_XLAYER]: {
+    symbol: "WOKB",
+    icon: chainToIcon("Xlayer"),
+    address: WOKB_ADDRESS,
+    decimals: WOKB_DECIMALS,
   },
 } as const;
 
