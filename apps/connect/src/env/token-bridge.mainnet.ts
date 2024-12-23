@@ -758,6 +758,10 @@ export const ENV: Env = {
           Base: "0xb166e8b140d35d9d8226e40c09f757bac5a4d87d",
           Bsc: "0xfebfa339e44c28e2aa9e62ea1027c9cb4e378605",
         },
+        HarryPotterObamaSonic10Inu: {
+          Solana: "CTgiaZUK12kCcB8sosn4Nt2NZtzLgtPqDwyQyr2syATC",
+          Base: "0x2a06a17cbc6d0032cac2c6696da90f29d39a1a29",
+        },
       },
       tokensConfig: {
         stBTC: {
@@ -1555,6 +1559,19 @@ export const ENV: Env = {
           coinGeckoId: "non-playable-coin",
           decimals: 18,
         },
+        HarryPotterObamaSonic10Inu: {
+          key: "HarryPotterObamaSonic10Inu",
+          symbol: "BITCOIN",
+          displayName: "HarryPotterObamaSonic10Inu",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0x72e4f9F808C49A2a61dE9C5896298920Dc4EEEa9",
+          },
+          icon: "images/tokens/HarryPotterObamaSonic10Inu.png",
+          coinGeckoId: "harrypotterobamasonic10in",
+          decimals: 18,
+        }
       },
     }
   ),
