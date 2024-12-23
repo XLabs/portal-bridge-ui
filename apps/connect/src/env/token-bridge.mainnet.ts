@@ -753,6 +753,9 @@ export const ENV: Env = {
           Mantle: "0x2a76b7dE7902BA089EdD39C17Df38c4a2CdDAd0B",
           Xlayer: "0x8173Aba689eC001af9918B170a3946826212A366",
         },
+        AltLayer: {
+          Solana: "wiwDfzGBb4radfYGpQo5EGeqv3q45ms6tTiaJc7Pzub",
+        },
       },
       tokensConfig: {
         stBTC: {
@@ -1535,6 +1538,18 @@ export const ENV: Env = {
           },
           icon: "https://assets.coingecko.com/coins/images/31069/large/worldcoin.jpeg?1696529903",
           coinGeckoId: "worldcoin-wld",
+          decimals: 18,
+        },
+        AltLayer: {
+          key: "AltLayer",
+          symbol: "ALT",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0x8457ca5040ad67fdebbcc8edce889a335bc0fbfb",
+          },
+          icon: "https://assets.coingecko.com/coins/images/34608/large/Logomark_200x200.png",
+          coinGeckoId: "altlayer",
           decimals: 18,
         },
       },
