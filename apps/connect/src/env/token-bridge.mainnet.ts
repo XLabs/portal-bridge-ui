@@ -576,6 +576,30 @@ export const ENV: Env = {
                 ],
               },
             ],
+            ValleyDAO: [
+              {
+                chain: "Ethereum",
+                manager: "0x24E85C241766E1e009388cdCe3B70096d2Fd6892",
+                token: "0x761A3557184cbC07b7493da0661c41177b2f97fA",
+                transceiver: [
+                  {
+                    address: "0x1cb452bEA141118f33ae076265d9302Fa1c7Fbf9",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Solana",
+                manager: "nttgQT42hdZ1vNryzXwu2DzCVnxdDrAYyZnYs51gSSd",
+                token: "growFDf9teg9gwVTTY3DgpPXU31qBrnbSQCqtY2vkR8",
+                transceiver: [
+                  {
+                    address: "J5jVpK4ofWPRDiJofWtFccq2ftQqyUz7yseRAbgDv94u",
+                    type: "wormhole",
+                  },
+                ],
+              },
+            ],
             HoudiniSwap: [
               {
                 chain: "Ethereum",
@@ -1451,6 +1475,30 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/39362/large/LUMOS_LOGO.png?1721893262",
           coinGeckoId: "lumoscoin",
           decimals: 18,
+        },
+        ValleyDAOEthereum: {
+          key: "ValleyDAOEthereum",
+          symbol: "GROW",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0x761A3557184cbC07b7493da0661c41177b2f97fA",
+          },
+          icon: "https://assets.coingecko.com/coins/images/32991/large/VD_logo_round_200x200.png?1733563659",
+          coinGeckoId: "valleydao",
+          decimals: 18,
+        },
+        ValleyDAOSolana: {
+          key: "ValleyDAOSolana",
+          symbol: "GROW",
+          nativeChain: "Solana",
+          tokenId: {
+            chain: "Solana",
+            address: "growFDf9teg9gwVTTY3DgpPXU31qBrnbSQCqtY2vkR8",
+          },
+          icon: "https://assets.coingecko.com/coins/images/32991/large/VD_logo_round_200x200.png?1733563659",
+          coinGeckoId: "valleydao",
+          decimals: 9,
         },
         HoudiniSwapEthereum: {
           key: "HoudiniSwapEthereum",
