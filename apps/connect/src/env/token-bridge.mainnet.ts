@@ -576,6 +576,31 @@ export const ENV: Env = {
                 ],
               },
             ],
+            HoudiniSwap: [
+              {
+                chain: "Ethereum",
+                manager: "0xfBcCAc20483dA7c53BC95EC3e1AC4d26b5860b7a",
+                token: "0x922D8563631B03C2c4cf817f4d18f6883AbA0109",
+                transceiver: [
+                  {
+                    address: "0x4C4e1F82d296D18B85982e0fd68324E8EA9950CA",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Solana",
+                manager: "NTtMFrtV9uzEW9skftVkA7EsR6dUhPtpMNK9J2aCnpG",
+                token: "App2Sp9pgmQG7yD6uVaygULxALf4TpfALgnhHEkJimih",
+                transceiver: [
+                  {
+                    address: "BqdFMSkC1AfUadPCKyREoseGxsJk6edQtXCRKtKE7McN",
+                    type: "wormhole",
+                  },
+                ],
+                quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
+              },
+            ],
           },
         }),
       ],
@@ -1426,6 +1451,30 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/39362/large/LUMOS_LOGO.png?1721893262",
           coinGeckoId: "lumoscoin",
           decimals: 18,
+        },
+        HoudiniSwapEthereum: {
+          key: "HoudiniSwapEthereum",
+          symbol: "LOCK",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0x922D8563631B03C2c4cf817f4d18f6883AbA0109",
+          },
+          icon: "https://assets.coingecko.com/coins/images/35132/large/LOCK_Logo.png?1707443455",
+          coinGeckoId: "houdini-swap",
+          decimals: 18,
+        },
+        HoudiniSwapSolana: {
+          key: "HoudiniSwapSolana",
+          symbol: "LOCK",
+          nativeChain: "Solana",
+          tokenId: {
+            chain: "Solana",
+            address: "App2Sp9pgmQG7yD6uVaygULxALf4TpfALgnhHEkJimih",
+          },
+          icon: "https://assets.coingecko.com/coins/images/35132/large/LOCK_Logo.png?1707443455",
+          coinGeckoId: "houdini-swap",
+          decimals: 9,
         },
         Worldcoin: {
           key: "Worldcoin",
