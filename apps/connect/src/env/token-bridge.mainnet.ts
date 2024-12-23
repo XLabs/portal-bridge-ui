@@ -1571,7 +1571,7 @@ export const ENV: Env = {
           icon: "images/tokens/HarryPotterObamaSonic10Inu.png",
           coinGeckoId: "harrypotterobamasonic10in",
           decimals: 18,
-        }
+        },
       },
     }
   ),
