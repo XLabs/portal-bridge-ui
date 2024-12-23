@@ -598,6 +598,30 @@ export const ENV: Env = {
                     type: "wormhole",
                   },
                 ],
+              },
+            ],
+            HoudiniSwap: [
+              {
+                chain: "Ethereum",
+                manager: "0xfBcCAc20483dA7c53BC95EC3e1AC4d26b5860b7a",
+                token: "0x922D8563631B03C2c4cf817f4d18f6883AbA0109",
+                transceiver: [
+                  {
+                    address: "0x4C4e1F82d296D18B85982e0fd68324E8EA9950CA",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Solana",
+                manager: "NTtMFrtV9uzEW9skftVkA7EsR6dUhPtpMNK9J2aCnpG",
+                token: "App2Sp9pgmQG7yD6uVaygULxALf4TpfALgnhHEkJimih",
+                transceiver: [
+                  {
+                    address: "BqdFMSkC1AfUadPCKyREoseGxsJk6edQtXCRKtKE7McN",
+                    type: "wormhole",
+                  },
+                ],
                 quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
               },
             ],
@@ -708,6 +732,26 @@ export const ENV: Env = {
         },
         Lumos: {
           Solana: "6xTAKg6SQejorPyubo3asYY1sLco66DA5vDbfZbheVub",
+        },
+        Worldcoin: {
+          Ethereum: "0xE0A18B60BeBEdcb788585b01ab23439fD6b70F0c",
+          Solana: "WSgvEfWpAUg5xACJkc1dakYAqJm8eGge3U7LGs7oqqJ",
+          Arbitrum: "0x662565cb134881D6F7C2b104143E6217555A5628",
+          Base: "0xDDF45E2B3256b2c89551c418f9b2A47d04e0F391",
+          Sui: "0xc2ef84967f43f447e76be144cc44ebd69ddf85a0ae612101af780ec251d2f15d::coin::COIN",
+          Bsc: "0x0d330283e8F3414D44Afd0796C50cf1FF04982d6",
+          Optimism: "0xED6Ce6D7c5c623D605caf4b9e3967BabCB069D34",
+          Fantom: "0x1fd9c1F569fb3bbD6ad4dfA4ABAeF8b269EC3339",
+          Polygon: "0x30aD88e1C594F13B43aa1e53c526D0ab4b2077d0",
+          Celo: "0x9836c625210389a05e1d7473Cf82AC3c627f61A4",
+          Moonbeam: "0x341d95086ec63A08836dcE66FAd837aA49995B7D",
+          Klaytn: "0xf1503817FE623438bBF0A8E03258b5eDcdaFd214",
+          Aptos:
+            "0x01aad41572eb11435df33d6d4a605814a4b6ee73fc2d566204220d8f4bfee7fe::coin::T",
+          Avalanche: "0x768a15C2942880A997594eb1451D8950367A2184",
+          Scroll: "0x2b02D2c8F44e982b462fee4B97fa6bD49388bEc3",
+          Mantle: "0x2a76b7dE7902BA089EdD39C17Df38c4a2CdDAd0B",
+          Xlayer: "0x8173Aba689eC001af9918B170a3946826212A366",
         },
       },
       tokensConfig: {
@@ -1455,6 +1499,43 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/32991/large/VD_logo_round_200x200.png?1733563659",
           coinGeckoId: "valleydao",
           decimals: 9,
+        },
+        HoudiniSwapEthereum: {
+          key: "HoudiniSwapEthereum",
+          symbol: "LOCK",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0x922D8563631B03C2c4cf817f4d18f6883AbA0109",
+          },
+          icon: "https://assets.coingecko.com/coins/images/35132/large/LOCK_Logo.png?1707443455",
+          coinGeckoId: "houdini-swap",
+          decimals: 18,
+        },
+        HoudiniSwapSolana: {
+          key: "HoudiniSwapSolana",
+          symbol: "LOCK",
+          nativeChain: "Solana",
+          tokenId: {
+            chain: "Solana",
+            address: "App2Sp9pgmQG7yD6uVaygULxALf4TpfALgnhHEkJimih",
+          },
+          icon: "https://assets.coingecko.com/coins/images/35132/large/LOCK_Logo.png?1707443455",
+          coinGeckoId: "houdini-swap",
+          decimals: 9,
+        },
+        Worldcoin: {
+          key: "Worldcoin",
+          symbol: "WLD",
+          displayName: "Worldcoin",
+          nativeChain: "Worldchain",
+          tokenId: {
+            chain: "Worldchain",
+            address: "0x2cFc85d8E48F8EAB294be644d9E25C3030863003",
+          },
+          icon: "https://assets.coingecko.com/coins/images/31069/large/worldcoin.jpeg?1696529903",
+          coinGeckoId: "worldcoin-wld",
+          decimals: 18,
         },
       },
     }
