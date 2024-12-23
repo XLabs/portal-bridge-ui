@@ -753,6 +753,15 @@ export const ENV: Env = {
           Mantle: "0x2a76b7dE7902BA089EdD39C17Df38c4a2CdDAd0B",
           Xlayer: "0x8173Aba689eC001af9918B170a3946826212A366",
         },
+        NPC: {
+          Solana: "BeGY8KqKxboEwRbJd1q9H2K829jS4Rc5dEyNMYXCbV5p",
+          Base: "0xb166e8b140d35d9d8226e40c09f757bac5a4d87d",
+          Bsc: "0xfebfa339e44c28e2aa9e62ea1027c9cb4e378605",
+        },
+        HarryPotterObamaSonic10Inu: {
+          Solana: "CTgiaZUK12kCcB8sosn4Nt2NZtzLgtPqDwyQyr2syATC",
+          Base: "0x2a06a17cbc6d0032cac2c6696da90f29d39a1a29",
+        },
       },
       tokensConfig: {
         stBTC: {
@@ -1535,6 +1544,32 @@ export const ENV: Env = {
           },
           icon: "https://assets.coingecko.com/coins/images/31069/large/worldcoin.jpeg?1696529903",
           coinGeckoId: "worldcoin-wld",
+          decimals: 18,
+        },
+        NPC: {
+          key: "NPC",
+          symbol: "NPC",
+          displayName: "Non-Playable Coin",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0x8ed97a637a790be1feff5e888d43629dc05408f6",
+          },
+          icon: "images/tokens/npc.png",
+          coinGeckoId: "non-playable-coin",
+          decimals: 18,
+        },
+        HarryPotterObamaSonic10Inu: {
+          key: "HarryPotterObamaSonic10Inu",
+          symbol: "BITCOIN",
+          displayName: "HarryPotterObamaSonic10Inu",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0x72e4f9F808C49A2a61dE9C5896298920Dc4EEEa9",
+          },
+          icon: "images/tokens/HarryPotterObamaSonic10Inu.png",
+          coinGeckoId: "harrypotterobamasonic10in",
           decimals: 18,
         },
       },
