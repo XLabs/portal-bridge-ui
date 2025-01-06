@@ -758,6 +758,9 @@ export const ENV: Env = {
           Base: "0xb166e8b140d35d9d8226e40c09f757bac5a4d87d",
           Bsc: "0xfebfa339e44c28e2aa9e62ea1027c9cb4e378605",
         },
+        AltLayer: {
+          Solana: "wiwDfzGBb4radfYGpQo5EGeqv3q45ms6tTiaJc7Pzub",
+        },
       },
       tokensConfig: {
         stBTC: {
@@ -1553,6 +1556,18 @@ export const ENV: Env = {
           },
           icon: "images/tokens/npc.png",
           coinGeckoId: "non-playable-coin",
+          decimals: 18,
+        },
+        AltLayer: {
+          key: "AltLayer",
+          symbol: "ALT",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0x8457ca5040ad67fdebbcc8edce889a335bc0fbfb",
+          },
+          icon: "https://assets.coingecko.com/coins/images/34608/large/Logomark_200x200.png",
+          coinGeckoId: "altlayer",
           decimals: 18,
         },
       },
