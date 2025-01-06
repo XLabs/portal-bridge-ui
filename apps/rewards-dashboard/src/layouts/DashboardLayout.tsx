@@ -214,7 +214,7 @@ const ConnectedDashboard = () => {
                 <InfoStatWindow
                   header={t`Kamino USDS Held Value Header`}
                   value={formatInteger(kaminoHeld, 6)}
-                  unit="Kamino USDS"
+                  unit="Kamino Lend USDS"
                   infoElement={<Trans>Kamino USDS Held Value Tooltip</Trans>}
                 />
               </div>
