@@ -598,6 +598,7 @@ export const ENV: Env = {
                     type: "wormhole",
                   },
                 ],
+                quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
               },
             ],
             HoudiniSwap: [
@@ -619,6 +620,31 @@ export const ENV: Env = {
                 transceiver: [
                   {
                     address: "BqdFMSkC1AfUadPCKyREoseGxsJk6edQtXCRKtKE7McN",
+                    type: "wormhole",
+                  },
+                ],
+                quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
+              },
+            ],
+            BioProtocol: [
+              {
+                chain: "Ethereum",
+                manager: "0x1783E7d1F498321D7E15044d769621E1beDc7F4C",
+                token: "0xcb1592591996765Ec0eFc1f92599A19767ee5ffA",
+                transceiver: [
+                  {
+                    address: "0x676Cd89c6B6f02d6975547fD7Da1d5A8dbc8a3E1",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Solana",
+                manager: "ntt11hdA4n1PupHhLyT1fsjg4YF9agVz3CTuzLRQs1H",
+                token: "bioJ9JTqW62MLz7UKHU69gtKhPpGi1BQhccj2kmSvUJ",
+                transceiver: [
+                  {
+                    address: "5Yaf3N7MAEThp5FBBjUri8rv9mWxFEiJBjTKYYeKEi37",
                     type: "wormhole",
                   },
                 ],
@@ -1569,6 +1595,30 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/34608/large/Logomark_200x200.png",
           coinGeckoId: "altlayer",
           decimals: 18,
+        },
+        BioProtocolEthereum: {
+          key: "BioProtocolEthereum",
+          symbol: "BIO",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0xcb1592591996765Ec0eFc1f92599A19767ee5ffA",
+          },
+          icon: "images/tokens/bio.svg",
+          coinGeckoId: "bio-protocol",
+          decimals: 18,
+        },
+        BioProtocolSolana: {
+          key: "BioProtocolSolana",
+          symbol: "BIO",
+          nativeChain: "Solana",
+          tokenId: {
+            chain: "Solana",
+            address: "bioJ9JTqW62MLz7UKHU69gtKhPpGi1BQhccj2kmSvUJ",
+          },
+          icon: "images/tokens/bio.svg",
+          coinGeckoId: "bio-protocol",
+          decimals: 9,
         },
       },
     }
