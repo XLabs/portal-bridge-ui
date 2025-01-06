@@ -625,6 +625,41 @@ export const ENV: Env = {
                 quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
               },
             ],
+            Euler: [
+              {
+                chain: "Ethereum",
+                manager: "0x9502ad5ED0CeEd39EB604Ae7f411836bd8e7b925",
+                token: "0xd9Fcd98c322942075A5C3860693e9f4f03AAE07b",
+                transceiver: [
+                  {
+                    address: "0x73cb24f20Ef23fd24D52969398C62ED6030C00cD",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Base",
+                manager: "0xf673457b6D6dF5091F000102652395f0933C513a",
+                token: "0xa153Ad732F831a79b5575Fa02e793EC4E99181b0",
+                transceiver: [
+                  {
+                    address: "0x0F2Ac6Aa16F7DE9054f680831e08F2DBD2dB3dF1",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Polygon",
+                manager: "0xe6b731F19cb0DF45E964A07c3622631168d67881",
+                token: "0x1323a02946877e0F0c1CA99468f4429Cc0F0954c",
+                transceiver: [
+                  {
+                    address: "0x032fD324E500710D3Cf919D5062Ee572C4e5B2Bb",
+                    type: "wormhole",
+                  },
+                ],
+              },
+            ],
           },
         }),
       ],
@@ -1568,6 +1603,45 @@ export const ENV: Env = {
           },
           icon: "https://assets.coingecko.com/coins/images/34608/large/Logomark_200x200.png",
           coinGeckoId: "altlayer",
+          decimals: 18,
+        },
+        EulerEthereum: {
+          key: "EulerEthereum",
+          symbol: "EUL",
+          displayName: "Euler",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0xd9Fcd98c322942075A5C3860693e9f4f03AAE07b",
+          },
+          icon: "https://assets.coingecko.com/coins/images/26149/large/Coingecko_logo_%281%29.png",
+          coinGeckoId: "euler",
+          decimals: 18,
+        },
+        EulerBase: {
+          key: "EulerBase",
+          symbol: "EUL",
+          displayName: "Euler",
+          nativeChain: "Base",
+          tokenId: {
+            chain: "Base",
+            address: "0xa153Ad732F831a79b5575Fa02e793EC4E99181b0",
+          },
+          icon: "https://assets.coingecko.com/coins/images/26149/large/Coingecko_logo_%281%29.png",
+          coinGeckoId: "euler",
+          decimals: 18,
+        },
+        EulerPolygon: {
+          key: "EulerPolygon",
+          symbol: "EUL",
+          displayName: "Euler",
+          nativeChain: "Polygon",
+          tokenId: {
+            chain: "Polygon",
+            address: "0x1323a02946877e0F0c1CA99468f4429Cc0F0954c",
+          },
+          icon: "https://assets.coingecko.com/coins/images/26149/large/Coingecko_logo_%281%29.png",
+          coinGeckoId: "euler",
           decimals: 18,
         },
       },
