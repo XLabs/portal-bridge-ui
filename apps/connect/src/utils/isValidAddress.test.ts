@@ -29,7 +29,12 @@ describe("isValidAddress", () => {
         "Solana"
       )
     ).toEqual(true);
-    expect(await isValidAddress("0xe13ca6e4f569a54e9fcd330dcf58d8962ed9ebddabaa1221e732da6e7aa212a9", "Aptos")).toEqual(true);
+    expect(
+      await isValidAddress(
+        "0xe13ca6e4f569a54e9fcd330dcf58d8962ed9ebddabaa1221e732da6e7aa212a9",
+        "Aptos"
+      )
+    ).toEqual(true);
     expect(await isValidAddress("invalid", "Aptos")).toEqual(false);
     expect(await isValidAddress("error", "Aptos")).toEqual(false);
   });
