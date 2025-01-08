@@ -1,7 +1,7 @@
 import base58 from "bs58";
 import * as ethers from "ethers";
 import { isCosmWasmChain, isEVMChain } from "@certusone/wormhole-sdk";
-import { AptosClient } from "aptos";
+import { AptosConfig, Aptos, Network } from "@aptos-labs/ts-sdk";
 import { bech32 } from "bech32";
 import { Chain } from "@wormhole-foundation/sdk";
 import { toChainNameFormat } from "./transferVerification";
@@ -49,10 +49,11 @@ const isValidSolanaAddress = (address: string): boolean => {
 };
 
 // Aptos Validation
-const aptosClient = new AptosClient("https://api.mainnet.aptoslabs.com/v1");
+const config = new AptosConfig({ network: Network.MAINNET });
+const aptos = new Aptos(config);
 const isValidAptosAddress = async (address: string) => {
   try {
-    return !!(await aptosClient.getAccount(address));
+    return !!(await aptos.getAccountInfo({ accountAddress: address }));
   } catch {
     return false;
   }
