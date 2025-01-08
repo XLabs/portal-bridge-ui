@@ -725,7 +725,7 @@ export const ENV: Env = {
           Avalanche: "0x137e3b33DC1Fe64bC6FC3d3fF2A801A2fdfcB4b2",
           Sui: "0xe817f4f6f07f0da308698a4d9cd8af8a5d05b234edc55ce524916dc8d2b42fa5::coin::COIN",
           Aptos:
-            "0x863d1f83048111cb48be29cf86d2d3da6c48b64e6c60aa72ca3e3f4abe198386",
+            "0x863d1f83048111cb48be29cf86d2d3da6c48b64e6c60aa72ca3e3f4abe198386::coin::T",
           Arbitrum: "0x3Ac2EBFf77Aab7cA87FC0e4e1c1b4a5E219957C2",
           Fantom: "0xC07B1b12122e4835e7b3d3920Cd55CA1EB238D6C",
           Base: "0x75A078Ab8d977BCECAFAfAAcA4339e6EACf648d3",
@@ -739,7 +739,7 @@ export const ENV: Env = {
           Optimism: "0x5F33522034D2281667b9354D2e9A0317755146AC",
           Sui: "0x37f44326b8ffd853e74030a00ede720380d164dcc33949aaf729c675865c4da3::coin::COIN",
           Aptos:
-            "0xb628b3c69a4747cadc570ca75efaf43cff1979db3993d85db7d071a984b9e445",
+            "0xb628b3c69a4747cadc570ca75efaf43cff1979db3993d85db7d071a984b9e445::coin::T",
           Fantom: "0x3f3a9fcAdE548b59E2c335E4f2dF2ae4ed4A6B63",
           Base: "0x9e325590933809B3b79B9C892f07D5A89d322542",
           Celo: "0xfA9f0D9b7E903970e16f65BD648ddD282E2772a1",
