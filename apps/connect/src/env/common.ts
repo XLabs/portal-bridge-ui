@@ -44,7 +44,6 @@ export const wormholeConnectConfigCommon: Partial<WormholeConnectConfig> = {
     title: "",
     // cctpWarning: "",
     walletConnectProjectId: envVars.VITE_APP_WALLET_CONNECT_PROJECT_ID || "",
-    showHamburgerMenu: false,
     explorer: {
       href: `https://wormholescan.io/#/txs?address={:address}&network=${CLUSTER}`,
     },
