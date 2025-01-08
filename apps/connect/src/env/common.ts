@@ -34,6 +34,7 @@ export const MAINNET_RPCS = {
   ...rpcs(chains, asRpcHost),
   Klaytn: "https://public-en.node.kaia.io/",
   Solana: "https://wormhole.rpcpool.com/",
+  Aptos: "https://and76cjzpa.execute-api.us-east-2.amazonaws.com/aptos",
 };
 
 export const PUBLIC_URL = envVars.VITE_PUBLIC_URL || "";
