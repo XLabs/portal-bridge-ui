@@ -787,6 +787,9 @@ export const ENV: Env = {
         AltLayer: {
           Solana: "wiwDfzGBb4radfYGpQo5EGeqv3q45ms6tTiaJc7Pzub",
         },
+        Neiro: {
+          Solana: "FkmodwcM4YULTKLNMo7VHs4HLPvm8iBVLJHTj9YhMr9h",
+        },
       },
       tokensConfig: {
         stBTC: {
@@ -1618,6 +1621,19 @@ export const ENV: Env = {
           },
           icon: "images/tokens/bio.svg",
           coinGeckoId: "bio-protocol",
+          decimals: 9,
+        },
+        Neiro: {
+          key: "Neiro",
+          symbol: "NEIRO",
+          displayName: "Neiro",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0x812Ba41e071C7b7fA4EBcFB62dF5F45f6fA853Ee",
+          },
+          icon: "images/tokens/neiro.png",
+          coinGeckoId: "neiro-3",
           decimals: 9,
         },
       },
