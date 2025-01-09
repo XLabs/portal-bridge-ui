@@ -1,23 +1,21 @@
 import base58 from "bs58";
 import * as ethers from "ethers";
-import { isCosmWasmChain, isEVMChain } from "@certusone/wormhole-sdk";
 import { AptosConfig, Aptos, Network } from "@aptos-labs/ts-sdk";
 import { bech32 } from "bech32";
 import { Chain } from "@wormhole-foundation/sdk";
-import { toChainNameFormat } from "./transferVerification";
+import { isEVMChain, isCosmWasmChain } from "./constants";
 
 export const isValidAddress = async (
   address: string,
   chain: Chain
 ): Promise<boolean> => {
   // TO DO: Add support for other evm chains with the new sdk
-  if (isEVMChain(toChainNameFormat(chain)) || chain === "Worldchain")
+  if (isEVMChain(chain) || chain === "Worldchain")
     return isValidEthereumAddress(address);
   if (chain === "Solana") return isValidSolanaAddress(address);
   if (chain === "Aptos") return isValidAptosAddress(address);
   if (chain === "Sui") return isValidSuiAddress(address);
-  if (isCosmWasmChain(toChainNameFormat(chain)))
-    return isValidCosmosAddress(address, chain);
+  if (isCosmWasmChain(chain)) return isValidCosmosAddress(address, chain);
 
   return false;
 };
