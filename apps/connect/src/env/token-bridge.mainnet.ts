@@ -790,6 +790,9 @@ export const ENV: Env = {
         Neiro: {
           Solana: "FkmodwcM4YULTKLNMo7VHs4HLPvm8iBVLJHTj9YhMr9h",
         },
+        BITCOIN: {
+          Solana: "CTgiaZUK12kCcB8sosn4Nt2NZtzLgtPqDwyQyr2syATC",
+        },
       },
       tokensConfig: {
         stBTC: {
@@ -1635,6 +1638,19 @@ export const ENV: Env = {
           icon: "images/tokens/neiro.png",
           coinGeckoId: "neiro-3",
           decimals: 9,
+        },
+        BITCOIN: {
+          key: "BITCOIN",
+          symbol: "BITCOIN",
+          displayName: "HarryPotterObamaSonic10Inu",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0x72e4f9F808C49A2a61dE9C5896298920Dc4EEEa9",
+          },
+          icon: "images/tokens/HarryPotterObamaSonic10Inu.png",
+          coinGeckoId: "harrypotterobamasonic10in",
+          decimals: 8,
         },
       },
     }
