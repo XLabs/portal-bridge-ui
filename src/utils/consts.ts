@@ -112,13 +112,7 @@ export interface ChainInfo {
   logo: string;
 }
 
-export const DISABLED_CHAINS: Array<Partial<ChainId>> = [
-  CHAIN_ID_BLAST,
-  CHAIN_ID_SCROLL,
-  CHAIN_ID_XLAYER,
-  CHAIN_ID_MANTLE,
-  // CHAIN_ID_WORLDCHAIN,
-];
+export const DISABLED_CHAINS: Array<Partial<ChainId>> = [CHAIN_ID_BLAST];
 
 export const CHAINS: ChainInfo[] =
   CLUSTER === "mainnet"
@@ -266,7 +260,7 @@ export const CHAINS: ChainInfo[] =
         {
           id: CHAIN_ID_WORLDCHAIN,
           name: "World Chain",
-          logo: worldchainIcon
+          logo: worldchainIcon,
         },
       ]
     : CLUSTER === "testnet"
@@ -409,7 +403,7 @@ export const CHAINS: ChainInfo[] =
         {
           id: CHAIN_ID_WORLDCHAIN,
           name: "World Chain",
-          logo: worldchainIcon
+          logo: worldchainIcon,
         },
       ]
     : [
@@ -1719,6 +1713,29 @@ export const WORLDWETH_ADDRESS =
     : "0xDDb64fE46a91D46ee29420539FC25FD07c5FEa3E";
 export const WORLDWETH_DECIMALS = 18;
 
+export const SCROLLWETH_ADDRESS =
+  CLUSTER === "mainnet"
+    ? "0x5300000000000000000000000000000000000004"
+    : CLUSTER === "testnet"
+    ? "0x5300000000000000000000000000000000000004"
+    : "0xDDb64fE46a91D46ee29420539FC25FD07c5FEa3E";
+export const SCROLLWETH_DECIMALS = 18;
+
+export const WMNT_ADDRESS =
+  CLUSTER === "mainnet"
+    ? "0x78c1b0C915c4FAA5FffA6CAbf0219DA63d7f4cb8"
+    : CLUSTER === "testnet"
+    ? "0xa4c4cb2A072eE99f77212Fa18c2B7Ca26DA23905"
+    : "0xDDb64fE46a91D46ee29420539FC25FD07c5FEa3E";
+export const WMNT_DECIMALS = 18;
+
+export const WOKB_ADDRESS =
+  CLUSTER === "mainnet"
+    ? "0xe538905cf8410324e03A5A23C1c177a474D59b2b"
+    : CLUSTER === "testnet"
+    ? "0xa2aFfd8301BfB3c5b815829f2F509f053556D21B"
+    : "0xDDb64fE46a91D46ee29420539FC25FD07c5FEa3E";
+export const WOKB_DECIMALS = 18;
 
 export const ALGO_DECIMALS = 6;
 

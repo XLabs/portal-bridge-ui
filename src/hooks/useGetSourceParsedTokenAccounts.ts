@@ -28,6 +28,9 @@ import {
   CHAIN_ID_ARBITRUM,
   CHAIN_ID_BASE,
   CHAIN_ID_WORLDCHAIN,
+  CHAIN_ID_MANTLE,
+  CHAIN_ID_SCROLL,
+  CHAIN_ID_XLAYER,
 } from "@certusone/wormhole-sdk";
 import { Dispatch } from "@reduxjs/toolkit";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
@@ -68,6 +71,7 @@ import polygonIcon from "../icons/polygon.svg";
 import aptosIcon from "../icons/aptos.svg";
 import suiIcon from "../icons/sui.svg";
 import worldchainIcon from "../icons/worldchain.svg";
+import scrollIcon from "../icons/scroll.svg";
 import {
   errorSourceParsedTokenAccounts as errorSourceParsedTokenAccountsNFT,
   fetchSourceParsedTokenAccounts as fetchSourceParsedTokenAccountsNFT,
@@ -139,6 +143,12 @@ import {
   SUI_NATIVE_TOKEN_KEY,
   WORLDWETH_ADDRESS,
   WORLDWETH_DECIMALS,
+  SCROLLWETH_ADDRESS,
+  SCROLLWETH_DECIMALS,
+  WMNT_ADDRESS,
+  WMNT_DECIMALS,
+  WOKB_ADDRESS,
+  WOKB_DECIMALS,
 } from "../utils/consts";
 import { makeNearAccount } from "../utils/near";
 import {
@@ -151,6 +161,7 @@ import { AptosCoinResourceReturn } from "./useAptosMetadata";
 import { TokenClient, TokenTypes } from "aptos";
 import { getSuiProvider } from "../utils/sui";
 import { useSuiWallet } from "../contexts/SuiWalletContext";
+import { chainToIcon } from "@wormhole-foundation/sdk-icons";
 
 export function createParsedTokenAccount(
   publicKey: string,
@@ -631,6 +642,33 @@ const createNativeWorldchainParsedTokenAccount = (
           "worldETH", //A white lie for display purposes
           "worldETH", //A white lie for display purposes
           worldchainIcon,
+          true //isNativeAsset
+        );
+      });
+};
+
+const createNativeParsedTokenAccount = (
+  provider: Provider,
+  signerAddress: string | undefined,
+  wrappedAddress: string,
+  decimals: number,
+  icon: string,
+  symbol: string
+) => {
+  return !(provider && signerAddress)
+    ? Promise.reject()
+    : provider.getBalance(signerAddress).then((balanceInWei) => {
+        const balanceInEth = ethers.utils.formatEther(balanceInWei);
+        return createParsedTokenAccount(
+          signerAddress, //public key
+          wrappedAddress, //Mint key, On the other side this will be weth, so this is hopefully a white lie.
+          balanceInWei.toString(), //amount, in wei
+          decimals,
+          parseFloat(balanceInEth), //This loses precision, but is a limitation of the current datamodel. This field is essentially deprecated
+          balanceInEth.toString(), //This is the actual display field, which has full precision.
+          symbol, //A white lie for display purposes
+          symbol, //A white lie for display purposes
+          icon,
           true //isNativeAsset
         );
       });
@@ -1854,6 +1892,72 @@ function useGetAvailableTokens(nft: boolean = false) {
     };
   }, [lookupChain, provider, signerAddress, nft, ethNativeAccount]);
 
+  //Scroll, Mantle, Xlayer native asset load
+  useEffect(() => {
+    let cancelled = false;
+    if (
+      signerAddress &&
+      (lookupChain === CHAIN_ID_SCROLL ||
+        lookupChain === CHAIN_ID_MANTLE ||
+        lookupChain === CHAIN_ID_XLAYER) &&
+      !ethNativeAccount &&
+      !nft
+    ) {
+      setEthNativeAccountLoading(true);
+      let address =
+        lookupChain === CHAIN_ID_SCROLL
+          ? SCROLLWETH_ADDRESS
+          : lookupChain === CHAIN_ID_MANTLE
+          ? WMNT_ADDRESS
+          : WOKB_ADDRESS;
+      let decimals =
+        lookupChain === CHAIN_ID_SCROLL
+          ? SCROLLWETH_DECIMALS
+          : lookupChain === CHAIN_ID_MANTLE
+          ? WMNT_DECIMALS
+          : WOKB_DECIMALS;
+      let icon =
+        lookupChain === CHAIN_ID_SCROLL
+          ? scrollIcon
+          : lookupChain === CHAIN_ID_MANTLE
+          ? chainToIcon("Mantle")
+          : chainToIcon("Xlayer");
+      let symbol =
+        lookupChain === CHAIN_ID_SCROLL
+          ? "scrollETH"
+          : lookupChain === CHAIN_ID_MANTLE
+          ? "MNT"
+          : "OKB";
+      createNativeParsedTokenAccount(
+        provider,
+        signerAddress,
+        address,
+        decimals,
+        icon,
+        symbol
+      ).then(
+        (result) => {
+          console.log("create native account returned with value", result);
+          if (!cancelled) {
+            setEthNativeAccount(result);
+            setEthNativeAccountLoading(false);
+            setEthNativeAccountError("");
+          }
+        },
+        (error) => {
+          if (!cancelled) {
+            setEthNativeAccount(undefined);
+            setEthNativeAccountLoading(false);
+            setEthNativeAccountError("Unable to retrieve your MATIC balance.");
+          }
+        }
+      );
+    }
+
+    return () => {
+      cancelled = true;
+    };
+  }, [lookupChain, provider, signerAddress, nft, ethNativeAccount]);
 
   //Ethereum covalent or blockscout accounts load
   useEffect(() => {
