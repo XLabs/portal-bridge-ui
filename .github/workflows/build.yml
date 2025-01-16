@@ -39,11 +39,11 @@ jobs:
       group: ${{ github.ref }}-${{inputs.name}}-docs
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ inputs.project-branch }}
       - name: Set up Node environment
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: v16.19.1
       - name: Install dependencies
@@ -57,7 +57,7 @@ jobs:
           pushd apps/docs
           npm run build
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-docs
           path: apps/docs/build
@@ -71,12 +71,12 @@ jobs:
     environment: ${{inputs.environment}}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: xLabs/portal-bridge-ui
           ref: ${{inputs.advanced-tools-branch}}
       - name: Set up Node environment
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: v18.17.1
       - name: Setup Git
@@ -104,7 +104,7 @@ jobs:
           cd build
           npm run set-version
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-advanced-tools
           path: build
@@ -117,11 +117,11 @@ jobs:
       cancel-in-progress: true 
     steps:
       - name: Set up Node environment
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: v18.17.1
       - name: Checkout Portal Bridge
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ inputs.project-branch }}
       - name: Build Redirects
@@ -132,7 +132,7 @@ jobs:
           npm ci
           npm run build
       - name: Upload Portal Bridge Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-redirects
           path: apps/redirects/dist
@@ -145,11 +145,11 @@ jobs:
     environment: ${{inputs.environment}}
     steps:
       - name: Set up Node environment
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: v18.17.1
       - name: Checkout Rewards Dashboard
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ inputs.project-branch }}
       - name: Build Rewards Dashboard
@@ -163,7 +163,7 @@ jobs:
           npm ci
           npm run build
       - name: Upload Rewards Dashboard Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-rewards-dashboard
           path: apps/rewards-dashboard/dist
@@ -179,11 +179,11 @@ jobs:
       pkg-version: ${{ steps.set-version.outputs._PKG_VERSION }}
     steps:
       - name: Set up Node environment
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: v18.17.1
       - name: Checkout Custom Wormhole Connect Loader
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ inputs.project-branch }}
           path: connect-loader
@@ -213,7 +213,7 @@ jobs:
           echo 'VITE_APP_VERSION=$npm_package_version' > .env
           npm run build:usdc-bridge
       - name: Upload Portal Bridge Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-usdc-bridge
           path: connect-loader/apps/connect/dist
@@ -229,11 +229,11 @@ jobs:
       pkg-version: ${{ steps.set-version.outputs._PKG_VERSION }}
     steps:
       - name: Set up Node environment
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: v18.17.1
       - name: Checkout Custom Wormhole Connect Loader
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ inputs.project-branch }}
           path: connect-loader
@@ -262,7 +262,7 @@ jobs:
           echo 'VITE_APP_VERSION=$npm_package_version' > .env
           npm run build:token-bridge
       - name: Upload Portal Bridge Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-token-bridge
           path: connect-loader/apps/connect/dist
@@ -278,11 +278,11 @@ jobs:
       pkg-version: ${{ steps.set-version.outputs._PKG_VERSION }}
     steps:
       - name: Set up Node environment
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: v18.17.1
       - name: Checkout Custom Wormhole Connect Loader
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ inputs.project-branch }}
           path: connect-loader
@@ -311,7 +311,7 @@ jobs:
           echo 'VITE_APP_VERSION=$npm_package_version' > .env
           npm run build:tbtc-bridge
       - name: Upload Portal Bridge Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-tbtc-bridge-v1
           path: connect-loader/apps/connect-v1/dist
@@ -327,11 +327,11 @@ jobs:
       pkg-version: ${{ steps.set-version.outputs._PKG_VERSION }}
     steps:
       - name: Set up Node environment
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: v18.17.1
       - name: Checkout Custom Wormhole Connect Loader
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ inputs.project-branch }}
           path: connect-loader
@@ -360,7 +360,7 @@ jobs:
           echo 'VITE_APP_VERSION=$npm_package_version' > .env
           npm run build:token-bridge
       - name: Upload Portal Bridge Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-token-bridge-v1
           path: connect-loader/apps/connect-v1/dist
@@ -385,45 +385,45 @@ jobs:
       packages: write
     steps:
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-token-bridge
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-tbtc-bridge-v1
           path: tbtc-bridge
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-token-bridge-v1
           path: cosmos
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-usdc-bridge 
           path: usdc-bridge    
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-advanced-tools
           path: advanced-tools
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-rewards-dashboard
           path: rewards-dashboard
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-docs
           path: docs
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-redirects
       - name: Set up GitHub NPM registry
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: v16.19.1
           registry-url: https://npm.pkg.github.com
@@ -431,7 +431,7 @@ jobs:
         run: |
           jq -n --arg version ${{ needs.token-bridge.outputs.pkg-version }} '{"name": "@xlabs/portal-bridge-ui", "version": $version }' > package.json
       - name: Upload Portal Bridge Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-all
           path: .
