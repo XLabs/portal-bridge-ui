@@ -39,11 +39,11 @@ jobs:
       group: ${{ github.ref }}-${{inputs.name}}-docs
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
           ref: ${{ inputs.project-branch }}
       - name: Set up Node environment
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: v16.19.1
       - name: Install dependencies
@@ -71,12 +71,12 @@ jobs:
     environment: ${{inputs.environment}}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
           repository: xLabs/portal-bridge-ui
           ref: ${{inputs.advanced-tools-branch}}
       - name: Set up Node environment
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: v18.17.1
       - name: Setup Git
@@ -117,11 +117,11 @@ jobs:
       cancel-in-progress: true 
     steps:
       - name: Set up Node environment
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: v18.17.1
       - name: Checkout Portal Bridge
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
           ref: ${{ inputs.project-branch }}
       - name: Build Redirects
@@ -145,11 +145,11 @@ jobs:
     environment: ${{inputs.environment}}
     steps:
       - name: Set up Node environment
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: v18.17.1
       - name: Checkout Rewards Dashboard
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
           ref: ${{ inputs.project-branch }}
       - name: Build Rewards Dashboard
@@ -179,11 +179,11 @@ jobs:
       pkg-version: ${{ steps.set-version.outputs._PKG_VERSION }}
     steps:
       - name: Set up Node environment
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: v18.17.1
       - name: Checkout Custom Wormhole Connect Loader
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
           ref: ${{ inputs.project-branch }}
           path: connect-loader
@@ -229,11 +229,11 @@ jobs:
       pkg-version: ${{ steps.set-version.outputs._PKG_VERSION }}
     steps:
       - name: Set up Node environment
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: v18.17.1
       - name: Checkout Custom Wormhole Connect Loader
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
           ref: ${{ inputs.project-branch }}
           path: connect-loader
@@ -278,11 +278,11 @@ jobs:
       pkg-version: ${{ steps.set-version.outputs._PKG_VERSION }}
     steps:
       - name: Set up Node environment
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: v18.17.1
       - name: Checkout Custom Wormhole Connect Loader
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
           ref: ${{ inputs.project-branch }}
           path: connect-loader
@@ -327,11 +327,11 @@ jobs:
       pkg-version: ${{ steps.set-version.outputs._PKG_VERSION }}
     steps:
       - name: Set up Node environment
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: v18.17.1
       - name: Checkout Custom Wormhole Connect Loader
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
           ref: ${{ inputs.project-branch }}
           path: connect-loader
@@ -423,7 +423,7 @@ jobs:
         with:
           name: build-redirects
       - name: Set up GitHub NPM registry
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: v16.19.1
           registry-url: https://npm.pkg.github.com

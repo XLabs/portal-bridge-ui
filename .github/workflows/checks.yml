@@ -10,11 +10,11 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - name: Set up Node environment
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: v18.17.1
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
       - name: Install dependencies
         working-directory: ./apps/connect
         run: npm ci
@@ -25,11 +25,11 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - name: Set up Node environment
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: v18.17.1
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
       - name: Install dependencies
         working-directory: ./apps/connect
         run: npm ci
@@ -40,11 +40,11 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - name: Set up Node environment
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: v18.17.1
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
       - name: Install dependencies
         working-directory: ./apps/connect
         run: npm ci
