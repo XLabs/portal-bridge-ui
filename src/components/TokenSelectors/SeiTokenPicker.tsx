@@ -58,30 +58,41 @@ export default function SeiTokenPicker(props: SeiTokenPickerProps) {
         return Promise.reject("Wallet not connected");
       }
       // NOTE: this does not support other banks and CW20s on Sei
-      if (!lookupAsset.startsWith(`factory/${SEI_TRANSLATOR}/`)) {
-        return Promise.reject("Unsupported asset");
-      }
+      // if (!lookupAsset.startsWith(`factory/${SEI_TRANSLATOR}/`)) {
+      //   return Promise.reject("Unsupported asset");
+      // }
       return (async () => {
         // see useSeiNativeBalances
         const client = await getSeiQueryClient();
         const wasmClient = await getSeiWasmClient();
-        const response = await client.cosmos.bank.v1beta1.balance({
+
+        const response = lookupAsset.startsWith(`factory/${SEI_TRANSLATOR}/`)
+        ? await client.cosmos.bank.v1beta1.balance({
           address: walletAddress,
           denom: lookupAsset,
+        }) : await wasmClient.queryContractSmart(lookupAsset, {
+          balance: {
+            address: walletAddress,
+          },
         });
+
         const info = await wasmClient.queryContractSmart(
-          cosmos.humanAddress("sei", base58.decode(lookupAsset.split("/")[2])),
+          lookupAsset.startsWith(`factory/${SEI_TRANSLATOR}/`) ?
+            cosmos.humanAddress("sei",
+              base58.decode(lookupAsset.split("/")[2])) : lookupAsset,
           {
             token_info: {},
           }
         );
+        const amount = lookupAsset.startsWith(`factory/${SEI_TRANSLATOR}/`) ? response.balance.amount : response.balance;
+
         return createParsedTokenAccount(
           walletAddress,
           lookupAsset,
-          response.balance.amount,
+          amount,
           info.decimals,
-          Number(formatUnits(response.balance.amount, info.decimals)),
-          formatUnits(response.balance.amount, info.decimals),
+          Number(formatUnits(amount, info.decimals)),
+          formatUnits(amount, info.decimals),
           info.symbol,
           info.name
         );

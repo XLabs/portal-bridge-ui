@@ -152,6 +152,7 @@ import { useSeiWallet } from "../contexts/SeiWalletContext";
 import { SeiWallet } from "@xlabs-libs/wallet-aggregator-sei";
 import { SuiTransactionBlockResponse } from "@mysten/sui.js";
 import { telemetry, TelemetryTxEvent } from "../utils/telemetry";
+import { ExecuteInstruction } from "@cosmjs/cosmwasm-stargate";
 
 type AdditionalPayloadOverride = {
   receivingContract: Uint8Array;
@@ -921,6 +922,32 @@ async function sei(
               },
             },
           ]
+        : !asset.startsWith(`factory/${SEI_TRANSLATOR}/`) ? [
+          {
+            contractAddress: asset,
+            msg: {
+              increase_allowance: {
+                spender: tokenBridgeAddress,
+                amount: baseAmountParsed,
+                expires: { never: {} },
+              },
+            }
+          },
+          {
+            contractAddress: tokenBridgeAddress,
+            msg: {
+              initiate_transfer: {
+                asset: {
+                  amount: baseAmountParsed,
+                  info: { token: { contract_addr: asset } },
+                },
+              },
+            },
+            funds: [
+              { denom: asset, amount: transferAmountParsed.toString() },
+            ],
+          }
+        ]
         : [
             {
               contractAddress: SEI_TRANSLATOR,
@@ -936,15 +963,15 @@ async function sei(
               ],
             },
           ];
-
+    console.log('instructions', instructions);
     const fee = await calculateFeeForContractExecution(
-      instructions,
+      instructions as ExecuteInstruction[],
       wallet,
       "Wormhole - Complete Transfer"
     );
 
     const tx = await wallet.executeMultiple({
-      instructions,
+      instructions: instructions as ExecuteInstruction[],
       fee,
       memo: "Wormhole - Initiate Transfer",
     });
