@@ -651,6 +651,31 @@ export const ENV: Env = {
                 quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
               },
             ],
+            Portal: [
+              {
+                chain: "Ethereum",
+                manager: "0xf4929F54a07193868A774DD0a89A8FA37313A7F0",
+                token: "0x1Bbe973BeF3a977Fc51CbED703E8ffDEfE001Fed",
+                transceiver: [
+                  {
+                    address: "0x23d774AB64Be226Aff32CC0c1A31a5af35cEA4D6",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Solana",
+                manager: "nTTMrDU5CfFATK4ixizF8EK1GJaFwi35PjmNpK4Qp3e",
+                token: "BCC71Yn1f9Tn4p2QVKqhDWQaoHvQj6Qr8QK2m6desRHe",
+                transceiver: [
+                  {
+                    address: "8Gq5vYnqNK2BwPPJvEGjvBhkXugKLjKAkdBBN3QwjTcE",
+                    type: "wormhole",
+                  },
+                ],
+                quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
+              },
+            ],
           },
         }),
       ],
@@ -1651,6 +1676,30 @@ export const ENV: Env = {
           icon: "images/tokens/HarryPotterObamaSonic10Inu.png",
           coinGeckoId: "harrypotterobamasonic10in",
           decimals: 8,
+        },
+        PortalEthereum: {
+          key: "PortalEthereum",
+          symbol: "PORTAL",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0x1Bbe973BeF3a977Fc51CbED703E8ffDEfE001Fed",
+          },
+          icon: "https://assets.coingecko.com/coins/images/35436/large/portal.jpeg",
+          coinGeckoId: "portal-2",
+          decimals: 18,
+        },
+        PortalSolana: {
+          key: "PortalSolana",
+          symbol: "PORTAL",
+          nativeChain: "Solana",
+          tokenId: {
+            chain: "Solana",
+            address: "BCC71Yn1f9Tn4p2QVKqhDWQaoHvQj6Qr8QK2m6desRHe",
+          },
+          icon: "https://assets.coingecko.com/coins/images/35436/large/portal.jpeg",
+          coinGeckoId: "portal-2",
+          decimals: 9,
         },
       },
     }
