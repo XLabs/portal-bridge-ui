@@ -185,6 +185,7 @@ function useGetTargetParsedTokenAccounts() {
               address: seiAddress,
             },
           });
+
           if (balance && info && !cancelled) {
             dispatch(
               setTargetParsedTokenAccount(
