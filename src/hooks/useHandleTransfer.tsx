@@ -38,6 +38,9 @@ import {
   CHAIN_ID_ETH,
   CHAIN_ID_POLYGON,
   tryNativeToUint8Array,
+  ChainName,
+  coalesceChainId,
+  createNonce,
 } from "@certusone/wormhole-sdk";
 import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk/lib/esm";
 import { Alert } from "@material-ui/lab";
@@ -264,6 +267,28 @@ async function algo(
     onError?.(e);
   }
 }
+export const isValidAptosType = (str: string): boolean => /^(0x)?[0-9a-fA-F]+::\w+::\w+$/.test(str);
+
+export const transferTokensWithPayload = (
+  tokenBridgeAddress: string,
+  fullyQualifiedType: string,
+  amount: string,
+  recipientChain: ChainId | ChainName,
+  recipient: Uint8Array,
+  nonce: number,
+  payload: Uint8Array
+): Types.EntryFunctionPayload => {
+  if (!tokenBridgeAddress) throw new Error("Need token bridge address.");
+  if (!isValidAptosType(fullyQualifiedType)) {
+    throw new Error("Invalid qualified type");
+  }
+  const recipientChainId = coalesceChainId(recipientChain);
+  return {
+    function: `${tokenBridgeAddress}::transfer_tokens::transfer_tokens_with_payload_entry`,
+    type_arguments: [fullyQualifiedType],
+    arguments: [amount, recipientChainId, recipient, nonce, payload],
+  };
+};
 
 async function aptos(
   dispatch: any,
@@ -288,19 +313,31 @@ async function aptos(
     const transferAmountParsed = baseAmountParsed.add(feeParsed);
     // Aptos does not support additional payload, comment out for now
     // See https://github.com/wormhole-foundation/wormhole/blob/main/sdk/js/src/token_bridge/transfer.ts#L901
-    // const additionalPayload = maybeAdditionalPayload();
-    const transferPayload = transferFromAptos(
-      tokenBridgeAddress,
-      tokenAddress,
-      transferAmountParsed.toString(),
-      recipientChain,
-      recipientAddress
-      //additionalPayload?.receivingContract || recipientAddress,
-      //additionalPayload?.payload
-      //  ? undefined
-      //  : createNonce().readUInt32LE(0).toString(),
-      //additionalPayload?.payload
-    );
+    const additionalPayload = maybeAdditionalPayload();
+    const transferPayload = additionalPayload && recipientChain === CHAIN_ID_SEI ?
+      transferTokensWithPayload(
+        tokenBridgeAddress,
+        tokenAddress,
+        transferAmountParsed.toString(),
+        recipientChain,
+        additionalPayload?.receivingContract || recipientAddress,
+        additionalPayload?.payload
+          ? 0
+          : createNonce().readUInt32LE(0),
+        additionalPayload?.payload
+      ) :
+      transferFromAptos(
+        tokenBridgeAddress,
+        tokenAddress,
+        transferAmountParsed.toString(),
+        recipientChain,
+        recipientAddress
+        //additionalPayload?.receivingContract || recipientAddress,
+        //additionalPayload?.payload
+        //  ? undefined
+        //  : createNonce().readUInt32LE(0).toString(),
+        //additionalPayload?.payload
+      );
 
     const hash = await waitForSignAndSubmitTransaction(transferPayload, wallet);
     onStart?.({ txId: hash });
@@ -425,26 +462,26 @@ async function evm(
 
       receipt = isNative
         ? await transferFromEthNative(
-            getTokenBridgeAddressForChain(chainId),
-            signer,
-            transferAmountParsed,
-            recipientChain,
-            additionalPayload?.receivingContract || recipientAddress,
-            feeParsed,
-            overrides,
-            additionalPayload?.payload
-          )
+          getTokenBridgeAddressForChain(chainId),
+          signer,
+          transferAmountParsed,
+          recipientChain,
+          additionalPayload?.receivingContract || recipientAddress,
+          feeParsed,
+          overrides,
+          additionalPayload?.payload
+        )
         : await transferFromEth(
-            getTokenBridgeAddressForChain(chainId),
-            signer,
-            tokenAddress,
-            transferAmountParsed,
-            recipientChain,
-            additionalPayload?.receivingContract || recipientAddress,
-            feeParsed,
-            overrides,
-            additionalPayload?.payload
-          );
+          getTokenBridgeAddressForChain(chainId),
+          signer,
+          tokenAddress,
+          transferAmountParsed,
+          recipientChain,
+          additionalPayload?.receivingContract || recipientAddress,
+          feeParsed,
+          overrides,
+          additionalPayload?.payload
+        );
     }
     onStart?.({ txId: receipt.transactionHash });
 
@@ -507,30 +544,30 @@ async function near(
     const msgs =
       tokenAddress === NATIVE_NEAR_PLACEHOLDER
         ? await transferNearFromNear(
-            account,
-            NEAR_CORE_BRIDGE_ACCOUNT,
-            NEAR_TOKEN_BRIDGE_ACCOUNT,
-            transferAmountParsed.toBigInt(),
-            additionalPayload?.receivingContract || recipientAddress,
-            recipientChain,
-            feeParsed.toBigInt(),
-            additionalPayload?.payload
-              ? uint8ArrayToHex(additionalPayload.payload)
-              : undefined
-          )
+          account,
+          NEAR_CORE_BRIDGE_ACCOUNT,
+          NEAR_TOKEN_BRIDGE_ACCOUNT,
+          transferAmountParsed.toBigInt(),
+          additionalPayload?.receivingContract || recipientAddress,
+          recipientChain,
+          feeParsed.toBigInt(),
+          additionalPayload?.payload
+            ? uint8ArrayToHex(additionalPayload.payload)
+            : undefined
+        )
         : await transferTokenFromNear(
-            account,
-            NEAR_CORE_BRIDGE_ACCOUNT,
-            NEAR_TOKEN_BRIDGE_ACCOUNT,
-            tokenAddress,
-            transferAmountParsed.toBigInt(),
-            additionalPayload?.receivingContract || recipientAddress,
-            recipientChain,
-            feeParsed.toBigInt(),
-            additionalPayload?.payload
-              ? uint8ArrayToHex(additionalPayload.payload)
-              : undefined
-          );
+          account,
+          NEAR_CORE_BRIDGE_ACCOUNT,
+          NEAR_TOKEN_BRIDGE_ACCOUNT,
+          tokenAddress,
+          transferAmountParsed.toBigInt(),
+          additionalPayload?.receivingContract || recipientAddress,
+          recipientChain,
+          feeParsed.toBigInt(),
+          additionalPayload?.payload
+            ? uint8ArrayToHex(additionalPayload.payload)
+            : undefined
+        );
     const receipt = await signAndSendTransactions(account, wallet, msgs);
     onStart?.({ txId: receipt.transaction_outcome.id });
     const sequence = parseSequenceFromLogNear(receipt);
@@ -685,32 +722,32 @@ async function solana(
     } else {
       const promise = isNative
         ? transferNativeSol(
-            connection,
-            SOL_BRIDGE_ADDRESS,
-            SOL_TOKEN_BRIDGE_ADDRESS,
-            payerAddress,
-            transferAmountParsed.toBigInt(),
-            additionalPayload?.receivingContract || targetAddress,
-            targetChain,
-            feeParsed.toBigInt(),
-            additionalPayload?.payload
-          )
+          connection,
+          SOL_BRIDGE_ADDRESS,
+          SOL_TOKEN_BRIDGE_ADDRESS,
+          payerAddress,
+          transferAmountParsed.toBigInt(),
+          additionalPayload?.receivingContract || targetAddress,
+          targetChain,
+          feeParsed.toBigInt(),
+          additionalPayload?.payload
+        )
         : transferFromSolana(
-            connection,
-            SOL_BRIDGE_ADDRESS,
-            SOL_TOKEN_BRIDGE_ADDRESS,
-            payerAddress,
-            fromAddress,
-            mintAddress,
-            transferAmountParsed.toBigInt(),
-            additionalPayload?.receivingContract || targetAddress,
-            targetChain,
-            originAddress,
-            originChain,
-            undefined,
-            feeParsed.toBigInt(),
-            additionalPayload?.payload
-          );
+          connection,
+          SOL_BRIDGE_ADDRESS,
+          SOL_TOKEN_BRIDGE_ADDRESS,
+          payerAddress,
+          fromAddress,
+          mintAddress,
+          transferAmountParsed.toBigInt(),
+          additionalPayload?.receivingContract || targetAddress,
+          targetChain,
+          originAddress,
+          originChain,
+          undefined,
+          feeParsed.toBigInt(),
+          additionalPayload?.payload
+        );
       const transaction = await promise;
       const txid = await signSendAndConfirm(wallet, transaction);
       onStart?.({ txId: txid });
@@ -899,29 +936,29 @@ async function sei(
     const instructions =
       asset === SEI_NATIVE_DENOM
         ? [
-            {
-              contractAddress: tokenBridgeAddress,
-              msg: {
-                deposit_tokens: {},
-              },
-              funds: [{ denom: asset, amount: baseAmountParsed }],
+          {
+            contractAddress: tokenBridgeAddress,
+            msg: {
+              deposit_tokens: {},
             },
-            {
-              contractAddress: tokenBridgeAddress,
-              msg: {
-                initiate_transfer: {
-                  asset: {
-                    amount: baseAmountParsed,
-                    info: { native_token: { denom: asset } },
-                  },
-                  recipient_chain: targetChain,
-                  recipient: encodedRecipient,
-                  fee: feeParsed,
-                  nonce: Math.floor(Math.random() * 100000),
+            funds: [{ denom: asset, amount: baseAmountParsed }],
+          },
+          {
+            contractAddress: tokenBridgeAddress,
+            msg: {
+              initiate_transfer: {
+                asset: {
+                  amount: baseAmountParsed,
+                  info: { native_token: { denom: asset } },
                 },
+                recipient_chain: targetChain,
+                recipient: encodedRecipient,
+                fee: feeParsed,
+                nonce: Math.floor(Math.random() * 100000),
               },
             },
-          ]
+          },
+        ]
         : !asset.startsWith(`factory/${SEI_TRANSLATOR}/`) ? [
           {
             contractAddress: asset,
@@ -941,14 +978,15 @@ async function sei(
                   amount: baseAmountParsed,
                   info: { token: { contract_addr: asset } },
                 },
+                recipient_chain: targetChain,
+                recipient: encodedRecipient,
+                fee: feeParsed,
+                nonce: Math.floor(Math.random() * 100000),
               },
-            },
-            funds: [
-              { denom: asset, amount: transferAmountParsed.toString() },
-            ],
+            }
           }
         ]
-        : [
+          : [
             {
               contractAddress: SEI_TRANSLATOR,
               msg: {
