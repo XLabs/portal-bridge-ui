@@ -43,7 +43,6 @@ export default function useSeiNativeBalances(
           
           const responsecw20 = await fetch(`https://seitrace.com/pacific-1/gateway/api/v1/addresses/${walletAddress}/tokens?type=CW-20`)
           const cw20Coins = (await responsecw20.json())?.items;
-          console.log('cw20Coins', cw20Coins);
 
           // NOTE: this UI only handles the translator factory tokens for now
           const seiCoin = response.balances.find(
