@@ -461,26 +461,26 @@ async function evm(
 
       receipt = isNative
         ? await transferFromEthNative(
-          getTokenBridgeAddressForChain(chainId),
-          signer,
-          transferAmountParsed,
-          recipientChain,
-          additionalPayload?.receivingContract || recipientAddress,
-          feeParsed,
-          overrides,
-          additionalPayload?.payload
-        )
+            getTokenBridgeAddressForChain(chainId),
+            signer,
+            transferAmountParsed,
+            recipientChain,
+            additionalPayload?.receivingContract || recipientAddress,
+            feeParsed,
+            overrides,
+            additionalPayload?.payload
+          )
         : await transferFromEth(
-          getTokenBridgeAddressForChain(chainId),
-          signer,
-          tokenAddress,
-          transferAmountParsed,
-          recipientChain,
-          additionalPayload?.receivingContract || recipientAddress,
-          feeParsed,
-          overrides,
-          additionalPayload?.payload
-        );
+            getTokenBridgeAddressForChain(chainId),
+            signer,
+            tokenAddress,
+            transferAmountParsed,
+            recipientChain,
+            additionalPayload?.receivingContract || recipientAddress,
+            feeParsed,
+            overrides,
+            additionalPayload?.payload
+          );
     }
     onStart?.({ txId: receipt.transactionHash });
 
@@ -543,30 +543,30 @@ async function near(
     const msgs =
       tokenAddress === NATIVE_NEAR_PLACEHOLDER
         ? await transferNearFromNear(
-          account,
-          NEAR_CORE_BRIDGE_ACCOUNT,
-          NEAR_TOKEN_BRIDGE_ACCOUNT,
-          transferAmountParsed.toBigInt(),
-          additionalPayload?.receivingContract || recipientAddress,
-          recipientChain,
-          feeParsed.toBigInt(),
-          additionalPayload?.payload
-            ? uint8ArrayToHex(additionalPayload.payload)
-            : undefined
-        )
+            account,
+            NEAR_CORE_BRIDGE_ACCOUNT,
+            NEAR_TOKEN_BRIDGE_ACCOUNT,
+            transferAmountParsed.toBigInt(),
+            additionalPayload?.receivingContract || recipientAddress,
+            recipientChain,
+            feeParsed.toBigInt(),
+            additionalPayload?.payload
+              ? uint8ArrayToHex(additionalPayload.payload)
+              : undefined
+          )
         : await transferTokenFromNear(
-          account,
-          NEAR_CORE_BRIDGE_ACCOUNT,
-          NEAR_TOKEN_BRIDGE_ACCOUNT,
-          tokenAddress,
-          transferAmountParsed.toBigInt(),
-          additionalPayload?.receivingContract || recipientAddress,
-          recipientChain,
-          feeParsed.toBigInt(),
-          additionalPayload?.payload
-            ? uint8ArrayToHex(additionalPayload.payload)
-            : undefined
-        );
+            account,
+            NEAR_CORE_BRIDGE_ACCOUNT,
+            NEAR_TOKEN_BRIDGE_ACCOUNT,
+            tokenAddress,
+            transferAmountParsed.toBigInt(),
+            additionalPayload?.receivingContract || recipientAddress,
+            recipientChain,
+            feeParsed.toBigInt(),
+            additionalPayload?.payload
+              ? uint8ArrayToHex(additionalPayload.payload)
+              : undefined
+          );
     const receipt = await signAndSendTransactions(account, wallet, msgs);
     onStart?.({ txId: receipt.transaction_outcome.id });
     const sequence = parseSequenceFromLogNear(receipt);
@@ -721,32 +721,32 @@ async function solana(
     } else {
       const promise = isNative
         ? transferNativeSol(
-          connection,
-          SOL_BRIDGE_ADDRESS,
-          SOL_TOKEN_BRIDGE_ADDRESS,
-          payerAddress,
-          transferAmountParsed.toBigInt(),
-          additionalPayload?.receivingContract || targetAddress,
-          targetChain,
-          feeParsed.toBigInt(),
-          additionalPayload?.payload
-        )
+            connection,
+            SOL_BRIDGE_ADDRESS,
+            SOL_TOKEN_BRIDGE_ADDRESS,
+            payerAddress,
+            transferAmountParsed.toBigInt(),
+            additionalPayload?.receivingContract || targetAddress,
+            targetChain,
+            feeParsed.toBigInt(),
+            additionalPayload?.payload
+          )
         : transferFromSolana(
-          connection,
-          SOL_BRIDGE_ADDRESS,
-          SOL_TOKEN_BRIDGE_ADDRESS,
-          payerAddress,
-          fromAddress,
-          mintAddress,
-          transferAmountParsed.toBigInt(),
-          additionalPayload?.receivingContract || targetAddress,
-          targetChain,
-          originAddress,
-          originChain,
-          undefined,
-          feeParsed.toBigInt(),
-          additionalPayload?.payload
-        );
+            connection,
+            SOL_BRIDGE_ADDRESS,
+            SOL_TOKEN_BRIDGE_ADDRESS,
+            payerAddress,
+            fromAddress,
+            mintAddress,
+            transferAmountParsed.toBigInt(),
+            additionalPayload?.receivingContract || targetAddress,
+            targetChain,
+            originAddress,
+            originChain,
+            undefined,
+            feeParsed.toBigInt(),
+            additionalPayload?.payload
+          );
       const transaction = await promise;
       const txid = await signSendAndConfirm(wallet, transaction);
       onStart?.({ txId: txid });
