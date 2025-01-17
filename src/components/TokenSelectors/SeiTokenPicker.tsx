@@ -67,24 +67,30 @@ export default function SeiTokenPicker(props: SeiTokenPickerProps) {
         const wasmClient = await getSeiWasmClient();
 
         const response = lookupAsset.startsWith(`factory/${SEI_TRANSLATOR}/`)
-        ? await client.cosmos.bank.v1beta1.balance({
-          address: walletAddress,
-          denom: lookupAsset,
-        }) : await wasmClient.queryContractSmart(lookupAsset, {
-          balance: {
-            address: walletAddress,
-          },
-        });
+          ? await client.cosmos.bank.v1beta1.balance({
+              address: walletAddress,
+              denom: lookupAsset,
+            })
+          : await wasmClient.queryContractSmart(lookupAsset, {
+              balance: {
+                address: walletAddress,
+              },
+            });
 
         const info = await wasmClient.queryContractSmart(
-          lookupAsset.startsWith(`factory/${SEI_TRANSLATOR}/`) ?
-            cosmos.humanAddress("sei",
-              base58.decode(lookupAsset.split("/")[2])) : lookupAsset,
+          lookupAsset.startsWith(`factory/${SEI_TRANSLATOR}/`)
+            ? cosmos.humanAddress(
+                "sei",
+                base58.decode(lookupAsset.split("/")[2])
+              )
+            : lookupAsset,
           {
             token_info: {},
           }
         );
-        const amount = lookupAsset.startsWith(`factory/${SEI_TRANSLATOR}/`) ? response.balance.amount : response.balance;
+        const amount = lookupAsset.startsWith(`factory/${SEI_TRANSLATOR}/`)
+          ? response.balance.amount
+          : response.balance;
 
         return createParsedTokenAccount(
           walletAddress,

@@ -40,8 +40,9 @@ export default function useSeiNativeBalances(
             address: walletAddress,
           });
 
-          
-          const responsecw20 = await fetch(`https://seitrace.com/pacific-1/gateway/api/v1/addresses/${walletAddress}/tokens?type=CW-20`)
+          const responsecw20 = await fetch(
+            `https://seitrace.com/pacific-1/gateway/api/v1/addresses/${walletAddress}/tokens?type=CW-20`
+          );
           const cw20Coins = (await responsecw20.json())?.items;
 
           // NOTE: this UI only handles the translator factory tokens for now
@@ -114,26 +115,23 @@ export default function useSeiNativeBalances(
             })),
           ];
           const tokenCW20Accounts = cw20Coins
-          .filter((coin: any) => coin?.token?.type === 'CW-20')
-          .map((coin: any) => ({
-            amount: coin.value,
-            decimals: coin.token.decimals,
-            mintKey: coin.token.address,
-            publicKey: walletAddress,
-            uiAmount: Number(
-              formatUnits(
+            .filter((coin: any) => coin?.token?.type === "CW-20")
+            .map((coin: any) => ({
+              amount: coin.value,
+              decimals: coin.token.decimals,
+              mintKey: coin.token.address,
+              publicKey: walletAddress,
+              uiAmount: Number(
+                formatUnits(BigInt(coin.value), coin.token.decimals)
+              ),
+              uiAmountString: formatUnits(
                 BigInt(coin.value),
                 coin.token.decimals
-              )
-            ),
-            uiAmountString: formatUnits(
-              BigInt(coin.value),
-              coin.token.decimals
-            ),
-            isNativeAsset: false,
-            symbol: coin.token.symbol,
-            name: coin.token.name,
-          }));
+              ),
+              isNativeAsset: false,
+              symbol: coin.token.symbol,
+              name: coin.token.name,
+            }));
           setIsLoading(false);
           setBalances([...tokenAccounts, ...tokenCW20Accounts]);
         } catch (e) {

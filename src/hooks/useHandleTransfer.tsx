@@ -267,7 +267,8 @@ async function algo(
     onError?.(e);
   }
 }
-export const isValidAptosType = (str: string): boolean => /^(0x)?[0-9a-fA-F]+::\w+::\w+$/.test(str);
+export const isValidAptosType = (str: string): boolean =>
+  /^(0x)?[0-9a-fA-F]+::\w+::\w+$/.test(str);
 
 export const transferTokensWithPayload = (
   tokenBridgeAddress: string,
@@ -314,30 +315,28 @@ async function aptos(
     // Aptos does not support additional payload, comment out for now
     // See https://github.com/wormhole-foundation/wormhole/blob/main/sdk/js/src/token_bridge/transfer.ts#L901
     const additionalPayload = maybeAdditionalPayload();
-    const transferPayload = additionalPayload ?
-      transferTokensWithPayload(
-        tokenBridgeAddress,
-        tokenAddress,
-        transferAmountParsed.toString(),
-        recipientChain,
-        additionalPayload?.receivingContract || recipientAddress,
-        additionalPayload?.payload
-          ? 0
-          : createNonce().readUInt32LE(0),
-        additionalPayload?.payload
-      ) :
-      transferFromAptos(
-        tokenBridgeAddress,
-        tokenAddress,
-        transferAmountParsed.toString(),
-        recipientChain,
-        recipientAddress
-        //additionalPayload?.receivingContract || recipientAddress,
-        //additionalPayload?.payload
-        //  ? undefined
-        //  : createNonce().readUInt32LE(0).toString(),
-        //additionalPayload?.payload
-      );
+    const transferPayload = additionalPayload
+      ? transferTokensWithPayload(
+          tokenBridgeAddress,
+          tokenAddress,
+          transferAmountParsed.toString(),
+          recipientChain,
+          additionalPayload?.receivingContract || recipientAddress,
+          additionalPayload?.payload ? 0 : createNonce().readUInt32LE(0),
+          additionalPayload?.payload
+        )
+      : transferFromAptos(
+          tokenBridgeAddress,
+          tokenAddress,
+          transferAmountParsed.toString(),
+          recipientChain,
+          recipientAddress
+          //additionalPayload?.receivingContract || recipientAddress,
+          //additionalPayload?.payload
+          //  ? undefined
+          //  : createNonce().readUInt32LE(0).toString(),
+          //additionalPayload?.payload
+        );
 
     const hash = await waitForSignAndSubmitTransaction(transferPayload, wallet);
     onStart?.({ txId: hash });
@@ -936,29 +935,29 @@ async function sei(
     let instructions;
     if (asset === SEI_NATIVE_DENOM) {
       instructions = [
-          {
-            contractAddress: tokenBridgeAddress,
-            msg: {
-              deposit_tokens: {},
-            },
-            funds: [{ denom: asset, amount: baseAmountParsed }],
+        {
+          contractAddress: tokenBridgeAddress,
+          msg: {
+            deposit_tokens: {},
           },
-          {
-            contractAddress: tokenBridgeAddress,
-            msg: {
-              initiate_transfer: {
-                asset: {
-                  amount: baseAmountParsed,
-                  info: { native_token: { denom: asset } },
-                },
-                recipient_chain: targetChain,
-                recipient: encodedRecipient,
-                fee: feeParsed,
-                nonce: Math.floor(Math.random() * 100000),
+          funds: [{ denom: asset, amount: baseAmountParsed }],
+        },
+        {
+          contractAddress: tokenBridgeAddress,
+          msg: {
+            initiate_transfer: {
+              asset: {
+                amount: baseAmountParsed,
+                info: { native_token: { denom: asset } },
               },
+              recipient_chain: targetChain,
+              recipient: encodedRecipient,
+              fee: feeParsed,
+              nonce: Math.floor(Math.random() * 100000),
             },
           },
-        ];
+        },
+      ];
     } else if (asset.startsWith(`sei`)) {
       // Handle with CW-20 tokens with no-factory
       instructions = [
@@ -970,7 +969,7 @@ async function sei(
               amount: baseAmountParsed,
               expires: { never: {} },
             },
-          }
+          },
         },
         {
           contractAddress: tokenBridgeAddress,
@@ -985,8 +984,8 @@ async function sei(
               fee: feeParsed,
               nonce: Math.floor(Math.random() * 100000),
             },
-          }
-        }
+          },
+        },
       ];
     } else {
       instructions = [
@@ -999,9 +998,7 @@ async function sei(
               fee: feeParsed,
             },
           },
-          funds: [
-            { denom: asset, amount: transferAmountParsed.toString() },
-          ],
+          funds: [{ denom: asset, amount: transferAmountParsed.toString() }],
         },
       ];
     }
