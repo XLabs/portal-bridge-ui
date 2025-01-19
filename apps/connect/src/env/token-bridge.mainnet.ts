@@ -820,6 +820,19 @@ export const ENV: Env = {
         },
       },
       tokensConfig: {
+        TRUMP: {
+          key: "TRUMP",
+          symbol: "TRUMP",
+          displayName: "Official Trump",
+          nativeChain: "Solana",
+          tokenId: {
+            chain: "Solana",
+            address: "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN",
+          },
+          icon: "https://assets.coingecko.com/coins/images/53746/large/trump.png?1737171561",
+          coinGeckoId: "official-trump",
+          decimals: 6,
+        },
         stBTC: {
           key: "stBTC",
           symbol: "stBTC",
@@ -1700,19 +1713,6 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/35436/large/portal.jpeg",
           coinGeckoId: "portal-2",
           decimals: 9,
-        },
-        TRUMP: {
-          key: "TRUMP",
-          symbol: "TRUMP",
-          displayName: "Trump",
-          nativeChain: "Solana",
-          tokenId: {
-            chain: "Solana",
-            address: "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN",
-          },
-          icon: "https://assets.coingecko.com/coins/images/53746/large/trump.png?1737171561",
-          coinGeckoId: "official-trump",
-          decimals: 6,
         },
       },
     }
