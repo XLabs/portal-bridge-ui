@@ -1701,6 +1701,19 @@ export const ENV: Env = {
           coinGeckoId: "portal-2",
           decimals: 9,
         },
+        TRUMP: {
+          key: "TRUMP",
+          symbol: "TRUMP",
+          displayName: "Trump",
+          nativeChain: "Solana",
+          tokenId: {
+            chain: "Solana",
+            address: "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN",
+          },
+          icon: "https://assets.coingecko.com/coins/images/53746/large/trump.png?1737171561",
+          coinGeckoId: "official-trump",
+          decimals: 6,
+        },
       },
     }
   ),
