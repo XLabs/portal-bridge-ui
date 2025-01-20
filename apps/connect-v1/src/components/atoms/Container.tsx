@@ -11,6 +11,7 @@ const InnerWrapper = styled("div")(({ theme }) => ({
   maxWidth: 1440,
   margin: "auto",
   padding: `${theme.spacing(3)} `,
+  rowGap: theme.spacing(3),
 }));
 
 export const Wrapper = memo(({ children }: PropsWithChildren) => {
