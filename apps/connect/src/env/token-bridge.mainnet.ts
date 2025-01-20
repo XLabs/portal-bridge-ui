@@ -576,6 +576,106 @@ export const ENV: Env = {
                 ],
               },
             ],
+            ValleyDAO: [
+              {
+                chain: "Ethereum",
+                manager: "0x24E85C241766E1e009388cdCe3B70096d2Fd6892",
+                token: "0x761A3557184cbC07b7493da0661c41177b2f97fA",
+                transceiver: [
+                  {
+                    address: "0x1cb452bEA141118f33ae076265d9302Fa1c7Fbf9",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Solana",
+                manager: "nttgQT42hdZ1vNryzXwu2DzCVnxdDrAYyZnYs51gSSd",
+                token: "growFDf9teg9gwVTTY3DgpPXU31qBrnbSQCqtY2vkR8",
+                transceiver: [
+                  {
+                    address: "J5jVpK4ofWPRDiJofWtFccq2ftQqyUz7yseRAbgDv94u",
+                    type: "wormhole",
+                  },
+                ],
+                quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
+              },
+            ],
+            HoudiniSwap: [
+              {
+                chain: "Ethereum",
+                manager: "0xfBcCAc20483dA7c53BC95EC3e1AC4d26b5860b7a",
+                token: "0x922D8563631B03C2c4cf817f4d18f6883AbA0109",
+                transceiver: [
+                  {
+                    address: "0x4C4e1F82d296D18B85982e0fd68324E8EA9950CA",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Solana",
+                manager: "NTtMFrtV9uzEW9skftVkA7EsR6dUhPtpMNK9J2aCnpG",
+                token: "App2Sp9pgmQG7yD6uVaygULxALf4TpfALgnhHEkJimih",
+                transceiver: [
+                  {
+                    address: "BqdFMSkC1AfUadPCKyREoseGxsJk6edQtXCRKtKE7McN",
+                    type: "wormhole",
+                  },
+                ],
+                quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
+              },
+            ],
+            BioProtocol: [
+              {
+                chain: "Ethereum",
+                manager: "0x1783E7d1F498321D7E15044d769621E1beDc7F4C",
+                token: "0xcb1592591996765Ec0eFc1f92599A19767ee5ffA",
+                transceiver: [
+                  {
+                    address: "0x676Cd89c6B6f02d6975547fD7Da1d5A8dbc8a3E1",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Solana",
+                manager: "ntt11hdA4n1PupHhLyT1fsjg4YF9agVz3CTuzLRQs1H",
+                token: "bioJ9JTqW62MLz7UKHU69gtKhPpGi1BQhccj2kmSvUJ",
+                transceiver: [
+                  {
+                    address: "5Yaf3N7MAEThp5FBBjUri8rv9mWxFEiJBjTKYYeKEi37",
+                    type: "wormhole",
+                  },
+                ],
+                quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
+              },
+            ],
+            Portal: [
+              {
+                chain: "Ethereum",
+                manager: "0xf4929F54a07193868A774DD0a89A8FA37313A7F0",
+                token: "0x1Bbe973BeF3a977Fc51CbED703E8ffDEfE001Fed",
+                transceiver: [
+                  {
+                    address: "0x23d774AB64Be226Aff32CC0c1A31a5af35cEA4D6",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Solana",
+                manager: "nTTMrDU5CfFATK4ixizF8EK1GJaFwi35PjmNpK4Qp3e",
+                token: "BCC71Yn1f9Tn4p2QVKqhDWQaoHvQj6Qr8QK2m6desRHe",
+                transceiver: [
+                  {
+                    address: "8Gq5vYnqNK2BwPPJvEGjvBhkXugKLjKAkdBBN3QwjTcE",
+                    type: "wormhole",
+                  },
+                ],
+                quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
+              },
+            ],
           },
         }),
       ],
@@ -650,7 +750,7 @@ export const ENV: Env = {
           Avalanche: "0x137e3b33DC1Fe64bC6FC3d3fF2A801A2fdfcB4b2",
           Sui: "0xe817f4f6f07f0da308698a4d9cd8af8a5d05b234edc55ce524916dc8d2b42fa5::coin::COIN",
           Aptos:
-            "0x863d1f83048111cb48be29cf86d2d3da6c48b64e6c60aa72ca3e3f4abe198386",
+            "0x863d1f83048111cb48be29cf86d2d3da6c48b64e6c60aa72ca3e3f4abe198386::coin::T",
           Arbitrum: "0x3Ac2EBFf77Aab7cA87FC0e4e1c1b4a5E219957C2",
           Fantom: "0xC07B1b12122e4835e7b3d3920Cd55CA1EB238D6C",
           Base: "0x75A078Ab8d977BCECAFAfAAcA4339e6EACf648d3",
@@ -664,7 +764,7 @@ export const ENV: Env = {
           Optimism: "0x5F33522034D2281667b9354D2e9A0317755146AC",
           Sui: "0x37f44326b8ffd853e74030a00ede720380d164dcc33949aaf729c675865c4da3::coin::COIN",
           Aptos:
-            "0xb628b3c69a4747cadc570ca75efaf43cff1979db3993d85db7d071a984b9e445",
+            "0xb628b3c69a4747cadc570ca75efaf43cff1979db3993d85db7d071a984b9e445::coin::T",
           Fantom: "0x3f3a9fcAdE548b59E2c335E4f2dF2ae4ed4A6B63",
           Base: "0x9e325590933809B3b79B9C892f07D5A89d322542",
           Celo: "0xfA9f0D9b7E903970e16f65BD648ddD282E2772a1",
@@ -704,8 +804,35 @@ export const ENV: Env = {
           Mantle: "0x2a76b7dE7902BA089EdD39C17Df38c4a2CdDAd0B",
           Xlayer: "0x8173Aba689eC001af9918B170a3946826212A366",
         },
+        NPC: {
+          Solana: "BeGY8KqKxboEwRbJd1q9H2K829jS4Rc5dEyNMYXCbV5p",
+          Base: "0xb166e8b140d35d9d8226e40c09f757bac5a4d87d",
+          Bsc: "0xfebfa339e44c28e2aa9e62ea1027c9cb4e378605",
+        },
+        AltLayer: {
+          Solana: "wiwDfzGBb4radfYGpQo5EGeqv3q45ms6tTiaJc7Pzub",
+        },
+        Neiro: {
+          Solana: "FkmodwcM4YULTKLNMo7VHs4HLPvm8iBVLJHTj9YhMr9h",
+        },
+        BITCOIN: {
+          Solana: "CTgiaZUK12kCcB8sosn4Nt2NZtzLgtPqDwyQyr2syATC",
+        },
       },
       tokensConfig: {
+        TRUMP: {
+          key: "TRUMP",
+          symbol: "TRUMP",
+          displayName: "Official Trump",
+          nativeChain: "Solana",
+          tokenId: {
+            chain: "Solana",
+            address: "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN",
+          },
+          icon: "https://assets.coingecko.com/coins/images/53746/large/trump.png?1737171561",
+          coinGeckoId: "official-trump",
+          decimals: 6,
+        },
         stBTC: {
           key: "stBTC",
           symbol: "stBTC",
@@ -1427,6 +1554,54 @@ export const ENV: Env = {
           coinGeckoId: "lumoscoin",
           decimals: 18,
         },
+        ValleyDAOEthereum: {
+          key: "ValleyDAOEthereum",
+          symbol: "GROW",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0x761A3557184cbC07b7493da0661c41177b2f97fA",
+          },
+          icon: "https://assets.coingecko.com/coins/images/32991/large/VD_logo_round_200x200.png?1733563659",
+          coinGeckoId: "valleydao",
+          decimals: 18,
+        },
+        ValleyDAOSolana: {
+          key: "ValleyDAOSolana",
+          symbol: "GROW",
+          nativeChain: "Solana",
+          tokenId: {
+            chain: "Solana",
+            address: "growFDf9teg9gwVTTY3DgpPXU31qBrnbSQCqtY2vkR8",
+          },
+          icon: "https://assets.coingecko.com/coins/images/32991/large/VD_logo_round_200x200.png?1733563659",
+          coinGeckoId: "valleydao",
+          decimals: 9,
+        },
+        HoudiniSwapEthereum: {
+          key: "HoudiniSwapEthereum",
+          symbol: "LOCK",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0x922D8563631B03C2c4cf817f4d18f6883AbA0109",
+          },
+          icon: "https://assets.coingecko.com/coins/images/35132/large/LOCK_Logo.png?1707443455",
+          coinGeckoId: "houdini-swap",
+          decimals: 18,
+        },
+        HoudiniSwapSolana: {
+          key: "HoudiniSwapSolana",
+          symbol: "LOCK",
+          nativeChain: "Solana",
+          tokenId: {
+            chain: "Solana",
+            address: "App2Sp9pgmQG7yD6uVaygULxALf4TpfALgnhHEkJimih",
+          },
+          icon: "https://assets.coingecko.com/coins/images/35132/large/LOCK_Logo.png?1707443455",
+          coinGeckoId: "houdini-swap",
+          decimals: 9,
+        },
         Worldcoin: {
           key: "Worldcoin",
           symbol: "WLD",
@@ -1439,6 +1614,105 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/31069/large/worldcoin.jpeg?1696529903",
           coinGeckoId: "worldcoin-wld",
           decimals: 18,
+        },
+        NPC: {
+          key: "NPC",
+          symbol: "NPC",
+          displayName: "Non-Playable Coin",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0x8ed97a637a790be1feff5e888d43629dc05408f6",
+          },
+          icon: "images/tokens/npc.png",
+          coinGeckoId: "non-playable-coin",
+          decimals: 18,
+        },
+        AltLayer: {
+          key: "AltLayer",
+          symbol: "ALT",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0x8457ca5040ad67fdebbcc8edce889a335bc0fbfb",
+          },
+          icon: "https://assets.coingecko.com/coins/images/34608/large/Logomark_200x200.png",
+          coinGeckoId: "altlayer",
+          decimals: 18,
+        },
+        BioProtocolEthereum: {
+          key: "BioProtocolEthereum",
+          symbol: "BIO",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0xcb1592591996765Ec0eFc1f92599A19767ee5ffA",
+          },
+          icon: "images/tokens/bio.svg",
+          coinGeckoId: "bio-protocol",
+          decimals: 18,
+        },
+        BioProtocolSolana: {
+          key: "BioProtocolSolana",
+          symbol: "BIO",
+          nativeChain: "Solana",
+          tokenId: {
+            chain: "Solana",
+            address: "bioJ9JTqW62MLz7UKHU69gtKhPpGi1BQhccj2kmSvUJ",
+          },
+          icon: "images/tokens/bio.svg",
+          coinGeckoId: "bio-protocol",
+          decimals: 9,
+        },
+        Neiro: {
+          key: "Neiro",
+          symbol: "NEIRO",
+          displayName: "Neiro",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0x812Ba41e071C7b7fA4EBcFB62dF5F45f6fA853Ee",
+          },
+          icon: "images/tokens/neiro.png",
+          coinGeckoId: "neiro-3",
+          decimals: 9,
+        },
+        BITCOIN: {
+          key: "BITCOIN",
+          symbol: "BITCOIN",
+          displayName: "HarryPotterObamaSonic10Inu",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0x72e4f9F808C49A2a61dE9C5896298920Dc4EEEa9",
+          },
+          icon: "images/tokens/HarryPotterObamaSonic10Inu.png",
+          coinGeckoId: "harrypotterobamasonic10in",
+          decimals: 8,
+        },
+        PortalEthereum: {
+          key: "PortalEthereum",
+          symbol: "PORTAL",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0x1Bbe973BeF3a977Fc51CbED703E8ffDEfE001Fed",
+          },
+          icon: "https://assets.coingecko.com/coins/images/35436/large/portal.jpeg",
+          coinGeckoId: "portal-2",
+          decimals: 18,
+        },
+        PortalSolana: {
+          key: "PortalSolana",
+          symbol: "PORTAL",
+          nativeChain: "Solana",
+          tokenId: {
+            chain: "Solana",
+            address: "BCC71Yn1f9Tn4p2QVKqhDWQaoHvQj6Qr8QK2m6desRHe",
+          },
+          icon: "https://assets.coingecko.com/coins/images/35436/large/portal.jpeg",
+          coinGeckoId: "portal-2",
+          decimals: 9,
         },
       },
     }

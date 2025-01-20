@@ -34,6 +34,7 @@ export const MAINNET_RPCS = {
   ...rpcs(chains, asRpcHost),
   Klaytn: "https://public-en.node.kaia.io/",
   Solana: "https://wormhole.rpcpool.com/",
+  Aptos: "https://and76cjzpa.execute-api.us-east-2.amazonaws.com/aptos/v1",
 };
 
 export const PUBLIC_URL = envVars.VITE_PUBLIC_URL || "";
@@ -44,7 +45,6 @@ export const wormholeConnectConfigCommon: Partial<WormholeConnectConfig> = {
     title: "",
     // cctpWarning: "",
     walletConnectProjectId: envVars.VITE_APP_WALLET_CONNECT_PROJECT_ID || "",
-    showHamburgerMenu: false,
     explorer: {
       href: `https://wormholescan.io/#/txs?address={:address}&network=${CLUSTER}`,
     },
