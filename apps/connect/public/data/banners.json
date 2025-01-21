@@ -1,9 +1,9 @@
 [
   {
     "id": "string",
-    "background": "linear-gradient(90deg, rgba(6,132,249,1) 30%, rgba(0,64,124,1) 71%, rgba(8,8,44,1) 100%)",
+    "background": "linear-gradient(90deg, rgba(8,8,44,0) 0%, rgba(0,64,124,0.9948573179271709) 20%, rgba(6,132,249,1) 50%, rgba(0,64,124,1) 80%, rgba(8,8,44,1) 100%)",
     "content": {
-      "text": "Claim Your Rewards! The W staking rewards are now available for claiming."
+      "text": "Claim your rewards! W staking rewards can now be claimed."
     },
     "button": {
       "href": "https://w.wormhole.com/",
@@ -15,7 +15,7 @@
   },
   {
     "id": "string1",
-    "background": "linear-gradient(90deg, rgba(6,132,249,1) 30%, rgba(0,64,124,1) 71%, rgba(8,8,44,1) 100%)",
+    "background": "linear-gradient(90deg, rgba(8,8,44,0) 0%, rgba(0,64,124,0.9948573179271709) 20%, rgba(6,132,249,1) 50%, rgba(0,64,124,1) 80%, rgba(8,8,44,1) 100%)",
     "content": {
       "text": "Get Ready for the Next Phase of W Staking. Stay tuned for updates on the start of the next staking period."
     },
