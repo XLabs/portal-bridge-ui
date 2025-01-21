@@ -38,6 +38,9 @@ import {
   CHAIN_ID_ETH,
   CHAIN_ID_POLYGON,
   tryNativeToUint8Array,
+  ChainName,
+  coalesceChainId,
+  createNonce,
 } from "@certusone/wormhole-sdk";
 import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk/lib/esm";
 import { Alert } from "@material-ui/lab";
@@ -152,6 +155,7 @@ import { useSeiWallet } from "../contexts/SeiWalletContext";
 import { SeiWallet } from "@xlabs-libs/wallet-aggregator-sei";
 import { SuiTransactionBlockResponse } from "@mysten/sui.js";
 import { telemetry, TelemetryTxEvent } from "../utils/telemetry";
+import { ExecuteInstruction } from "@cosmjs/cosmwasm-stargate";
 
 type AdditionalPayloadOverride = {
   receivingContract: Uint8Array;
@@ -263,6 +267,29 @@ async function algo(
     onError?.(e);
   }
 }
+export const isValidAptosType = (str: string): boolean =>
+  /^(0x)?[0-9a-fA-F]+::\w+::\w+$/.test(str);
+
+export const transferTokensWithPayload = (
+  tokenBridgeAddress: string,
+  fullyQualifiedType: string,
+  amount: string,
+  recipientChain: ChainId | ChainName,
+  recipient: Uint8Array,
+  nonce: number,
+  payload: Uint8Array
+): Types.EntryFunctionPayload => {
+  if (!tokenBridgeAddress) throw new Error("Need token bridge address.");
+  if (!isValidAptosType(fullyQualifiedType)) {
+    throw new Error("Invalid qualified type");
+  }
+  const recipientChainId = coalesceChainId(recipientChain);
+  return {
+    function: `${tokenBridgeAddress}::transfer_tokens::transfer_tokens_with_payload_entry`,
+    type_arguments: [fullyQualifiedType],
+    arguments: [amount, recipientChainId, recipient, nonce, payload],
+  };
+};
 
 async function aptos(
   dispatch: any,
@@ -287,19 +314,29 @@ async function aptos(
     const transferAmountParsed = baseAmountParsed.add(feeParsed);
     // Aptos does not support additional payload, comment out for now
     // See https://github.com/wormhole-foundation/wormhole/blob/main/sdk/js/src/token_bridge/transfer.ts#L901
-    // const additionalPayload = maybeAdditionalPayload();
-    const transferPayload = transferFromAptos(
-      tokenBridgeAddress,
-      tokenAddress,
-      transferAmountParsed.toString(),
-      recipientChain,
-      recipientAddress
-      //additionalPayload?.receivingContract || recipientAddress,
-      //additionalPayload?.payload
-      //  ? undefined
-      //  : createNonce().readUInt32LE(0).toString(),
-      //additionalPayload?.payload
-    );
+    const additionalPayload = maybeAdditionalPayload();
+    const transferPayload = additionalPayload
+      ? transferTokensWithPayload(
+          tokenBridgeAddress,
+          tokenAddress,
+          transferAmountParsed.toString(),
+          recipientChain,
+          additionalPayload?.receivingContract || recipientAddress,
+          additionalPayload?.payload ? 0 : createNonce().readUInt32LE(0),
+          additionalPayload?.payload
+        )
+      : transferFromAptos(
+          tokenBridgeAddress,
+          tokenAddress,
+          transferAmountParsed.toString(),
+          recipientChain,
+          recipientAddress
+          //additionalPayload?.receivingContract || recipientAddress,
+          //additionalPayload?.payload
+          //  ? undefined
+          //  : createNonce().readUInt32LE(0).toString(),
+          //additionalPayload?.payload
+        );
 
     const hash = await waitForSignAndSubmitTransaction(transferPayload, wallet);
     onStart?.({ txId: hash });
@@ -895,56 +932,85 @@ async function sei(
 
     // NOTE: this only supports transferring out via the Sei CW20 <> Bank translator
     // or the usei native denomination
-    const instructions =
-      asset === SEI_NATIVE_DENOM
-        ? [
-            {
-              contractAddress: tokenBridgeAddress,
-              msg: {
-                deposit_tokens: {},
+    let instructions;
+    if (asset === SEI_NATIVE_DENOM) {
+      instructions = [
+        {
+          contractAddress: tokenBridgeAddress,
+          msg: {
+            deposit_tokens: {},
+          },
+          funds: [{ denom: asset, amount: baseAmountParsed }],
+        },
+        {
+          contractAddress: tokenBridgeAddress,
+          msg: {
+            initiate_transfer: {
+              asset: {
+                amount: baseAmountParsed,
+                info: { native_token: { denom: asset } },
               },
-              funds: [{ denom: asset, amount: baseAmountParsed }],
+              recipient_chain: targetChain,
+              recipient: encodedRecipient,
+              fee: feeParsed,
+              nonce: Math.floor(Math.random() * 100000),
             },
-            {
-              contractAddress: tokenBridgeAddress,
-              msg: {
-                initiate_transfer: {
-                  asset: {
-                    amount: baseAmountParsed,
-                    info: { native_token: { denom: asset } },
-                  },
-                  recipient_chain: targetChain,
-                  recipient: encodedRecipient,
-                  fee: feeParsed,
-                  nonce: Math.floor(Math.random() * 100000),
-                },
+          },
+        },
+      ];
+    } else if (asset.startsWith(`sei`)) {
+      // Handle with CW-20 tokens with no-factory
+      instructions = [
+        {
+          contractAddress: asset,
+          msg: {
+            increase_allowance: {
+              spender: tokenBridgeAddress,
+              amount: baseAmountParsed,
+              expires: { never: {} },
+            },
+          },
+        },
+        {
+          contractAddress: tokenBridgeAddress,
+          msg: {
+            initiate_transfer: {
+              asset: {
+                amount: baseAmountParsed,
+                info: { token: { contract_addr: asset } },
               },
+              recipient_chain: targetChain,
+              recipient: encodedRecipient,
+              fee: feeParsed,
+              nonce: Math.floor(Math.random() * 100000),
             },
-          ]
-        : [
-            {
-              contractAddress: SEI_TRANSLATOR,
-              msg: {
-                convert_and_transfer: {
-                  recipient_chain: targetChain,
-                  recipient: encodedRecipient,
-                  fee: feeParsed,
-                },
-              },
-              funds: [
-                { denom: asset, amount: transferAmountParsed.toString() },
-              ],
+          },
+        },
+      ];
+    } else {
+      instructions = [
+        {
+          contractAddress: SEI_TRANSLATOR,
+          msg: {
+            convert_and_transfer: {
+              recipient_chain: targetChain,
+              recipient: encodedRecipient,
+              fee: feeParsed,
             },
-          ];
+          },
+          funds: [{ denom: asset, amount: transferAmountParsed.toString() }],
+        },
+      ];
+    }
 
     const fee = await calculateFeeForContractExecution(
-      instructions,
+      instructions as ExecuteInstruction[],
       wallet,
       "Wormhole - Complete Transfer"
     );
 
     const tx = await wallet.executeMultiple({
-      instructions,
+      instructions: instructions as ExecuteInstruction[],
       fee,
       memo: "Wormhole - Initiate Transfer",
     });
