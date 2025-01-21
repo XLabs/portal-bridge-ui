@@ -14,7 +14,7 @@ const Container = styled("div")<BarProps>(
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
-    height: "56px",
+    height: 40,
     [theme.breakpoints.down("md")]: {
       height: "auto",
       flexDirection: "column",
