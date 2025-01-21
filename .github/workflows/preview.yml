@@ -23,7 +23,7 @@ jobs:
     with:
       name: preview
       separator: P
-      advanced-tools-branch: feature/include-scroll-mantle-xlayer
+      advanced-tools-branch: bugfix/terra-connect
       environment: Cloudflare-Preview
       public-url: "/${{ needs.branch-sha.outputs.value }}"
       wac-url-template: "https://allez-xyz--usds-*.modal.run"
