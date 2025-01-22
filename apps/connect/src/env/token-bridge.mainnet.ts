@@ -676,6 +676,31 @@ export const ENV: Env = {
                 quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
               },
             ],
+            VictoriaVR: [
+              {
+                chain: "Ethereum",
+                manager: "0xf91daC259d7164C15B87291dc2bb679e71B56b8D",
+                token: "0x7d5121505149065b562C789A0145eD750e6E8cdD",
+                transceiver: [
+                  {
+                    address: "0x3f7Dcc848892E79bAbEde0174D458CD09Af14798",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Solana",
+                manager: "Ntt4DumFpWsaM3MjoHBnbDcK7DfAsmWK7yC4nKK2MbR",
+                token: "7zJqVFQZkZqN7B3bHWWaPig4pBBqwbCVXpFtiDYxaVuX",
+                transceiver: [
+                  {
+                    address: "BPAwiVgSzv7F44v88x7YLdm8skskvXooaP4bgKMVTDJU",
+                    type: "wormhole",
+                  },
+                ],
+                quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
+              },
+            ],
           },
         }),
       ],
@@ -1712,6 +1737,30 @@ export const ENV: Env = {
           },
           icon: "https://assets.coingecko.com/coins/images/35436/large/portal.jpeg",
           coinGeckoId: "portal-2",
+          decimals: 9,
+        },
+        VictoriaVREthereum: {
+          key: "VictoriaVREthereum",
+          symbol: "VR",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0x7d5121505149065b562C789A0145eD750e6E8cdD",
+          },
+          icon: "https://assets.coingecko.com/coins/images/21178/large/vr.png",
+          coinGeckoId: "victoria-vr",
+          decimals: 18,
+        },
+        VictoriaVRSolana: {
+          key: "VictoriaVRSolana",
+          symbol: "VR",
+          nativeChain: "Solana",
+          tokenId: {
+            chain: "Solana",
+            address: "7zJqVFQZkZqN7B3bHWWaPig4pBBqwbCVXpFtiDYxaVuX",
+          },
+          icon: "https://assets.coingecko.com/coins/images/21178/large/vr.png",
+          coinGeckoId: "victoria-vr",
           decimals: 9,
         },
       },
