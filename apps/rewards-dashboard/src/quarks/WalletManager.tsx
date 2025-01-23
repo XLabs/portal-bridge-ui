@@ -1,10 +1,10 @@
-import { useWeb3Modal } from "@web3modal/wagmi/react";
+import { useAppKit } from "@reown/appkit/react";
 import { t } from "@lingui/macro";
 import { useWalletInfo } from "../hooks/useWalletInfo";
 
 export const WalletManager = () => {
   const { isConnected, ensName, address, blockie } = useWalletInfo();
-  const { open } = useWeb3Modal();
+  const { open } = useAppKit();
 
   const text = isConnected
     ? ensName
@@ -13,6 +13,7 @@ export const WalletManager = () => {
         ? truncateAddr(address)
         : ""
     : t`CONNECT WALLET`;
+
   return (
     <div
       className="
