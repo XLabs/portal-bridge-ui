@@ -12,7 +12,7 @@ function getFormatedAsset(asset: string | null): string | null {
     ...Object.values(ENV.wormholeConnectConfig?.tokensConfig || {}),
   ];
   if (allTokens && asset) {
-    const tokenParam = (allTokens).find((config) =>
+    const tokenParam = allTokens.find((config) =>
       [
         config?.tokenId?.address?.toLowerCase?.(),
         config?.symbol?.toLowerCase?.(),

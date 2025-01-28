@@ -740,11 +740,11 @@ export const ENV: Env = {
           },
           // Neiro
           ["0x812Ba41e071C7b7fA4EBcFB62dF5F45f6fA853Ee"]: {
-            Solana: "FkmodwcM4YULTKLNMo7VHs4HLPvm8iBVLJHTj9YhMr9h"
+            Solana: "FkmodwcM4YULTKLNMo7VHs4HLPvm8iBVLJHTj9YhMr9h",
           },
           // BITCOIN
           ["0x72e4f9F808C49A2a61dE9C5896298920Dc4EEEa9"]: {
-            Solana: "CTgiaZUK12kCcB8sosn4Nt2NZtzLgtPqDwyQyr2syATC"
+            Solana: "CTgiaZUK12kCcB8sosn4Nt2NZtzLgtPqDwyQyr2syATC",
           },
         },
         Bsc: {
@@ -771,7 +771,7 @@ export const ENV: Env = {
             Fantom: "0x6e0e8cf6Ad151e1260A4D398faaEDFC450A9f00a",
             Base: "0x59f4f969dd3A91A943651C9625E96822DC84Ef94",
             Celo: "0x0E21B5BdFb6eDBa7d903a610d4DE2F8c72586017",
-          }
+          },
         },
         Solana: {
           // BONK
@@ -902,7 +902,6 @@ export const ENV: Env = {
           decimals: 8,
         },
         $WIF: {
-
           symbol: "$WIF",
           tokenId: {
             chain: "Solana",
