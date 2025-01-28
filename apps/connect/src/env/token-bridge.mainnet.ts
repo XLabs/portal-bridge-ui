@@ -445,6 +445,17 @@ export const ENV: Env = {
                 ],
                 quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
               },
+              {
+                chain: "Bsc",
+                manager: "0xBC51f76178a56811fdfe95D3897E6aC2B11DbB62",
+                token: "0x46777C76dBbE40fABB2AAB99E33CE20058e76C59",
+                transceiver: [
+                  {
+                    address: "0x8D77Ac62A6571a408e5C9655fF5dE90d537C3045",
+                    type: "wormhole",
+                  },
+                ],
+              },
             ],
             VaultCraft: [
               {
@@ -550,6 +561,18 @@ export const ENV: Env = {
                     type: "wormhole",
                   },
                 ],
+              },
+              {
+                chain: "Solana",
+                manager: "nttbhNaJput6dP8hXV6fuuhRHyvKYy2GJYAs64s176G",
+                token: "CANeF11aEY9XNGbJmnQwTPvnnXoPfGKpPyLxZr2zVd9W",
+                transceiver: [
+                  {
+                    address: "7SDRxV91WwGEgt6cHwBPBggQp9RX6YcbB7szgo6rzTXh",
+                    type: "wormhole",
+                  },
+                ],
+                quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
               },
             ],
             stAvail: [
@@ -1348,6 +1371,19 @@ export const ENV: Env = {
           coinGeckoId: "layer3",
           decimals: 9,
         },
+        Layer3Bsc: {
+          key: "Layer3Bsc",
+          symbol: "L3",
+          displayName: "Layer3",
+          nativeChain: "Bsc",
+          tokenId: {
+            chain: "Bsc",
+            address: "0x46777C76dBbE40fABB2AAB99E33CE20058e76C59",
+          },
+          icon: "https://assets.coingecko.com/coins/images/37768/standard/Square.png?1722045128",
+          coinGeckoId: "layer3",
+          decimals: 18,
+        },
         AUDIUS: {
           key: "AUDIUS",
           symbol: "AUDIO",
@@ -1501,6 +1537,18 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/37372/standard/avail-logo.png?1714145201",
           coinGeckoId: "avail",
           decimals: 18,
+        },
+        AvailSolana: {
+          key: "AvailSolana",
+          symbol: "AVAIL",
+          nativeChain: "Solana",
+          tokenId: {
+            chain: "Solana",
+            address: "CANeF11aEY9XNGbJmnQwTPvnnXoPfGKpPyLxZr2zVd9W",
+          },
+          icon: "https://assets.coingecko.com/coins/images/37372/standard/avail-logo.png?1714145201",
+          coinGeckoId: "avail",
+          decimals: 9,
         },
         stAvailEthereum: {
           key: "stAvailEthereum",
