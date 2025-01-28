@@ -21,8 +21,9 @@ export default function NewsBar({ messages }: NewsBarProps) {
           {!!message.button && <NewBarButton button={message.button} />}
         </Bar>
       )}
-      {banners?.map((banner) => (
+      {banners?.map((banner, idx) => (
         <Bar
+          key={`${banner.content.text}_${idx}`}
           background={banner.background}
           color={banner.content.color || ""}
           size={banner.content.size || ""}

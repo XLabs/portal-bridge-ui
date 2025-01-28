@@ -118,7 +118,7 @@ export const NavBar = () => {
                   {label}
                 </Link>
               ) : (
-                <Section>
+                <Section key={`${label}_${idx}`}>
                   <SubMenu
                     onClick={() => openSubMenuHandler(idx)}
                     sx={!subMenu.open ? undefined : { color: COLOR.white }}
