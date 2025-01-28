@@ -50,10 +50,6 @@ export const Connect = memo(() => {
       };
 
       asyncConfig();
-      // localStorage.setItem(
-      //   `${window.location.href}?${import.meta.env.VITE_APP_VERSION}`,
-      //   JSON.stringify(config, null, 2)
-      // );
     }
   }, [offlineConfig]);
 
