@@ -654,22 +654,22 @@ export const ENV: Env = {
             Portal: [
               {
                 chain: "Ethereum",
-                manager: "0xf4929F54a07193868A774DD0a89A8FA37313A7F0",
+                manager: "0x4Da71EA6853ED228c1b9E1CdB0A1f2dc7f542927",
                 token: "0x1Bbe973BeF3a977Fc51CbED703E8ffDEfE001Fed",
                 transceiver: [
                   {
-                    address: "0x23d774AB64Be226Aff32CC0c1A31a5af35cEA4D6",
+                    address: "0xaD08915a7fe905D1dC28Ba6dF450B9A7265df103",
                     type: "wormhole",
                   },
                 ],
               },
               {
                 chain: "Solana",
-                manager: "nTTMrDU5CfFATK4ixizF8EK1GJaFwi35PjmNpK4Qp3e",
-                token: "BCC71Yn1f9Tn4p2QVKqhDWQaoHvQj6Qr8QK2m6desRHe",
+                manager: "ntT3RcLXQV8bMPiTwFNXvE9RTcxsmJLCH6DGtLXzfgV",
+                token: "FMQjDvT1GztVxdvYgMBEde4L54fftFGx9m5GmbqeJGM5",
                 transceiver: [
                   {
-                    address: "8Gq5vYnqNK2BwPPJvEGjvBhkXugKLjKAkdBBN3QwjTcE",
+                    address: "AcD54tJ8dzHxWJM2repysErPHc1ZBQv3jYK95BMCnkpb",
                     type: "wormhole",
                   },
                 ],
@@ -1708,7 +1708,7 @@ export const ENV: Env = {
           nativeChain: "Solana",
           tokenId: {
             chain: "Solana",
-            address: "BCC71Yn1f9Tn4p2QVKqhDWQaoHvQj6Qr8QK2m6desRHe",
+            address: "FMQjDvT1GztVxdvYgMBEde4L54fftFGx9m5GmbqeJGM5",
           },
           icon: "https://assets.coingecko.com/coins/images/35436/large/portal.jpeg",
           coinGeckoId: "portal-2",
