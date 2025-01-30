@@ -676,6 +676,30 @@ export const ENV: Env = {
                 quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
               },
             ],
+            CreatorBid: [
+              {
+                chain: "Bsc",
+                manager: "0xC5103069C3a0b52cddea0f565a4589d54452114C",
+                token: "0xa1832f7F4e534aE557f9B5AB76dE54B1873e498B",
+                transceiver: [
+                  {
+                    address: "0x65739e922B1879814f2962cbfff01950075397A6",
+                    type: "wormhole",
+                  },
+                ],
+              },
+              {
+                chain: "Base",
+                manager: "0xC5103069C3a0b52cddea0f565a4589d54452114C",
+                token: "0xa1832f7F4e534aE557f9B5AB76dE54B1873e498B",
+                transceiver: [
+                  {
+                    address: "0x65739e922B1879814f2962cbfff01950075397A6",
+                    type: "wormhole",
+                  },
+                ],
+              },
+            ],
           },
         }),
       ],
@@ -1713,6 +1737,32 @@ export const ENV: Env = {
           icon: "https://assets.coingecko.com/coins/images/35436/large/portal.jpeg",
           coinGeckoId: "portal-2",
           decimals: 9,
+        },
+        CreatorBidBsc: {
+          key: "CreatorBidBsc",
+          symbol: "BID",
+          displayName: "CreatorBid",
+          nativeChain: "Bsc",
+          tokenId: {
+            chain: "Bsc",
+            address: "0xa1832f7F4e534aE557f9B5AB76dE54B1873e498B",
+          },
+          icon: "https://assets.coingecko.com/coins/images/53878/large/creatorbid.jpg",
+          coinGeckoId: "creatorbid",
+          decimals: 18,
+        },
+        CreatorBidBase: {
+          key: "CreatorBidBase",
+          symbol: "BID",
+          displayName: "CreatorBid",
+          nativeChain: "Base",
+          tokenId: {
+            chain: "Base",
+            address: "0xa1832f7F4e534aE557f9B5AB76dE54B1873e498B",
+          },
+          icon: "https://assets.coingecko.com/coins/images/53878/large/creatorbid.jpg",
+          coinGeckoId: "creatorbid",
+          decimals: 18,
         },
       },
     }
