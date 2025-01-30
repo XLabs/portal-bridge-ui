@@ -890,7 +890,7 @@ export const ENV: Env = {
             chain: "Ethereum",
             address: "0x76e222b07c53d28b89b0bac18602810fc22b49a8",
           },
-          decimals: 8,
+          decimals: 18,
         },
         spx6900: {
           symbol: "SPX6900",
