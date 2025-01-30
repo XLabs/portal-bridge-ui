@@ -35,7 +35,7 @@ export const COIN_GECKO_IMAGE_URLS: CoinGeckoIdToImageUrl = {
   aldrin:
     "https://assets.coingecko.com/coins/images/16849/small/Aldrin.png?1629959768",
   aleph:
-    "https://assets.coingecko.com/coins/images/11676/standard/Aleph-Logo-BW.png?1696511566",
+    "https://assets.coingecko.com/coins/images/11676/small/Aleph-Logo-BW.png?1696511566",
   allbridge:
     "https://assets.coingecko.com/coins/images/18690/small/abr.png?1640742053",
   "amp-token":
