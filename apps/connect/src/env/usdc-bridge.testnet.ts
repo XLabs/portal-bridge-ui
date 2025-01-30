@@ -17,6 +17,7 @@ export const ENV: Env = {
         "PolygonSepolia",
         "Solana",
         "Sui",
+        "Aptos",
       ],
     }
   ),

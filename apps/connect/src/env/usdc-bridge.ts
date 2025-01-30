@@ -50,6 +50,7 @@ export const ENV: Env = {
         "USDCpolygon",
         "USDCsol",
         "USDCsui",
+        "USDCapt",
       ],
     }
   ),
