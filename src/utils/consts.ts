@@ -2052,6 +2052,16 @@ export const logoOverrides = new Map<string, string>([
     "0xc0fbc4967259786c743361a5885ef49380473dcf",
     "https://assets.coingecko.com/coins/images/11676/large/Aleph-Logo-BW.png",
   ],
+  // ALEPH BNB
+  [
+    "0x82d2f8e02afb160dd5a480a617692e62de9038c4",
+    "https://assets.coingecko.com/coins/images/11676/large/Aleph-Logo-BW.png",
+  ],
+  // ALEPH BASE
+  [
+    "0xc0fbc4967259786c743361a5885ef49380473dcf",
+    "https://assets.coingecko.com/coins/images/11676/large/Aleph-Logo-BW.png",
+  ],
 ]);
 
 export const getHowToAddTokensToWalletUrl = (chainId: ChainId) => {
