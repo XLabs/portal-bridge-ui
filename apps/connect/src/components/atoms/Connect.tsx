@@ -8,7 +8,7 @@ import { NAVBAR_WIDTH } from "./NavBar";
 import { theme } from "../../theme/connect";
 import { Banner } from "./Banner";
 import { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
-import { fetchTokens } from "../../utils/fetchTokens";
+import { fetchTokensConfig } from "../../utils/fetchTokens";
 
 export const Container = styled("div")(({ theme }) => ({
   paddingRight: `${NAVBAR_WIDTH}px`,
@@ -28,22 +28,33 @@ export const Connect = memo(() => {
 
     if (offlineConfig) {
       const asyncConfig = async () => {
-        const nttTokensConfig = await fetchTokens("Mainnet");
+        const { nttTokensConfig, tokensConfig, wrappedTokensConfig } =
+          await fetchTokensConfig("Mainnet");
 
-        const newConfig = {
+        const nttRoutesConfig = nttTokensConfig
+          ? nttRoutes({ tokens: nttTokensConfig })
+          : [];
+
+        const allTokensConfig: any = {};
+        if (wrappedTokensConfig) {
+          allTokensConfig.wrappedTokens = wrappedTokensConfig;
+        }
+        if (tokensConfig) {
+          allTokensConfig.tokensConfig = tokensConfig;
+        }
+
+        const fullConfig = {
           ...offlineConfig,
-          routes: [
-            ...(offlineConfig.routes || []),
-            ...nttRoutes({ tokens: nttTokensConfig }),
-          ],
+          routes: [...(offlineConfig.routes || []), ...nttRoutesConfig],
+          ...allTokensConfig,
         };
 
-        setConfig(newConfig);
-        console.log("newConfig", newConfig);
+        setConfig(fullConfig);
+        console.log("fullConfig", fullConfig);
 
         localStorage.setItem(
           "Connect Config",
-          JSON.stringify(newConfig, null, 2)
+          JSON.stringify(fullConfig, null, 2)
         );
 
         setIsLoading(false);
