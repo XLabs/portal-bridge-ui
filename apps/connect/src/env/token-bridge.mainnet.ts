@@ -696,7 +696,7 @@ export const ENV: Env = {
             Bsc: "0xE90669eB2dc5109710500b8a54cC847ad8702E6b",
           },
           // joeEthereum
-          ["0x69825081105D5497E44F1f94196791008587c329"]: {
+          ["0x76e222b07C53D28b89b0bAc18602810Fc22B49A8"]: {
             Solana: "47uDEdzSvmwtWZi4The5upP1gB3i9zaGpCVYYLoJhf79",
           },
           // spx6900
