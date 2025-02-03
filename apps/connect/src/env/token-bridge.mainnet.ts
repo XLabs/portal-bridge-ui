@@ -1572,27 +1572,21 @@ export const ENV: Env = {
           decimals: 18,
         },
         VictoriaVREthereum: {
-          key: "VictoriaVREthereum",
           symbol: "VR",
-          nativeChain: "Ethereum",
           tokenId: {
             chain: "Ethereum",
             address: "0x7d5121505149065b562C789A0145eD750e6E8cdD",
           },
           icon: "https://assets.coingecko.com/coins/images/21178/large/vr.png",
-          coinGeckoId: "victoria-vr",
           decimals: 18,
         },
         VictoriaVRSolana: {
-          key: "VictoriaVRSolana",
           symbol: "VR",
-          nativeChain: "Solana",
           tokenId: {
             chain: "Solana",
             address: "7zJqVFQZkZqN7B3bHWWaPig4pBBqwbCVXpFtiDYxaVuX",
           },
           icon: "https://assets.coingecko.com/coins/images/21178/large/vr.png",
-          coinGeckoId: "victoria-vr",
           decimals: 9,
         },
       },
