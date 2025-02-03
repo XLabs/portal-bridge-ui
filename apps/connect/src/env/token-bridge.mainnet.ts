@@ -842,6 +842,10 @@ export const ENV: Env = {
         BITCOIN: {
           Solana: "CTgiaZUK12kCcB8sosn4Nt2NZtzLgtPqDwyQyr2syATC",
         },
+        KENDU: {
+          Solana: "2nnrviYJRLcf2bXAxpKTRXzccoDbwaP4vzuGUG75Jo45",
+          Base: "0xef73611F98DA6E57e0776317957af61B59E09Ed7"
+        }
       },
       tokensConfig: {
         TRUMP: {
@@ -1762,6 +1766,19 @@ export const ENV: Env = {
           },
           icon: "https://assets.coingecko.com/coins/images/53878/large/creatorbid.jpg",
           coinGeckoId: "creatorbid",
+          decimals: 18,
+        },
+        KENDU: {
+          key: "KENDU",
+          symbol: "KENDU",
+          displayName: "Kendu Inu",
+          nativeChain: "Ethereum",
+          tokenId: {
+            chain: "Ethereum",
+            address: "0xaa95f26e30001251fb905d264aa7b00ee9df6c18",
+          },
+          icon: "https://assets.coingecko.com/coins/images/35722/large/photo_2024-03-05_01-23-59_%281%29.jpg?1709632285",
+          coinGeckoId: "kendu-inu",
           decimals: 18,
         },
       },
