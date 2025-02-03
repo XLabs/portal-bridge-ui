@@ -551,6 +551,18 @@ export const ENV: Env = {
                   },
                 ],
               },
+              {
+                chain: "Solana",
+                manager: "nttbhNaJput6dP8hXV6fuuhRHyvKYy2GJYAs64s176G",
+                token: "CANeF11aEY9XNGbJmnQwTPvnnXoPfGKpPyLxZr2zVd9W",
+                transceiver: [
+                  {
+                    address: "7SDRxV91WwGEgt6cHwBPBggQp9RX6YcbB7szgo6rzTXh",
+                    type: "wormhole",
+                  },
+                ],
+                quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
+              },
             ],
             stAvail: [
               {
@@ -1374,6 +1386,15 @@ export const ENV: Env = {
           },
           icon: "https://assets.coingecko.com/coins/images/37372/standard/avail-logo.png?1714145201",
           decimals: 18,
+        },
+        AvailSolana: {
+          symbol: "AVAIL",
+          tokenId: {
+            chain: "Solana",
+            address: "CANeF11aEY9XNGbJmnQwTPvnnXoPfGKpPyLxZr2zVd9W",
+          },
+          icon: "https://assets.coingecko.com/coins/images/37372/standard/avail-logo.png?1714145201",
+          decimals: 9,
         },
         stAvailEthereum: {
           symbol: "stAVAIL",
