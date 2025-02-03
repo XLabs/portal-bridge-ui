@@ -844,8 +844,8 @@ export const ENV: Env = {
         },
         KENDU: {
           Solana: "2nnrviYJRLcf2bXAxpKTRXzccoDbwaP4vzuGUG75Jo45",
-          Base: "0xef73611F98DA6E57e0776317957af61B59E09Ed7"
-        }
+          Base: "0xef73611F98DA6E57e0776317957af61B59E09Ed7",
+        },
       },
       tokensConfig: {
         TRUMP: {
