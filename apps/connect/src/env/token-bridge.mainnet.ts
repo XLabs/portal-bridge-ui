@@ -445,6 +445,17 @@ export const ENV: Env = {
                 ],
                 quoter: "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ",
               },
+              {
+                chain: "Bsc",
+                manager: "0xBC51f76178a56811fdfe95D3897E6aC2B11DbB62",
+                token: "0x46777C76dBbE40fABB2AAB99E33CE20058e76C59",
+                transceiver: [
+                  {
+                    address: "0x8D77Ac62A6571a408e5C9655fF5dE90d537C3045",
+                    type: "wormhole",
+                  },
+                ],
+              },
             ],
             VaultCraft: [
               {
@@ -1278,6 +1289,15 @@ export const ENV: Env = {
           },
           icon: "https://assets.coingecko.com/coins/images/37768/standard/Square.png?1722045128",
           decimals: 9,
+        },
+        Layer3Bsc: {
+          symbol: "L3",
+          tokenId: {
+            chain: "Bsc",
+            address: "0x46777C76dBbE40fABB2AAB99E33CE20058e76C59",
+          },
+          icon: "https://assets.coingecko.com/coins/images/37768/standard/Square.png?1722045128",
+          decimals: 18,
         },
         AUDIUS: {
           symbol: "AUDIO",
