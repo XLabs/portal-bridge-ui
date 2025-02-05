@@ -417,6 +417,17 @@
         }
       ],
       "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
+    },
+    {
+      "chain": "Bsc",
+      "manager": "0xBC51f76178a56811fdfe95D3897E6aC2B11DbB62",
+      "token": "0x46777C76dBbE40fABB2AAB99E33CE20058e76C59",
+      "transceiver": [
+        {
+          "address": "0x8D77Ac62A6571a408e5C9655fF5dE90d537C3045",
+          "type": "wormhole"
+        }
+      ]
     }
   ],
   "VaultCraft": [
@@ -523,6 +534,18 @@
           "type": "wormhole"
         }
       ]
+    },
+    {
+      "chain": "Solana",
+      "manager": "nttbhNaJput6dP8hXV6fuuhRHyvKYy2GJYAs64s176G",
+      "token": "CANeF11aEY9XNGbJmnQwTPvnnXoPfGKpPyLxZr2zVd9W",
+      "transceiver": [
+        {
+          "address": "7SDRxV91WwGEgt6cHwBPBggQp9RX6YcbB7szgo6rzTXh",
+          "type": "wormhole"
+        }
+      ],
+      "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
     }
   ],
   "stAvail": [
@@ -647,6 +670,30 @@
         }
       ],
       "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
+    }
+  ],
+  "CreatorBid": [
+    {
+      "chain": "Bsc",
+      "manager": "0xC5103069C3a0b52cddea0f565a4589d54452114C",
+      "token": "0xa1832f7F4e534aE557f9B5AB76dE54B1873e498B",
+      "transceiver": [
+        {
+          "address": "0x65739e922B1879814f2962cbfff01950075397A6",
+          "type": "wormhole"
+        }
+      ]
+    },
+    {
+      "chain": "Base",
+      "manager": "0xC5103069C3a0b52cddea0f565a4589d54452114C",
+      "token": "0xa1832f7F4e534aE557f9B5AB76dE54B1873e498B",
+      "transceiver": [
+        {
+          "address": "0x65739e922B1879814f2962cbfff01950075397A6",
+          "type": "wormhole"
+        }
+      ]
     }
   ]
 }

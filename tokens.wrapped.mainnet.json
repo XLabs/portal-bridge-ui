@@ -1,131 +1,167 @@
 {
-  "stBTC": {
-    "Sui": "0x5f496ed5d9d045c5b788dc1bb85f54100f2ede11e46f6a232c29daada4c5bdb6::coin::COIN",
-    "Aptos": "0x91d7249ba13f34e24892b126eea6b1acf00730ac56a3779477d0bf27f04c688b::coin::T",
-    "Bsc": "0x86EA0AED4d21AA13db4A00d93B8716dFbBcA4A8B"
+  "Ethereum": {
+    "0xf6718b2701D4a6498eF77D7c152b2137Ab28b8A3": {
+      "_comment": "stBTC",
+      "Sui": "0x5f496ed5d9d045c5b788dc1bb85f54100f2ede11e46f6a232c29daada4c5bdb6::coin::COIN",
+      "Aptos": "0x91d7249ba13f34e24892b126eea6b1acf00730ac56a3779477d0bf27f04c688b::coin::T",
+      "Bsc": "0x86EA0AED4d21AA13db4A00d93B8716dFbBcA4A8B"
+    },
+    "0x6A9A65B84843F5fD4aC9a0471C4fc11AFfFBce4a": {
+      "_comment": "enzoBTC",
+      "Sui": "0x8f2b5eb696ed88b71fea398d330bccfa52f6e2a5a8e1ac6180fcb25c6de42ebc::coin::COIN",
+      "Aptos": "0x1d9a4d969e7a0d67052fee38da3086a89cb2fddfa322849ee0215b85ff01fa60::coin::T",
+      "Bsc": "0xE90669eB2dc5109710500b8a54cC847ad8702E6b"
+    },
+    "0x76e222b07C53D28b89b0bAc18602810Fc22B49A8": {
+      "_comment": "joeEthereum",
+      "Solana": "47uDEdzSvmwtWZi4The5upP1gB3i9zaGpCVYYLoJhf79"
+    },
+    "0xe0f63a424a4439cbe457d80e4f4b51ad25b2c56c": {
+      "_comment": "spx6900",
+      "Solana": "J3NKxxXZcnNiMjKw9hYb2K4LUxgwB6t1FtPtQVsv3KFr",
+      "Base": "0x50dA645f148798F68EF2d7dB7C1CB22A6819bb2C"
+    },
+    "0x18084fbA666a33d37592fA2633fD49a74DD93a88": {
+      "_comment": "tBTC",
+      "Arbitrum": "0x6c84a8f1c29108F47a79964b5Fe888D4f4D0dE40",
+      "Polygon": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "Optimism": "0x6c84a8f1c29108F47a79964b5Fe888D4f4D0dE40",
+      "Base": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "Solana": "6DNSN2BJsaPFdFFc1zP37kkeNe4Usc1Sqkzr9C9vPWcU"
+    },
+    "0x18aAA7115705e8be94bfFEBDE57Af9BFc265B998": {
+      "_comment": "AUDIUS",
+      "Solana": "9LzCMqDgTKYz9Drzqnpgee3SGa89up3a247ypMj2xrqM"
+    },
+    "0xfB5c6815cA3AC72Ce9F5006869AE67f18bF77006": {
+      "_comment": "pStake",
+      "Sui": "0x61017ce4bd0b75b266af53edd60bbe391ba1a9fbe9a7d8553657c94ef73ee2ab::coin::COIN"
+    },
+    "0x04C154b66CB340F3Ae24111CC767e0184Ed00Cc6": {
+      "_comment": "pxETH",
+      "Sui": "0xf4530aa5ef8af33c497ec38f54ff9dd45fad9157264efae9693eb62faf8667b5::coin::COIN"
+    },
+    "0x1C9922314ED1415c95b9FD453c3818fd41867d0B": {
+      "_comment": "Tower",
+      "Solana": "5Ro9KjSUGYisjREz8K5uD1fMdXnu1Jfq3Ktqm4EQMc1R"
+    },
+    "0x8ed97a637a790be1feff5e888d43629dc05408f6": {
+      "_comment": "NPC",
+      "Solana": "BeGY8KqKxboEwRbJd1q9H2K829jS4Rc5dEyNMYXCbV5p",
+      "Base": "0xb166e8b140d35d9d8226e40c09f757bac5a4d87d",
+      "Bsc": "0xfebfa339e44c28e2aa9e62ea1027c9cb4e378605"
+    },
+    "0x8457ca5040ad67fdebbcc8edce889a335bc0fbfb": {
+      "_comment": "AltLayer",
+      "Solana": "wiwDfzGBb4radfYGpQo5EGeqv3q45ms6tTiaJc7Pzub"
+    },
+    "0x812Ba41e071C7b7fA4EBcFB62dF5F45f6fA853Ee": {
+      "_comment": "Neiro",
+      "Solana": "FkmodwcM4YULTKLNMo7VHs4HLPvm8iBVLJHTj9YhMr9h"
+    },
+    "0x72e4f9F808C49A2a61dE9C5896298920Dc4EEEa9": {
+      "_comment": "BITCOIN",
+      "Solana": "CTgiaZUK12kCcB8sosn4Nt2NZtzLgtPqDwyQyr2syATC"
+    }
   },
-  "enzoBTC": {
-    "Sui": "0x8f2b5eb696ed88b71fea398d330bccfa52f6e2a5a8e1ac6180fcb25c6de42ebc::coin::COIN",
-    "Aptos": "0x1d9a4d969e7a0d67052fee38da3086a89cb2fddfa322849ee0215b85ff01fa60::coin::T",
-    "Bsc": "0xE90669eB2dc5109710500b8a54cC847ad8702E6b"
+  "Bsc": {
+    "0xad6742a35fb341a9cc6ad674738dd8da98b94fb1": {
+      "_comment": "WOM",
+      "Ethereum": "0xc0B314a8c08637685Fc3daFC477b92028c540CFB",
+      "Avalanche": "0xa15E4544D141aa98C4581a1EA10Eb9048c3b3382",
+      "Base": "0xD9541B08B375D58ae104EC247d7443D2D7235D64",
+      "Scroll": "0x1a7aD8A6171A1EA84DD1E6d649cbd616189660D9",
+      "Optimism": "0xD2612B256F6f76feA8C6fbca0BF3166D0d13a668",
+      "Arbitrum": "0x7B5EB3940021Ec0e8e463D5dBB4B7B09a89DDF96"
+    }
   },
-  "joeEthereum": {
-    "Solana": "47uDEdzSvmwtWZi4The5upP1gB3i9zaGpCVYYLoJhf79"
+  "Polygon": {
+    "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174": {
+      "_comment": "USDC.e",
+      "Ethereum": "0x566957eF80F9fd5526CD2BEF8BE67035C0b81130",
+      "Bsc": "0x672147dD47674757C457eB155BAA382cc10705Dd",
+      "Avalanche": "0x543672E9CBEC728CBBa9C3Ccd99ed80aC3607FA8",
+      "Sui": "0xcf72ec52c0f8ddead746252481fb44ff6e8485a39b803825bde6b00d77cdb0bb::coin::COIN",
+      "Aptos": "0xc7160b1c2415d19a88add188ec726e62aab0045f0aed798106a2ef2994a9101e::coin::T",
+      "Arbitrum": "0x9A3Fba8a0870Fb9765023681DAa5390C7919C916",
+      "Fantom": "0x6e0e8cf6Ad151e1260A4D398faaEDFC450A9f00a",
+      "Base": "0x59f4f969dd3A91A943651C9625E96822DC84Ef94",
+      "Celo": "0x0E21B5BdFb6eDBa7d903a610d4DE2F8c72586017"
+    }
   },
-  "spx6900": {
-    "Solana": "J3NKxxXZcnNiMjKw9hYb2K4LUxgwB6t1FtPtQVsv3KFr",
-    "Base": "0x50dA645f148798F68EF2d7dB7C1CB22A6819bb2C"
+  "Solana": {
+    "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263": {
+      "_comment": "BONK",
+      "Ethereum": "0x1151CB3d861920e07a38e03eEAd12C32178567F6",
+      "Bsc": "0xA697e272a73744b343528C3Bc4702F2565b2F422",
+      "Polygon": "0xe5B49820e5A1063F6F4DdF851327b5E8B2301048",
+      "Avalanche": "0xC07C98a93591504584738e4569928DDb3b9f12A7",
+      "Sui": "0x6907963ca849faff0957b9a8269a7a07065e3def2eef49cc33b50ab946ea5a9f::coin::COIN",
+      "Aptos": "0x2a90fae71afc7460ee42b20ee49a9c9b29272905ad71fef92fbd8b3905a24b56::coin::T",
+      "Arbitrum": "0x09199d9A5F4448D0848e4395D065e1ad9c4a1F74",
+      "Wormchain": "wormhole10qt8wg0n7z740ssvf3urmvgtjhxpyp74hxqvqt7z226gykuus7eq9mpu8u",
+      "Osmosis": "ibc/CA3733CB0071F480FAE8EF0D9C3D47A49C6589144620A642BBE0D59A293D110E",
+      "Fantom": "0x3fEcdF1248fe7642d29f879a75CFC0339659ab93",
+      "Base": "0xDF1Cf211D38E7762c9691Be4D779A441a17A6cFC",
+      "Celo": "0x3fc50bc066aE2ee280876EeefADfdAbF6cA02894"
+    }
   },
-  "tBTC": {
-    "Arbitrum": "0x6c84a8f1c29108F47a79964b5Fe888D4f4D0dE40",
-    "Polygon": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
-    "Optimism": "0x6c84a8f1c29108F47a79964b5Fe888D4f4D0dE40",
-    "Base": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
-    "Solana": "6DNSN2BJsaPFdFFc1zP37kkeNe4Usc1Sqkzr9C9vPWcU"
+  "Optimism": {
+    "0x4200000000000000000000000000000000000042": {
+      "_comment": "OP",
+      "Ethereum": "0x1df721D242E0783F8fCab4A9FfE4F35bdf329909",
+      "Bsc": "0x0D5155720F292F5155c4Cf923AeFE523fe52a266",
+      "Polygon": "0x43a85384f880C9A6F00F21D6ec95b8CEee6A5d96",
+      "Avalanche": "0x137e3b33DC1Fe64bC6FC3d3fF2A801A2fdfcB4b2",
+      "Sui": "0xe817f4f6f07f0da308698a4d9cd8af8a5d05b234edc55ce524916dc8d2b42fa5::coin::COIN",
+      "Aptos": "0x863d1f83048111cb48be29cf86d2d3da6c48b64e6c60aa72ca3e3f4abe198386::coin::T",
+      "Arbitrum": "0x3Ac2EBFf77Aab7cA87FC0e4e1c1b4a5E219957C2",
+      "Fantom": "0xC07B1b12122e4835e7b3d3920Cd55CA1EB238D6C",
+      "Base": "0x75A078Ab8d977BCECAFAfAAcA4339e6EACf648d3",
+      "Celo": "0x5a3203696ee43b0c80a1BFd446cc33c88B39BaeB"
+    }
   },
-  "WOM": {
-    "Ethereum": "0xc0B314a8c08637685Fc3daFC477b92028c540CFB",
-    "Avalanche": "0xa15E4544D141aa98C4581a1EA10Eb9048c3b3382",
-    "Base": "0xD9541B08B375D58ae104EC247d7443D2D7235D64",
-    "Scroll": "0x1a7aD8A6171A1EA84DD1E6d649cbd616189660D9",
-    "Optimism": "0xD2612B256F6f76feA8C6fbca0BF3166D0d13a668",
-    "Arbitrum": "0x7B5EB3940021Ec0e8e463D5dBB4B7B09a89DDF96"
+  "Arbitrum": {
+    "0x912ce59144191c1204e64559fe8253a0e49e6548": {
+      "_comment": "ARB",
+      "Ethereum": "0xe5EB5EbDB1dc46C7235BAa55a650B248caeCc01B",
+      "Bsc": "0xe4A57a1F98D93558eD877459980986B5fd295Daf",
+      "Polygon": "0xA7050dda333E67AAa76086ee66F7deDEE4E1e1fd",
+      "Avalanche": "0x0c0582EC56A1aA983EDda43cF19bC7bBd86Fba79",
+      "Optimism": "0x5F33522034D2281667b9354D2e9A0317755146AC",
+      "Sui": "0x37f44326b8ffd853e74030a00ede720380d164dcc33949aaf729c675865c4da3::coin::COIN",
+      "Aptos": "0xb628b3c69a4747cadc570ca75efaf43cff1979db3993d85db7d071a984b9e445::coin::T",
+      "Fantom": "0x3f3a9fcAdE548b59E2c335E4f2dF2ae4ed4A6B63",
+      "Base": "0x9e325590933809B3b79B9C892f07D5A89d322542",
+      "Celo": "0xfA9f0D9b7E903970e16f65BD648ddD282E2772a1"
+    }
   },
-  "USDC.e": {
-    "Ethereum": "0x566957eF80F9fd5526CD2BEF8BE67035C0b81130",
-    "Bsc": "0x672147dD47674757C457eB155BAA382cc10705Dd",
-    "Avalanche": "0x543672E9CBEC728CBBa9C3Ccd99ed80aC3607FA8",
-    "Sui": "0xcf72ec52c0f8ddead746252481fb44ff6e8485a39b803825bde6b00d77cdb0bb::coin::COIN",
-    "Aptos": "0xc7160b1c2415d19a88add188ec726e62aab0045f0aed798106a2ef2994a9101e::coin::T",
-    "Arbitrum": "0x9A3Fba8a0870Fb9765023681DAa5390C7919C916",
-    "Fantom": "0x6e0e8cf6Ad151e1260A4D398faaEDFC450A9f00a",
-    "Base": "0x59f4f969dd3A91A943651C9625E96822DC84Ef94",
-    "Celo": "0x0E21B5BdFb6eDBa7d903a610d4DE2F8c72586017"
+  "Worldchain": {
+    "0x2cFc85d8E48F8EAB294be644d9E25C3030863003": {
+      "_comment": "Worldcoin",
+      "Ethereum": "0xE0A18B60BeBEdcb788585b01ab23439fD6b70F0c",
+      "Solana": "WSgvEfWpAUg5xACJkc1dakYAqJm8eGge3U7LGs7oqqJ",
+      "Arbitrum": "0x662565cb134881D6F7C2b104143E6217555A5628",
+      "Base": "0xDDF45E2B3256b2c89551c418f9b2A47d04e0F391",
+      "Sui": "0xc2ef84967f43f447e76be144cc44ebd69ddf85a0ae612101af780ec251d2f15d::coin::COIN",
+      "Bsc": "0x0d330283e8F3414D44Afd0796C50cf1FF04982d6",
+      "Optimism": "0xED6Ce6D7c5c623D605caf4b9e3967BabCB069D34",
+      "Fantom": "0x1fd9c1F569fb3bbD6ad4dfA4ABAeF8b269EC3339",
+      "Polygon": "0x30aD88e1C594F13B43aa1e53c526D0ab4b2077d0",
+      "Celo": "0x9836c625210389a05e1d7473Cf82AC3c627f61A4",
+      "Moonbeam": "0x341d95086ec63A08836dcE66FAd837aA49995B7D",
+      "Klaytn": "0xf1503817FE623438bBF0A8E03258b5eDcdaFd214",
+      "Aptos": "0x01aad41572eb11435df33d6d4a605814a4b6ee73fc2d566204220d8f4bfee7fe::coin::T",
+      "Avalanche": "0x768a15C2942880A997594eb1451D8950367A2184",
+      "Scroll": "0x2b02D2c8F44e982b462fee4B97fa6bD49388bEc3",
+      "Mantle": "0x2a76b7dE7902BA089EdD39C17Df38c4a2CdDAd0B",
+      "Xlayer": "0x8173Aba689eC001af9918B170a3946826212A366"
+    }
   },
-  "BONK": {
-    "Ethereum": "0x1151CB3d861920e07a38e03eEAd12C32178567F6",
-    "Bsc": "0xA697e272a73744b343528C3Bc4702F2565b2F422",
-    "Polygon": "0xe5B49820e5A1063F6F4DdF851327b5E8B2301048",
-    "Avalanche": "0xC07C98a93591504584738e4569928DDb3b9f12A7",
-    "Sui": "0x6907963ca849faff0957b9a8269a7a07065e3def2eef49cc33b50ab946ea5a9f::coin::COIN",
-    "Aptos": "0x2a90fae71afc7460ee42b20ee49a9c9b29272905ad71fef92fbd8b3905a24b56::coin::T",
-    "Arbitrum": "0x09199d9A5F4448D0848e4395D065e1ad9c4a1F74",
-    "Wormchain": "wormhole10qt8wg0n7z740ssvf3urmvgtjhxpyp74hxqvqt7z226gykuus7eq9mpu8u",
-    "Osmosis": "ibc/CA3733CB0071F480FAE8EF0D9C3D47A49C6589144620A642BBE0D59A293D110E",
-    "Fantom": "0x3fEcdF1248fe7642d29f879a75CFC0339659ab93",
-    "Base": "0xDF1Cf211D38E7762c9691Be4D779A441a17A6cFC",
-    "Celo": "0x3fc50bc066aE2ee280876EeefADfdAbF6cA02894"
-  },
-  "OP": {
-    "Ethereum": "0x1df721D242E0783F8fCab4A9FfE4F35bdf329909",
-    "Bsc": "0x0D5155720F292F5155c4Cf923AeFE523fe52a266",
-    "Polygon": "0x43a85384f880C9A6F00F21D6ec95b8CEee6A5d96",
-    "Avalanche": "0x137e3b33DC1Fe64bC6FC3d3fF2A801A2fdfcB4b2",
-    "Sui": "0xe817f4f6f07f0da308698a4d9cd8af8a5d05b234edc55ce524916dc8d2b42fa5::coin::COIN",
-    "Aptos": "0x863d1f83048111cb48be29cf86d2d3da6c48b64e6c60aa72ca3e3f4abe198386::coin::T",
-    "Arbitrum": "0x3Ac2EBFf77Aab7cA87FC0e4e1c1b4a5E219957C2",
-    "Fantom": "0xC07B1b12122e4835e7b3d3920Cd55CA1EB238D6C",
-    "Base": "0x75A078Ab8d977BCECAFAfAAcA4339e6EACf648d3",
-    "Celo": "0x5a3203696ee43b0c80a1BFd446cc33c88B39BaeB"
-  },
-  "ARB": {
-    "Ethereum": "0xe5EB5EbDB1dc46C7235BAa55a650B248caeCc01B",
-    "Bsc": "0xe4A57a1F98D93558eD877459980986B5fd295Daf",
-    "Polygon": "0xA7050dda333E67AAa76086ee66F7deDEE4E1e1fd",
-    "Avalanche": "0x0c0582EC56A1aA983EDda43cF19bC7bBd86Fba79",
-    "Optimism": "0x5F33522034D2281667b9354D2e9A0317755146AC",
-    "Sui": "0x37f44326b8ffd853e74030a00ede720380d164dcc33949aaf729c675865c4da3::coin::COIN",
-    "Aptos": "0xb628b3c69a4747cadc570ca75efaf43cff1979db3993d85db7d071a984b9e445::coin::T",
-    "Fantom": "0x3f3a9fcAdE548b59E2c335E4f2dF2ae4ed4A6B63",
-    "Base": "0x9e325590933809B3b79B9C892f07D5A89d322542",
-    "Celo": "0xfA9f0D9b7E903970e16f65BD648ddD282E2772a1"
-  },
-  "AUDIUS": {
-    "Solana": "9LzCMqDgTKYz9Drzqnpgee3SGa89up3a247ypMj2xrqM"
-  },
-  "pSTAKE": {
-    "Sui": "0x61017ce4bd0b75b266af53edd60bbe391ba1a9fbe9a7d8553657c94ef73ee2ab::coin::COIN"
-  },
-  "pxEth": {
-    "Sui": "0xf4530aa5ef8af33c497ec38f54ff9dd45fad9157264efae9693eb62faf8667b5::coin::COIN"
-  },
-  "Tower": {
-    "Solana": "5Ro9KjSUGYisjREz8K5uD1fMdXnu1Jfq3Ktqm4EQMc1R"
-  },
-  "Lumos": {
-    "Solana": "6xTAKg6SQejorPyubo3asYY1sLco66DA5vDbfZbheVub"
-  },
-  "Worldcoin": {
-    "Ethereum": "0xE0A18B60BeBEdcb788585b01ab23439fD6b70F0c",
-    "Solana": "WSgvEfWpAUg5xACJkc1dakYAqJm8eGge3U7LGs7oqqJ",
-    "Arbitrum": "0x662565cb134881D6F7C2b104143E6217555A5628",
-    "Base": "0xDDF45E2B3256b2c89551c418f9b2A47d04e0F391",
-    "Sui": "0xc2ef84967f43f447e76be144cc44ebd69ddf85a0ae612101af780ec251d2f15d::coin::COIN",
-    "Bsc": "0x0d330283e8F3414D44Afd0796C50cf1FF04982d6",
-    "Optimism": "0xED6Ce6D7c5c623D605caf4b9e3967BabCB069D34",
-    "Fantom": "0x1fd9c1F569fb3bbD6ad4dfA4ABAeF8b269EC3339",
-    "Polygon": "0x30aD88e1C594F13B43aa1e53c526D0ab4b2077d0",
-    "Celo": "0x9836c625210389a05e1d7473Cf82AC3c627f61A4",
-    "Moonbeam": "0x341d95086ec63A08836dcE66FAd837aA49995B7D",
-    "Klaytn": "0xf1503817FE623438bBF0A8E03258b5eDcdaFd214",
-    "Aptos": "0x01aad41572eb11435df33d6d4a605814a4b6ee73fc2d566204220d8f4bfee7fe::coin::T",
-    "Avalanche": "0x768a15C2942880A997594eb1451D8950367A2184",
-    "Scroll": "0x2b02D2c8F44e982b462fee4B97fa6bD49388bEc3",
-    "Mantle": "0x2a76b7dE7902BA089EdD39C17Df38c4a2CdDAd0B",
-    "Xlayer": "0x8173Aba689eC001af9918B170a3946826212A366"
-  },
-  "NPC": {
-    "Solana": "BeGY8KqKxboEwRbJd1q9H2K829jS4Rc5dEyNMYXCbV5p",
-    "Base": "0xb166e8b140d35d9d8226e40c09f757bac5a4d87d",
-    "Bsc": "0xfebfa339e44c28e2aa9e62ea1027c9cb4e378605"
-  },
-  "AltLayer": {
-    "Solana": "wiwDfzGBb4radfYGpQo5EGeqv3q45ms6tTiaJc7Pzub"
-  },
-  "Neiro": {
-    "Solana": "FkmodwcM4YULTKLNMo7VHs4HLPvm8iBVLJHTj9YhMr9h"
-  },
-  "BITCOIN": {
-    "Solana": "CTgiaZUK12kCcB8sosn4Nt2NZtzLgtPqDwyQyr2syATC"
+  "Fantom": {
+    "0x94fBE860aD699670A2293D194CF1376EF58C014a": {
+      "_comment": "Lumos",
+      "Solana": "6xTAKg6SQejorPyubo3asYY1sLco66DA5vDbfZbheVub"
+    }
   }
 }
