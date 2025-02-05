@@ -24,8 +24,6 @@ export const Connect = memo(() => {
   const offlineConfig = useConnectConfig();
 
   useEffect(() => {
-    console.log("offline", offlineConfig);
-
     if (offlineConfig) {
       const asyncConfig = async () => {
         const { nttTokensConfig, tokensConfig, wrappedTokensConfig } =
@@ -50,7 +48,6 @@ export const Connect = memo(() => {
         };
 
         setConfig(fullConfig);
-        console.log("fullConfig", fullConfig);
 
         localStorage.setItem(
           "Connect Config",
