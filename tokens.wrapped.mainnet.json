@@ -1,28 +1,23 @@
 {
   "Ethereum": {
     "0xf6718b2701D4a6498eF77D7c152b2137Ab28b8A3": {
-      "_comment": "stBTC",
       "Sui": "0x5f496ed5d9d045c5b788dc1bb85f54100f2ede11e46f6a232c29daada4c5bdb6::coin::COIN",
       "Aptos": "0x91d7249ba13f34e24892b126eea6b1acf00730ac56a3779477d0bf27f04c688b::coin::T",
       "Bsc": "0x86EA0AED4d21AA13db4A00d93B8716dFbBcA4A8B"
     },
     "0x6A9A65B84843F5fD4aC9a0471C4fc11AFfFBce4a": {
-      "_comment": "enzoBTC",
       "Sui": "0x8f2b5eb696ed88b71fea398d330bccfa52f6e2a5a8e1ac6180fcb25c6de42ebc::coin::COIN",
       "Aptos": "0x1d9a4d969e7a0d67052fee38da3086a89cb2fddfa322849ee0215b85ff01fa60::coin::T",
       "Bsc": "0xE90669eB2dc5109710500b8a54cC847ad8702E6b"
     },
     "0x76e222b07C53D28b89b0bAc18602810Fc22B49A8": {
-      "_comment": "joeEthereum",
       "Solana": "47uDEdzSvmwtWZi4The5upP1gB3i9zaGpCVYYLoJhf79"
     },
     "0xe0f63a424a4439cbe457d80e4f4b51ad25b2c56c": {
-      "_comment": "spx6900",
       "Solana": "J3NKxxXZcnNiMjKw9hYb2K4LUxgwB6t1FtPtQVsv3KFr",
       "Base": "0x50dA645f148798F68EF2d7dB7C1CB22A6819bb2C"
     },
     "0x18084fbA666a33d37592fA2633fD49a74DD93a88": {
-      "_comment": "tBTC",
       "Arbitrum": "0x6c84a8f1c29108F47a79964b5Fe888D4f4D0dE40",
       "Polygon": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
       "Optimism": "0x6c84a8f1c29108F47a79964b5Fe888D4f4D0dE40",
@@ -30,43 +25,34 @@
       "Solana": "6DNSN2BJsaPFdFFc1zP37kkeNe4Usc1Sqkzr9C9vPWcU"
     },
     "0x18aAA7115705e8be94bfFEBDE57Af9BFc265B998": {
-      "_comment": "AUDIUS",
       "Solana": "9LzCMqDgTKYz9Drzqnpgee3SGa89up3a247ypMj2xrqM"
     },
     "0xfB5c6815cA3AC72Ce9F5006869AE67f18bF77006": {
-      "_comment": "pStake",
       "Sui": "0x61017ce4bd0b75b266af53edd60bbe391ba1a9fbe9a7d8553657c94ef73ee2ab::coin::COIN"
     },
     "0x04C154b66CB340F3Ae24111CC767e0184Ed00Cc6": {
-      "_comment": "pxETH",
       "Sui": "0xf4530aa5ef8af33c497ec38f54ff9dd45fad9157264efae9693eb62faf8667b5::coin::COIN"
     },
     "0x1C9922314ED1415c95b9FD453c3818fd41867d0B": {
-      "_comment": "Tower",
       "Solana": "5Ro9KjSUGYisjREz8K5uD1fMdXnu1Jfq3Ktqm4EQMc1R"
     },
     "0x8ed97a637a790be1feff5e888d43629dc05408f6": {
-      "_comment": "NPC",
       "Solana": "BeGY8KqKxboEwRbJd1q9H2K829jS4Rc5dEyNMYXCbV5p",
       "Base": "0xb166e8b140d35d9d8226e40c09f757bac5a4d87d",
       "Bsc": "0xfebfa339e44c28e2aa9e62ea1027c9cb4e378605"
     },
     "0x8457ca5040ad67fdebbcc8edce889a335bc0fbfb": {
-      "_comment": "AltLayer",
       "Solana": "wiwDfzGBb4radfYGpQo5EGeqv3q45ms6tTiaJc7Pzub"
     },
     "0x812Ba41e071C7b7fA4EBcFB62dF5F45f6fA853Ee": {
-      "_comment": "Neiro",
       "Solana": "FkmodwcM4YULTKLNMo7VHs4HLPvm8iBVLJHTj9YhMr9h"
     },
     "0x72e4f9F808C49A2a61dE9C5896298920Dc4EEEa9": {
-      "_comment": "BITCOIN",
       "Solana": "CTgiaZUK12kCcB8sosn4Nt2NZtzLgtPqDwyQyr2syATC"
     }
   },
   "Bsc": {
     "0xad6742a35fb341a9cc6ad674738dd8da98b94fb1": {
-      "_comment": "WOM",
       "Ethereum": "0xc0B314a8c08637685Fc3daFC477b92028c540CFB",
       "Avalanche": "0xa15E4544D141aa98C4581a1EA10Eb9048c3b3382",
       "Base": "0xD9541B08B375D58ae104EC247d7443D2D7235D64",
@@ -77,7 +63,6 @@
   },
   "Polygon": {
     "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174": {
-      "_comment": "USDC.e",
       "Ethereum": "0x566957eF80F9fd5526CD2BEF8BE67035C0b81130",
       "Bsc": "0x672147dD47674757C457eB155BAA382cc10705Dd",
       "Avalanche": "0x543672E9CBEC728CBBa9C3Ccd99ed80aC3607FA8",
@@ -91,7 +76,6 @@
   },
   "Solana": {
     "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263": {
-      "_comment": "BONK",
       "Ethereum": "0x1151CB3d861920e07a38e03eEAd12C32178567F6",
       "Bsc": "0xA697e272a73744b343528C3Bc4702F2565b2F422",
       "Polygon": "0xe5B49820e5A1063F6F4DdF851327b5E8B2301048",
@@ -108,7 +92,6 @@
   },
   "Optimism": {
     "0x4200000000000000000000000000000000000042": {
-      "_comment": "OP",
       "Ethereum": "0x1df721D242E0783F8fCab4A9FfE4F35bdf329909",
       "Bsc": "0x0D5155720F292F5155c4Cf923AeFE523fe52a266",
       "Polygon": "0x43a85384f880C9A6F00F21D6ec95b8CEee6A5d96",
@@ -123,7 +106,6 @@
   },
   "Arbitrum": {
     "0x912ce59144191c1204e64559fe8253a0e49e6548": {
-      "_comment": "ARB",
       "Ethereum": "0xe5EB5EbDB1dc46C7235BAa55a650B248caeCc01B",
       "Bsc": "0xe4A57a1F98D93558eD877459980986B5fd295Daf",
       "Polygon": "0xA7050dda333E67AAa76086ee66F7deDEE4E1e1fd",
@@ -138,7 +120,6 @@
   },
   "Worldchain": {
     "0x2cFc85d8E48F8EAB294be644d9E25C3030863003": {
-      "_comment": "Worldcoin",
       "Ethereum": "0xE0A18B60BeBEdcb788585b01ab23439fD6b70F0c",
       "Solana": "WSgvEfWpAUg5xACJkc1dakYAqJm8eGge3U7LGs7oqqJ",
       "Arbitrum": "0x662565cb134881D6F7C2b104143E6217555A5628",
@@ -160,7 +141,6 @@
   },
   "Fantom": {
     "0x94fBE860aD699670A2293D194CF1376EF58C014a": {
-      "_comment": "Lumos",
       "Solana": "6xTAKg6SQejorPyubo3asYY1sLco66DA5vDbfZbheVub"
     }
   }
