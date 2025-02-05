@@ -23,7 +23,7 @@ export default function NewsBar({ messages }: NewsBarProps) {
       )}
       {banners?.map((banner, idx) => (
         <Bar
-          key={`${banner.content.text}_${idx}`}
+          key={`banner_${idx}`}
           background={banner.background}
           color={banner.content.color || ""}
           size={banner.content.size || ""}

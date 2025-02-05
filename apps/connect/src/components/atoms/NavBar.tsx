@@ -118,7 +118,7 @@ export const NavBar = () => {
                   {label}
                 </Link>
               ) : (
-                <Section key={`${label}_${idx}`}>
+                <Section key={`section_${label}_${idx}`}>
                   <SubMenu
                     onClick={() => openSubMenuHandler(idx)}
                     sx={!subMenu.open ? undefined : { color: COLOR.white }}
@@ -137,7 +137,7 @@ export const NavBar = () => {
                   <Collapse in={subMenu.open} timeout="auto" unmountOnExit>
                     {subMenu.content.map(({ label, href }, idx) => (
                       <Link
-                        key={`${label}_${idx}`}
+                        key={`submenu_${label}_${idx}`}
                         href={href}
                         sx={{
                           pl: 3,
