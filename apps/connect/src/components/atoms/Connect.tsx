@@ -3,7 +3,7 @@ import WormholeConnect, {
   nttRoutes,
 } from "@wormhole-foundation/wormhole-connect";
 import { useConnectConfig } from "../../hooks/useConnectConfig";
-import { styled } from "@mui/material";
+import { styled, CircularProgress } from "@mui/material";
 import { NAVBAR_WIDTH } from "./NavBar";
 import { theme } from "../../theme/connect";
 import { Banner } from "./Banner";
@@ -64,7 +64,16 @@ export const Connect = memo(() => {
   return (
     <Container>
       {isLoading ? (
-        <div>Loading...</div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "self-end",
+            height: "100%",
+          }}
+        >
+          <CircularProgress size={30} />
+        </div>
       ) : (
         <>
           {!!config && <WormholeConnect config={config} theme={theme} />}
