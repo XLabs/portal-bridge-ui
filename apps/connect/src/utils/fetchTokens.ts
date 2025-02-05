@@ -1,22 +1,18 @@
+import { isProduction } from "./constants";
+
 const NTT_TOKENS_URL = {
-  Mainnet:
-    "https://raw.githubusercontent.com/XLabs/portal-bridge-ui/refs/heads/config/tokens.ntt.mainnet.json",
-  Testnet:
-    "https://raw.githubusercontent.com/XLabs/portal-bridge-ui/refs/heads/config/tokens.ntt.testnet.json",
+  Mainnet: `https://raw.githubusercontent.com/XLabs/portal-bridge-ui/refs/heads/${isProduction ? "config" : "config-preview"}/tokens.ntt.mainnet.json`,
+  Testnet: `https://raw.githubusercontent.com/XLabs/portal-bridge-ui/refs/heads/${isProduction ? "config" : "config-preview"}/tokens.ntt.testnet.json`,
 };
 
 const WRAPPED_TOKENS_URL = {
-  Mainnet:
-    "https://raw.githubusercontent.com/XLabs/portal-bridge-ui/refs/heads/config/tokens.wrapped.mainnet.json",
-  Testnet:
-    "https://raw.githubusercontent.com/XLabs/portal-bridge-ui/refs/heads/config/tokens.wrapped.testnet.json",
+  Mainnet: `https://raw.githubusercontent.com/XLabs/portal-bridge-ui/refs/heads/${isProduction ? "config" : "config-preview"}/tokens.wrapped.mainnet.json`,
+  Testnet: `https://raw.githubusercontent.com/XLabs/portal-bridge-ui/refs/heads/${isProduction ? "config" : "config-preview"}/tokens.wrapped.testnet.json`,
 };
 
 const TOKENS_CONFIG_URL = {
-  Mainnet:
-    "https://raw.githubusercontent.com/XLabs/portal-bridge-ui/refs/heads/config/tokens.config.mainnet.json",
-  Testnet:
-    "https://raw.githubusercontent.com/XLabs/portal-bridge-ui/refs/heads/config/tokens.config.testnet.json",
+  Mainnet: `https://raw.githubusercontent.com/XLabs/portal-bridge-ui/refs/heads/${isProduction ? "config" : "config-preview"}/tokens.config.mainnet.json`,
+  Testnet: `https://raw.githubusercontent.com/XLabs/portal-bridge-ui/refs/heads/${isProduction ? "config" : "config-preview"}/tokens.config.testnet.json`,
 };
 
 export async function fetchTokensConfig(env: "Mainnet" | "Testnet") {
