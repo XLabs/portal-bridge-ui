@@ -95,11 +95,11 @@ msgstr "A minimum of 1 USDS will be paid out. Outstanding rewards below 1 USDS w
 
 #: src/layouts/DashboardLayout.tsx:215
 msgid "Kamino USDS Held Value Header"
-msgstr "Kamino USDS Balance"
+msgstr "Kamino Lend USDS Balance"
 
 #: src/layouts/DashboardLayout.tsx:218
 msgid "Kamino USDS Held Value Tooltip"
-msgstr "Kamino USDS account balance."
+msgstr "Kamino Lend USDS account balance."
 
 #: src/layouts/DashboardLayout.tsx:190
 msgid "Show Number Text"
@@ -111,7 +111,7 @@ msgstr "Total USDS Bridged"
 
 #: src/layouts/DashboardLayout.tsx:207
 msgid "USDS Held Header"
-msgstr "USDS Balance"
+msgstr "USDS Effective Balance"
 
 #: src/layouts/DashboardLayout.tsx:210
 msgid "USDS Held Window Tooltip"
