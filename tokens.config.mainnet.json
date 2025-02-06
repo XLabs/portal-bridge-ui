@@ -719,7 +719,7 @@
     "icon": "https://s2.coinmarketcap.com/static/img/coins/128x128/29150.png",
     "decimals": 18
   },
-  "GoPlusSecuritySolana": {
+  "GoPlusSolana": {
     "symbol": "GPS",
     "tokenId": {
       "chain": "Solana",
@@ -728,7 +728,7 @@
     "icon": "https://assets.coingecko.com/coins/images/53686/large/Separate_logo%EF%BC%88green%EF%BC%89.png",
     "decimals": 9
   },
-  "GoPlusSecurityBase": {
+  "GoPlusBase": {
     "symbol": "GPS",
     "tokenId": {
       "chain": "Base",
