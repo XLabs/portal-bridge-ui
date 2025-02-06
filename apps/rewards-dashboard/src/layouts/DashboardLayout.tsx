@@ -84,10 +84,11 @@ const ConnectedDashboard = () => {
     if (!userInfo) {
       return;
     }
-    setTotalUSDSBridged(userInfo.bridged_usds); // TODO: Change to effective_bridged_usds after going live
-    setUSDSBalance(userInfo.effective_usds_balance);
-    setKaminoHeld(userInfo.net_usds_supply_in_kamino);
-    setAccruedRewards(userInfo.accrued_rewards);
+    console.log(userInfo);
+    setTotalUSDSBridged(userInfo.bridged_usds || 0); // TODO: Change to effective_bridged_usds after going live
+    setUSDSBalance(userInfo.effective_usds_balance || 0);
+    setKaminoHeld(userInfo.net_usds_supply_in_kamino || 0);
+    setAccruedRewards(userInfo.accrued_rewards || 0);
   }, [userInfo]);
   useEffect(() => {
     if (!overview) {
