@@ -731,5 +731,30 @@
         }
       ]
     }
+  ],
+  "GoPlusSecurity": [
+    {
+      "chain": "Solana",
+      "manager": "ntts1k5D5paWgPDmWVujZUGBQruMXFRSrjRydAweSKc",
+      "token": "9Qh7srATukeENC1D1eNimWgdY34Wjs3g6MjBuLRNkWy4",
+      "transceiver": [
+        {
+          "address": "A3NpruHqYxHUbHaicPYQ1TtZQGkDwEZbsjauShLPLgxC",
+          "type": "wormhole"
+        }
+      ],
+      "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
+    },
+    {
+      "chain": "Base",
+      "manager": "0xc42562bf114B73F676edC39626f4Ca68966B9e53",
+      "token": "0x0C1dC73159e30c4b06170F2593D3118968a0DCa5",
+      "transceiver": [
+        {
+          "address": "0x33082A8685786Cbe621b553b91a76DCEEe1fB8D1",
+          "type": "wormhole"
+        }
+      ]
+    }
   ]
 }

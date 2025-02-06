@@ -718,5 +718,23 @@
     },
     "icon": "https://s2.coinmarketcap.com/static/img/coins/128x128/29150.png",
     "decimals": 18
+  },
+  "GoPlusSecuritySolana": {
+    "symbol": "GPS",
+    "tokenId": {
+      "chain": "Solana",
+      "address": "9Qh7srATukeENC1D1eNimWgdY34Wjs3g6MjBuLRNkWy4"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/53686/large/Separate_logo%EF%BC%88green%EF%BC%89.png",
+    "decimals": 9
+  },
+  "GoPlusSecurityBase": {
+    "symbol": "GPS",
+    "tokenId": {
+      "chain": "Base",
+      "address": "0x0C1dC73159e30c4b06170F2593D3118968a0DCa5"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/53686/large/Separate_logo%EF%BC%88green%EF%BC%89.png",
+    "decimals": 18
   }
 }
