@@ -691,5 +691,50 @@
     },
     "icon": "https://assets.coingecko.com/coins/images/35722/large/photo_2024-03-05_01-23-59_%281%29.jpg?1709632285",
     "decimals": 18
+  },
+  "PonkeSolana": {
+    "symbol": "PONKE",
+    "tokenId": {
+      "chain": "Solana",
+      "address": "5z3EqYQo9HiCEs3R84RCDMu2n7anpDMxRhdK8PSWmrRC"
+    },
+    "icon": "https://s2.coinmarketcap.com/static/img/coins/128x128/29150.png",
+    "decimals": 9
+  },
+  "PonkeBase": {
+    "symbol": "PONKE",
+    "tokenId": {
+      "chain": "Base",
+      "address": "0x4A0c64af541439898448659AEdcEC8E8e819FC53"
+    },
+    "icon": "https://s2.coinmarketcap.com/static/img/coins/128x128/29150.png",
+    "decimals": 18
+  },
+  "PonkeEthereum": {
+    "symbol": "PONKE",
+    "tokenId": {
+      "chain": "Ethereum",
+      "address": "0x4A0c64af541439898448659AEdcEC8E8e819FC53"
+    },
+    "icon": "https://s2.coinmarketcap.com/static/img/coins/128x128/29150.png",
+    "decimals": 18
+  },
+  "GoPlusSolana": {
+    "symbol": "GPS",
+    "tokenId": {
+      "chain": "Solana",
+      "address": "9Qh7srATukeENC1D1eNimWgdY34Wjs3g6MjBuLRNkWy4"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/53686/large/Separate_logo%EF%BC%88green%EF%BC%89.png",
+    "decimals": 9
+  },
+  "GoPlusBase": {
+    "symbol": "GPS",
+    "tokenId": {
+      "chain": "Base",
+      "address": "0x0C1dC73159e30c4b06170F2593D3118968a0DCa5"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/53686/large/Separate_logo%EF%BC%88green%EF%BC%89.png",
+    "decimals": 18
   }
 }

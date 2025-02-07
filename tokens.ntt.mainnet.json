@@ -695,5 +695,66 @@
         }
       ]
     }
+  ],
+  "Ponke": [
+    {
+      "chain": "Solana",
+      "manager": "NTTB7GBM1e559QnE2AtppjjuRmA9gHYMuqauLC2DiXn",
+      "token": "5z3EqYQo9HiCEs3R84RCDMu2n7anpDMxRhdK8PSWmrRC",
+      "transceiver": [
+        {
+          "address": "8Ee9szb8F5KTSLf58W5mBt775WQLfcYn9VthKsfKD7tC",
+          "type": "wormhole"
+        }
+      ],
+      "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
+    },
+    {
+      "chain": "Ethereum",
+      "manager": "0x043b92BDFB8d9c4e7aea18789CB09Df8D67Ff48B",
+      "token": "0x4A0c64af541439898448659AEdcEC8E8e819FC53",
+      "transceiver": [
+        {
+          "address": "0x451EE0EfDFE48c306ccD263304833B6C51E390d6",
+          "type": "wormhole"
+        }
+      ]
+    },
+    {
+      "chain": "Base",
+      "manager": "0x73D9Ea755E32caF3e204B24EF4cCCabBB3087AcD",
+      "token": "0x4A0c64af541439898448659AEdcEC8E8e819FC53",
+      "transceiver": [
+        {
+          "address": "0x40025FB014d7598Ccb2dB7E7C65e313f03980842",
+          "type": "wormhole"
+        }
+      ]
+    }
+  ],
+  "GoPlus": [
+    {
+      "chain": "Solana",
+      "manager": "ntts1k5D5paWgPDmWVujZUGBQruMXFRSrjRydAweSKc",
+      "token": "9Qh7srATukeENC1D1eNimWgdY34Wjs3g6MjBuLRNkWy4",
+      "transceiver": [
+        {
+          "address": "A3NpruHqYxHUbHaicPYQ1TtZQGkDwEZbsjauShLPLgxC",
+          "type": "wormhole"
+        }
+      ],
+      "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
+    },
+    {
+      "chain": "Base",
+      "manager": "0xc42562bf114B73F676edC39626f4Ca68966B9e53",
+      "token": "0x0C1dC73159e30c4b06170F2593D3118968a0DCa5",
+      "transceiver": [
+        {
+          "address": "0x33082A8685786Cbe621b553b91a76DCEEe1fB8D1",
+          "type": "wormhole"
+        }
+      ]
+    }
   ]
 }
