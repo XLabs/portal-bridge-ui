@@ -756,5 +756,97 @@
         }
       ]
     }
+  ],
+  "cgETHHashkeyCloud": [
+    {
+      "chain": "Base",
+      "manager": "0x0A4BE3Db775Da63ceA7713f78A338D9656E69D5D",
+      "token": "0xf587B7116879a529353Cc71eE959cD69FD5CAE48",
+      "transceiver": [
+        {
+          "address": "0x45e775212f8576a86b31C58E0B422f1E9E5f49eC",
+          "type": "wormhole"
+        }
+      ]
+    },
+    {
+      "chain": "Arbitrum",
+      "manager": "0x0A4BE3Db775Da63ceA7713f78A338D9656E69D5D",
+      "token": "0x0Ce45dd53affbb011884EF1866E0738f58AB7969",
+      "transceiver": [
+        {
+          "address": "0x45e775212f8576a86b31C58E0B422f1E9E5f49eC",
+          "type": "wormhole"
+        }
+      ]
+    },
+    {
+      "chain": "Optimism",
+      "manager": "0xFbf8bF9f50BEfDB87dd3eCC4D1ddf97F9b51CF46",
+      "token": "0x0Ce45dd53affbb011884EF1866E0738f58AB7969",
+      "transceiver": [
+        {
+          "address": "0xB76ce21910c4996bCe590D7ad699e8fD01c792D6",
+          "type": "wormhole"
+        }
+      ]
+    },
+    {
+      "chain": "Ethereum",
+      "manager": "0xf6B2bDE31538e7B62Af61e2cbF2FEf9292fcC789",
+      "token": "0xc60a9145D9e9f1152218e7da6df634b7a74aE444",
+      "transceiver": [
+        {
+          "address": "0x0FcEeEBAbC538D33c714a361067D6fF24620Ea16",
+          "type": "wormhole"
+        }
+      ]
+    }
+  ],
+  "clBTC": [
+    {
+      "chain": "Base",
+      "manager": "0x429410525068b694160d686Eacf72Ce12B665991",
+      "token": "0x8d2757EA27AaBf172DA4CCa4e5474c76016e3dC5",
+      "transceiver": [
+        {
+          "address": "0x513d7253096504FC1260dF82297cE34C90abCF9c",
+          "type": "wormhole"
+        }
+      ]
+    },
+    {
+      "chain": "Arbitrum",
+      "manager": "0xFc7f31805ec6F1884AbfD0ED72AB7DA752512DAe",
+      "token": "0x1792865D493FE4DFdD504010D3c0f6da11E8046D",
+      "transceiver": [
+        {
+          "address": "0x8816cdAa7E187e6A6c4Df0c34ce21D0819b631BD",
+          "type": "wormhole"
+        }
+      ]
+    },
+    {
+      "chain": "Optimism",
+      "manager": "0x40bb93251cc4691812B5C298dF0c359cBF058424",
+      "token": "0x1792865D493FE4DFdD504010D3c0f6da11E8046D",
+      "transceiver": [
+        {
+          "address": "0x6Be9B19A326E011E29c6f89bC7F65246D33e5B30",
+          "type": "wormhole"
+        }
+      ]
+    },
+    {
+      "chain": "Ethereum",
+      "manager": "0x64E4b81023621CB08f5aC305c2dD6eDaaD717834",
+      "token": "0xE7ae30C03395D66F30A26C49c91edAe151747911",
+      "transceiver": [
+        {
+          "address": "0x454f5cF9143CdA1291eb80DcBbCdfab4544e0920",
+          "type": "wormhole"
+        }
+      ]
+    }
   ]
 }
