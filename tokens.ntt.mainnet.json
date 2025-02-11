@@ -848,5 +848,30 @@
         }
       ]
     }
+  ],
+  "Powerledger": [
+    {
+      "chain": "Ethereum",
+      "manager": "0xeAb33741052F89C5f33E928B2D35337342a9E760",
+      "token": "0x595832F8FC6BF59c85C527fEC3740A1b7a361269",
+      "transceiver": [
+        {
+          "address": "0xb1264632A90aD6C24F081b553dADFe2256605Bc3",
+          "type": "wormhole"
+        }
+      ]
+    },
+    {
+      "chain": "Solana",
+      "manager": "nttUkLVrPQiLjyH83XrK877L4bsHMJ5bhZN91BDoynL",
+      "token": "PowerhfyX6JqFprXzy89fPBSKqmLj8Yzcvr3FkHrQHR",
+      "transceiver": [
+        {
+          "address": "DUZ1DbHGMC2vTu22NJWrDobVuG4cD9PpmKkCMzMg4M5H",
+          "type": "wormhole"
+        }
+      ],
+      "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
+    }
   ]
 }
