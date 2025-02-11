@@ -737,24 +737,6 @@
     "icon": "https://assets.coingecko.com/coins/images/53686/large/Separate_logo%EF%BC%88green%EF%BC%89.png",
     "decimals": 18
   },
-  "PowerledgerEthereum": {
-    "symbol": "POWR",
-    "tokenId": {
-      "chain": "Ethereum",
-      "address": "0x595832F8FC6BF59c85C527fEC3740A1b7a361269"
-    },
-    "icon": "https://assets.coingecko.com/coins/images/1104/large/Powerledger_Northstar_colour_digital_%282%29.png",
-    "decimals": 6
-  },
-  "PowerledgerSolana": {
-    "symbol": "POWR",
-    "tokenId": {
-      "chain": "Solana",
-      "address": "PowerhfyX6JqFprXzy89fPBSKqmLj8Yzcvr3FkHrQHR"
-    },
-    "icon": "https://assets.coingecko.com/coins/images/1104/large/Powerledger_Northstar_colour_digital_%282%29.png",
-    "decimals": 6
-  },
   "cgETHHashkeyCloudBase": {
     "symbol": "CGETH.HASHKEY",
     "tokenId": {
