@@ -1,7 +1,4 @@
-import type {
-  Chain,
-  WormholeConnectConfig,
-} from "@wormhole-foundation/wormhole-connect";
+import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
 import { useEffect, useMemo, useState } from "react";
 
 import { useQueryParams } from "./useQueryParams";
@@ -14,6 +11,7 @@ import { isPreview, isProduction } from "../utils/constants";
 import { ENV } from "@env";
 import { validateTransfer } from "../utils/transferVerification";
 import { getSortedChains } from "../utils/getSortedChains";
+import { Chain } from "@wormhole-foundation/sdk";
 
 const defaultConfig: WormholeConnectConfig = {
   ...ENV.wormholeConnectConfig,
@@ -63,7 +61,7 @@ export const useConnectConfig = () => {
     [tokenKey, toTokenKey]
   );
 
-  const config: WormholeConnectConfig = useMemo(
+  const config = useMemo(
     () => ({
       ...defaultConfig,
       chains: networks!,

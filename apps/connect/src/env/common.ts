@@ -52,7 +52,7 @@ export const wormholeConnectConfigCommon: Partial<WormholeConnectConfig> = {
     showInProgressWidget: true,
   },
   network: CLUSTER,
-  coinGeckoApiKey: 'CG-7gk3AnREWCyuM7EsWSqWPDLW',
+  coinGeckoApiKey: "CG-7gk3AnREWCyuM7EsWSqWPDLW",
   rpcs: {},
 };
 
