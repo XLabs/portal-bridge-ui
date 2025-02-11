@@ -28,6 +28,7 @@ export const chains = [
   "Xlayer",
   "Mantle",
   "Worldchain",
+  "Unichain",
 ];
 
 export const MAINNET_RPCS = {
