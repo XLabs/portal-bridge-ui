@@ -50,7 +50,7 @@ export const wormholeConnectConfigCommon: Partial<WormholeConnectConfig> = {
       href: `https://wormholescan.io/#/txs?address={:address}&network=${CLUSTER}`,
     },
     menu: [],
-    // showInProgressWidget: true,
+    showInProgressWidget: true,
   },
   network: CLUSTER,
   coinGeckoApiKey: "CG-7gk3AnREWCyuM7EsWSqWPDLW",
