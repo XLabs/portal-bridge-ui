@@ -1,8 +1,9 @@
 import { useAppKit } from "@reown/appkit/react";
 import { t } from "@lingui/macro";
+import { useWalletInfo } from "../hooks/useWalletInfo";
 
 export const WalletManager = () => {
-  const { isConnected, ensName, address, blockie } = useWalletInfo();
+  const { isConnected, address } = useWalletInfo();
   const { open } = useAppKit();
 
   const text = isConnected
