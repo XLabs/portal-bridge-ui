@@ -1,17 +1,14 @@
 import { useAppKit } from "@reown/appkit/react";
 import { t } from "@lingui/macro";
-import { useWalletInfo } from "../hooks/useWalletInfo";
 
 export const WalletManager = () => {
   const { isConnected, ensName, address, blockie } = useWalletInfo();
   const { open } = useAppKit();
 
   const text = isConnected
-    ? ensName
-      ? truncateEns(ensName)
-      : address
-        ? truncateAddr(address)
-        : ""
+    ? address
+      ? truncateAddr(address)
+      : ""
     : t`CONNECT WALLET`;
 
   return (
@@ -27,11 +24,8 @@ export const WalletManager = () => {
         open();
       }}
     >
-      {blockie ? (
-        <img className="w-4 h-4 rounded-full" src={blockie} />
-      ) : (
-        <LightningIcon />
-      )}
+      <LightningIcon />
+
       <div className="text-black text-xs font-light whitespace-pre">{text}</div>
     </div>
   );
@@ -54,15 +48,7 @@ const LightningIcon = () => {
     </svg>
   );
 };
-const truncateEns = (x?: string) => {
-  if (x) {
-    if (x.length > 8) {
-      return x.slice(0, 8) + "...";
-    }
-    return x;
-  }
-  return "";
-};
+
 const truncateAddr = (x?: string) => {
   if (x) {
     if (x.length > 10) {

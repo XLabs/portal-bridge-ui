@@ -6,7 +6,7 @@ const rpcs = (chains: string[], template: (chain: string) => string) =>
     .map((chain: string) => ({ [chain]: template(chain) }))
     .reduce((acc, cur) => ({ ...acc, ...cur }), {});
 const asRpcHost = (chain: string) =>
-  `https://and76cjzpa.execute-api.us-east-2.amazonaws.com/${chain.toLowerCase()}/`;
+  `http://rpc.portalbridge.com/${chain.toLowerCase()}/`;
 export const chains = [
   "Wormchain",
   "Osmosis",
@@ -27,12 +27,15 @@ export const chains = [
   "Scroll",
   "Xlayer",
   "Mantle",
+  "Worldchain",
+  "Unichain",
 ];
 
 export const MAINNET_RPCS = {
   ...rpcs(chains, asRpcHost),
   Klaytn: "https://public-en.node.kaia.io/",
   Solana: "https://wormhole.rpcpool.com/",
+  Aptos: "http://rpc.portalbridge.com/aptos/v1",
 };
 
 export const PUBLIC_URL = envVars.VITE_PUBLIC_URL || "";
@@ -43,7 +46,6 @@ export const wormholeConnectConfigCommon: Partial<WormholeConnectConfig> = {
     title: "",
     // cctpWarning: "",
     walletConnectProjectId: envVars.VITE_APP_WALLET_CONNECT_PROJECT_ID || "",
-    showHamburgerMenu: false,
     explorer: {
       href: `https://wormholescan.io/#/txs?address={:address}&network=${CLUSTER}`,
     },
@@ -51,6 +53,7 @@ export const wormholeConnectConfigCommon: Partial<WormholeConnectConfig> = {
     // showInProgressWidget: true,
   },
   network: CLUSTER,
+  coinGeckoApiKey: "CG-7gk3AnREWCyuM7EsWSqWPDLW",
   rpcs: {},
 };
 

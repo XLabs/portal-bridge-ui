@@ -1,12 +1,30 @@
 [
   {
     "id": "string",
-    "background": "yellow",
+    "background": "linear-gradient(90deg, rgba(8,8,44,0) 0%, rgba(0,64,124,0.9948573179271709) 20%, rgba(6,132,249,1) 50%, rgba(0,64,124,1) 80%, rgba(8,8,44,1) 100%)",
     "content": {
-      "color": "black",
-      "text": "Solana is currently experiencing congestion. Transactions to Solana may experience delays."
+      "text": "Claim your rewards! W staking rewards can now be claimed."
     },
-    "since": "2024-01-30T01:00:00-05:00",
-    "until": "2024-04-25T17:00:00-05:00"
+    "button": {
+      "href": "https://w.wormhole.com/",
+      "background": "black",
+      "label": "Access the W dashboard here"
+    },
+    "since": "2025-01-16T14:30:00-05:00",
+    "until": "2025-01-29T15:00:00-05:00"
+  },
+  {
+    "id": "string1",
+    "background": "linear-gradient(90deg, rgba(8,8,44,0) 0%, rgba(0,64,124,0.9948573179271709) 20%, rgba(6,132,249,1) 50%, rgba(0,64,124,1) 80%, rgba(8,8,44,1) 100%)",
+    "content": {
+      "text": "Get Ready for the Next Phase of W Staking. Stay tuned for updates on the start of the next staking period."
+    },
+    "button": {
+      "href": "https://w.wormhole.com/",
+      "background": "black",
+      "label": "Check the W dashboard here "
+    },
+    "since": "2023-01-30T01:00:00-05:00",
+    "until": "2023-04-25T17:00:00-05:00"
   }
 ]

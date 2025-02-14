@@ -16,6 +16,9 @@ export const ENV: Env = {
         "BaseSepolia",
         "PolygonSepolia",
         "Solana",
+        "Sui",
+        "Aptos",
+        "Unichain",
       ],
     }
   ),
