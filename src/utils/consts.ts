@@ -46,6 +46,7 @@ import {
   CHAIN_ID_XLAYER,
   CHAIN_ID_MANTLE,
   CHAIN_ID_WORLDCHAIN,
+  CHAIN_ID_UNICHAIN,
 } from "@certusone/wormhole-sdk";
 import { clusterApiUrl } from "@solana/web3.js";
 import { getAddress } from "ethers/lib/utils";
@@ -77,6 +78,7 @@ import nearIcon from "../icons/near.svg";
 import xplaIcon from "../icons/xpla.svg";
 import evmosIcon from "../icons/evmos.svg";
 import berachainIcon from "../icons/berachain.svg";
+import unichainIcon from "../icons/unichain.svg";
 import osmosIcon from "../icons/osmos.svg";
 import kujiraIcon from "../icons/kujira.svg";
 import injectiveIcon from "../icons/injective.svg";
@@ -547,6 +549,11 @@ export const NEW_CHAINS: ChainInfo[] = [
     name: "Berachain",
     logo: berachainIcon,
   },
+  {
+    id: CHAIN_ID_UNICHAIN,
+    name: "Unichain",
+    logo: unichainIcon,
+  }
 ];
 
 export const ATTEST_CHAINS_SOURCE: ChainInfo[] = CHAINS.concat(NEW_CHAINS);
@@ -848,6 +855,8 @@ export const WORLDCHAIN_NETWORK_CHAIN_ID =
   CLUSTER === "mainnet" ? 480 : CLUSTER === "testnet" ? 4801 : 1381;
 export const BERACHAIN_NETWORK_CHAIN_ID =
   CLUSTER === "mainnet" ? 80094 : CLUSTER === "testnet" ? 80084 : 1381;
+export const UNICHAIN_NETWORK_CHAIN_ID =
+  CLUSTER === "mainnet" ? 130 : CLUSTER === "testnet" ? 1301 : 1381;
 
 export const getEvmChainId = (chainId: ChainId) =>
   chainId === CHAIN_ID_ETH
@@ -892,6 +901,8 @@ export const getEvmChainId = (chainId: ChainId) =>
     ? WORLDCHAIN_NETWORK_CHAIN_ID
     : chainId === CHAIN_ID_BERACHAIN
     ? BERACHAIN_NETWORK_CHAIN_ID
+    : chainId === CHAIN_ID_UNICHAIN
+    ? UNICHAIN_NETWORK_CHAIN_ID
     : undefined;
 export const SOLANA_HOST = process.env.REACT_APP_SOLANA_API_URL
   ? process.env.REACT_APP_SOLANA_API_URL
@@ -1743,6 +1754,14 @@ export const BERAWETH_ADDRESS =
     ? "0x6969696969696969696969696969696969696969"
     : "0xDDb64fE46a91D46ee29420539FC25FD07c5FEa3E";
 export const BERAWETH_DECIMALS = 18;
+
+export const UNIWETH_ADDRESS =
+  CLUSTER === "mainnet"
+    ? "0x4200000000000000000000000000000000000006"
+    : CLUSTER === "testnet"
+    ? "0x4200000000000000000000000000000000000006"
+    : "0xDDb64fE46a91D46ee29420539FC25FD07c5FEa3E";
+export const UNIWETH_DECIMALS = 18;
 
 export const SCROLLWETH_ADDRESS =
   CLUSTER === "mainnet"

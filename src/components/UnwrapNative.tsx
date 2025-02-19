@@ -16,6 +16,7 @@ import {
   CHAIN_ID_XLAYER,
   CHAIN_ID_MANTLE,
   CHAIN_ID_BERACHAIN,
+  CHAIN_ID_UNICHAIN,
 } from "@certusone/wormhole-sdk";
 import {
   Container,
@@ -45,6 +46,7 @@ import polygonIcon from "../icons/polygon.svg";
 import worldchainIcon from "../icons/worldchain.svg";
 import scrollIcon from "../icons/scroll.svg";
 import berachainIcon from "../icons/berachain.svg";
+import unichainIcon from "../icons/unichain.svg";
 import { COLORS } from "../muiTheme";
 import {
   DataWrapper,
@@ -86,6 +88,8 @@ import {
   WOKB_DECIMALS,
   BERAWETH_ADDRESS,
   BERAWETH_DECIMALS,
+  UNIWETH_ADDRESS,
+  UNIWETH_DECIMALS,
 } from "../utils/consts";
 import parseError from "../utils/parseError";
 import ButtonWithLoader from "./ButtonWithLoader";
@@ -204,6 +208,12 @@ const supportedTokens = {
     icon: berachainIcon,
     address: BERAWETH_ADDRESS,
     decimals: BERAWETH_DECIMALS,
+  },
+  [CHAIN_ID_UNICHAIN]: {
+    symbol: "WETH",
+    icon: unichainIcon,
+    address: UNIWETH_ADDRESS,
+    decimals: UNIWETH_DECIMALS,
   },
   [CHAIN_ID_SCROLL]: {
     symbol: "WETH",

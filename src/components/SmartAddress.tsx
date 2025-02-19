@@ -32,6 +32,7 @@ import {
   CHAIN_ID_MANTLE,
   CHAIN_ID_XLAYER,
   CHAIN_ID_BERACHAIN,
+  CHAIN_ID_UNICHAIN,
 } from "@certusone/wormhole-sdk";
 import { Button, makeStyles, Tooltip, Typography } from "@material-ui/core";
 import { FileCopy, OpenInNew } from "@material-ui/icons";
@@ -222,6 +223,12 @@ export default function SmartAddress({
         CLUSTER === "testnet"
           ? "bartio.beratrail.io"
           : "berascan.com"
+      }/${isAsset ? "token" : "address"}/${useableAddress}`
+    : chainId === CHAIN_ID_UNICHAIN
+    ? `https://${
+        CLUSTER === "testnet"
+          ? "unichain-sepolia.blockscout.com"
+          : "unichain.blockscout.com"
       }/${isAsset ? "token" : "address"}/${useableAddress}`
     : chainId === CHAIN_ID_SCROLL
     ? `https://${

@@ -28,6 +28,7 @@ import {
   CHAIN_ID_MANTLE,
   CHAIN_ID_XLAYER,
   CHAIN_ID_BERACHAIN,
+  CHAIN_ID_UNICHAIN,
 } from "@certusone/wormhole-sdk";
 import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk/lib/esm";
 import { Button, makeStyles, Typography } from "@material-ui/core";
@@ -201,6 +202,12 @@ export default function ShowTx({
           CLUSTER === "testnet"
             ? "bartio.beratrail.io"
             : "berascan.com"
+        }/tx/${tx?.id}`
+      : chainId === CHAIN_ID_UNICHAIN
+      ? `https://${
+          CLUSTER === "testnet"
+            ? "unichain-sepolia.blockscout.com"
+            : "unichain.blockscout.com"
         }/tx/${tx?.id}`
       : chainId === CHAIN_ID_SCROLL
       ? `https://${
