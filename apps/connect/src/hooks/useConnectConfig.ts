@@ -64,6 +64,9 @@ export const useConnectConfig = () => {
   const config = useMemo(
     () => ({
       ...defaultConfig,
+      coingecko: {
+        customUrl: "https://bff.wormholescan.io/coingeckoCall",
+      },
       chains: networks!,
       ui: {
         ...(defaultConfig.ui as NonNullable<WormholeConnectConfig["ui"]>),
