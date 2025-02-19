@@ -12,7 +12,7 @@ import {
   selectAttestSourceAsset,
   selectAttestSourceChain,
 } from "../../store/selectors";
-import { CHAINS } from "../../utils/consts";
+import { ATTEST_CHAINS_SOURCE } from "../../utils/consts";
 import ButtonWithLoader from "../ButtonWithLoader";
 import ChainSelect from "../ChainSelect";
 import KeyAndBalance from "../KeyAndBalance";
@@ -55,7 +55,7 @@ function Source() {
         value={sourceChain}
         onChange={handleSourceChange}
         disabled={shouldLockFields}
-        chains={CHAINS}
+        chains={ATTEST_CHAINS_SOURCE}
       />
       <KeyAndBalance chainId={sourceChain} />
       <TextField

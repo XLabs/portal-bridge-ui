@@ -76,7 +76,7 @@ import terra2Icon from "../icons/terra2.svg";
 import nearIcon from "../icons/near.svg";
 import xplaIcon from "../icons/xpla.svg";
 import evmosIcon from "../icons/evmos.svg";
-import berachainIcon from "../icons/berachain.png";
+import berachainIcon from "../icons/berachain.svg";
 import osmosIcon from "../icons/osmos.svg";
 import kujiraIcon from "../icons/kujira.svg";
 import injectiveIcon from "../icons/injective.svg";
@@ -549,8 +549,9 @@ export const NEW_CHAINS: ChainInfo[] = [
   },
 ];
 
-export const ATTEST_CHAINS: ChainInfo[] = CHAINS.concat(COSMOS_CHAINS);
-export const TOKEN_ORIGIN_VERIFIER_CHAINS: ChainInfo[] = CHAINS.concat(NEW_CHAINS)
+export const ATTEST_CHAINS_SOURCE: ChainInfo[] = CHAINS.concat(NEW_CHAINS);
+export const ATTEST_CHAINS: ChainInfo[] = CHAINS.concat(COSMOS_CHAINS).concat(NEW_CHAINS);
+export const TOKEN_ORIGIN_VERIFIER_CHAINS: ChainInfo[] = CHAINS.concat(NEW_CHAINS);
 export const BETA_CHAINS: ChainId[] = CLUSTER === "mainnet" ? [] : [];
 export const CHAINS_WITH_NFT_SUPPORT = CHAINS.filter(
   ({ id }) =>
@@ -1734,6 +1735,14 @@ export const WORLDWETH_ADDRESS =
     ? "0x4200000000000000000000000000000000000006"
     : "0xDDb64fE46a91D46ee29420539FC25FD07c5FEa3E";
 export const WORLDWETH_DECIMALS = 18;
+
+export const BERAWETH_ADDRESS =
+  CLUSTER === "mainnet"
+    ? "0x6969696969696969696969696969696969696969"
+    : CLUSTER === "testnet"
+    ? "0x6969696969696969696969696969696969696969"
+    : "0xDDb64fE46a91D46ee29420539FC25FD07c5FEa3E";
+export const BERAWETH_DECIMALS = 18;
 
 export const SCROLLWETH_ADDRESS =
   CLUSTER === "mainnet"

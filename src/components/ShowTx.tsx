@@ -27,6 +27,7 @@ import {
   CHAIN_ID_SCROLL,
   CHAIN_ID_MANTLE,
   CHAIN_ID_XLAYER,
+  CHAIN_ID_BERACHAIN,
 } from "@certusone/wormhole-sdk";
 import { CHAIN_ID_NEAR } from "@certusone/wormhole-sdk/lib/esm";
 import { Button, makeStyles, Typography } from "@material-ui/core";
@@ -194,6 +195,12 @@ export default function ShowTx({
           CLUSTER === "testnet"
             ? "worldchain-sepolia.explorer.alchemy.com"
             : "worldscan.org"
+        }/tx/${tx?.id}`
+      : chainId === CHAIN_ID_BERACHAIN
+      ? `https://${
+          CLUSTER === "testnet"
+            ? "bartio.beratrail.io"
+            : "berascan.com"
         }/tx/${tx?.id}`
       : chainId === CHAIN_ID_SCROLL
       ? `https://${
