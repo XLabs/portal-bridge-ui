@@ -873,5 +873,40 @@
       ],
       "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
     }
+  ],
+  "M": [
+    {
+      "chain": "Ethereum",
+      "manager": "0xD925C84b55E4e44a53749fF5F2a5A13F63D128fd",
+      "token": "0x866A2BF4E572CbcF37D5071A7a58503Bfb36be1b",
+      "transceiver": [
+        {
+          "address": "0x0763196A091575adF99e2306E5e90E0Be5154841",
+          "type": "wormhole"
+        }
+      ]
+    },
+    {
+      "chain": "Optimism",
+      "manager": "0xD925C84b55E4e44a53749fF5F2a5A13F63D128fd",
+      "token": "0x866A2BF4E572CbcF37D5071A7a58503Bfb36be1b",
+      "transceiver": [
+        {
+          "address": "0x0763196A091575adF99e2306E5e90E0Be5154841",
+          "type": "wormhole"
+        }
+      ]
+    },
+    {
+      "chain": "Arbitrum",
+      "manager": "0xD925C84b55E4e44a53749fF5F2a5A13F63D128fd",
+      "token": "0x866A2BF4E572CbcF37D5071A7a58503Bfb36be1b",
+      "transceiver": [
+        {
+          "address": "0x0763196A091575adF99e2306E5e90E0Be5154841",
+          "type": "wormhole"
+        }
+      ]
+    }
   ]
 }
