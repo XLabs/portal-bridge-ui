@@ -20,6 +20,7 @@ export const ENV: Env = {
         "Sui",
         "Aptos",
         "Unichain",
+        "Berachain",
       ],
     }
   ),
