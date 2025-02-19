@@ -29,6 +29,7 @@ import {
   CHAIN_ID_OSMOSIS,
   CHAIN_ID_KUJIRA,
   CHAIN_ID_EVMOS,
+  CHAIN_ID_BERACHAIN,
   CHAIN_ID_WORMCHAIN,
   CONTRACTS,
   coalesceChainName,
@@ -75,6 +76,7 @@ import terra2Icon from "../icons/terra2.svg";
 import nearIcon from "../icons/near.svg";
 import xplaIcon from "../icons/xpla.svg";
 import evmosIcon from "../icons/evmos.svg";
+import berachainIcon from "../icons/berachain.png";
 import osmosIcon from "../icons/osmos.svg";
 import kujiraIcon from "../icons/kujira.svg";
 import injectiveIcon from "../icons/injective.svg";
@@ -113,6 +115,13 @@ export interface ChainInfo {
 }
 
 export const DISABLED_CHAINS: Array<Partial<ChainId>> = [CHAIN_ID_BLAST];
+
+// To add a new chain in @certusone/wormhole-sdk
+// you need to add it in the node_modules and then run `npx patch-package @certusone/wormhole-sdk`
+
+// To add a new chain in wallet-aggregator
+// you need to go to this branch advanced-tools/add-new-evm-chains, add it and run `pnpm pack`
+// then install the package from the local path
 
 export const CHAINS: ChainInfo[] =
   CLUSTER === "mainnet"
@@ -532,7 +541,16 @@ export const NATIVE_DENOMS = {
   ...(CLUSTER === "mainnet" ? MAINNET_NATIVE_DENOMS : TESTNET_NATIVE_DENOMS),
 } as const;
 
+export const NEW_CHAINS: ChainInfo[] = [
+  {
+    id: CHAIN_ID_BERACHAIN,
+    name: "Berachain",
+    logo: berachainIcon,
+  },
+];
+
 export const ATTEST_CHAINS: ChainInfo[] = CHAINS.concat(COSMOS_CHAINS);
+export const TOKEN_ORIGIN_VERIFIER_CHAINS: ChainInfo[] = CHAINS.concat(NEW_CHAINS)
 export const BETA_CHAINS: ChainId[] = CLUSTER === "mainnet" ? [] : [];
 export const CHAINS_WITH_NFT_SUPPORT = CHAINS.filter(
   ({ id }) =>
@@ -555,7 +573,7 @@ export const CHAINS_WITH_NFT_SUPPORT = CHAINS.filter(
     id === CHAIN_ID_BASE
 );
 export type ChainsById = { [key in ChainId]: ChainInfo };
-export const CHAINS_BY_ID: ChainsById = ATTEST_CHAINS.reduce((obj, chain) => {
+export const CHAINS_BY_ID: ChainsById = ATTEST_CHAINS.concat(NEW_CHAINS).reduce((obj, chain) => {
   obj[chain.id] = chain;
   return obj;
 }, {} as ChainsById);
@@ -827,6 +845,8 @@ export const MANTLE_NETWORK_CHAIN_ID =
   CLUSTER === "mainnet" ? 5000 : CLUSTER === "testnet" ? 5001 : 1381;
 export const WORLDCHAIN_NETWORK_CHAIN_ID =
   CLUSTER === "mainnet" ? 480 : CLUSTER === "testnet" ? 4801 : 1381;
+export const BERACHAIN_NETWORK_CHAIN_ID =
+  CLUSTER === "mainnet" ? 80094 : CLUSTER === "testnet" ? 80084 : 1381;
 
 export const getEvmChainId = (chainId: ChainId) =>
   chainId === CHAIN_ID_ETH
@@ -869,6 +889,8 @@ export const getEvmChainId = (chainId: ChainId) =>
     ? MANTLE_NETWORK_CHAIN_ID
     : chainId === CHAIN_ID_WORLDCHAIN
     ? WORLDCHAIN_NETWORK_CHAIN_ID
+    : chainId === CHAIN_ID_BERACHAIN
+    ? BERACHAIN_NETWORK_CHAIN_ID
     : undefined;
 export const SOLANA_HOST = process.env.REACT_APP_SOLANA_API_URL
   ? process.env.REACT_APP_SOLANA_API_URL

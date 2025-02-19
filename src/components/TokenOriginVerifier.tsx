@@ -26,7 +26,7 @@ import useIsWalletReady from "../hooks/useIsWalletReady";
 import useMetadata from "../hooks/useMetadata";
 import useOriginalAsset, { OriginalAssetInfo } from "../hooks/useOriginalAsset";
 import { COLORS } from "../muiTheme";
-import { BETA_CHAINS, CHAINS, CHAINS_BY_ID } from "../utils/consts";
+import { BETA_CHAINS, TOKEN_ORIGIN_VERIFIER_CHAINS, CHAINS_BY_ID } from "../utils/consts";
 import HeaderText from "./HeaderText";
 import KeyAndBalance from "./KeyAndBalance";
 import SmartAddress from "./SmartAddress";
@@ -202,16 +202,16 @@ export default function TokenOriginVerifier() {
     useState<ChainId>(CHAIN_ID_ETH);
 
   const primaryLookupChainOptions = useMemo(
-    () => (isBeta ? CHAINS.filter((x) => !BETA_CHAINS.includes(x.id)) : CHAINS),
+    () => (isBeta ? TOKEN_ORIGIN_VERIFIER_CHAINS.filter((x) => !BETA_CHAINS.includes(x.id)) : TOKEN_ORIGIN_VERIFIER_CHAINS),
     [isBeta]
   );
   const secondaryLookupChainOptions = useMemo(
     () =>
       isBeta
-        ? CHAINS.filter(
+        ? TOKEN_ORIGIN_VERIFIER_CHAINS.filter(
             (x) => !BETA_CHAINS.includes(x.id) && x.id !== primaryLookupChain
           )
-        : CHAINS.filter((x) => x.id !== primaryLookupChain),
+        : TOKEN_ORIGIN_VERIFIER_CHAINS.filter((x) => x.id !== primaryLookupChain),
     [isBeta, primaryLookupChain]
   );
 

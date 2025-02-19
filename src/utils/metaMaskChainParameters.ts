@@ -227,6 +227,13 @@ export const METAMASK_CHAIN_PARAMETERS: {
     rpcUrls: ["https://goerli.base.org"],
     blockExplorerUrls: ["https://goerli.basescan.org"],
   },
+  80094: {
+    chainId: "0x138de",
+    chainName: "Berachain",
+    nativeCurrency: { name: "Berachain", symbol: "BERA", decimals: 18 },
+    rpcUrls: ["https://rpc.ankr.com/berachain"],
+    blockExplorerUrls: ["https://berachain.com"],
+  },
 };
 
 export interface EvmRpcMap {

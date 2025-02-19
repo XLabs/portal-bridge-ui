@@ -1,25 +1,42 @@
 diff --git a/node_modules/@certusone/wormhole-sdk/lib/cjs/utils/consts.d.ts b/node_modules/@certusone/wormhole-sdk/lib/cjs/utils/consts.d.ts
-index 5644fba..9f11449 100644
+index 5644fba..678ca54 100644
 --- a/node_modules/@certusone/wormhole-sdk/lib/cjs/utils/consts.d.ts
 +++ b/node_modules/@certusone/wormhole-sdk/lib/cjs/utils/consts.d.ts
-@@ -38,6 +38,7 @@ export declare const CHAINS: {
+@@ -38,6 +38,8 @@ export declare const CHAINS: {
      readonly linea: 38;
      readonly berachain: 39;
      readonly seievm: 40;
++    readonly unichain: 44;
 +    readonly worldchain: 45;
      readonly wormchain: 3104;
      readonly cosmoshub: 4000;
      readonly evmos: 4001;
-@@ -61,7 +62,7 @@ export declare type ChainId = typeof CHAINS[ChainName];
+@@ -61,7 +63,7 @@ export declare type ChainId = typeof CHAINS[ChainName];
   *
   * All the EVM-based chain names that Wormhole supports
   */
 -export declare const EVMChainNames: readonly ["ethereum", "bsc", "polygon", "avalanche", "oasis", "aurora", "fantom", "karura", "acala", "klaytn", "celo", "moonbeam", "neon", "arbitrum", "optimism", "gnosis", "base", "rootstock", "scroll", "mantle", "blast", "xlayer", "linea", "berachain", "seievm", "sepolia", "arbitrum_sepolia", "base_sepolia", "optimism_sepolia", "holesky", "polygon_sepolia"];
-+export declare const EVMChainNames: readonly ["ethereum", "bsc", "polygon", "avalanche", "oasis", "aurora", "fantom", "karura", "acala", "klaytn", "celo", "moonbeam", "neon", "arbitrum", "optimism", "gnosis", "base", "rootstock", "scroll", "mantle", "blast", "xlayer", "linea", "berachain", "seievm", "worldchain", "sepolia", "arbitrum_sepolia", "base_sepolia", "optimism_sepolia", "holesky", "polygon_sepolia"];
++export declare const EVMChainNames: readonly ["ethereum", "bsc", "polygon", "avalanche", "oasis", "aurora", "fantom", "karura", "acala", "klaytn", "celo", "moonbeam", "neon", "arbitrum", "optimism", "gnosis", "base", "rootstock", "scroll", "mantle", "blast", "xlayer", "linea", "berachain", "seievm", "unichain", "worldchain", "sepolia", "arbitrum_sepolia", "base_sepolia", "optimism_sepolia", "holesky", "polygon_sepolia"];
  export declare type EVMChainName = typeof EVMChainNames[number];
  export declare const SolanaChainNames: readonly ["solana", "pythnet"];
  export declare type SolanaChainName = typeof SolanaChainNames[number];
-@@ -279,6 +280,11 @@ export declare const CONTRACTS: {
+@@ -270,8 +272,13 @@ export declare const CONTRACTS: {
+             nft_bridge: undefined;
+         };
+         berachain: {
+-            core: undefined;
+-            token_bridge: undefined;
++            core: string;
++            token_bridge: string;
++            nft_bridge: undefined;
++        };
++        unichain: {
++            core: string;
++            token_bridge: string;
+             nft_bridge: undefined;
+         };
+         seievm: {
+@@ -279,6 +286,11 @@ export declare const CONTRACTS: {
              token_bridge: undefined;
              nft_bridge: undefined;
          };
@@ -31,7 +48,17 @@ index 5644fba..9f11449 100644
          wormchain: {
              core: string;
              token_bridge: string;
-@@ -556,6 +562,11 @@ export declare const CONTRACTS: {
+@@ -551,11 +563,21 @@ export declare const CONTRACTS: {
+             token_bridge: string;
+             nft_bridge: undefined;
+         };
++        unichain: {
++            core: string;
++            token_bridge: string;
++            nft_bridge: undefined;
++        };
+         seievm: {
+             core: string;
              token_bridge: undefined;
              nft_bridge: undefined;
          };
@@ -43,7 +70,17 @@ index 5644fba..9f11449 100644
          wormchain: {
              core: string;
              token_bridge: string;
-@@ -833,6 +844,11 @@ export declare const CONTRACTS: {
+@@ -828,11 +850,21 @@ export declare const CONTRACTS: {
+             token_bridge: undefined;
+             nft_bridge: undefined;
+         };
++        unichain: {
++            core: undefined;
++            token_bridge: undefined;
++            nft_bridge: undefined;
++        };
+         seievm: {
+             core: undefined;
              token_bridge: undefined;
              nft_bridge: undefined;
          };
@@ -55,16 +92,17 @@ index 5644fba..9f11449 100644
          wormchain: {
              core: string;
              token_bridge: string;
-@@ -954,6 +970,7 @@ export declare const CHAIN_ID_XLAYER: 37;
+@@ -954,6 +986,8 @@ export declare const CHAIN_ID_XLAYER: 37;
  export declare const CHAIN_ID_LINEA: 38;
  export declare const CHAIN_ID_BERACHAIN: 39;
  export declare const CHAIN_ID_SEIEVM: 40;
++export declare const CHAIN_ID_UNICHAIN: 44;
 +export declare const CHAIN_ID_WORLDCHAIN: 45;
  export declare const CHAIN_ID_WORMCHAIN: 3104;
  export declare const CHAIN_ID_GATEWAY: 3104;
  export declare const CHAIN_ID_COSMOSHUB: 4000;
 diff --git a/node_modules/@certusone/wormhole-sdk/lib/cjs/utils/consts.js b/node_modules/@certusone/wormhole-sdk/lib/cjs/utils/consts.js
-index 4e85481..915c574 100644
+index 4e85481..30067e6 100644
 --- a/node_modules/@certusone/wormhole-sdk/lib/cjs/utils/consts.js
 +++ b/node_modules/@certusone/wormhole-sdk/lib/cjs/utils/consts.js
 @@ -1,6 +1,6 @@
@@ -91,6 +129,17 @@ index 4e85481..915c574 100644
      "sepolia",
      "arbitrum_sepolia",
      "base_sepolia",
+@@ -308,8 +310,8 @@ const MAINNET = {
+         nft_bridge: undefined,
+     },
+     berachain: {
+-        core: undefined,
+-        token_bridge: undefined,
++        core: "0xCa1D5a146B03f6303baF59e5AD5615ae0b9d146D",
++        token_bridge: "0x3Ff72741fd67D6AD0668d93B41a09248F4700560",
+         nft_bridge: undefined,
+     },
+     seievm: {
 @@ -317,6 +319,11 @@ const MAINNET = {
          token_bridge: undefined,
          nft_bridge: undefined,
@@ -136,27 +185,28 @@ index 4e85481..915c574 100644
  exports.CHAIN_ID_BLAST = exports.CHAINS["blast"];
  exports.CHAIN_ID_XLAYER = exports.CHAINS["xlayer"];
 diff --git a/node_modules/@certusone/wormhole-sdk/lib/esm/utils/consts.d.ts b/node_modules/@certusone/wormhole-sdk/lib/esm/utils/consts.d.ts
-index 5644fba..ac8b27d 100644
+index 5644fba..fd973e5 100644
 --- a/node_modules/@certusone/wormhole-sdk/lib/esm/utils/consts.d.ts
 +++ b/node_modules/@certusone/wormhole-sdk/lib/esm/utils/consts.d.ts
-@@ -38,6 +38,7 @@ export declare const CHAINS: {
+@@ -38,6 +38,8 @@ export declare const CHAINS: {
      readonly linea: 38;
      readonly berachain: 39;
      readonly seievm: 40;
++    readonly unichain: 44;
 +    readonly worldchain: 45;
      readonly wormchain: 3104;
      readonly cosmoshub: 4000;
      readonly evmos: 4001;
-@@ -61,7 +62,7 @@ export declare type ChainId = typeof CHAINS[ChainName];
+@@ -61,7 +63,7 @@ export declare type ChainId = typeof CHAINS[ChainName];
   *
   * All the EVM-based chain names that Wormhole supports
   */
 -export declare const EVMChainNames: readonly ["ethereum", "bsc", "polygon", "avalanche", "oasis", "aurora", "fantom", "karura", "acala", "klaytn", "celo", "moonbeam", "neon", "arbitrum", "optimism", "gnosis", "base", "rootstock", "scroll", "mantle", "blast", "xlayer", "linea", "berachain", "seievm", "sepolia", "arbitrum_sepolia", "base_sepolia", "optimism_sepolia", "holesky", "polygon_sepolia"];
-+export declare const EVMChainNames: readonly ["ethereum", "bsc", "polygon", "avalanche", "oasis", "aurora", "fantom", "karura", "acala", "klaytn", "celo", "moonbeam", "neon", "arbitrum", "optimism", "gnosis", "base", "rootstock", "scroll", "mantle", "blast", "worldchain", "xlayer", "linea", "berachain", "seievm", "sepolia", "arbitrum_sepolia", "base_sepolia", "optimism_sepolia", "holesky", "polygon_sepolia"];
++export declare const EVMChainNames: readonly ["ethereum", "bsc", "polygon", "avalanche", "oasis", "aurora", "fantom", "karura", "acala", "klaytn", "celo", "moonbeam", "neon", "arbitrum", "optimism", "gnosis", "base", "rootstock", "scroll", "mantle", "blast", "worldchain", "unichain", "xlayer", "linea", "berachain", "seievm", "sepolia", "arbitrum_sepolia", "base_sepolia", "optimism_sepolia", "holesky", "polygon_sepolia"];
  export declare type EVMChainName = typeof EVMChainNames[number];
  export declare const SolanaChainNames: readonly ["solana", "pythnet"];
  export declare type SolanaChainName = typeof SolanaChainNames[number];
-@@ -259,6 +260,11 @@ export declare const CONTRACTS: {
+@@ -259,6 +261,16 @@ export declare const CONTRACTS: {
              token_bridge: string;
              nft_bridge: undefined;
          };
@@ -165,10 +215,26 @@ index 5644fba..ac8b27d 100644
 +            token_bridge: string;
 +            nft_bridge: undefined;
 +        };
++        unichain: {
++            core: string;
++            token_bridge: string;
++            nft_bridge: undefined;
++        };
          xlayer: {
              core: string;
              token_bridge: string;
-@@ -536,6 +542,11 @@ export declare const CONTRACTS: {
+@@ -270,8 +282,8 @@ export declare const CONTRACTS: {
+             nft_bridge: undefined;
+         };
+         berachain: {
+-            core: undefined;
+-            token_bridge: undefined;
++            core: string;
++            token_bridge: string;
+             nft_bridge: undefined;
+         };
+         seievm: {
+@@ -536,6 +548,16 @@ export declare const CONTRACTS: {
              token_bridge: string;
              nft_bridge: undefined;
          };
@@ -177,14 +243,24 @@ index 5644fba..ac8b27d 100644
 +            token_bridge: string;
 +            nft_bridge: undefined;
 +        };
++        unichain: {
++            core: string;
++            token_bridge: string;
++            nft_bridge: undefined;
++        };
          xlayer: {
              core: string;
              token_bridge: string;
-@@ -813,6 +824,11 @@ export declare const CONTRACTS: {
+@@ -813,6 +835,16 @@ export declare const CONTRACTS: {
              token_bridge: undefined;
              nft_bridge: undefined;
          };
 +        worldchain: {
++            core: string;
++            token_bridge: string;
++            nft_bridge: undefined;
++        };
++        unichain: {
 +            core: string;
 +            token_bridge: string;
 +            nft_bridge: undefined;
@@ -192,16 +268,28 @@ index 5644fba..ac8b27d 100644
          xlayer: {
              core: undefined;
              token_bridge: undefined;
-@@ -954,6 +970,7 @@ export declare const CHAIN_ID_XLAYER: 37;
+@@ -824,8 +856,8 @@ export declare const CONTRACTS: {
+             nft_bridge: undefined;
+         };
+         berachain: {
+-            core: undefined;
+-            token_bridge: undefined;
++            core: string;
++            token_bridge: string;
+             nft_bridge: undefined;
+         };
+         seievm: {
+@@ -954,6 +986,8 @@ export declare const CHAIN_ID_XLAYER: 37;
  export declare const CHAIN_ID_LINEA: 38;
  export declare const CHAIN_ID_BERACHAIN: 39;
  export declare const CHAIN_ID_SEIEVM: 40;
++export declare const CHAIN_ID_UNICHAIN: 44;
 +export declare const CHAIN_ID_WORLDCHAIN: 45;
  export declare const CHAIN_ID_WORMCHAIN: 3104;
  export declare const CHAIN_ID_GATEWAY: 3104;
  export declare const CHAIN_ID_COSMOSHUB: 4000;
 diff --git a/node_modules/@certusone/wormhole-sdk/lib/esm/utils/consts.js b/node_modules/@certusone/wormhole-sdk/lib/esm/utils/consts.js
-index 9fe876b..181e898 100644
+index 9fe876b..93d4c96 100644
 --- a/node_modules/@certusone/wormhole-sdk/lib/esm/utils/consts.js
 +++ b/node_modules/@certusone/wormhole-sdk/lib/esm/utils/consts.js
 @@ -38,6 +38,7 @@ export const CHAINS = {
@@ -220,6 +308,17 @@ index 9fe876b..181e898 100644
      "xlayer",
      "linea",
      "berachain",
+@@ -304,8 +306,8 @@ const MAINNET = {
+         nft_bridge: undefined,
+     },
+     berachain: {
+-        core: undefined,
+-        token_bridge: undefined,
++        core: "0xCa1D5a146B03f6303baF59e5AD5615ae0b9d146D",
++        token_bridge: "0x3Ff72741fd67D6AD0668d93B41a09248F4700560",
+         nft_bridge: undefined,
+     },
+     seievm: {
 @@ -313,6 +315,11 @@ const MAINNET = {
          token_bridge: undefined,
          nft_bridge: undefined,
