@@ -808,5 +808,32 @@
     },
     "icon": "https://assets.coingecko.com/coins/images/54164/large/clBTC.png",
     "decimals": 18
+  },
+  "MEthereum": {
+    "symbol": "M",
+    "tokenId": {
+      "chain": "Ethereum",
+      "address": "0x866A2BF4E572CbcF37D5071A7a58503Bfb36be1b"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/40048/large/M_Symbol_256x256.png?1725445596",
+    "decimals": 6
+  },
+  "MArbitrum": {
+    "symbol": "M",
+    "tokenId": {
+      "chain": "Arbitrum",
+      "address": "0x866A2BF4E572CbcF37D5071A7a58503Bfb36be1b"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/40048/large/M_Symbol_256x256.png?1725445596",
+    "decimals": 6
+  },
+  "MOptimism": {
+    "symbol": "M",
+    "tokenId": {
+      "chain": "Optimism",
+      "address": "0x866A2BF4E572CbcF37D5071A7a58503Bfb36be1b"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/40048/large/M_Symbol_256x256.png?1725445596",
+    "decimals": 6
   }
 }
