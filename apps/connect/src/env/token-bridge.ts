@@ -93,7 +93,7 @@ export const ENV: Env = {
       //   href: ADVANCE_TOOLS_HREF_TEMPLATE,
       // },
       // },
-      chains: [...chains, "Solana", "Injective", "Klaytn"],
+      chains: [...chains, "Solana", "Injective", "Klaytn", "Berachain"],
       moreNetworks: {
         href: ADVANCE_TOOLS_HREF_TEMPLATE,
         target: "_blank",
