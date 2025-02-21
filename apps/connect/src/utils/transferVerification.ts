@@ -1,6 +1,5 @@
 import { isValidAddress } from "./isValidAddress";
 import { isSanctionedAddress } from "../../src/providers/sanctions";
-import { ChainName } from "@certusone/wormhole-sdk";
 import { Chain } from "@wormhole-foundation/sdk";
 import { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
 
@@ -34,5 +33,5 @@ export const validateTransfer = async (
 };
 
 export const toChainNameFormat = (chain: Chain) => {
-  return chain.toLowerCase() as ChainName;
+  return chain.toLowerCase();
 };

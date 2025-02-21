@@ -57,7 +57,7 @@ jobs:
           pushd apps/docs
           npm run build
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-docs
           path: apps/docs/build
@@ -104,7 +104,7 @@ jobs:
           cd build
           npm run set-version
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-advanced-tools
           path: build
@@ -132,7 +132,7 @@ jobs:
           npm ci
           npm run build
       - name: Upload Portal Bridge Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-redirects
           path: apps/redirects/dist
@@ -163,7 +163,7 @@ jobs:
           npm ci
           npm run build
       - name: Upload Rewards Dashboard Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-rewards-dashboard
           path: apps/rewards-dashboard/dist
@@ -213,7 +213,7 @@ jobs:
           echo 'VITE_APP_VERSION=$npm_package_version' > .env
           npm run build:usdc-bridge
       - name: Upload Portal Bridge Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-usdc-bridge
           path: connect-loader/apps/connect/dist
@@ -262,7 +262,7 @@ jobs:
           echo 'VITE_APP_VERSION=$npm_package_version' > .env
           npm run build:token-bridge
       - name: Upload Portal Bridge Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-token-bridge
           path: connect-loader/apps/connect/dist
@@ -311,7 +311,7 @@ jobs:
           echo 'VITE_APP_VERSION=$npm_package_version' > .env
           npm run build:tbtc-bridge
       - name: Upload Portal Bridge Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-tbtc-bridge-v1
           path: connect-loader/apps/connect-v1/dist
@@ -360,7 +360,7 @@ jobs:
           echo 'VITE_APP_VERSION=$npm_package_version' > .env
           npm run build:token-bridge
       - name: Upload Portal Bridge Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-token-bridge-v1
           path: connect-loader/apps/connect-v1/dist
@@ -385,41 +385,41 @@ jobs:
       packages: write
     steps:
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-token-bridge
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-tbtc-bridge-v1
           path: tbtc-bridge
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-token-bridge-v1
           path: cosmos
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-usdc-bridge 
           path: usdc-bridge    
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-advanced-tools
           path: advanced-tools
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-rewards-dashboard
           path: rewards-dashboard
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-docs
           path: docs
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-redirects
       - name: Set up GitHub NPM registry
@@ -431,7 +431,7 @@ jobs:
         run: |
           jq -n --arg version ${{ needs.token-bridge.outputs.pkg-version }} '{"name": "@xlabs/portal-bridge-ui", "version": $version }' > package.json
       - name: Upload Portal Bridge Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-all
           path: .

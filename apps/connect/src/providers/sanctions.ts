@@ -1,19 +1,5 @@
-import {
-  CHAIN_ID_ALGORAND,
-  CHAIN_ID_ARBITRUM,
-  CHAIN_ID_AVAX,
-  CHAIN_ID_BSC,
-  CHAIN_ID_BTC,
-  CHAIN_ID_CELO,
-  CHAIN_ID_OPTIMISM,
-  CHAIN_ID_POLYGON,
-  CHAIN_ID_SOLANA,
-  CHAIN_ID_KLAYTN,
-  isCosmWasmChain,
-  isEVMChain,
-} from "@certusone/wormhole-sdk";
 import { Chain, toChainId } from "@wormhole-foundation/sdk";
-import { toChainNameFormat } from "../utils/transferVerification";
+import { isCosmWasmChain, isEVMChain } from "../utils/constants";
 import { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
 
 export type ExtendedTransferDetails = Parameters<
@@ -35,21 +21,22 @@ export const RISK_ADDRESS_INDICATOR_TYPE = "OWNERSHIP";
 export const getTrmChainName = (chain: Chain) => {
   const id = toChainId(chain);
   const trmChainNames: any = {
-    [CHAIN_ID_ALGORAND]: "algorand",
-    [CHAIN_ID_ARBITRUM]: "arbitrum",
-    [CHAIN_ID_AVAX]: "avalanche_c_chain",
-    [CHAIN_ID_BSC]: "binance_smart_chain",
-    [CHAIN_ID_BTC]: "bitcoin",
-    [CHAIN_ID_CELO]: "celo",
-    [CHAIN_ID_KLAYTN]: "klaytn",
-    [CHAIN_ID_OPTIMISM]: "optimism",
-    [CHAIN_ID_POLYGON]: "polygon",
-    [CHAIN_ID_SOLANA]: "solana",
+    [toChainId("Algorand")]: "algorand",
+    [toChainId("Arbitrum")]: "arbitrum",
+    [toChainId("Avalanche")]: "avalanche_c_chain",
+    [toChainId("Bsc")]: "binance_smart_chain",
+    [toChainId("Btc")]: "bitcoin",
+    [toChainId("Celo")]: "celo",
+    [toChainId("Klaytn")]: "klaytn",
+    [toChainId("Optimism")]: "optimism",
+    [toChainId("Polygon")]: "polygon",
+    [toChainId("Solana")]: "solana",
   };
 
   if (trmChainNames[id]) return trmChainNames[id];
-  if (isCosmWasmChain(toChainNameFormat(chain))) return "cosmos";
-  if (isEVMChain(toChainNameFormat(chain))) return "ethereum";
+  if (isCosmWasmChain(chain)) return "cosmos";
+  // TO DO: Add support for other evm chains with the new sdk
+  if (isEVMChain(chain) || chain === "Worldchain") return "ethereum";
 
   return "";
 };
@@ -97,7 +84,8 @@ export const isSanctionedAddress = async (
         address: transferDetails.toWalletAddress,
       }),
       ...(transferDetails.toChain !== "Ethereum" &&
-      isEVMChain(toChainNameFormat(transferDetails.toChain))
+      (isEVMChain(transferDetails.toChain) ||
+        transferDetails.toChain === "Worldchain")
         ? [
             isSanctioned({
               chain: "ethereum",

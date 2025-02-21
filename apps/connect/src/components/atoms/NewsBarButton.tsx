@@ -19,7 +19,7 @@ const Link = styled(MuiLink)<{ backgroundColor: string }>(
     fontSize: FONT_SIZE.XS,
     letterSpacing: "0.08em",
     fontWeight: 600,
-    minHeight: "32px",
+    minHeight: 28,
     minWidth: "fit-content",
     fontFamily: "Poppins",
     wordWrap: "break-word",
