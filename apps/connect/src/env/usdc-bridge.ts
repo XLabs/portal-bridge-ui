@@ -16,7 +16,6 @@ export const ENV: Env = {
     // },
     { label: "USDC", active: true, href: `${PUBLIC_URL}/usdc-bridge` },
     { label: "tBTC", href: `${PUBLIC_URL}/tbtc-bridge` },
-    { label: "Rewards", href: `${PUBLIC_URL}/rewards-dashboard` },
     {
       label: "Advanced Tools",
       isBlank: true,

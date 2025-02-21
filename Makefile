@@ -11,5 +11,3 @@ usdc-bridge:
 	act --artifact-server-path /tmp/act-artifacts pull_request -j usdc-bridge -s GITHUB_TOKEN=${GITHUB_TOKEN}
 token-bridge:
 	act --artifact-server-path /tmp/act-artifacts pull_request -j token-bridge -s GITHUB_TOKEN=${GITHUB_TOKEN}
-rewards-dashboard:
-	act --artifact-server-path /tmp/act-artifacts pull_request -j rewards-dashboard -s GITHUB_TOKEN=${GITHUB_TOKEN}
