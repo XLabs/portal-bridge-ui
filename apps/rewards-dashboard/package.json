@@ -18,15 +18,17 @@
     "@gfxlabs/oku-chains": "^0.0.19",
     "@lingui/macro": "^4.6.0",
     "@lingui/react": "^4.6.0",
+    "@reown/appkit": "^1.5.0",
+    "@reown/appkit-adapter-solana": "^1.5.0",
+    "@solana/wallet-adapter-wallets": "^0.19.32",
     "@swc/core": "1.3.105",
-    "@tanstack/react-query": "^5.15.4",
+    "@tanstack/react-query": "^5.60.6",
     "@uidotdev/usehooks": "^2.4.1",
-    "@web3modal/wagmi": "^3.5.0",
     "ethereum-blockies-base64": "^1.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.12.0",
-    "wagmi": "^1.4.12"
+    "wagmi": "^2.13.0"
   },
   "devDependencies": {
     "@lingui/cli": "^4.6.0",

@@ -13,102 +13,110 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/layouts/DashboardLayout.tsx:193
-msgid "Aave WSTETH Held Value Header"
-msgstr "aWSTETH Balance"
+#: src/layouts/DashboardLayout.tsx:145
+msgid "100,000 USDS in <0>Weekly Rewards</0> for users going from Ethereum to Solana!"
+msgstr ""
 
-#: src/layouts/DashboardLayout.tsx:196
-msgid "Aave WSTETH Held Value Tooltip"
-msgstr "Aave v3 WSTETH account balance."
-
-#: src/layouts/DashboardLayout.tsx:207
+#: src/layouts/DashboardLayout.tsx:223
 msgid "Accrued Rewards Header"
-msgstr "Accruing OP Rewards"
+msgstr "Weekly Accruing Rewards"
 
-#: src/layouts/DashboardLayout.tsx:210
+#: src/layouts/DashboardLayout.tsx:226
 msgid "Accrued Rewards Tooltip"
-msgstr "The estimated amount of OP you have earned that has not been paid out."
+msgstr "The estimated amount of USDS you have earned that has not been paid out."
 
-#: src/layouts/DashboardLayout.tsx:290
+#: src/layouts/DashboardLayout.tsx:306
 msgid "Bottom Banner Header"
 msgstr "How rewards work?"
 
-#: src/layouts/DashboardLayout.tsx:300
+#: src/layouts/DashboardLayout.tsx:316
 msgid "Bottom Banner Link"
 msgstr "Learn more"
 
-#: src/layouts/DashboardLayout.tsx:179
+#: src/layouts/DashboardLayout.tsx:201
 msgid "Bridged Header"
-msgstr "Total WSTETH bridged"
+msgstr "Total USDS bridged"
 
-#: src/layouts/DashboardLayout.tsx:182
+#: src/layouts/DashboardLayout.tsx:204
 msgid "Bridged Window Tooltip"
-msgstr "The total amount of WSTETH you bridged in via Wormhole."
+msgstr "The total amount of USDS you bridged in via Wormhole."
 
-#: src/quarks/WalletManager.tsx:15
+#: src/quarks/WalletManager.tsx:12
 msgid "CONNECT WALLET"
 msgstr "Connect Wallet"
 
-#: src/layouts/DashboardLayout.tsx:147
+#: src/layouts/DashboardLayout.tsx:169
 msgid "Connected Dashboard Header"
-msgstr "My OP Rewards"
+msgstr "My USDS Rewards"
 
-#: src/layouts/DashboardLayout.tsx:133
-msgid "Connected Dashboard Subtitle"
-msgstr "Get up to 5% rewards by bridging your WSTETH to Optimism"
+#: src/layouts/DashboardLayout.tsx:149
+#~ msgid "Connected Dashboard Subtitle"
+#~ msgstr "Get up to 5% rewards by bridging your USDS to Solana"
 
-#: src/layouts/DashboardLayout.tsx:122
+#: src/layouts/DashboardLayout.tsx:134
 msgid "Connected Dashboard Title"
-msgstr "OP Rewards Dashboard"
+msgstr "USDS Rewards Dashboard"
 
-#: src/layouts/DashboardLayout.tsx:262
+#: src/layouts/DashboardLayout.tsx:278
 msgid "Disconnect Wallet Dashboard Subtitle One"
-msgstr "Claim OP rewards by bridging your WSTETH to Optimism."
+msgstr "Bridge Sky's new USDS to Solana to earn rewards."
 
-#: src/layouts/DashboardLayout.tsx:265
+#: src/layouts/DashboardLayout.tsx:281
 msgid "Disconnect Wallet Dashboard Subtitle Two"
-msgstr "Supporting Aave and Exactly WSTETH deposits."
+msgstr "Hold USDS or deposit into Kamino to qualify."
 
-#: src/layouts/DashboardLayout.tsx:258
+#: src/layouts/DashboardLayout.tsx:274
 msgid "Disconnect Wallet Dashboard Title"
-msgstr "Optimism WSTETH Rewards Dashboard"
+msgstr "Solana USDS Rewards Dashboard"
 
-#: src/layouts/DashboardLayout.tsx:224
-msgid "Estimated Rewards Header"
-msgstr "Total Projected Rewards"
+#: src/layouts/DashboardLayout.tsx:255
+#~ msgid "Est Hourly Rewards per USDS"
+#~ msgstr "Est Hourly Rewards per USDS"
 
 #: src/layouts/DashboardLayout.tsx:199
-msgid "Exactly WSTETH Held Value"
-msgstr "eWSTETH Balance"
+#~ msgid "Exactly USDS Held Value"
+#~ msgstr "Kamino USDS Balance"
 
 #: src/layouts/DashboardLayout.tsx:202
-msgid "Exactly WSTETH Held Value Tooltip"
-msgstr "Exactly WSTETH account balance."
+#~ msgid "Exactly USDS Held Value Tooltip"
+#~ msgstr "Exactly USDS account balance."
 
-#: src/layouts/DashboardLayout.tsx:168
+#: src/layouts/DashboardLayout.tsx:190
 msgid "Hide Number Text"
 msgstr "Show Numbers"
 
-#: src/layouts/DashboardLayout.tsx:230
+#: src/layouts/DashboardLayout.tsx:246
 msgid "History of Rewards Earned Header"
-msgstr "Total OP Earned"
+msgstr "Total USDS Earned"
 
-#: src/layouts/DashboardLayout.tsx:234
+#: src/layouts/DashboardLayout.tsx:250
 msgid "History of Rewards Earned Tooltip"
-msgstr "A minimum of 1 OP will be paid out. Outstanding rewards below 1 OP will roll over to the next week."
+msgstr "A minimum of 1 USDS will be paid out. Outstanding rewards below 1 USDS will roll over to the next week."
 
-#: src/layouts/DashboardLayout.tsx:168
+#: src/layouts/DashboardLayout.tsx:215
+msgid "Kamino USDS Held Value Header"
+msgstr "Kamino USDS Balance"
+
+#: src/layouts/DashboardLayout.tsx:218
+msgid "Kamino USDS Held Value Tooltip"
+msgstr "Kamino USDS account balance."
+
+#: src/layouts/DashboardLayout.tsx:190
 msgid "Show Number Text"
 msgstr "Hide Numbers"
 
-#: src/layouts/DashboardLayout.tsx:218
+#: src/layouts/DashboardLayout.tsx:234
 msgid "Staking Power Header"
-msgstr "Total WSTETH Bridged"
+msgstr "Total USDS Bridged"
 
-#: src/layouts/DashboardLayout.tsx:185
-msgid "WSTETH Held Header"
-msgstr "WSTETH Balance"
+#: src/layouts/DashboardLayout.tsx:207
+msgid "USDS Held Header"
+msgstr "USDS Balance"
 
-#: src/layouts/DashboardLayout.tsx:188
-msgid "WSTETH Held Window Tooltip"
-msgstr "The amount of WSTETH held in your account."
+#: src/layouts/DashboardLayout.tsx:210
+msgid "USDS Held Window Tooltip"
+msgstr "The amount of USDS held in your account."
+
+#: src/layouts/DashboardLayout.tsx:240
+msgid "Weekly Rewards Header"
+msgstr "Weekly Rewards Pool"
