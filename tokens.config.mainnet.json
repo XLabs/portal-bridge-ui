@@ -833,7 +833,7 @@
       "chain": "Ethereum",
       "address": "0x866A2BF4E572CbcF37D5071A7a58503Bfb36be1b"
     },
-    "icon": "https://assets.coingecko.com/coins/images/40048/large/M_Symbol_256x256.png?1725445596",
+    "icon": "https://assets.coingecko.com/coins/images/40048/large/M_Symbol_256.png?1739323798",
     "decimals": 6
   },
   "MArbitrum": {
@@ -842,7 +842,7 @@
       "chain": "Arbitrum",
       "address": "0x866A2BF4E572CbcF37D5071A7a58503Bfb36be1b"
     },
-    "icon": "https://assets.coingecko.com/coins/images/40048/large/M_Symbol_256x256.png?1725445596",
+    "icon": "https://assets.coingecko.com/coins/images/40048/large/M_Symbol_256.png?1739323798",
     "decimals": 6
   },
   "MOptimism": {
@@ -851,7 +851,7 @@
       "chain": "Optimism",
       "address": "0x866A2BF4E572CbcF37D5071A7a58503Bfb36be1b"
     },
-    "icon": "https://assets.coingecko.com/coins/images/40048/large/M_Symbol_256x256.png?1725445596",
+    "icon": "https://assets.coingecko.com/coins/images/40048/large/M_Symbol_256.png?1739323798",
     "decimals": 6
   }
 }
