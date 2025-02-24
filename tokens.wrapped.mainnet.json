@@ -147,5 +147,10 @@
     "0x94fBE860aD699670A2293D194CF1376EF58C014a": {
       "Solana": "6xTAKg6SQejorPyubo3asYY1sLco66DA5vDbfZbheVub"
     }
+  },
+  "Base": {
+    "0x5F6a682A58854C7fBE228712aEEFfcCDe0008Ac0": {
+      "Solana": "7dG3NVd6H7hnQvA6FjfBpgX41Cx94KHq9wYsHactVxEZ"
+    }
   }
 }

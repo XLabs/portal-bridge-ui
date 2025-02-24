@@ -853,5 +853,14 @@
     },
     "icon": "https://assets.coingecko.com/coins/images/40048/large/M_Symbol_256.png?1739323798",
     "decimals": 6
+  },
+  "RabbiSchlomo": {
+    "symbol": "SHEKEL",
+    "tokenId": {
+      "chain": "Base",
+      "address": "0x5F6a682A58854C7fBE228712aEEFfcCDe0008Ac0"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/53692/large/KC_star_logo.png?1737056623",
+    "decimals": 18
   }
 }
