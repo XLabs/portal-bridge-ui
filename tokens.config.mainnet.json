@@ -889,5 +889,23 @@
     },
     "icon": "https://assets.coingecko.com/coins/images/40048/large/M_Symbol_256.png?1739323798",
     "decimals": 6
+  },
+  "WrappedMEthereum": {
+    "symbol": "wM",
+    "tokenId": {
+      "chain": "Ethereum",
+      "address": "0x437cc33344a0B27A429f795ff6B469C72698B291"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/40048/large/M_Symbol_256.png?1739323798",
+    "decimals": 6
+  },
+  "WrappedMOptimism": {
+    "symbol": "wM",
+    "tokenId": {
+      "chain": "Optimism",
+      "address": "0x437cc33344a0B27A429f795ff6B469C72698B291"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/40048/large/M_Symbol_256.png?1739323798",
+    "decimals": 6
   }
 }
