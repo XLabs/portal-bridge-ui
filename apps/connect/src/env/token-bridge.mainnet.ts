@@ -24,7 +24,7 @@ export const ENV: Env = {
         MayanRouteWH as any, // FIXME: Remove this any and fix wh connect type issues
         MayanRouteMCTP,
         MayanRouteSWIFT,
-        MayanRouteSHUTTLE
+        MayanRouteSHUTTLE,
       ],
     }
   ),
