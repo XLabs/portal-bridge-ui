@@ -27,6 +27,7 @@
     "@aptos-labs/ts-sdk": "^1.33.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@m0-foundation/ntt-sdk-route": "^0.0.3",
     "@mui/icons-material": "^5.14.11",
     "@mui/material": "^5.12.1",
     "@tanstack/react-query": "^5.14.2",
