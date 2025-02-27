@@ -1,6 +1,10 @@
 import { ENV as ENV_BASE } from "./usdc-bridge";
 import { mergeDeep } from "../utils/mergeDeep";
-import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
+import {
+  DEFAULT_ROUTES,
+  MayanRouteSHUTTLE,
+  type WormholeConnectConfig,
+} from "@wormhole-foundation/wormhole-connect";
 import { Env, MAINNET_RPCS } from "./common";
 
 export const ENV: Env = {
@@ -9,6 +13,7 @@ export const ENV: Env = {
     ENV_BASE.wormholeConnectConfig,
     {
       rpcs: MAINNET_RPCS,
+      routes: [...DEFAULT_ROUTES, MayanRouteSHUTTLE as any],
       chains: [
         "Ethereum",
         "Avalanche",
