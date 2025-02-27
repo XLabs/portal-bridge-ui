@@ -5,6 +5,7 @@ import {
   MayanRouteWH,
   MayanRouteMCTP,
   MayanRouteSWIFT,
+  MayanRouteSHUTTLE,
   type WormholeConnectConfig,
 } from "@wormhole-foundation/wormhole-connect";
 import { Env, MAINNET_RPCS } from "./common";
@@ -24,6 +25,7 @@ export const ENV: Env = {
         MayanRouteWH as any, // FIXME: Remove this any and fix wh connect type issues
         MayanRouteMCTP,
         MayanRouteSWIFT,
+        MayanRouteSHUTTLE,
         M0AutomaticRoute,
       ],
     }

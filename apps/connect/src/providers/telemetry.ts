@@ -101,6 +101,7 @@ export const eventHandler = (e: WormholeConnectEvent) => {
         MayanSwapWH: "Mayan Swap",
         MayanSwapMCTP: "Mayan Swap MCTP",
         MayanSwapSWIFT: "Mayan Swap Swift",
+        MayanSwapSHUTTLE: "Mayan Swap Shuttle",
         cosmosGateway: "Cosmos Gateway",
         ethBridge: "Eth Bridge",
         wstETHBridge: "wstETH Bridge",
