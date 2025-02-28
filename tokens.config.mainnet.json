@@ -862,5 +862,50 @@
     },
     "icon": "https://assets.coingecko.com/coins/images/53692/large/KC_star_logo.png?1737056623",
     "decimals": 18
+  },
+  "QBioEthereum": {
+    "symbol": "QBIO",
+    "tokenId": {
+      "chain": "Ethereum",
+      "address": "0x3E6A1b21bd267677Fa49BE6425aEbe2fc0f89bDE"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/53772/large/rqnkn3aN_400x400.jpg?1737268932",
+    "decimals": 18
+  },
+  "QBioSolana": {
+    "symbol": "QBIO",
+    "tokenId": {
+      "chain": "Solana",
+      "address": "qbioCGDnUBGX5qcK1Fc4zg19GaQEPmxHFMPMZQm4LZ8"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/53772/large/rqnkn3aN_400x400.jpg?1737268932",
+    "decimals": 9
+  },
+  "WrappedMArbitrum": {
+    "symbol": "wM",
+    "tokenId": {
+      "chain": "Arbitrum",
+      "address": "0x437cc33344a0B27A429f795ff6B469C72698B291"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/40048/large/M_Symbol_256.png?1739323798",
+    "decimals": 6
+  },
+  "WrappedMEthereum": {
+    "symbol": "wM",
+    "tokenId": {
+      "chain": "Ethereum",
+      "address": "0x437cc33344a0B27A429f795ff6B469C72698B291"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/40048/large/M_Symbol_256.png?1739323798",
+    "decimals": 6
+  },
+  "WrappedMOptimism": {
+    "symbol": "wM",
+    "tokenId": {
+      "chain": "Optimism",
+      "address": "0x437cc33344a0B27A429f795ff6B469C72698B291"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/40048/large/M_Symbol_256.png?1739323798",
+    "decimals": 6
   }
 }

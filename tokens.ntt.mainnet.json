@@ -874,39 +874,29 @@
       "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
     }
   ],
-  "M": [
+  "QBio": [
     {
       "chain": "Ethereum",
-      "manager": "0xD925C84b55E4e44a53749fF5F2a5A13F63D128fd",
-      "token": "0x866A2BF4E572CbcF37D5071A7a58503Bfb36be1b",
+      "manager": "0xD56541B73402519Ffc6CA32596ed2A1179752184",
+      "token": "0x3E6A1b21bd267677Fa49BE6425aEbe2fc0f89bDE",
       "transceiver": [
         {
-          "address": "0x0763196A091575adF99e2306E5e90E0Be5154841",
+          "address": "0x7c0C6E331Fe8b7368f1497d42f4f26c575F949e2",
           "type": "wormhole"
         }
       ]
     },
     {
-      "chain": "Optimism",
-      "manager": "0xD925C84b55E4e44a53749fF5F2a5A13F63D128fd",
-      "token": "0x866A2BF4E572CbcF37D5071A7a58503Bfb36be1b",
+      "chain": "Solana",
+      "manager": "nttmCZuaoLZ2TEyuo1qytxUJwW9v5Um7bhUgY9zhS6M",
+      "token": "qbioCGDnUBGX5qcK1Fc4zg19GaQEPmxHFMPMZQm4LZ8",
       "transceiver": [
         {
-          "address": "0x0763196A091575adF99e2306E5e90E0Be5154841",
+          "address": "EmdPKjjXoMsJ6Seek97d51zfJ9Ji4HEjRM5XVQ3KekCG",
           "type": "wormhole"
         }
-      ]
-    },
-    {
-      "chain": "Arbitrum",
-      "manager": "0xD925C84b55E4e44a53749fF5F2a5A13F63D128fd",
-      "token": "0x866A2BF4E572CbcF37D5071A7a58503Bfb36be1b",
-      "transceiver": [
-        {
-          "address": "0x0763196A091575adF99e2306E5e90E0Be5154841",
-          "type": "wormhole"
-        }
-      ]
+      ],
+      "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
     }
   ]
 }
