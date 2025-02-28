@@ -873,30 +873,5 @@
       ],
       "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
     }
-  ],
-  "QBio": [
-    {
-      "chain": "Ethereum",
-      "manager": "0xD56541B73402519Ffc6CA32596ed2A1179752184",
-      "token": "0x3E6A1b21bd267677Fa49BE6425aEbe2fc0f89bDE",
-      "transceiver": [
-        {
-          "address": "0x7c0C6E331Fe8b7368f1497d42f4f26c575F949e2",
-          "type": "wormhole"
-        }
-      ]
-    },
-    {
-      "chain": "Solana",
-      "manager": "nttmCZuaoLZ2TEyuo1qytxUJwW9v5Um7bhUgY9zhS6M",
-      "token": "qbioCGDnUBGX5qcK1Fc4zg19GaQEPmxHFMPMZQm4LZ8",
-      "transceiver": [
-        {
-          "address": "EmdPKjjXoMsJ6Seek97d51zfJ9Ji4HEjRM5XVQ3KekCG",
-          "type": "wormhole"
-        }
-      ],
-      "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
-    }
   ]
 }
