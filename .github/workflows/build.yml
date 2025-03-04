@@ -3,35 +3,35 @@ name: Build Non Prod
 on:
   workflow_call:
     inputs:
-        name:
-            type: string
-            required: true
-        separator:
-            type: string
-        advanced-tools-branch:
-            type: string
-            required: true
-            default: main
-        environment:
-            type: string
-            required: true
-            default: Cloudflare-Preview
-        public-url:
-            type: string
-        app-domain:
-            type: string
-            default: "portalbridge.com"
-        wac-url-template:
-            type: string
-            default: "https://wac.staging.gfx.town"
-        project-branch:
-            type: string
-            default: main
+      name:
+        type: string
+        required: true
+      separator:
+        type: string
+      advanced-tools-branch:
+        type: string
+        required: true
+        default: main
+      environment:
+        type: string
+        required: true
+        default: Cloudflare-Preview
+      public-url:
+        type: string
+      app-domain:
+        type: string
+        default: "portalbridge.com"
+      wac-url-template:
+        type: string
+        default: "https://wac.staging.gfx.town"
+      project-branch:
+        type: string
+        default: main
     outputs:
-        pkg-version:
-            description: "NPM Package Version"
-            value: ${{ jobs.token-bridge.outputs.pkg-version }}
-jobs:    
+      pkg-version:
+        description: "NPM Package Version"
+        value: ${{ jobs.token-bridge.outputs.pkg-version }}
+jobs:
   docs:
     name: "Documentation"
     runs-on: "ubuntu-latest"
@@ -61,7 +61,7 @@ jobs:
         with:
           name: build-docs
           path: apps/docs/build
-  
+
   advanced-tools:
     name: "Advance Tools"
     runs-on: xlabs-large-runner
@@ -114,7 +114,7 @@ jobs:
     runs-on: "ubuntu-latest"
     concurrency:
       group: ${{ github.ref }}-${{inputs.name}}-redirects
-      cancel-in-progress: true 
+      cancel-in-progress: true
     steps:
       - name: Set up Node environment
         uses: actions/setup-node@v3
@@ -136,38 +136,7 @@ jobs:
         with:
           name: build-redirects
           path: apps/redirects/dist
-  rewards-dashboard:
-    name: "Rewards Dashboard"
-    runs-on: "ubuntu-latest"
-    concurrency:
-      group: ${{ github.ref }}-${{inputs.name}}-rewards-dashboard
-      cancel-in-progress: true
-    environment: ${{inputs.environment}}
-    steps:
-      - name: Set up Node environment
-        uses: actions/setup-node@v3
-        with:
-          node-version: v18.17.1
-      - name: Checkout Rewards Dashboard
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ inputs.project-branch }}
-      - name: Build Rewards Dashboard
-        env:
-          PUBLIC_URL: ${{ inputs.public-url }}
-          VITE_WAC_URL_TEMPLATE: ${{ inputs.wac-url-template }}
-          VITE_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}
-          VITE_APP_DOMAIN: ${{ inputs.app-domain }}
-        run: |
-          pushd apps/rewards-dashboard
-          npm ci
-          npm run build
-      - name: Upload Rewards Dashboard Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-rewards-dashboard
-          path: apps/rewards-dashboard/dist
-  
+
   usdc-bridge:
     name: "USDC Bridge"
     runs-on: "ubuntu-latest"
@@ -217,7 +186,7 @@ jobs:
         with:
           name: build-usdc-bridge
           path: connect-loader/apps/connect/dist
-        
+
   token-bridge:
     name: "Token Bridge"
     runs-on: "ubuntu-latest"
@@ -242,7 +211,7 @@ jobs:
           pushd connect-loader
           git config user.name "xLabs CI"
           git config user.email "devops@xlabs.xyz"
-      - name: Set Portal Bridge Version 
+      - name: Set Portal Bridge Version
         id: set-version
         run: |
           pushd connect-loader/apps/connect
@@ -291,7 +260,7 @@ jobs:
           pushd connect-loader
           git config user.name "xLabs CI"
           git config user.email "devops@xlabs.xyz"
-      - name: Set Portal Bridge Version 
+      - name: Set Portal Bridge Version
         id: set-version
         run: |
           pushd connect-loader/apps/connect-v1
@@ -340,7 +309,7 @@ jobs:
           pushd connect-loader
           git config user.name "xLabs CI"
           git config user.email "devops@xlabs.xyz"
-      - name: Set Portal Bridge Version 
+      - name: Set Portal Bridge Version
         id: set-version
         run: |
           pushd connect-loader/apps/connect-v1
@@ -373,7 +342,6 @@ jobs:
       - token-bridge
       - tbtc-bridge-v1
       - token-bridge-v1
-      - rewards-dashboard
       - redirects
       - docs
     runs-on: "ubuntu-latest"
@@ -401,8 +369,8 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
-          name: build-usdc-bridge 
-          path: usdc-bridge    
+          name: build-usdc-bridge
+          path: usdc-bridge
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
@@ -410,9 +378,6 @@ jobs:
           path: advanced-tools
       - name: Download Artifact
         uses: actions/download-artifact@v4
-        with:
-          name: build-rewards-dashboard
-          path: rewards-dashboard
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
