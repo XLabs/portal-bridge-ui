@@ -22,7 +22,7 @@ export const isValidAddress = async (
 
 // Ethereum Validation
 const getEthereumAddressWithChecksum = (address: string): string => {
-  return ethers.utils.getAddress(address);
+  return ethers.getAddress(address);
 };
 const isValidEthereumAddress = (address: string, strict = false): boolean => {
   // We need to ensure the address contains the checksum
