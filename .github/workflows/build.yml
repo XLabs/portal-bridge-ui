@@ -34,8 +34,6 @@ on:
         pkg-version:
             description: "NPM Package Version"
             value: ${{ jobs.token-bridge.outputs.pkg-version }}
-env:
-  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 jobs:    
   docs:
     name: "Documentation"
