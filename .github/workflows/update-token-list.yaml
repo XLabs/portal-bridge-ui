@@ -32,6 +32,8 @@ jobs:
 
       - name: Install node dependencies
         run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Test updated files
         run: npm test

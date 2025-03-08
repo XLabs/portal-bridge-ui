@@ -10,7 +10,7 @@ jobs:
   linter:
     runs-on: "ubuntu-latest"
     steps:
-      - name: Set up Node environment
+      - name: Set up Node environment (test)
         uses: actions/setup-node@v3
         with:
           node-version: v18.17.1
@@ -19,6 +19,8 @@ jobs:
       - name: Install dependencies
         working-directory: ./apps/connect
         run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Run linter
         working-directory: ./apps/connect
         run: npm run lint
@@ -34,6 +36,8 @@ jobs:
       - name: Install dependencies
         working-directory: ./apps/connect
         run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Run prettier
         working-directory: ./apps/connect
         run: npm run prettier
@@ -49,6 +53,8 @@ jobs:
       - name: Install dependencies
         working-directory: ./apps/connect
         run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Run tests
         working-directory: ./apps/connect
         run: npm run test
