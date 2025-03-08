@@ -186,7 +186,11 @@ jobs:
           pushd connect-loader/apps/connect
           npm ci
           echo 'VITE_APP_VERSION=$npm_package_version' > .env
-          npm run build:usdc-bridge
+          if [ ${{ inputs.network }} = "mainnet" ]; then
+            npm run build:usdc-bridge
+          else
+            npm run build:usdc-bridge:testnet
+          fi
       - name: Upload Portal Bridge Artifact
         uses: actions/upload-artifact@v4
         with:
@@ -238,7 +242,11 @@ jobs:
           pushd connect-loader/apps/connect
           npm ci
           echo 'VITE_APP_VERSION=$npm_package_version' > .env
-          npm run build:token-bridge
+          if [ ${{ inputs.network }} = "mainnet" ]; then
+            npm run build:token-bridge
+          else
+            npm run build:token-bridge:testnet
+          fi
       - name: Upload Portal Bridge Artifact
         uses: actions/upload-artifact@v4
         with:
