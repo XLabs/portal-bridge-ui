@@ -13,6 +13,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: v18.17.1
+          registry-url: https://npm.pkg.github.com
+          scope: "@xlabs"
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Install dependencies
@@ -30,6 +32,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: v18.17.1
+          registry-url: https://npm.pkg.github.com
+          scope: "@xlabs"
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Install dependencies
@@ -47,6 +51,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: v18.17.1
+          registry-url: https://npm.pkg.github.com
+          scope: "@xlabs"
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Install dependencies
