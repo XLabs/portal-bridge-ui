@@ -27,6 +27,7 @@ jobs:
       environment: Cloudflare-Preview
       public-url: "/${{ needs.branch-sha.outputs.value }}"
       wac-url-template: "https://allez-xyz--usds-*.modal.run"
+      network: "mainnet"
       project-branch: ${{ github.event.pull_request.head.ref }}
       app-domain: preview.portalbridge.com
     secrets: inherit

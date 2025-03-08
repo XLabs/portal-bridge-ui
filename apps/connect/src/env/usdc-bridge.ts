@@ -1,7 +1,7 @@
 import {
   DEFAULT_ROUTES,
   type WormholeConnectConfig,
-} from "@wormhole-foundation/wormhole-connect";
+} from "@xlabs/wormhole-connect";
 import { Env, PUBLIC_URL, wormholeConnectConfigCommon } from "./common";
 import { mergeDeep } from "../utils/mergeDeep";
 

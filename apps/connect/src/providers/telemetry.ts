@@ -1,6 +1,6 @@
 import mixpanel from "mixpanel-browser";
 import { isPreview, isProduction } from "../utils/constants";
-import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
+import type { WormholeConnectConfig } from "@xlabs/wormhole-connect";
 import { amount as sdkAmount } from "@wormhole-foundation/sdk";
 
 export type WormholeConnectEvent = Parameters<

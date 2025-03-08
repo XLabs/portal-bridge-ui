@@ -4,7 +4,7 @@ import {
   DEFAULT_ROUTES,
   MayanRouteSHUTTLE,
   type WormholeConnectConfig,
-} from "@wormhole-foundation/wormhole-connect";
+} from "@xlabs/wormhole-connect";
 import { Env, MAINNET_RPCS } from "./common";
 
 export const ENV: Env = {
@@ -13,7 +13,10 @@ export const ENV: Env = {
     ENV_BASE.wormholeConnectConfig,
     {
       rpcs: MAINNET_RPCS,
-      routes: [...DEFAULT_ROUTES, MayanRouteSHUTTLE as any],
+      routes: [
+        ...DEFAULT_ROUTES,
+        MayanRouteSHUTTLE as any,
+      ],
       chains: [
         "Ethereum",
         "Avalanche",

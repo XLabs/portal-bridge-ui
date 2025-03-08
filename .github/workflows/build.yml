@@ -21,6 +21,9 @@ on:
         app-domain:
             type: string
             default: "portalbridge.com"
+        network:
+            type: string
+            default: "mainnet"
         wac-url-template:
             type: string
             default: "https://wac.staging.gfx.town"
@@ -94,7 +97,7 @@ jobs:
           NODE_OPTIONS: "--max-old-space-size=10240"
           GENERATE_SOURCEMAP: false
           REACT_APP_BASE_URL: "${{ inputs.public-url }}"
-          REACT_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
+          REACT_APP_CLUSTER: ${{ inputs.network }}
           REACT_APP_SOLANA_API_URL: ${{ vars.REACT_APP_SOLANA_API_URL }}
           REACT_APP_COVALENT_API_KEY: ${{ secrets.REACT_APP_COVALENT_API_KEY }}
           REACT_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}
@@ -172,7 +175,7 @@ jobs:
           PUBLIC_URL: ${{ inputs.public-url }}
           VITE_PUBLIC_URL: ${{ inputs.public-url }}
           VITE_APP_VERSION: ${{ steps.set-version.outputs._PKG_VERSION }}
-          VITE_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
+          VITE_APP_CLUSTER: ${{ inputs.network }}
           # VITE_APP_JS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._JS_SHA_384 }}
           # VITE_APP_CSS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._CSS_SHA_384 }}
           VITE_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}
@@ -221,7 +224,7 @@ jobs:
           PUBLIC_URL: "${{ inputs.public-url }}"
           VITE_PUBLIC_URL: ${{ inputs.public-url }}
           VITE_APP_VERSION: ${{ steps.set-version.outputs._PKG_VERSION }}
-          VITE_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
+          VITE_APP_CLUSTER: ${{ inputs.network }}
           # VITE_APP_JS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._JS_SHA_384 }}
           # VITE_APP_CSS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._CSS_SHA_384 }}
           VITE_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}
@@ -270,7 +273,7 @@ jobs:
           PUBLIC_URL: "${{ inputs.public-url }}"
           VITE_PUBLIC_URL: ${{ inputs.public-url }}
           VITE_APP_VERSION: ${{ steps.set-version.outputs._PKG_VERSION }}
-          VITE_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
+          VITE_APP_CLUSTER: ${{ inputs.network }}
           # VITE_APP_JS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._JS_SHA_384 }}
           # VITE_APP_CSS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._CSS_SHA_384 }}
           VITE_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}
@@ -319,7 +322,7 @@ jobs:
           PUBLIC_URL: "${{ inputs.public-url }}"
           VITE_PUBLIC_URL: ${{ inputs.public-url }}
           VITE_APP_VERSION: ${{ steps.set-version.outputs._PKG_VERSION }}
-          VITE_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
+          VITE_APP_CLUSTER: ${{ inputs.network }}
           # VITE_APP_JS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._JS_SHA_384 }}
           # VITE_APP_CSS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._CSS_SHA_384 }}
           VITE_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}

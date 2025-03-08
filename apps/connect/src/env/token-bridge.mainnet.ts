@@ -7,7 +7,7 @@ import {
   MayanRouteSWIFT,
   MayanRouteSHUTTLE,
   type WormholeConnectConfig,
-} from "@wormhole-foundation/wormhole-connect";
+} from "@xlabs/wormhole-connect";
 import { Env, MAINNET_RPCS } from "./common";
 import { M0AutomaticRoute } from "@m0-foundation/ntt-sdk-route";
 

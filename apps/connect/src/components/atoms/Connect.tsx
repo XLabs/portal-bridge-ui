@@ -1,13 +1,13 @@
 import { memo, useEffect, useState } from "react";
 import WormholeConnect, {
   nttRoutes,
-} from "@wormhole-foundation/wormhole-connect";
+} from "@xlabs/wormhole-connect";
 import { useConnectConfig } from "../../hooks/useConnectConfig";
 import { styled, CircularProgress } from "@mui/material";
 import { NAVBAR_WIDTH } from "./NavBar";
 import { theme } from "../../theme/connect";
 import { Banner } from "./Banner";
-import { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
+import { WormholeConnectConfig } from "@xlabs/wormhole-connect";
 import { fetchTokensConfig } from "../../utils/fetchTokens";
 
 export const Container = styled("div")(({ theme }) => ({

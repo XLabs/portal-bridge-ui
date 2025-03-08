@@ -1,8 +1,11 @@
 import { ENV as ENV_BASE } from "./token-bridge";
 import { mergeDeep } from "../utils/mergeDeep";
-import { DEFAULT_ROUTES } from "@wormhole-foundation/wormhole-connect";
-import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
-import { Env } from "./common";
+import {
+  CircleV2ManualRoute,
+  DEFAULT_ROUTES,
+} from "@xlabs/wormhole-connect";
+import type { WormholeConnectConfig } from "@xlabs/wormhole-connect";
+import { Env, MAINNET_RPCS } from "./common";
 
 export const ENV: Env = {
   ...ENV_BASE,
@@ -12,7 +15,9 @@ export const ENV: Env = {
       // ui: {
       //   moreChains: { chains: [ALGORAND, ACALA, MORE] },
       // } as NonNullable<WormholeConnectConfig["ui"]>,
-      routes: [...DEFAULT_ROUTES],
+
+      routes: [...DEFAULT_ROUTES, CircleV2ManualRoute],
+      rpcs: MAINNET_RPCS,
     }
   ),
 };
