@@ -38,7 +38,7 @@ env:
   NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 jobs:    
   docs:
-    name: "Documentation (test)"
+    name: "Documentation"
     runs-on: "ubuntu-latest"
     concurrency:
       group: ${{ github.ref }}-${{inputs.name}}-docs
