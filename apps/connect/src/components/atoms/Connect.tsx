@@ -1,7 +1,5 @@
 import { memo, useEffect, useState } from "react";
-import WormholeConnect, {
-  nttRoutes,
-} from "@xlabs/wormhole-connect";
+import WormholeConnect, { nttRoutes } from "@xlabs/wormhole-connect";
 import { useConnectConfig } from "../../hooks/useConnectConfig";
 import { styled, CircularProgress } from "@mui/material";
 import { NAVBAR_WIDTH } from "./NavBar";

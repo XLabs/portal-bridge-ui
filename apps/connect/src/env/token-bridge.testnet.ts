@@ -1,9 +1,6 @@
 import { ENV as ENV_BASE } from "./token-bridge";
 import { mergeDeep } from "../utils/mergeDeep";
-import {
-  CircleV2ManualRoute,
-  DEFAULT_ROUTES,
-} from "@xlabs/wormhole-connect";
+import { CircleV2ManualRoute, DEFAULT_ROUTES } from "@xlabs/wormhole-connect";
 import type { WormholeConnectConfig } from "@xlabs/wormhole-connect";
 import { Env, MAINNET_RPCS } from "./common";
 

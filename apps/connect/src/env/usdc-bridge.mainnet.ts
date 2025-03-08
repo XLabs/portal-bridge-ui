@@ -13,10 +13,7 @@ export const ENV: Env = {
     ENV_BASE.wormholeConnectConfig,
     {
       rpcs: MAINNET_RPCS,
-      routes: [
-        ...DEFAULT_ROUTES,
-        MayanRouteSHUTTLE as any,
-      ],
+      routes: [...DEFAULT_ROUTES, MayanRouteSHUTTLE as any],
       chains: [
         "Ethereum",
         "Avalanche",
