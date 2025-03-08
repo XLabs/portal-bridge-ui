@@ -4,7 +4,8 @@ on:
   pull_request:
 #    paths:
 #      - '!apps/token-list/**'
-
+env:
+  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 jobs:
   linter:
     runs-on: "ubuntu-latest"

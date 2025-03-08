@@ -34,6 +34,8 @@ on:
         pkg-version:
             description: "NPM Package Version"
             value: ${{ jobs.token-bridge.outputs.pkg-version }}
+env:
+  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 jobs:    
   docs:
     name: "Documentation"
@@ -176,7 +178,6 @@ jobs:
           VITE_PUBLIC_URL: ${{ inputs.public-url }}
           VITE_APP_VERSION: ${{ steps.set-version.outputs._PKG_VERSION }}
           VITE_APP_CLUSTER: ${{ inputs.network }}
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # VITE_APP_JS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._JS_SHA_384 }}
           # VITE_APP_CSS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._CSS_SHA_384 }}
           VITE_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}
@@ -226,7 +227,6 @@ jobs:
           VITE_PUBLIC_URL: ${{ inputs.public-url }}
           VITE_APP_VERSION: ${{ steps.set-version.outputs._PKG_VERSION }}
           VITE_APP_CLUSTER: ${{ inputs.network }}
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # VITE_APP_JS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._JS_SHA_384 }}
           # VITE_APP_CSS_WC_INTEGRITY_SHA_384: ${{ steps.wormhole-connect.outputs._CSS_SHA_384 }}
           VITE_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}
