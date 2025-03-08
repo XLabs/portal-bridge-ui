@@ -4,13 +4,12 @@ on:
   pull_request:
 #    paths:
 #      - '!apps/token-list/**'
-env:
-  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
   linter:
     runs-on: "ubuntu-latest"
     steps:
-      - name: Set up Node environment (test)
+      - name: Set up Node environment
         uses: actions/setup-node@v3
         with:
           node-version: v18.17.1
@@ -20,7 +19,7 @@ jobs:
         working-directory: ./apps/connect
         run: npm ci
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ github.token }}
       - name: Run linter
         working-directory: ./apps/connect
         run: npm run lint
@@ -37,7 +36,7 @@ jobs:
         working-directory: ./apps/connect
         run: npm ci
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ github.token }}
       - name: Run prettier
         working-directory: ./apps/connect
         run: npm run prettier
@@ -54,7 +53,7 @@ jobs:
         working-directory: ./apps/connect
         run: npm ci
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ github.token }}
       - name: Run tests
         working-directory: ./apps/connect
         run: npm run test
