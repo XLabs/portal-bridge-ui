@@ -154,6 +154,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: v18.17.1
+          registry-url: https://npm.pkg.github.com
+          scope: "@xlabs"
       - name: Checkout Custom Wormhole Connect Loader
         uses: actions/checkout@v3
         with:
@@ -205,6 +207,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: v18.17.1
+          registry-url: https://npm.pkg.github.com
+          scope: "@xlabs"
       - name: Checkout Custom Wormhole Connect Loader
         uses: actions/checkout@v3
         with:
