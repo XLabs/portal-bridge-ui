@@ -7,7 +7,7 @@ const NTT_TOKENS_URL = {
 
 const WRAPPED_TOKENS_URL = {
   Mainnet: `https://raw.githubusercontent.com/XLabs/portal-bridge-ui/refs/heads/${isProduction ? "config" : "config-preview"}/tokens.wrapped.mainnet.json`,
-  Testnet: `https://raw.githubusercontent.com/XLabs/portal-bridge-ui/refs/heads/${isProduction ? "config" : "config-preview"}/tokens.wrapped.testnet.json`,
+  //Testnet: `https://raw.githubusercontent.com/XLabs/portal-bridge-ui/refs/heads/${isProduction ? "config" : "config-preview"}/tokens.wrapped.testnet.json`,
 };
 
 const TOKENS_CONFIG_URL = {
@@ -33,7 +33,10 @@ export async function fetchTokensConfig(env: "Mainnet" | "Testnet") {
   }
 
   try {
-    const response = await fetch(WRAPPED_TOKENS_URL[env]);
+    const response =
+      env === "Mainnet"
+        ? await fetch(WRAPPED_TOKENS_URL.Mainnet)
+        : { ok: true, status: 200, json: async () => ({}) };
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }

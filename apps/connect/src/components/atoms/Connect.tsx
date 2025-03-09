@@ -7,6 +7,7 @@ import { theme } from "../../theme/connect";
 import { Banner } from "./Banner";
 import { WormholeConnectConfig } from "@xlabs/wormhole-connect";
 import { fetchTokensConfig } from "../../utils/fetchTokens";
+import { envVars } from "../../env/env-vars";
 
 export const Container = styled("div")(({ theme }) => ({
   paddingRight: `${NAVBAR_WIDTH}px`,
@@ -25,7 +26,9 @@ export const Connect = memo(() => {
     if (offlineConfig) {
       const asyncConfig = async () => {
         const { nttTokensConfig, tokensConfig, wrappedTokensConfig } =
-          await fetchTokensConfig("Mainnet");
+          await fetchTokensConfig(
+            envVars.VITE_APP_CLUSTER === "Testnet" ? "Testnet" : "Mainnet"
+          );
 
         const nttRoutesConfig = nttTokensConfig
           ? nttRoutes({ tokens: nttTokensConfig })
