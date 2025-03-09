@@ -23,7 +23,7 @@ on:
             default: "portalbridge.com"
         network:
             type: string
-            default: "mainnet"
+            default: "Mainnet"
         wac-url-template:
             type: string
             default: "https://wac.staging.gfx.town"
@@ -186,7 +186,7 @@ jobs:
           pushd connect-loader/apps/connect
           npm ci
           echo 'VITE_APP_VERSION=$npm_package_version' > .env
-          if [ ${{ inputs.network }} = "mainnet" ]; then
+          if [ ${{ inputs.network }} = "Mainnet" ]; then
             npm run build:usdc-bridge
           else
             npm run build:usdc-bridge:testnet
@@ -242,7 +242,7 @@ jobs:
           pushd connect-loader/apps/connect
           npm ci
           echo 'VITE_APP_VERSION=$npm_package_version' > .env
-          if [ ${{ inputs.network }} = "mainnet" ]; then
+          if [ ${{ inputs.network }} = "Mainnet" ]; then
             npm run build:token-bridge
           else
             npm run build:token-bridge:testnet

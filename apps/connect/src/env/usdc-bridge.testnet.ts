@@ -5,7 +5,7 @@ import {
   DEFAULT_ROUTES,
   type WormholeConnectConfig,
 } from "@xlabs/wormhole-connect";
-import { Env, MAINNET_RPCS } from "./common";
+import { Env } from "./common";
 
 export const ENV: Env = {
   ...ENV_BASE,
@@ -17,7 +17,6 @@ export const ENV: Env = {
         //MayanRouteSHUTTLE as any,
         CircleV2ManualRoute,
       ],
-      rpcs: MAINNET_RPCS,
       chains: [
         "Sepolia",
         "Avalanche",
