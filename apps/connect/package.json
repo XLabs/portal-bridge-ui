@@ -38,7 +38,7 @@
     "@xlabs/wormhole-connect": "^1.0.0-cctpv2.4-development",
     "bech32": "^2.0.0",
     "dompurify": "^3.0.6",
-    "ethers": "^5.6.8",
+    "ethers": "^6.4.2",
     "mixpanel-browser": "^2.53.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
