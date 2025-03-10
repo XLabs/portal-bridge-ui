@@ -7,6 +7,7 @@ import {
   MayanRouteSWIFT,
   MayanRouteSHUTTLE,
   type WormholeConnectConfig,
+  CircleV2ManualRoute,
 } from "@xlabs/wormhole-connect";
 import { Env, MAINNET_RPCS } from "./common";
 import { M0AutomaticRoute } from "@m0-foundation/ntt-sdk-route";
@@ -27,6 +28,7 @@ export const ENV: Env = {
         MayanRouteSWIFT,
         MayanRouteSHUTTLE,
         M0AutomaticRoute,
+        CircleV2ManualRoute,
       ],
     }
   ),
