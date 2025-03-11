@@ -1,14 +1,13 @@
 import { memo, useEffect, useState } from "react";
-import WormholeConnect, {
-  nttRoutes,
-} from "@wormhole-foundation/wormhole-connect";
+import WormholeConnect, { nttRoutes } from "@xlabs/wormhole-connect";
 import { useConnectConfig } from "../../hooks/useConnectConfig";
 import { styled, CircularProgress } from "@mui/material";
 import { NAVBAR_WIDTH } from "./NavBar";
 import { theme } from "../../theme/connect";
 import { Banner } from "./Banner";
-import { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
+import { WormholeConnectConfig } from "@xlabs/wormhole-connect";
 import { fetchTokensConfig } from "../../utils/fetchTokens";
+import { envVars } from "../../env/env-vars";
 
 export const Container = styled("div")(({ theme }) => ({
   paddingRight: `${NAVBAR_WIDTH}px`,
@@ -27,7 +26,9 @@ export const Connect = memo(() => {
     if (offlineConfig) {
       const asyncConfig = async () => {
         const { nttTokensConfig, tokensConfig, wrappedTokensConfig } =
-          await fetchTokensConfig("Mainnet");
+          await fetchTokensConfig(
+            envVars.VITE_APP_CLUSTER === "Testnet" ? "Testnet" : "Mainnet"
+          );
 
         const nttRoutesConfig = nttTokensConfig
           ? nttRoutes({ tokens: nttTokensConfig })

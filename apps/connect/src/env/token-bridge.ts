@@ -1,4 +1,4 @@
-import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
+import type { WormholeConnectConfig } from "@xlabs/wormhole-connect";
 import { chains, Env, PUBLIC_URL, wormholeConnectConfigCommon } from "./common";
 import { mergeDeep } from "../utils/mergeDeep";
 

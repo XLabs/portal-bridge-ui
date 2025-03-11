@@ -11,30 +11,13 @@ export const isValidAddress = async (
 ): Promise<boolean> => {
   // TO DO: Add support for other evm chains with the new sdk
   if (isEVMChain(chain) || chain === "Worldchain")
-    return isValidEthereumAddress(address);
+    return ethers.isAddress(address);
   if (chain === "Solana") return isValidSolanaAddress(address);
   if (chain === "Aptos") return isValidAptosAddress(address);
   if (chain === "Sui") return isValidSuiAddress(address);
   if (isCosmWasmChain(chain)) return isValidCosmosAddress(address, chain);
 
   return false;
-};
-
-// Ethereum Validation
-const getEthereumAddressWithChecksum = (address: string): string => {
-  return ethers.utils.getAddress(address);
-};
-const isValidEthereumAddress = (address: string, strict = false): boolean => {
-  // We need to ensure the address contains the checksum
-  try {
-    const addressWithChecksum = getEthereumAddressWithChecksum(address);
-    if (strict) return address === addressWithChecksum;
-    return address.toLowerCase() === addressWithChecksum.toLocaleLowerCase();
-  } catch (e) {
-    return !/^(invalid address|bad address checksum|bad icap checksum)$/.test(
-      (e as { reason: string }).reason
-    );
-  }
 };
 
 // Solana Validation
@@ -67,7 +50,7 @@ const isValidCosmosAddress = (address: string, chain: Chain) => {
   };
   if (chain === "Evmos" && address.startsWith("0x")) {
     // For Evmos hex address case https://docs.evmos.org/protocol/concepts/accounts#address-formats-for-clients
-    return isValidEthereumAddress(address);
+    return ethers.isAddress(address);
   }
   // For Beach32 encode case https://docs.cosmos.network/v0.47/build/spec/addresses/bech32
   try {

@@ -1,4 +1,4 @@
-import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
+import type { WormholeConnectConfig } from "@xlabs/wormhole-connect";
 import { useEffect, useMemo, useState } from "react";
 
 import { useQueryParams } from "./useQueryParams";

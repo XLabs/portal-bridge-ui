@@ -42,7 +42,7 @@ export default defineConfig({
             tag: "meta",
             attrs: {
               name: "Wormhole connect",
-              content: `v${packageJson.dependencies["@wormhole-foundation/wormhole-connect"]}`,
+              content: `v${packageJson.dependencies["@xlabs/wormhole-connect"]}`,
             },
           },
           {

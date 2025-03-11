@@ -32,6 +32,7 @@ jobs:
       environment: ${{inputs.environment}}
       project-branch: main
       public-url: ''
+      network: 'Mainnet'
       wac-url-template: "https://allez-xyz--usds-*.modal.run"
       app-domain: portalbridge.com
     secrets: inherit

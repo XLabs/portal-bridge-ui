@@ -1,5 +1,5 @@
 import { ENV } from "@env";
-import { MAINNET, TESTNET } from "@wormhole-foundation/wormhole-connect";
+import { MAINNET, TESTNET } from "@xlabs/wormhole-connect";
 import { useMemo } from "react";
 
 const tokensList =

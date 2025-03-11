@@ -1,4 +1,4 @@
-import type { WormholeConnectTheme } from "@wormhole-foundation/wormhole-connect";
+import type { WormholeConnectTheme } from "@xlabs/wormhole-connect";
 
 export const theme: WormholeConnectTheme = {
   mode: "dark",
