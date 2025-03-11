@@ -22,13 +22,13 @@ export const ENV: Env = {
       // } as WormholeConnectConfig["ui"],
       rpcs: MAINNET_RPCS,
       routes: [
+        CircleV2ManualRoute,
         ...DEFAULT_ROUTES,
         MayanRouteWH as any, // FIXME: Remove this any and fix wh connect type issues
         MayanRouteMCTP,
         MayanRouteSWIFT,
         MayanRouteSHUTTLE,
         M0AutomaticRoute,
-        CircleV2ManualRoute,
       ],
     }
   ),

@@ -15,9 +15,9 @@ export const ENV: Env = {
     {
       rpcs: MAINNET_RPCS,
       routes: [
+        CircleV2ManualRoute,
         ...DEFAULT_ROUTES,
         MayanRouteSHUTTLE as any,
-        CircleV2ManualRoute,
       ],
       chains: [
         "Ethereum",
