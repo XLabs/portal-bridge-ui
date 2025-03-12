@@ -1,4 +1,4 @@
-import type { WormholeConnectConfig } from "@xlabs/wormhole-connect";
+import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
 import { envVars } from "./env-vars";
 
 const rpcs = (chains: string[], template: (chain: string) => string) =>

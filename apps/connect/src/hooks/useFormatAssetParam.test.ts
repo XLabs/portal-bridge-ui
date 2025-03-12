@@ -2,7 +2,7 @@ import { renderHook } from "@testing-library/react";
 import { useFormatAssetParam } from "./useFormatAssetParam";
 
 // Mock the wormhole-connect package
-jest.mock("@xlabs/wormhole-connect", () => ({
+jest.mock("@wormhole-foundation/wormhole-connect", () => ({
   MAINNET: {
     tokens: [
       {

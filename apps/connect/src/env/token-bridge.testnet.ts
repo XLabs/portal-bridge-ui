@@ -1,7 +1,7 @@
 import { ENV as ENV_BASE } from "./token-bridge";
 import { mergeDeep } from "../utils/mergeDeep";
-import { CircleV2ManualRoute, DEFAULT_ROUTES } from "@xlabs/wormhole-connect";
-import type { WormholeConnectConfig } from "@xlabs/wormhole-connect";
+import { DEFAULT_ROUTES } from "@wormhole-foundation/wormhole-connect";
+import type { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
 import { Env } from "./common";
 
 export const ENV: Env = {
@@ -34,7 +34,7 @@ export const ENV: Env = {
         "Mantle",
         "Worldchain",
       ],
-      routes: [...DEFAULT_ROUTES, CircleV2ManualRoute],
+      routes: [...DEFAULT_ROUTES],
     }
   ),
 };

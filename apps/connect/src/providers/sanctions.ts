@@ -1,6 +1,6 @@
 import { Chain, toChainId } from "@wormhole-foundation/sdk";
 import { isCosmWasmChain, isEVMChain } from "../utils/constants";
-import { WormholeConnectConfig } from "@xlabs/wormhole-connect";
+import { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
 
 export type ExtendedTransferDetails = Parameters<
   NonNullable<WormholeConnectConfig["validateTransferHandler"]>
