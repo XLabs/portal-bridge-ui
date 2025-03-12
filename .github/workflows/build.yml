@@ -97,7 +97,7 @@ jobs:
           NODE_OPTIONS: "--max-old-space-size=10240"
           GENERATE_SOURCEMAP: false
           REACT_APP_BASE_URL: "${{ inputs.public-url }}"
-          REACT_APP_CLUSTER: ${{ inputs.network }}
+          REACT_APP_CLUSTER: ${{ vars.REACT_APP_CLUSTER }}
           REACT_APP_SOLANA_API_URL: ${{ vars.REACT_APP_SOLANA_API_URL }}
           REACT_APP_COVALENT_API_KEY: ${{ secrets.REACT_APP_COVALENT_API_KEY }}
           REACT_APP_WALLET_CONNECT_PROJECT_ID: ${{ secrets.REACT_APP_WALLET_CONNECT_PROJECT_ID }}
@@ -186,10 +186,10 @@ jobs:
           pushd connect-loader/apps/connect
           npm ci
           echo 'VITE_APP_VERSION=$npm_package_version' > .env
-          if [ ${{ inputs.network }} = "Mainnet" ]; then
-            npm run build:usdc-bridge
-          else
+          if [ ${{ inputs.network }} = "Testnet" ]; then
             npm run build:usdc-bridge:testnet
+          else
+            npm run build:usdc-bridge
           fi
       - name: Upload Portal Bridge Artifact
         uses: actions/upload-artifact@v4
@@ -242,10 +242,10 @@ jobs:
           pushd connect-loader/apps/connect
           npm ci
           echo 'VITE_APP_VERSION=$npm_package_version' > .env
-          if [ ${{ inputs.network }} = "Mainnet" ]; then
-            npm run build:token-bridge
-          else
+          if [ ${{ inputs.network }} = "Testnet" ]; then
             npm run build:token-bridge:testnet
+          else
+            npm run build:token-bridge
           fi
       - name: Upload Portal Bridge Artifact
         uses: actions/upload-artifact@v4

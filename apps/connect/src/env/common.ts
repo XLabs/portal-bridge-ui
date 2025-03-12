@@ -40,7 +40,7 @@ export const MAINNET_RPCS = {
 
 export const PUBLIC_URL = envVars.VITE_PUBLIC_URL || "";
 
-export const CLUSTER = envVars.VITE_APP_CLUSTER || "Testnet";
+export const CLUSTER = envVars.VITE_APP_CLUSTER || "Mainnet";
 export const wormholeConnectConfigCommon: Partial<WormholeConnectConfig> = {
   ui: {
     title: "",
