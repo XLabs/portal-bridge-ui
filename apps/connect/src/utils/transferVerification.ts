@@ -1,7 +1,7 @@
 import { isValidAddress } from "./isValidAddress";
 import { isSanctionedAddress } from "../../src/providers/sanctions";
 import { Chain } from "@wormhole-foundation/sdk";
-import { WormholeConnectConfig } from "@xlabs/wormhole-connect";
+import { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
 
 export type ExtendedTransferDetails = Parameters<
   NonNullable<WormholeConnectConfig["validateTransferHandler"]>
