@@ -26,8 +26,6 @@ import Footer from "./components/Footer";
 import HeaderText from "./components/HeaderText";
 import Migration from "./components/Migration";
 import EvmQuickMigrate from "./components/Migration/EvmQuickMigrate";
-import NFT from "./components/NFT";
-import NFTOriginVerifier from "./components/NFTOriginVerifier";
 import Recovery from "./components/Recovery";
 import Stats from "./components/Stats";
 import CustodyAddresses from "./components/Stats/CustodyAddresses";
@@ -331,7 +329,7 @@ function App() {
           </Typography>
         </AppBar>
       ) : null}
-      {["/transfer", "/nft", "/redeem"].includes(pathname) ? (
+      {["/transfer", "/redeem"].includes(pathname) ? (
         <Container maxWidth="md" style={{ paddingBottom: 24 }}>
           <HeaderText
             white
@@ -357,7 +355,6 @@ function App() {
             indicatorColor="primary"
           >
             <Tab label="Tokens" value="/transfer" />
-            <Tab label="NFTs" value="/nft" />
             <Tab label="Redeem" value="/redeem" />
           </Tabs>
         </Container>
@@ -366,14 +363,8 @@ function App() {
         <Route exact path="/transfer">
           <Transfer />
         </Route>
-        <Route exact path="/nft">
-          <NFT />
-        </Route>
         <Route exact path="/redeem">
           <Recovery />
-        </Route>
-        <Route exact path="/nft-origin-verifier">
-          <NFTOriginVerifier />
         </Route>
         <Route exact path="/token-origin-verifier">
           <TokenOriginVerifier />
