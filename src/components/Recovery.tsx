@@ -22,7 +22,6 @@ import {
   isEVMChain,
   isTerraChain,
   ParsedVaa,
-  parseNFTPayload,
   parseSequenceFromLogAlgorand,
   parseSequenceFromLogEth,
   parseSequenceFromLogInjective,
@@ -51,7 +50,6 @@ import {
   Divider,
   Link,
   makeStyles,
-  MenuItem,
   TextField,
   Typography,
 } from "@material-ui/core";
@@ -585,8 +583,7 @@ export default function Recovery() {
   const [recoverySourceChain, setRecoverySourceChain] =
     useState<ChainId>(CHAIN_ID_SOLANA);
   const { provider } = useEthereumProvider(recoverySourceChain as any);
-  const [type, setType] = useState<"Token" | "NFT">("Token");
-  const isNFT = useMemo(() => type === "NFT", [type]);
+  const isNFT = false;
   const [recoverySourceTx, setRecoverySourceTx] = useState("");
   const [recoverySourceTxIsLoading, setRecoverySourceTxIsLoading] =
     useState(false);
@@ -610,11 +607,7 @@ export default function Recovery() {
   const parsedPayload = useMemo(() => {
     try {
       return recoveryParsedVAA?.payload
-        ? isNFT
-          ? parseNFTPayload(
-              Buffer.from(new Uint8Array(recoveryParsedVAA.payload))
-            )
-          : parseTransferPayload(
+        ?  parseTransferPayload(
               Buffer.from(new Uint8Array(recoveryParsedVAA.payload))
             )
         : null;
@@ -622,7 +615,7 @@ export default function Recovery() {
       console.error(e);
       return null;
     }
-  }, [recoveryParsedVAA, isNFT]);
+  }, [recoveryParsedVAA]);
 
   useEffect(() => {
     let cancelled = false;
@@ -919,15 +912,7 @@ export default function Recovery() {
     isReady,
     nearAccountId,
   ]);
-  const handleTypeChange = useCallback((event) => {
-    setRecoverySourceChain((prevChain) =>
-      event.target.value === "NFT" &&
-      !CHAINS_WITH_NFT_SUPPORT.find((chain) => chain.id === prevChain)
-        ? CHAIN_ID_SOLANA
-        : prevChain
-    );
-    setType(event.target.value);
-  }, []);
+
   const handleSourceChainChange = useCallback((event) => {
     setRecoverySourceTx("");
     setRecoverySourceChain(event.target.value);
@@ -1042,19 +1027,6 @@ export default function Recovery() {
           If you have sent your tokens but have not redeemed them, you may paste
           in the Source Transaction ID (from Step 3) to resume your transfer.
         </Alert>
-        <TextField
-          select
-          variant="outlined"
-          label="Type"
-          disabled={!!recoverySignedVAA}
-          value={type}
-          onChange={handleTypeChange}
-          fullWidth
-          margin="normal"
-        >
-          <MenuItem value="Token">Token</MenuItem>
-          <MenuItem value="NFT">NFT</MenuItem>
-        </TextField>
         <ChainSelect
           select
           variant="outlined"
