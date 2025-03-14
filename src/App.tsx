@@ -337,7 +337,7 @@ function App() {
               <>
                 <Typography>
                   Portal is a bridge that offers unlimited transfers across
-                  chains for tokens and NFTs wrapped by Wormhole.
+                  chains for tokens wrapped by Wormhole.
                 </Typography>
                 <Typography>
                   Unlike many other bridges, you avoid double wrapping and never
