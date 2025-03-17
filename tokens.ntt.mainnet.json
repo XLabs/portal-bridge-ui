@@ -923,5 +923,30 @@
       ],
       "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
     }
+  ],
+  "ZeUSD": [
+    {
+      "chain": "Ethereum",
+      "manager": "0x9086dd96b6906D794fD4581feD972fD275Ea0548",
+      "token": "0x7DC9748DA8E762e569F9269f48F69A1a9F8Ea761",
+      "transceiver": [
+        {
+          "address": "0x9A55a625d1a3e8BaA2960eE3ca82AcC4F0fcd858",
+          "type": "wormhole"
+        }
+      ]
+    },
+    {
+      "chain": "Solana",
+      "manager": "nTTdCamfWnZ3zGAG3bKpqu64X88WjSFLVnW6deigxbL",
+      "token": "EVSMG8w3xZjf37nAH8yMkX8Uubw1JAKSHaZza2mVQqR2",
+      "transceiver": [
+        {
+          "address": "3Edt9Wb7WNoJHvEvpvFf29D5Xyva8CcKcy2M6QxNMi9N",
+          "type": "wormhole"
+        }
+      ],
+      "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
+    }
   ]
 }

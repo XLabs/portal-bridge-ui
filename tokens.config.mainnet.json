@@ -925,5 +925,23 @@
     },
     "icon": "https://assets.coingecko.com/coins/images/52647/large/Lingo_200x200.png",
     "decimals": 9
+  },
+  "ZeUSDEthereum": {
+    "symbol": "ZEUSD",
+    "tokenId": {
+      "chain": "Ethereum",
+      "address": "0x7DC9748DA8E762e569F9269f48F69A1a9F8Ea761"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/54829/large/zoth_32.webp",
+    "decimals": 6
+  },
+  "ZeUSDSolana": {
+    "symbol": "ZEUSD",
+    "tokenId": {
+      "chain": "Solana",
+      "address": "EVSMG8w3xZjf37nAH8yMkX8Uubw1JAKSHaZza2mVQqR2"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/54829/large/zoth_32.webp",
+    "decimals": 6
   }
 }
