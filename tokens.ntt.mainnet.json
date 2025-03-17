@@ -899,31 +899,6 @@
       "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
     }
   ],
-  "Lingo": [
-    {
-      "chain": "Base",
-      "manager": "0x7c91bAca69ad289eC5De46B0b36287770a1Ea91e",
-      "token": "0xfb42Da273158B0F642F59F2Ba7cc1d5457481677",
-      "transceiver": [
-        {
-          "address": "0x017aBb6a1C42f27C449E98Ed23003592D86A7300",
-          "type": "wormhole"
-        }
-      ]
-    },
-    {
-      "chain": "Solana",
-      "manager": "nTTQspEC1JoEUJVFTcgZSatgcv4PNT8UYtCtyaUSKcX",
-      "token": "GWZGj6AM4pkWxQW6bifE6JChSRf2hEQFWFkYC4REaL7H",
-      "transceiver": [
-        {
-          "address": "CnDQ53A3j2EcniJAm7UtuYKmQtovFAmumcuzC648moSE",
-          "type": "wormhole"
-        }
-      ],
-      "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
-    }
-  ],
   "ZeUSD": [
     {
       "chain": "Ethereum",
