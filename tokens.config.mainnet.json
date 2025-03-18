@@ -908,6 +908,24 @@
     "icon": "https://assets.coingecko.com/coins/images/40048/large/M_Symbol_256.png?1739323798",
     "decimals": 6
   },
+  "LingoBase": {
+    "symbol": "LINGO",
+    "tokenId": {
+      "chain": "Base",
+      "address": "0xfb42Da273158B0F642F59F2Ba7cc1d5457481677"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/52647/large/Lingo_200x200.png",
+    "decimals": 18
+  },
+  "LingoSolana": {
+    "symbol": "LINGO",
+    "tokenId": {
+      "chain": "Solana",
+      "address": "GWZGj6AM4pkWxQW6bifE6JChSRf2hEQFWFkYC4REaL7H"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/52647/large/Lingo_200x200.png",
+    "decimals": 9
+  },
   "ZeUSDEthereum": {
     "symbol": "ZEUSD",
     "tokenId": {
