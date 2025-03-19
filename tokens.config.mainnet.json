@@ -881,6 +881,15 @@
     "icon": "https://assets.coingecko.com/coins/images/53772/large/rqnkn3aN_400x400.jpg?1737268932",
     "decimals": 9
   },
+  "QBioBase": {
+    "symbol": "QBIO",
+    "tokenId": {
+      "chain": "Base",
+      "address": "0x226A2FA2556C48245E57cd1cbA4C6c9e67077DD2"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/53772/large/rqnkn3aN_400x400.jpg?1737268932",
+    "decimals": 18
+  },
   "WrappedMArbitrum": {
     "symbol": "wM",
     "tokenId": {
