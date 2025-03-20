@@ -897,17 +897,6 @@
         }
       ],
       "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
-    },
-    {
-      "chain": "Base",
-      "manager": "0x9AfEbcA0d37661167AFD24481C39eBE2Ead89571",
-      "token": "0x226A2FA2556C48245E57cd1cbA4C6c9e67077DD2",
-      "transceiver": [
-        {
-          "address": "0xcb75cC365abD9713b9A9B9613d90e9C359dd483F",
-          "type": "wormhole"
-        }
-      ]
     }
   ],
   "Lingo": [
@@ -958,6 +947,30 @@
         }
       ],
       "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
+    }
+  ],
+  "RedStone": [
+    {
+      "chain": "Ethereum",
+      "manager": "0xE9315adF65c8BD4d21d9ba03B4a25B7C8C8500D7",
+      "token": "0xc43C6bfeDA065fE2c4c11765Bf838789bd0BB5dE",
+      "transceiver": [
+        {
+          "address": "0x18C9435A77D8Ea4dAcc934986Fdb3579F228C9E9",
+          "type": "wormhole"
+        }
+      ]
+    },
+    {
+      "chain": "Base",
+      "manager": "0x84b4ECc4B936d677b23369708A6577F29206E982",
+      "token": "0x4eB92702bA4cfbF80561BAd64D89C706Ac824960",
+      "transceiver": [
+        {
+          "address": "0x6b67A1eA2dE367222118d415DF1a088e91f6E766",
+          "type": "wormhole"
+        }
+      ]
     }
   ]
 }
