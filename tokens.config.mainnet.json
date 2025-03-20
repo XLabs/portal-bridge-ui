@@ -943,5 +943,23 @@
     },
     "icon": "https://assets.coingecko.com/coins/images/54829/large/zoth_32.webp",
     "decimals": 6
+  },
+  "RedStoneEthereum": {
+    "symbol": "RED",
+    "tokenId": {
+      "chain": "Ethereum",
+      "address": "0xc43C6bfeDA065fE2c4c11765Bf838789bd0BB5dE"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/53640/large/RedStone_Logo_New_White.png",
+    "decimals": 18
+  },
+  "RedStoneBase": {
+    "symbol": "RED",
+    "tokenId": {
+      "chain": "Base",
+      "address": "0x4eB92702bA4cfbF80561BAd64D89C706Ac824960"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/53640/large/RedStone_Logo_New_White.png",
+    "decimals": 18
   }
 }
