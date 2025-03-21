@@ -645,6 +645,17 @@
         }
       ],
       "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
+    },
+    {
+      "chain": "Base",
+      "manager": "0x9AfEbcA0d37661167AFD24481C39eBE2Ead89571",
+      "token": "0x226A2FA2556C48245E57cd1cbA4C6c9e67077DD2",
+      "transceiver": [
+        {
+          "address": "0xcb75cC365abD9713b9A9B9613d90e9C359dd483F",
+          "type": "wormhole"
+        }
+      ]
     }
   ],
   "Portal": [

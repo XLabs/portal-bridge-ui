@@ -629,6 +629,15 @@
     "icon": "images/tokens/bio.svg",
     "decimals": 9
   },
+  "BioProtocolBase": {
+    "symbol": "BIO",
+    "tokenId": {
+      "chain": "Base",
+      "address": "0x226A2FA2556C48245E57cd1cbA4C6c9e67077DD2"
+    },
+    "icon": "images/tokens/bio.svg",
+    "decimals": 18
+  },
   "Neiro": {
     "symbol": "NEIRO",
     "tokenId": {
