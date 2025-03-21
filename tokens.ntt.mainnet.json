@@ -983,5 +983,55 @@
         }
       ]
     }
+  ],
+  "AvaxToken": [
+    {
+      "chain": "Avalanche",
+      "manager": "0x32E64FA64a917C1E8dbe6ABeA8d821C45aae813C",
+      "token": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+      "transceiver": [
+        {
+          "address": "0x795DC38023fDA7329c41422d4DC53bed497fE2F3",
+          "type": "wormhole"
+        }
+      ]
+    },
+    {
+      "chain": "Solana",
+      "manager": "ntTW3X39Vo1G7YdnAt62TYexBoFMfBzcJozXvmdNKtv",
+      "token": "yNBMYD9LMrmGpWbAFbJv5UkkqSvKEupvSGSZxSz7wN5",
+      "transceiver": [
+        {
+          "address": "FBtRVcrFf51bkGHQHrnDH1NDxx8iPmyTsntvk4Y2g6Tx",
+          "type": "wormhole"
+        }
+      ],
+      "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
+    }
+  ],
+  "BlastToken": [
+    {
+      "chain": "Blast",
+      "manager": "0x19A3C66b1e7BECb05e45317fCc0CBE39cbA705a1",
+      "token": "0xb1a5700fA2358173Fe465e6eA4Ff52E36e88E2ad",
+      "transceiver": [
+        {
+          "address": "0xdc84DfD247aE80455ed2d8D53fceB9CB759fD301",
+          "type": "wormhole"
+        }
+      ]
+    },
+    {
+      "chain": "Solana",
+      "manager": "nTtjbG9Nk825BxtEcbypwvKJLR5cuzuBNhVKmzayyAw",
+      "token": "7CZNLkgqsWSV3F4Xemtzg5sAkuWQqE7CWynC3m5Pfiiw",
+      "transceiver": [
+        {
+          "address": "FJgyHZpsb17g931Tkt1iGFiS6UjCDMzC5QB7vpxdKo53",
+          "type": "wormhole"
+        }
+      ],
+      "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
+    }
   ]
 }
