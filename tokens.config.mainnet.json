@@ -979,23 +979,5 @@
     },
     "icon": "https://assets.coingecko.com/coins/images/12559/large/Avalanche_Circle_RedWhite_Trans.png?1696512369",
     "decimals": 9
-  },
-  "BlastToken": {
-    "symbol": "BLAST",
-    "tokenId": {
-      "chain": "Blast",
-      "address": "0xb1a5700fA2358173Fe465e6eA4Ff52E36e88E2ad"
-    },
-    "icon": "https://assets.coingecko.com/coins/images/35494/large/Blast.jpg?1719385662",
-    "decimals": 18
-  },
-  "BlastTokenSolana": {
-    "symbol": "BLAST",
-    "tokenId": {
-      "chain": "Solana",
-      "address": "7CZNLkgqsWSV3F4Xemtzg5sAkuWQqE7CWynC3m5Pfiiw"
-    },
-    "icon": "https://assets.coingecko.com/coins/images/35494/large/Blast.jpg?1719385662",
-    "decimals": 9
   }
 }

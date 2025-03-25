@@ -1008,30 +1008,5 @@
       ],
       "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
     }
-  ],
-  "BlastToken": [
-    {
-      "chain": "Blast",
-      "manager": "0x19A3C66b1e7BECb05e45317fCc0CBE39cbA705a1",
-      "token": "0xb1a5700fA2358173Fe465e6eA4Ff52E36e88E2ad",
-      "transceiver": [
-        {
-          "address": "0xdc84DfD247aE80455ed2d8D53fceB9CB759fD301",
-          "type": "wormhole"
-        }
-      ]
-    },
-    {
-      "chain": "Solana",
-      "manager": "nTtjbG9Nk825BxtEcbypwvKJLR5cuzuBNhVKmzayyAw",
-      "token": "7CZNLkgqsWSV3F4Xemtzg5sAkuWQqE7CWynC3m5Pfiiw",
-      "transceiver": [
-        {
-          "address": "FJgyHZpsb17g931Tkt1iGFiS6UjCDMzC5QB7vpxdKo53",
-          "type": "wormhole"
-        }
-      ],
-      "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
-    }
   ]
 }
