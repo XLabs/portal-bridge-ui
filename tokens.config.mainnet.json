@@ -1015,5 +1015,14 @@
     },
     "icon": "https://assets.coingecko.com/coins/images/14073/large/matic.png",
     "decimals": 9
+  },
+  "Scroll": {
+    "symbol": "SCR",
+    "tokenId": {
+      "chain": "Scroll",
+      "address": "0x1Da431d2D5ECA4Df735F69fB5ea10c8E630b8f50"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/50571/large/scroll.jpg",
+    "decimals": 18
   }
 }
