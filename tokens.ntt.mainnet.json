@@ -1033,30 +1033,5 @@
       ],
       "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
     }
-  ],
-  "WrappedPOL": [
-    {
-      "chain": "Polygon",
-      "manager": "0x687c105e61089AaCa4E1290F0E7A0301a20369c3",
-      "token": "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
-      "transceiver": [
-        {
-          "address": "0x674B3B12f6c414B6A65720065a9cEDdAd5c6f879",
-          "type": "wormhole"
-        }
-      ]
-    },
-    {
-      "chain": "Solana",
-      "manager": "nTT1Pzu8fDkwYAyZ4B55qN1aS7iPQN9eB3Q7cR9mXrs",
-      "token": "AzuQ9o7mjzfJk72xRgzSCfrs1XWkhYyaGcudSu62qwg",
-      "transceiver": [
-        {
-          "address": "Fi1682PGheWonAsnHBf55TBaLfqbTfxEawaWz7Dadeaa",
-          "type": "wormhole"
-        }
-      ],
-      "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
-    }
   ]
 }

@@ -997,23 +997,5 @@
     },
     "icon": "https://assets.coingecko.com/coins/images/35494/large/Blast.jpg?1719385662",
     "decimals": 9
-  },
-  "WrappedPOLPolygon": {
-    "symbol": "WPOL",
-    "tokenId": {
-      "chain": "Polygon",
-      "address": "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270"
-    },
-    "icon": "https://assets.coingecko.com/coins/images/14073/large/matic.png",
-    "decimals": 18
-  },
-  "WrappedPOLSolana": {
-    "symbol": "POL",
-    "tokenId": {
-      "chain": "Solana",
-      "address": "AzuQ9o7mjzfJk72xRgzSCfrs1XWkhYyaGcudSu62qwg"
-    },
-    "icon": "https://assets.coingecko.com/coins/images/14073/large/matic.png",
-    "decimals": 9
   }
 }
