@@ -993,10 +993,10 @@
     "symbol": "BLAST",
     "tokenId": {
       "chain": "Solana",
-      "address": "7CZNLkgqsWSV3F4Xemtzg5sAkuWQqE7CWynC3m5Pfiiw"
+      "address": "HUGDquup2qWiXrSJPS2yyyYHcy7MWx7cft9LR4DhSyhW"
     },
     "icon": "https://assets.coingecko.com/coins/images/35494/large/Blast.jpg?1719385662",
-    "decimals": 9
+    "decimals": 8
   },
   "WrappedPOLPolygon": {
     "symbol": "WPOL",

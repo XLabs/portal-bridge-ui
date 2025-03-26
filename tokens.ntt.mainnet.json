@@ -1012,22 +1012,22 @@
   "BlastToken": [
     {
       "chain": "Blast",
-      "manager": "0x19A3C66b1e7BECb05e45317fCc0CBE39cbA705a1",
+      "manager": "0x891001A6B4cC67Fd487990C75b9f2F585439Fa85",
       "token": "0xb1a5700fA2358173Fe465e6eA4Ff52E36e88E2ad",
       "transceiver": [
         {
-          "address": "0xdc84DfD247aE80455ed2d8D53fceB9CB759fD301",
+          "address": "0xD2638bab22607F7267EAC1e8AaaE071611b5Cf74",
           "type": "wormhole"
         }
       ]
     },
     {
       "chain": "Solana",
-      "manager": "nTtjbG9Nk825BxtEcbypwvKJLR5cuzuBNhVKmzayyAw",
-      "token": "7CZNLkgqsWSV3F4Xemtzg5sAkuWQqE7CWynC3m5Pfiiw",
+      "manager": "NTTRncfCa7rmT15TY5g1GR887YaebsXS5UndprWW11c",
+      "token": "HUGDquup2qWiXrSJPS2yyyYHcy7MWx7cft9LR4DhSyhW",
       "transceiver": [
         {
-          "address": "FJgyHZpsb17g931Tkt1iGFiS6UjCDMzC5QB7vpxdKo53",
+          "address": "GBk1YL85imUCDq6hHTRzszEDd2tt13UCcroKr4rq9e2z",
           "type": "wormhole"
         }
       ],
