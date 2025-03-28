@@ -837,7 +837,7 @@
     "decimals": 6
   },
   "MEthereum": {
-    "symbol": "M",
+    "symbol": "USDN",
     "tokenId": {
       "chain": "Ethereum",
       "address": "0x866A2BF4E572CbcF37D5071A7a58503Bfb36be1b"
@@ -846,7 +846,7 @@
     "decimals": 6
   },
   "MArbitrum": {
-    "symbol": "M",
+    "symbol": "USDN",
     "tokenId": {
       "chain": "Arbitrum",
       "address": "0x866A2BF4E572CbcF37D5071A7a58503Bfb36be1b"
@@ -855,7 +855,7 @@
     "decimals": 6
   },
   "MOptimism": {
-    "symbol": "M",
+    "symbol": "USDN",
     "tokenId": {
       "chain": "Optimism",
       "address": "0x866A2BF4E572CbcF37D5071A7a58503Bfb36be1b"
@@ -891,7 +891,7 @@
     "decimals": 9
   },
   "WrappedMArbitrum": {
-    "symbol": "wM",
+    "symbol": "WUSDN",
     "tokenId": {
       "chain": "Arbitrum",
       "address": "0x437cc33344a0B27A429f795ff6B469C72698B291"
@@ -900,7 +900,7 @@
     "decimals": 6
   },
   "WrappedMEthereum": {
-    "symbol": "wM",
+    "symbol": "WUSDN",
     "tokenId": {
       "chain": "Ethereum",
       "address": "0x437cc33344a0B27A429f795ff6B469C72698B291"
@@ -909,7 +909,7 @@
     "decimals": 6
   },
   "WrappedMOptimism": {
-    "symbol": "wM",
+    "symbol": "WUSDN",
     "tokenId": {
       "chain": "Optimism",
       "address": "0x437cc33344a0B27A429f795ff6B469C72698B291"
@@ -979,5 +979,50 @@
     },
     "icon": "https://assets.coingecko.com/coins/images/12559/large/Avalanche_Circle_RedWhite_Trans.png?1696512369",
     "decimals": 9
+  },
+  "BlastToken": {
+    "symbol": "BLAST",
+    "tokenId": {
+      "chain": "Blast",
+      "address": "0xb1a5700fA2358173Fe465e6eA4Ff52E36e88E2ad"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/35494/large/Blast.jpg?1719385662",
+    "decimals": 18
+  },
+  "BlastTokenSolana": {
+    "symbol": "BLAST",
+    "tokenId": {
+      "chain": "Solana",
+      "address": "HUGDquup2qWiXrSJPS2yyyYHcy7MWx7cft9LR4DhSyhW"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/35494/large/Blast.jpg?1719385662",
+    "decimals": 8
+  },
+  "WrappedPOLPolygon": {
+    "symbol": "WPOL",
+    "tokenId": {
+      "chain": "Polygon",
+      "address": "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/14073/large/matic.png",
+    "decimals": 18
+  },
+  "WrappedPOLSolana": {
+    "symbol": "POL",
+    "tokenId": {
+      "chain": "Solana",
+      "address": "AzuQ9o7mjzfJk72xRgzSCfrs1XWkhYyaGcudSu62qwg"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/14073/large/matic.png",
+    "decimals": 9
+  },
+  "Scroll": {
+    "symbol": "SCR",
+    "tokenId": {
+      "chain": "Scroll",
+      "address": "0xd29687c813D741E2F938F4aC377128810E217b1b"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/50571/large/scroll.jpg",
+    "decimals": 18
   }
 }

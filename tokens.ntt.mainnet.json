@@ -1008,5 +1008,55 @@
       ],
       "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
     }
+  ],
+  "BlastToken": [
+    {
+      "chain": "Blast",
+      "manager": "0x891001A6B4cC67Fd487990C75b9f2F585439Fa85",
+      "token": "0xb1a5700fA2358173Fe465e6eA4Ff52E36e88E2ad",
+      "transceiver": [
+        {
+          "address": "0xD2638bab22607F7267EAC1e8AaaE071611b5Cf74",
+          "type": "wormhole"
+        }
+      ]
+    },
+    {
+      "chain": "Solana",
+      "manager": "NTTRncfCa7rmT15TY5g1GR887YaebsXS5UndprWW11c",
+      "token": "HUGDquup2qWiXrSJPS2yyyYHcy7MWx7cft9LR4DhSyhW",
+      "transceiver": [
+        {
+          "address": "GBk1YL85imUCDq6hHTRzszEDd2tt13UCcroKr4rq9e2z",
+          "type": "wormhole"
+        }
+      ],
+      "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
+    }
+  ],
+  "WrappedPOL": [
+    {
+      "chain": "Polygon",
+      "manager": "0x687c105e61089AaCa4E1290F0E7A0301a20369c3",
+      "token": "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+      "transceiver": [
+        {
+          "address": "0x674B3B12f6c414B6A65720065a9cEDdAd5c6f879",
+          "type": "wormhole"
+        }
+      ]
+    },
+    {
+      "chain": "Solana",
+      "manager": "nTT1Pzu8fDkwYAyZ4B55qN1aS7iPQN9eB3Q7cR9mXrs",
+      "token": "AzuQ9o7mjzfJk72xRgzSCfrs1XWkhYyaGcudSu62qwg",
+      "transceiver": [
+        {
+          "address": "Fi1682PGheWonAsnHBf55TBaLfqbTfxEawaWz7Dadeaa",
+          "type": "wormhole"
+        }
+      ],
+      "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
+    }
   ]
 }
