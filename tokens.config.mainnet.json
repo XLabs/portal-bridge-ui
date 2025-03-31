@@ -696,7 +696,7 @@
     "symbol": "KENDU",
     "tokenId": {
       "chain": "Ethereum",
-      "address": "0xaa95f26e30001251fb905d264aa7b00ee9df6c18"
+      "address": "0xaa95f26e30001251fb905d264Aa7b00eE9dF6C18"
     },
     "icon": "https://assets.coingecko.com/coins/images/35722/large/photo_2024-03-05_01-23-59_%281%29.jpg?1709632285",
     "decimals": 18
