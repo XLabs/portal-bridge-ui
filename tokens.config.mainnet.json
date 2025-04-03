@@ -837,7 +837,7 @@
     "decimals": 6
   },
   "MEthereum": {
-    "symbol": "USDN",
+    "symbol": "M",
     "tokenId": {
       "chain": "Ethereum",
       "address": "0x866A2BF4E572CbcF37D5071A7a58503Bfb36be1b"
@@ -846,7 +846,7 @@
     "decimals": 6
   },
   "MArbitrum": {
-    "symbol": "USDN",
+    "symbol": "M",
     "tokenId": {
       "chain": "Arbitrum",
       "address": "0x866A2BF4E572CbcF37D5071A7a58503Bfb36be1b"
@@ -855,7 +855,7 @@
     "decimals": 6
   },
   "MOptimism": {
-    "symbol": "USDN",
+    "symbol": "M",
     "tokenId": {
       "chain": "Optimism",
       "address": "0x866A2BF4E572CbcF37D5071A7a58503Bfb36be1b"
@@ -891,7 +891,7 @@
     "decimals": 9
   },
   "WrappedMArbitrum": {
-    "symbol": "WUSDN",
+    "symbol": "wM",
     "tokenId": {
       "chain": "Arbitrum",
       "address": "0x437cc33344a0B27A429f795ff6B469C72698B291"
@@ -900,7 +900,7 @@
     "decimals": 6
   },
   "WrappedMEthereum": {
-    "symbol": "WUSDN",
+    "symbol": "wM",
     "tokenId": {
       "chain": "Ethereum",
       "address": "0x437cc33344a0B27A429f795ff6B469C72698B291"
@@ -909,7 +909,7 @@
     "decimals": 6
   },
   "WrappedMOptimism": {
-    "symbol": "WUSDN",
+    "symbol": "wM",
     "tokenId": {
       "chain": "Optimism",
       "address": "0x437cc33344a0B27A429f795ff6B469C72698B291"
