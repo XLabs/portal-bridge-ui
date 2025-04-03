@@ -891,7 +891,7 @@
     "decimals": 9
   },
   "WrappedMArbitrum": {
-    "symbol": "wM",
+    "symbol": "WM",
     "tokenId": {
       "chain": "Arbitrum",
       "address": "0x437cc33344a0B27A429f795ff6B469C72698B291"
@@ -900,7 +900,7 @@
     "decimals": 6
   },
   "WrappedMEthereum": {
-    "symbol": "wM",
+    "symbol": "WM",
     "tokenId": {
       "chain": "Ethereum",
       "address": "0x437cc33344a0B27A429f795ff6B469C72698B291"
@@ -909,7 +909,7 @@
     "decimals": 6
   },
   "WrappedMOptimism": {
-    "symbol": "wM",
+    "symbol": "WM",
     "tokenId": {
       "chain": "Optimism",
       "address": "0x437cc33344a0B27A429f795ff6B469C72698B291"
