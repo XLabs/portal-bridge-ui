@@ -1058,5 +1058,40 @@
       ],
       "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
     }
+  ],
+  "BrazilianDigital": [
+    {
+      "chain": "Base",
+      "manager": "0x8469783eDd405210a5438a4568eA4D0dbcC9CF7f",
+      "token": "0xE9185Ee218cae427aF7B9764A011bb89FeA761B4",
+      "transceiver": [
+        {
+          "address": "0x337868e39D984aFf7bd8B9F0668cc35d7D2d76C8",
+          "type": "wormhole"
+        }
+      ]
+    },
+    {
+      "chain": "Avalanche",
+      "manager": "0x8469783eDd405210a5438a4568eA4D0dbcC9CF7f",
+      "token": "0x05539F021b66Fd01d1FB1ff8E167CdD09bf7c2D0",
+      "transceiver": [
+        {
+          "address": "0x337868e39D984aFf7bd8B9F0668cc35d7D2d76C8",
+          "type": "wormhole"
+        }
+      ]
+    },
+    {
+      "chain": "Polygon",
+      "manager": "0x8469783eDd405210a5438a4568eA4D0dbcC9CF7f",
+      "token": "0x4eD141110F6EeeAbA9A1df36d8c26f684d2475Dc",
+      "transceiver": [
+        {
+          "address": "0x337868e39D984aFf7bd8B9F0668cc35d7D2d76C8",
+          "type": "wormhole"
+        }
+      ]
+    }
   ]
 }
