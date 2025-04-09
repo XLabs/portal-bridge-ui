@@ -1031,7 +1031,7 @@
       "chain": "Base",
       "address": "0xE9185Ee218cae427aF7B9764A011bb89FeA761B4"
     },
-    "icon": "images/tokens/BZR.png",
+    "icon": "images/tokens/BRZ.png",
     "decimals": 18
   },
   "BrazilianDigitalAvalanche": {
@@ -1040,7 +1040,7 @@
       "chain": "Avalanche",
       "address": "0x05539F021b66Fd01d1FB1ff8E167CdD09bf7c2D0"
     },
-    "icon": "images/tokens/BZR.png",
+    "icon": "images/tokens/BRZ.png",
     "decimals": 18
   },
   "BrazilianDigitalPolygon": {
@@ -1049,7 +1049,7 @@
       "chain": "Polygon",
       "address": "0x4eD141110F6EeeAbA9A1df36d8c26f684d2475Dc"
     },
-    "icon": "images/tokens/BZR.png",
+    "icon": "images/tokens/BRZ.png",
     "decimals": 18
   }
 }
