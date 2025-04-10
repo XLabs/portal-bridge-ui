@@ -1093,5 +1093,29 @@
         }
       ]
     }
+  ],
+  "WalletConnectToken": [
+    {
+      "chain": "Optimism",
+      "manager": "0x164Be303480f542336bE0bBe0432A13b85e6FD1b",
+      "token": "0xeF4461891DfB3AC8572cCf7C794664A8DD927945",
+      "transceiver": [
+        {
+          "address": "0x3cB1d3A449a868dd8BF8F8928408836543Fe2A68",
+          "type": "wormhole"
+        }
+      ]
+    },
+    {
+      "chain": "Ethereum",
+      "manager": "0x164Be303480f542336bE0bBe0432A13b85e6FD1b",
+      "token": "0xeF4461891DfB3AC8572cCf7C794664A8DD927945",
+      "transceiver": [
+        {
+          "address": "0x3cB1d3A449a868dd8BF8F8928408836543Fe2A68",
+          "type": "wormhole"
+        }
+      ]
+    }
   ]
 }
