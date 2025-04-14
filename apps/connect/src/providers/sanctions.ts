@@ -1,6 +1,6 @@
 import { Chain, toChainId } from "@wormhole-foundation/sdk";
 import { isCosmWasmChain, isEVMChain } from "../utils/constants";
-import { WormholeConnectConfig } from "@xlabs/wormhole-connect";
+import { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
 
 export type ExtendedTransferDetails = Parameters<
   NonNullable<WormholeConnectConfig["validateTransferHandler"]>
@@ -76,15 +76,15 @@ export const isSanctionedAddress = async (
   const [isOriginSanctioned, isTargetSanctioned, isTargetSanctionedEth] =
     await Promise.all([
       isSanctioned({
-        chain: getTrmChainName(transferDetails.fromChain),
+        chain: getTrmChainName(transferDetails.fromChain as any),
         address: transferDetails.fromWalletAddress,
       }),
       isSanctioned({
-        chain: getTrmChainName(transferDetails.toChain),
+        chain: getTrmChainName(transferDetails.toChain as any),
         address: transferDetails.toWalletAddress,
       }),
       ...(transferDetails.toChain !== "Ethereum" &&
-      (isEVMChain(transferDetails.toChain) ||
+      (isEVMChain(transferDetails.toChain as any) ||
         transferDetails.toChain === "Worldchain")
         ? [
             isSanctioned({

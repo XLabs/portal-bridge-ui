@@ -1,7 +1,7 @@
 import { isValidAddress } from "./isValidAddress";
 import { isSanctionedAddress } from "../../src/providers/sanctions";
 import { Chain } from "@wormhole-foundation/sdk";
-import { WormholeConnectConfig } from "@xlabs/wormhole-connect";
+import { WormholeConnectConfig } from "@wormhole-foundation/wormhole-connect";
 
 export type ExtendedTransferDetails = Parameters<
   NonNullable<WormholeConnectConfig["validateTransferHandler"]>
@@ -24,7 +24,7 @@ export const validateTransfer = async (
   }
 
   // Correct Address Validation (based on chain selected)
-  const isValid = await isValidAddress(tx.toWalletAddress, tx.toChain);
+  const isValid = await isValidAddress(tx.toWalletAddress, tx.toChain as Chain);
   if (!isValid) {
     return { isValid: false, error: "Not valid target address" };
   }
