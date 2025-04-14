@@ -1069,5 +1069,23 @@
     },
     "icon": "https://assets.coingecko.com/coins/images/50390/large/wc-token1.png",
     "decimals": 18
+  },
+  "TracyAIBsc": {
+    "symbol": "TRACY",
+    "tokenId": {
+      "chain": "Bsc",
+      "address": "0xf01d51BF916BFF8206209f199165787C5B32724F"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/54485/large/Tracy_PFP.png",
+    "decimals": 18
+  },
+  "TracyAISolana": {
+    "symbol": "TRACY",
+    "tokenId": {
+      "chain": "Solana",
+      "address": "C1nzFL2DD3Wqc3dzRbsrpb6tiZ6dbYsXubjVtzyHvirt"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/54485/large/Tracy_PFP.png",
+    "decimals": 18
   }
 }

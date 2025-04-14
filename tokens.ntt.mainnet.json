@@ -1117,5 +1117,30 @@
         }
       ]
     }
+  ],
+  "TracyAI": [
+    {
+      "chain": "Bsc",
+      "manager": "0x1F5AA4D820074Fd624691AaEb61Cff1Eadbf8E8B",
+      "token": "0xf01d51BF916BFF8206209f199165787C5B32724F",
+      "transceiver": [
+        {
+          "address": "0xB7b5381c6C08b6c2b515828751AA2D6CB8D3804F",
+          "type": "wormhole"
+        }
+      ]
+    },
+    {
+      "chain": "Solana",
+      "manager": "nttJq45pyjVKAUcieL9zrU9nsc4Q7czQFcyvvg2nmcH",
+      "token": "C1nzFL2DD3Wqc3dzRbsrpb6tiZ6dbYsXubjVtzyHvirt",
+      "transceiver": [
+        {
+          "address": "Ac2UFPdx5nxuaJPvn6hE7JKSB4nX5LaedYebboHxAxkH",
+          "type": "wormhole"
+        }
+      ],
+      "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
+    }
   ]
 }
