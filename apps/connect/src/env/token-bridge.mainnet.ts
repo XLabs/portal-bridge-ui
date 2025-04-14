@@ -7,8 +7,8 @@ import {
   MayanRouteSWIFT,
   MayanRouteSHUTTLE,
   type WormholeConnectConfig,
-  CircleV2ManualRoute,
-} from "@xlabs/wormhole-connect";
+  //CircleV2ManualRoute,
+} from "@wormhole-foundation/wormhole-connect";
 import { Env, MAINNET_RPCS } from "./common";
 import { M0AutomaticRoute } from "@m0-foundation/ntt-sdk-route";
 
@@ -22,7 +22,7 @@ export const ENV: Env = {
       // } as WormholeConnectConfig["ui"],
       rpcs: MAINNET_RPCS,
       routes: [
-        CircleV2ManualRoute,
+        //CircleV2ManualRoute,
         ...DEFAULT_ROUTES,
         MayanRouteWH as any, // FIXME: Remove this any and fix wh connect type issues
         MayanRouteMCTP,

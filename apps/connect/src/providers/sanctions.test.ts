@@ -42,7 +42,7 @@ describe("sanctions", () => {
         body: JSON.stringify([
           {
             address: transferDetails.fromWalletAddress,
-            chain: getTrmChainName(transferDetails.fromChain),
+            chain: getTrmChainName(transferDetails.fromChain as any),
             accountExternalId: ACCOUNT_ID,
           },
         ]),
@@ -55,7 +55,7 @@ describe("sanctions", () => {
         body: JSON.stringify([
           {
             address: transferDetails.toWalletAddress,
-            chain: getTrmChainName(transferDetails.toChain),
+            chain: getTrmChainName(transferDetails.toChain as any),
             accountExternalId: ACCOUNT_ID,
           },
         ]),
