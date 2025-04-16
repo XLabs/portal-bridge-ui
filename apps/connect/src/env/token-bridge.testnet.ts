@@ -34,7 +34,7 @@ export const ENV: Env = {
         "Mantle",
         "Worldchain",
       ],
-      routes: [...DEFAULT_ROUTES, CircleV2ManualRoute],
+      routes: [...DEFAULT_ROUTES, CircleV2ManualRoute as any],
     }
   ),
 };

@@ -1,16 +1,7 @@
 import mixpanel from "mixpanel-browser";
 import { isPreview, isProduction } from "../utils/constants";
-import type { WormholeConnectConfig } from "@xlabs/wormhole-connect";
+import type { TokenDetails, WormholeConnectEvent } from "@xlabs/wormhole-connect";
 import { amount as sdkAmount } from "@wormhole-foundation/sdk";
-
-export type WormholeConnectEvent = Parameters<
-  NonNullable<WormholeConnectConfig["eventHandler"]>
->[0] & {
-  meta: {
-    version: string;
-    hash: string;
-  };
-};
 
 mixpanel.init(
   isProduction
@@ -48,7 +39,7 @@ export const eventHandler = (e: WormholeConnectEvent) => {
   if (e.type === "load") return;
 
   // Start the trace when the event is load
-  const span = { event: e.type, properties: e.details as unknown };
+  const span = { event: e.type, properties: {} };
   // Wallet connect information
   if (e.type === "wallet.connect") {
     const side = e.details.side;
@@ -67,55 +58,58 @@ export const eventHandler = (e: WormholeConnectEvent) => {
     lastChain = chain;
     return;
   }
-  const getTokenAddress = (token: typeof e.details.fromToken): string =>
+  const getTokenAddress = (token: TokenDetails): string =>
     typeof token?.tokenId === "object" ? token.tokenId.address : "native";
 
-  // Convert WormholeConnectEvent to Attributes
   const isTransferError =
     e.type === "transfer.error" || e.type === "transfer.redeem.error";
-  const amount =
-    typeof e.details.amount === "number"
-      ? e.details.amount
-      : sdkAmount.whole(e.details.amount as sdkAmount.Amount);
-  const attributes: { [key: string]: string | number | undefined } = {
-    fromChain: e.details.fromChain.toString(),
-    toChain: e.details.toChain.toString(),
-    fromTokenSymbol: e.details.fromToken?.symbol,
-    fromTokenAddress: getTokenAddress(e.details.fromToken),
-    toTokenSymbol: e.details.toToken?.symbol,
-    toTokenAddress: getTokenAddress(e.details.toToken),
-    txId: e.details.txId,
-    USDAmount: e.details.USDAmount,
-    amount: amount,
-    connectVersion: e.meta.version,
-    connectHash: e.meta.hash,
-    route:
-      {
-        ManualTokenBridge: "Manual Bridge",
-        AutomaticTokenBridge: "Relayer",
-        ManualCCTP: "CCTP Manual",
-        AutomaticCCTP: "CCTP Relayer",
-        ManualNtt: "NTT Manual",
-        AutomaticNtt: "NTT Relayer",
-        MayanSwap: "Mayan Swap",
-        MayanSwapWH: "Mayan Swap",
-        MayanSwapMCTP: "Mayan Swap MCTP",
-        MayanSwapSWIFT: "Mayan Swap Swift",
-        MayanSwapSHUTTLE: "Mayan Swap Shuttle",
-        cosmosGateway: "Cosmos Gateway",
-        ethBridge: "Eth Bridge",
-        wstETHBridge: "wstETH Bridge",
-        tbtc: "TBTC",
-        usdtBridge: "USDT Bridge",
-      }[e.details.route] || "Manual Bridge",
-    ...(isTransferError
-      ? {
-          "error-type": e.error.type || "unknown",
-          "error-message": getErrorMessage(e.error?.original),
-        }
-      : {}),
-  };
 
-  // Transfer event information
-  sendEvent({ ...span, properties: { ...attributes } });
+  // Type guard to ensure we have a TransferEvent or TransferErrorEvent
+   if ("details" in e) {
+    const amount =
+      typeof e.details.amount === "number"
+        ? e.details.amount
+        : sdkAmount.whole(e.details.amount as sdkAmount.Amount);
+    const attributes: { [key: string]: string | number | undefined } = {
+      fromChain: e.details.fromChain.toString(),
+      toChain: e.details.toChain.toString(),
+      fromTokenSymbol: e.details.fromToken?.symbol,
+      fromTokenAddress: getTokenAddress(e.details.fromToken),
+      toTokenSymbol: e.details.toToken?.symbol,
+      toTokenAddress: getTokenAddress(e.details.toToken),
+      txId: e.details.txId,
+      USDAmount: e.details.USDAmount,
+      amount: amount,
+      connectVersion: e.meta.version,
+      connectHash: e.meta.hash,
+      route:
+        {
+          ManualTokenBridge: "Manual Bridge",
+          AutomaticTokenBridge: "Relayer",
+          ManualCCTP: "CCTP Manual",
+          AutomaticCCTP: "CCTP Relayer",
+          ManualNtt: "NTT Manual",
+          AutomaticNtt: "NTT Relayer",
+          MayanSwap: "Mayan Swap",
+          MayanSwapWH: "Mayan Swap",
+          MayanSwapMCTP: "Mayan Swap MCTP",
+          MayanSwapSWIFT: "Mayan Swap Swift",
+          MayanSwapSHUTTLE: "Mayan Swap Shuttle",
+          cosmosGateway: "Cosmos Gateway",
+          ethBridge: "Eth Bridge",
+          wstETHBridge: "wstETH Bridge",
+          tbtc: "TBTC",
+          usdtBridge: "USDT Bridge",
+        }[e.details.route] || "Manual Bridge",
+      ...(isTransferError
+        ? {
+            "error-type": e.error.type || "unknown",
+            "error-message": getErrorMessage(e.error?.original),
+          }
+        : {}),
+    };
+
+    // Transfer event information
+    sendEvent({ ...span, properties: { ...attributes } });
+  }
 };
