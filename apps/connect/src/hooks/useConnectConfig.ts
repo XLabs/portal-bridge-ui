@@ -1,11 +1,12 @@
-import type { WormholeConnectConfig, WormholeConnectEvent } from "@xlabs/wormhole-connect";
+import type {
+  WormholeConnectConfig,
+  WormholeConnectEvent,
+} from "@xlabs/wormhole-connect";
 import { useEffect, useMemo, useState } from "react";
 
 import { useQueryParams } from "./useQueryParams";
 import { useFormatAssetParam } from "./useFormatAssetParam";
-import {
-  eventHandler,
-} from "../providers/telemetry";
+import { eventHandler } from "../providers/telemetry";
 import { isPreview, isProduction } from "../utils/constants";
 import { ENV } from "@env";
 import { validateTransfer } from "../utils/transferVerification";

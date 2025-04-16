@@ -1,6 +1,9 @@
 import mixpanel from "mixpanel-browser";
 import { isPreview, isProduction } from "../utils/constants";
-import type { TokenDetails, WormholeConnectEvent } from "@xlabs/wormhole-connect";
+import type {
+  TokenDetails,
+  WormholeConnectEvent,
+} from "@xlabs/wormhole-connect";
 import { amount as sdkAmount } from "@wormhole-foundation/sdk";
 
 mixpanel.init(
@@ -65,7 +68,7 @@ export const eventHandler = (e: WormholeConnectEvent) => {
     e.type === "transfer.error" || e.type === "transfer.redeem.error";
 
   // Type guard to ensure we have a TransferEvent or TransferErrorEvent
-   if ("details" in e) {
+  if ("details" in e) {
     const amount =
       typeof e.details.amount === "number"
         ? e.details.amount
