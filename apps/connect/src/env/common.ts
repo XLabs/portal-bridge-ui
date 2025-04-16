@@ -29,6 +29,7 @@ export const chains = [
   "Mantle",
   "Worldchain",
   "Unichain",
+  "Blast",
 ];
 
 export const MAINNET_RPCS = {

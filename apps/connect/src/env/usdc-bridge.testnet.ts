@@ -15,7 +15,7 @@ export const ENV: Env = {
       routes: [
         ...DEFAULT_ROUTES,
         //MayanRouteSHUTTLE as any,
-        CircleV2ManualRoute,
+        CircleV2ManualRoute as any,
       ],
       chains: [
         "Sepolia",
