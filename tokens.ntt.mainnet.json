@@ -1142,5 +1142,29 @@
       ],
       "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
     }
+  ],
+  "SQD": [
+    {
+      "chain": "Bsc",
+      "manager": "0x37DCb4E443a06A3FE0E7098519C1d81181E5322B",
+      "token": "0x1337420dED5ADb9980CFc35f8f2B054ea86f8aB1",
+      "transceiver": [
+        {
+          "address": "0xB9Abf20854E254Fe6A810523410235923EB280A1",
+          "type": "wormhole"
+        }
+      ]
+    },
+    {
+      "chain": "Arbitrum",
+      "manager": "0x37DCb4E443a06A3FE0E7098519C1d81181E5322B",
+      "token": "0xe50E3d1A46070444F44df911359033F2937fcC13",
+      "transceiver": [
+        {
+          "address": "0xB9Abf20854E254Fe6A810523410235923EB280A1",
+          "type": "wormhole"
+        }
+      ]
+    }
   ]
 }

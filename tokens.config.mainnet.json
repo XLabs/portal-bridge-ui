@@ -1087,5 +1087,24 @@
     },
     "icon": "https://assets.coingecko.com/coins/images/54485/large/Tracy_PFP.png",
     "decimals": 6
+  },
+  "SQDArbitrum": {
+    "symbol": "SQD",
+    "tokenId": {
+      "chain": "Arbitrum",
+      "address": "0x1337420dED5ADb9980CFc35f8f2B054ea86f8aB1"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/37869/large/New_Logo_SQD_Icon.png",
+    "decimals": 18
+  },
+  "SQDBsc": {
+    "symbol": "SQD",
+    "tokenId": {
+      "chain": "Bsc",
+      "address": "0xe50E3d1A46070444F44df911359033F2937fcC13"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/37869/large/New_Logo_SQD_Icon.png",
+    "decimals": 18
   }
+
 }
