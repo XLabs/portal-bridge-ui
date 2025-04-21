@@ -1110,7 +1110,7 @@
     "symbol": "DIMO",
     "tokenId": {
       "chain": "Polygon",
-      "address": "0xf03952D15AD15187D79e8eF4611A41F2D034b368"
+      "address": "0xE261D618a959aFfFd53168Cd07D12E37B26761db"
     },
     "icon": "https://assets.coingecko.com/coins/images/28383/large/square_coin_720.png",
     "decimals": 18
@@ -1119,7 +1119,7 @@
     "symbol": "DIMO",
     "tokenId": {
       "chain": "Base",
-      "address": "0x341704C0b697d454B8918225A6d0fB5be6d87C0D"
+      "address": "0x5eAA326fB2fc97fAcCe6A79A304876daD0F2e96c"
     },
     "icon": "https://assets.coingecko.com/coins/images/28383/large/square_coin_720.png",
     "decimals": 18
@@ -1128,7 +1128,7 @@
     "symbol": "DIMO",
     "tokenId": {
       "chain": "Ethereum",
-      "address": "0xF14eee399E9537E8640D5475B96b5eba2E2915a4"
+      "address": "0x5fab9761d60419C9eeEbe3915A8FA1ed7e8d2E1B"
     },
     "icon": "https://assets.coingecko.com/coins/images/28383/large/square_coin_720.png",
     "decimals": 18
@@ -1137,7 +1137,7 @@
     "symbol": "DIMO",
     "tokenId": {
       "chain": "Solana",
-      "address": "CKWsepKf2N6h7NNpsP8JewmseoP4QEJQHTw82HoipDnU"
+      "address": "ERQXNXuWfpaGMh9Cs19zxcQTtzCVNZerdKXJ7BQKXVhd"
     },
     "icon": "https://assets.coingecko.com/coins/images/28383/large/square_coin_720.png",
     "decimals": 18
