@@ -1166,5 +1166,99 @@
         }
       ]
     }
+  ],
+  "DIMO": [
+    {
+      "chain": "Polygon",
+      "manager": "0x6cE25EE2851063966AD299f337217655e911d732",
+      "token": "0xE261D618a959aFfFd53168Cd07D12E37B26761db",
+      "transceiver": [
+        {
+          "address": "0xFeB484D554F4E11d1395407E0556e4cee2f47624",
+          "type": "wormhole"
+        }
+      ]
+    },
+    {
+      "chain": "Base",
+      "manager": "0xAF298aB368cA983743FbdB90Bb5Fc1f66A032F73",
+      "token": "0x5eAA326fB2fc97fAcCe6A79A304876daD0F2e96c",
+      "transceiver": [
+        {
+          "address": "0x8D82B6fc5eA7250dD44Ec2ABb0855865B148011E",
+          "type": "wormhole"
+        }
+      ]
+    },
+    {
+      "chain": "Ethereum",
+      "manager": "0x341704C0b697d454B8918225A6d0fB5be6d87C0D",
+      "token": "0x5fab9761d60419C9eeEbe3915A8FA1ed7e8d2E1B",
+      "transceiver": [
+        {
+          "address": "0xf3589240D848413c8861AC80277087493F329D93",
+          "type": "wormhole"
+        }
+      ]
+    },
+    {
+      "chain": "Solana",
+      "manager": "ntTaFab1KhTpuPX8LMUo6gnXJEGD5HDsF53VFhNGJKy",
+      "token": "ERQXNXuWfpaGMh9Cs19zxcQTtzCVNZerdKXJ7BQKXVhd",
+      "transceiver": [
+        {
+          "address": "Hhxo1mstWwFQHbSposVMe2p7VNsDugm6WeRbi3q9vVNH",
+          "type": "wormhole"
+        }
+      ],
+      "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
+    }
+  ],
+  "TDE": [
+    {
+      "chain": "Polygon",
+      "manager": "0x5bAe22625B22c4F751d081D5387f09f1AE6E1e5E",
+      "token": "0xf03952D15AD15187D79e8eF4611A41F2D034b368",
+      "transceiver": [
+        {
+          "address": "0x6A12E5B3AE0972addFa9434a927444a1Ccc82d90",
+          "type": "wormhole"
+        }
+      ]
+    },
+    {
+      "chain": "Base",
+      "manager": "0xf3589240D848413c8861AC80277087493F329D93",
+      "token": "0x341704C0b697d454B8918225A6d0fB5be6d87C0D",
+      "transceiver": [
+        {
+          "address": "0xb2ED9094A1d3a2b310f1d238b733bE6F6A5153E8",
+          "type": "wormhole"
+        }
+      ]
+    },
+    {
+      "chain": "Ethereum",
+      "manager": "0x3C923098a516bEd8b6EcA8Fa01A1A00Da7288389",
+      "token": "0xF14eee399E9537E8640D5475B96b5eba2E2915a4",
+      "transceiver": [
+        {
+          "address": "0xBcFA89dDcD8Ad4322c72b574ec66AAb9B8c17602",
+          "type": "wormhole"
+        }
+      ]
+    },
+    {
+      "chain": "Solana",
+      "manager": "nttjM2C3pjAgTPe5drXFZWG1BrtETCbEibnNXA6davy",
+      "token": "CKWsepKf2N6h7NNpsP8JewmseoP4QEJQHTw82HoipDnU",
+      "transceiver": [
+        {
+          "address": "3jSmihdQMFyB4XG999dNAd8MnNseHu5oXKwpNg8HRPCy",
+          "type": "wormhole"
+        }
+      ],
+      "quoter": "Nqd6XqA8LbsCuG8MLWWuP865NV6jR1MbXeKxD4HLKDJ"
+    }
   ]
 }

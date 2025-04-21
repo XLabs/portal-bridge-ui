@@ -1105,6 +1105,78 @@
     },
     "icon": "https://assets.coingecko.com/coins/images/37869/large/New_Logo_SQD_Icon.png",
     "decimals": 18
+  },
+  "DIMOPolygon": {
+    "symbol": "DIMO",
+    "tokenId": {
+      "chain": "Polygon",
+      "address": "0xf03952D15AD15187D79e8eF4611A41F2D034b368"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/28383/large/square_coin_720.png",
+    "decimals": 18
+  },
+  "DIMOBase": {
+    "symbol": "DIMO",
+    "tokenId": {
+      "chain": "Base",
+      "address": "0x341704C0b697d454B8918225A6d0fB5be6d87C0D"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/28383/large/square_coin_720.png",
+    "decimals": 18
+  },
+  "DIMOEthereum": {
+    "symbol": "DIMO",
+    "tokenId": {
+      "chain": "Ethereum",
+      "address": "0xF14eee399E9537E8640D5475B96b5eba2E2915a4"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/28383/large/square_coin_720.png",
+    "decimals": 18
+  },
+  "DIMOSolana": {
+    "symbol": "DIMO",
+    "tokenId": {
+      "chain": "Solana",
+      "address": "CKWsepKf2N6h7NNpsP8JewmseoP4QEJQHTw82HoipDnU"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/28383/large/square_coin_720.png",
+    "decimals": 18
+  },
+  "TDEPolygon": {
+    "symbol": "TDE",
+    "tokenId": {
+      "chain": "Polygon",
+      "address": "0xf03952D15AD15187D79e8eF4611A41F2D034b368"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/28383/large/square_coin_720.png",
+    "decimals": 18
+  },
+  "TDEBase": {
+    "symbol": "TDE",
+    "tokenId": {
+      "chain": "Base",
+      "address": "0x341704C0b697d454B8918225A6d0fB5be6d87C0D"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/28383/large/square_coin_720.png",
+    "decimals": 18
+  },
+  "TDEEthereum": {
+    "symbol": "TDE",
+    "tokenId": {
+      "chain": "Ethereum",
+      "address": "0xF14eee399E9537E8640D5475B96b5eba2E2915a4"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/28383/large/square_coin_720.png",
+    "decimals": 18
+  },
+  "TDESolana": {
+    "symbol": "TDE",
+    "tokenId": {
+      "chain": "Solana",
+      "address": "CKWsepKf2N6h7NNpsP8JewmseoP4QEJQHTw82HoipDnU"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/28383/large/square_coin_720.png",
+    "decimals": 18
   }
 
 }
