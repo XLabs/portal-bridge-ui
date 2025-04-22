@@ -1148,7 +1148,6 @@
       "chain": "Polygon",
       "address": "0xf03952D15AD15187D79e8eF4611A41F2D034b368"
     },
-    "icon": "https://assets.coingecko.com/coins/images/28383/large/square_coin_720.png",
     "decimals": 18
   },
   "TDEBase": {
@@ -1157,7 +1156,6 @@
       "chain": "Base",
       "address": "0x341704C0b697d454B8918225A6d0fB5be6d87C0D"
     },
-    "icon": "https://assets.coingecko.com/coins/images/28383/large/square_coin_720.png",
     "decimals": 18
   },
   "TDEEthereum": {
@@ -1166,7 +1164,6 @@
       "chain": "Ethereum",
       "address": "0xF14eee399E9537E8640D5475B96b5eba2E2915a4"
     },
-    "icon": "https://assets.coingecko.com/coins/images/28383/large/square_coin_720.png",
     "decimals": 18
   },
   "TDESolana": {
@@ -1175,7 +1172,6 @@
       "chain": "Solana",
       "address": "CKWsepKf2N6h7NNpsP8JewmseoP4QEJQHTw82HoipDnU"
     },
-    "icon": "https://assets.coingecko.com/coins/images/28383/large/square_coin_720.png",
     "decimals": 18
   }
 
