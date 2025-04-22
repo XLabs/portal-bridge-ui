@@ -863,6 +863,15 @@
     "icon": "https://assets.coingecko.com/coins/images/40048/large/M_Symbol_256.png?1739323798",
     "decimals": 6
   },
+  "MSolana": {
+    "symbol": "M",
+    "tokenId": {
+      "chain": "Solana",
+      "address": "mzerokyEX9TNDoK4o2YZQBDmMzjokAeN6M2g2S3pLJo"
+    },
+    "icon": "https://assets.coingecko.com/coins/images/40048/large/M_Symbol_256.png?1739323798",
+    "decimals": 6
+  },
   "RabbiSchlomo": {
     "symbol": "SHEKEL",
     "tokenId": {
