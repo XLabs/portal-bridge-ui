@@ -1,7 +1,7 @@
 import { ENV as ENV_BASE } from "./usdc-bridge";
 import { mergeDeep } from "../utils/mergeDeep";
 import {
-  CircleV2ManualRoute,
+  //CircleV2ManualRoute,
   DEFAULT_ROUTES,
   MayanRouteSHUTTLE,
   type WormholeConnectConfig,
@@ -15,7 +15,7 @@ export const ENV: Env = {
     {
       rpcs: MAINNET_RPCS,
       routes: [
-        CircleV2ManualRoute,
+        //CircleV2ManualRoute,
         ...DEFAULT_ROUTES,
         MayanRouteSHUTTLE as any,
       ],
