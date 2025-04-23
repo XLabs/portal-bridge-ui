@@ -1,7 +1,7 @@
 import { ENV as ENV_BASE } from "./usdc-bridge";
 import { mergeDeep } from "../utils/mergeDeep";
 import {
-  CircleV2ManualRoute,
+  //CircleV2ManualRoute,
   DEFAULT_ROUTES,
   type WormholeConnectConfig,
 } from "@xlabs/wormhole-connect";
@@ -15,7 +15,7 @@ export const ENV: Env = {
       routes: [
         ...DEFAULT_ROUTES,
         //MayanRouteSHUTTLE as any,
-        CircleV2ManualRoute as any,
+        //CircleV2ManualRoute as any,
       ],
       chains: [
         "Sepolia",
